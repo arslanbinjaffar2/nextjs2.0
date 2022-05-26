@@ -1,26 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import {Image, ScrollView, Text, View } from 'react-native';
+import { Image, View } from 'react-native';
 import { gStyle, images } from '../../../styles';
+import Layout from '../../../containers/Layout';
 
 const SplashScreen = ({ navigation }) => {
-
   return (
-    <View style={gStyle.mainContainer}>
-      <ScrollView contentContainerStyle={gStyle.container}>
-        <Text style={gStyle.textBox}>Home content area</Text>
-        <Image
-          style={{ alignSelf: 'center', height: 40, width: 40 }}
-          source={images.Logo}
-        />
-      </ScrollView>
-    </View>
+    <Layout>
+      <View style={{ ...gStyle.flex1, ...gStyle.justifyCenter }}>
+        <Image source={images.Logo} style={{ width: 240, height: 52, alignSelf: 'center' }} />
+      </View>
+    </Layout>
   );
 };
 
 SplashScreen.propTypes = {
   // required
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
 };
 
 export default SplashScreen;

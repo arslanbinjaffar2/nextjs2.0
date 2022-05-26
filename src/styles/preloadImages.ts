@@ -1,6 +1,8 @@
-import Logo from '../assets/images/logo.png';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import Logo from '../assets/images/eventbuizz.png';
+import SplashImage from '../assets/images/splash.jpg';
 
 export default {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  Logo
+  Logo,
+  SplashImage
 };

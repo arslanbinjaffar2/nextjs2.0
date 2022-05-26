@@ -1,6 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import colors from './colors';
-import fonts from './fonts';
-
 // utility styles
 // /////////////////////////////////////////////////////////////////////////////
 export default {
@@ -13,13 +12,33 @@ export default {
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: `rgb(${colors.background})`
+    backgroundColor: `rgba(${colors.background},1)`,
+    hheight: '100%'
+  },
+  bgContainer: {
+    backgroundColor: `rgba(${colors.background},0.8)`,
+  },
+  flex1: {
+    flex: 1
+  },
+  flex: {
+    display: 'flex'
+  },
+  justifyCenter: {
+    justifyContent: 'center'
+  },
+  alignCenter: {
+    alignItems: 'center'
+  },
+  text: {
+    color: colors.text
   },
   textBox: {
-    background: `rgba(${colors.hsb},0.8)`,
+    backgroundColor: `rgba(${colors.box},0.8)`,
+    width: '100%',
     padding: 20,
     fontSize: 40,
-    fontFamily: fonts.AvenirNextCondensed,
-    color:  colors.white
+    fontFamily: 'avenir-bold',
+    color:  colors.text
   }
 };
