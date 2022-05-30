@@ -35,10 +35,5 @@ export default {
   },
   textBox: {
     backgroundColor: `rgba(${colors.box},0.8)`,
-    width: '100%',
-    padding: 20,
-    fontSize: 40,
-    fontFamily: 'avenir-bold',
-    color:  colors.text
   }
 };
