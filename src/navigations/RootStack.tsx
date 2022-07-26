@@ -6,7 +6,7 @@ import Splash from '@src/screens/Splash';
 import Login from '@src/screens/auth/login/mobile/Login';
 import LoginByEmail from '@src/screens/auth/login/mobile/LoginByEmail';
 import DesktopLogin from '@src/screens/auth/login/web/Login';
-import Events from '@srcscreens/auth/login/mobile/Events';
+import Events from '@src/screens/auth/login/mobile/Events';
 import NavigationBack from '@src/components/atoms/NavigationBack';
 import MobileDrawer from '@src/components/atoms/navigation/MobileDrawer';
 
