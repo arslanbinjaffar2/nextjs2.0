@@ -1,7 +1,7 @@
 module.exports = function(api) {
   api.cache(true);
   return {
-    presets: ['babel-preset-expo', '@babel/preset-typescript'],
+    presets: ['babel-preset-expo', '@babel/preset-typescript','module:metro-react-native-babel-preset'],
     plugins: [
       [
         'module-resolver',
@@ -22,7 +22,8 @@ module.exports = function(api) {
             '.json'
           ],
         }
-      ]
+      ],
+      "react-native-reanimated/plugin"
     ]
   };
 };

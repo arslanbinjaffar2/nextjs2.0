@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import { StatusBar} from 'react-native';
@@ -9,9 +10,8 @@ import RootStack from './src/navigations/RootStack';
 import { func } from './src/styles';
 import * as Font from 'expo-font';
 import colors from './src/styles/colors'
-import { color } from 'native-base/lib/typescript/theme/styled-system';
 
-
+console.log(colors.text);
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
   const theme = extendTheme({
@@ -30,6 +30,7 @@ const App = () => {
         900: '#003F5E',
         box: `rgba(${colors.box},0.8)`,
         darkbox: `rgba(${colors.darkbox},0.8)`,
+        text: `${colors.text}`,
       },
       // Redefinig only one shade, rest of the color will remain same.
       amber: {
@@ -66,10 +67,14 @@ const App = () => {
           fontSize: 'md',
           bg: 'primary.darkbox',
           borderColor: 'primary.darkbox',
+          style: {
+            paddingLeft: 15,
+          },
           _focus: {
             borderColor: `rgb(${colors.darkbox})`,
             style: {
               backgroundColor: `rgb(${colors.darkbox})`,
+              paddingLeft: 16 
             }
           },
         },
@@ -81,8 +86,6 @@ const App = () => {
             placeholderTextColor: colors.text
           },
         },
-       
-       
       }
     },
     config: {

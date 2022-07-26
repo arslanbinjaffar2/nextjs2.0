@@ -8,7 +8,7 @@ const NavigationBack = () => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity style={{ marginLeft: 15 }} onPress={() => navigation.goBack()}>
+    <TouchableOpacity style={{ marginLeft: 0 }} onPress={() => navigation.goBack()}>
       <IcoBack size={24} />
     </TouchableOpacity>
   );
