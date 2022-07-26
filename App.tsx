@@ -10,8 +10,6 @@ import RootStack from './src/navigations/RootStack';
 import { func } from './src/styles';
 import * as Font from 'expo-font';
 import colors from './src/styles/colors'
-
-console.log(colors.text);
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
   const theme = extendTheme({
