@@ -7,9 +7,15 @@ import { StatusBar} from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import RootStack from './src/navigations/RootStack';
+import { LinearGradient } from 'expo-linear-gradient';
 import { func } from './src/styles';
 import * as Font from 'expo-font';
 import colors from './src/styles/colors'
+const config = {
+  dependencies: {
+    'linear-gradient': LinearGradient
+  }
+};
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
   const theme = extendTheme({
@@ -124,7 +130,7 @@ const App = () => {
   }
   return (
     <SafeAreaProvider>
-      <NativeBaseProvider theme={theme}>
+      <NativeBaseProvider config={config} theme={theme}>
         <StatusBar  />
         <RootStack />
       </NativeBaseProvider>

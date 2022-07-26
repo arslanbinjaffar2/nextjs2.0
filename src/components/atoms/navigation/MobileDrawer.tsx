@@ -27,38 +27,25 @@ const CustomDrawerContent = (props) => {
       <VStack space="3">
         <Box bg={{
           linearGradient: {
-            colors: ['black', 'white'],
+            colors: ['primary.400', 'transparent'],
             start: [0, 0],
             end: [1, 0]
           }
-        }} p={12} rounded="lg" _text={{
-          fontSize: 'md',
-          fontWeight: 'bold',
-          color: 'white'
         }}>
-      This is a Box with Linear Gradient
+          <Pressable
+            px="5"
+            py="3"
+            onPress={() => {props.navigation.navigate('dashboard')}}>
+            <HStack space="2" alignItems="center">
+              <Icon
+                color="gray.500"
+                size="xl"
+                as={<MaterialCommunityIcons name="bookmark" />}
+              />
+              <Text fontSize={'18px'} color="primary.text" fontWeight="600">Friends</Text>
+            </HStack>
+          </Pressable>
         </Box>
-        <Pressable
-          px="5"
-          py="3"
-          rounded="md"
-          bg={{
-            linearGradient: {
-              colors: ['lightBlue.300', 'violet.800'],
-              start: [0, 0],
-              end: [1, 0]
-            }
-          }}
-          onPress={() => {props.navigation.navigate('dashboard')}}>
-          <HStack space="2" alignItems="center">
-            <Icon
-              color="gray.500"
-              size="xl"
-              as={<MaterialCommunityIcons name="bookmark" />}
-            />
-            <Text fontSize={'18px'} color="primary.text" fontWeight="600">Friends</Text>
-          </HStack>
-        </Pressable>
 				
       </VStack>
 			
