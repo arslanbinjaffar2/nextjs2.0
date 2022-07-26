@@ -7,7 +7,7 @@ import Layout from '@src/containers/Layout';
 import { Button, Center, Flex, Text, VStack, Image, Input } from 'native-base';
 import IcoLogin from '@src/assets/icons/IcoLogin';
 
-const Login = ({ navigation }) => {
+const MobileView = ({ navigation }) => {
   return (
     <Layout>
       <Center w={'100%'} pt="20" px={15}>
@@ -23,9 +23,9 @@ const Login = ({ navigation }) => {
   );
 };
 
-Login.propTypes = {
+MobileView.propTypes = {
   // required
   navigation: PropTypes.object.isRequired,
 };
 
-export default Login;
+export default MobileView;

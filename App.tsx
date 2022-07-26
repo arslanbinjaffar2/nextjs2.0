@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import { StatusBar} from 'react-native';
