@@ -1,10 +1,5 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import colors from './colors';
-// utility styles
-// /////////////////////////////////////////////////////////////////////////////
 export default {
-  // containers
-  // ///////////////////////////////////////////////////////////////////////////
   container: {
     flex: 1,
     justifyContent: 'center',
