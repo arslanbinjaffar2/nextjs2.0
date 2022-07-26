@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
 import MobileView from '@src/screens/dashboard/MobileView';
-import { Avatar, Box, Flex, HStack, Icon, Text, VStack, Pressable } from 'native-base';
+import { Avatar, Box, Flex, HStack, Text, VStack, Pressable } from 'native-base';
 import colors from '@src/styles/colors';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import IcoMyEvents from '@src/assets/icons/IcoMyEvents';
 const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = (props) => {
@@ -34,11 +34,7 @@ const CustomDrawerContent = (props) => {
             py="3"
             onPress={() => {props.navigation.navigate('dashboard')}}>
             <HStack space="2" alignItems="center">
-              <Icon
-                color="gray.500"
-                size="xl"
-                as={<MaterialCommunityIcons name="bookmark" />}
-              />
+              <IcoMyEvents width="24" height="24" />
               <Text fontSize={'18px'} color="primary.text" fontWeight="600">Friends</Text>
             </HStack>
           </Pressable>
