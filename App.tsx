@@ -3,7 +3,7 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
 import { NativeBaseProvider, extendTheme } from 'native-base';
-import { StatusBar} from 'react-native';
+import { StatusBar } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import RootStack from './src/navigations/RootStack';
@@ -58,7 +58,7 @@ const App = () => {
         defaultProps: { size: '2xl', fontWeight: '600' },
       },
       Button: {
-        defaultProps: { size: 'lg'},
+        defaultProps: { size: 'lg' },
       },
       Input: {
         defaultProps: {
@@ -72,15 +72,15 @@ const App = () => {
             borderColor: `rgb(${colors.darkbox})`,
             style: {
               backgroundColor: `rgb(${colors.darkbox})`,
-              paddingLeft: 16 
+              paddingLeft: 16
             }
           },
         },
-        baseStyle:  {
+        baseStyle: {
           _light: {
             placeholderTextColor: colors.text,
           },
-          _dark :{
+          _dark: {
             placeholderTextColor: colors.text
           },
         },
@@ -125,7 +125,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NativeBaseProvider theme={theme}>
-        <StatusBar  />
+        <StatusBar />
         <RootStack />
       </NativeBaseProvider>
     </SafeAreaProvider>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ScrollView } from 'native-base';
 import {Platform, ImageBackground, View } from 'react-native';
-import { gStyle, images } from '../styles';
+import { gStyle, images } from '@src/styles';
 
 const Layout = ({ children }) => (
   <React.Fragment>
