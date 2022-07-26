@@ -1,3 +1,4 @@
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Center, Flex, Text, VStack, Image, Input } from 'native-base';
 import { images } from '@src/styles';

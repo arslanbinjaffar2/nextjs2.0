@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { Platform, ImageBackground, View } from 'react-native';
 import { gStyle, images } from '@src/styles';
 

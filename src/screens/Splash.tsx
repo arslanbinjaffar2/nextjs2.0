@@ -1,3 +1,4 @@
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { images } from '@src/styles';
 import Layout from '@src/containers/Layout';

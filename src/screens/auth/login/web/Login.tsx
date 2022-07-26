@@ -1,3 +1,4 @@
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Center, Flex, Text, Image, Input, VStack, Icon } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';

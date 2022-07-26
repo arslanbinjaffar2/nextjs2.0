@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
 import MobileView from '@src/screens/dashboard/MobileView';
 import { Avatar, Box, Flex, HStack, Icon, Text, VStack, Pressable } from 'native-base';
