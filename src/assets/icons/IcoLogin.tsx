@@ -1,4 +1,3 @@
-import * as React from 'react';
 import PropTypes from 'prop-types';
 import Svg, { G, Path } from 'react-native-svg';
 
@@ -44,7 +43,6 @@ IcoBack.defaultProps = {
 };
 
 IcoBack.propTypes = {
-  // optional
   size: PropTypes.number
 };
 

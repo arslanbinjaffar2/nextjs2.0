@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-
-import * as React from 'react';
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
 import MobileView from '@src/screens/dashboard/MobileView';
 import { Avatar, Box, Flex, HStack, Icon, Text, VStack, Pressable } from 'native-base';
@@ -8,9 +5,8 @@ import colors from '@src/styles/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 const Drawer = createDrawerNavigator();
 
-// Custom Drawer
 const CustomDrawerContent = (props) => {
-  console.log(props.state.routeNames);
+ 
   return (
     <DrawerContentScrollView {...props} safeArea>
       <Box px="4" py="5">

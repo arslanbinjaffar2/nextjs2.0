@@ -1,19 +1,18 @@
-import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Center, Flex, Text, VStack, Image, Input } from 'native-base';
 import { images } from '@src/styles';
 import Layout from '@src/containers/Layout';
 import IcoLongArrow from '@src/assets/icons/IcoLongArrow';
 
-const LoginByEmail = ({ navigation }) => {
+const LoginByEmail = ({ navigation }: any) => {
   return (
     <Layout>
       <Center w={'100%'} pt="20" px={15}>
-        <Flex  w="100%" rounded="lg">
+        <Flex w="100%" rounded="lg">
           <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
           <VStack space='4' bg='primary.box' py='5' px='4' borderRadius='lg'>
             <Text fontSize='lg' lineHeight='sm'>Please enter the Email  address to find your events.</Text>
-            <Input placeholder="Email" InputRightElement={<Button h="46px" onPress={() => navigation.navigate('event-list')}><IcoLongArrow /></Button>}  />
+            <Input placeholder="Email" InputRightElement={<Button h="46px" onPress={() => navigation.navigate('event-list')}><IcoLongArrow /></Button>} />
           </VStack>
         </Flex>
       </Center>

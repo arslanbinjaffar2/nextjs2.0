@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator  } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
@@ -29,7 +28,7 @@ const RootStack = () => {
     )
   }
   return (
-    <React.Fragment>
+    <>
       <NavigationContainer linking>
         <Stack.Navigator>
           {Platform.OS !== 'web' && <Stack.Group>
@@ -66,7 +65,7 @@ const RootStack = () => {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </React.Fragment>
+    </>
   );
 };
 
