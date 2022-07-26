@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Center, Flex, Text, VStack, Image, Input } from 'native-base';
@@ -16,19 +14,14 @@ const LoginByEmail = ({ navigation }) => {
           <VStack space='4' bg='primary.box' py='5' px='4' borderRadius='lg'>
             <Text fontSize='lg' lineHeight='sm'>Please enter the Email  address to find your events.</Text>
             <Input placeholder="Email" InputRightElement={<Button h="46px" onPress={() => navigation.navigate('event-list')}><IcoLongArrow /></Button>}  />
-            
           </VStack>
-         
-          
         </Flex>
-        
       </Center>
     </Layout>
   );
 };
 
 LoginByEmail.propTypes = {
-  // required
   navigation: PropTypes.object.isRequired,
 };
 

@@ -2,11 +2,11 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator  } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
-import SplashScreen from '@src/screens/auth/login/SplashScreen';
-import Login from '@src/screens/auth/login/login';
-import LoginByEmail from '@src/screens/auth/login/LoginByEmail';
-import DesktopLogin from '@src/screens/auth/login/DesktopLogin';
-import EventList from '@src/screens/auth/login/EventList';
+import Splash from '@src/screens/Splash';
+import Login from '@src/screens/auth/login/mobile/Login';
+import LoginByEmail from '@src/screens/auth/login/mobile/LoginByEmail';
+import DesktopLogin from '@src/screens/auth/login/web/Login';
+import Events from '@srcscreens/auth/login/mobile/Events';
 import NavigationBack from '@src/components/atoms/NavigationBack';
 import MobileDrawer from '@src/components/atoms/navigation/MobileDrawer';
 
@@ -35,7 +35,7 @@ const RootStack = () => {
           {Platform.OS !== 'web' && <Stack.Group>
             <Stack.Screen
               name="welcome"
-              component={SplashScreen}
+              component={Splash}
               options={{ title: 'Welcome', headerShown: false }}
             />
             <Stack.Screen
@@ -44,7 +44,6 @@ const RootStack = () => {
               options={{..._options,title: 'Login with event code'}}
             />
           </Stack.Group>}
-
           {Platform.OS === 'web'&& <Stack.Screen
             name="login"
             component={DesktopLogin}
@@ -57,7 +56,7 @@ const RootStack = () => {
           />
           <Stack.Screen
             name="event-list"
-            component={EventList}
+            component={Events}
             options={{..._options,title: 'Event list'}}
           />
           <Stack.Screen

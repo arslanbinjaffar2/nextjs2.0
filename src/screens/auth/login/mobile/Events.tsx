@@ -7,7 +7,7 @@ import { Button, Center, Flex, Text,  Image, HStack, VStack, Box, ScrollView, Pr
 import { images } from '@src/styles';
 import Layout from '@src/containers/Layout';
 
-const EventList = ({ navigation }) => {
+const Events = ({ navigation }) => {
   return (
     <Layout>
       <Center w={'100%'} pt="20" px={15}>
@@ -53,9 +53,9 @@ const EventList = ({ navigation }) => {
   );
 };
 
-EventList.propTypes = {
+Events.propTypes = {
   // required
   navigation: PropTypes.object.isRequired,
 };
 
-export default EventList;
+export default Events;

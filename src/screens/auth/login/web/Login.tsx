@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Center, Flex, Text, Image, Input, VStack, Icon } from 'native-base';
@@ -8,7 +6,7 @@ import IcoLongArrow from '@src/assets/icons/IcoLongArrow';
 import { images } from '@src/styles';
 import Layout from '@src/containers/Layout';
 
-const DesktopLogin = ({ navigation }) => {
+const Login = ({ navigation }) => {
   return (
     <Layout>
       <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
@@ -26,11 +24,9 @@ const DesktopLogin = ({ navigation }) => {
               onPress={()=>{
                 navigation.navigate('Root')
               }}
-            
             >
              Login 
             </Button>
-          
           </VStack>
         </Flex>
       </Center>
@@ -38,9 +34,8 @@ const DesktopLogin = ({ navigation }) => {
   );
 };
 
-DesktopLogin.propTypes = {
-  // required
+Login.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default DesktopLogin;
+export default Login;
