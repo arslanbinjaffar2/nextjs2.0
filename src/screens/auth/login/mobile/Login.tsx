@@ -13,7 +13,7 @@ const Login = () => {
           <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
           <VStack opacity="0.7" space='4' bg='primary.box' py='5' px='4' borderRadius='lg'>
             <Text fontSize='lg' lineHeight='sm'>Enter the event code you have received from your organizer.</Text>
-            <Input placeholder="Event code…" InputRightElement={<Button h="46px" onPress={() => navigation.navigate('event-list')}><IcoLogin  /></Button>}  />
+            <Input placeholder="Event code…" InputRightElement={<Button h="46px" onPress={() => navigation.navigate('event-list')}><IcoLogin /></Button>} />
           </VStack>
         </Flex>
       </Center>

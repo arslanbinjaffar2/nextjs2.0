@@ -14,12 +14,12 @@ const Splash = ({ navigation }: any) => {
             <Image alt='logo' source={images.Logo} w="240" h="52" alignSelf={'center'} />
           </Flex>
           <Flex justify="center" align="center" w="100%" h={'50%'}>
-            <Text fontSize={'34px'} textTransform={'uppercase'} mb="5">Welcome</Text>
+            <Text fontSize={'34px'} textTransform={'uppercase'} mb="1">Welcome</Text>
             <VStack w="100%" space={4} alignItems="center">
-              <Button _text={{ fontSize: '22px' }} bg="black" size={'lg'} w="100%" shadow={2} onPress={() => navigation.navigate('login')}>
+              <Button _text={{ fontSize: '22px' }} bg="black" size={'lg'} w="100%" shadow={2} onPress={() => navigation.navigate('event-code-login')}>
                 LOGIN WITH EVENT CODE
               </Button>
-              <Button _text={{ fontSize: '22px' }} w="100%" size={'lg'} shadow={2} onPress={() => navigation.navigate('login-by-email')}>
+              <Button _text={{ fontSize: '22px' }} w="100%" size={'lg'} shadow={2} onPress={() => navigation.navigate('email-login')}>
                 LOGIN WITH EMAIL
               </Button>
             </VStack>
