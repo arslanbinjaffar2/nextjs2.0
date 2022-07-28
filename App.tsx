@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
 import { NativeBaseProvider, extendTheme } from 'native-base';
@@ -18,10 +16,11 @@ const config = {
   }
 };
 const App = () => {
+  
   const [appIsReady, setAppIsReady] = useState(false);
+
   const theme = extendTheme({
     colors: {
-      // Add new color
       primary: {
         50: '#E3F2F9',
         100: '#C5E4F3',
@@ -37,7 +36,6 @@ const App = () => {
         darkbox: `rgba(${colors.darkbox},0.8)`,
         text: `${colors.text}`,
       },
-      // Redefinig only one shade, rest of the color will remain same.
       amber: {
         400: '#d97706',
       },
@@ -97,17 +95,14 @@ const App = () => {
       }
     },
     config: {
-      // Changing initialColorMode to 'dark'
       initialColorMode: 'dark',
     },
   });
-  useEffect(() => {
 
+  useEffect(() => {
     async function prepare() {
       try {
-        // Keep the splash screen visible while we fetch resources
         await SplashScreen.preventAutoHideAsync();
-        // Pre-load fonts, make any API calls you need to do here
         func.loadAssetsAsync;
         await Font.loadAsync({
           'avenir': require('./src/assets/fonts/AvenirNextCondensed.ttf'),
@@ -118,8 +113,6 @@ const App = () => {
             display: Font.FontDisplay.FALLBACK,
           },
         });
-
-
       } catch (e) {
         console.warn(e);
       } finally {
@@ -129,16 +122,19 @@ const App = () => {
     }
     void prepare();
   }, []);
+  
   if (!appIsReady) {
     return null;
   }
+
   return (
     <SafeAreaProvider>
       <NativeBaseProvider config={config} theme={theme}>
-        <StatusBar  />
+        <StatusBar />
         <RootStack />
       </NativeBaseProvider>
     </SafeAreaProvider>
   );
+
 };
 export default App;
