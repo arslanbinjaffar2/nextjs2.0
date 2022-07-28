@@ -13,10 +13,11 @@ const DrawerStack = () => {
             screenOptions={{
                 drawerStyle: {
                     backgroundColor: `rgba(${colors.darkbox},0.95)`,
-                    width: '95%',
+                    width: '80%',
+
                 }
             }}
-            drawerContent={(props) => <DrawerLayout {...props} />}>
+            drawerContent={(props: any) => <DrawerLayout {...props} />}>
             <Drawer.Screen options={{ headerShown: false }} name="dashboard" component={MobileView} />
         </Drawer.Navigator>
     )
