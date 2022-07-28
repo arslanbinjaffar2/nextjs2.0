@@ -5,10 +5,10 @@ import Layout from '@src/containers/Layout';
 import { Button, Center, Flex, Text, VStack, Image, Input } from 'native-base';
 import IcoLogin from '@src/assets/icons/IcoLogin';
 
-const Login = () => {
+const Login = ({navigation}) => {
   return (
     <Layout>
-      <Center w={'100%'} pt="20" px={15}>
+      <Center w={'100%'} pt={20} px={15}>
         <Flex w="100%" rounded="lg">
           <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
           <VStack opacity="0.7" space='4' bg='primary.box' py='5' px='4' borderRadius='lg'>

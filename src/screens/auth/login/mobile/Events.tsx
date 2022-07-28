@@ -2,10 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { MaterialIcons } from '@expo/vector-icons'
 import { Button, Center, Flex, Text, Image, HStack, VStack, Box, ScrollView, Pressable } from 'native-base';
-import { images } from '@src/styles';
 import Layout from '@src/containers/Layout';
 
-const Events = ({ navigation }) => {
+const Events = ({ navigation }: any) => {
   return (
     <Layout>
       <Center w={'100%'} pt="20" px={15}>

@@ -9,6 +9,7 @@ module.exports = function(api) {
           root: ['./src'],
           alias: {
             '@src': './src',
+            '@atoms': './src/components/atoms',
           },
           extensions: [
             '.ios.js',

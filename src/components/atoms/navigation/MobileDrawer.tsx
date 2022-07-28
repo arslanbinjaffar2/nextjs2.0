@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react';
 import {createDrawerNavigator, DrawerContentScrollView} from '@react-navigation/drawer';
 import MobileView from '@src/screens/dashboard/MobileView';
@@ -6,8 +10,7 @@ import colors from '@src/styles/colors';
 import IcoMyEvents from '@src/assets/icons/IcoMyEvents';
 const Drawer = createDrawerNavigator();
 
-const CustomDrawerContent = (props) => {
- 
+const CustomDrawerContent = (props: JSX.IntrinsicAttributes) => {
   return (
     <DrawerContentScrollView {...props} safeArea>
       <Box px="4" py="5">
@@ -16,7 +19,7 @@ const CustomDrawerContent = (props) => {
 						HA
           </Avatar>
           <VStack px="4" space="0">
-            <Text pr="20px" fontSize="xl" textTransform={'uppercase'} bold>MIKE HECHSON</Text>
+            <Text isTruncated w="200px" pr="20px" fontSize="xl" textTransform={'uppercase'} bold> MIKE HECHSON MIKE HECHSON MIKE HECHSON</Text>
             <Text p="0"  fontSize="16" mt="0">Marketing sales person</Text>
           </VStack>
         </Flex>
@@ -52,10 +55,10 @@ const MobileDrawer = () => {
       screenOptions={{
         drawerStyle: {
           backgroundColor: `rgba(${colors.darkbox},0.95)`,
-          width: '95%',
+          width: '80%',
 
         }}}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      drawerContent={(props: any) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen  options={{ headerShown: false }} name="dashboard" component={MobileView} />
     </Drawer.Navigator>
   )

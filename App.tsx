@@ -11,6 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { func } from './src/styles';
 import * as Font from 'expo-font';
 import colors from './src/styles/colors'
+import { color } from 'native-base/lib/typescript/theme/styled-system';
 const config = {
   dependencies: {
     'linear-gradient': LinearGradient
@@ -61,7 +62,10 @@ const App = () => {
     },
     components: {
       Heading: {
-        defaultProps: { size: '2xl', fontWeight: '600' },
+        defaultProps: { fontSize: '2xl', fontWeight: '600', color: 'primary.text' },
+      },
+      Text: {
+        defaultProps: { fontSize: 'md', fontWeight: '400', color: 'primary.text' },
       },
       Button: {
         defaultProps: { size: 'lg' },
