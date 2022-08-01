@@ -13,8 +13,8 @@ const IcoProgram = (props: SvgProps) => (
         <Rect
           id="Rectangle_124"
           data-name="Rectangle 124"
-          width={64}
-          height={63.031}
+          width={props.width}
+          height={props.height}
           fill="none"
         />
       </ClipPath>
