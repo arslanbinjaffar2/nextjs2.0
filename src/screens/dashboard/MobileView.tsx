@@ -15,7 +15,6 @@ const MobileView = ({ navigation }: any) => {
       <HeaderDashboard minimal={scroll}  navigation={navigation} />
       <Center w={'100%'} px={15}>
         <Divider mx="auto" w="160px" bg="primary.text" my="5" />
-        
         <ScrollView  onScroll={(event: { nativeEvent: { contentOffset: { y: number; }; }; }) => setscroll(event.nativeEvent.contentOffset.y > 40 ? true : false)}>
           <VStack pb="2" space={0} alignItems="center" w="100%">
             <Heading fontSize="3xl">JANUAR VISION DANMARK</Heading>

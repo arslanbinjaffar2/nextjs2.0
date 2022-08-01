@@ -11,9 +11,9 @@ const RootStack = () => {
     <>
       <NavigationContainer linking>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={AuthStack} />
+          <Stack.Screen  options={{ headerShown: false }} name="Home" component={AuthStack} />
           <Stack.Screen
-            name="Root"
+            name="dashboard"
             component={DrawerStack}
             options={{ headerShown: false }}
           />

@@ -17,7 +17,7 @@ const Events = ({ navigation }: any) => {
             {[...Array(10).keys()].map((i) =>
               <Pressable
                 key={i}
-                onPress={() => navigation.navigate('Root')}
+                onPress={() => navigation.navigate('dashboard')}
               >
                 <Box key={i} bg="rgba(0,0,0,0.4)" rounded="lg">
                   <Center borderBottomColor="rgba(255,255,255,0.2)" borderBottomWidth={1} px="15" py="10px">

@@ -22,7 +22,7 @@ const Login = ({ navigation }: any) => {
               colorScheme="primary"
               endIcon={<IcoLongArrow />}
               onPress={() => {
-                navigation.navigate('Root')
+                navigation.navigate('dashboard')
               }}
             >
               Login
