@@ -3,8 +3,8 @@ import Svg, { SvgProps, Defs, ClipPath, Rect, G, Path } from 'react-native-svg';
 
 const Icoreload = (props: SvgProps) => (
   <Svg
-    width={33.635}
-    height={32.638}
+    width={props.width}
+    height={props.height}
     viewBox="0 0 33.635 32.638"
   >
     <Defs>
@@ -12,8 +12,8 @@ const Icoreload = (props: SvgProps) => (
         <Rect
           id="Rectangle_166"
           data-name="Rectangle 166"
-          width={33.635}
-          height={32.638}
+          width={props.width}
+          height={props.height}
           fill="none"
         />
       </ClipPath>

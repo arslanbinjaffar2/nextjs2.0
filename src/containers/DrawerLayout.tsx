@@ -16,7 +16,7 @@ const DrawerLayout = (props) => {
                         HA
           </Avatar>
           <VStack px="4" space="0">
-            <Text isTruncated w="200px" pr="20px" fontSize="xl" textTransform={'uppercase'} bold> MIKE HECHSON MIKE HECHSON MIKE HECHSON</Text>
+            <Text isTruncated w="200px" pr="20px" fontSize="xl" textTransform={'uppercase'} bold> MIKE HECHSON</Text>
             <Text p="0" fontSize="16" mt="0">Marketing sales person</Text>
           </VStack>
         </Flex>

@@ -5,13 +5,16 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Layout from '@src/containers/Layout';
 import { images } from '@src/styles';
-import { Box, Center, Container, Flex, Heading, HStack, Image, Pressable, ScrollView, VStack } from 'native-base';
+import { Box, Center, Container, Flex, Heading, HStack, Image, Pressable, ScrollView, Text, VStack } from 'native-base';
 import Icosettings from '@src/assets/icons/Icosettings';
 import Icoreload from '@src/assets/icons/Icoreload';
 import IcoBell from '@src/assets/icons/IcoBell'
+import Sidebar from '@src/containers/Sidebar';
+import Notification from '@src/components/atoms/Notification';
 
 
 const DesktopView = ({ navigation }: any) => {
+  console.log(navigation);
   return (
     <Layout>
       <Flex w="100%" h="100%" direction="column">
@@ -35,14 +38,25 @@ const DesktopView = ({ navigation }: any) => {
                 <Center alignItems="flex-end" w="265px">
                   <HStack space="5">
                     <Box><Pressable onPress={()=>{console.log('hello')}}><Icosettings width={32} height={32} /></Pressable></Box>
-                    <Box><Pressable onPress={()=>{console.log('hello')}}><Icoreload width={34} height={32} /></Pressable></Box>
+                    <Box><Pressable onPress={()=>{console.log('hello')}}><Icoreload width={34} height={34} /></Pressable></Box>
                     <Box><Pressable onPress={()=>{console.log('hello')}}><IcoBell width={32} height={32} /></Pressable></Box>
                   </HStack>
 									
                 </Center>
               </HStack>
             </Container>
-						
+            <Container maxW="100%" w="100%">
+              <HStack  space="5" alignItems="center">
+                <Sidebar navigation={navigation} />
+                <Center w="600px"></Center>
+                <Center alignItems="flex-start" w="265px">
+                  <Notification title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+                  <Notification title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} />
+                </Center>
+              </HStack>
+              
+            </Container>
+            
           </Center>
         </ScrollView>
       </Flex>
