@@ -1,9 +1,8 @@
 
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Platform } from 'react-native';
-import MobileView from '@src/screens/dashboard/MobileView';
+import Index from '@src/screens/mobile/dashboard/Index';
 import colors from '@src/styles/colors';
 import DrawerLayout from '@src/containers/DrawerLayout';
 
@@ -20,10 +19,9 @@ const AppMobileStack = () => {
                     }
                 }}
                 drawerContent={(props: any) => <DrawerLayout {...props} />}>
-                <Drawer.Screen options={{ headerShown: false }} name="home" component={MobileView} />
+                <Drawer.Screen options={{ headerShown: false }} name="dashboard" component={Index} />
             </Drawer.Navigator>
         )
-
     )
 }
 

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Layout from '@src/containers/Layout';
@@ -12,21 +9,19 @@ import IcoBell from '@src/assets/icons/IcoBell'
 import Sidebar from '@src/containers/Sidebar';
 import Notification from '@src/components/atoms/Notification';
 
+const Index = ({ navigation }: any) => {
 
-const DesktopView = ({ navigation }: any) => {
-  console.log(navigation);
   return (
     <Layout>
       <Flex w="100%" h="100%" direction="column">
         <ScrollView>
-          <Center mx="auto" maxW="1200px" w="100%" py="40px"  px="15px">
+          <Center mx="auto" maxW="1200px" w="100%" py="40px" px="15px">
             <Container maxW="100%" w="100%">
               <HStack w="100%" alignItems="flex-start" space="5">
                 <Center alignItems="flex-start" w="265px">
-                  <Pressable onPress={()=>{console.log('hello')}}>
+                  <Pressable onPress={() => { console.log('hello') }}>
                     <Image alt='logo' source={images.Logo} w="225px" h="48px" alignSelf={'center'} />
                   </Pressable>
-									
                 </Center>
                 <Center w="600px">
                   <VStack pb="0" space={0} w="100%">
@@ -37,16 +32,15 @@ const DesktopView = ({ navigation }: any) => {
                 </Center>
                 <Center alignItems="flex-end" w="265px">
                   <HStack space="5">
-                    <Box><Pressable onPress={()=>{console.log('hello')}}><Icosettings width={32} height={32} /></Pressable></Box>
-                    <Box><Pressable onPress={()=>{console.log('hello')}}><Icoreload width={34} height={34} /></Pressable></Box>
-                    <Box><Pressable onPress={()=>{console.log('hello')}}><IcoBell width={32} height={32} /></Pressable></Box>
+                    <Box><Pressable onPress={() => { console.log('hello') }}><Icosettings width={32} height={32} /></Pressable></Box>
+                    <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={34} height={34} /></Pressable></Box>
+                    <Box><Pressable onPress={() => { console.log('hello') }}><IcoBell width={32} height={32} /></Pressable></Box>
                   </HStack>
-									
                 </Center>
               </HStack>
             </Container>
             <Container maxW="100%" w="100%">
-              <HStack  space="5" alignItems="center">
+              <HStack space="5" alignItems="center">
                 <Sidebar navigation={navigation} />
                 <Center w="600px"></Center>
                 <Center alignItems="flex-start" w="265px">
@@ -54,19 +48,17 @@ const DesktopView = ({ navigation }: any) => {
                   <Notification title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} />
                 </Center>
               </HStack>
-              
             </Container>
-            
           </Center>
         </ScrollView>
       </Flex>
-			
+
     </Layout>
   );
 };
 
-DesktopView.propTypes = {
+Index.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default DesktopView;
+export default Index;

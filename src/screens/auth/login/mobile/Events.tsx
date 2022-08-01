@@ -50,7 +50,6 @@ const Events = ({ navigation }: any) => {
 };
 
 Events.propTypes = {
-  // required
   navigation: PropTypes.object.isRequired,
 };
 

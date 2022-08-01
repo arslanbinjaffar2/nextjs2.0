@@ -5,7 +5,7 @@ import HeaderDashboard from '@atoms/headers/HeaderDashboard';
 import { Button, Center, Flex, Text, VStack, Image, Input, ScrollView, Box, Divider, Heading } from 'native-base';
 import { useState } from 'react';
 
-const MobileView = ({ navigation }: any) => {
+const Index = ({ navigation }: any) => {
   const [scroll, setscroll] = useState(false)
   return (
     <Layout>
@@ -32,8 +32,8 @@ const MobileView = ({ navigation }: any) => {
   );
 };
 
-MobileView.propTypes = {
+Index.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default MobileView;
+export default Index;
