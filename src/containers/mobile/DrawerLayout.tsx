@@ -13,7 +13,7 @@ const DrawerLayout = (props) => {
       <Box px="4" py="5">
         <Flex alignItems="center" flexDirection={'row'}>
           <Avatar w="70px" h="70px" bg="green.500">
-                        HA
+            HA
           </Avatar>
           <VStack px="4" space="0">
             <Text isTruncated w="200px" pr="20px" fontSize="xl" textTransform={'uppercase'} bold> MIKE HECHSON</Text>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { images } from '@src/styles';
-import Layout from '@src/containers/Layout';
+import Layout from '@src/containers/mobile/Layout';
 import { Button, Center, Flex, Text, VStack, Image, View } from 'native-base';
 
 const Splash = ({ navigation }: any) => {

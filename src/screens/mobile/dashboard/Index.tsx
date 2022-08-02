@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Layout from '@src/containers/Layout';
+import Layout from '@src/containers/mobile/Layout';
 import HeaderDashboard from '@atoms/headers/HeaderDashboard';
 import { Button, Center, Flex, Text, VStack, Image, Input, ScrollView, Box, Divider, Heading } from 'native-base';
 import { useState } from 'react';

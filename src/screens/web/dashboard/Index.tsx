@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Layout from '@src/containers/Layout';
+import Layout from '@src/containers/mobile/Layout';
 import { images } from '@src/styles';
 import { Box, Center, Container, Flex, Heading, HStack, Image, Pressable, ScrollView, Text, VStack } from 'native-base';
 import Icosettings from '@src/assets/icons/Icosettings';

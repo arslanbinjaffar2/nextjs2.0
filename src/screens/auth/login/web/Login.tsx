@@ -4,7 +4,7 @@ import { Button, Center, Flex, Text, Image, Input, VStack, Icon } from 'native-b
 import { Ionicons } from '@expo/vector-icons';
 import IcoLongArrow from '@src/assets/icons/IcoLongArrow';
 import { images } from '@src/styles';
-import Layout from '@src/containers/Layout';
+import Layout from '@src/containers/mobile/Layout';
 
 const Login = ({ navigation }: any) => {
   return (

@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Center, Flex, Text, VStack, Image, Input } from 'native-base';
 import { images } from '@src/styles';
-import Layout from '@src/containers/Layout';
+import Layout from '@src/containers/mobile/Layout';
 import IcoLongArrow from '@src/assets/icons/IcoLongArrow';
 
 const LoginByEmail = ({ navigation }: any) => {
