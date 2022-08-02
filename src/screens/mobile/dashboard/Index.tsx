@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Layout from '@src/containers/mobile/Layout';
-import HeaderDashboard from '@atoms/headers/HeaderDashboard';
+import Dashboard from '@src/containers/mobile/headers/Dashboard';
 import { Button, Center, Flex, Text, VStack, Image, Input, ScrollView, Box, Divider, Heading } from 'native-base';
 import { useState } from 'react';
 
@@ -9,7 +9,7 @@ const Index = ({ navigation }: any) => {
   const [scroll, setscroll] = useState(false)
   return (
     <Layout>
-      <HeaderDashboard minimal={scroll} navigation={navigation} />
+      <Dashboard minimal={scroll} navigation={navigation} />
       <Center w={'100%'} px={15}>
         <Divider mx="auto" w="160px" bg="primary.text" my="5" />
         <ScrollView onScroll={(event: { nativeEvent: { contentOffset: { y: number; }; }; }) => setscroll(event.nativeEvent.contentOffset.y > 40 ? true : false)}>

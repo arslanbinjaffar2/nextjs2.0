@@ -7,12 +7,13 @@ import { images } from '@src/styles'
 import IcoBell from '@src/assets/icons/IcoBell'
 import { useEffect } from 'react';
 
-const HeaderDashboard = ({navigation,minimal}: any) => {
+const Dashboard = ({navigation,minimal}: any) => {
+
   const width = Dimensions.get('window').width;
+
   useEffect(() => {
-  console.log(minimal);
-    
-  }, [minimal])
+  }, [minimal]);
+
   return (
     <View>
       <Flex pt="3" direction="row" alignItems="center" safeAreaTop>
@@ -33,9 +34,8 @@ const HeaderDashboard = ({navigation,minimal}: any) => {
           
         </Center>
       </Flex>
-    
     </View>
-
   )
 }
-export default  HeaderDashboard;
+
+export default  Dashboard;
