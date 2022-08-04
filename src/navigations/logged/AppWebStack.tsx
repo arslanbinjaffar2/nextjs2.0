@@ -6,11 +6,11 @@ import Index from '@src/screens/web/dashboard/Index';
 const Stack = createNativeStackNavigator();
 
 const AppWebStack = () => {
-    return (
-        <Stack.Navigator>
-            <Stack.Screen options={{ headerShown: false }} name="dashboard" component={Index} />
-        </Stack.Navigator>
-    )
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={Index} />
+    </Stack.Navigator>
+  )
 }
 
 export default AppWebStack

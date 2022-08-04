@@ -9,20 +9,20 @@ import DrawerLayout from '@src/containers/mobile/DrawerLayout';
 const Drawer = createDrawerNavigator();
 
 const AppMobileStack = () => {
-    return (
-        Platform.OS !== 'web' && (
-            <Drawer.Navigator
-                screenOptions={{
-                    drawerStyle: {
-                        backgroundColor: `rgba(${colors.darkbox},0.95)`,
-                        width: '80%'
-                    }
-                }}
-                drawerContent={(props: any) => <DrawerLayout {...props} />}>
-                <Drawer.Screen options={{ headerShown: false }} name="dashboard" component={Index} />
-            </Drawer.Navigator>
-        )
+  return (
+    Platform.OS !== 'web' && (
+      <Drawer.Navigator
+        screenOptions={{
+          drawerStyle: {
+            backgroundColor: `rgba(${colors.darkbox},0.95)`,
+            width: '80%'
+          }
+        }}
+        drawerContent={(props: any) => <DrawerLayout {...props} />}>
+        <Drawer.Screen options={{ headerShown: false }} name="index" component={Index} />
+      </Drawer.Navigator>
     )
+  )
 }
 
 export default AppMobileStack

@@ -2,12 +2,14 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Layout from '@src/containers/mobile/Layout';
 import { images } from '@src/styles';
-import { Box, Center, Container, Flex, Heading, HStack, Image, Pressable, ScrollView, Text, VStack } from 'native-base';
+import { Box, Center, Container, Divider, Flex, Heading, HStack, Image, Pressable, ScrollView, Text, VStack } from 'native-base';
 import Icosettings from '@src/assets/icons/Icosettings';
 import Icoreload from '@src/assets/icons/Icoreload';
 import IcoBell from '@src/assets/icons/IcoBell'
-import Sidebar from '@src/containers/Sidebar';
 import Notification from '@src/components/atoms/Notification';
+import OurExhibitors from '@src/components/molecules/OurExhibitors';
+import Sidebar from '@src/containers/web/Sidebar';
+import VideoBox from '@src/components/atoms/Videos/VideoBox';
 
 const Index = ({ navigation }: any) => {
 
@@ -40,12 +42,16 @@ const Index = ({ navigation }: any) => {
               </HStack>
             </Container>
             <Container maxW="100%" w="100%">
-              <HStack space="5" alignItems="center">
+              <HStack pt="3" space="5" alignItems="flex-start">
                 <Sidebar navigation={navigation} />
-                <Center w="600px"></Center>
+                <Center alignItems="flex-start" justifyContent="flex-start" w="600px">
+                  <VideoBox />
+                </Center>
                 <Center alignItems="flex-start" w="265px">
                   <Notification title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
                   <Notification title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} />
+                  <Divider mb="1" bg="transparent" />
+                  <OurExhibitors />
                 </Center>
               </HStack>
             </Container>
