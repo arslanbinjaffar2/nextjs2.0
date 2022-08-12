@@ -1,13 +1,13 @@
-const background = hex2rgb('#105071');
+const background = hex2rgb('#3D4960');
 const hsb = rgb2hsv(background[0], background[1], background[2]);
 const box = hsbTorgb(hsb[0], hsb[1] / 2, hsb[2] + 30);
 const darkbox = hsbTorgb(hsb[0], hsb[1] / 2, hsb[2] + 12);
-const primary = '#1C9DE0';
+const primary = '#732138';
 const secondary = '#d0ccd0';
 const white20 = 'rgba(255, 255, 255, 0.2)';
 const dark = '#EAEAEA';
 const light = '#1e1e1e';
-const text = getColorByBgColor('#105071');
+const text = getColorByBgColor('#3D4960');
 
 function getColorByBgColor(bgColor: string) {
   if (!bgColor) { return ''; }

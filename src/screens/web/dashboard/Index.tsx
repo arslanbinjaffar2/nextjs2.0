@@ -10,6 +10,8 @@ import Notification from '@src/components/atoms/Notification';
 import OurExhibitors from '@src/components/molecules/OurExhibitors';
 import Sidebar from '@src/containers/web/Sidebar';
 import VideoBox from '@src/components/atoms/Videos/VideoBox';
+import OurPrograms from '@src/components/molecules/OurPrograms';
+import OurSpeakers from '@src/components/molecules/OurSpeakers';
 
 const Index = ({ navigation }: any) => {
 
@@ -46,6 +48,8 @@ const Index = ({ navigation }: any) => {
                 <Sidebar navigation={navigation} />
                 <Center alignItems="flex-start" justifyContent="flex-start" w="600px">
                   <VideoBox />
+                  <OurPrograms />
+                  <OurSpeakers />
                 </Center>
                 <Center alignItems="flex-start" w="265px">
                   <Notification title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />

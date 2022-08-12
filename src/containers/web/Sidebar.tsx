@@ -29,7 +29,9 @@ const Sidebar = ({navigation}: any) => {
           borderRadius="4"
           onPress={() => { navigation.navigate('dashboard') }}>
           <HStack space="4" alignItems="center">
-            <IcoDashboard width="24" height="24" />
+            <Center align="center" w="30px">
+              <IcoDashboard width="24" height="24" />
+            </Center>
             <Text fontSize={'lg'} color="primary.text">Dashboard</Text>
           </HStack>
         </Pressable>
@@ -41,7 +43,9 @@ const Sidebar = ({navigation}: any) => {
           borderRadius="4"
           onPress={() => { navigation.navigate('dashboard') }}>
           <HStack space="4" alignItems="center">
-            <IcoSpeaker width="15" height="24" />
+            <Center align="center" w="30px">
+              <IcoSpeaker width="15" height="24" />
+            </Center>
             <Text fontSize={'lg'} color="primary.text">Speaker</Text>
           </HStack>
         </Pressable>
@@ -53,259 +57,9 @@ const Sidebar = ({navigation}: any) => {
           borderRadius="4"
           onPress={() => { navigation.navigate('dashboard') }}>
           <HStack space="4" alignItems="center">
-            <IcoAttendees width="24" height="21" />
-            <Text fontSize={'lg'} color="primary.text">Attendees</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoDashboard width="24" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Dashboard</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoSpeaker width="15" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Speaker</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoAttendees width="24" height="21" />
-            <Text fontSize={'lg'} color="primary.text">Attendees</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoDashboard width="24" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Dashboard</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoSpeaker width="15" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Speaker</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoAttendees width="24" height="21" />
-            <Text fontSize={'lg'} color="primary.text">Attendees</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoDashboard width="24" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Dashboard</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoSpeaker width="15" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Speaker</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoAttendees width="24" height="21" />
-            <Text fontSize={'lg'} color="primary.text">Attendees</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoDashboard width="24" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Dashboard</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoSpeaker width="15" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Speaker</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoAttendees width="24" height="21" />
-            <Text fontSize={'lg'} color="primary.text">Attendees</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoDashboard width="24" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Dashboard</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoSpeaker width="15" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Speaker</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoAttendees width="24" height="21" />
-            <Text fontSize={'lg'} color="primary.text">Attendees</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoDashboard width="24" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Dashboard</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoSpeaker width="15" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Speaker</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoAttendees width="24" height="21" />
-            <Text fontSize={'lg'} color="primary.text">Attendees</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoDashboard width="24" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Dashboard</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoSpeaker width="15" height="24" />
-            <Text fontSize={'lg'} color="primary.text">Speaker</Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{bg: 'primary.500'}}
-          borderRadius="4"
-          onPress={() => { navigation.navigate('dashboard') }}>
-          <HStack space="4" alignItems="center">
-            <IcoAttendees width="24" height="21" />
+            <Center align="center" w="30px">
+              <IcoAttendees width="24" height="21" />
+            </Center>
             <Text fontSize={'lg'} color="primary.text">Attendees</Text>
           </HStack>
         </Pressable>

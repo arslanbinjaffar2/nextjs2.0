@@ -7,6 +7,8 @@ import { useState } from 'react';
 import OurExhibitors from '@src/components/molecules/OurExhibitors';
 import VideoBox from '@src/components/atoms/Videos/VideoBox';
 import Notification from '@src/components/atoms/Notification';
+import OurPrograms from '@src/components/molecules/OurPrograms';
+import OurSpeakers from '@src/components/molecules/OurSpeakers';
 
 const Index = ({ navigation }: any) => {
   const [scroll, setscroll] = useState(false)
@@ -36,6 +38,8 @@ const Index = ({ navigation }: any) => {
           
           <VideoBox />
           <OurExhibitors />
+          <OurPrograms />
+          <OurSpeakers />
         </ScrollView>
       </Center>
     </Layout>

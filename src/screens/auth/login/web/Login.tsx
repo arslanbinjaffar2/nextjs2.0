@@ -19,7 +19,6 @@ const Login = ({ navigation }: any) => {
             <Button
               maxW={'230px'}
               w={'100%'}
-              colorScheme="primary"
               endIcon={<IcoLongArrow />}
               onPress={() => {
                 navigation.navigate('dashboard')

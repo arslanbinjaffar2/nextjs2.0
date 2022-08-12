@@ -65,7 +65,7 @@ const App = () => {
         defaultProps: { fontSize: 'md', fontWeight: '400', color: 'primary.text' },
       },
       Button: {
-        defaultProps: { size: 'lg' },
+        defaultProps: { size: 'lg', bg: 'primary.500' },
       },
       Input: {
         defaultProps: {
