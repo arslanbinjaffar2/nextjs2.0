@@ -35,8 +35,8 @@ const BlockView = () => {
     tracks: [{name: 'Technology', color: '#9F1C2B'}]
   }];
   return <Box w="100%">
-    {data && data.map((item,index) => 
-      <Box key={item.id} borderTopWidth={index === 0 ? 0 : 1} borderColor="primary.text" py="2">
+    {data && data.map((item) => 
+      <Box key={item.id} borderBottomWidth='1' borderColor="primary.text" py="2">
         <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
           <Box position="absolute" left="0" top="0" w="15px">
             {item.tracks && <ZStack>
@@ -45,7 +45,7 @@ const BlockView = () => {
               )}
             </ZStack>}
           </Box>
-          <HStack pt="1" w="100%" space="3" alignItems="flex-start" justifyContent="space-between">
+          <HStack pt="2" w="100%" space="3" alignItems="flex-start" justifyContent="space-between">
             <VStack w="40px" space="0">
               <Text lineHeight="22px">
                 {item.starttime}
@@ -60,6 +60,7 @@ const BlockView = () => {
             </Text>
             <Spacer />
             <IconButton
+              mr="2"
               variant="transparent"
               icon={<IcoRaiseHand width={21} height={26} />}
               onPress={()=>{
@@ -67,8 +68,6 @@ const BlockView = () => {
               }}
 						
             />
-					
-					
           </HStack>
         </HStack>
       </Box>)}

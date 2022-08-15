@@ -12,6 +12,7 @@ import Sidebar from '@src/containers/web/Sidebar';
 import VideoBox from '@src/components/atoms/Videos/VideoBox';
 import OurPrograms from '@src/components/molecules/OurPrograms';
 import OurSpeakers from '@src/components/molecules/OurSpeakers';
+import OurPolls from '@src/components/molecules/OurPolls';
 
 const Index = ({ navigation }: any) => {
 
@@ -50,6 +51,7 @@ const Index = ({ navigation }: any) => {
                   <VideoBox />
                   <OurPrograms />
                   <OurSpeakers />
+                  <OurPolls />
                 </Center>
                 <Center alignItems="flex-start" w="265px">
                   <Notification title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />

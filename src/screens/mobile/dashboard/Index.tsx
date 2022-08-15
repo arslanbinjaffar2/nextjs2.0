@@ -2,13 +2,14 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Layout from '@src/containers/mobile/Layout';
 import Dashboard from '@src/containers/mobile/headers/Dashboard';
-import { Button, Center, Flex, Text, VStack, Image, Input, ScrollView, Box, Divider, Heading, View, HStack } from 'native-base';
+import { Center,VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
 import OurExhibitors from '@src/components/molecules/OurExhibitors';
 import VideoBox from '@src/components/atoms/Videos/VideoBox';
 import Notification from '@src/components/atoms/Notification';
 import OurPrograms from '@src/components/molecules/OurPrograms';
 import OurSpeakers from '@src/components/molecules/OurSpeakers';
+import OurPolls from '@src/components/molecules/OurPolls';
 
 const Index = ({ navigation }: any) => {
   const [scroll, setscroll] = useState(false)
@@ -40,6 +41,7 @@ const Index = ({ navigation }: any) => {
           <OurExhibitors />
           <OurPrograms />
           <OurSpeakers />
+          <OurPolls />
         </ScrollView>
       </Center>
     </Layout>
