@@ -9,6 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { func } from './src/styles';
 import * as Font from 'expo-font';
 import colors from './src/styles/colors'
+import { color } from 'react-native-reanimated';
 const config = {
   dependencies: {
     'linear-gradient': LinearGradient
@@ -34,6 +35,7 @@ const App = () => {
         box: `rgba(${colors.box},0.8)`,
         darkbox: `rgba(${colors.darkbox},0.8)`,
         text: `${colors.text}`,
+        secondary: colors.secondary
       },
       amber: {
         400: '#d97706',
@@ -65,7 +67,10 @@ const App = () => {
         defaultProps: { fontSize: 'md', fontWeight: '400', color: 'primary.text' },
       },
       Button: {
-        defaultProps: { size: 'lg', bg: 'primary.500' },
+        defaultProps: { size: 'lg', bg: 'primary.500',
+          _hover: {bg: colors.primary}, 
+          _pressed: {bg: `${colors.secondary}`}
+        }
       },
       Input: {
         defaultProps: {

@@ -16,6 +16,9 @@ export default {
   flex1: {
     flex: 1
   },
+  blur: {
+    backdropFilter: 'blur(10px)'
+  },
   flex: {
     display: 'flex'
   },

@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack } from 'native-base';
 import IcoDashboard from '@src/assets/icons/IcoDashboard';
-import IcoProgram from '@src/assets/icons/IcoProgram';
 import IcoAttendees from '@src/assets/icons/IcoAttendees';
-import IcoMyAttendees from '@src/assets/icons/IcoMyAttendees';
 import IcoSpeaker from '@src/assets/icons/IcoSpeaker';
 
 const Sidebar = ({navigation}: any) => {
