@@ -15,7 +15,7 @@ type indexProps = {
   navigation: unknown
 }
 
-const ProgramDetails = ({ navigation }: indexProps)  => {
+const AttendeeDetails = ({ navigation }: indexProps)  => {
   const [tabs, settabs]  = useState< string | null>('ABOUT');
   return (
     <WebMainLayout navigation={navigation}>
@@ -146,8 +146,8 @@ const ProgramDetails = ({ navigation }: indexProps)  => {
   );
 };
 
-ProgramDetails.propTypes = {
+AttendeeDetails.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default ProgramDetails;
+export default AttendeeDetails;

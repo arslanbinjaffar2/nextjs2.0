@@ -67,8 +67,9 @@ const App = () => {
         defaultProps: { fontSize: 'md', fontWeight: '400', color: 'primary.text' },
       },
       Button: {
-        defaultProps: { size: 'lg', bg: 'primary.500',
-          _hover: {bg: colors.primary}, 
+        defaultProps: { size: 'lg', bg: 'primary.500', 
+          _hover: {bg: colors.primary},
+          _text: {color: 'primary.text'}, 
           _pressed: {bg: `${colors.secondary}`}
         }
       },
