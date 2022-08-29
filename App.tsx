@@ -78,15 +78,8 @@ const App = () => {
           fontSize: 'md',
           bg: 'primary.darkbox',
           borderColor: 'primary.darkbox',
-          style: {
-            paddingLeft: 15,
-          },
           _focus: {
             borderColor: `rgb(${colors.darkbox})`,
-            style: {
-              backgroundColor: `rgb(${colors.darkbox})`,
-              paddingLeft: 16
-            }
           },
         },
         baseStyle: {

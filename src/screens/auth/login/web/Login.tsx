@@ -14,12 +14,13 @@ const Login = ({ navigation }: any) => {
           <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
           <VStack w={'100%'} alignItems={'center'} space='4'>
             <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the event code you have received from your organizer.</Text>
-            <Input style={{ paddingLeft: 0 }} InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} mx="2" color="primary.text" />} w={'100%'} placeholder="Email" type="text" />
-            <Input style={{ paddingLeft: 0 }} InputLeftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} mx="2" color="primary.text" />} w={'100%'} placeholder="Password" type='password' />
+            <Input type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder="Email" />
+            <Input type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder="Password"  />
             <Button
               maxW={'230px'}
               w={'100%'}
               endIcon={<IcoLongArrow />}
+              _hover={{bg: 'primary.secondary'}}
               onPress={() => {
                 navigation.navigate('dashboard')
               }}
