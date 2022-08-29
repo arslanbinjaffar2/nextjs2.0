@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Avatar, Box, Button, Container, HStack, Icon, Input, Spacer, Text, VStack} from 'native-base';
 import { AntDesign} from '@expo/vector-icons';
 import { SimpleLineIcons  } from '@expo/vector-icons'
-import WebMainLayout from '@src/screens/web/dashboard/WebMainLayout';
+import Master from '@src/screens/web/layouts/Master';
 import BoxItem from '@src/components/atoms/attendees/BoxItem';
 
 
@@ -15,7 +15,7 @@ type indexProps = {
 const AttendeeLayout = ({ navigation }: indexProps)  => {
   const [tabs, settabs]  = useState< string | null>('PROGRAM');
   return (
-    <WebMainLayout navigation={navigation}>
+    <Master navigation={navigation}>
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
         <Text fontSize="2xl">ATTENDEES</Text>
         <Spacer />
@@ -78,7 +78,7 @@ const AttendeeLayout = ({ navigation }: indexProps)  => {
             </Box>)}
         </Container>}
       </>
-    </WebMainLayout>
+    </Master>
 
   );
 };

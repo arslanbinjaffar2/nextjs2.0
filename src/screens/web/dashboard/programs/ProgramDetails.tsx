@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Input, Spacer, Text, VStack, ZStack, Image, Divider, Avatar, Pressable} from 'native-base';
 import { AntDesign, Ionicons} from '@expo/vector-icons';
 import { SimpleLineIcons  } from '@expo/vector-icons'
-import WebMainLayout from '@src/screens/web/dashboard/WebMainLayout';
+import Master from '@src/screens/web/layouts/Master';
 import { useState } from 'react';
 import IcoCheckin from '@src/assets/icons/IcoCheckin';
 import IcoSpeaker from '@src/assets/icons/IcoSpeaker';
@@ -18,7 +18,7 @@ type indexProps = {
 const ProgramDetails = ({ navigation }: indexProps)  => {
   const [tabs, settabs]  = useState< string | null>('ABOUT');
   return (
-    <WebMainLayout navigation={navigation}>
+    <Master navigation={navigation}>
       <Container mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="lg">
         <Image
           source={{
@@ -141,7 +141,7 @@ const ProgramDetails = ({ navigation }: indexProps)  => {
         
       </Container>
       
-    </WebMainLayout>
+    </Master>
 
   );
 };

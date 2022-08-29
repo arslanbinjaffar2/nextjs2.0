@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Input, Spacer, Text, VStack, ZStack, Image, Divider, Avatar, Pressable} from 'native-base';
 import { AntDesign,SimpleLineIcons} from '@expo/vector-icons';
-import WebMainLayout from '@src/screens/web/dashboard/WebMainLayout';
+import Master from '@src/screens/web/layouts/Master';
 import { useState } from 'react';
 import IcoSpeaker from '@src/assets/icons/IcoSpeaker';
 import IcoPolls from '@src/assets/icons/IcoPolls';
@@ -19,17 +19,17 @@ type indexProps = {
 const AttendeeDetails = ({ navigation }: indexProps)  => {
   const [tabs, settabs]  = useState< string | null>('ABOUT');
   return (
-    <WebMainLayout navigation={navigation}>
+    <Master navigation={navigation}>
+      
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
         <HStack  space="3" alignItems="center">
           <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text"  />
           <Text  fontSize="2xl">BACK</Text>
         </HStack>
-        
-        
         <Spacer />
         <Input  rounded="lg" w="60%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
       </HStack>
+
       <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="lg" overflow="hidden" mb="3" maxW="100%" w="100%">
         <Box w="100%" p="4" py="5" rounded="lg">
           <HStack mb="4" space="5">
@@ -40,7 +40,6 @@ const AttendeeDetails = ({ navigation }: indexProps)  => {
               source={{
                 uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"
               }}
-              
             >
               BB
             </Avatar>
@@ -48,14 +47,11 @@ const AttendeeDetails = ({ navigation }: indexProps)  => {
               <Text lineHeight="sm" fontSize="xl">Marie Solbakke</Text>
               <Text lineHeight="sm" fontSize="md">Transportfirmaet HT</Text>
               <Text lineHeight="sm" fontSize="md">Marketing CEO</Text>
-              
             </VStack>
             <Spacer />
             <Box w="20px" h="100%">
               <Icoribbon width="20" height="28" />
-            </Box>
-            
-            
+            </Box> 
           </HStack>
           <HStack w="100%" space="0">
             <Center alignItems="flex-start" pl="0" w="33.33%">
@@ -63,7 +59,6 @@ const AttendeeDetails = ({ navigation }: indexProps)  => {
                 <Text lineHeight="sm" fontSize="sm">Initials</Text>
                 <Text lineHeight="sm" fontSize="sm">MSA</Text>
               </VStack>
-              
             </Center>
             <Center borderLeftWidth="1" borderColor="primary.text" alignItems="flex-start" pl="8"  w="33.33%">
               <VStack space="0">
@@ -78,7 +73,6 @@ const AttendeeDetails = ({ navigation }: indexProps)  => {
               </VStack>
             </Center>
           </HStack>
-          
         </Box>
         <Box w="100%" bg="primary.secondary" px="5" py="3" borderTopWidth="1" borderColor="primary.darkbox">
           <HStack w="100%" space="0">
@@ -89,9 +83,7 @@ const AttendeeDetails = ({ navigation }: indexProps)  => {
               <Icohotelbed width="24" height="18" />
             </Center>
           </HStack>
-          
         </Box>
-        
       </Container>
       
       <Container mb="3" maxW="100%" w="100%">
@@ -164,10 +156,9 @@ const AttendeeDetails = ({ navigation }: indexProps)  => {
             </Box>
           </Box>
         </Box>
-        
       </Container>
-      
-    </WebMainLayout>
+
+    </Master>
 
   );
 };

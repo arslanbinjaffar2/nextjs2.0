@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Input, Spacer, Text, VStack, ZStack} from 'native-base';
 import { AntDesign, Ionicons} from '@expo/vector-icons';
 import { SimpleLineIcons  } from '@expo/vector-icons'
-import WebMainLayout from '@src/screens/web/dashboard/WebMainLayout';
+import Master from '@src/screens/web/layouts/Master';
 import { useState } from 'react';
 
 
@@ -14,7 +14,7 @@ type indexProps = {
 const ProgramsLayout = ({ navigation }: indexProps)  => {
   const [tabs, settabs]  = useState< string | null>('PROGRAM');
   return (
-    <WebMainLayout navigation={navigation}>
+    <Master navigation={navigation}>
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
         <Text fontSize="2xl">PROGRAMS</Text>
         <Spacer />
@@ -197,7 +197,7 @@ const ProgramsLayout = ({ navigation }: indexProps)  => {
             </Box>)}
         </Container>}
       </>
-    </WebMainLayout>
+    </Master>
 
   );
 };

@@ -15,14 +15,17 @@ const ProgramsModule = () => {
       <Stack.Screen options={{ headerShown: false }} name="index" component={ProgramsLayout} />
       <Stack.Screen options={{ headerShown: false }} name="detail" component={ProgramDetails} />
     </Stack.Navigator>
-  )}
+  )
+}
+
 const AttendeesModule = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{ headerShown: false }} name="index" component={AttendeeLayout} />
       <Stack.Screen options={{ headerShown: false }} name="detail" component={AttendeeDetails} />
     </Stack.Navigator>
-  )}
+  )
+}
 
 const AppWebStack = () => {
   return (

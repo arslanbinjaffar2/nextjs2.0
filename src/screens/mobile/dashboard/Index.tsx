@@ -2,11 +2,11 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Layout from '@src/containers/mobile/Layout';
 import Dashboard from '@src/containers/mobile/headers/Dashboard';
-import { Center,VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
+import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
-import OurExhibitors from '@src/components/molecules/OurExhibitors';
+import VerticalBoxItemListing from '@src/components/molecules/exhibitors/VerticalBoxItemListing';
 import VideoBox from '@src/components/atoms/Videos/VideoBox';
-import Notification from '@src/components/atoms/Notification';
+import BlockNotification from '@src/components/atoms/notifications/BlockNotification';
 import OurPrograms from '@src/components/molecules/OurPrograms';
 import OurSpeakers from '@src/components/molecules/OurSpeakers';
 import OurPolls from '@src/components/molecules/OurPolls';
@@ -29,16 +29,14 @@ const Index = ({ navigation }: any) => {
           </VStack>
           <HStack w="100%" space="4%">
             <Center w="48%">
-              <Notification title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+              <BlockNotification title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
             </Center>
             <Center w="48%">
-              <Notification title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+              <BlockNotification title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
             </Center>
           </HStack>
-          
-          
           <VideoBox />
-          <OurExhibitors />
+          <VerticalBoxItemListing />
           <OurPrograms />
           <OurSpeakers />
           <OurPolls />

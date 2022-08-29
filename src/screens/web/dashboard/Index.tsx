@@ -6,7 +6,7 @@ import OurSpeakers from '@src/components/molecules/OurSpeakers';
 import OurPolls from '@src/components/molecules/OurPolls';
 import OurSpeakersList from '@src/components/molecules/OurSpeakersList';
 import MiniChatClient from '@src/components/molecules/MiniChatClient';
-import WebMainLayout from '@src/screens/web/dashboard/WebMainLayout';
+import Master from '@src/screens/web/layouts/Master';
 
 type indexProps = {
   navigation: unknown
@@ -15,14 +15,14 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
 
   return (
-    <WebMainLayout navigation={navigation}>
+    <Master navigation={navigation}>
       <VideoBox />
       <OurPrograms />
       <OurSpeakers />
       <OurPolls />
       <OurSpeakersList />
       <MiniChatClient />
-    </WebMainLayout>
+    </Master>
 
   );
 };
