@@ -12,7 +12,7 @@ type indexProps = {
   navigation: unknown
 }
 
-const AttendeeLayout = ({ navigation }: indexProps)  => {
+const Index = ({ navigation }: indexProps)  => {
   const [tabs, settabs]  = useState< string | null>('PROGRAM');
   return (
     <Master navigation={navigation}>
@@ -83,8 +83,8 @@ const AttendeeLayout = ({ navigation }: indexProps)  => {
   );
 };
 
-AttendeeLayout.propTypes = {
+Index.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default AttendeeLayout;
+export default Index;

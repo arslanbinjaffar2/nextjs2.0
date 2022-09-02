@@ -15,7 +15,7 @@ type indexProps = {
   navigation: unknown
 }
 
-const ProgramDetails = ({ navigation }: indexProps)  => {
+const Detail = ({ navigation }: indexProps)  => {
   const [tabs, settabs]  = useState< string | null>('ABOUT');
   return (
     <Master navigation={navigation}>
@@ -146,8 +146,8 @@ const ProgramDetails = ({ navigation }: indexProps)  => {
   );
 };
 
-ProgramDetails.propTypes = {
+Detail.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default ProgramDetails;
+export default Detail;

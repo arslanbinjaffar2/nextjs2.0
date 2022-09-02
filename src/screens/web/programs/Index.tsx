@@ -11,7 +11,7 @@ type indexProps = {
   navigation: unknown
 }
 
-const ProgramsLayout = ({ navigation }: indexProps)  => {
+const Index = ({ navigation }: indexProps)  => {
   const [tabs, settabs]  = useState< string | null>('PROGRAM');
   return (
     <Master navigation={navigation}>
@@ -202,8 +202,8 @@ const ProgramsLayout = ({ navigation }: indexProps)  => {
   );
 };
 
-ProgramsLayout.propTypes = {
+Index.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default ProgramsLayout;
+export default Index;
