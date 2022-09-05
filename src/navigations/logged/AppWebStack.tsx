@@ -9,6 +9,10 @@ import AttendeeDetails from '@src/screens/web/attendees/Detail';
 import CheckinLayout from '@src/screens/web/check-in/Index';
 import PracticalInformationLayout from '@src/screens/web/practical-information/Index';
 import PracticalInformationDetail from '@src/screens/web/practical-information/Detail';
+import DocumentsList from '@src/screens/web/documents/Index';
+import MapsList from '@src/screens/web/maps/Index';
+import ChatList from '@src/screens/web/chats/Index';
+import ChatClient from '@src/screens/web/chats/Detail';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +48,28 @@ const PracticalInformation = () => {
     </Stack.Navigator>
   )
 }
+const Documents = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={DocumentsList} />
+    </Stack.Navigator>
+  )
+}
+const Maps = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={MapsList} />
+    </Stack.Navigator>
+  )
+}
+const Chats = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={ChatList} />
+      <Stack.Screen options={{ headerShown: false }} name="detail" component={ChatClient} />
+    </Stack.Navigator>
+  )
+}
 
 const AppWebStack = () => {
   return (
@@ -53,6 +79,9 @@ const AppWebStack = () => {
       <Stack.Screen options={{ headerShown: false }} name="attendees" component={AttendeesModule} />
       <Stack.Screen options={{ headerShown: false }} name="check-in" component={SessionCheckin} />
       <Stack.Screen options={{ headerShown: false }} name="practical-information" component={PracticalInformation} />
+      <Stack.Screen options={{ headerShown: false }} name="documents" component={Documents} />
+      <Stack.Screen options={{ headerShown: false }} name="maps" component={Maps} />
+      <Stack.Screen options={{ headerShown: false }} name="chats" component={Chats} />
     </Stack.Navigator>
   )
 }
