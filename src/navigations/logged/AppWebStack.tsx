@@ -13,6 +13,8 @@ import DocumentsList from '@src/screens/web/documents/Index';
 import MapsList from '@src/screens/web/maps/Index';
 import ChatList from '@src/screens/web/chats/Index';
 import ChatClient from '@src/screens/web/chats/Detail';
+import SponsorsList from '@src/screens/web/sponsors/Index';
+import SponsorsDetail from '@src/screens/web/sponsors/Detail';
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +72,14 @@ const Chats = () => {
     </Stack.Navigator>
   )
 }
+const Sponsors = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={SponsorsList} />
+      <Stack.Screen options={{ headerShown: false }} name="detail" component={SponsorsDetail} />
+    </Stack.Navigator>
+  )
+}
 
 const AppWebStack = () => {
   return (
@@ -82,6 +92,7 @@ const AppWebStack = () => {
       <Stack.Screen options={{ headerShown: false }} name="documents" component={Documents} />
       <Stack.Screen options={{ headerShown: false }} name="maps" component={Maps} />
       <Stack.Screen options={{ headerShown: false }} name="chats" component={Chats} />
+      <Stack.Screen options={{ headerShown: false }} name="sponsors" component={Sponsors} />
     </Stack.Navigator>
   )
 }
