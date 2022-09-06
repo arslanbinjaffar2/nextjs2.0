@@ -5,10 +5,10 @@ import Dashboard from '@src/containers/mobile/headers/Dashboard';
 import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
 import VerticalBoxItemListing from '@src/components/molecules/exhibitors/VerticalBoxItemListing';
-import VideoBox from '@src/components/atoms/Videos/VideoBox';
+import StreamBlock from '@src/components/templates/programs/videos/StreamBlock';
 import BlockNotification from '@src/components/atoms/notifications/BlockNotification';
-import OurPrograms from '@src/components/molecules/OurPrograms';
-import OurSpeakers from '@src/components/molecules/OurSpeakers';
+import ProgramListing from '@src/components/templates/programs/Listing';
+import SpeakerRoundedList from '@src/components/templates/speakers/RoundedList';
 import OurPolls from '@src/components/molecules/OurPolls';
 
 const Index = ({ navigation }: any) => {
@@ -35,10 +35,10 @@ const Index = ({ navigation }: any) => {
               <BlockNotification title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
             </Center>
           </HStack>
-          <VideoBox />
+          <StreamBlock />
           <VerticalBoxItemListing />
-          <OurPrograms />
-          <OurSpeakers />
+          <ProgramListing />
+          <SpeakerRoundedList />
           <OurPolls />
         </ScrollView>
       </Center>
