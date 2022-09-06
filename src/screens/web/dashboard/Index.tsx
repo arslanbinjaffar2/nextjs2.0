@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import StreamBlock from '@src/components/templates/programs/videos/StreamBlock';
-import ProgramListing from '@src/components/templates/programs/Listing';
-import SpeakerRoundedList from '@src/components/templates/speakers/RoundedList';
-import SpeakerListing from '@src/components/templates/speakers/Listing';
-import QAListing from '@src/components/templates/qa/Listing';
+import StreamBlock from '@src/components/organisms/programs/videos/StreamBlock';
+import ProgramListing from '@src/components/organisms/programs/Listing';
+import SpeakerRoundedList from '@src/components/organisms/speakers/RoundedList';
+import SpeakerListing from '@src/components/organisms/speakers/Listing';
+import QAListing from '@src/components/organisms/qa/Listing';
 import OurPolls from '@src/components/molecules/OurPolls';
 import MiniChatClient from '@src/components/molecules/MiniChatClient';
 import Master from '@src/screens/web/layouts/Master';

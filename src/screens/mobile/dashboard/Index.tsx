@@ -5,10 +5,10 @@ import Dashboard from '@src/containers/mobile/headers/Dashboard';
 import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
 import VerticalBoxItemListing from '@src/components/molecules/exhibitors/VerticalBoxItemListing';
-import StreamBlock from '@src/components/templates/programs/videos/StreamBlock';
+import StreamBlock from '@src/components/organisms/programs/videos/StreamBlock';
 import BlockNotification from '@src/components/atoms/notifications/BlockNotification';
-import ProgramListing from '@src/components/templates/programs/Listing';
-import SpeakerRoundedList from '@src/components/templates/speakers/RoundedList';
+import ProgramListing from '@src/components/organisms/programs/Listing';
+import SpeakerRoundedList from '@src/components/organisms/speakers/RoundedList';
 import OurPolls from '@src/components/molecules/OurPolls';
 
 const Index = ({ navigation }: any) => {
