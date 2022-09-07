@@ -9,7 +9,7 @@ import StreamBlock from '@src/components/organisms/programs/videos/StreamBlock';
 import BlockNotification from '@src/components/atoms/notifications/BlockNotification';
 import ProgramListing from '@src/components/organisms/programs/Listing';
 import SpeakerRoundedList from '@src/components/organisms/speakers/RoundedList';
-import OurPolls from '@src/components/molecules/OurPolls';
+import PollListing from '@src/components/organisms/polls/Listing';
 
 const Index = ({ navigation }: any) => {
   const [scroll, setscroll] = useState(false)
@@ -39,7 +39,7 @@ const Index = ({ navigation }: any) => {
           <VerticalBoxItemListing />
           <ProgramListing />
           <SpeakerRoundedList />
-          <OurPolls />
+          <PollListing />
         </ScrollView>
       </Center>
     </Layout>
