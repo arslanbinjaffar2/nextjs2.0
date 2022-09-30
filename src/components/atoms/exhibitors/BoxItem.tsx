@@ -11,13 +11,13 @@ type BoxProps = {
 
 const BoxItem = ({ image, category, bg, speakers }: BoxProps) => {
   return (
-    <Box mb="3" w="100%" bg="primary.box" p="0" rounded="md">
+    <Box mb="3" w="100%" bg="primary.box" p="0" borderWidth="1" borderColor="primary.bdBox" rounded="10">
       {image && <Center pt="5" pb="3" px="1" alignItems="center" w="100%">
         {image}
       </Center>}
       <HStack pb="3" space="3" alignItems="center">
         <Center alignItems="flex-start" w="50%">
-          {category && <Box bg={bg ? bg : 'primary.400'} borderRightRadius="md" shadow="1" w="auto" px="2">
+          {category && <Box bg={bg ? bg : 'primary.400'} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" shadow="1" w="auto" px="2">
             <Text fontSize="xs">{category}</Text>
           </Box>}
         </Center>

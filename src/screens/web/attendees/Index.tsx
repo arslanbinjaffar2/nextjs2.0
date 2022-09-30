@@ -18,7 +18,7 @@ const Index = ({ navigation }: indexProps) => {
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
         <Text fontSize="2xl">ATTENDEES</Text>
         <Spacer />
-        <Input rounded="lg" w="60%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+        <Input rounded="10" w="60%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
       </HStack>
       <HStack mb="3" space={1} justifyContent="center" w="100%">
         <Button onPress={() => settabs('PROGRAM')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tabs === 'PROGRAM' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>ALL</Button>
@@ -26,7 +26,7 @@ const Index = ({ navigation }: indexProps) => {
         <Button onPress={() => settabs('TRACKS')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tabs === 'TRACKS' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>GROUPS</Button>
       </HStack>
       <>
-        {tabs === 'PROGRAM' && <Container overflow="hidden" mb="3" rounded="lg" bg="primary.box" w="100%" maxW="100%">
+        {tabs === 'PROGRAM' && <Container overflow="hidden" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           <Text w="100%" pl="18px" bg="primary.darkbox">A</Text>
           {[...Array(3)].map((item, k) =>
             <React.Fragment key={`item-box-${k}`}>
@@ -42,7 +42,7 @@ const Index = ({ navigation }: indexProps) => {
         </Container>}
       </>
       <>
-        {tabs === 'MY_PROGRAM' && <Container mb="3" rounded="lg" bg="primary.box" w="100%" maxW="100%">
+        {tabs === 'MY_PROGRAM' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {[...Array(6)].map((item, k) =>
             <React.Fragment key={`item-box-programs-${k}`}>
               <BoxItem border={k === 5 ? 0 : 1} />
@@ -51,7 +51,7 @@ const Index = ({ navigation }: indexProps) => {
         </Container>}
       </>
       <>
-        {tabs === 'TRACKS' && <Container mb="3" rounded="lg" bg="primary.box" w="100%" maxW="100%">
+        {tabs === 'TRACKS' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {[...Array(7)].map((item, k) =>
             <Box w="100%" key={k} borderBottomWidth={k === 6 ? 0 : 1} borderColor="primary.text" py="4">
               <HStack px="4" alignItems="flex-start" space={0} justifyContent="flex-start">

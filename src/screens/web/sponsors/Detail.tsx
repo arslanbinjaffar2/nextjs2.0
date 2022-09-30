@@ -1,130 +1,169 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Image, Input, ScrollView, Spacer, Text, TextArea, VStack} from 'native-base';
+import { Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Input, Spacer, Text, VStack, ZStack, Image, Divider, Avatar, Pressable } from 'native-base';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons'
 import Master from '@src/screens/web/layouts/Master';
-import {AntDesign,Entypo,Feather } from '@expo/vector-icons';
-
+import { useState } from 'react';
+import IcoCheckin from '@src/assets/icons/IcoCheckin';
+import IcoSpeaker from '@src/assets/icons/IcoSpeaker';
+import IcoPolls from '@src/assets/icons/IcoPolls';
+import IcoRaiseHand from '@src/assets/icons/IcoRaiseHand';
+import IcoExhibitors from '@src/assets/icons/IcoExhibitors';
+import Icouser from '@src/assets/icons/small/Icouser';
 
 type indexProps = {
   navigation: unknown
 }
 
-const Detail = ({ navigation }: indexProps)  => {
+const Detail = ({ navigation }: indexProps) => {
+  const [tabs, settabs] = useState<string | null>('ABOUT');
   return (
     <Master navigation={navigation}>
-      <Container pt="2" maxW="100%" w="100%">
-        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-          <HStack  space="3" alignItems="center">
-            <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text"  />
-            <Text  fontSize="2xl">BACK</Text>
-          </HStack>
-          <Spacer />
-          <Text isTruncated pr="6" fontSize="lg">Janet Fowler</Text>
-          <Spacer />
-          <Avatar
+      <Container overflow="hidden" mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
+        <Box w="100%" bg="primary.500" p="0">
+          <Image
             source={{
-              uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
+              uri: 'https://wallpaperaccess.com/full/39050.jpg'
             }}
+            alt="Alternate Text"
+            size="full"
+            w="100%"
+            h="160px"
+            rounded="10"
+            mb="5"
+          />
+          <Box w="100%" px="5">
+            <HStack w="100%" mb="1" space="3" alignItems="flex-start">
+              <Text maxW="80%" fontSize="xl">Water cleaning in Africa</Text>
+              <Spacer />
+              <Icon as={Ionicons} size="xl" name="heart" color="primary.text"  />
             
-          >
-            SS
-            <Avatar.Badge borderWidth="1" bg="red.500"  />
-            
-          </Avatar>
-          
-        </HStack>
-        <VStack mb="3" overflow="hidden" bg="primary.box" rounded="lg" w="100%" space="0">
-          <ScrollView w="100%" minH="450px" py="4" px="3">
-            <HStack mb="3" space="0" alignItems="flex-end">
-              <Avatar
-                source={{
-                  uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                }}
-                
-              >
-                SS
-                <Avatar.Badge borderWidth="1" bg="green.500"  />
-              </Avatar>
-              <VStack ml="3" maxW="320" px="3" py="3" rounded="lg" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
-                <Text lineHeight="sm" pr="3" fontSize="lg">Hello John, what are you going to do this weekend?</Text>
-                <Text opacity="0.8" fontSize="md">17:45</Text>
-              </VStack>
+            </HStack>
+            <HStack w="100%" mb="3" space="0" alignItems="center">
+              <Text fontSize="md">Marketing</Text>
+              <Spacer />
+              <HStack alignItems="center" space="2">
+                <IcoExhibitors width="16px" height="16px" />
+                <Text fontSize="md">109</Text>
               
-            </HStack>
-            <HStack direction="row-reverse" mb="3" space="0" alignItems="flex-end">
-              <Avatar
-                source={{
-                  uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                }}
-                
-              >
-                SS
-                <Avatar.Badge borderWidth="1" bg="green.500"  />
-              </Avatar>
-              <VStack mr="3" maxW="320" px="3" py="3" rounded="lg" borderBottomRightRadius="0" bg="#3F89D0" space="1">
-                <Text lineHeight="sm" pr="3" fontSize="lg">Nothing planned, and you?</Text>
-                <Text opacity="0.8" textAlign="right" fontSize="md">17:45</Text>
-              </VStack>
-              
-            </HStack>
-            
-          </ScrollView>
-          <Center w="100%" maxW="100%">
-            <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
-              <Icon size="md" as={Entypo} name="new-message" color="primary.text" />
-              <Text fontSize="lg">Write Message </Text>
-            </HStack>
-            <VStack p="1" w="100%" space="0">
-              <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" boxShadow="none" _focus={{bg: 'transparent', borderColor: 'transparent' ,boxShadow: 'none'}} _hover={{borderWidth: 0,boxShadow: 'none',borderColor: 'transparent' }} rounded="lg" varient="unstyled" w="100%" p="4" placeholder="Your message…"  />
-              <HStack  mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
-                <IconButton
-                  variant="transparent"
-                  icon={<Icon size="lg" as={Entypo} name="emoji-happy" color="primary.text" />}
-                  onPress={()=>{
-                    console.log('hello')
-                  }}
-                  
-                />
-                <IconButton
-                  variant="transparent"
-                  icon={<Icon size="lg" as={Entypo} name="attachment" color="primary.text" />}
-                  onPress={()=>{
-                    console.log('hello')
-                  }}
-                  
-                />
-                <IconButton
-                  variant="transparent"
-                  icon={<Icon size="lg" as={Feather} name="send" color="primary.text" />}
-                  onPress={()=>{
-                    console.log('hello')
-                  }}
-                  
-                />
-                
-                
               </HStack>
-              
+            
+            </HStack>
+            <Box mb="4" w="100%">
+              <Divider mb="3" bg="primary.text" />
+              <Text w="100%" fontSize="16px">Gul Ahmad is, firm, organization, etc., that finances and buysthe time to broadcast a radio or television program so as to advertise a product, a political party, etc. person who makes a pledge or promise on behalf of another.</Text>
+            </Box>
+          </Box>
+          
+        </Box>
+        <Box w="100%" p="0">
+          <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+            <Icouser />
+            <Text fontSize="md">Contact person(s)</Text>
+          </HStack>
+          <HStack py="5" px="4" space="4" alignItems="center">
+            <Avatar
+              source={{
+                uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
+              }}
+            >
+              SS
+            </Avatar>
+            <VStack space="0">
+              <Text fontSize="lg">Stephen Hendry</Text>
+              <Text fontSize="lg">Global INC - Social media Expert</Text>
             </VStack>
-            
-            
-          </Center>
-          
-        </VStack>
-        <Image
-          source={{
-            uri:'https://wallpaperaccess.com/full/311401.jpg'
-          }}
-          alt="Alternate Text"
-          w="100%"
-          h="150px"
-          rounded="lg"
-          
-        />
-        
+            <Spacer />
+            <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
+          </HStack>
+        </Box>
       </Container>
-      
+      <Container mb="3" maxW="100%" w="100%">
+        <HStack mb="3" space={1} justifyContent="center" w="100%">
+          <Button onPress={() => settabs('ABOUT')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tabs === 'ABOUT' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>ABOUT</Button>
+          <Button onPress={() => settabs('GROUPS')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tabs === 'GROUPS' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>GROUPS</Button>
+          <Button onPress={() => settabs('ATTENDEES')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tabs === 'ATTENDEES' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>ATTENDEES</Button>
+        </HStack>
+        <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
+          <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+            <IcoSpeaker width="12" height="18" />
+            <Text fontSize="md">Speaker</Text>
+          </HStack>
+          <HStack py="5" px="4" space="4" alignItems="center">
+            <Avatar
+              source={{
+                uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
+              }}
+            >
+              SS
+            </Avatar>
+            <VStack space="0">
+              <Text fontSize="lg">Stephen Hendry</Text>
+              <Text fontSize="lg">Global INC - Social media Expert</Text>
+            </VStack>
+            <Spacer />
+            <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
+          </HStack>
+          <Box p="0">
+            <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+              <IcoPolls width="17" height="17" />
+              <Text fontSize="md">Polls</Text>
+            </HStack>
+            {[...Array(2)].map((item, k) =>
+              <Pressable
+                key={k}
+                p="0"
+                w="100%"
+                _hover={{ bg: 'primary.500' }}
+                onPress={() => { console.log('hello') }}>
+                <Box w="100%" borderBottomWidth={k === 1 ? 0 : 1} borderColor="primary.text" py="4">
+                  <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                    <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
+                      <Text fontSize="md">This is a great example of a yes or no poll.</Text>
+                      <Text fontSize="md">Do you prefer the color blue or red?</Text>
+                    </VStack>
+                    <Spacer />
+                    <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
+                  </HStack>
+                </Box>
+              </Pressable>
+            )}
+          </Box>
+          <Box p="0">
+            <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+              <IcoRaiseHand width="14" height="17" />
+              <Text fontSize="md">Request to speak</Text>
+            </HStack>
+            <Box w="100%" py="4">
+              <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
+                  <Text fontSize="md">Request to speak</Text>
+                </VStack>
+                <Spacer />
+                <IcoRaiseHand width="20" height="26" />
+              </HStack>
+            </Box>
+          </Box>
+          <Box p="0">
+            <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+              <Icon size="sm" as={AntDesign} name="download" color="primary.text" />
+              <Text fontSize="md">Downloads</Text>
+            </HStack>
+            <Box w="100%" py="4">
+              <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
+                  <Text fontSize="md">10 things we can do to help</Text>
+                </VStack>
+                <Spacer />
+                <Icon size="lg" as={AntDesign} name="pdffile1" color="primary.text" />
+              </HStack>
+            </Box>
+          </Box>
+        </Box>
+      </Container>
     </Master>
+
   );
 };
 

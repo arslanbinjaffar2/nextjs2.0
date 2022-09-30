@@ -14,7 +14,7 @@ const Index = ({ navigation }: indexProps) => {
     <Master navigation={navigation}>
       <Container pt="1" maxW="100%" w="100%">
         <Text mb="3" textTransform="uppercase" fontSize="2xl">Session check-in</Text>
-        <Box mb="3" w="100%" bg="primary.box" p="5" rounded="lg">
+        <Box mb="3" w="100%" bg="primary.box" p="5" rounded="10">
           <HStack space="3" alignItems="center">
             <Text fontSize="lg">My ticket for </Text>
             <Spacer />
@@ -27,7 +27,7 @@ const Index = ({ navigation }: indexProps) => {
               }}
             />
           </HStack>
-          <Box mx="auto" w="190px" h="190px" bg="primary.darkbox" p="3" rounded="lg">
+          <Box mx="auto" w="190px" h="190px" bg="primary.darkbox" p="3" rounded="10">
             <Image
               source={{
                 uri: 'https://wallpaperaccess.com/full/117511.jpg'
@@ -35,14 +35,14 @@ const Index = ({ navigation }: indexProps) => {
               alt="Alternate Text"
               w="164px"
               h="164px"
-              rounded="lg"
+              rounded="10"
             />
           </Box>
           <Text pt="1" textAlign="center" fontSize="xl">Scan to Checkin</Text>
         </Box>
         <Image
           mb="3"
-          rounded="lg"
+          rounded="10"
           source={{
             uri: 'https://wallpaperaccess.com/full/206501.jpg'
           }}
@@ -51,7 +51,7 @@ const Index = ({ navigation }: indexProps) => {
           h="144px"
         />
         <HStack w="100%" space="0">
-          <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="lg">
+          <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="10">
             <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK IN</Text>
             <VStack space="1">
               <HStack px="3" space="4" alignItems="center">
@@ -69,7 +69,7 @@ const Index = ({ navigation }: indexProps) => {
             </VStack>
           </Box>
           <Spacer />
-          <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="lg">
+          <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="10">
             <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK OUT</Text>
             <VStack space="1">
               <HStack px="3" space="4" alignItems="center">

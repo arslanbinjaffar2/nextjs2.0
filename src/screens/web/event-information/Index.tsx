@@ -16,9 +16,9 @@ const Index = ({ navigation }: indexProps)  => {
         <HStack mb="3" w="100%" space="3" alignItems="center">
           <Text fontSize="2xl">Practical information</Text>
           <Spacer />
-          <Input  rounded="lg" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
+          <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
-        <Box mb="3" bg="primary.box" p="0" w="100%" rounded="lg" overflow="hidden">
+        <Box mb="3" bg="primary.box" p="0" w="100%" rounded="10" overflow="hidden">
           <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="4" py="5" space="4" alignItems="center">
             <Icon as={SimpleLineIcons} name="folder" size="lg" color="primary.text" />
             <Text fontSize="lg">Foodpanda</Text>
@@ -52,7 +52,7 @@ const Index = ({ navigation }: indexProps)  => {
           alt="Alternate Text"
           w="100%"
           h="140px"
-          rounded="lg"
+          rounded="10"
           
         />
         

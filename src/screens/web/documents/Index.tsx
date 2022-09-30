@@ -16,9 +16,9 @@ const Index = ({ navigation }: indexProps)  => {
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text textTransform="uppercase" fontSize="2xl">Documents</Text>
           <Spacer />
-          <Input  rounded="lg" w="60%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
+          <Input  rounded="10" w="60%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
-        <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="lg">
+        <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
           <HStack borderBottomWidth="1" borderBottomColor="primary.text" w="100%" px="4" py="4" space="3" alignItems="center">
             <Icon size="xl" as={MaterialIcons} name="folder" color="primary.text" />
             <VStack  space="0">

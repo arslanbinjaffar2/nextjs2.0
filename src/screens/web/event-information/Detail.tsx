@@ -21,9 +21,9 @@ const Detail = ({ navigation }: indexProps)  => {
           <Spacer />
           <Text fontSize="xl">Installing Demyst’s Libraries</Text>
         </HStack>
-        <Box mb="3" w="100%" bg="primary.box" py="4" rounded="lg">
+        <Box mb="3" w="100%" bg="primary.box" py="4" rounded="10">
           <Text px="4" mb="3" fontSize="md">Gul Ahmad is, firm, organization, etc., that finances and buysthe time to broadcast a radio or television program so as to advertise a product, a political party, etc. person who makes a pledge or promise on behalf of another.</Text>
-          <Box w="100%" mb="4" px="4" rounded="lg">
+          <Box w="100%" mb="4" px="4" rounded="10">
             <Image
               source={{
                 uri:'https://wallpaperaccess.com/full/316101.jpg'
@@ -31,7 +31,7 @@ const Detail = ({ navigation }: indexProps)  => {
               alt="Alternate Text"
               w="100%"
               h="250px"
-              rounded="lg"
+              rounded="10"
           
             />
           </Box>
@@ -55,7 +55,7 @@ const Detail = ({ navigation }: indexProps)  => {
           alt="Alternate Text"
           w="100%"
           h="150px"
-          rounded="lg"
+          rounded="10"
           
         />
         

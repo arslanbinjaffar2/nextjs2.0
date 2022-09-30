@@ -35,7 +35,9 @@ const App = () => {
         box: `rgba(${colors.box},0.8)`,
         darkbox: `rgba(${colors.darkbox},0.8)`,
         text: `${colors.text}`,
-        secondary: colors.secondary
+        secondary: colors.secondary,
+        bdColor: 'rgba(148,160,183,0.64)',
+        bdBox: '#707070',
       },
       amber: {
         400: '#d97706',

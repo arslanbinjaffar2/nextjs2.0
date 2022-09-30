@@ -9,7 +9,7 @@ const LoginByEmail = ({ navigation }: any) => {
   return (
     <Layout>
       <Center w={'100%'} pt="20" px={15}>
-        <Flex w="100%" rounded="lg">
+        <Flex w="100%" rounded="10">
           <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
           <VStack space='4' bg='primary.box' py='5' px='4' borderRadius='lg'>
             <Text fontSize='lg' lineHeight='sm'>Please enter the Email  address to find your events.</Text>

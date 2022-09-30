@@ -18,7 +18,7 @@ const Detail = ({ navigation }: indexProps) => {
   const [tabs, settabs] = useState<string | null>('ABOUT');
   return (
     <Master navigation={navigation}>
-      <Container mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="lg">
+      <Container mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
         <Image
           source={{
             uri: 'https://wallpaperaccess.com/full/39050.jpg'
@@ -27,7 +27,7 @@ const Detail = ({ navigation }: indexProps) => {
           size="full"
           w="100%"
           h="160px"
-          rounded="lg"
+          rounded="10"
           mb="5"
         />
         <Box w="100%" px="5">
@@ -56,7 +56,7 @@ const Detail = ({ navigation }: indexProps) => {
           <Button onPress={() => settabs('GROUPS')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tabs === 'GROUPS' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>GROUPS</Button>
           <Button onPress={() => settabs('ATTENDEES')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tabs === 'ATTENDEES' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>ATTENDEES</Button>
         </HStack>
-        <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="lg">
+        <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
           <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
             <IcoSpeaker width="12" height="18" />
             <Text fontSize="md">Speaker</Text>

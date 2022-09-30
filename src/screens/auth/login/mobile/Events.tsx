@@ -19,7 +19,7 @@ const Events = ({ navigation }: any) => {
                 key={i}
                 onPress={() => navigation.navigate('dashboard')}
               >
-                <Box key={i} bg="rgba(0,0,0,0.4)" rounded="lg">
+                <Box key={i} bg="rgba(0,0,0,0.4)" rounded="10">
                   <Center borderBottomColor="rgba(255,255,255,0.2)" borderBottomWidth={1} px="15" py="10px">
                     <Image
                       source={{

@@ -28,11 +28,11 @@ const Detail = ({ navigation }: indexProps) => {
           <Text fontSize="2xl">BACK</Text>
         </HStack>
         <Spacer />
-        <Input rounded="lg" w="60%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+        <Input rounded="10" w="60%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
       </HStack>
 
-      <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="lg" overflow="hidden" mb="3" maxW="100%" w="100%">
-        <Box w="100%" p="4" py="5" rounded="lg">
+      <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
+        <Box w="100%" p="4" py="5" rounded="10">
           <HStack mb="4" space="5">
             <Avatar
               size="lg"
@@ -94,7 +94,7 @@ const Detail = ({ navigation }: indexProps) => {
           <Button onPress={() => settabs('ATTENDEES')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tabs === 'ATTENDEES' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>GROUPS</Button>
         </HStack>
         <>
-          {tabs === 'ABOUT' && <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="lg">
+          {tabs === 'ABOUT' && <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
               <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
               <Text fontSize="md">About</Text>
@@ -164,7 +164,7 @@ const Detail = ({ navigation }: indexProps) => {
           </Box>}
         </>
         <>
-          {tabs === 'GROUPS' && <Container mb="3" rounded="lg" bg="primary.box" w="100%" maxW="100%">
+          {tabs === 'GROUPS' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
             {[...Array(5)].map((item, k) =>
               <Box w="100%" key={k} borderBottomWidth={k === 4 ? 0 : 1} borderColor="primary.text" py="3">
                 <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
@@ -193,7 +193,7 @@ const Detail = ({ navigation }: indexProps) => {
           </Container>}
         </>
         <>
-          {tabs === 'ATTENDEES' && <Container mb="3" rounded="lg" bg="primary.box" w="100%" maxW="100%">
+          {tabs === 'ATTENDEES' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
             {[...Array(7)].map((item, k) =>
               <Box w="100%" key={k} borderBottomWidth={k === 6 ? 0 : 1} borderColor="primary.text" py="4">
                 <HStack px="4" alignItems="flex-start" space={0} justifyContent="flex-start">

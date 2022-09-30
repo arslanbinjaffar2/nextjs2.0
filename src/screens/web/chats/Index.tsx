@@ -17,7 +17,7 @@ const Index = ({ navigation }: indexProps)  => {
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text textTransform="uppercase" fontSize="2xl">Chats</Text>
           <Spacer />
-          <Input  rounded="lg" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
+          <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
         <HStack mb="3" space={1} justifyContent="center" w="100%">
           <Button onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{fontWeight: '600'}}>CHATS</Button>
@@ -25,7 +25,7 @@ const Index = ({ navigation }: indexProps)  => {
         </HStack>
         <>
           {tab && <>
-            <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="lg">
+            <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
               <HStack borderBottomWidth="1" borderColor="primary.text" w="100%" p="4" space="5">
                 <Avatar
                   source={{
@@ -132,7 +132,7 @@ const Index = ({ navigation }: indexProps)  => {
           
         </>
         <>
-          {!tab && <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="lg">
+          {!tab && <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
             <HStack borderBottomWidth="1" borderColor="primary.text" w="100%" p="4" space="5">
               <Avatar
                 source={{

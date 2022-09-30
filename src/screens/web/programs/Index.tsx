@@ -20,7 +20,7 @@ const Index = ({ navigation }: indexProps) => {
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
         <Text fontSize="2xl">PROGRAMS</Text>
         <Spacer />
-        <Input rounded="lg" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+        <Input rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
       </HStack>
       <HStack mb="3" space={1} justifyContent="center" w="100%">
         <Button onPress={() => settabs('PROGRAM')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tabs === 'PROGRAM' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>PROGRAM</Button>
@@ -28,7 +28,7 @@ const Index = ({ navigation }: indexProps) => {
         <Button onPress={() => settabs('TRACKS')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tabs === 'TRACKS' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>TRACKS</Button>
       </HStack>
       <>
-        {tabs === 'PROGRAM' && <Container mb="3" rounded="lg" bg="primary.box" w="100%" maxW="100%">
+        {tabs === 'PROGRAM' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           <Heading py="1" fontSize="2xl" w="100%" textAlign="center">PROGRAM</Heading>
           <HStack py="1" w="100%" bg="primary.darkbox" space="0" alignItems="center">
             <Center alignItems="flex-start" w="10%">
@@ -144,7 +144,7 @@ const Index = ({ navigation }: indexProps) => {
         </Container>}
       </>
       <>
-        {tabs === 'MY_PROGRAM' && <Container mb="3" rounded="lg" bg="primary.box" w="100%" maxW="100%">
+        {tabs === 'MY_PROGRAM' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {[...Array(5)].map((item, k) =>
             <Box w="100%" key={k} borderBottomWidth={k === 4 ? 0 : 1} borderColor="primary.text" py="3">
               <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
@@ -173,7 +173,7 @@ const Index = ({ navigation }: indexProps) => {
         </Container>}
       </>
       <>
-        {tabs === 'TRACKS' && <Container mb="3" rounded="lg" bg="primary.box" w="100%" maxW="100%">
+        {tabs === 'TRACKS' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {[...Array(5)].map((item, k) =>
             <Box w="100%" key={k} borderBottomWidth={k === 4 ? 0 : 1} borderColor="primary.text" py="3">
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">

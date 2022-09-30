@@ -33,7 +33,7 @@ const Detail = ({ navigation }: indexProps)  => {
           </Avatar>
           
         </HStack>
-        <VStack mb="3" overflow="hidden" bg="primary.box" rounded="lg" w="100%" space="0">
+        <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
           <ScrollView w="100%" minH="450px" py="4" px="3">
             <HStack mb="3" space="0" alignItems="flex-end">
               <Avatar
@@ -45,7 +45,7 @@ const Detail = ({ navigation }: indexProps)  => {
                 SS
                 <Avatar.Badge borderWidth="1" bg="green.500"  />
               </Avatar>
-              <VStack ml="3" maxW="320" px="3" py="3" rounded="lg" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
+              <VStack ml="3" maxW="320" px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
                 <Text lineHeight="sm" pr="3" fontSize="lg">Hello John, what are you going to do this weekend?</Text>
                 <Text opacity="0.8" fontSize="md">17:45</Text>
               </VStack>
@@ -61,7 +61,7 @@ const Detail = ({ navigation }: indexProps)  => {
                 SS
                 <Avatar.Badge borderWidth="1" bg="green.500"  />
               </Avatar>
-              <VStack mr="3" maxW="320" px="3" py="3" rounded="lg" borderBottomRightRadius="0" bg="#3F89D0" space="1">
+              <VStack mr="3" maxW="320" px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="#3F89D0" space="1">
                 <Text lineHeight="sm" pr="3" fontSize="lg">Nothing planned, and you?</Text>
                 <Text opacity="0.8" textAlign="right" fontSize="md">17:45</Text>
               </VStack>
@@ -75,7 +75,7 @@ const Detail = ({ navigation }: indexProps)  => {
               <Text fontSize="lg">Write Message </Text>
             </HStack>
             <VStack p="1" w="100%" space="0">
-              <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" boxShadow="none" _focus={{bg: 'transparent', borderColor: 'transparent' ,boxShadow: 'none'}} _hover={{borderWidth: 0,boxShadow: 'none',borderColor: 'transparent' }} rounded="lg" varient="unstyled" w="100%" p="4" placeholder="Your message…"  />
+              <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" boxShadow="none" _focus={{bg: 'transparent', borderColor: 'transparent' ,boxShadow: 'none'}} _hover={{borderWidth: 0,boxShadow: 'none',borderColor: 'transparent' }} rounded="10" varient="unstyled" w="100%" p="4" placeholder="Your message…"  />
               <HStack  mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
                 <IconButton
                   variant="transparent"
@@ -118,7 +118,7 @@ const Detail = ({ navigation }: indexProps)  => {
           alt="Alternate Text"
           w="100%"
           h="150px"
-          rounded="lg"
+          rounded="10"
           
         />
         
