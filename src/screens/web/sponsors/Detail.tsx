@@ -100,7 +100,7 @@ const Detail = ({ navigation }: indexProps) => {
       <Container mb="3" maxW="100%" w="100%">
         <Text mb="3" fontSize="lg" textTransform="uppercase">Available Survey</Text>
         <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
-          <Box py="2" px="3" w="100%">
+          <Box py="3" px="4" w="100%">
             <Text mb="3" fontSize="lg">Tillykke med valget som tilli…</Text>
             <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
               <Box bg="primary.500" h="22px" w="33.33%" />
@@ -108,52 +108,42 @@ const Detail = ({ navigation }: indexProps) => {
               <Box bg="transparent" h="22px" w="33.33%" />
                 
             </HStack>
-            <MultipleAnswer req={true} title="What types of workouts will I be doing on DAMY Programs? Does it include cardio and weights?" />
           </Box>
-          <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-            <Icodocument width="15px" height="18px" />
-            <Text fontSize="lg">Write comment</Text>
-          </HStack>
-          <Box py="2" px="3" w="100%">
-            <TextArea
-              h="50px"
-              overflow="auto"
-              focusOutlineColor="transparent"
-              _focus={{bg: 'transparent'}}
-              borderWidth="0" fontSize="md" placeholder="Please write your comment here …"  />
+          <MultipleAnswer req={true} title="What types of workouts will I be doing on DAMY Programs? Does it include cardio and weights?" />
+          <Box py="0" px="4" w="100%">
             <Divider mb="15" opacity={0.27} bg="primary.text" />
-          </Box>
-          <HStack mb="3" px="3" space="3" alignItems="center">
-            <Button
-              bg="transparent"
-              p="2"
-              textTransform={'uppercase'}
-              fontSize="lg"
-              leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
-              colorScheme="primary"
-              onPress={()=>{
-                console.log('hello')
-              }}
+            <HStack mb="3" space="3" alignItems="center">
+              <Button
+                bg="transparent"
+                p="2"
+                textTransform={'uppercase'}
+                fontSize="lg"
+                leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
+                colorScheme="primary"
+                onPress={()=>{
+                  console.log('hello')
+                }}
             
-            >
+              >
               previous
-            </Button>
-            <Spacer />
-            <Button
-              bg="transparent"
-              p="2"
-              textTransform={'uppercase'}
-              fontSize="lg"
-              rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
-              colorScheme="primary"
-              onPress={()=>{
-                console.log('hello')
-              }}
+              </Button>
+              <Spacer />
+              <Button
+                bg="transparent"
+                p="2"
+                textTransform={'uppercase'}
+                fontSize="lg"
+                rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                colorScheme="primary"
+                onPress={()=>{
+                  console.log('hello')
+                }}
             
-            >
+              >
               next
-            </Button>
-          </HStack>
+              </Button>
+            </HStack>
+          </Box>
         </Box>
         
       </Container>

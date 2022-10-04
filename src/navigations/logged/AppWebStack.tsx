@@ -15,6 +15,8 @@ import ChatList from '@src/screens/web/chats/Index';
 import ChatClient from '@src/screens/web/chats/Detail';
 import SponsorsList from '@src/screens/web/sponsors/Index';
 import SponsorsDetail from '@src/screens/web/sponsors/Detail';
+import PollsList from '@src/screens/web/polls/Index';
+import PollsDetail from '@src/screens/web/polls/Detail';
 
 const Stack = createNativeStackNavigator();
 
@@ -80,6 +82,14 @@ const Sponsors = () => {
     </Stack.Navigator>
   )
 }
+const Polls = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={PollsList} />
+      <Stack.Screen options={{ headerShown: false }} name="detail" component={PollsDetail} />
+    </Stack.Navigator>
+  )
+}
 
 const AppWebStack = () => {
   return (
@@ -93,6 +103,7 @@ const AppWebStack = () => {
       <Stack.Screen options={{ headerShown: false }} name="maps" component={Maps} />
       <Stack.Screen options={{ headerShown: false }} name="chats" component={Chats} />
       <Stack.Screen options={{ headerShown: false }} name="sponsors" component={Sponsors} />
+      <Stack.Screen options={{ headerShown: false }} name="polls" component={Polls} />
     </Stack.Navigator>
   )
 }
