@@ -17,6 +17,9 @@ import SponsorsList from '@src/screens/web/sponsors/Index';
 import SponsorsDetail from '@src/screens/web/sponsors/Detail';
 import PollsList from '@src/screens/web/polls/Index';
 import PollsDetail from '@src/screens/web/polls/Detail';
+import SocialMediaList from '@src/screens/web/social-media/Index';
+import NetworkList from '@src/screens/web/network-interest/Index';
+import QuestionList from '@src/screens/web/qa/Index';
 
 const Stack = createNativeStackNavigator();
 
@@ -90,6 +93,27 @@ const Polls = () => {
     </Stack.Navigator>
   )
 }
+const SocialMedia = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={SocialMediaList} />
+    </Stack.Navigator>
+  )
+}
+const NetworkInterest = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={NetworkList} />
+    </Stack.Navigator>
+  )
+}
+const QuestionAnswers = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={QuestionList} />
+    </Stack.Navigator>
+  )
+}
 
 const AppWebStack = () => {
   return (
@@ -104,6 +128,9 @@ const AppWebStack = () => {
       <Stack.Screen options={{ headerShown: false }} name="chats" component={Chats} />
       <Stack.Screen options={{ headerShown: false }} name="sponsors" component={Sponsors} />
       <Stack.Screen options={{ headerShown: false }} name="polls" component={Polls} />
+      <Stack.Screen options={{ headerShown: false }} name="social-media" component={SocialMedia} />
+      <Stack.Screen options={{ headerShown: false }} name="network-interest" component={NetworkInterest} />
+      <Stack.Screen options={{ headerShown: false }} name="qa" component={QuestionAnswers} />
     </Stack.Navigator>
   )
 }

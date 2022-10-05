@@ -9,7 +9,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { func } from './src/styles';
 import * as Font from 'expo-font';
 import colors from './src/styles/colors'
-import { color } from 'react-native-reanimated';
 const config = {
   dependencies: {
     'linear-gradient': LinearGradient
