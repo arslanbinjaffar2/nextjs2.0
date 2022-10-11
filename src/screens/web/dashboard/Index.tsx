@@ -30,10 +30,10 @@ const Index = ({ navigation }: indexProps) => {
         <Button onPress={() => setTab('speakerlist')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>SPEAKERS LIST</Button>
       </HStack>
       <>
-        {tab === "qa" && (
+        {tab === 'qa' && (
           <QAListing />
         )}
-        {tab === "speakerlist" && (
+        {tab === 'speakerlist' && (
           <SpeakerListing />
         )}
       </>

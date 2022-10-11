@@ -20,6 +20,9 @@ import PollsDetail from '@src/screens/web/polls/Detail';
 import SocialMediaList from '@src/screens/web/social-media/Index';
 import NetworkList from '@src/screens/web/network-interest/Index';
 import QuestionList from '@src/screens/web/qa/Index';
+import QuestionDetail from '@src/screens/web/qa/Detail';
+import FloorPlansList from '@src/screens/web/floor-plan/Index';
+import SocialWallList from '@src/screens/web/social-wall/Index';
 
 const Stack = createNativeStackNavigator();
 
@@ -69,6 +72,20 @@ const Maps = () => {
     </Stack.Navigator>
   )
 }
+const FloorPlans = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={FloorPlansList} />
+    </Stack.Navigator>
+  )
+}
+const SocialWall = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="index" component={SocialWallList} />
+    </Stack.Navigator>
+  )
+}
 const Chats = () => {
   return (
     <Stack.Navigator>
@@ -111,6 +128,7 @@ const QuestionAnswers = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{ headerShown: false }} name="index" component={QuestionList} />
+      <Stack.Screen options={{ headerShown: false }} name="detail" component={QuestionDetail} />
     </Stack.Navigator>
   )
 }
@@ -131,6 +149,8 @@ const AppWebStack = () => {
       <Stack.Screen options={{ headerShown: false }} name="social-media" component={SocialMedia} />
       <Stack.Screen options={{ headerShown: false }} name="network-interest" component={NetworkInterest} />
       <Stack.Screen options={{ headerShown: false }} name="qa" component={QuestionAnswers} />
+      <Stack.Screen options={{ headerShown: false }} name="floor-plans" component={FloorPlans} />
+      <Stack.Screen options={{ headerShown: false }} name="social-wall" component={SocialWall} />
     </Stack.Navigator>
   )
 }

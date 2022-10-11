@@ -11,7 +11,7 @@ const Splash = ({ navigation }: any) => {
       <Center w={'100%'} flex={1} px={15}>
         <View alignItems="center" justifyContent="center" w="100%" h="100%">
           <Flex justify="flex-end" p="0" w="100%" h={'50%'}>
-            <Image alt='logo' source={images.Logo} w="240" h="52" alignSelf={'center'} />
+            <Image alt='logo' source={images?.Logo} w="240" h="52" alignSelf={'center'} />
           </Flex>
           <Flex justify="center" align="center" w="100%" h={'50%'}>
             <Text fontSize={'34px'} textTransform={'uppercase'} mb="1">Welcome</Text>

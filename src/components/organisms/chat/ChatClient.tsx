@@ -29,7 +29,7 @@ const ChatClient = () => {
         <TextArea p="1" colorScheme="transparent" fontSize="lg" w="90%" borderWidth="0" bg="transparent" placeholder="Deltag i debattn…" />
       </HStack>
       <HStack px="3" py="2" space="3" alignItems="center">
-        <Checkbox my="0" colorScheme={'white'} value="checkbox">Send anonymously</Checkbox>
+        <Checkbox my="0" value="checkbox">Send anonymously</Checkbox>
         <Spacer />
         <IconButton
           variant="transparent"
