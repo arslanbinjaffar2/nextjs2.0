@@ -69,11 +69,11 @@ const Index = ({ navigation }: indexProps)  => {
                   }}
                   
                 />
+                <Divider w="1px" h="10" bg="primary.text" type="horizontal" />
+                
                 <IconButton
                   w="50%"
                   rounded="0"
-                  borderLeftWidth="1"
-                  borderLeftColor="primary.text"
                   variant="unstyled"
                   _hover={{bg: 'primary.secondary'}}
                   icon={<Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />}
@@ -106,6 +106,8 @@ const Index = ({ navigation }: indexProps)  => {
           
         </Box>
         <Box w="100%">
+          <SocialPost />
+          <SocialPost />
           <SocialPost />
         </Box>
         
