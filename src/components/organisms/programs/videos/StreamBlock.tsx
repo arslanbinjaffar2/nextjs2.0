@@ -3,7 +3,7 @@ import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { Box, Center, Flex, HStack, Icon, Text, View, Image } from 'native-base'
-import { Pressable } from 'react-native';
+import { Pressable, useWindowDimensions } from 'react-native';
 import IcoRaiseHand from '@src/assets/icons/IcoRaiseHand';
 import Icoexpand from '@src/assets/icons/Icoexpand';
 import Icomute from '@src/assets/icons/Icomute';
@@ -11,10 +11,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const StreamBlock = () => {
   const video = React.useRef(null);
+  const {width} = useWindowDimensions();
   return (
     <View mb="3" w="100%">
       <View mb="4" overflow="hidden" w="100%" bg="primary.box" rounded="10">
-        <Box overflow="hidden" rounded="10" position="relative" h="335px" >
+        <Box overflow="hidden" rounded="10" position="relative">
           <HStack right="3" top="3" zIndex="99" position="absolute" space="3" alignItems="center">
             <Text color="#fff" fontSize="2xl" bold>LIVE</Text>
             <Icon as={MaterialIcons} size="3xl" color="#fff" name="wifi" />
@@ -49,7 +50,7 @@ const StreamBlock = () => {
                 console.log('hello')
               }}
             >
-              <Icoexpand width="36" height="36" />
+              <Icoexpand width={width > 725 ? 36 : 28} height={width > 725 ? 36 : 28} />
             </Pressable>
             <Pressable
               p="2"
@@ -57,7 +58,7 @@ const StreamBlock = () => {
                 console.log('hello')
               }}
             >
-              <Icomute width="36" height="36" />
+              <Icomute width={width > 725 ? 36 : 28} height={width > 725 ? 36 : 28} />
             </Pressable>
           </HStack>
         </HStack>

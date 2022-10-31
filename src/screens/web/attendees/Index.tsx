@@ -13,6 +13,8 @@ type indexProps = {
 
 const Index = ({ navigation }: indexProps) => {
   const [tabs, settabs] = useState<string | null>('PROGRAM');
+  const alpha = Array.from(Array(26)).map((e, i) => i + 65);
+  const alphabet = alpha.map((x) => String.fromCharCode(x));
   return (
     <Master navigation={navigation}>
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
@@ -26,7 +28,12 @@ const Index = ({ navigation }: indexProps) => {
         <Button onPress={() => settabs('TRACKS')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tabs === 'TRACKS' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>GROUPS</Button>
       </HStack>
       <>
-        {tabs === 'PROGRAM' && <Container overflow="hidden" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+        {tabs === 'PROGRAM' && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+          <VStack w="20px" position="absolute" right="-20px" top="0" space="1">
+            {alphabet && alphabet.map((item,k) =>
+              <Text textAlign="center" color="primary.text" opacity="0.5" key={k} fontSize="md">{item}</Text>
+            )}
+          </VStack>
           <Text w="100%" pl="18px" bg="primary.darkbox">A</Text>
           {[...Array(3)].map((item, k) =>
             <React.Fragment key={`item-box-${k}`}>

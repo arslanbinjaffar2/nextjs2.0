@@ -20,13 +20,15 @@ const ChatClient = () => {
       </Center>
       <HStack px="3" space="3" alignItems="flex-start" justifyContent="space-between">
         <Avatar
+          w="47px"
+          h="47px"
           source={{
             uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
           }}
         >
                     HS
         </Avatar>
-        <TextArea p="1" colorScheme="transparent" fontSize="lg" w="90%" borderWidth="0" bg="transparent" placeholder="Deltag i debattn…" />
+        <TextArea p="1" colorScheme="transparent" fontSize="lg" w="calc(100% - 60px)" borderWidth="0" bg="transparent" placeholder="Deltag i debattn…" />
       </HStack>
       <HStack px="3" py="2" space="3" alignItems="center">
         <Checkbox my="0" value="checkbox">Send anonymously</Checkbox>
