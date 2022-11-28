@@ -1,3 +1,3 @@
-import { HomeScreen } from 'app/features/home/screen'
+import Login from 'app/screens/auth/login/web/Login'
 
-export default HomeScreen
+export default Login
