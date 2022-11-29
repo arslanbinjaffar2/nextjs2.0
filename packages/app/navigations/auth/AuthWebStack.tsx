@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
-import WebLogin from 'screens/auth/login/web/Login';
+import WebLogin from 'app/screens/auth/login/web/Login';
 import NavigationBack from 'app/components/atoms/NavigationBack';
 
 const Stack = createNativeStackNavigator();

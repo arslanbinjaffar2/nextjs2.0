@@ -2,10 +2,10 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
-import Splash from 'screens/Splash';
-import Login from 'screens/auth/login/mobile/Login';
-import LoginByEmail from 'screens/auth/login/mobile/LoginByEmail';
-import Events from 'screens/auth/login/mobile/Events';
+import Splash from 'app/screens/Splash';
+import Login from 'app/screens/auth/login/mobile/Login';
+import LoginByEmail from 'app/screens/auth/login/mobile/LoginByEmail';
+import Events from 'app/screens/auth/login/mobile/Events';
 import NavigationBack from 'app/components/atoms/NavigationBack';
 
 const Stack = createNativeStackNavigator();

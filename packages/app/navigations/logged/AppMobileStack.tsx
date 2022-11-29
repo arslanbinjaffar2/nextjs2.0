@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Platform } from 'react-native';
-import Index from 'screens/mobile/dashboard/Index';
+import Index from 'app/screens/mobile/dashboard/Index';
 import colors from 'app/styles/colors';
 import DrawerLayout from 'app/containers/mobile/DrawerLayout';
 
