@@ -16,6 +16,5 @@
     "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
-  "extends": "../../tsconfig"
+  "exclude": ["node_modules"]
 }
