@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Container, HStack, Icon, IconButton, Image, Spacer, Text, VStack } from 'native-base';
-import { SimpleLineIcons } from '@expo/vector-icons';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Master from 'app/screens/web/layouts/Master';
 
 type indexProps = {

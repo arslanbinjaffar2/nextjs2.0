@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react'
-import { MaterialIcons } from '@expo/vector-icons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { Box, Center, Flex, HStack, Icon, Text, View, Image } from 'native-base'
 import { Pressable, useWindowDimensions } from 'react-native';
@@ -11,7 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const StreamBlock = () => {
   const video = React.useRef(null);
-  const {width} = useWindowDimensions();
+  const { width } = useWindowDimensions();
   return (
     <View mb="3" w="100%">
       <View mb="4" overflow="hidden" w="100%" bg="primary.box" rounded="10">

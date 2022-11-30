@@ -12,28 +12,20 @@ const Stack = createNativeStackNavigator();
 const RootStack = () => {
   return (
     <>
-      <NavigationContainer linking>
-
-        <Stack.Navigator initialRouteName="auth">
-
-          {Platform.OS !== 'web' && (
-            <>
-              <Stack.Screen options={{ headerShown: false }} name="auth" component={AuthMobileStack} />
-              <Stack.Screen options={{ headerShown: false }} name="dashboard" component={AppMobileStack} />
-            </>
-          )}
-
-          {Platform.OS === 'web' && (
-            <>
-              <Stack.Screen options={{ headerShown: false }} name="auth" component={AuthWebStack} />
-              <Stack.Screen options={{ headerShown: false }} name="dashboard" component={AppWebStack} />
-            </>
-          )}
-          
-        </Stack.Navigator>
-
-      </NavigationContainer>
-
+      <Stack.Navigator initialRouteName="auth">
+        {Platform.OS !== 'web' && (
+          <>
+            <Stack.Screen options={{ headerShown: false }} name="auth" component={AuthMobileStack} />
+            <Stack.Screen options={{ headerShown: false }} name="dashboard" component={AppMobileStack} />
+          </>
+        )}
+        {Platform.OS === 'web' && (
+          <>
+            <Stack.Screen options={{ headerShown: false }} name="auth" component={AuthWebStack} />
+            <Stack.Screen options={{ headerShown: false }} name="dashboard" component={AppWebStack} />
+          </>
+        )}
+      </Stack.Navigator>
     </>
   );
 };

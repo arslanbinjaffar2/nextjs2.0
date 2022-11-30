@@ -1,6 +1,6 @@
 import React from 'react'
 import { Avatar, Box, HStack, Icon, Spacer, Text, VStack } from 'native-base'
-import { SimpleLineIcons  } from '@expo/vector-icons'
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'app/assets/icons/Icoribbon'
 
 type boxItemProps = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SimpleLineIcons  } from '@expo/vector-icons'
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { Box, HStack, Spacer, Text, VStack, Pressable, Icon } from 'native-base'
 
 const BoxItem = () => {

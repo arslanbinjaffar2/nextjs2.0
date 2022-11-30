@@ -1,7 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Container, HStack, Icon, Spacer, Text, VStack, Image, Divider, Avatar, TextArea, Button, IconButton, ZStack, Select, Checkbox, Center } from 'native-base';
-import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
 import Master from 'app/screens/web/layouts/Master';
 import { useState } from 'react';
 import IcoHistory from 'app/assets/icons/IcoHistory';

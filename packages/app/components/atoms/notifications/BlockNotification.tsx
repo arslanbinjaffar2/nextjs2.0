@@ -1,5 +1,5 @@
 import React from 'react'
-import { MaterialIcons } from '@expo/vector-icons'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { Box, Heading, HStack, Icon, Text } from 'native-base';
 
 type AppProps = {

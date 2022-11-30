@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React from 'react';
-import { SimpleLineIcons } from '@expo/vector-icons'
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { Avatar, Box, Button, Center, HStack, Icon, IconButton, Pressable, Spacer, Text, VStack } from 'native-base'
 import IcoRaiseHand from 'app/assets/icons/IcoRaiseHand';
 

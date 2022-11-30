@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Box, Button, Container, Heading, HStack, Icon, Image, Input, Spacer, Text, VStack} from 'native-base';
 import Master from 'app/screens/web/layouts/Master';
-import {AntDesign} from '@expo/vector-icons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 
 type indexProps = {

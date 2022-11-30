@@ -1,12 +1,15 @@
 import { NavigationProvider } from './navigation'
-import React from 'react'
-import { NativeBaseProvider, extendTheme } from 'native-base'
+import { NativeBaseProvider, extendTheme } from 'native-base';
+import * as SplashScreen from 'expo-splash-screen';
+import React, { useState, useEffect } from 'react';
 import colors from 'app/styles/colors'
 import { LinearGradient } from 'expo-linear-gradient';
 import { func } from 'app/styles';
 import * as Font from 'expo-font';
 
 export function Provider({ children }: { children: React.ReactNode }) {
+
+  const [appIsReady, setAppIsReady] = useState(false);
 
   const config = {
     dependencies: {
@@ -95,11 +98,10 @@ export function Provider({ children }: { children: React.ReactNode }) {
     },
   });
 
-  const [appIsReady, setAppIsReady] = React.useState(false);
-
-  React.useEffect(() => {
+  useEffect(() => {
     async function prepare() {
       try {
+        await SplashScreen.preventAutoHideAsync();
         func.loadAssetsAsync;
         await Font.loadAsync({
           'avenir': require('app/assets/fonts/AvenirNextCondensed.ttf'),
@@ -114,6 +116,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
         console.warn(e);
       } finally {
         setAppIsReady(true);
+        await SplashScreen.hideAsync();
       }
     }
     void prepare();

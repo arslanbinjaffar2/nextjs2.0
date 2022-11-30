@@ -1,26 +1,26 @@
 
 import * as React from 'react';
-import { MaterialIcons } from '@expo/vector-icons'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { Center, Flex, Image, Pressable, Icon, Box, View, VStack, HStack, Divider, Heading } from 'native-base';
 import { images } from 'app/styles'
 import NotificationMenu from 'app/components/atoms/header/NotificationMenu';
 import BlockNotification from 'app/components/atoms/notifications/BlockNotification';
 
-const HeaderWebMobile = ({navigation,minimal}: any) => {
+const HeaderWebMobile = ({ navigation, minimal }: any) => {
 
   return (
     <View w="100%">
       <Flex direction="row" alignItems="center" safeAreaTop>
         <Center alignItems="flex-start" pt="10px" w="75px">
           <Pressable
-            onPress={()=>{
+            onPress={() => {
               console.log('here')
             }}
           >
-            <Icon size="3xl" color="primary.text" as={MaterialIcons} name="menu"  />
+            <Icon size="3xl" color="primary.text" as={MaterialIcons} name="menu" />
           </Pressable>
         </Center>
-        <Center  w="calc(100% - 150px)"><Image alt='logo' source={images.Logo} w="180px" h="39px" alignSelf={'center'} /></Center>
+        <Center w="calc(100% - 150px)"><Image alt='logo' source={images.Logo} w="180px" h="39px" alignSelf={'center'} /></Center>
         <Center alignItems="flex-end" w="75px">
           <NotificationMenu />
         </Center>
@@ -46,4 +46,4 @@ const HeaderWebMobile = ({navigation,minimal}: any) => {
   )
 }
 
-export default  HeaderWebMobile;
+export default HeaderWebMobile;

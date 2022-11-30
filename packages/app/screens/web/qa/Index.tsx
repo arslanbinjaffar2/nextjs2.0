@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Box, Button, Container, Heading, HStack, Icon, IconButton, Image, Input, Spacer, Text, VStack, ZStack} from 'native-base';
 import Master from 'app/screens/web/layouts/Master';
-import {AntDesign,Entypo,Ionicons,SimpleLineIcons} from '@expo/vector-icons';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import BoxItem from 'app/components/atoms/exhibitors/BoxItem';
 import IcoExhibitors from 'app/assets/icons/IcoExhibitors';
 

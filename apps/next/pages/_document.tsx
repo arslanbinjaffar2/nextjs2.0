@@ -14,6 +14,10 @@ import MaterialIconsFont from "react-native-vector-icons/Fonts/MaterialIcons.ttf
 import OcticonsFont from "react-native-vector-icons/Fonts/Octicons.ttf";
 import SimpleLineIconsFont from "react-native-vector-icons/Fonts/SimpleLineIcons.ttf";
 import ZocialFont from "react-native-vector-icons/Fonts/Zocial.ttf";
+import AvenirNextCondensed from "app/assets/fonts/AvenirNextCondensed.ttf";
+import AvenirNextCondensedMedium from "app/assets/fonts/AvenirNextCondensed-Medium.ttf";
+import AvenirNextCondensedDemiBold from "app/assets/fonts/AvenirNextCondensed-DemiBold.ttf";
+import AvenirNextCondensedBold from "app/assets/fonts/AvenirNextCondensedBold.ttf";
 import * as React from "react";
 import { AppRegistry } from "react-native";
 
@@ -32,6 +36,30 @@ class Document extends NativebaseDocument {
 }
 
 export const style = `
+@font-face {
+  src: url(${AvenirNextCondensed});
+  font-family: Avenir;
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  src: url(${AvenirNextCondensedMedium});
+  font-family: Avenir;
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  src: url(${AvenirNextCondensedDemiBold});
+  font-family: Avenir;
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  src: url(${AvenirNextCondensedBold});
+  font-family: Avenir;
+  font-weight: 700;
+  font-style: normal;
+}
 @font-face {
   src: url(${EntypoFont});
   font-family: Entypo;

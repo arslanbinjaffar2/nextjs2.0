@@ -1,8 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Input, Spacer, Text, VStack, ZStack, Image, Divider, Avatar, Pressable } from 'native-base';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { SimpleLineIcons } from '@expo/vector-icons'
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Master from 'app/screens/web/layouts/Master';
 import { useState } from 'react';
 import IcoCheckin from 'app/assets/icons/IcoCheckin';

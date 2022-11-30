@@ -5,6 +5,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'app/assets/icons/IcoLongArrow';
 import { images } from 'app/styles';
 import BackgroundLayout from 'app/screens/web/layouts/BackgroundLayout';
+import { Link as SolitoLink } from 'solito/link'
+
 const Login = ({ navigation }: any) => {
   return (
     <BackgroundLayout>
@@ -15,17 +17,17 @@ const Login = ({ navigation }: any) => {
             <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the event code you have received from your organizer.</Text>
             <Input type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder="Email" />
             <Input type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder="Password" />
-            <Button
-              maxW={'230px'}
-              w={'100%'}
-              minH='48px'
-              endIcon={<IcoLongArrow />}
-              _hover={{ bg: 'primary.secondary' }}
-              onPress={() => {
-                navigation.navigate('dashboard')
-              }}
-            >
-            </Button>
+            <SolitoLink href="/dashboard">
+              <Button
+                maxW={'230px'}
+                w={'100%'}
+                minH='48px'
+                endIcon={<IcoLongArrow />}
+                _hover={{ bg: 'primary.secondary' }}
+                pointerEvents="none"
+              >
+              </Button>
+            </SolitoLink>
           </VStack>
         </Flex>
       </Center>

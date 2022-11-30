@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import { Dimensions } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { Center, Flex, Image, Pressable, Icon, Box, View, VStack, HStack } from 'native-base';
 import { images } from 'app/styles'
 import IcoBell from 'app/assets/icons/IcoBell'

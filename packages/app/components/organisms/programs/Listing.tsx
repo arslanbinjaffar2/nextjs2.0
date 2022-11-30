@@ -1,5 +1,5 @@
 import React from 'react';
-import { SimpleLineIcons } from '@expo/vector-icons'
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { Button, Center, Container, Heading, HStack, Icon, IconButton } from 'native-base';
 import BlockView from 'app/components/atoms/programs/BlockView';
 
