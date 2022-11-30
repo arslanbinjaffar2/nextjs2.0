@@ -10,7 +10,7 @@ import NavigationBack from 'app/components/atoms/NavigationBack';
 
 const Stack = createNativeStackNavigator();
 
-const AuthMobileStack = () => {
+const AuthStack = () => {
 
   const _options = {
     headerShown: Platform.OS === 'web' ? false : true,
@@ -55,4 +55,4 @@ const AuthMobileStack = () => {
   )
 }
 
-export default AuthMobileStack
+export default AuthStack

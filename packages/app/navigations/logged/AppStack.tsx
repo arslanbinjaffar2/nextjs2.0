@@ -8,7 +8,7 @@ import DrawerLayout from 'app/containers/mobile/DrawerLayout';
 
 const Drawer = createDrawerNavigator();
 
-const AppMobileStack = () => {
+const AppStack = () => {
   return (
     Platform.OS !== 'web' && (
       <Drawer.Navigator
@@ -25,4 +25,4 @@ const AppMobileStack = () => {
   )
 }
 
-export default AppMobileStack
+export default AppStack
