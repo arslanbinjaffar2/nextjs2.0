@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import RootStack from 'app/navigations/RootStack';
 import { Provider } from 'app/provider'
 

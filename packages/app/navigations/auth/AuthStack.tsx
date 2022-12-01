@@ -1,10 +1,9 @@
 
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Platform } from 'react-native';
-import Splash from 'app/screens/Splash';
-import Login from 'app/screens/auth/login/mobile/Login';
-import LoginByEmail from 'app/screens/auth/login/mobile/LoginByEmail';
+import Welcome from 'app/screens/Welcome';
+import FindEventCode from 'app/screens/auth/login/mobile/FindEventCode';
+import FindEmail from 'app/screens/auth/login/mobile/FindEmail';
 import Events from 'app/screens/auth/login/mobile/Events';
 import NavigationBack from 'app/components/atoms/NavigationBack';
 
@@ -13,7 +12,7 @@ const Stack = createNativeStackNavigator();
 const AuthStack = () => {
 
   const _options = {
-    headerShown: Platform.OS === 'web' ? false : true,
+    headerShown: true,
     headerTransparent: true,
     headerTitleAlign: 'center',
     headerStyle: { height: 80 },
@@ -32,24 +31,24 @@ const AuthStack = () => {
       <Stack.Group>
         <Stack.Screen
           name="welcome"
-          component={Splash}
+          component={Welcome}
           options={{ title: 'Welcome', headerShown: false }}
         />
         <Stack.Screen
           name="event-code-login"
-          component={Login}
+          component={FindEventCode}
           options={{ ..._options, title: 'Login with event code' }}
         />
       </Stack.Group>
       <Stack.Screen
         name="email-login"
-        component={LoginByEmail}
+        component={FindEmail}
         options={{ ..._options, title: 'Login with email' }}
       />
       <Stack.Screen
-        name="event-list"
+        name="events"
         component={Events}
-        options={{ ..._options, title: 'Event list' }}
+        options={{ ..._options, title: 'Event lists' }}
       />
     </Stack.Navigator>
   )

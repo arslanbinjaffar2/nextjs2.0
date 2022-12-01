@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { images } from 'app/styles';
 import Layout from 'app/containers/mobile/Layout';
 import { Button, Center, Flex, Text, VStack, Image, View } from 'native-base';
+import { Link as SolitoLink } from 'solito/link'
 
-const Splash = ({ navigation }: any) => {
+const Welcome = ({ navigation }: any) => {
 
   return (
     <Layout>
@@ -16,12 +17,16 @@ const Splash = ({ navigation }: any) => {
           <Flex justify="center" align="center" w="100%" h={'50%'}>
             <Text fontSize={'34px'} textTransform={'uppercase'} mb="1">Welcome</Text>
             <VStack w="100%" space={4} alignItems="center">
-              <Button _text={{ fontSize: '22px' }} bg="black" size={'lg'} w="100%" shadow={2} onPress={() => navigation.navigate('event-code-login')}>
-                LOGIN WITH EVENT CODE
-              </Button>
-              <Button _text={{ fontSize: '22px' }} w="100%" size={'lg'} shadow={2} onPress={() => navigation.navigate('email-login')}>
-                LOGIN WITH EMAIL
-              </Button>
+              <SolitoLink href="/event-code-login" viewProps={{ style: { width: '100%' } }}>
+                <Button pointerEvents="none" _text={{ fontSize: '22px' }} bg="black" size={'lg'} shadow={2}>
+                  LOGIN WITH EVENT CODE
+                </Button>
+              </SolitoLink>
+              <SolitoLink href="/email-login" viewProps={{ style: { width: '100%' } }}>
+                <Button pointerEvents="none" _text={{ fontSize: '22px' }} size={'lg'} shadow={2}>
+                  LOGIN WITH EMAIL
+                </Button>
+              </SolitoLink>
             </VStack>
           </Flex>
         </View>
@@ -31,8 +36,8 @@ const Splash = ({ navigation }: any) => {
 
 };
 
-Splash.propTypes = {
+Welcome.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default Splash;
+export default Welcome;

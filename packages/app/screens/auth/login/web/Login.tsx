@@ -17,10 +17,8 @@ const Login = ({ navigation }: any) => {
             <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the event code you have received from your organizer.</Text>
             <Input type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder="Email" />
             <Input type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder="Password" />
-            <SolitoLink href="/dashboard">
+            <SolitoLink viewProps={{ style: { maxWidth: 230, width: '100%' } }} href="/dashboard">
               <Button
-                maxW={'230px'}
-                w={'100%'}
                 minH='48px'
                 endIcon={<IcoLongArrow />}
                 _hover={{ bg: 'primary.secondary' }}
