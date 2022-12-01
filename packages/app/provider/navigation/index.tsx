@@ -20,6 +20,7 @@ export function NavigationProvider({
               'event-code-login': 'event-code-login',
               'email-login': 'email-login',
               'events': 'events',
+              'dashboard': 'dashboard',
             },
           },
         }),

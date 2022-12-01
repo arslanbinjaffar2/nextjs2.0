@@ -22,7 +22,7 @@ const StreamBlock = () => {
           </HStack>
           <Video
             ref={video}
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: 320, height: 200 }}
             source={{
               uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
             }}

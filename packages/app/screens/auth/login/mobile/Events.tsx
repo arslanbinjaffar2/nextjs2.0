@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { Button, Center, Flex, Text, Image, HStack, VStack, Box, ScrollView, Pressable } from 'native-base';
 import Layout from 'app/containers/mobile/Layout';
+import { Link as SolitoLink } from 'solito/link';
 
 const Events = ({ navigation }: any) => {
   return (
@@ -15,10 +16,7 @@ const Events = ({ navigation }: any) => {
         <ScrollView w="100%">
           <VStack pb={50} space="10px" w="100%">
             {[...Array(10).keys()].map((i) =>
-              <Pressable
-                key={i}
-                onPress={() => navigation.navigate('dashboard')}
-              >
+              <SolitoLink href="/dashboard">
                 <Box key={i} bg="rgba(0,0,0,0.4)" rounded="10">
                   <Center borderBottomColor="rgba(255,255,255,0.2)" borderBottomWidth={1} px="15" py="10px">
                     <Image
@@ -40,7 +38,7 @@ const Events = ({ navigation }: any) => {
                       <Text pl="5px" color="rgba(255,255,255,.7)">22 jun 2021 - 25 jun 2021</Text></Flex>
                   </VStack>
                 </Box>
-              </Pressable>
+              </SolitoLink>
             )}
           </VStack>
         </ScrollView>

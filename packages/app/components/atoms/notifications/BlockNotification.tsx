@@ -17,7 +17,7 @@ const BlockNotification = ({ title, desc, location, date, time }: AppProps) => {
       {title && <Heading fontSize={['md', 'md', 'xl']}>{title}</Heading>}
       {desc && <Text lineHeight="sm" fontSize={['13px','md']}>{desc}</Text>}
       {location && <HStack><Icon h="20px" lineHeight="5" pt="1" size="16px" color="primary.text" as={MaterialIcons} name="location-pin" /><Text fontSize="md"> {location}</Text></HStack>}
-      {(date || time) && <HStack space={['1','3']}>{date && <Text fontSize={['13px','md']}>{date}</Text>} {time && <Text fontSize={['13px','md']}> {time}</Text>}</HStack>}
+      {(date || time) && <HStack space={['1','3']}>{date && <Text fontSize={['13px','md']}>{date}</Text>}{time && <Text fontSize={['13px','md']}> {time}</Text>}</HStack>}
     </Box>
   )
 

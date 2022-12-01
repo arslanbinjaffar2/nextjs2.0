@@ -35,7 +35,7 @@ const DrawerLayout = (props) => {
             onPress={() => { props.navigation.navigate('dashboard') }}>
             <HStack space="2" alignItems="center">
               <IcoMyEvents width="24" height="24" />
-              <Text fontSize={'18px'} color="primary.text" fontWeight="600">Friends</Text>
+              <Text fontSize={'18px'} color="primary.text" fontWeight="600">Dashboard</Text>
             </HStack>
           </Pressable>
         </Box>
