@@ -17,9 +17,11 @@ import IcoPracticalinfo from 'app/assets/icons/IcoPracticalinfo';
 import IcoAdditionalInfo from 'app/assets/icons/IcoAdditionalInfo';
 import IcoGeneralInfo from 'app/assets/icons/IcoGeneralInfo';
 import { useWindowDimensions } from 'react-native';
-import { Link as SolitoLink } from 'solito/link'
+import { useRouter } from 'solito/router'
 
 const Sidebar = ({ navigation }: any) => {
+
+  const { push, replace, back, parseNextPath } = useRouter()
 
   const { width } = useWindowDimensions();
 
@@ -37,142 +39,278 @@ const Sidebar = ({ navigation }: any) => {
         </Flex>
       </Box>
       <Center px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/dashboard">
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/dashboard')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoDashboard width="24" height="24" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Dashboard</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/sponsors">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/sponsors')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoSponsors width="15" height="24" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Sponsors</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/attendees">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/attendees')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoAttendees width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Attendees</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/programs">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/programs')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoProgram width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Programs</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/polls">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/polls')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoPolls width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Polls</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/qa">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/qa')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoQuestionsAnswers width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">QA</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/checkin">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/checkin')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoCheckin width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Check-in</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/documents">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/documents')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoDocuments width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Documents</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/chat">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/chat')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoChat width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Chat</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/floor-plan">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/floor-plan')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoFloorPlan width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Floor plan</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/map">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/map')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoMap width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Map</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/map">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/map')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoNetworkInterest width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Network interest</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/social-media">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/social-media')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoNetworkInterest width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Social media</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/social-wall">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/social-wall')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoSocialWall width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Social wall</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/practical-information">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/practical-information')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoPracticalinfo width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Practical information</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/general-information">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/general-information')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoGeneralInfo width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">General information</Text>}
           </HStack>
-        </SolitoLink>
-        <SolitoLink viewProps={{ style: { width: '100%', paddingLeft: '4px', paddingRight: '4px', paddingTop: '2px', paddingBottom: '2px', borderRadius: '4' } }} href="/event/additional-information">
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            push('/event/additional-information')
+          }}>
           <HStack space="4" alignItems="center">
             <Center align="center" w="30px">
               <IcoAdditionalInfo width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Additional information</Text>}
           </HStack>
-        </SolitoLink>
+        </Pressable>
       </Center>
     </Center>
   );
