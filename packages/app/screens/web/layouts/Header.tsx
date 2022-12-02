@@ -5,10 +5,10 @@ import Icoreload from 'app/assets/icons/Icoreload';
 import { images } from 'app/styles';
 import NotificationMenu from 'app/components/atoms/header/NotificationMenu';
 
-const WebHeader = ({ width, navigation }: any) => {
+const Header = ({ width, navigation }: any) => {
   return (
     <>
-      <Container  maxW="100%" w="100%">
+      <Container maxW="100%" w="100%">
         <HStack w="100%" alignItems="flex-start" space="5">
           <Center overflow="hidden" alignItems="flex-start" w="100%" maxW={width > 1200 ? '265px' : '70px'}>
             <Pressable onPress={() => { console.log('hello') }}>
@@ -17,9 +17,9 @@ const WebHeader = ({ width, navigation }: any) => {
           </Center>
           <Center w="100%" maxW={width > 1200 ? '600px' : '40%'}>
             <VStack pb="0" space={0} w="100%">
-              <Heading isTruncated  fontSize="3xl">JANUAR VISION DANMARK</Heading>
-              <Heading isTruncated  pb="1" fontSize="xl">KØBENHAVN 29 JANUAR 11:30 - 16:30</Heading>
-              <Heading isTruncated  fontSize="lg" bold>DR Koncerthus STUDIO 2, 2300 København S</Heading>
+              <Heading isTruncated fontSize="3xl">JANUAR VISION DANMARK</Heading>
+              <Heading isTruncated pb="1" fontSize="xl">KØBENHAVN 29 JANUAR 11:30 - 16:30</Heading>
+              <Heading isTruncated fontSize="lg" bold>DR Koncerthus STUDIO 2, 2300 København S</Heading>
             </VStack>
           </Center>
           <Spacer />
@@ -36,4 +36,4 @@ const WebHeader = ({ width, navigation }: any) => {
   );
 }
 
-export default WebHeader;
+export default Header;

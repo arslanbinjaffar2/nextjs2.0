@@ -19,7 +19,7 @@ import IcoGeneralInfo from 'app/assets/icons/IcoGeneralInfo';
 import { useWindowDimensions } from 'react-native';
 import { useRouter } from 'solito/router'
 
-const Sidebar = ({ navigation }: any) => {
+const LeftBar = ({ navigation }: any) => {
 
   const { push, replace, back, parseNextPath } = useRouter()
 
@@ -317,4 +317,4 @@ const Sidebar = ({ navigation }: any) => {
 
 }
 
-export default Sidebar;
+export default LeftBar;

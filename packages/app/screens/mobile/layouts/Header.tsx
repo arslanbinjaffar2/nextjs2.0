@@ -6,7 +6,7 @@ import { images } from 'app/styles'
 import NotificationMenu from 'app/components/atoms/header/NotificationMenu';
 import BlockNotification from 'app/components/atoms/notifications/BlockNotification';
 
-const HeaderWebMobile = ({ navigation, minimal }: any) => {
+const Header = ({ navigation, minimal }: any) => {
 
   return (
     <View w="100%">
@@ -46,4 +46,4 @@ const HeaderWebMobile = ({ navigation, minimal }: any) => {
   )
 }
 
-export default HeaderWebMobile;
+export default Header;
