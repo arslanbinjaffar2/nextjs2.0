@@ -65,11 +65,8 @@ const Index = ({ navigation }: indexProps) => {
               </Box>
             </Center>
           </Flex>
-
         </Box>
-
       </Container>
-
     </Master>
   );
 };

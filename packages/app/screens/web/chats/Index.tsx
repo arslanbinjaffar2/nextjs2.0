@@ -31,7 +31,6 @@ const Index = ({ navigation }: indexProps)  => {
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
                   }}
-                
                 >
                 SS
                   <Avatar.Badge borderWidth="1" bg="green.500" />
@@ -44,16 +43,13 @@ const Index = ({ navigation }: indexProps)  => {
                 <VStack alignItems="flex-end" space="2">
                   <Text opacity="0.6" fontSize="md">now</Text>
                   <Avatar.Badge position="static" borderWidth="0" bg="green.500" size={4} />
-                
                 </VStack>
-              
               </HStack>
               <HStack borderBottomWidth="1" borderColor="primary.text" w="100%" p="4" space="5">
                 <Avatar
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
                   }}
-                
                 >
                 HS
                   <Avatar.Badge borderWidth="1" bg="red.500" />
@@ -73,7 +69,6 @@ const Index = ({ navigation }: indexProps)  => {
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
                   }}
-                
                 >
                 SS
                 </Avatar>
@@ -85,15 +80,12 @@ const Index = ({ navigation }: indexProps)  => {
                 <VStack alignItems="flex-end" space="2">
                   <Text opacity="0.6" fontSize="md">18:00</Text>
                 </VStack>
-              
               </HStack>
-
               <HStack borderBottomWidth="0" borderColor="primary.text" w="100%" p="4" space="5">
                 <Avatar
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
                   }}
-                
                 >
                 SS
                 </Avatar>
@@ -105,12 +97,8 @@ const Index = ({ navigation }: indexProps)  => {
                 <VStack alignItems="flex-end" space="2">
                   <Text opacity="0.6" fontSize="md">21:00</Text>
                   <Avatar.Badge position="static" borderWidth="0" bg="primary.secondary" size={4} />
-                
                 </VStack>
-              
               </HStack>
-           
-            
             </Box>
             <Box alignItems="center" w="100%">
               <Button
@@ -121,15 +109,11 @@ const Index = ({ navigation }: indexProps)  => {
                 onPress={()=>{
                   console.log('hello')
                 }}
-              
               >
                 NEW CHAT
-              </Button>
-              
-            </Box>
-            
+              </Button>     
+            </Box> 
           </>}
-          
         </>
         <>
           {!tab && <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">

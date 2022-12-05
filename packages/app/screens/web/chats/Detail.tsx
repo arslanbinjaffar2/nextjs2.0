@@ -26,13 +26,10 @@ const Detail = ({ navigation }: indexProps) => {
             source={{
               uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
             }}
-
           >
             SS
             <Avatar.Badge borderWidth="1" bg="red.500" />
-
           </Avatar>
-
         </HStack>
         <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
           <ScrollView w="100%" minH="450px" py="4" px="3">
@@ -41,7 +38,6 @@ const Detail = ({ navigation }: indexProps) => {
                 source={{
                   uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
                 }}
-
               >
                 SS
                 <Avatar.Badge borderWidth="1" bg="green.500" />
@@ -50,14 +46,12 @@ const Detail = ({ navigation }: indexProps) => {
                 <Text lineHeight="sm" pr="3" fontSize="lg">Hello John, what are you going to do this weekend?</Text>
                 <Text opacity="0.8" fontSize="md">17:45</Text>
               </VStack>
-
             </HStack>
             <HStack direction="row-reverse" mb="3" space="0" alignItems="flex-end">
               <Avatar
                 source={{
                   uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
                 }}
-
               >
                 SS
                 <Avatar.Badge borderWidth="1" bg="green.500" />
@@ -66,9 +60,7 @@ const Detail = ({ navigation }: indexProps) => {
                 <Text lineHeight="sm" pr="3" fontSize="lg">Nothing planned, and you?</Text>
                 <Text opacity="0.8" textAlign="right" fontSize="md">17:45</Text>
               </VStack>
-
             </HStack>
-
           </ScrollView>
           <Center w="100%" maxW="100%">
             <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
@@ -84,7 +76,6 @@ const Detail = ({ navigation }: indexProps) => {
                   onPress={() => {
                     console.log('hello')
                   }}
-
                 />
                 <IconButton
                   variant="transparent"
@@ -92,7 +83,6 @@ const Detail = ({ navigation }: indexProps) => {
                   onPress={() => {
                     console.log('hello')
                   }}
-
                 />
                 <IconButton
                   variant="transparent"
@@ -100,17 +90,10 @@ const Detail = ({ navigation }: indexProps) => {
                   onPress={() => {
                     console.log('hello')
                   }}
-
                 />
-
-
               </HStack>
-
             </VStack>
-
-
           </Center>
-
         </VStack>
         <Image
           source={{
@@ -120,11 +103,8 @@ const Detail = ({ navigation }: indexProps) => {
           w="100%"
           h="150px"
           rounded="10"
-
         />
-
       </Container>
-
     </Master>
   );
 };
