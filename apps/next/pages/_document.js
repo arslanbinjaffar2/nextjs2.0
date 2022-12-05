@@ -128,7 +128,7 @@ body {
   display: flex;
 }`;
 
-export async function getInitialProps({ renderPage }: any) {
+export async function getInitialProps({ renderPage }) {
   AppRegistry.registerComponent("Main", () => Main);
   const { getStyleElement } = AppRegistry.getApplication("Main");
   const page = await renderPage();
