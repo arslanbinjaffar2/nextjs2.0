@@ -6,7 +6,7 @@ import { Avatar, Box, Flex, HStack, Text, VStack, Pressable } from 'native-base'
 
 import IcoMyEvents from 'app/assets/icons/IcoMyEvents';
 
-const DrawerLayout = (props) => {
+const DrawerLayout = (props: any) => {
 
   return (
     <DrawerContentScrollView {...props} safeArea>

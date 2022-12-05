@@ -12,7 +12,7 @@ type Props = {
 
 const BackgroundLayout = ({ children }: Props) => (
     <>
-        <ImageBackground blurRadius={8} style={{ position: 'fixed', width: '100%', height: '100%' }} resizeMode='cover' source={images.SplashImage}>
+        <ImageBackground blurRadius={8} style={{  width: '100%', height: '100%' }} resizeMode='cover' source={{ uri: images.SplashImage }}>
             <View style={{ ...gStyle.flex1, ...gStyle.bgContainer }} />
         </ImageBackground>
         {children}

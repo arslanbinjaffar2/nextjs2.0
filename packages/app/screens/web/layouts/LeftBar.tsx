@@ -49,7 +49,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/dashboard')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoDashboard width="24" height="24" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Dashboard</Text>}
@@ -65,7 +65,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/sponsors')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoSponsors width="15" height="24" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Sponsors</Text>}
@@ -81,7 +81,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/attendees')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoAttendees width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Attendees</Text>}
@@ -97,7 +97,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/programs')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoProgram width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Programs</Text>}
@@ -113,7 +113,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/polls')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoPolls width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Polls</Text>}
@@ -129,7 +129,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/qa')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoQuestionsAnswers width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">QA</Text>}
@@ -145,7 +145,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/checkin')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoCheckin width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Check-in</Text>}
@@ -161,7 +161,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/documents')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoDocuments width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Documents</Text>}
@@ -177,7 +177,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/chat')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoChat width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Chat</Text>}
@@ -193,7 +193,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/floor-plan')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoFloorPlan width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Floor plan</Text>}
@@ -209,7 +209,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/map')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoMap width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Map</Text>}
@@ -225,7 +225,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/map')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoNetworkInterest width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Network interest</Text>}
@@ -241,7 +241,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/social-media')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoNetworkInterest width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Social media</Text>}
@@ -257,7 +257,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/social-wall')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoSocialWall width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Social wall</Text>}
@@ -273,7 +273,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/practical-information')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoPracticalinfo width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Practical information</Text>}
@@ -289,7 +289,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/general-information')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoGeneralInfo width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">General information</Text>}
@@ -305,7 +305,7 @@ const LeftBar = ({ navigation }: any) => {
             push('/event/additional-information')
           }}>
           <HStack space="4" alignItems="center">
-            <Center align="center" w="30px">
+            <Center w="30px">
               <IcoAdditionalInfo width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Additional information</Text>}

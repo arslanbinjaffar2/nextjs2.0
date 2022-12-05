@@ -26,16 +26,13 @@ const StreamBlock = () => {
             source={{
               uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
             }}
-            // shouldPlay
             useNativeControls={false}
-            resizeMode="cover"
             isLooping
           />
         </Box>
         <HStack px="4" py="5" space="0" alignItems="center">
           <Center alignItems="flex-start" w="40%">
             <Pressable
-              p="2"
               onPress={() => {
                 console.log('hello')
               }}
@@ -45,7 +42,6 @@ const StreamBlock = () => {
           </Center>
           <HStack space="5" justifyContent="flex-end" w="60%">
             <Pressable
-              p="2"
               onPress={() => {
                 console.log('hello')
               }}
@@ -53,7 +49,6 @@ const StreamBlock = () => {
               <Icoexpand width={width > 725 ? 36 : 28} height={width > 725 ? 36 : 28} />
             </Pressable>
             <Pressable
-              p="2"
               onPress={() => {
                 console.log('hello')
               }}
@@ -63,13 +58,14 @@ const StreamBlock = () => {
           </HStack>
         </HStack>
       </View>
-      <ScrollView nestedScrollEnable={true} horizontal={true} w="100%" _contentContainerStyle={{
-        px: '20px',
-        mb: '4',
-        minW: '72'
+      <ScrollView horizontal={true} contentContainerStyle={{
+        paddingLeft: '20',
+        paddingRight: '20',
+        marginBottom: '4',
+        minWidth: '72'
       }}>
         <HStack space="3">
-          <Box position="relative" alignItems="center" justifyContent="center" rounded="md" w="150px" h="85" overflow="hidden" cursor="pointer" bg="rgba(0,0,0,0.5)">
+          <Box position="relative" alignItems="center" justifyContent="center" rounded="md" w="150px" h="85" overflow="hidden" bg="rgba(0,0,0,0.5)">
             <Icon position="relative" zIndex="9" as={MaterialIcons} size="3xl" color="#fff" name="play-arrow" />
             <Image
               opacity="0.5"
@@ -80,7 +76,7 @@ const StreamBlock = () => {
               alt="Alternate Text"
             />
           </Box>
-          <Box position="relative" alignItems="center" justifyContent="center" rounded="md" w="150px" h="85" overflow="hidden" cursor="pointer" bg="rgba(0,0,0,0.5)">
+          <Box position="relative" alignItems="center" justifyContent="center" rounded="md" w="150px" h="85" overflow="hidden" bg="rgba(0,0,0,0.5)">
             <Icon position="relative" zIndex="9" as={MaterialIcons} size="3xl" color="#fff" name="play-arrow" />
             <Image
               opacity="0.5"
@@ -91,7 +87,7 @@ const StreamBlock = () => {
               alt="Alternate Text"
             />
           </Box>
-          <Box position="relative" alignItems="center" justifyContent="center" rounded="md" w="150px" h="85" overflow="hidden" cursor="pointer" bg="rgba(0,0,0,0.5)">
+          <Box position="relative" alignItems="center" justifyContent="center" rounded="md" w="150px" h="85" overflow="hidden" bg="rgba(0,0,0,0.5)">
             <Icon position="relative" zIndex="9" as={MaterialIcons} size="3xl" color="#fff" name="play-arrow" />
             <Image
               opacity="0.5"

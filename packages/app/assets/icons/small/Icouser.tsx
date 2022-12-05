@@ -5,7 +5,7 @@ const Icouser = (props: SvgProps) => (
   <Svg
     id="Group_6"
     data-name="Group 6"
-    xmlns="http://www.w3.org/2000/svg"
+    
     width={18.112}
     height={18.112}
     viewBox="0 0 18.112 18.112"

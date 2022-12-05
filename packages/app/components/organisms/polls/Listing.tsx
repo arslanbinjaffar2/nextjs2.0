@@ -4,7 +4,6 @@ import { Button, Center, Container, Heading, HStack, Icon, IconButton } from 'na
 import BoxItem from 'app/components/atoms/polls/BoxItem';
 
 const Listing = () => {
-
   return (
     <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
       <Heading py="1" fontSize="2xl" w="100%" textAlign="center">POLLS</Heading>
@@ -38,12 +37,11 @@ const Listing = () => {
       <BoxItem />
       <Center py="3" px="2" w="100%" alignItems="flex-end">
         <Button p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                    Show all
+          Show all
         </Button>
       </Center>
     </Container>
   )
-
 }
 
 export default Listing;

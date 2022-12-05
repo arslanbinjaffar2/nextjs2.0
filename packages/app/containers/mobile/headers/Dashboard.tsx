@@ -7,7 +7,7 @@ import { images } from 'app/styles'
 import IcoBell from 'app/assets/icons/IcoBell'
 import { useEffect } from 'react';
 
-const Dashboard = ({navigation,minimal}: any) => {
+const Dashboard = ({ navigation, minimal }: any) => {
 
   const width = Dimensions.get('window').width;
 
@@ -19,23 +19,22 @@ const Dashboard = ({navigation,minimal}: any) => {
       <Flex pt="3" direction="row" alignItems="center" safeAreaTop>
         <Center pt="10px" w="75px">
           <Pressable
-            onPress={()=>{
+            onPress={() => {
               navigation.toggleDrawer();
             }}
           >
-            <Icon size="2xl" color="primary.text" as={MaterialIcons} name="menu"  />
+            <Icon size="2xl" color="primary.text" as={MaterialIcons} name="menu" />
           </Pressable>
         </Center>
-        <Center  w={width - 150}><Image alt='logo' source={images.Logo} w="180px" h="39px" alignSelf={'center'} /></Center>
+        <Center w={width - 150}><Image alt='logo' source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} /></Center>
         <Center w="75px">
           <Box>
             <IcoBell width={20} height={26} />
           </Box>
-          
         </Center>
       </Flex>
     </View>
   )
 }
 
-export default  Dashboard;
+export default Dashboard;

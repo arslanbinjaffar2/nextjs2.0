@@ -3,7 +3,7 @@ import Svg, { SvgProps, G, Path } from "react-native-svg";
 
 const IcoMessagealt = (props: SvgProps) => (
   <Svg
-    xmlns="http://www.w3.org/2000/svg"
+    
     width={10.126}
     height={10.126}
     viewBox="0 0 10.126 10.126"

@@ -3,7 +3,7 @@ import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
 const Icoreload = (props: SvgProps) => (
   <Svg
-    xmlns="http://www.w3.org/2000/svg"
+    
     width={props.width}
     height={props.height}
     viewBox="0 0 33.635 32.638"

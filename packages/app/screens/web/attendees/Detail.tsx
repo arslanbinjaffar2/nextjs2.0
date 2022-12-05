@@ -6,7 +6,6 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Master from 'app/screens/web/layouts/Master';
 import { useState } from 'react';
-import IcoRaiseHand from 'app/assets/icons/IcoRaiseHand';
 import Icoribbon from 'app/assets/icons/Icoribbon';
 import Icoresume from 'app/assets/icons/Icoresume';
 import Icohotelbed from 'app/assets/icons/Icohotelbed';
@@ -23,7 +22,6 @@ const Detail = ({ navigation }: indexProps) => {
 
   return (
     <Master navigation={navigation}>
-
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
         <HStack space="3" alignItems="center">
           <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
@@ -32,7 +30,6 @@ const Detail = ({ navigation }: indexProps) => {
         <Spacer />
         <Input rounded="10" w="60%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
       </HStack>
-
       <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
         <Box w="100%" p="4" py="5" rounded="10">
           <HStack mb="4" space="5">
@@ -88,7 +85,6 @@ const Detail = ({ navigation }: indexProps) => {
           </HStack>
         </Box>
       </Container>
-
       <Container mb="3" maxW="100%" w="100%">
         <HStack mb="3" space={1} justifyContent="center" w="100%">
           <Button onPress={() => settabs('ABOUT')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tabs === 'ABOUT' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>ALL</Button>
@@ -187,7 +183,7 @@ const Detail = ({ navigation }: indexProps) => {
                     </Center>
                     <Spacer />
                     <HStack pr="5" space="2" alignItems="center">
-                      <Icon style={{ WebkitTextStroke: '2px #fff' }} size="xl" as={Ionicons} name="heart" color="primary.secondary" />
+                      <Icon size="xl" as={Ionicons} name="heart" color="primary.secondary" />
                     </HStack>
                   </HStack>
                 </HStack>

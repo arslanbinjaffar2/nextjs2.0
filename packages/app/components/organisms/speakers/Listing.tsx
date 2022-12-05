@@ -15,7 +15,7 @@ const Listing = () => {
                 uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
               }}
             >
-                            SS
+              SS
             </Avatar>
             <VStack space="0">
               <Text fontSize="lg">Stephen Hendry</Text>
@@ -47,13 +47,12 @@ const Listing = () => {
                     uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
                   }}
                 >
-                                    SS
+                  SS
                 </Avatar>
                 <VStack space="0">
                   <Text fontSize="lg">Stephen Hendry</Text>
                   <Text fontSize="lg">Global INC - Social media Expert</Text>
                 </VStack>
-
               </HStack>
             </Center>
             <Spacer />

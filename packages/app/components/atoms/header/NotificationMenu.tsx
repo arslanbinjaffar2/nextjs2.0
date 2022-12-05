@@ -2,12 +2,11 @@ import React from 'react'
 import { Badge, Box, Button, HStack, Menu, Text, VStack } from 'native-base';
 import IcoBell from 'app/assets/icons/IcoBell';
 import IcoChat from 'app/assets/icons/IcoChat';
-import { gStyle } from 'app/styles';
 
-const  NotificationMenu = () => {
+const NotificationMenu = () => {
   return (
     <Menu
-      w={['350px','400px']}
+      w={['350px', '400px']}
       maxW='100%'
       placement="bottom right"
       bg="primary.darkbox"
@@ -18,7 +17,6 @@ const  NotificationMenu = () => {
       h="400px"
       mt="3"
       p="0"
-      style={{ ...gStyle.blur }}
       rounded="10"
       overflow={'hidden'}
       trigger={(triggerProps) => {

@@ -4,19 +4,19 @@ import { Box, Button, Center, Container, Flex, HStack, Icon, Input, Spacer, Swit
 import AntDesign from '@expo/vector-icons/AntDesign'
 import Master from 'app/screens/web/layouts/Master';
 
-
 type indexProps = {
   navigation: unknown
 }
+
 type checkboxProps = {
   title: string,
   checked: boolean
 }
+
 const CheckboxWrapp = ({ title, checked }: checkboxProps) => {
   const [status, setstatus] = React.useState(checked)
   return (
     <Button
-      valrient="nnstyled"
       bg={status ? 'primary.secondary' : 'primary.darkbox'}
       px="3"
       py="1"
@@ -33,9 +33,7 @@ const CheckboxWrapp = ({ title, checked }: checkboxProps) => {
 
     >
       {title}
-
     </Button>
-
   )
 }
 const Index = ({ navigation }: indexProps) => {
@@ -59,11 +57,9 @@ const Index = ({ navigation }: indexProps) => {
               onPress={() => {
                 console.log('hello')
               }}
-
             >
               All
             </Button>
-
           </Center>
           <Center mb="3" px="1">
             <Button
@@ -78,11 +74,9 @@ const Index = ({ navigation }: indexProps) => {
               onPress={() => {
                 console.log('hello')
               }}
-
             >
               Cetagory 01
             </Button>
-
           </Center>
           <Center mb="3" px="1">
             <Button
@@ -97,19 +91,14 @@ const Index = ({ navigation }: indexProps) => {
               onPress={() => {
                 console.log('hello')
               }}
-
             >
               Cetagory 02
             </Button>
-
           </Center>
-
         </HStack>
-
         <Box w="100%" mb="3">
           <Input rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
         </Box>
-
         <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
           <Text mb="2" fontSize="lg">Cetagory 01</Text>
           <Flex mx="-2" mb="1" direction="row" flexWrap="wrap">
@@ -123,7 +112,6 @@ const Index = ({ navigation }: indexProps) => {
             <CheckboxWrapp checked={true} title="card" />
             <CheckboxWrapp checked={false} title="Racing Zone out" />
           </Flex>
-
         </Box>
         <Box w="100%" mb="3" alignItems="center">
           <Button
@@ -138,15 +126,11 @@ const Index = ({ navigation }: indexProps) => {
             onPress={() => {
               console.log('hello')
             }}
-
           >
             MATCH SEARCH
           </Button>
-
         </Box>
-
       </Container>
-
     </Master>
   );
 };

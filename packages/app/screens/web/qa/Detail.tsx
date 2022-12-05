@@ -58,7 +58,7 @@ const Detail = ({ navigation }: indexProps) => {
               </Select>
               
             </HStack>
-            <TextArea focusOutlineColor="transparent" _focus={{bg: 'transparent'}} px="4" py="0" fontSize="lg" w="100%" borderWidth="0" rounded="0" minH="60px" placeholder="Text Area Placeholder"  />
+            <TextArea focusOutlineColor="transparent" _focus={{ bg: 'transparent' }} px="4" py="0" fontSize="lg" w="100%" borderWidth="0" rounded="0" minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
             <HStack px="3" py="2" space="3" alignItems="center">
               <Checkbox my="0"  value="checkbox">Send anonymously</Checkbox>
               <Spacer />

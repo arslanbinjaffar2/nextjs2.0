@@ -3,12 +3,9 @@ import Svg, { SvgProps, Defs, ClipPath, Rect, G, Path } from 'react-native-svg';
 
 const Icohotelbed = (props: SvgProps) => (
   <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
     width={props.width}
     height={props.height}
     viewBox="0 0 32.007 23.944"
-
   >
     <Defs>
       <ClipPath id="clip-path">

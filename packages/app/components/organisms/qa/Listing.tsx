@@ -14,7 +14,7 @@ const BoxList = ({ border }: any) => {
                 uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
               }}
             >
-                            SS
+              SS
             </Avatar>
             <VStack space="0">
               <Text fontSize="lg">Stephen Hendry</Text>

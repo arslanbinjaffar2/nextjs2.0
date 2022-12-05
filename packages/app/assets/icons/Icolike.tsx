@@ -5,8 +5,6 @@ const IcoLike = (props: SvgProps) => (
   <Svg
     id="Group_936"
     data-name="Group 936"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
     width={props.width}
     height={props.height}
     viewBox="0 0 25.732 23.257"

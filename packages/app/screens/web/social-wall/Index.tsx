@@ -30,17 +30,13 @@ const Index = ({ navigation }: indexProps) => {
             onPress={() => {
               console.log('hello')
             }}
-
           />
-
-
           <HStack px="4" py="3" pr="12" space="3" alignItems="flex-start">
             <Avatar
               size="sm"
               source={{
                 uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
               }}
-
             >
               SS
             </Avatar>
@@ -52,8 +48,7 @@ const Index = ({ navigation }: indexProps) => {
               overflow="auto"
               focusOutlineColor="transparent"
               _focus={{ bg: 'transparent' }}
-              borderWidth="0" fontSize="md" placeholder="Please write your comment here …" />
-
+              borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
           </HStack>
           <HStack borderTopWidth="1" borderTopColor="primary.bdBox" space="0" alignItems="center">
             <Center bg="primary.box" w="65%">
@@ -67,10 +62,8 @@ const Index = ({ navigation }: indexProps) => {
                   onPress={() => {
                     console.log('hello')
                   }}
-
                 />
-                <Divider w="1px" h="10" bg="primary.text" type="horizontal" />
-
+                <Divider w="1px" h="10" bg="primary.text" />
                 <IconButton
                   w="50%"
                   rounded="0"
@@ -80,10 +73,7 @@ const Index = ({ navigation }: indexProps) => {
                   onPress={() => {
                     console.log('hello')
                   }}
-
                 />
-
-
               </HStack>
             </Center>
             <Center borderLeftWidth="1" borderLeftColor="primary.bdBox" w="35%">
@@ -96,21 +86,17 @@ const Index = ({ navigation }: indexProps) => {
                 onPress={() => {
                   console.log('hello')
                 }}
-
               >
                 POST
               </Button>
-
             </Center>
           </HStack>
-
         </Box>
         <Box w="100%">
           <SocialPost />
           <SocialPost />
           <SocialPost />
         </Box>
-
       </Container>
     </Master>
   );

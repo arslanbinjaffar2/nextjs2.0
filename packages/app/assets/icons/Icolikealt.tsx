@@ -5,7 +5,7 @@ const Icolikealt = (props: SvgProps) => (
   <Svg
     id="Group_642"
     data-name="Group 642"
-    xmlns="http://www.w3.org/2000/svg"
+    
     width={11.799}
     height={10.62}
     viewBox="0 0 11.799 10.62"

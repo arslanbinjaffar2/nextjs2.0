@@ -3,7 +3,7 @@ import Svg, { SvgProps, Path } from 'react-native-svg';
 
 const Icodocument = (props: SvgProps) => (
   <Svg
-    xmlns="http://www.w3.org/2000/svg"
+    
     width={14.923}
     height={18.549}
     viewBox="0 0 14.923 18.549"

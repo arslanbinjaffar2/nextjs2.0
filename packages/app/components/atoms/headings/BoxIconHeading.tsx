@@ -7,14 +7,13 @@ type AppProps = {
 
 const BoxIconHeading = ({ title, icon }: AppProps) => {
     return (
-        <Flex mb="3" alignItems="flex-start" w="100%" flexDirection="row" space="5">
+        <Flex mb="3" alignItems="flex-start" w="100%" flexDirection="row">
             <Center alignItems="flex-start" w="100%">
                 <HStack alignItems="center" space="3">
                     {icon}<Text fontSize="xl">{title}</Text>
                 </HStack>
             </Center>
         </Flex>
-
     )
 }
 

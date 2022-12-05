@@ -13,7 +13,7 @@ type Props = {
 const Layout = ({ children }: Props) => (
   <>
     <View style={gStyle.mainContainer}>
-      <ImageBackground blurRadius={8} style={{ flex: 1, justifyContent: 'center' }} resizeMode='cover' source={images.SplashImage}>
+      <ImageBackground blurRadius={8} style={{ flex: 1, justifyContent: 'center' }} resizeMode='cover' source={{ uri: images.SplashImage }}>
         <View style={{ ...gStyle.flex1, ...gStyle.bgContainer }}>
           {children}
         </View>

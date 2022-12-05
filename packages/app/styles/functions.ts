@@ -3,7 +3,7 @@ import { Asset } from 'expo-asset';
 import preloadImages from './preloadImages';
 
 const cacheImages = (images: { [s: string]: unknown; } | ArrayLike<unknown>) => {
-  return Object.values(images).map((image) => {
+  return Object.values(images).map((image: any) => {
     if (typeof image === 'string') {
       return Image.prefetch(image);
     }

@@ -166,7 +166,7 @@ const Index = ({ navigation }: indexProps) => {
                   </Center>
                   <Spacer />
                   <HStack pr="5" space="2" alignItems="center">
-                    <Icon style={{ WebkitTextStroke: '2px #fff' }} size="xl" as={Ionicons} name="heart" color="primary.secondary" />
+                    <Icon size="xl" as={Ionicons} name="heart" color="primary.secondary" />
                   </HStack>
                 </HStack>
               </HStack>

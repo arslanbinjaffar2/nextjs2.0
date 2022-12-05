@@ -17,8 +17,8 @@ type indexProps = {
 
 const Detail = ({ navigation }: indexProps) => {
   const [tabs, settabs] = useState<string | null>('ABOUT');
-  const [steps, setsteps] = useState<string | null>(0);
-  const [completed, setcompleted] = useState<string | null>(true);
+  const [steps, setsteps] = useState<number>(0);
+  const [completed, setcompleted] = useState<boolean>(true);
   return (
     <Master navigation={navigation}>
       <Container mb="3" maxW="100%" w="100%">
@@ -53,7 +53,6 @@ const Detail = ({ navigation }: indexProps) => {
                 onPress={() => {
                   setsteps(steps - 1);
                 }}
-
               >
                 previous
               </Button>}
@@ -69,7 +68,6 @@ const Detail = ({ navigation }: indexProps) => {
                 onPress={() => {
                   setsteps(steps + 1);
                 }}
-
               >
                 next
               </Button>}
@@ -85,13 +83,9 @@ const Detail = ({ navigation }: indexProps) => {
                   onPress={() => {
                     setcompleted(true)
                   }}
-
                 />
-
               </Box>
-
             </Box>}
-
           </Box>
         </Box>}
         {completed && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
@@ -99,16 +93,11 @@ const Detail = ({ navigation }: indexProps) => {
             <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.text" rounded="100%" alignItems="center" justifyContent="center">
               <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
             </Box>
-
             <Text fontSize="lg">Thanks for submitting.</Text>
-
           </VStack>
-
         </Box>}
-
       </Container>
     </Master>
-
   );
 };
 

@@ -66,13 +66,11 @@ const Index = ({ navigation }: indexProps) => {
                     </Box>
                     <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
                       <VStack maxW={['62%', '70%', '40%']} space="0">
-                        <Text weight="500" fontSize="lg" lineHeight="22px">
+                        <Text fontSize="lg" lineHeight="22px">
                           Alberto Mark Spancer Gloves
                         </Text>
                         <Text fontSize="md">Marketing</Text>
-
                       </VStack>
-
                       <Spacer />
                       <HStack pr="3" space="5" alignItems="center">
                         <Button
@@ -82,7 +80,6 @@ const Index = ({ navigation }: indexProps) => {
                           onPress={() => {
                             console.log('hello')
                           }}
-
                         >
                           98
                         </Button>
@@ -94,7 +91,6 @@ const Index = ({ navigation }: indexProps) => {
                           onPress={() => {
                             console.log('hello')
                           }}
-
                         />
                       </HStack>
                     </HStack>
@@ -153,12 +149,10 @@ const Index = ({ navigation }: indexProps) => {
                   </Box>
                   <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
                     <VStack maxW={['62%', '70%', '40%']} space="1">
-                      <Text weight="500" fontSize="lg" lineHeight="22px">
+                      <Text fontSize="lg" lineHeight="22px">
                         Alberto Mark Spancer Gloves
                       </Text>
-
                     </VStack>
-
                     <Spacer />
                     <HStack pr="3" space="5" alignItems="center">
                       <IconButton
@@ -169,14 +163,12 @@ const Index = ({ navigation }: indexProps) => {
                         onPress={() => {
                           console.log('hello')
                         }}
-
                       />
                     </HStack>
                   </HStack>
                 </HStack>
               </Box>)}
           </Box>}
-
         </>
       </Container>
 

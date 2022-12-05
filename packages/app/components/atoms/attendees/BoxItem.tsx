@@ -16,7 +16,6 @@ const BoxItem = ({border} : boxItemProps) => {
             source={{
               uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
             }}
-          
           >
           AA
           </Avatar>
@@ -25,8 +24,6 @@ const BoxItem = ({border} : boxItemProps) => {
             <Text lineHeight="22px" fontSize="lg">Global INC - Social media Expert</Text>
             <Text pt="1" lineHeight="22px" fontSize="md">Private address: New york</Text>
           </VStack>
-          
-       
           <Spacer />
           <HStack space="4" alignItems="center">
             <Icoribbon width="20" height="28" />

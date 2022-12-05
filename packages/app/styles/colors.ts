@@ -32,7 +32,8 @@ function hsbTorgb(h: number, s: number, b: number) {
 function rgb2hsv(r: number, g: number, b: number) {
   r /= 255, g /= 255, b /= 255;
   let max = Math.max(r, g, b), min = Math.min(r, g, b);
-  let h, s, l = (max + min) / 2;
+  let h: any;
+  let s, l = (max + min) / 2;
   if (max == min) {
     h = s = 0;
   } else {
@@ -43,9 +44,8 @@ function rgb2hsv(r: number, g: number, b: number) {
       case g: h = (b - r) / d + 2; break;
       case b: h = (r - g) / d + 4; break;
     }
-    h /= 6;
+    h = h / 6;
   }
-
   return [Math.floor(h * 360), Math.floor(s * 100), Math.floor(l * 100)];
 }
 

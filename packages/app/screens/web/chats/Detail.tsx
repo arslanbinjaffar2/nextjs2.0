@@ -68,7 +68,7 @@ const Detail = ({ navigation }: indexProps) => {
               <Text fontSize="lg">Write Message </Text>
             </HStack>
             <VStack p="1" w="100%" space="0">
-              <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" boxShadow="none" _focus={{ bg: 'transparent', borderColor: 'transparent', boxShadow: 'none' }} _hover={{ borderWidth: 0, boxShadow: 'none', borderColor: 'transparent' }} rounded="10" varient="unstyled" w="100%" p="4" placeholder="Your message…" />
+              <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder="Your message…" autoCompleteType={undefined} />
               <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
                 <IconButton
                   variant="transparent"
