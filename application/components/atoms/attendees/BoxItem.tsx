@@ -1,7 +1,7 @@
 import React from 'react'
 import { Avatar, Box, HStack, Icon, Spacer, Text, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
-import Icoribbon from 'applications/app/assets/icons/Icoribbon'
+import Icoribbon from 'application/assets/icons/Icoribbon'
 
 type boxItemProps = {
     border: number

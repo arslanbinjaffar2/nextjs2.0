@@ -1,11 +1,11 @@
 
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Welcome from 'applications/app/screens/Welcome';
-import FindEventCode from 'applications/app/screens/auth/login/mobile/FindEventCode';
-import FindEmail from 'applications/app/screens/auth/login/mobile/FindEmail';
-import Events from 'applications/app/screens/auth/login/mobile/Events';
-import NavigationBack from 'applications/app/components/atoms/NavigationBack';
+import Welcome from 'application/screens/Welcome';
+import FindEventCode from 'application/screens/auth/login/mobile/FindEventCode';
+import FindEmail from 'application/screens/auth/login/mobile/FindEmail';
+import Events from 'application/screens/auth/login/mobile/Events';
+import NavigationBack from 'application/components/atoms/NavigationBack';
 
 const Stack = createNativeStackNavigator();
 

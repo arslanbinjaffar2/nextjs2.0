@@ -1,9 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Center, Flex, Text, VStack, Image, Input } from 'native-base';
-import { images } from 'applications/app/styles';
-import Layout from 'applications/app/containers/mobile/Layout';
-import IcoLongArrow from 'applications/app/assets/icons/IcoLongArrow';
+import { images } from 'application/styles';
+import Layout from 'application/containers/mobile/Layout';
+import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { Link as SolitoLink } from 'solito/link';
 
 const FindEmail = ({ navigation }: any) => {

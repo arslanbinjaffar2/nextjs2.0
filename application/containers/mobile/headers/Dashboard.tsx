@@ -3,8 +3,8 @@ import * as React from 'react';
 import { Dimensions } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { Center, Flex, Image, Pressable, Icon, Box, View, VStack, HStack } from 'native-base';
-import { images } from 'applications/app/styles'
-import IcoBell from 'applications/app/assets/icons/IcoBell'
+import { images } from 'application/styles'
+import IcoBell from 'application/assets/icons/IcoBell'
 import { useEffect } from 'react';
 
 const Dashboard = ({ navigation, minimal }: any) => {

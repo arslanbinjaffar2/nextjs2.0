@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, HStack, Spacer, VStack, Text, FlatList, ZStack, IconButton } from 'native-base'
-import IcoRaiseHand from 'applications/app/assets/icons/IcoRaiseHand';
+import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand';
 
 const BlockView = () => {
   const data = [{

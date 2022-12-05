@@ -14,10 +14,10 @@ import MaterialIconsFont from "react-native-vector-icons/Fonts/MaterialIcons.ttf
 import OcticonsFont from "react-native-vector-icons/Fonts/Octicons.ttf";
 import SimpleLineIconsFont from "react-native-vector-icons/Fonts/SimpleLineIcons.ttf";
 import ZocialFont from "react-native-vector-icons/Fonts/Zocial.ttf";
-import AvenirNextCondensed from "app/assets/fonts/AvenirNextCondensed.ttf";
-import AvenirNextCondensedMedium from "app/assets/fonts/AvenirNextCondensed-Medium.ttf";
-import AvenirNextCondensedDemiBold from "app/assets/fonts/AvenirNextCondensed-DemiBold.ttf";
-import AvenirNextCondensedBold from "app/assets/fonts/AvenirNextCondensedBold.ttf";
+import AvenirNextCondensed from "application/assets/fonts/AvenirNextCondensed.ttf";
+import AvenirNextCondensedMedium from "application/assets/fonts/AvenirNextCondensed-Medium.ttf";
+import AvenirNextCondensedDemiBold from "application/assets/fonts/AvenirNextCondensed-DemiBold.ttf";
+import AvenirNextCondensedBold from "application/assets/fonts/AvenirNextCondensedBold.ttf";
 import * as React from "react";
 import { AppRegistry } from "react-native";
 

@@ -2,9 +2,9 @@
 import * as React from 'react';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { Center, Flex, Image, Pressable, Icon, Box, View, VStack, HStack, Divider, Heading } from 'native-base';
-import { images } from 'applications/app/styles'
-import NotificationMenu from 'applications/app/components/atoms/header/NotificationMenu';
-import BlockNotification from 'applications/app/components/atoms/notifications/BlockNotification';
+import { images } from 'application/styles'
+import NotificationMenu from 'application/components/atoms/header/NotificationMenu';
+import BlockNotification from 'application/components/atoms/notifications/BlockNotification';
 
 const Header = ({ navigation, minimal }: any) => {
 

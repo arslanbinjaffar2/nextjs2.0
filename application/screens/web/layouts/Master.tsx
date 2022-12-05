@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Center, Container, Flex, HStack, ScrollView } from 'native-base';
 import { useWindowDimensions } from 'react-native';
-import LeftBar from 'applications/app/screens/web/layouts/LeftBar';
-import RightBar from 'applications/app/screens/web/layouts/RightBar';
-import BackgroundLayout from 'applications/app/screens/web/layouts/BackgroundLayout';
-import Header from 'applications/app/screens/web/layouts/Header';
+import LeftBar from 'application/screens/web/layouts/LeftBar';
+import RightBar from 'application/screens/web/layouts/RightBar';
+import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
+import Header from 'application/screens/web/layouts/Header';
 
 type Props = {
   children:

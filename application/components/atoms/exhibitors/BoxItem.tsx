@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Center, HStack, Text } from 'native-base'
-import IcoExhibitors from 'applications/app/assets/icons/IcoExhibitors'
+import IcoExhibitors from 'application/assets/icons/IcoExhibitors'
 
 type BoxProps = {
   image: HTMLElement,

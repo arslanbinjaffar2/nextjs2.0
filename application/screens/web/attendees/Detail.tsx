@@ -4,12 +4,12 @@ import { Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Inpu
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Master from 'applications/app/screens/web/layouts/Master';
+import Master from 'application/screens/web/layouts/Master';
 import { useState } from 'react';
-import Icoribbon from 'applications/app/assets/icons/Icoribbon';
-import Icoresume from 'applications/app/assets/icons/Icoresume';
-import Icohotelbed from 'applications/app/assets/icons/Icohotelbed';
-import IcoSurvey from 'applications/app/assets/icons/IcoSurvey';
+import Icoribbon from 'application/assets/icons/Icoribbon';
+import Icoresume from 'application/assets/icons/Icoresume';
+import Icohotelbed from 'application/assets/icons/Icohotelbed';
+import IcoSurvey from 'application/assets/icons/IcoSurvey';
 
 
 type indexProps = {

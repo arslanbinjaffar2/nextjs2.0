@@ -1,3 +1,3 @@
-import Detail from 'app/screens/web/programs/Detail';
+import Detail from 'application/screens/web/programs/Detail';
 
 export default Detail

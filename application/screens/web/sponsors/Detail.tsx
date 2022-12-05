@@ -4,12 +4,12 @@ import { Box, Container, HStack, Icon, Spacer, Text, VStack, Image, Divider, Ava
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
-import Master from 'applications/app/screens/web/layouts/Master';
+import Master from 'application/screens/web/layouts/Master';
 import { useState } from 'react';
-import IcoExhibitors from 'applications/app/assets/icons/IcoExhibitors';
-import Icouser from 'applications/app/assets/icons/small/Icouser';
-import Icodocument from 'applications/app/assets/icons/small/Icodocument';
-import MultipleAnswer from 'applications/app/components/atoms/surveys/MultipleAnswer';
+import IcoExhibitors from 'application/assets/icons/IcoExhibitors';
+import Icouser from 'application/assets/icons/small/Icouser';
+import Icodocument from 'application/assets/icons/small/Icodocument';
+import MultipleAnswer from 'application/components/atoms/surveys/MultipleAnswer';
 
 type indexProps = {
   navigation: unknown

@@ -1,3 +1,3 @@
-import Index from 'app/screens/web/documents/Index';
+import Index from 'application/screens/web/documents/Index';
 
 export default Index

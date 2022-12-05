@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { Avatar, Box, Button, Container, HStack, Icon, Input, Spacer, Text, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
-import Master from 'applications/app/screens/web/layouts/Master';
-import BoxItem from 'applications/app/components/atoms/attendees/BoxItem';
+import Master from 'application/screens/web/layouts/Master';
+import BoxItem from 'application/components/atoms/attendees/BoxItem';
 
 type indexProps = {
   navigation: unknown

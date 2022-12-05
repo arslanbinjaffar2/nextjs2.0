@@ -1,3 +1,3 @@
-import Index from 'app/screens/web/check-in/Index';
+import Index from 'application/screens/web/check-in/Index';
 
 export default Index

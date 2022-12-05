@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Text, TextArea, VStack } from 'native-base';
-import Icodocument from 'applications/app/assets/icons/small/Icodocument';
+import Icodocument from 'application/assets/icons/small/Icodocument';
 
 type PropTypes = {
   title: string,

@@ -1,3 +1,3 @@
-import Login from 'app/screens/auth/login/web/Login'
+import Login from 'application/screens/auth/login/web/Login'
 
 export default Login

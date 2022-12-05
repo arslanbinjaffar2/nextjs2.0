@@ -1,15 +1,15 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Layout from 'applications/app/containers/mobile/Layout';
-import Dashboard from 'applications/app/containers/mobile/headers/Dashboard';
+import Layout from 'application/containers/mobile/Layout';
+import Dashboard from 'application/containers/mobile/headers/Dashboard';
 import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
-import VerticalBoxItemListing from 'applications/app/components/molecules/exhibitors/VerticalBoxItemListing';
-import StreamBlock from 'applications/app/components/organisms/programs/videos/StreamBlock';
-import BlockNotification from 'applications/app/components/atoms/notifications/BlockNotification';
-import ProgramListing from 'applications/app/components/organisms/programs/Listing';
-import SpeakerRoundedList from 'applications/app/components/organisms/speakers/RoundedList';
-import PollListing from 'applications/app/components/organisms/polls/Listing';
+import VerticalBoxItemListing from 'application/components/molecules/exhibitors/VerticalBoxItemListing';
+import StreamBlock from 'application/components/organisms/programs/videos/StreamBlock';
+import BlockNotification from 'application/components/atoms/notifications/BlockNotification';
+import ProgramListing from 'application/components/organisms/programs/Listing';
+import SpeakerRoundedList from 'application/components/organisms/speakers/RoundedList';
+import PollListing from 'application/components/organisms/polls/Listing';
 
 const Index = ({ navigation }: any) => {
   const [scroll, setscroll] = useState(false)

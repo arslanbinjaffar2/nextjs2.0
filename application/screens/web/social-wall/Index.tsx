@@ -2,9 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Box, Button, Center, Container, Divider, HStack, Icon, IconButton, Image, Input, Text, TextArea, VStack } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Master from 'applications/app/screens/web/layouts/Master';
-import IcoSmiley from 'applications/app/assets/icons/Icosmiley';
-import SocialPost from 'applications/app/components/atoms/social-wall/SocialPost';
+import Master from 'application/screens/web/layouts/Master';
+import IcoSmiley from 'application/assets/icons/Icosmiley';
+import SocialPost from 'application/components/atoms/social-wall/SocialPost';
 
 
 type indexProps = {

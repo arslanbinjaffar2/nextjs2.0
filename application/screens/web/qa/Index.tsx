@@ -1,10 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Box, Button, Container, Heading, HStack, Icon, IconButton, Image, Input, Spacer, Text, VStack, ZStack} from 'native-base';
-import Master from 'applications/app/screens/web/layouts/Master';
+import Master from 'application/screens/web/layouts/Master';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
-import BoxItem from 'applications/app/components/atoms/exhibitors/BoxItem';
-import IcoExhibitors from 'applications/app/assets/icons/IcoExhibitors';
+import BoxItem from 'application/components/atoms/exhibitors/BoxItem';
+import IcoExhibitors from 'application/assets/icons/IcoExhibitors';
 
 
 type indexProps = {

@@ -4,7 +4,7 @@ import { Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Inpu
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
-import Master from 'applications/app/screens/web/layouts/Master';
+import Master from 'application/screens/web/layouts/Master';
 import { useState } from 'react';
 
 

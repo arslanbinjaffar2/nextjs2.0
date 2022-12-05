@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React from 'react';
 import { Avatar, Center, Container, HStack, VStack, Text, Box, Image } from 'native-base';
-import BoxIconHeading from 'applications/app/components/atoms/headings/BoxIconHeading'
-import IcoSpeaker from 'applications/app/assets/icons/IcoSpeaker';
+import BoxIconHeading from 'application/components/atoms/headings/BoxIconHeading'
+import IcoSpeaker from 'application/assets/icons/IcoSpeaker';
 import { useWindowDimensions } from 'react-native';
 
 const RoundedList = () => {

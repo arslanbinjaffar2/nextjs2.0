@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Container, HStack, Image, Text} from 'native-base';
-import Master from 'applications/app/screens/web/layouts/Master';
+import Master from 'application/screens/web/layouts/Master';
 
 
 type indexProps = {

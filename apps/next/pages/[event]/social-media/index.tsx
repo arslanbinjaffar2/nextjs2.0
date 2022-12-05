@@ -1,3 +1,3 @@
-import Index from 'app/screens/web/social-media/Index';
+import Index from 'application/screens/web/social-media/Index';
 
 export default Index

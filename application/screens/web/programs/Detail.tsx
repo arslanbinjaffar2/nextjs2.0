@@ -4,12 +4,12 @@ import { Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Inpu
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
-import Master from 'applications/app/screens/web/layouts/Master';
+import Master from 'application/screens/web/layouts/Master';
 import { useState } from 'react';
-import IcoCheckin from 'applications/app/assets/icons/IcoCheckin';
-import IcoSpeaker from 'applications/app/assets/icons/IcoSpeaker';
-import IcoPolls from 'applications/app/assets/icons/IcoPolls';
-import IcoRaiseHand from 'applications/app/assets/icons/IcoRaiseHand';
+import IcoCheckin from 'application/assets/icons/IcoCheckin';
+import IcoSpeaker from 'application/assets/icons/IcoSpeaker';
+import IcoPolls from 'application/assets/icons/IcoPolls';
+import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand';
 
 type indexProps = {
   navigation: unknown

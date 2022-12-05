@@ -1,9 +1,9 @@
 
 import * as React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Index from 'applications/app/screens/mobile/dashboard/Index';
-import colors from 'applications/app/styles/colors';
-import DrawerLayout from 'applications/app/containers/mobile/DrawerLayout';
+import Index from 'application/screens/mobile/dashboard/Index';
+import colors from 'application/styles/colors';
+import DrawerLayout from 'application/containers/mobile/DrawerLayout';
 
 const Drawer = createDrawerNavigator();
 

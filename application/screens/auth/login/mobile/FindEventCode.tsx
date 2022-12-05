@@ -1,9 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { images } from 'applications/app/styles';
-import Layout from 'applications/app/containers/mobile/Layout';
+import { images } from 'application/styles';
+import Layout from 'application/containers/mobile/Layout';
 import { Button, Center, Flex, Text, VStack, Image, Input } from 'native-base';
-import IcoLogin from 'applications/app/assets/icons/IcoLogin';
+import IcoLogin from 'application/assets/icons/IcoLogin';
 import { Link as SolitoLink } from 'solito/link';
 
 const FindEventCode = ({ navigation }: any) => {

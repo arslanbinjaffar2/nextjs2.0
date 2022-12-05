@@ -1,7 +1,7 @@
 import * as React from 'react';
-import BlockNotification from 'applications/app/components/atoms/notifications/BlockNotification';
+import BlockNotification from 'application/components/atoms/notifications/BlockNotification';
 import { Divider } from 'native-base';
-import VerticalBoxItemListing from 'applications/app/components/molecules/exhibitors/VerticalBoxItemListing';
+import VerticalBoxItemListing from 'application/components/molecules/exhibitors/VerticalBoxItemListing';
 
 const RightBar = ({ navigation }: any) => {
   return (

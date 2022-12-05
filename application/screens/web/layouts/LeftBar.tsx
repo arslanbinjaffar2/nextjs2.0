@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack } from 'native-base';
-import IcoDashboard from 'applications/app/assets/icons/IcoDashboard';
-import IcoAttendees from 'applications/app/assets/icons/IcoAttendees';
-import IcoSponsors from 'applications/app/assets/icons/IcoSponsors';
-import IcoProgram from 'applications/app/assets/icons/IcoProgram';
-import IcoPolls from 'applications/app/assets/icons/IcoPolls';
-import IcoQuestionsAnswers from 'applications/app/assets/icons/IcoQuestionsAnswers';
-import IcoCheckin from 'applications/app/assets/icons/IcoCheckin';
-import IcoDocuments from 'applications/app/assets/icons/IcoDocuments';
-import IcoChat from 'applications/app/assets/icons/IcoChat';
-import IcoFloorPlan from 'applications/app/assets/icons/IcoFloorPlan';
-import IcoMap from 'applications/app/assets/icons/IcoMap';
-import IcoNetworkInterest from 'applications/app/assets/icons/IcoNetworkInterest';
-import IcoSocialWall from 'applications/app/assets/icons/IcoSocialWall';
-import IcoPracticalinfo from 'applications/app/assets/icons/IcoPracticalinfo';
-import IcoAdditionalInfo from 'applications/app/assets/icons/IcoAdditionalInfo';
-import IcoGeneralInfo from 'applications/app/assets/icons/IcoGeneralInfo';
+import IcoDashboard from 'application/assets/icons/IcoDashboard';
+import IcoAttendees from 'application/assets/icons/IcoAttendees';
+import IcoSponsors from 'application/assets/icons/IcoSponsors';
+import IcoProgram from 'application/assets/icons/IcoProgram';
+import IcoPolls from 'application/assets/icons/IcoPolls';
+import IcoQuestionsAnswers from 'application/assets/icons/IcoQuestionsAnswers';
+import IcoCheckin from 'application/assets/icons/IcoCheckin';
+import IcoDocuments from 'application/assets/icons/IcoDocuments';
+import IcoChat from 'application/assets/icons/IcoChat';
+import IcoFloorPlan from 'application/assets/icons/IcoFloorPlan';
+import IcoMap from 'application/assets/icons/IcoMap';
+import IcoNetworkInterest from 'application/assets/icons/IcoNetworkInterest';
+import IcoSocialWall from 'application/assets/icons/IcoSocialWall';
+import IcoPracticalinfo from 'application/assets/icons/IcoPracticalinfo';
+import IcoAdditionalInfo from 'application/assets/icons/IcoAdditionalInfo';
+import IcoGeneralInfo from 'application/assets/icons/IcoGeneralInfo';
 import { useWindowDimensions } from 'react-native';
 import { useRouter } from 'solito/router'
 

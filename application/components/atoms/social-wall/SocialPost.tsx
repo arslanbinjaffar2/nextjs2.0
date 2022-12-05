@@ -1,10 +1,10 @@
 import React from 'react'
 import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider } from 'native-base'
-import IcoLike from 'applications/app/assets/icons/Icolike'
-import IcoMessage from 'applications/app/assets/icons/IcoMessage'
-import IcoSharePost from 'applications/app/assets/icons/IcoSharePost'
-import IcoMessagealt from 'applications/app/assets/icons/IcoMessagealt'
-import Icolikealt from 'applications/app/assets/icons/Icolikealt'
+import IcoLike from 'application/assets/icons/Icolike'
+import IcoMessage from 'application/assets/icons/IcoMessage'
+import IcoSharePost from 'application/assets/icons/IcoSharePost'
+import IcoMessagealt from 'application/assets/icons/IcoMessagealt'
+import Icolikealt from 'application/assets/icons/Icolikealt'
 
 const SocialPost = () => {
   return (

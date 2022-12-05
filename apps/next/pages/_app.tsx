@@ -1,4 +1,4 @@
-import { Provider } from 'app/provider/web'
+import { Provider } from 'application/provider/web'
 import Head from 'next/head'
 import React from 'react'
 import type { SolitoAppProps } from 'solito'

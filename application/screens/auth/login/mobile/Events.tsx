@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { Button, Center, Flex, Text, Image, HStack, VStack, Box, ScrollView, Pressable } from 'native-base';
-import Layout from 'applications/app/containers/mobile/Layout';
+import Layout from 'application/containers/mobile/Layout';
 import { Link as SolitoLink } from 'solito/link';
 
 const Events = ({ navigation }: any) => {

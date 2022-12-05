@@ -1,9 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Container, Divider, HStack, Icon, Input, Spacer, Text } from 'native-base';
-import Master from 'applications/app/screens/web/layouts/Master';
+import Master from 'application/screens/web/layouts/Master';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import BoxItem from 'applications/app/components/atoms/polls/BoxItem';
+import BoxItem from 'application/components/atoms/polls/BoxItem';
 
 
 type indexProps = {

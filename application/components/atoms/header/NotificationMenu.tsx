@@ -1,7 +1,7 @@
 import React from 'react'
 import { Badge, Box, Button, HStack, Menu, Text, VStack } from 'native-base';
-import IcoBell from 'applications/app/assets/icons/IcoBell';
-import IcoChat from 'applications/app/assets/icons/IcoChat';
+import IcoBell from 'application/assets/icons/IcoBell';
+import IcoChat from 'application/assets/icons/IcoChat';
 
 const NotificationMenu = () => {
   return (

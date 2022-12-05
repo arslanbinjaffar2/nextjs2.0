@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import StreamBlock from 'applications/app/components/organisms/programs/videos/StreamBlock';
-import ProgramListing from 'applications/app/components/organisms/programs/Listing';
-import SpeakerRoundedList from 'applications/app/components/organisms/speakers/RoundedList';
-import SpeakerListing from 'applications/app/components/organisms/speakers/Listing';
-import QAListing from 'applications/app/components/organisms/qa/Listing';
-import PollListing from 'applications/app/components/organisms/polls/Listing';
-import ChatClient from 'applications/app/components/organisms/chat/ChatClient';
-import Master from 'applications/app/screens/web/layouts/Master';
+import StreamBlock from 'application/components/organisms/programs/videos/StreamBlock';
+import ProgramListing from 'application/components/organisms/programs/Listing';
+import SpeakerRoundedList from 'application/components/organisms/speakers/RoundedList';
+import SpeakerListing from 'application/components/organisms/speakers/Listing';
+import QAListing from 'application/components/organisms/qa/Listing';
+import PollListing from 'application/components/organisms/polls/Listing';
+import ChatClient from 'application/components/organisms/chat/ChatClient';
+import Master from 'application/screens/web/layouts/Master';
 import { Button, HStack } from 'native-base'
 
 type indexProps = {

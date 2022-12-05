@@ -1,7 +1,7 @@
 import React from 'react';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { Button, Center, Container, Heading, HStack, Icon, IconButton } from 'native-base';
-import BoxItem from 'applications/app/components/atoms/polls/BoxItem';
+import BoxItem from 'application/components/atoms/polls/BoxItem';
 
 const Listing = () => {
   return (

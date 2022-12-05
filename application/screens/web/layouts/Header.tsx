@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Badge, Box, Button, Center, Container, Heading, HStack, Image, Menu, Pressable, Spacer, Text, VStack } from 'native-base';
-import Icosettings from 'applications/app/assets/icons/Icosettings';
-import Icoreload from 'applications/app/assets/icons/Icoreload';
-import { images } from 'applications/app/styles';
-import NotificationMenu from 'applications/app/components/atoms/header/NotificationMenu';
+import Icosettings from 'application/assets/icons/Icosettings';
+import Icoreload from 'application/assets/icons/Icoreload';
+import { images } from 'application/styles';
+import NotificationMenu from 'application/components/atoms/header/NotificationMenu';
 
 const Header = ({ width, navigation }: any) => {
   return (

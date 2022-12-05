@@ -2,9 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Center, Flex, Text, Image, Input, VStack, Icon } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import IcoLongArrow from 'applications/app/assets/icons/IcoLongArrow';
-import { images } from 'applications/app/styles';
-import BackgroundLayout from 'applications/app/screens/web/layouts/BackgroundLayout';
+import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
+import { images } from 'application/styles';
+import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import { Link as SolitoLink } from 'solito/link'
 
 const Login = ({ navigation }: any) => {

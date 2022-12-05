@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import IcoBack from 'applications/app/assets/icons/IcoBack';
+import IcoBack from 'application/assets/icons/IcoBack';
 
 const NavigationBack = () => {
 

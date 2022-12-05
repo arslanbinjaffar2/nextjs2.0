@@ -4,9 +4,9 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { Box, Center, Flex, HStack, Icon, Text, View, Image } from 'native-base'
 import { Pressable, useWindowDimensions } from 'react-native';
-import IcoRaiseHand from 'applications/app/assets/icons/IcoRaiseHand';
-import Icoexpand from 'applications/app/assets/icons/Icoexpand';
-import Icomute from 'applications/app/assets/icons/Icomute';
+import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand';
+import Icoexpand from 'application/assets/icons/Icoexpand';
+import Icomute from 'application/assets/icons/Icomute';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const StreamBlock = () => {

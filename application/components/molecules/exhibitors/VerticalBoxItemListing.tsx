@@ -1,8 +1,8 @@
 import React from 'react'
 import { Container, Image, Text } from 'native-base'
-import BoxIconHeading from 'applications/app/components/atoms/headings/BoxIconHeading'
-import IcoExhibitors from 'applications/app/assets/icons/IcoExhibitors'
-import BoxItem from 'applications/app/components/atoms/exhibitors/BoxItem'
+import BoxIconHeading from 'application/components/atoms/headings/BoxIconHeading'
+import IcoExhibitors from 'application/assets/icons/IcoExhibitors'
+import BoxItem from 'application/components/atoms/exhibitors/BoxItem'
 
 const VerticalBoxItemListing = () => {
   return (

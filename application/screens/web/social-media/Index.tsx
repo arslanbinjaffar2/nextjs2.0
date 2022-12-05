@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Center, Container, Flex, HStack, Icon, Text } from 'native-base';
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import Master from 'applications/app/screens/web/layouts/Master';
+import Master from 'application/screens/web/layouts/Master';
 
 
 type indexProps = {

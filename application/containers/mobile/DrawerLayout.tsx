@@ -4,7 +4,7 @@ import { DrawerContentScrollView } from '@react-navigation/drawer';
 
 import { Avatar, Box, Flex, HStack, Text, VStack, Pressable } from 'native-base';
 
-import IcoMyEvents from 'applications/app/assets/icons/IcoMyEvents';
+import IcoMyEvents from 'application/assets/icons/IcoMyEvents';
 
 const DrawerLayout = (props: any) => {
 

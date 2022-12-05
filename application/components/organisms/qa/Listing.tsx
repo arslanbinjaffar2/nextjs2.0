@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React from 'react';
 import { Avatar, Box, Center, HStack, Icon, IconButton, Pressable, Spacer, Text, VStack } from 'native-base'
-import IcoLike from 'applications/app/assets/icons/Icolike';
+import IcoLike from 'application/assets/icons/Icolike';
 
 const BoxList = ({ border }: any) => {
   return (

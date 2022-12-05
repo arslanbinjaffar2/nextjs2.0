@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Box, Container, HStack, Icon, IconButton, Image, Input, Spacer, Text, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
-import Master from 'applications/app/screens/web/layouts/Master';
+import Master from 'application/screens/web/layouts/Master';
 
 
 type indexProps = {

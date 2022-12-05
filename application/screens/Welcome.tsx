@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { images } from 'applications/app/styles';
-import Layout from 'applications/app/containers/mobile/Layout';
+import { images } from 'application/styles';
+import Layout from 'application/containers/mobile/Layout';
 import { Button, Center, Flex, Text, VStack, Image, View } from 'native-base';
 import { Link as SolitoLink } from 'solito/link'
 

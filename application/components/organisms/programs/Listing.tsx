@@ -1,7 +1,7 @@
 import React from 'react';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { Button, Center, Container, Heading, HStack, Icon, IconButton } from 'native-base';
-import BlockView from 'applications/app/components/atoms/programs/BlockView';
+import BlockView from 'application/components/atoms/programs/BlockView';
 
 const Listing = () => {
   return (

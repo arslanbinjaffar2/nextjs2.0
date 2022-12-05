@@ -2,9 +2,9 @@ import { NavigationProvider } from './navigation'
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useState, useEffect } from 'react';
-import colors from 'applications/app/styles/colors'
+import colors from 'application/styles/colors'
 import { LinearGradient } from 'expo-linear-gradient';
-import { func } from 'applications/app/styles';
+import { func } from 'application/styles';
 import * as Font from 'expo-font';
 
 export function Provider({ children }: { children: React.ReactNode }) {

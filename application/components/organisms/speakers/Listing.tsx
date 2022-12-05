@@ -2,7 +2,7 @@
 import React from 'react';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { Avatar, Box, Button, Center, HStack, Icon, IconButton, Pressable, Spacer, Text, VStack } from 'native-base'
-import IcoRaiseHand from 'applications/app/assets/icons/IcoRaiseHand';
+import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand';
 
 const Listing = () => {
   return (
