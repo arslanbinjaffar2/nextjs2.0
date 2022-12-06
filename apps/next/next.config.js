@@ -38,5 +38,6 @@ module.exports = withNativebase({
       ]
       return config
     },
+    distDir: 'build'
   },
 })
