@@ -9,8 +9,8 @@ import { Link as SolitoLink } from 'solito/link'
 
 const Login = ({ props }: any) => {
   return (
-    <BackgroundLayout> 
-      <Center  >
+    <BackgroundLayout>
+      <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
         <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
           <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
           <VStack w={'100%'} alignItems={'center'} space='4'>
