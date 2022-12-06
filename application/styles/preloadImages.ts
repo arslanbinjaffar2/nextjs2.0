@@ -1,6 +1,6 @@
-import Logo from 'app/assets/images/eventbuizz.png';
+import Logo from 'application/assets/images/eventbuizz.png';
 
-import SplashImage from 'app/assets/images/splash.jpg';
+import SplashImage from 'application/assets/images/splash.jpg';
 
 export default {
   Logo,

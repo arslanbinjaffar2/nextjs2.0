@@ -7,7 +7,7 @@ import { images } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import { Link as SolitoLink } from 'solito/link'
 
-const Login = ({ navigation }: any) => {
+const Login = ({ props }: any) => {
   return (
     <BackgroundLayout>
       <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
@@ -31,10 +31,6 @@ const Login = ({ navigation }: any) => {
       </Center>
     </BackgroundLayout>
   );
-};
-
-Login.propTypes = {
-  navigation: PropTypes.object.isRequired,
 };
 
 export default Login;

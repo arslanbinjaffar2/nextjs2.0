@@ -104,11 +104,11 @@ export function Provider({ children }: { children: React.ReactNode }) {
         await SplashScreen.preventAutoHideAsync();
         func.loadAssetsAsync;
         await Font.loadAsync({
-          'avenir': require('app/assets/fonts/AvenirNextCondensed.ttf'),
-          'avenir-medium': require('app/assets/fonts/AvenirNextCondensed-Medium.ttf'),
-          'avenir-demi': require('app/assets/fonts/AvenirNextCondensed-DemiBold.ttf'),
+          'avenir': require('application/assets/fonts/AvenirNextCondensed.ttf'),
+          'avenir-medium': require('application/assets/fonts/AvenirNextCondensed-Medium.ttf'),
+          'avenir-demi': require('application/assets/fonts/AvenirNextCondensed-DemiBold.ttf'),
           'avenir-bold': {
-            uri: require('app/assets/fonts/AvenirNextCondensedBold.ttf'),
+            uri: require('application/assets/fonts/AvenirNextCondensedBold.ttf'),
             display: Font.FontDisplay.FALLBACK,
           },
         });

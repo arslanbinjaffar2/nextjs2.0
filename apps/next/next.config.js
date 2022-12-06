@@ -14,7 +14,7 @@ module.exports = withNativebase({
     'react-native-vector-icons',
     'react-native-vector-icons-for-web',
     'solito',
-    'app',
+    'application',
   ],
   plugins: [[withFonts, { projectRoot: __dirname }], [withImages, { projectRoot: __dirname }], [withExpo, { projectRoot: __dirname }]],
   nextConfig: {
