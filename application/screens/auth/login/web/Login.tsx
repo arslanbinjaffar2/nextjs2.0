@@ -17,7 +17,7 @@ const Login = ({ props }: any) => {
             <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the event code you have received from your organizer.</Text>
             <Input type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder="Email" />
             <Input type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder="Password" />
-            <SolitoLink viewProps={{ style: { maxWidth: 230, width: '100%' } }} href="/dashboard">
+            <SolitoLink viewProps={{ style: { maxWidth: 230, width: '100%' } }} href="/event/dashboard">
               <Button
                 minH='48px'
                 endIcon={<IcoLongArrow />}

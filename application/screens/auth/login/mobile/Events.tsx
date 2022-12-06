@@ -16,7 +16,7 @@ const Events = ({ navigation }: any) => {
         <ScrollView w="100%">
           <VStack pb={50} space="10px" w="100%">
             {[...Array(10).keys()].map((i) =>
-              <SolitoLink href="/dashboard">
+              <SolitoLink href="/event/dashboard">
                 <Box key={i} bg="rgba(0,0,0,0.4)" rounded="10">
                   <Center borderBottomColor="rgba(255,255,255,0.2)" borderBottomWidth={1} px="15" py="10px">
                     <Image
