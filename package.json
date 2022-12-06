@@ -15,6 +15,7 @@
   "scripts": {
     "native": "cd apps/expo && expo start",
     "web": "cd apps/next && yarn next",
-    "web:build": "cd apps/next && yarn build"
+    "web:build": "cd apps/next && yarn build",
+    "web:start": "cd apps/next && yarn start"
   }
 }
