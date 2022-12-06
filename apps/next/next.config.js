@@ -37,7 +37,6 @@ module.exports = withNativebase({
         ...config.resolve.extensions,
       ]
       return config
-    },
-    distDir: 'build'
+    }
   },
 })
