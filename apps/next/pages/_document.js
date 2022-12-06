@@ -25,7 +25,9 @@ class Document extends NativebaseDocument {
   render() {
     return (
       <Html style={{ height: "100%" }}>
-        <Head />
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        </Head>
         <body style={{ height: "100%", overflow: "hidden" }}>
           <Main />
           <NextScript />
