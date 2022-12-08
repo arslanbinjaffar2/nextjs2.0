@@ -2,7 +2,7 @@ import { createAction, createSlice, nanoid, PayloadAction } from '@reduxjs/toolk
 
 import { Event } from 'application/models/Event'
 
-import type { RootState } from 'application/store/Store'
+import type { RootState } from 'application/store/Index'
 
 export interface EventState {
     event: Event[]

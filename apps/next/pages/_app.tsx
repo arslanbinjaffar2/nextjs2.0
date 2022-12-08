@@ -15,9 +15,11 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Provider>
-        <Component {...pageProps} />
-      </Provider>
+      {typeof window !== "undefined" && (
+        <Provider>
+          <Component {...pageProps} />
+        </Provider>
+      )}
     </>
   )
 }

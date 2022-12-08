@@ -6,6 +6,9 @@ import colors from 'application/styles/colors'
 import { LinearGradient } from 'expo-linear-gradient';
 import { func } from 'application/styles';
 import * as Font from 'expo-font';
+import { Provider as ReduxProvider } from 'react-redux'
+import { HistoryRouter as Router } from 'redux-first-history/rr6'
+import { history, store } from 'application/store/Index'
 
 export function Provider({ children }: { children: React.ReactNode }) {
 
@@ -121,7 +124,9 @@ export function Provider({ children }: { children: React.ReactNode }) {
 
     return (
         <NavigationProvider>
-            <NativeBaseProvider config={config} theme={theme}>{children}</NativeBaseProvider>
+            <ReduxProvider store={store}>
+                <NativeBaseProvider config={config} theme={theme}>{children}</NativeBaseProvider>
+            </ReduxProvider>
         </NavigationProvider>
     )
 }
