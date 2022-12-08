@@ -91,6 +91,12 @@ export function Provider({ children }: { children: React.ReactNode }) {
                 await SplashScreen.preventAutoHideAsync();
                 func.loadAssetsAsync;
                 await Font.loadAsync({
+                    'MaterialIcons': require('react-native-vector-icons/Fonts/MaterialIcons.ttf'),
+                    'SimpleLineIcons': require('react-native-vector-icons/Fonts/SimpleLineIcons.ttf'),
+                    'AntDesign': require('react-native-vector-icons/Fonts/AntDesign.ttf'),
+                    'Ionicons': require('react-native-vector-icons/Fonts/Ionicons.ttf'),
+                    'Entypo': require('react-native-vector-icons/Fonts/Entypo.ttf'),
+                    'FontAwesome': require('react-native-vector-icons/Fonts/FontAwesome.ttf'),
                     'avenir': require('application/assets/fonts/AvenirNextCondensed.ttf'),
                     'avenir-medium': require('application/assets/fonts/AvenirNextCondensed-Medium.ttf'),
                     'avenir-demi': require('application/assets/fonts/AvenirNextCondensed-DemiBold.ttf'),
