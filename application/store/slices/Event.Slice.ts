@@ -5,11 +5,13 @@ import { Event } from 'application/models/Event'
 import type { RootState } from 'application/store/Index'
 
 export interface EventState {
-    event: Event[]
+    slug: string,
+    event: Event
 }
 
 const initialState: EventState = {
-    event: [],
+    slug: '',
+    event: {}
 }
 
 // Slice
@@ -17,7 +19,7 @@ export const EventSlice = createSlice({
     name: 'event',
     initialState,
     reducers: {
-        fetchAllSucceeded(state, action: PayloadAction<Event[]>) {
+        FetchEventSucceeded(state, action: PayloadAction<Event>) {
             // it's okay to do this here, because immer makes it immutable under the hood😊
             state.event = action.payload
         },
@@ -26,17 +28,17 @@ export const EventSlice = createSlice({
 
 // Actions
 export const EventActions = {
-    create: createAction(`${EventSlice.name}/create`, (event: Event) => ({
-        payload: event,
+    FetchEvent: createAction(`${EventSlice.name}/FetchEvent`, (slug: string) => ({
+        payload: {
+            slug: slug
+        },
     })),
-    fetchAll: createAction(`${EventSlice.name}/fetchAll`),
-    fetchAllSucceeded: EventSlice.actions.fetchAllSucceeded,
-    update: createAction<Event>(`${EventSlice.name}/update`),
-    delete: createAction<Event>(`${EventSlice.name}/delete`),
+    FetchEventSucceeded: EventSlice.actions.FetchEventSucceeded,
+    UpdateEvent: createAction<Event>(`${EventSlice.name}/update`),
 }
 
 // Selectors
-export const SelectEvent = (state: RootState) => state.event
+export const SelectEvent = (state: RootState) => state.event.event
 
 // Reducer
 export default EventSlice.reducer

@@ -1,7 +1,6 @@
 import Login from 'application/screens/auth/login/web/Login'
 
 const Index = () => {
-
     return (
         <>
             <Login />

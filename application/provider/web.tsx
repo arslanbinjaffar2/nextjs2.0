@@ -6,13 +6,26 @@ import colors from 'application/styles/colors'
 import { LinearGradient } from 'expo-linear-gradient';
 import { func } from 'application/styles';
 import * as Font from 'expo-font';
-import { Provider as ReduxProvider } from 'react-redux'
-import { HistoryRouter as Router } from 'redux-first-history/rr6'
-import { history, store } from 'application/store/Index'
+import { createParam } from 'solito'
+import UseEventService from 'application/hooks/UseEventService';
+
+type ScreenParams = { event: string }
+
+const { useParam } = createParam<ScreenParams>()
 
 export function Provider({ children }: { children: React.ReactNode }) {
 
     const [appIsReady, setAppIsReady] = useState(false);
+
+    const [event_url] = useParam('event')
+
+    const { event, UpdateEvent, FetchEvent } = UseEventService()
+
+    useEffect(() => {
+        if (event_url !== undefined) {
+            FetchEvent(event_url)
+        }
+    }, [FetchEvent, event_url])
 
     const config = {
         dependencies: {
@@ -124,9 +137,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
 
     return (
         <NavigationProvider>
-            <ReduxProvider store={store}>
-                <NativeBaseProvider config={config} theme={theme}>{children}</NativeBaseProvider>
-            </ReduxProvider>
+            <NativeBaseProvider config={config} theme={theme}>{children}</NativeBaseProvider>
         </NavigationProvider>
     )
 }

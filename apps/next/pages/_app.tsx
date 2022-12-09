@@ -3,6 +3,9 @@ import Head from 'next/head'
 import React from 'react'
 import type { SolitoAppProps } from 'solito'
 import 'raf/polyfill'
+import { Provider as ReduxProvider } from 'react-redux'
+import { HistoryRouter as Router } from 'redux-first-history/rr6'
+import { history, store } from 'application/store/Index'
 
 function MyApp({ Component, pageProps }: SolitoAppProps) {
   return (
@@ -16,9 +19,11 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {typeof window !== "undefined" && (
-        <Provider>
-          <Component {...pageProps} />
-        </Provider>
+        <ReduxProvider store={store}>
+          <Provider>
+            <Component {...pageProps} />
+          </Provider>
+        </ReduxProvider>
       )}
     </>
   )

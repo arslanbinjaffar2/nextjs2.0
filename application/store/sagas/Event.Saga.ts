@@ -8,26 +8,31 @@ import { EventActions } from 'application/store/slices/Event.Slice'
 
 import { Event } from 'application/models/Event'
 
-// Worker Sagas
-export function* onGetEvent(): SagaIterator {
-    const event: Event[] = yield call(getEventApi)
-    yield put(EventActions.fetchAllSucceeded(event))
-}
-
-function* onUpdateEvent({
+// Worker Sagas handlers
+function* OnGetEvent({
     payload,
 }: {
-    type: typeof EventActions.update
+    type: typeof EventActions.UpdateEvent
+    payload: string
+}): SagaIterator {
+    const event: Event = yield call(getEventApi, payload)
+    yield put(EventActions.FetchEventSucceeded(event))
+}
+
+function* OnUpdateEvent({
+    payload,
+}: {
+    type: typeof EventActions.UpdateEvent
     payload: Event
 }): SagaIterator {
     yield call(updateEventApi, payload)
-    yield put(EventActions.fetchAll())
+    yield put(EventActions.FetchEvent(payload.url!))
 }
 
 // Watcher Saga
 export function* EventWatcherSaga(): SagaIterator {
-    yield takeEvery(EventActions.fetchAll.type, onGetEvent)
-    yield takeEvery(EventActions.update.type, onUpdateEvent)
+    yield takeEvery(EventActions.FetchEvent.type, OnGetEvent)
+    yield takeEvery(EventActions.UpdateEvent.type, OnUpdateEvent)
 }
 
 export default EventWatcherSaga
