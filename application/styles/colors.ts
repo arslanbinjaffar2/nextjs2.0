@@ -1,4 +1,4 @@
-const background = hex2rgb('#1B0C5B');
+const background = hex2rgb('#343d50');
 const hsb = rgb2hsv(background[0], background[1], background[2]);
 const box = hsbTorgb(hsb[0], hsb[1] / 2, hsb[2] + 30);
 const darkbox = hsbTorgb(hsb[0], hsb[1] / 2, hsb[2] + 12);

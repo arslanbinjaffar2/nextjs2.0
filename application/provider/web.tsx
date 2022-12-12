@@ -6,7 +6,7 @@ import colors from 'application/styles/colors'
 import { LinearGradient } from 'expo-linear-gradient';
 import { func } from 'application/styles';
 import * as Font from 'expo-font';
-import { createParam } from 'solito'
+import { createParam } from 'solito';
 import UseEventService from 'application/hooks/UseEventService';
 
 type ScreenParams = { event: string }
