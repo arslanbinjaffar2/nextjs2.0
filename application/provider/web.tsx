@@ -19,7 +19,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
 
     const [event_url] = useParam('event')
 
-    const { event, UpdateEvent, FetchEvent } = UseEventService()
+    const { FetchEvent } = UseEventService()
 
     useEffect(() => {
         if (event_url !== undefined) {

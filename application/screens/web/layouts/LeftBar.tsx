@@ -18,12 +18,15 @@ import IcoAdditionalInfo from 'application/assets/icons/IcoAdditionalInfo';
 import IcoGeneralInfo from 'application/assets/icons/IcoGeneralInfo';
 import { useWindowDimensions } from 'react-native';
 import { useRouter } from 'solito/router'
+import UseEventService from 'application/hooks/UseEventService';
 
 const LeftBar = ({ navigation }: any) => {
 
   const { push, replace, back, parseNextPath } = useRouter()
 
   const { width } = useWindowDimensions();
+
+  const { event } = UseEventService()
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" h="100%" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
@@ -46,7 +49,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/dashboard')
+            push(`/${event.url}/dashboard`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -62,7 +65,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/sponsors')
+            push(`/${event.url}/sponsors`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -78,7 +81,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/attendees')
+            push(`/${event.url}/attendees`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -94,7 +97,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/programs')
+            push(`/${event.url}/programs`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -110,7 +113,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/polls')
+            push(`/${event.url}/polls`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -126,7 +129,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/qa')
+            push(`/${event.url}/qa`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -142,7 +145,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/checkin')
+            push(`/${event.url}/checkin`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -158,7 +161,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/documents')
+            push(`/${event.url}/documents`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -174,7 +177,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/chat')
+            push(`/${event.url}/chat`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -190,7 +193,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/floor-plan')
+            push(`/${event.url}/floor-plan`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -206,7 +209,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/map')
+            push(`/${event.url}/map`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -222,7 +225,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/map')
+            push(`/${event.url}/map`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -238,7 +241,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/social-media')
+            push(`/${event.url}/social-media`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -254,7 +257,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/social-wall')
+            push(`/${event.url}/social-wall`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -270,7 +273,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/practical-information')
+            push(`/${event.url}/practical-information`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -286,7 +289,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/general-information')
+            push(`/${event.url}/general-information`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -302,7 +305,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push('/event/additional-information')
+            push(`/${event.url}/additional-information`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">

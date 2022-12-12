@@ -37,6 +37,9 @@ module.exports = withNativebase({
         ...config.resolve.extensions,
       ]
       return config
-    }
+    },
+    env: {
+      APP_API_BASE_URL: process.env.APP_API_BASE_URL
+    },
   },
 })

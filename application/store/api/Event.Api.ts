@@ -9,6 +9,8 @@ const api = makeApi(`${Env.API_BASE_URL}`);
 
 const EventBaseUrl = `/event`
 
-export const getEventApi = (slug: string): Promise<Event> => api.get(EventBaseUrl)
+export const getEventApi = (payload: any): Promise<Event> => {
+    return api.get(`${EventBaseUrl}/${payload.slug}`);
+}
 
 export const updateEventApi = (event: Event): Promise<Event> => api.put(`${EventBaseUrl}/${event.id}`, event)

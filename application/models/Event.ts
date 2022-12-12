@@ -51,3 +51,8 @@ export interface Event {
     updated_at?: string;
     deleted_at?: string;
 }
+
+export interface EventResponse {
+    event?: Event,
+    success?: boolean
+}

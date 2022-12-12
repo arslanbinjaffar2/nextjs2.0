@@ -6,17 +6,17 @@ import { getEventApi, updateEventApi } from 'application/store/api/Event.Api';
 
 import { EventActions } from 'application/store/slices/Event.Slice'
 
-import { Event } from 'application/models/Event'
+import { Event, EventResponse } from 'application/models/Event'
 
 // Worker Sagas handlers
 function* OnGetEvent({
     payload,
 }: {
-    type: typeof EventActions.UpdateEvent
-    payload: string
+    type: typeof EventActions.FetchEvent
+    payload: any
 }): SagaIterator {
-    const event: Event = yield call(getEventApi, payload)
-    yield put(EventActions.FetchEventSucceeded(event))
+    const response: EventResponse = yield call(getEventApi, payload)
+    yield put(EventActions.FetchEventSucceeded(response.event!))
 }
 
 function* OnUpdateEvent({

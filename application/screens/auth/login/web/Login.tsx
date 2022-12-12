@@ -6,8 +6,12 @@ import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import { Link as SolitoLink } from 'solito/link'
+import UseEventService from 'application/hooks/UseEventService';
 
 const Login = ({ props }: any) => {
+
+  const { event } = UseEventService()
+
   return (
     <BackgroundLayout>
       <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
@@ -17,7 +21,7 @@ const Login = ({ props }: any) => {
             <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the event code you have received from your organizer.</Text>
             <Input type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder="Email" />
             <Input type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder="Password" />
-            <SolitoLink viewProps={{ style: { maxWidth: 230, width: '100%' } }} href="/event/dashboard">
+            <SolitoLink viewProps={{ style: { maxWidth: 230, width: '100%' } }} href={`/${event.url}/dashboard`}>
               <Button
                 minH='48px'
                 endIcon={<IcoLongArrow />}
