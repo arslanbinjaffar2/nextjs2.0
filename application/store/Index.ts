@@ -5,6 +5,7 @@ import { createReduxHistoryContext } from 'redux-first-history'
 import logger from 'redux-logger'
 import { Env } from 'application/config/Env'
 import EventSlice from 'application/store/slices/Event.Slice'
+import AuthSlice from 'application/store/slices/Auth.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 
 const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext({
@@ -20,6 +21,7 @@ const makeStore = () => {
     const store = configureStore({
         reducer: {
             event: EventSlice,
+            auth: AuthSlice,
             router: routerReducer,
         },
         devTools: Env.isDev(),
