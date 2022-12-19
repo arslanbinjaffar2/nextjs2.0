@@ -7,9 +7,9 @@ import { images } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import { Link as SolitoLink } from 'solito/link'
 import UseEventService from 'application/hooks/UseEventService';
+import UseAuthService from 'application/hooks/UseAuthService';
 import { createParam } from 'solito';
 import { useRouter } from 'solito/router'
-import { useAppDispatch, useAppSelector } from 'application/store/Hooks';
 
 type ScreenParams = { page: string }
 
@@ -17,15 +17,13 @@ const { useParam } = createParam<ScreenParams>()
 
 const Login = ({ props }: any) => {
 
-  const { event } = UseEventService()
+  const { event } = UseEventService();
+
+  //const { isLoggedIn, logging, login } = UseAuthService();
 
   const [page] = useParam('page');
 
-  const { push } = useRouter()
-
-  const dispatch = useAppDispatch();
-  
-  const isLogging = useAppSelector((state) => state.auth.logging);
+  const { push } = useRouter();
 
   return (
     <BackgroundLayout>
