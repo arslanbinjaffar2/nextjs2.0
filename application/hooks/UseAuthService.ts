@@ -23,7 +23,7 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
         logging: useAppSelector(selectIsLogging),
         login: useCallback(
             (payload: LoginPayload) => {
-                dispatch(AuthActions.login(payload)
+                dispatch(AuthActions.login(payload))
             },
             [dispatch],
         ),

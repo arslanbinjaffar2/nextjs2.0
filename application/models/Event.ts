@@ -62,10 +62,10 @@ export interface Event {
     hide_from_event_history?: number;
     use_new_reg_site?: number;
     info?: Info[];
-    settings?: Setting;
-    attendee_settings?: AttendeeSetting;
-    detail?: Detail;
-    gdpr_log_count?: number;
+    settings: Setting;
+    attendee_settings: AttendeeSetting;
+    detail: Detail;
+    gdpr_log_count: number;
     labels?: any;
 }
 
