@@ -18,7 +18,7 @@ import IcoAdditionalInfo from 'application/assets/icons/IcoAdditionalInfo';
 import IcoGeneralInfo from 'application/assets/icons/IcoGeneralInfo';
 import { useWindowDimensions } from 'react-native';
 import { useRouter } from 'solito/router'
-import UseEventService from 'application/hooks/UseEventService';
+import UseEventService from 'application/services/UseEventService';
 
 const LeftBar = ({ navigation }: any) => {
 

@@ -1,4 +1,4 @@
-import Login from 'application/screens/auth/login/web/Login'
+import Login from 'application/screens/web/auth/Login'
 
 const Index = () => {
     return (

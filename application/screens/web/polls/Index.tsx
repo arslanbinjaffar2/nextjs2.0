@@ -27,11 +27,8 @@ const Index = ({ navigation }: indexProps) => {
         <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
           <BoxItem />
           <Divider h="100px" bg="transparent" />
-
         </Box>
-
       </Container>
-
     </Master>
   );
 };

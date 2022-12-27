@@ -3,18 +3,20 @@ import { Env } from 'application/config/Env';
 
 import { LoginPayload } from 'application/store/slices/Auth.Slice';
 
-import { Event } from 'application/models/Event';
-
 import { GeneralResponse } from 'application/models/GeneralResponse';
 
 import makeApi from "application/utils/ConfigureAxios";
+
+import { store } from 'application/store/Index'
 
 const api = makeApi(`${Env.API_BASE_URL}`);
 
 const EventBaseUrl = `/event`
 
 export const getLoginApi = (payload: LoginPayload): Promise<GeneralResponse> => {
-    return api.post(`${EventBaseUrl}/auth/login`, payload);
+    return api.post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/login`, payload);
 }
 
-export const updateEventApi = (event: Event): Promise<Event> => api.put(`${EventBaseUrl}/${event.id}`, event)
+export const getUserApi = (): Promise<GeneralResponse> => {
+    return api.get(`${EventBaseUrl}/${store.getState().event.event.url}/attendee/profile`);
+}

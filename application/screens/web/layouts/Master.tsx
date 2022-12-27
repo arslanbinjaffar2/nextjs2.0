@@ -5,6 +5,9 @@ import LeftBar from 'application/screens/web/layouts/LeftBar';
 import RightBar from 'application/screens/web/layouts/RightBar';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import Header from 'application/screens/web/layouts/Header';
+import UseAuthService from 'application/services/UseAuthService';
+import UseEventService from 'application/services/UseEventService';
+import { useRouter } from 'solito/router'
 
 type Props = {
   children:
@@ -18,6 +21,23 @@ type Props = {
 const Master = ({ children, navigation }: Props) => {
 
   const { width } = useWindowDimensions();
+
+  const { event } = UseEventService();
+
+  const { getUser, currentUser } = UseAuthService();
+
+  const { push } = useRouter();
+
+  React.useEffect(() => {
+    getUser();
+  }, [])
+
+  React.useEffect(() => {
+    console.log(currentUser)
+    if (Object.keys(currentUser).length === 0) {
+      push(`/${event.url}/auth/login`)
+    }
+  }, [currentUser])
 
   return (
     <BackgroundLayout>

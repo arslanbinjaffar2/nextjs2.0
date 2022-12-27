@@ -1,55 +1,62 @@
-import { delay, put } from 'redux-saga/effects';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { call, fork, take } from 'redux-saga/effects';
+import { SagaIterator } from '@redux-saga/core'
+
+import { call, put, takeEvery } from 'redux-saga/effects'
+
+import { getLoginApi, getUserApi } from 'application/store/api/Auth.Api';
+
 import { LoginPayload, AuthActions } from 'application/store/slices/Auth.Slice';
-import { getLoginApi } from 'application/store/api/Auth.Api';
+
 import { GeneralResponse } from 'application/models/GeneralResponse'
 
-function* login(payload: LoginPayload) {
+// Worker Sagas handlers
+function* OnLogin({
+    payload,
+}: {
+    type: typeof AuthActions.login
+    payload: LoginPayload
+}): SagaIterator {
     try {
-        yield delay(1000); 
-
-        const response: GeneralResponse = yield call(getLoginApi, payload)
-
-        yield put(
-            AuthActions.loginSuccess(response)
-        );
-
-    } catch (error) {
-        yield put(AuthActions.loginFailed(error.message)); // Dispatch action
-    }
-}
-
-function* logout() {
-
-    yield delay(500);
-
-    localStorage.removeItem('access_token');
-
-    // Redirect to Login page
-    yield put(push('/login'));
-}
-
-function* watchLoginFlow() {
-
-    while (true) {
-
-        const isLoggedIn = Boolean(localStorage.getItem('access_token'));
-
-        if (!isLoggedIn) {
-            const action: PayloadAction<LoginPayload> = yield take(
-                AuthActions.login.type
-            );
-            yield fork(login, action.payload); // Non-blocking
+        const response: GeneralResponse = yield call(getLoginApi, payload);
+        if (response.success) {
+            localStorage.setItem('access_token', response.data.access_token);
+            yield put(AuthActions.loginSuccess(response));
+        } else {
+            yield put(AuthActions.loginFailed(response));
         }
-
-        yield take(AuthActions.logout.type);
-
-        yield call(logout); // Blocking - wait for the logout function to finish before continuing to watch watchLoginFlow
+    } catch (error: any) {
+        yield put(AuthActions.loginFailed(error.message));
     }
-
 }
 
-export function* authSaga() {
-    yield fork(watchLoginFlow);
+function* OnGetUser({ }: {
+    type: typeof AuthActions.getUser
+    payload: LoginPayload
+}): SagaIterator {
+    try {
+        const response: GeneralResponse = yield call(getUserApi);
+        if (response.success) {
+            yield put(AuthActions.loginSuccess(response));
+        } else {
+            yield put(AuthActions.logout());
+        }
+    } catch (error: any) {
+        yield put(AuthActions.logout());
+    }
 }
+
+function* OnLogout({
+}: {
+    type: typeof AuthActions.logout
+    payload: Event
+}): SagaIterator {
+    localStorage.removeItem('access_token');
+}
+
+// Watcher Saga
+export function* AuthWatcherSaga(): SagaIterator {
+    yield takeEvery(AuthActions.login.type, OnLogin)
+    yield takeEvery(AuthActions.getUser.type, OnGetUser)
+    yield takeEvery(AuthActions.logout.type, OnLogout)
+}
+
+export default AuthWatcherSaga
