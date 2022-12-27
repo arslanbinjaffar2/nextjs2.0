@@ -12,12 +12,14 @@ export interface AuthState {
     isLoggedIn: boolean;
     logging?: boolean;
     currentUser: GeneralResponse;
+    error: string;
 }
 
 const initialState: AuthState = {
     isLoggedIn: false,
     logging: false,
     currentUser: {},
+    error: '',
 };
 
 const AuthSlice = createSlice({
@@ -27,7 +29,7 @@ const AuthSlice = createSlice({
         login(state, action: PayloadAction<LoginPayload>) {
             state.logging = true;
         },
-        getUser(state, action: PayloadAction<LoginPayload>) {
+        getUser(state) {
             state.logging = true;
         },
         loginSuccess(state, action: PayloadAction<GeneralResponse>) {
@@ -35,8 +37,9 @@ const AuthSlice = createSlice({
             state.logging = false;
             state.currentUser = action.payload;
         },
-        loginFailed(state, action: PayloadAction<GeneralResponse>) {
+        loginFailed(state, action: PayloadAction<string>) {
             state.logging = false;
+            state.error = action.payload;
         },
         logout(state) {
             state.isLoggedIn = false;
@@ -47,10 +50,8 @@ const AuthSlice = createSlice({
 
 // Actions
 export const AuthActions = {
-    login: createAction(`${AuthSlice.name}/login`, (payload: LoginPayload) => ({
-        payload: payload,
-    })),
-    getUser: createAction(`${AuthSlice.name}/get-user`),
+    login: AuthSlice.actions.login,
+    getUser: AuthSlice.actions.getUser,
     loginSuccess: AuthSlice.actions.loginSuccess,
     loginFailed: AuthSlice.actions.loginFailed,
     logout: AuthSlice.actions.logout,
@@ -62,6 +63,8 @@ export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
 export const selectIsLogging = (state: RootState) => state.auth.logging;
 
 export const currentUser = (state: RootState) => state.auth.currentUser;
+
+export const error = (state: RootState) => state.auth.error;
 
 // Reducer
 const authReducer = AuthSlice.reducer;

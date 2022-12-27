@@ -21,7 +21,7 @@ function* OnLogin({
             localStorage.setItem('access_token', response.data.access_token);
             yield put(AuthActions.loginSuccess(response));
         } else {
-            yield put(AuthActions.loginFailed(response));
+            yield put(AuthActions.loginFailed(response.message!));
         }
     } catch (error: any) {
         yield put(AuthActions.loginFailed(error.message));

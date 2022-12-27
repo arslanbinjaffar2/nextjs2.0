@@ -4,7 +4,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
-import { Link as SolitoLink } from 'solito/link'
 import UseEventService from 'application/services/UseEventService';
 import UseAuthService from 'application/services/UseAuthService';
 import { useRouter } from 'solito/router'
@@ -21,7 +20,7 @@ const Login = ({ props }: any) => {
 
     const { event } = UseEventService();
 
-    const { isLoggedIn, logging, login } = UseAuthService();
+    const { isLoggedIn, logging, login, error } = UseAuthService();
 
     const { push } = useRouter();
 
@@ -43,7 +42,7 @@ const Login = ({ props }: any) => {
                                     {event.attendee_settings.hide_password === 0 && event.attendee_settings.registration_password === 0 && event.attendee_settings.authentication === 0 ? (
                                         <VStack space="20px">
                                             <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the event code you have received from your organizer.</Text>
-                                            <FormControl isRequired isInvalid={'email' in errors}>
+                                            <FormControl isRequired isInvalid={'email' in errors || error !== ''}>
                                                 <Controller
                                                     control={control}
                                                     render={({ field: { onChange, onBlur, value } }) => (
@@ -60,23 +59,40 @@ const Login = ({ props }: any) => {
                                                 <FormControl.ErrorMessage>
                                                     {errors.email?.type === 'required'
                                                         ? 'Email is required'
+                                                        : (error ? error : errors.email?.message)}
+                                                </FormControl.ErrorMessage>
+                                            </FormControl>
+                                            <FormControl isRequired isInvalid={'password' in errors}>
+                                                <Controller
+                                                    control={control}
+                                                    render={({ field: { onChange, onBlur, value } }) => (
+                                                        <Input onChangeText={(val) => onChange(val)} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_PASSWORD} />
+                                                    )}
+                                                    name="password"
+                                                    rules={{
+                                                        required: 'Field is required'
+                                                    }}
+                                                    defaultValue=""
+                                                />
+                                                <FormControl.ErrorMessage>
+                                                    {errors.email?.type === 'required'
+                                                        ? 'Password is required'
                                                         : errors.email?.message}
                                                 </FormControl.ErrorMessage>
                                             </FormControl>
-                                            <Input type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_PASSWORD} />
-                                            <SolitoLink viewProps={{ style: { maxWidth: 230, width: '100%' } }} href={`/${event.url}/dashboard`}>
-                                                <Button
-                                                    minH='48px'
-                                                    endIcon={<IcoLongArrow />}
-                                                    _hover={{ bg: 'primary.secondary' }}
-                                                >
-                                                </Button>
-                                            </SolitoLink>
+                                            <Button
+                                                isLoading={logging}
+                                                onPress={handleSubmit(onSubmit)}
+                                                minH='48px'
+                                                endIcon={<IcoLongArrow />}
+                                                _hover={{ bg: 'primary.secondary' }}
+                                            >
+                                            </Button>
                                         </VStack>
                                     ) : (
                                         <VStack space="10px">
                                             <Text w={'100%'} fontSize='lg' lineHeight='sm' >Please enter the Email address to find your events.</Text>
-                                            <FormControl isRequired isInvalid={'email' in errors}>
+                                            <FormControl isRequired isInvalid={'email' in errors || error !== ''}>
                                                 <Controller
                                                     control={control}
                                                     render={({ field: { onChange, onBlur, value } }) => (
@@ -93,7 +109,8 @@ const Login = ({ props }: any) => {
                                                 <FormControl.ErrorMessage>
                                                     {errors.email?.type === 'required'
                                                         ? 'Email is required'
-                                                        : errors.email?.message}
+                                                        : (error ? error : errors.email?.message)}
+                                                    {error && error}
                                                 </FormControl.ErrorMessage>
                                             </FormControl>
                                         </VStack>

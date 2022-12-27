@@ -33,7 +33,6 @@ const Master = ({ children, navigation }: Props) => {
   }, [])
 
   React.useEffect(() => {
-    console.log(currentUser)
     if (Object.keys(currentUser).length === 0) {
       push(`/${event.url}/auth/login`)
     }

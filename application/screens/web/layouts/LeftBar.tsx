@@ -16,9 +16,11 @@ import IcoSocialWall from 'application/assets/icons/IcoSocialWall';
 import IcoPracticalinfo from 'application/assets/icons/IcoPracticalinfo';
 import IcoAdditionalInfo from 'application/assets/icons/IcoAdditionalInfo';
 import IcoGeneralInfo from 'application/assets/icons/IcoGeneralInfo';
+import IcoLogin from 'application/assets/icons/IcoLogin';
 import { useWindowDimensions } from 'react-native';
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/services/UseEventService';
+import UseAuthService from 'application/services/UseAuthService';
 
 const LeftBar = ({ navigation }: any) => {
 
@@ -27,6 +29,8 @@ const LeftBar = ({ navigation }: any) => {
   const { width } = useWindowDimensions();
 
   const { event } = UseEventService()
+
+  const { logout } = UseAuthService();
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" h="100%" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
@@ -312,6 +316,22 @@ const LeftBar = ({ navigation }: any) => {
               <IcoAdditionalInfo width="24" height="21" />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Additional information</Text>}
+          </HStack>
+        </Pressable>
+        <Pressable
+          w="100%"
+          px="4"
+          py="2"
+          _hover={{ bg: 'primary.500' }}
+          borderRadius="4"
+          onPress={() => {
+            logout();
+          }}>
+          <HStack space="4" alignItems="center">
+            <Center w="30px">
+              <IcoLogin width="24" height="21" />
+            </Center>
+            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Logout</Text>}
           </HStack>
         </Pressable>
       </Center>
