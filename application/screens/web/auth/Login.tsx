@@ -10,6 +10,7 @@ import { useRouter } from 'solito/router'
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import validateEmail from 'application/utils/validations/ValidateEmail'
 import AuthLayout from 'application/screens/web/layouts/AuthLayout';
+import { Link } from 'solito/link'
 
 type Inputs = {
     email: string,
@@ -20,7 +21,7 @@ const Login = ({ props }: any) => {
 
     const { event } = UseEventService();
 
-    const { isLoggedIn, logging, login, error } = UseAuthService();
+    const { isLoggedIn, processing, login, error } = UseAuthService();
 
     const { push } = useRouter();
 
@@ -37,11 +38,28 @@ const Login = ({ props }: any) => {
                     <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
                         <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
                         <VStack w={'100%'} alignItems={'center'} space='4'>
+                            {event.attendee_settings.cpr === 1 && (
+                                <>
+                                    <Link href={`/${event.url}/auth/cpr-login`}>
+                                        <Button
+                                            isLoading={processing}
+                                            onPress={handleSubmit(onSubmit)}
+                                            minH='48px'
+                                            _hover={{ bg: 'primary.secondary' }}
+                                        >
+                                            {event.labels.GENERAL_NEM_ID_LOGIN}
+                                        </Button>
+                                    </Link>
+                                    {event.attendee_settings.email_enable && (
+                                        <Text textAlign={'center'} w={'100%'} fontSize='lg' lineHeight='sm'>OR</Text>
+                                    )}
+                                </>
+                            )}
                             {event.attendee_settings.email_enable && (
                                 <>
                                     {event.attendee_settings.hide_password === 0 && event.attendee_settings.registration_password === 0 && event.attendee_settings.authentication === 0 ? (
                                         <VStack space="20px">
-                                            <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the event code you have received from your organizer.</Text>
+                                            <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the credentials you have received from your organizer.</Text>
                                             <FormControl isRequired isInvalid={'email' in errors || error !== ''}>
                                                 <Controller
                                                     control={control}
@@ -80,8 +98,16 @@ const Login = ({ props }: any) => {
                                                         : errors.email?.message}
                                                 </FormControl.ErrorMessage>
                                             </FormControl>
+                                            {event.attendee_settings.default_password_label === 1 && event.attendee_settings.default_password && event.attendee_settings.authentication === 0 && (
+                                                <Text w={'100%'} fontSize='md' lineHeight='sm'>{event.labels.EVENTSITE_DEFAULT_PASSWORD} {event.attendee_settings.default_password}</Text>
+                                            )}
+                                            {event.attendee_settings.hide_password === 0 && event.attendee_settings.forgot_link === 0 && event.attendee_settings.authentication === 0 && (
+                                                <Link href={`/${event.url}/auth/reset-password-request`}>
+                                                    <Text w={'100%'} fontSize='md' lineHeight='sm'>{event.labels.EVENTSITE_FORGOT_PASSWORD}</Text>
+                                                </Link>
+                                            )}
                                             <Button
-                                                isLoading={logging}
+                                                isLoading={processing}
                                                 onPress={handleSubmit(onSubmit)}
                                                 minH='48px'
                                                 endIcon={<IcoLongArrow />}

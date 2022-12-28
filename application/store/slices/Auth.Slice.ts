@@ -8,16 +8,20 @@ export interface LoginPayload {
     password: string;
 }
 
+export interface PasswordResetRequestPayload {
+    email: string;
+}
+
 export interface AuthState {
     isLoggedIn: boolean;
-    logging?: boolean;
+    processing?: boolean;
     currentUser: GeneralResponse;
     error: string;
 }
 
 const initialState: AuthState = {
     isLoggedIn: false,
-    logging: false,
+    processing: false,
     currentUser: {},
     error: '',
 };
@@ -27,18 +31,21 @@ const AuthSlice = createSlice({
     initialState,
     reducers: {
         login(state, action: PayloadAction<LoginPayload>) {
-            state.logging = true;
+            state.processing = true;
+        },
+        passwordResetRequest(state, action: PayloadAction<PasswordResetRequestPayload>) {
+            state.processing = true;
         },
         getUser(state) {
-            state.logging = true;
+            state.processing = true;
         },
         loginSuccess(state, action: PayloadAction<GeneralResponse>) {
             state.isLoggedIn = true;
-            state.logging = false;
+            state.processing = false;
             state.currentUser = action.payload;
         },
         loginFailed(state, action: PayloadAction<string>) {
-            state.logging = false;
+            state.processing = false;
             state.error = action.payload;
         },
         logout(state) {
@@ -51,6 +58,7 @@ const AuthSlice = createSlice({
 // Actions
 export const AuthActions = {
     login: AuthSlice.actions.login,
+    passwordResetRequest: AuthSlice.actions.passwordResetRequest,
     getUser: AuthSlice.actions.getUser,
     loginSuccess: AuthSlice.actions.loginSuccess,
     loginFailed: AuthSlice.actions.loginFailed,
@@ -60,7 +68,7 @@ export const AuthActions = {
 // Selectors
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
 
-export const selectIsLogging = (state: RootState) => state.auth.logging;
+export const isProcessing = (state: RootState) => state.auth.processing;
 
 export const currentUser = (state: RootState) => state.auth.currentUser;
 
