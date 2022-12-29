@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Heading, FormControl } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, FormControl } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images } from 'application/styles';
@@ -16,11 +16,11 @@ type Inputs = {
     email: string,
 };
 
-const ResetPasswordRequest = ({ props }: any) => {
+const ResetPassword = ({ props }: any) => {
 
     const { event } = UseEventService();
 
-    const { isLoggedIn, processing, passwordReset, error, response } = UseAuthService();
+    const { processing, passwordReset, error, response } = UseAuthService();
 
     const { push } = useRouter();
 
@@ -91,4 +91,4 @@ const ResetPasswordRequest = ({ props }: any) => {
     );
 };
 
-export default ResetPasswordRequest;
+export default ResetPassword;

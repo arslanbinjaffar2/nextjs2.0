@@ -15,6 +15,7 @@ export interface PasswordResetPayload {
 export interface ChooseProviderPayload {
     id: number;
     provider: string;
+    screen: string;
 }
 
 export interface AuthState {

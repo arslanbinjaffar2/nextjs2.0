@@ -1,9 +1,9 @@
-import ResetPasswordRequestScreen from 'application/screens/web/auth/ResetPasswordRequest'
+import ResetPasswordScreen from 'application/screens/web/auth/ResetPassword'
 
-const ResetPasswordRequest = () => {
+const ResetPassword = () => {
     return (
         <>
-            <ResetPasswordRequestScreen />
+            <ResetPasswordScreen />
         </>
     )
 }
@@ -14,4 +14,4 @@ export async function getServerSideProps() {
     }
 }
 
-export default ResetPasswordRequest
+export default ResetPassword
