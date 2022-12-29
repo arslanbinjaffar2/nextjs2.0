@@ -19,12 +19,12 @@ function* OnLogin({
         const response: GeneralResponse = yield call(getLoginApi, payload);
         if (response.success) {
             localStorage.setItem('access_token', response.data.access_token);
-            yield put(AuthActions.loginSuccess(response));
+            yield put(AuthActions.success(response));
         } else {
-            yield put(AuthActions.loginFailed(response.message!));
+            yield put(AuthActions.failed(response.message!));
         }
     } catch (error: any) {
-        yield put(AuthActions.loginFailed(error.message));
+        yield put(AuthActions.failed(error.message));
     }
 }
 
@@ -37,12 +37,12 @@ function* OnPasswordResetRequest({
     try {
         const response: GeneralResponse = yield call(getPasswordResetRequestApi, payload);
         if (response.success) {
-            yield put(AuthActions.loginSuccess(response));
+            yield put(AuthActions.success(response));
         } else {
-            yield put(AuthActions.loginFailed(response.message!));
+            yield put(AuthActions.failed(response.message!));
         }
     } catch (error: any) {
-        yield put(AuthActions.loginFailed(error.message));
+        yield put(AuthActions.failed(error.message));
     }
 }
 
@@ -53,7 +53,7 @@ function* OnGetUser({ }: {
     try {
         const response: GeneralResponse = yield call(getUserApi);
         if (response.success) {
-            yield put(AuthActions.loginSuccess(response));
+            yield put(AuthActions.success(response));
         } else {
             yield put(AuthActions.logout());
         }

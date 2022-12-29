@@ -39,12 +39,13 @@ const AuthSlice = createSlice({
         getUser(state) {
             state.processing = true;
         },
-        loginSuccess(state, action: PayloadAction<GeneralResponse>) {
+        success(state, action: PayloadAction<GeneralResponse>) {
             state.isLoggedIn = true;
             state.processing = false;
             state.currentUser = action.payload;
+            state.error = '';
         },
-        loginFailed(state, action: PayloadAction<string>) {
+        failed(state, action: PayloadAction<string>) {
             state.processing = false;
             state.error = action.payload;
         },
@@ -60,8 +61,8 @@ export const AuthActions = {
     login: AuthSlice.actions.login,
     passwordResetRequest: AuthSlice.actions.passwordResetRequest,
     getUser: AuthSlice.actions.getUser,
-    loginSuccess: AuthSlice.actions.loginSuccess,
-    loginFailed: AuthSlice.actions.loginFailed,
+    success: AuthSlice.actions.success,
+    failed: AuthSlice.actions.failed,
     logout: AuthSlice.actions.logout,
 }
 
