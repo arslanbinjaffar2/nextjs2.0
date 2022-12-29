@@ -1,6 +1,6 @@
 import { Env } from 'application/config/Env';
 
-import { LoginPayload, PasswordResetPayload, ChooseProviderPayload } from 'application/store/slices/Auth.Slice';
+import { LoginPayload, PasswordResetPayload, ChooseProviderPayload, LoadProviderPayload, VerificationPayload } from 'application/store/slices/Auth.Slice';
 
 import { GeneralResponse } from 'application/models/GeneralResponse';
 
@@ -28,6 +28,10 @@ export const getChooseProviderApi = (payload: ChooseProviderPayload): Promise<Ge
     return api.post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload.id}`, payload);
 }
 
-export const getLoadProviderApi = (payload: number): Promise<GeneralResponse> => {
-    return api.get(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload}`);
+export const getVerificationApi = (payload: VerificationPayload): Promise<GeneralResponse> => {
+    return api.post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload.id}`, payload);
+}
+
+export const getLoadProviderApi = (payload: LoadProviderPayload): Promise<GeneralResponse> => {
+    return api.get(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload.id}?screen=${payload.screen}`);
 }

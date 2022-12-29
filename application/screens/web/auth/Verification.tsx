@@ -10,20 +10,21 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import { Link } from 'solito/link'
 import { createParam } from 'solito';
+import ReactCodeInput from 'react-verification-code-input';
 
 type Inputs = {
-    provider: string,
+    code: string,
 };
 
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
 
-const ChoosePassword = ({ props }: any) => {
+const Verification = ({ props }: any) => {
 
     const { event } = UseEventService();
 
-    const { processing, chooseProvider, loadProvider, error, response } = UseAuthService();
+    const { processing, verification, loadProvider, error, response } = UseAuthService();
 
     const { push } = useRouter();
 
@@ -32,7 +33,7 @@ const ChoosePassword = ({ props }: any) => {
     const [id] = useParam('id')
 
     const onSubmit: SubmitHandler<Inputs> = input => {
-        chooseProvider({ provider: input.provider, id: Number(id), screen: 'choose-provider' })
+        verification({ code: input.code, id: Number(id), screen: 'verification' })
     };
 
     React.useEffect(() => {
@@ -49,7 +50,7 @@ const ChoosePassword = ({ props }: any) => {
 
     React.useEffect(() => {
         if (id) {
-            loadProvider({id: Number(id), screen: 'choose-provider'});
+            loadProvider({ id: Number(id), screen: 'verification' });
         }
     }, [id])
 
@@ -62,30 +63,18 @@ const ChoosePassword = ({ props }: any) => {
                         {Object.keys(response).length > 0 ? (
                             <VStack w={'100%'} alignItems={'center'} space='4'>
                                 <VStack space="20px" width={'100%'}>
-                                    <Text w={'100%'} fontSize='lg' lineHeight='sm' >{event.labels.DESKTOP_CHOOSE_SERVICE_PROVIDER_HEADING}</Text>
-                                    <FormControl isRequired isInvalid={'provider' in errors || error !== ''}>
+                                    <Text w={'100%'} fontSize='lg' lineHeight='sm' >{event.labels.DESKTOP_VERIFICATION_SCREEN_HEADING}</Text>
+                                    <FormControl isRequired isInvalid={'code' in errors || error !== ''}>
                                         <Controller
                                             control={control}
                                             render={({ field: { onChange } }) => (
-                                                <Radio.Group
-                                                    name="provider"
-                                                    flexDirection="column"
-                                                    onChange={(val) => onChange(val)}
-                                                    accessibilityLabel="Choose a provider"
-                                                >
-                                                    <Radio value="sms" my="2" background="#fff">
-                                                        <Text mx={2}>{response.data.phone}</Text>
-                                                    </Radio>
-                                                    <Radio value="email" my="2" background="#fff">
-                                                        <Text mx={2}>{response.data.email}</Text>
-                                                    </Radio>
-                                                </Radio.Group>
+                                                <ReactCodeInput type='number' onChange={(val) => onChange(val)} fields={6} fieldHeight={40} fieldWidth={70} />
                                             )}
-                                            name="provider"
-                                            rules={{ required: 'Provider is required' }}
+                                            name="code"
+                                            rules={{ required: 'Code is required' }}
                                         />
                                         <FormControl.ErrorMessage>
-                                            {error ? error : errors.provider?.message}
+                                            {error ? error : errors.code?.message}
                                         </FormControl.ErrorMessage>
                                     </FormControl>
                                     <Link href={`/${event.url}/auth/login`}>
@@ -114,4 +103,4 @@ const ChoosePassword = ({ props }: any) => {
     );
 };
 
-export default ChoosePassword;
+export default Verification;
