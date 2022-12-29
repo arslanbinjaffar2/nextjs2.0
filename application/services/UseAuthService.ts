@@ -12,8 +12,9 @@ export type EventServiceOperators = {
     response: GeneralResponse;
     error: string;
     login: (payload: LoginPayload) => void
-    passwordResetRequest: (payload: PasswordResetPayload) => void
+    passwordReset: (payload: PasswordResetPayload) => void
     chooseProvider: (payload: ChooseProviderPayload) => void
+    loadProvider: (id: number) => void
     getUser: () => void
     logout: () => void
 }
@@ -36,7 +37,7 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
             },
             [dispatch],
         ),
-        passwordResetRequest: useCallback(
+        passwordReset: useCallback(
             (payload: PasswordResetPayload) => {
                 dispatch(AuthActions.passwordReset(payload))
             },
@@ -45,6 +46,12 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
         chooseProvider: useCallback(
             (payload: ChooseProviderPayload) => {
                 dispatch(AuthActions.chooseProvider(payload))
+            },
+            [dispatch],
+        ),
+        loadProvider: useCallback(
+            (payload: number) => {
+                dispatch(AuthActions.loadProvider(payload))
             },
             [dispatch],
         ),

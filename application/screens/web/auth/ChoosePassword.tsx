@@ -10,23 +10,28 @@ import { useRouter } from 'solito/router'
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import { Link } from 'solito/link'
+import { createParam } from 'solito';
 
 type Inputs = {
     provider: string,
 };
 
+const { useParam } = createParam<ScreenParams>()
+
 const ChoosePassword = ({ props }: any) => {
 
     const { event } = UseEventService();
 
-    const { isLoggedIn, processing, chooseProvider, error, response } = UseAuthService();
+    const { isLoggedIn, processing, chooseProvider, loadProvider, error, response } = UseAuthService();
 
     const { push } = useRouter();
 
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
+    const [id] = useParam('id')
+
     const onSubmit: SubmitHandler<Inputs> = input => {
-        chooseProvider({ provider: input.provider })
+        chooseProvider({ provider: input.provider, id: 4 })
     };
 
     React.useEffect(() => {
@@ -40,6 +45,12 @@ const ChoosePassword = ({ props }: any) => {
             push(`/${event.url}/dashboard`)
         }
     }, [response.redirect])
+
+    React.useEffect(() => {
+        if (id) {
+            loadProvider(id);
+        }
+    }, [id])
 
     return (
         <AuthLayout>
@@ -68,7 +79,7 @@ const ChoosePassword = ({ props }: any) => {
                                             </Radio.Group>
                                         )}
                                         name="provider"
-                                        rules={{ required: 'Provider is required'}}
+                                        rules={{ required: 'Provider is required' }}
                                     />
                                     <FormControl.ErrorMessage>
                                         {error ? error : errors.provider?.message}

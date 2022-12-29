@@ -13,6 +13,7 @@ export interface PasswordResetPayload {
 }
 
 export interface ChooseProviderPayload {
+    id: number;
     provider: string;
 }
 
@@ -37,10 +38,13 @@ const AuthSlice = createSlice({
         login(state, action: PayloadAction<LoginPayload>) {
             state.processing = true;
         },
-        passwordResetRequest(state, action: PayloadAction<PasswordResetPayload>) {
+        passwordReset(state, action: PayloadAction<PasswordResetPayload>) {
             state.processing = true;
         },
-        chooseProviderRequest(state, action: PayloadAction<ChooseProviderPayload>) {
+        chooseProvider(state, action: PayloadAction<ChooseProviderPayload>) {
+            state.processing = true;
+        },
+        loadProvider(state, action: PayloadAction<number>) {
             state.processing = true;
         },
         getUser(state) {
@@ -66,8 +70,9 @@ const AuthSlice = createSlice({
 // Actions
 export const AuthActions = {
     login: AuthSlice.actions.login,
-    passwordReset: AuthSlice.actions.passwordResetRequest,
-    chooseProvider: AuthSlice.actions.chooseProviderRequest,
+    passwordReset: AuthSlice.actions.passwordReset,
+    chooseProvider: AuthSlice.actions.chooseProvider,
+    loadProvider: AuthSlice.actions.loadProvider,
     getUser: AuthSlice.actions.getUser,
     success: AuthSlice.actions.success,
     failed: AuthSlice.actions.failed,

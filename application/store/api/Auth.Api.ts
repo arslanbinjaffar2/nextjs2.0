@@ -20,10 +20,14 @@ export const getUserApi = (): Promise<GeneralResponse> => {
     return api.get(`${EventBaseUrl}/${store.getState().event.event.url}/attendee/profile`);
 }
 
-export const getPasswordResetRequestApi = (payload: PasswordResetPayload): Promise<GeneralResponse> => {
+export const getPasswordResetApi = (payload: PasswordResetPayload): Promise<GeneralResponse> => {
     return api.post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/password/email`, payload);
 }
 
-export const getChooseProviderRequestApi = (payload: ChooseProviderPayload): Promise<GeneralResponse> => {
-    return api.post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/password/email`, payload);
+export const getChooseProviderApi = (payload: ChooseProviderPayload): Promise<GeneralResponse> => {
+    return api.post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload.id}`, payload);
+}
+
+export const getLoadProviderApi = (payload: number): Promise<GeneralResponse> => {
+    return api.get(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload}`);
 }

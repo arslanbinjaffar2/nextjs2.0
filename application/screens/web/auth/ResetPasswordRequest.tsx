@@ -20,14 +20,14 @@ const ResetPasswordRequest = ({ props }: any) => {
 
     const { event } = UseEventService();
 
-    const { isLoggedIn, processing, passwordResetRequest, error, response } = UseAuthService();
+    const { isLoggedIn, processing, passwordReset, error, response } = UseAuthService();
 
     const { push } = useRouter();
 
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = input => {
-        passwordResetRequest({ email: input.email })
+        passwordReset({ email: input.email })
     };
 
     React.useEffect(() => {
