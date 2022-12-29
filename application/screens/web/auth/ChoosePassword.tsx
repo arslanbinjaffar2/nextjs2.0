@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Heading, FormControl } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Radio, FormControl } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images } from 'application/styles';
@@ -8,26 +8,25 @@ import UseEventService from 'application/services/UseEventService';
 import UseAuthService from 'application/services/UseAuthService';
 import { useRouter } from 'solito/router'
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import validateEmail from 'application/utils/validations/ValidateEmail'
 import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import { Link } from 'solito/link'
 
 type Inputs = {
-    email: string,
+    provider: string,
 };
 
-const ResetPasswordRequest = ({ props }: any) => {
+const ChoosePassword = ({ props }: any) => {
 
     const { event } = UseEventService();
 
-    const { isLoggedIn, processing, passwordResetRequest, error, response } = UseAuthService();
+    const { isLoggedIn, processing, chooseProvider, error, response } = UseAuthService();
 
     const { push } = useRouter();
 
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = input => {
-        passwordResetRequest({ email: input.email })
+        chooseProvider({ provider: input.provider })
     };
 
     React.useEffect(() => {
@@ -50,24 +49,29 @@ const ResetPasswordRequest = ({ props }: any) => {
                         <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
                         <VStack w={'100%'} alignItems={'center'} space='4'>
                             <VStack space="20px" width={'100%'}>
-                                <FormControl isRequired isInvalid={'email' in errors || error !== ''}>
+                                <FormControl isRequired isInvalid={'provider' in errors || error !== ''}>
                                     <Controller
                                         control={control}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <Input onChangeText={(val) => onChange(val)} type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_EMAIL} />
+                                        render={({ field: { onChange } }) => (
+                                            <Radio.Group
+                                                name="provider"
+                                                flexDirection="column"
+                                                onChange={(val) => onChange(val)}
+                                                accessibilityLabel="Choose a provider"
+                                            >
+                                                <Radio value="sms" my="2" background="#fff">
+                                                    <Text mx={2}>Sms</Text>
+                                                </Radio>
+                                                <Radio value="email" my="2" background="#fff">
+                                                    <Text mx={2}>Email</Text>
+                                                </Radio>
+                                            </Radio.Group>
                                         )}
-                                        name="email"
-                                        rules={{
-                                            required: 'Field is required',
-                                            validate: (value) =>
-                                                validateEmail(value) || 'Please enter valid email!',
-                                        }}
-                                        defaultValue=""
+                                        name="provider"
+                                        rules={{ required: 'Provider is required'}}
                                     />
                                     <FormControl.ErrorMessage>
-                                        {errors.email?.type === 'required'
-                                            ? 'Email is required'
-                                            : (error ? error : errors.email?.message)}
+                                        {error ? error : errors.provider?.message}
                                     </FormControl.ErrorMessage>
                                 </FormControl>
                                 <Link href={`/${event.url}/auth/login`}>
@@ -91,4 +95,4 @@ const ResetPasswordRequest = ({ props }: any) => {
     );
 };
 
-export default ResetPasswordRequest;
+export default ChoosePassword;

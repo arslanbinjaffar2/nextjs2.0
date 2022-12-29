@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { AuthActions, LoginPayload, PasswordResetRequestPayload, selectIsLoggedIn, isProcessing, currentUser, error } from 'application/store/slices/Auth.Slice'
+import { AuthActions, LoginPayload, PasswordResetPayload, ChooseProviderPayload, selectIsLoggedIn, isProcessing, response, error } from 'application/store/slices/Auth.Slice'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
@@ -9,10 +9,11 @@ import { GeneralResponse } from 'application/models/GeneralResponse';
 export type EventServiceOperators = {
     isLoggedIn: boolean;
     processing?: boolean;
-    currentUser: GeneralResponse;
+    response: GeneralResponse;
     error: string;
     login: (payload: LoginPayload) => void
-    passwordResetRequest: (payload: PasswordResetRequestPayload) => void
+    passwordResetRequest: (payload: PasswordResetPayload) => void
+    chooseProvider: (payload: ChooseProviderPayload) => void
     getUser: () => void
     logout: () => void
 }
@@ -27,7 +28,7 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
     return {
         isLoggedIn: useAppSelector(selectIsLoggedIn),
         processing: useAppSelector(isProcessing),
-        currentUser: useAppSelector(currentUser),
+        response: useAppSelector(response),
         error: useAppSelector(error),
         login: useCallback(
             (payload: LoginPayload) => {
@@ -36,8 +37,14 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
             [dispatch],
         ),
         passwordResetRequest: useCallback(
-            (payload: PasswordResetRequestPayload) => {
-                dispatch(AuthActions.passwordResetRequest(payload))
+            (payload: PasswordResetPayload) => {
+                dispatch(AuthActions.passwordReset(payload))
+            },
+            [dispatch],
+        ),
+        chooseProvider: useCallback(
+            (payload: ChooseProviderPayload) => {
+                dispatch(AuthActions.chooseProvider(payload))
             },
             [dispatch],
         ),

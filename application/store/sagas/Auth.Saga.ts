@@ -2,9 +2,9 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getLoginApi, getUserApi, getPasswordResetRequestApi } from 'application/store/api/Auth.Api';
+import { getLoginApi, getUserApi, getPasswordResetRequestApi, getChooseProviderRequestApi } from 'application/store/api/Auth.Api';
 
-import { LoginPayload, AuthActions } from 'application/store/slices/Auth.Slice';
+import { LoginPayload, AuthActions, ChooseProviderPayload, PasswordResetPayload } from 'application/store/slices/Auth.Slice';
 
 import { GeneralResponse } from 'application/models/GeneralResponse'
 
@@ -28,14 +28,32 @@ function* OnLogin({
     }
 }
 
-function* OnPasswordResetRequest({
+function* OnPasswordReset({
     payload,
 }: {
     type: typeof AuthActions.login
-    payload: LoginPayload
+    payload: PasswordResetPayload
 }): SagaIterator {
     try {
         const response: GeneralResponse = yield call(getPasswordResetRequestApi, payload);
+        if (response.success) {
+            yield put(AuthActions.success(response));
+        } else {
+            yield put(AuthActions.failed(response.message!));
+        }
+    } catch (error: any) {
+        yield put(AuthActions.failed(error.message));
+    }
+}
+
+function* OnChooseProvider({
+    payload,
+}: {
+    type: typeof AuthActions.login
+    payload: ChooseProviderPayload
+}): SagaIterator {
+    try {
+        const response: GeneralResponse = yield call(getChooseProviderRequestApi, payload);
         if (response.success) {
             yield put(AuthActions.success(response));
         } else {
@@ -73,7 +91,8 @@ function* OnLogout({
 // Watcher Saga
 export function* AuthWatcherSaga(): SagaIterator {
     yield takeEvery(AuthActions.login.type, OnLogin)
-    yield takeEvery(AuthActions.passwordResetRequest.type, OnPasswordResetRequest)
+    yield takeEvery(AuthActions.passwordReset.type, OnPasswordReset)
+    yield takeEvery(AuthActions.chooseProvider.type, OnChooseProvider)
     yield takeEvery(AuthActions.getUser.type, OnGetUser)
     yield takeEvery(AuthActions.logout.type, OnLogout)
 }

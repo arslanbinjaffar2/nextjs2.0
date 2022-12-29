@@ -8,21 +8,25 @@ export interface LoginPayload {
     password: string;
 }
 
-export interface PasswordResetRequestPayload {
+export interface PasswordResetPayload {
     email: string;
+}
+
+export interface ChooseProviderPayload {
+    provider: string;
 }
 
 export interface AuthState {
     isLoggedIn: boolean;
     processing?: boolean;
-    currentUser: GeneralResponse;
+    response: GeneralResponse;
     error: string;
 }
 
 const initialState: AuthState = {
     isLoggedIn: false,
     processing: false,
-    currentUser: {},
+    response: {},
     error: '',
 };
 
@@ -33,7 +37,10 @@ const AuthSlice = createSlice({
         login(state, action: PayloadAction<LoginPayload>) {
             state.processing = true;
         },
-        passwordResetRequest(state, action: PayloadAction<PasswordResetRequestPayload>) {
+        passwordResetRequest(state, action: PayloadAction<PasswordResetPayload>) {
+            state.processing = true;
+        },
+        chooseProviderRequest(state, action: PayloadAction<ChooseProviderPayload>) {
             state.processing = true;
         },
         getUser(state) {
@@ -42,7 +49,7 @@ const AuthSlice = createSlice({
         success(state, action: PayloadAction<GeneralResponse>) {
             state.isLoggedIn = true;
             state.processing = false;
-            state.currentUser = action.payload;
+            state.response = action.payload;
             state.error = '';
         },
         failed(state, action: PayloadAction<string>) {
@@ -51,7 +58,7 @@ const AuthSlice = createSlice({
         },
         logout(state) {
             state.isLoggedIn = false;
-            state.currentUser = {};
+            state.response = {};
         },
     },
 });
@@ -59,7 +66,8 @@ const AuthSlice = createSlice({
 // Actions
 export const AuthActions = {
     login: AuthSlice.actions.login,
-    passwordResetRequest: AuthSlice.actions.passwordResetRequest,
+    passwordReset: AuthSlice.actions.passwordResetRequest,
+    chooseProvider: AuthSlice.actions.chooseProviderRequest,
     getUser: AuthSlice.actions.getUser,
     success: AuthSlice.actions.success,
     failed: AuthSlice.actions.failed,
@@ -71,7 +79,7 @@ export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
 
 export const isProcessing = (state: RootState) => state.auth.processing;
 
-export const currentUser = (state: RootState) => state.auth.currentUser;
+export const response = (state: RootState) => state.auth.response;
 
 export const error = (state: RootState) => state.auth.error;
 

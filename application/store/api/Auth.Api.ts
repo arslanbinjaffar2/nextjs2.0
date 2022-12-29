@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Env } from 'application/config/Env';
 
-import { LoginPayload, PasswordResetRequestPayload } from 'application/store/slices/Auth.Slice';
+import { LoginPayload, PasswordResetPayload, ChooseProviderPayload } from 'application/store/slices/Auth.Slice';
 
 import { GeneralResponse } from 'application/models/GeneralResponse';
 
@@ -21,6 +20,10 @@ export const getUserApi = (): Promise<GeneralResponse> => {
     return api.get(`${EventBaseUrl}/${store.getState().event.event.url}/attendee/profile`);
 }
 
-export const getPasswordResetRequestApi = (payload: PasswordResetRequestPayload): Promise<GeneralResponse> => {
+export const getPasswordResetRequestApi = (payload: PasswordResetPayload): Promise<GeneralResponse> => {
+    return api.post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/password/email`, payload);
+}
+
+export const getChooseProviderRequestApi = (payload: ChooseProviderPayload): Promise<GeneralResponse> => {
     return api.post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/password/email`, payload);
 }

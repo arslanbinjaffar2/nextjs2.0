@@ -24,7 +24,7 @@ const Master = ({ children, navigation }: Props) => {
 
   const { event } = UseEventService();
 
-  const { getUser, currentUser } = UseAuthService();
+  const { getUser, response } = UseAuthService();
 
   const { push } = useRouter();
 
@@ -33,10 +33,10 @@ const Master = ({ children, navigation }: Props) => {
   }, [])
 
   React.useEffect(() => {
-    if (Object.keys(currentUser).length === 0) {
+    if (Object.keys(response).length === 0) {
       push(`/${event.url}/auth/login`)
     }
-  }, [currentUser])
+  }, [response])
 
   return (
     <BackgroundLayout>
