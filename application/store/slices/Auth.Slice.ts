@@ -23,6 +23,12 @@ export interface ChooseProviderPayload {
     screen: string;
 }
 
+export interface ResetPayload {
+    password: string;
+    password_confirmation: string;
+    token: string;
+}
+
 export interface VerificationPayload {
     id: number;
     code?: string;
@@ -57,6 +63,9 @@ const AuthSlice = createSlice({
         chooseProvider(state, action: PayloadAction<ChooseProviderPayload>) {
             state.processing = true;
         },
+        reset(state, action: PayloadAction<ResetPayload>) {
+            state.processing = true;
+        },
         verification(state, action: PayloadAction<VerificationPayload>) {
             state.processing = true;
         },
@@ -88,6 +97,7 @@ export const AuthActions = {
     login: AuthSlice.actions.login,
     passwordReset: AuthSlice.actions.passwordReset,
     chooseProvider: AuthSlice.actions.chooseProvider,
+    reset: AuthSlice.actions.reset,
     verification: AuthSlice.actions.verification,
     loadProvider: AuthSlice.actions.loadProvider,
     getUser: AuthSlice.actions.getUser,

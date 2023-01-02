@@ -47,7 +47,7 @@ const Verification = ({ props }: any) => {
         } else if (response.redirect === "dashboard") {
             push(`/${event.url}/dashboard`)
         } else if (response.redirect === "reset-password") {
-            push(`/${event.url}/auth/reset-password`)
+            push(`/${event.url}/auth/reset-password/${response.data.token}`)
         }
     }, [response.redirect])
 

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { AuthActions, LoginPayload, PasswordResetPayload, ChooseProviderPayload, VerificationPayload, LoadProviderPayload, selectIsLoggedIn, isProcessing, response, error } from 'application/store/slices/Auth.Slice'
+import { AuthActions, LoginPayload, PasswordResetPayload, ChooseProviderPayload, ResetPayload, VerificationPayload, LoadProviderPayload, selectIsLoggedIn, isProcessing, response, error } from 'application/store/slices/Auth.Slice'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
@@ -14,6 +14,7 @@ export type EventServiceOperators = {
     login: (payload: LoginPayload) => void
     passwordReset: (payload: PasswordResetPayload) => void
     chooseProvider: (payload: ChooseProviderPayload) => void
+    reset: (payload: ResetPayload) => void
     verification: (payload: VerificationPayload) => void
     loadProvider: (payload: LoadProviderPayload) => void
     getUser: () => void
@@ -47,6 +48,12 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
         chooseProvider: useCallback(
             (payload: ChooseProviderPayload) => {
                 dispatch(AuthActions.chooseProvider(payload))
+            },
+            [dispatch],
+        ),
+        reset: useCallback(
+            (payload: ResetPayload) => {
+                dispatch(AuthActions.reset(payload))
             },
             [dispatch],
         ),

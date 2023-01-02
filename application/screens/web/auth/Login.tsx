@@ -136,7 +136,6 @@ const Login = ({ props }: any) => {
                                                     {errors.email?.type === 'required'
                                                         ? 'Email is required'
                                                         : (error ? error : errors.email?.message)}
-                                                    {error && error}
                                                 </FormControl.ErrorMessage>
                                             </FormControl>
                                         </VStack>

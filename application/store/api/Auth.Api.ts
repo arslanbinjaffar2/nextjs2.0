@@ -1,6 +1,6 @@
 import { Env } from 'application/config/Env';
 
-import { LoginPayload, PasswordResetPayload, ChooseProviderPayload, LoadProviderPayload, VerificationPayload } from 'application/store/slices/Auth.Slice';
+import { LoginPayload, PasswordResetPayload, ChooseProviderPayload, LoadProviderPayload, VerificationPayload, ResetPayload } from 'application/store/slices/Auth.Slice';
 
 import { GeneralResponse } from 'application/models/GeneralResponse';
 
@@ -26,6 +26,10 @@ export const getPasswordResetApi = (payload: PasswordResetPayload): Promise<Gene
 
 export const getChooseProviderApi = (payload: ChooseProviderPayload): Promise<GeneralResponse> => {
     return api.post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload.id}`, payload);
+}
+
+export const getResetApi = (payload: ResetPayload): Promise<GeneralResponse> => {
+    return api.postForm(`${EventBaseUrl}/${store.getState().event.event.url}/auth/password/reset/${payload.token}`, payload);
 }
 
 export const getVerificationApi = (payload: VerificationPayload): Promise<GeneralResponse> => {
