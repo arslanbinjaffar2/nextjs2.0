@@ -25,8 +25,9 @@ export interface ChooseProviderPayload {
 
 export interface VerificationPayload {
     id: number;
-    code: string;
-    screen: string;
+    code?: string;
+    screen?: string;
+    provider?: string;
 }
 
 export interface AuthState {

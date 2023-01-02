@@ -29,7 +29,7 @@ export const getChooseProviderApi = (payload: ChooseProviderPayload): Promise<Ge
 }
 
 export const getVerificationApi = (payload: VerificationPayload): Promise<GeneralResponse> => {
-    return api.post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload.id}`, payload);
+    return api.postForm(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload.id}`, payload);
 }
 
 export const getLoadProviderApi = (payload: LoadProviderPayload): Promise<GeneralResponse> => {
