@@ -35,10 +35,6 @@ const ResetPasswordRequest = ({ props }: any) => {
             push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
         } else if (response.redirect === "verification") {
             push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
-        } else if (response.redirect === "login") {
-            push(`/${event.url}/auth/login`)
-        } else if (response.redirect === "dashboard") {
-            push(`/${event.url}/dashboard`)
         }
     }, [response.redirect])
 

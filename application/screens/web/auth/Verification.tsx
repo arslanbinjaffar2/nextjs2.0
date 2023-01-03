@@ -38,9 +38,7 @@ const Verification = ({ props }: any) => {
     };
 
     React.useEffect(() => {
-        if (response.redirect === "choose-provider") {
-            push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
-        } else if (response.redirect === "verification") {
+        if (response.redirect === "verification") {
             push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
         } else if (response.redirect === "login") {
             push(`/${event.url}/auth/login`)
@@ -82,7 +80,7 @@ const Verification = ({ props }: any) => {
                                     </FormControl>
                                     <Flex direction="row">
                                         <Countdown
-                                            date={Date.now() + Number(response?.data?.ms)}
+                                            date={Date.now() + (response?.data?.ms! ? Number(response?.data?.ms) : 0)}
                                             renderer={({ hours, minutes, seconds, completed }) => {
                                                 if (completed) {
                                                     return (
