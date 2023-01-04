@@ -6,10 +6,17 @@ import colors from 'application/styles/colors'
 import { LinearGradient } from 'expo-linear-gradient';
 import { func } from 'application/styles';
 import * as Font from 'expo-font';
+import UseEnvService from 'application/services/UseEnvService';
 
-export function Provider({ children }: { children: React.ReactNode }) {
+export function Provider({ children, env }: { children: React.ReactNode, env: any }) {
 
   const [appIsReady, setAppIsReady] = useState(false);
+
+  const { updateEnv, _env } = UseEnvService()
+
+  useEffect(() => {
+    updateEnv(env);
+  }, [])
 
   const config = {
     dependencies: {
@@ -122,7 +129,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
     void prepare();
   }, []);
 
-  if (!appIsReady) {
+  if (!appIsReady || !_env.api_base_url) {
     return null;
   }
 

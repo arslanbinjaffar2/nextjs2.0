@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "solito-blank",
-    "slug": "solito-blank",
+    "name": "Eventbuizz",
+    "slug": "eventbuizz",
     "version": "1.0.0",
     "sdkVersion": "45.0.0",
-    "scheme": "solito-blank",
+    "scheme": "eventbuizz",
     "platforms": [
       "ios",
-      "android"
+      "android",
+      "web"
     ],
     "ios": {
       "bundleIdentifier": "com.solito.blank"

@@ -22,7 +22,7 @@
     "redux": "^4.2.0",
     "redux-first-history": "^5.1.1",
     "redux-logger": "^3.0.6",
-    "redux-saga": "^1.2.1",
+    "redux-saga": "^1.2.2",
     "solito": "0.0.22",
     "yup": "^0.32.11"
   },

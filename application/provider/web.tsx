@@ -8,12 +8,13 @@ import { func } from 'application/styles';
 import * as Font from 'expo-font';
 import { createParam } from 'solito';
 import UseEventService from 'application/services/UseEventService';
+import UseEnvService from 'application/services/UseEnvService';
 
 type ScreenParams = { event: string }
 
 const { useParam } = createParam<ScreenParams>()
 
-export function Provider({ children }: { children: React.ReactNode }) {
+export function Provider({ children, env }: { children: React.ReactNode, env: any }) {
 
     const [appIsReady, setAppIsReady] = useState(false);
 
@@ -21,11 +22,17 @@ export function Provider({ children }: { children: React.ReactNode }) {
 
     const { FetchEvent, event } = UseEventService()
 
+    const { updateEnv, _env } = UseEnvService()
+
     useEffect(() => {
-        if (event_url !== undefined) {
+        if (event_url !== undefined && _env.api_base_url) {
             FetchEvent(event_url)
         }
-    }, [FetchEvent, event_url])
+    }, [FetchEvent, event_url, _env.api_base_url])
+
+    useEffect(() => {
+        updateEnv(env);
+    }, [])
 
     const config = {
         dependencies: {
@@ -131,7 +138,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
         void prepare();
     }, []);
 
-    if (!appIsReady || Object.keys(event).length === 0) {
+    if (!appIsReady || Object.keys(event).length === 0 || !_env.api_base_url) {
         return null;
     }
 

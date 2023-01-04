@@ -4,10 +4,16 @@ import React from 'react'
 import type { SolitoAppProps } from 'solito'
 import 'raf/polyfill'
 import { Provider as ReduxProvider } from 'react-redux'
-import { HistoryRouter as Router } from 'redux-first-history/rr6'
-import { history, store } from 'application/store/Index'
+import { store } from 'application/store/Index'
 
 function MyApp({ Component, pageProps }: SolitoAppProps) {
+
+  const env = {
+    enviroment: process.env.NODE_ENV,
+    api_base_url: process.env.APP_API_BASE_URL,
+    msw_enabled: process.env.APP_MSW_ENABLED
+  }
+
   return (
     <>
       <Head>
@@ -20,7 +26,7 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
       </Head>
       {typeof window !== "undefined" && (
         <ReduxProvider store={store}>
-          <Provider>
+          <Provider env={env}>
             <Component {...pageProps} />
           </Provider>
         </ReduxProvider>
