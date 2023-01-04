@@ -11,7 +11,6 @@ import UseEventService from 'application/services/UseEventService';
 
 type Inputs = {
     email: string,
-    password: string,
 };
 
 const FindEventCode = ({ navigation }: any) => {
