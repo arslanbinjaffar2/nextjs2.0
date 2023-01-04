@@ -10,7 +10,7 @@ const RootStack = () => {
     <>
       <Stack.Navigator initialRouteName="auth">
         <Stack.Screen options={{ headerShown: false }} name="auth" component={AuthStack} />
-        <Stack.Screen options={{ headerShown: false }} name="dashboard" component={AppStack} />
+        {/* <Stack.Screen options={{ headerShown: false }} name="dashboard" component={AppStack} /> */}
       </Stack.Navigator>
     </>
   );

@@ -1,18 +1,10 @@
 import createSagaMiddleware from '@redux-saga/core'
 import { configureStore } from '@reduxjs/toolkit'
-import { createBrowserHistory } from 'history'
-import { createReduxHistoryContext } from 'redux-first-history'
 import logger from 'redux-logger'
-import { Env } from 'application/config/Env'
 import EventSlice from 'application/store/slices/Event.Slice'
 import AuthSlice from 'application/store/slices/Auth.Slice'
+import EnvSlice from 'application/store/slices/Env.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
-
-const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext({
-    history: createBrowserHistory(),
-    reduxTravelling: Env.isDev(),
-    savePreviousLocations: 1,
-})
 
 const makeStore = () => {
 
@@ -22,13 +14,12 @@ const makeStore = () => {
         reducer: {
             event: EventSlice,
             auth: AuthSlice,
-            router: routerReducer,
+            env: EnvSlice
         },
-        devTools: Env.isDev(),
+        devTools: true,
         middleware: getDefaultMiddleware =>
             getDefaultMiddleware({ thunk: false })
                 .concat(sagaMiddleware)
-                .concat(routerMiddleware)
                 .concat(logger),
     })
 
@@ -42,5 +33,3 @@ export const store = makeStore()
 export type AppDispatch = typeof store.dispatch
 
 export type RootState = ReturnType<typeof store.getState>
-
-export const history = createReduxHistory(store)

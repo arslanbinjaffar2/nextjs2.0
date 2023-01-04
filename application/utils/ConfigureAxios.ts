@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Platform } from 'react-native';
 
 export default function makeApi(baseURL: string) {
 
@@ -14,7 +15,7 @@ export default function makeApi(baseURL: string) {
 
     api.interceptors.request.use(
         (config) => {
-            if (localStorage.getItem('access_token')) {
+            if (localStorage.getItem('access_token') && Platform.OS === 'web') {
                 config.headers = { ...config.headers, Authorization: `Bearer ${localStorage.getItem('access_token')}` }
             }
             return config;

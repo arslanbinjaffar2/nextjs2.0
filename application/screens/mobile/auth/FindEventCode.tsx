@@ -28,7 +28,6 @@ const FindEventCode = ({ navigation }: any) => {
         login({ email: input.email, password: input.password })
     };
 
-
     return (
         <Layout>
             <Center w={'100%'} pt={20} px={15}>

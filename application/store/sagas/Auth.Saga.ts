@@ -8,6 +8,8 @@ import { LoginPayload, AuthActions, ChooseProviderPayload, PasswordResetPayload,
 
 import { GeneralResponse } from 'application/models/GeneralResponse'
 
+import { Platform } from 'react-native';
+
 // Worker Sagas handlers
 function* OnLogin({
     payload,
@@ -17,7 +19,7 @@ function* OnLogin({
 }): SagaIterator {
     try {
         const response: GeneralResponse = yield call(getLoginApi, payload);
-        if (response.success) {
+        if (response.success && Platform.OS === 'web') {
             localStorage.setItem('access_token', response.data.access_token);
             yield put(AuthActions.success(response));
         } else {
@@ -139,7 +141,9 @@ function* OnLogout({
     type: typeof AuthActions.logout
     payload: Event
 }): SagaIterator {
-    localStorage.removeItem('access_token');
+    if(Platform.OS === 'web') {
+        localStorage.removeItem('access_token');
+    }
 }
 
 // Watcher Saga
