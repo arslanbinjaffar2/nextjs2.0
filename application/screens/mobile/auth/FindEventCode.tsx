@@ -5,12 +5,13 @@ import Layout from 'application/containers/mobile/Layout';
 import { Button, Center, Flex, Text, VStack, Image, Input, FormControl } from 'native-base';
 import IcoLogin from 'application/assets/icons/IcoLogin';
 import { useRouter } from 'solito/router'
-import UseAuthService from 'application/services/UseAuthService';
+import UseAuthService from 'application/store/services/UseAuthService';
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import UseEventService from 'application/services/UseEventService';
+import UseEventService from 'application/store/services/UseEventService';
 
 type Inputs = {
     email: string,
+    password: string,
 };
 
 const FindEventCode = ({ navigation }: any) => {

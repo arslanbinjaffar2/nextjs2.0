@@ -1,5 +1,5 @@
 import * as React from 'react';
-import UseEventService from 'application/services/UseEventService';
+import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 
 type Props = {

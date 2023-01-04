@@ -3,8 +3,8 @@ import { Button, Center, Flex, Text, Image, VStack, Radio, FormControl, Spinner,
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
-import UseEventService from 'application/services/UseEventService';
-import UseAuthService from 'application/services/UseAuthService';
+import UseEventService from 'application/store/services/UseEventService';
+import UseAuthService from 'application/store/services/UseAuthService';
 import { useRouter } from 'solito/router'
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import AuthLayout from 'application/screens/web/layouts/AuthLayout';

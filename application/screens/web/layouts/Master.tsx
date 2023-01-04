@@ -5,8 +5,8 @@ import LeftBar from 'application/screens/web/layouts/LeftBar';
 import RightBar from 'application/screens/web/layouts/RightBar';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import Header from 'application/screens/web/layouts/Header';
-import UseAuthService from 'application/services/UseAuthService';
-import UseEventService from 'application/services/UseEventService';
+import UseAuthService from 'application/store/services/UseAuthService';
+import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 
 type Props = {
