@@ -10,4 +10,7 @@ export const getEventApi = (payload: any): Promise<Event> => {
     return makeApi(`${store.getState().env.api_base_url}`).get(`${EventBaseUrl}/${payload.slug}`);
 }
 
-export const updateEventApi = (event: Event): Promise<Event> => makeApi(`${store.getState().env.api_base_url}`).put(`${EventBaseUrl}/${event.id}`, event)
+export const getEventByCodeApi = (payload: any): Promise<Event> => {
+    console.log(`${EventBaseUrl}/${payload.code}/get-event-by-code`)
+    return makeApi(`${store.getState().env.api_base_url}`).get(`${EventBaseUrl}/${payload.code}/get-event-by-code`);
+}

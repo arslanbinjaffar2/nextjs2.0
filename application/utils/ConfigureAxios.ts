@@ -15,7 +15,7 @@ export default function makeApi(baseURL: string) {
 
     api.interceptors.request.use(
         (config) => {
-            if (localStorage.getItem('access_token') && Platform.OS === 'web') {
+            if (Platform.OS === 'web' && localStorage.getItem('access_token')) {
                 config.headers = { ...config.headers, Authorization: `Bearer ${localStorage.getItem('access_token')}` }
             }
             return config;

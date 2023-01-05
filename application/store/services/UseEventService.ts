@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 export type EventServiceOperators = {
     event: Event
     FetchEvent: (slug: string) => void
-    UpdateEvent: (event: Event) => void
+    FetchEventByCode: (code: string) => void
 }
 
 /**
@@ -25,16 +25,12 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
             },
             [dispatch],
         ),
-        UpdateEvent: useCallback(
-            (event: Event) => {
-                dispatch(
-                    EventActions.UpdateEvent({
-                        ...event
-                    }),
-                )
+        FetchEventByCode: useCallback(
+            (code: string) => {
+                dispatch(EventActions.FetchEventByCode(code))
             },
             [dispatch],
-        ),
+        )
     }
 }
 

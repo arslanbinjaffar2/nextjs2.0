@@ -2,6 +2,8 @@ import createSagaMiddleware from '@redux-saga/core'
 import { configureStore } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 import EventSlice from 'application/store/slices/Event.Slice'
+import ResponseSlice from 'application/store/slices/Response.slice'
+import ErrorSlice from 'application/store/slices/Error.slice'
 import AuthSlice from 'application/store/slices/Auth.Slice'
 import EnvSlice from 'application/store/slices/Env.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
@@ -14,7 +16,9 @@ const makeStore = () => {
         reducer: {
             event: EventSlice,
             auth: AuthSlice,
-            env: EnvSlice
+            env: EnvSlice,
+            response: ResponseSlice,
+            error: ErrorSlice
         },
         devTools: true,
         middleware: getDefaultMiddleware =>

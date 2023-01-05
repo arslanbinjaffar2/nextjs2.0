@@ -2,9 +2,11 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getEventApi, updateEventApi } from 'application/store/api/Event.Api';
+import { getEventApi, getEventByCodeApi } from 'application/store/api/Event.Api';
 
 import { EventActions } from 'application/store/slices/Event.Slice'
+
+import { ErrorActions } from 'application/store/slices/Error.slice'
 
 import { Event, EventResponse } from 'application/models/Event'
 
@@ -16,23 +18,29 @@ function* OnGetEvent({
     payload: any
 }): SagaIterator {
     const response: EventResponse = yield call(getEventApi, payload)
-    yield put(EventActions.FetchEventSucceeded(response.event!))
+    yield put(EventActions.update(response.event!))
 }
 
-function* OnUpdateEvent({
+// Worker Sagas handlers
+function* OnGetEventByCode({
     payload,
 }: {
-    type: typeof EventActions.UpdateEvent
-    payload: Event
+    type: typeof EventActions.FetchEventByCode
+    payload: any
 }): SagaIterator {
-    yield call(updateEventApi, payload)
-    yield put(EventActions.FetchEvent(payload.url!))
+    const response = yield call(getEventByCodeApi, payload);
+    if (response.success) {
+        yield put(EventActions.update(response.event!));
+        yield put(ErrorActions.message(''));
+    } else {
+        yield put(ErrorActions.message(response.error));
+    }
 }
 
 // Watcher Saga
 export function* EventWatcherSaga(): SagaIterator {
     yield takeEvery(EventActions.FetchEvent.type, OnGetEvent)
-    yield takeEvery(EventActions.UpdateEvent.type, OnUpdateEvent)
+    yield takeEvery(EventActions.FetchEventByCode.type, OnGetEventByCode)
 }
 
 export default EventWatcherSaga

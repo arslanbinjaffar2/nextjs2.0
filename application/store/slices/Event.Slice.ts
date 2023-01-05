@@ -19,7 +19,7 @@ export const EventSlice = createSlice({
     name: 'event',
     initialState,
     reducers: {
-        FetchEventSucceeded(state, action: PayloadAction<Event>) {
+        update(state, action: PayloadAction<Event>) {
             // it's okay to do this here, because immer makes it immutable under the hood😊
             state.event = action.payload
         },
@@ -33,8 +33,12 @@ export const EventActions = {
             slug: slug
         },
     })),
-    FetchEventSucceeded: EventSlice.actions.FetchEventSucceeded,
-    UpdateEvent: createAction<Event>(`${EventSlice.name}/update`),
+    FetchEventByCode: createAction(`${EventSlice.name}/FetchEventByCode`, (code: string) => ({
+        payload: {
+            code: code
+        },
+    })),
+    update: EventSlice.actions.update,
 }
 
 // Selectors
