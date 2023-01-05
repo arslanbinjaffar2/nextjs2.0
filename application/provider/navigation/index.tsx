@@ -18,6 +18,7 @@ export function NavigationProvider({
             screens: {
               welcome: '',
               'event-code-login': 'event-code-login',
+              'login': 'login',
               'email-login': 'email-login',
               'events': 'events',
               'dashboard': 'dashboard',

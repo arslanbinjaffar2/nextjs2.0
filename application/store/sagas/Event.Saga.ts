@@ -8,7 +8,9 @@ import { EventActions } from 'application/store/slices/Event.Slice'
 
 import { ErrorActions } from 'application/store/slices/Error.slice'
 
-import { Event, EventResponse } from 'application/models/Event'
+import { EventResponse } from 'application/models/Event'
+
+import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 
 // Worker Sagas handlers
 function* OnGetEvent({
@@ -32,8 +34,10 @@ function* OnGetEventByCode({
     if (response.success) {
         yield put(EventActions.update(response.event!));
         yield put(ErrorActions.message(''));
+        AsyncStorageClass.setItem('eventbuizz-active-event-id', response.event.id.toString());
     } else {
         yield put(ErrorActions.message(response.error));
+        AsyncStorageClass.removeItem('eventbuizz-active-event-id');
     }
 }
 

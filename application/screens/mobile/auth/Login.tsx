@@ -1,25 +1,30 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Heading, FormControl } from 'native-base';
+import PropTypes from 'prop-types';
+import { images } from 'application/styles';
+import Layout from 'application/containers/mobile/Layout';
+import { Button, Center, Flex, Text, VStack, Image, Input, FormControl, Icon } from 'native-base';
+import IcoLogin from 'application/assets/icons/IcoLogin';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
-import { images } from 'application/styles';
-import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
-import UseEventService from 'application/store/services/UseEventService';
-import UseAuthService from 'application/store/services/UseAuthService';
 import { useRouter } from 'solito/router'
+import UseAuthService from 'application/store/services/UseAuthService';
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import validateEmail from 'application/utils/validations/ValidateEmail'
-import AuthLayout from 'application/screens/web/layouts/AuthLayout';
+import UseEventService from 'application/store/services/UseEventService';
+import UseErrorService from 'application/store/services/UseErrorService';
 import { Link } from 'solito/link'
+import validateEmail from 'application/utils/validations/ValidateEmail'
+import AuthLayout from 'application/screens/mobile/layouts/AuthLayout';
 
 type Inputs = {
     email: string,
     password: string,
 };
 
-const Login = ({ props }: any) => {
+const Login = ({ navigation }: any) => {
 
-    const { event } = UseEventService();
+    const { FetchEventByCode, event } = UseEventService();
+
+    const { message } = UseErrorService();
 
     const { isLoggedIn, processing, login, error } = UseAuthService();
 
@@ -33,11 +38,12 @@ const Login = ({ props }: any) => {
 
     return (
         <AuthLayout>
-            <BackgroundLayout>
-                <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
-                    <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
-                        <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
-                        <VStack w={'100%'} alignItems={'center'} space='4'>
+            <Layout>
+                <Center w={'100%'} pt={20} px={15}>
+                    <Flex w="100%" rounded="10">
+                        <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
+                        <VStack opacity="0.7" space='4' bg='primary.box' py='5' px='4' borderRadius='lg'>
+                            <Text fontSize='lg' lineHeight='sm'>Enter the event code you have received from your organizer.</Text>
                             {event.attendee_settings?.cpr === 1 && (
                                 <>
                                     <Link href={`/${event.url}/auth/cpr-login`}>
@@ -144,10 +150,14 @@ const Login = ({ props }: any) => {
                             )}
                         </VStack>
                     </Flex>
-                </Center >
-            </BackgroundLayout >
+                </Center>
+            </Layout>
         </AuthLayout>
     );
+};
+
+Login.propTypes = {
+    navigation: PropTypes.object.isRequired,
 };
 
 export default Login;

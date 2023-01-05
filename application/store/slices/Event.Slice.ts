@@ -20,7 +20,6 @@ export const EventSlice = createSlice({
     initialState,
     reducers: {
         update(state, action: PayloadAction<Event>) {
-            // it's okay to do this here, because immer makes it immutable under the hood😊
             state.event = action.payload
         },
     },
