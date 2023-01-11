@@ -1,9 +1,9 @@
-import ChoosePasswordScreen from 'application/screens/web/auth/ChoosePassword'
+import ChooseProviderScreen from 'application/screens/web/auth/ChooseProvider'
 
-const ChoosePassword = () => {
+const ChooseProvider = () => {
     return (
         <>
-            <ChoosePasswordScreen />
+            <ChooseProviderScreen />
         </>
     )
 }
@@ -14,4 +14,4 @@ export async function getServerSideProps() {
     }
 }
 
-export default ChoosePassword
+export default ChooseProvider
