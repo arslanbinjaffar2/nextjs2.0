@@ -19,6 +19,7 @@ export function NavigationProvider({
               welcome: '',
               'event-code-login': 'event-code-login',
               'login': 'login',
+              'reset-password-request': 'reset-password-request',
               'email-login': 'email-login',
               'events': 'events',
               'dashboard': 'dashboard',

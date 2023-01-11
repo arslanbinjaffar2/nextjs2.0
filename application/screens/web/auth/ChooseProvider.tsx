@@ -19,7 +19,7 @@ type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
 
-const ChoosePassword = ({ props }: any) => {
+const ChooseProvider = ({ props }: any) => {
 
     const { event } = UseEventService();
 
@@ -67,10 +67,10 @@ const ChoosePassword = ({ props }: any) => {
                                                     onChange={(val) => onChange(val)}
                                                     accessibilityLabel="Choose a provider"
                                                 >
-                                                    <Radio value="sms" my="2" background="#fff">
+                                                    <Radio value="sms" my="2" backgroundColor="#fff">
                                                         <Text mx={2}>{response.data.phone}</Text>
                                                     </Radio>
-                                                    <Radio value="email" my="2" background="#fff">
+                                                    <Radio value="email" my="2" backgroundColor="#fff">
                                                         <Text mx={2}>{response.data.email}</Text>
                                                     </Radio>
                                                 </Radio.Group>
@@ -108,4 +108,4 @@ const ChoosePassword = ({ props }: any) => {
     );
 };
 
-export default ChoosePassword;
+export default ChooseProvider;

@@ -43,7 +43,6 @@ const Login = ({ navigation }: any) => {
                     <Flex w="100%" rounded="10">
                         <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
                         <VStack opacity="0.7" space='4' bg='primary.box' py='5' px='4' borderRadius='lg'>
-                            <Text fontSize='lg' lineHeight='sm'>Enter the event code you have received from your organizer.</Text>
                             {event.attendee_settings?.cpr === 1 && (
                                 <>
                                     <Link href={`/${event.url}/auth/cpr-login`}>
@@ -108,7 +107,7 @@ const Login = ({ navigation }: any) => {
                                                 <Text w={'100%'} fontSize='md' lineHeight='sm'>{event.labels.EVENTSITE_DEFAULT_PASSWORD} {event.attendee_settings?.default_password}</Text>
                                             )}
                                             {event.attendee_settings?.hide_password === 0 && event.attendee_settings?.forgot_link === 0 && event.attendee_settings?.authentication === 0 && (
-                                                <Link href={`/${event.url}/auth/reset-password-request`}>
+                                                <Link href={`/reset-password-request`}>
                                                     <Text w={'100%'} fontSize='md' lineHeight='sm'>{event.labels.EVENTSITE_FORGOT_PASSWORD}</Text>
                                                 </Link>
                                             )}

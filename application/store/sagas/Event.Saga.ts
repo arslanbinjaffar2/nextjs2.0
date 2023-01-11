@@ -34,7 +34,7 @@ function* OnGetEventByCode({
     if (response.success) {
         yield put(EventActions.update(response.event!));
         yield put(ErrorActions.message(''));
-        AsyncStorageClass.setItem('eventbuizz-active-event-id', response.event.id.toString());
+        AsyncStorageClass.setItem('eventbuizz-active-event-id', response.event.id);
     } else {
         yield put(ErrorActions.message(response.error));
         AsyncStorageClass.removeItem('eventbuizz-active-event-id');
