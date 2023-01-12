@@ -25,11 +25,11 @@ export const getChooseProviderApi = (payload: ChooseProviderPayload): Promise<Ge
 }
 
 export const getResetApi = (payload: ResetPayload): Promise<GeneralResponse> => {
-    return makeApi(`${store.getState().env.api_base_url}`).postForm(`${EventBaseUrl}/${store.getState().event.event.url}/auth/password/reset/${payload.token}`, payload);
+    return makeApi(`${store.getState().env.api_base_url}`).post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/password/reset/${payload.token}`, payload);
 }
 
 export const getVerificationApi = (payload: VerificationPayload): Promise<GeneralResponse> => {
-    return makeApi(`${store.getState().env.api_base_url}`).postForm(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload.id}`, payload);
+    return makeApi(`${store.getState().env.api_base_url}`).post(`${EventBaseUrl}/${store.getState().event.event.url}/auth/verification/${payload.id}`, payload);
 }
 
 export const getLoadProviderApi = (payload: LoadProviderPayload): Promise<GeneralResponse> => {

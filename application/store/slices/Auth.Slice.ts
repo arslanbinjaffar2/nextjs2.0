@@ -31,6 +31,7 @@ export interface ResetPayload {
 
 export interface VerificationPayload {
     id: number;
+    authentication_id: number;
     code?: string;
     screen?: string;
     provider?: string;
@@ -87,6 +88,7 @@ const AuthSlice = createSlice({
         },
         logout(state) {
             state.isLoggedIn = false;
+            state.processing = false;
             state.response = {};
         },
     },

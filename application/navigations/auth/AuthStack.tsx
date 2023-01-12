@@ -8,6 +8,7 @@ import NavigationBack from 'application/components/atoms/NavigationBack';
 import ResetPasswordRequest from 'application/screens/mobile/auth/ResetPasswordRequest';
 import Verification from 'application/screens/mobile/auth/Verification';
 import ChooseProvider from 'application/screens/mobile/auth/ChooseProvider';
+import ResetPassword from 'application/screens/mobile/auth/ResetPassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,11 @@ const AuthStack = () => {
           name="verification"
           component={Verification}
           options={{ ..._options, title: 'Verification' }}
+        />
+        <Stack.Screen
+          name="reset-password"
+          component={ResetPassword}
+          options={{ ..._options, title: 'Reset password' }}
         />
         <Stack.Screen
           name="email-login"

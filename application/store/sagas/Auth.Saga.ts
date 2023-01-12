@@ -10,6 +10,8 @@ import { GeneralResponse } from 'application/models/GeneralResponse'
 
 import { Platform } from 'react-native';
 
+import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+
 // Worker Sagas handlers
 function* OnLogin({
     payload,
@@ -19,9 +21,13 @@ function* OnLogin({
 }): SagaIterator {
     try {
         const response: GeneralResponse = yield call(getLoginApi, payload);
-        if (response.success && Platform.OS === 'web') {
-            localStorage.setItem('access_token', response.data.access_token);
+        if (response.success) {
             yield put(AuthActions.success(response));
+            if (Platform.OS === 'web') {
+                localStorage.setItem('access_token', response.data.access_token);
+            } else {
+                AsyncStorageClass.setItem('access_token', response.data.access_token);
+            }
         } else {
             yield put(AuthActions.failed(response.message!));
         }
@@ -141,8 +147,10 @@ function* OnLogout({
     type: typeof AuthActions.logout
     payload: Event
 }): SagaIterator {
-    if(Platform.OS === 'web') {
+    if (Platform.OS === 'web') {
         localStorage.removeItem('access_token');
+    } else {
+        AsyncStorageClass.removeItem('access_token');
     }
 }
 

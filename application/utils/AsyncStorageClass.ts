@@ -30,8 +30,7 @@ class AsyncStorageClass {
 
     static removeItem = async (key: string) => {
         try {
-            const item: any = await AsyncStorage.removeItem(key);
-            return JSON.parse(item);
+            await AsyncStorage.removeItem(key);
         } catch (error) {
             console.log(error);
         }

@@ -34,7 +34,7 @@ const Verification = ({ props }: any) => {
     const [id] = useParam('id')
 
     const onSubmit: SubmitHandler<Inputs> = input => {
-        verification({ code: input.code, id: Number(id), screen: 'verification', provider: 'email' })
+        verification({ code: input.code, id: Number(id), authentication_id: Number(id), screen: 'verification', provider: 'email' })
     };
 
     React.useEffect(() => {
@@ -86,7 +86,7 @@ const Verification = ({ props }: any) => {
                                                     return (
                                                         Number(minutes) < 4 && (
                                                             <Text onPress={() => {
-                                                                verification({ code: '', id: Number(id), screen: 'resend' })
+                                                                verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
                                                             }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
                                                         )
                                                     );
@@ -98,7 +98,7 @@ const Verification = ({ props }: any) => {
                                                                 <>
                                                                     <Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
                                                                     <Text onPress={() => {
-                                                                        verification({ code: '', id: Number(id), screen: 'resend' })
+                                                                        verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
                                                                     }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
                                                                 </>
                                                             )}

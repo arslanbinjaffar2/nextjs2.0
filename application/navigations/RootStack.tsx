@@ -7,10 +7,13 @@ import UseEventService from 'application/store/services/UseEventService';
 import Welcome from 'application/screens/mobile/Welcome';
 import FindEventCode from 'application/screens/mobile/auth/FindEventCode';
 import NavigationBack from 'application/components/atoms/NavigationBack';
+import UseAuthService from 'application/store/services/UseAuthService';
 
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
+
+  const { getUser, isLoggedIn } = UseAuthService();
 
   const _options = {
     headerShown: true,
@@ -34,13 +37,22 @@ const RootStack = () => {
     });
   }, []);
 
+  React.useEffect(() => {
+    if (event.id) {
+      getUser();
+    }
+  }, [event.id])
+
   return (
     <>
       <Stack.Navigator >
         {event.id ? (
           <>
-            <Stack.Screen options={{ headerShown: false }} name="auth" component={AuthStack} />
-            {/* <Stack.Screen options={{ headerShown: false }} name="dashboard" component={AppStack} /> */}
+            {isLoggedIn ? (
+              <Stack.Screen options={{ headerShown: false }} name="dashboard" component={AppStack} />
+            ) : (
+              <Stack.Screen options={{ headerShown: false }} name="auth" component={AuthStack} />
+            )}
           </>
         ) : (
           <>
