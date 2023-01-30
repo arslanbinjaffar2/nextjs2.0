@@ -16,10 +16,12 @@ const App = () => {
 
   return (
     <ReduxProvider store={store}>
-      <Provider env={env}>
-        <StatusBar />
-        <RootStack />
-      </Provider>
+      {env && (
+        <Provider env={env}>
+          <StatusBar />
+          <RootStack />
+        </Provider>
+      )}
     </ReduxProvider>
   );
 };

@@ -58,11 +58,8 @@ const StreamBlock = () => {
           </HStack>
         </HStack>
       </View>
-      <ScrollView horizontal={true} contentContainerStyle={{
-        paddingLeft: '20',
-        paddingRight: '20',
-        marginBottom: '4',
-        minWidth: '72'
+      <ScrollView horizontal={true} style={{
+        marginHorizontal: 20
       }}>
         <HStack space="3">
           <Box position="relative" alignItems="center" justifyContent="center" rounded="md" w="150px" h="85" overflow="hidden" bg="rgba(0,0,0,0.5)">
