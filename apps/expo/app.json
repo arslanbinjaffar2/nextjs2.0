@@ -1,10 +1,9 @@
 {
   "expo": {
-    "name": "Eventbuizz",
-    "slug": "eventbuizz",
+    "name": "Web app",
+    "slug": "web-app",
     "version": "1.0.0",
-    "sdkVersion": "45.0.0",
-    "scheme": "eventbuizz",
+    "scheme": "web-app",
     "platforms": [
       "ios",
       "android",
@@ -15,6 +14,11 @@
     },
     "android": {
       "package": "com.solito.blank"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e20c716f-c438-4e50-b1de-7bc33c176c4b"
+      }
     }
   }
 }

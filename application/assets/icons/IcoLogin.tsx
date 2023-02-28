@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Svg, { G, Path } from 'react-native-svg';
 
-const IcoBack = () => {
+const IcoLogin = () => {
   const fill = '#ffffff';
 
   return (
@@ -39,12 +39,12 @@ const IcoBack = () => {
   );
 };
 
-IcoBack.defaultProps = {
+IcoLogin.defaultProps = {
   size: 24
 };
 
-IcoBack.propTypes = {
+IcoLogin.propTypes = {
   size: PropTypes.number
 };
 
-export default IcoBack;
+export default IcoLogin;
