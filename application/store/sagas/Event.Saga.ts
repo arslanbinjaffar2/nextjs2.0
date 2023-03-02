@@ -12,6 +12,8 @@ import { EventResponse } from 'application/models/Event'
 
 import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 
+import { select } from 'redux-saga/effects';
+
 // Worker Sagas handlers
 function* OnGetEvent({
     payload,
@@ -19,7 +21,8 @@ function* OnGetEvent({
     type: typeof EventActions.FetchEvent
     payload: any
 }): SagaIterator {
-    const response: EventResponse = yield call(getEventApi, payload)
+    const env =  yield select(state => state.env);
+    const response: EventResponse = yield call(getEventApi, payload, env)
     yield put(EventActions.update(response.event!))
 }
 
@@ -30,7 +33,8 @@ function* OnGetEventByCode({
     type: typeof EventActions.FetchEventByCode
     payload: any
 }): SagaIterator {
-    const response = yield call(getEventByCodeApi, payload);
+    const env =  yield select(state => state.env);
+    const response = yield call(getEventByCodeApi, payload, env);
     if (response.success) {
         yield put(EventActions.update(response.event!));
         yield put(ErrorActions.message(''));

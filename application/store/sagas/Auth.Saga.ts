@@ -12,6 +12,8 @@ import { Platform } from 'react-native';
 
 import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 
+import { select } from 'redux-saga/effects';
+
 // Worker Sagas handlers
 function* OnLogin({
     payload,
@@ -20,7 +22,8 @@ function* OnLogin({
     payload: LoginPayload
 }): SagaIterator {
     try {
-        const response: GeneralResponse = yield call(getLoginApi, payload);
+        const state = yield select(state => state);
+        const response: GeneralResponse = yield call(getLoginApi, payload, state);
         if (response.success) {
             yield put(AuthActions.success(response));
             if (Platform.OS === 'web') {
@@ -43,7 +46,8 @@ function* OnPasswordReset({
     payload: PasswordResetPayload
 }): SagaIterator {
     try {
-        const response: GeneralResponse = yield call(getPasswordResetApi, payload);
+        const state = yield select(state => state);
+        const response: GeneralResponse = yield call(getPasswordResetApi, payload, state);
         if (response.success) {
             yield put(AuthActions.success(response));
         } else {
@@ -61,7 +65,8 @@ function* OnChooseProvider({
     payload: ChooseProviderPayload
 }): SagaIterator {
     try {
-        const response: GeneralResponse = yield call(getChooseProviderApi, payload);
+        const state = yield select(state => state);
+        const response: GeneralResponse = yield call(getChooseProviderApi, payload, state);
         if (response.success) {
             yield put(AuthActions.success(response));
         } else {
@@ -79,7 +84,8 @@ function* OnReset({
     payload: ResetPayload
 }): SagaIterator {
     try {
-        const response: GeneralResponse = yield call(getResetApi, payload);
+        const state = yield select(state => state);
+        const response: GeneralResponse = yield call(getResetApi, payload, state);
         if (response.success) {
             yield put(AuthActions.success(response));
         } else {
@@ -97,7 +103,8 @@ function* OnVerification({
     payload: VerificationPayload
 }): SagaIterator {
     try {
-        const response: GeneralResponse = yield call(getVerificationApi, payload);
+        const state = yield select(state => state);
+        const response: GeneralResponse = yield call(getVerificationApi, payload, state);
         if (response.success) {
             yield put(AuthActions.success(response));
         } else {
@@ -115,7 +122,8 @@ function* OnLoadProvider({
     payload: LoadProviderPayload
 }): SagaIterator {
     try {
-        const response: GeneralResponse = yield call(getLoadProviderApi, payload);
+        const state = yield select(state => state);
+        const response: GeneralResponse = yield call(getLoadProviderApi, payload, state);
         if (response.success) {
             yield put(AuthActions.success(response));
         } else {
@@ -131,7 +139,8 @@ function* OnGetUser({ }: {
     payload: LoginPayload
 }): SagaIterator {
     try {
-        const response: GeneralResponse = yield call(getUserApi);
+        const state = yield select(state => state);
+        const response: GeneralResponse = yield call(getUserApi, state);
         if (response.success) {
             yield put(AuthActions.success(response));
         } else {
