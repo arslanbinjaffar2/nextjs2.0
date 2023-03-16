@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Layout from 'application/containers/mobile/Layout';
-import Dashboard from 'application/containers/mobile/headers/Dashboard';
+import Master from 'application/screens/mobile/layouts/Master';
+import DrawerHeaderNotification from 'application/screens/mobile/layouts/headers/DrawerHeaderNotification';
 import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
 import VerticalBoxItemListing from 'application/components/molecules/exhibitors/VerticalBoxItemListing';
@@ -14,8 +14,8 @@ import PollListing from 'application/components/organisms/polls/Listing';
 const Index = ({ navigation }: any) => {
   const [scroll, setscroll] = useState(false)
   return (
-    <Layout>
-      <Dashboard minimal={scroll} navigation={navigation} />
+    <Master>
+      <DrawerHeaderNotification minimal={scroll} navigation={navigation} />
       <Center w={'100%'} px={15}>
         <Divider mx="auto" w="160px" bg="primary.text" my="5" />
         <ScrollView h="85%" onScroll={(event: { nativeEvent: { contentOffset: { y: number; }; }; }) => setscroll(event.nativeEvent.contentOffset.y > 40 ? true : false)}>
@@ -42,7 +42,7 @@ const Index = ({ navigation }: any) => {
           <PollListing />
         </ScrollView>
       </Center>
-    </Layout>
+    </Master>
   );
 };
 

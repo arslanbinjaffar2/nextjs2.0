@@ -2,13 +2,13 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Center, Flex, Text, VStack, Image, Input } from 'native-base';
 import { images } from 'application/styles';
-import Layout from 'application/containers/mobile/Layout';
+import Master from 'application/screens/mobile/layouts/Master';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { Link as SolitoLink } from 'solito/link';
 
 const FindEmail = ({ navigation }: any) => {
     return (
-        <Layout>
+        <Master>
             <Center w={'100%'} pt="20" px={15}>
                 <Flex w="100%" rounded="10">
                     <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
@@ -20,7 +20,7 @@ const FindEmail = ({ navigation }: any) => {
                     </VStack>
                 </Flex>
             </Center>
-        </Layout>
+        </Master>
     );
 };
 

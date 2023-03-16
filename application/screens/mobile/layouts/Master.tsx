@@ -10,7 +10,7 @@ type Props = {
   | string[];
 };
 
-const Layout = ({ children }: Props) => (
+const Master = ({ children }: Props) => (
   <>
     <View style={gStyle.mainContainer}>
       <ImageBackground blurRadius={8} style={{ flex: 1, justifyContent: 'center' }} resizeMode='cover' source={images.SplashImage}>
@@ -22,4 +22,4 @@ const Layout = ({ children }: Props) => (
   </>
 );
 
-export default Layout;
+export default Master;

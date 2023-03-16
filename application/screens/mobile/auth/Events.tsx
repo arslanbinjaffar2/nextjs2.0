@@ -2,12 +2,12 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { Button, Center, Flex, Text, Image, HStack, VStack, Box, ScrollView, Pressable } from 'native-base';
-import Layout from 'application/containers/mobile/Layout';
+import Master from 'application/screens/mobile/layouts/Master';
 import { Link as SolitoLink } from 'solito/link';
 
 const Events = ({ navigation }: any) => {
   return (
-    <Layout>
+    <Master>
       <Center w={'100%'} pt="20" px={15}>
         <HStack mb="10px" space={0} justifyContent="center" w="100%">
           <Button borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg="primary.box" w="50%">ACTIVE</Button>
@@ -43,7 +43,7 @@ const Events = ({ navigation }: any) => {
           </VStack>
         </ScrollView>
       </Center>
-    </Layout>
+    </Master>
   );
 };
 

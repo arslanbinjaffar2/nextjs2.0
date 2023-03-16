@@ -21,7 +21,7 @@ function* OnGetEvent({
     type: typeof EventActions.FetchEvent
     payload: any
 }): SagaIterator {
-    const env =  yield select(state => state.env);
+    const env =  yield select(state => state);
     const response: EventResponse = yield call(getEventApi, payload, env)
     yield put(EventActions.update(response.event!))
 }
@@ -33,7 +33,7 @@ function* OnGetEventByCode({
     type: typeof EventActions.FetchEventByCode
     payload: any
 }): SagaIterator {
-    const env =  yield select(state => state.env);
+    const env =  yield select(state => state);
     const response = yield call(getEventByCodeApi, payload, env);
     if (response.success) {
         yield put(EventActions.update(response.event!));

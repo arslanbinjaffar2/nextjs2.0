@@ -3,7 +3,7 @@ import * as React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Index from 'application/screens/mobile/dashboard/Index';
 import colors from 'application/styles/colors';
-import DrawerLayout from 'application/containers/mobile/DrawerLayout';
+import DrawerLayout from 'application/screens/mobile/layouts/Drawer';
 
 const Drawer = createDrawerNavigator();
 
