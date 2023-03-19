@@ -40,8 +40,8 @@ const Index = ({ navigation }: any) => {
             </Center>
           </HStack>
           <Stream />
-          <VerticalBoxItemListing />
           <ProgramListing />
+          <VerticalBoxItemListing />
           <SpeakerRoundedList />
           <PollListing />
         </ScrollView>
