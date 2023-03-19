@@ -10,7 +10,7 @@ type AppProps = {
   time: string,
 }
 
-const BlockNotification = ({ title, desc, location, date, time }: AppProps) => {
+const UpcomingBlock = ({ title, desc, location, date, time }: AppProps) => {
 
   return (
     <Box mb="3" w="100%" py="3" px="3" borderWidth="1px" borderColor="primary.bdBox" bg="primary.box" rounded="10">
@@ -23,4 +23,4 @@ const BlockNotification = ({ title, desc, location, date, time }: AppProps) => {
 
 }
 
-export default BlockNotification;
+export default UpcomingBlock;
