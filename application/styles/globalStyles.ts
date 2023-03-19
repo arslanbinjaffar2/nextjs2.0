@@ -8,7 +8,7 @@ export default {
   mainContainer: {
     flex: 1,
     backgroundColor: `rgba(${colors.background},1)`,
-    hheight: '100%'
+    height: '100%'
   },
   bgContainer: {
     backgroundColor: `rgba(${colors.background},0.8)`,

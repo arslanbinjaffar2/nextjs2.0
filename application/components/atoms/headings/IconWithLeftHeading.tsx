@@ -5,7 +5,7 @@ type AppProps = {
     icon: HTMLElement
 }
 
-const BoxIconHeading = ({ title, icon }: AppProps) => {
+const IconWithLeftHeading = ({ title, icon }: AppProps) => {
     return (
         <Flex mb="3" alignItems="flex-start" w="100%" flexDirection="row">
             <Center alignItems="flex-start" w="100%">
@@ -17,4 +17,4 @@ const BoxIconHeading = ({ title, icon }: AppProps) => {
     )
 }
 
-export default BoxIconHeading
+export default IconWithLeftHeading

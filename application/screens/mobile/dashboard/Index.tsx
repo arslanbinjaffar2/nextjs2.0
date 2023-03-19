@@ -10,6 +10,7 @@ import BlockNotification from 'application/components/atoms/notifications/BlockN
 import ProgramListing from 'application/components/organisms/programs/Listing';
 import SpeakerRoundedList from 'application/components/organisms/speakers/RoundedList';
 import PollListing from 'application/components/organisms/polls/Listing';
+import ModulesTopBar from 'application/components/atoms/ModulesTopBar';
 
 const Index = ({ navigation }: any) => {
   const [scroll, setscroll] = useState(false)
@@ -27,6 +28,7 @@ const Index = ({ navigation }: any) => {
             <Heading fontSize="lg" bold>DR Koncerthus</Heading>
             <Heading fontSize="lg" bold>STUDIO 2, 2300 København S</Heading>
           </VStack>
+          <ModulesTopBar />
           <HStack w="100%" space="4%">
             <Center w="48%">
               <BlockNotification title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />

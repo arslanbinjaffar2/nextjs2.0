@@ -1,13 +1,13 @@
 import React from 'react'
 import { Container, Image, Text } from 'native-base'
-import BoxIconHeading from 'application/components/atoms/headings/BoxIconHeading'
+import IconWithLeftHeading from 'application/components/atoms/headings/IconWithLeftHeading'
 import IcoExhibitors from 'application/assets/icons/IcoExhibitors'
 import BoxItem from 'application/components/atoms/exhibitors/BoxItem'
 
 const VerticalBoxItemListing = () => {
   return (
     <Container w="100%" maxW="100%">
-      <BoxIconHeading icon={<IcoExhibitors width="22" height="24" />} title="OUR EXHIBITORS" />
+      <IconWithLeftHeading icon={<IcoExhibitors width="22" height="24" />} title="OUR EXHIBITORS" />
       <BoxItem
         image={<Image source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="210px" h="72px" />}
         category="Technology"

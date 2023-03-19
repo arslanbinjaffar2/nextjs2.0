@@ -5,7 +5,7 @@ import { Avatar, Box, Button, Container, HStack, Icon, Input, Spacer, Text, VSta
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Master from 'application/screens/web/layouts/Master';
-import BoxItem from 'application/components/atoms/attendees/BoxItem';
+import BoxItem from 'application/components/templates/attendees/BoxItem';
 
 type indexProps = {
   navigation: unknown
