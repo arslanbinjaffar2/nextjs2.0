@@ -5,12 +5,12 @@ import DrawerHeaderNotification from 'application/screens/mobile/layouts/headers
 import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
 import VerticalBoxItemListing from 'application/components/molecules/exhibitors/VerticalBoxItemListing';
-import StreamBlock from 'application/components/organisms/programs/videos/StreamBlock';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import ProgramListing from 'application/components/organisms/programs/Listing';
 import SpeakerRoundedList from 'application/components/organisms/speakers/RoundedList';
 import PollListing from 'application/components/organisms/polls/Listing';
 import ModulesTopBar from 'application/components/atoms/ModulesTopBar';
+import Stream from 'application/components/organisms/programs/videos/Stream';
 
 const Index = ({ navigation }: any) => {
 
@@ -39,7 +39,7 @@ const Index = ({ navigation }: any) => {
               <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
             </Center>
           </HStack>
-          <StreamBlock />
+          <Stream />
           <VerticalBoxItemListing />
           <ProgramListing />
           <SpeakerRoundedList />

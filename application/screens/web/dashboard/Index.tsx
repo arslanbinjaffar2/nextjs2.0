@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import StreamBlock from 'application/components/organisms/programs/videos/StreamBlock';
+import Stream from 'application/components/organisms/programs/videos/Stream';
 import ProgramListing from 'application/components/organisms/programs/Listing';
 import SpeakerRoundedList from 'application/components/organisms/speakers/RoundedList';
 import SpeakerListing from 'application/components/organisms/speakers/Listing';
@@ -21,7 +21,7 @@ const Index = ({ navigation }: indexProps) => {
 
   return (
     <Master navigation={navigation}>
-      <StreamBlock />
+      <Stream />
       <ProgramListing />
       <SpeakerRoundedList />
       <PollListing />
