@@ -13,13 +13,15 @@ import PollListing from 'application/components/organisms/polls/Listing';
 import ModulesTopBar from 'application/components/atoms/ModulesTopBar';
 
 const Index = ({ navigation }: any) => {
-  const [scroll, setscroll] = useState(false)
+
+  const [scroll, setScroll] = useState(false);
+
   return (
     <Master>
       <DrawerHeaderNotification minimal={scroll} navigation={navigation} />
       <Center w={'100%'} px={15}>
         <Divider mx="auto" w="160px" bg="primary.text" my="5" />
-        <ScrollView h="85%" onScroll={(event: { nativeEvent: { contentOffset: { y: number; }; }; }) => setscroll(event.nativeEvent.contentOffset.y > 40 ? true : false)}>
+        <ScrollView h="85%" onScroll={(event: { nativeEvent: { contentOffset: { y: number; }; }; }) => setScroll(event.nativeEvent.contentOffset.y > 40 ? true : false)}>
           <VStack pb="2" space={0} alignItems="center" w="100%">
             <Heading fontSize="3xl">JANUAR VISION DANMARK</Heading>
             <Heading fontSize="xl">KØBENHAVN 29 JANUAR 11:30 - 16:30</Heading>
