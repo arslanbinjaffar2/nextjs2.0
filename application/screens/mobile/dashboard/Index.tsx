@@ -6,7 +6,7 @@ import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-bas
 import { useState } from 'react';
 import VerticalBoxItemListing from 'application/components/molecules/exhibitors/VerticalBoxItemListing';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
-import ProgramListing from 'application/components/organisms/programs/Listing';
+import ProgramListing from 'application/components/templates/programs/HomeListing';
 import SpeakerRoundedList from 'application/components/organisms/speakers/RoundedList';
 import PollListing from 'application/components/organisms/polls/Listing';
 import ModulesTopBar from 'application/components/atoms/ModulesTopBar';
