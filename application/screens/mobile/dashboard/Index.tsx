@@ -7,7 +7,7 @@ import { useState } from 'react';
 import VerticalBoxItemListing from 'application/components/molecules/exhibitors/VerticalBoxItemListing';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import ProgramListing from 'application/components/templates/programs/HomeListing';
-import SpeakerRoundedList from 'application/components/organisms/speakers/RoundedList';
+import SpeakerRoundedList from 'application/components/templates/speakers/RoundedList';
 import PollListing from 'application/components/organisms/polls/Listing';
 import ModulesTopBar from 'application/components/atoms/ModulesTopBar';
 import Stream from 'application/components/organisms/programs/videos/Stream';
@@ -41,8 +41,8 @@ const Index = ({ navigation }: any) => {
           </HStack>
           <Stream />
           <ProgramListing />
-          <VerticalBoxItemListing />
           <SpeakerRoundedList />
+          <VerticalBoxItemListing />
           <PollListing />
         </ScrollView>
       </Center>
