@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Stream from 'application/components/organisms/programs/videos/Stream';
-import ProgramListing from 'application/components/templates/programs/HomeListing';
+import ProgramListing from 'application/components/templates/programs/Listing';
 import SpeakerRoundedList from 'application/components/templates/speakers/RoundedList';
 import SpeakerListing from 'application/components/organisms/speakers/Listing';
 import QAListing from 'application/components/organisms/qa/Listing';
