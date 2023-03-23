@@ -4,7 +4,7 @@ import IconWithLeftHeading from 'application/components/atoms/headings/IconWithL
 import IcoExhibitors from 'application/assets/icons/IcoExhibitors'
 import BoxItem from 'application/components/atoms/exhibitors/BoxItem'
 
-const VerticalBoxItemListing = () => {
+const Listing = () => {
   return (
     <Container w="100%" maxW="100%">
       <IconWithLeftHeading icon={<IcoExhibitors width="22" height="24" />} title="OUR EXHIBITORS" />
@@ -36,4 +36,4 @@ const VerticalBoxItemListing = () => {
   )
 }
 
-export default VerticalBoxItemListing
+export default Listing

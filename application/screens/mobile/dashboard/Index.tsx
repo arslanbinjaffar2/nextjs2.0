@@ -4,7 +4,7 @@ import Master from 'application/screens/mobile/layouts/Master';
 import DrawerHeaderNotification from 'application/screens/mobile/layouts/headers/DrawerHeaderNotification';
 import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
-import VerticalBoxItemListing from 'application/components/molecules/exhibitors/VerticalBoxItemListing';
+import ExhibitorsListing from 'application/components/molecules/exhibitors/Listing';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import ProgramListing from 'application/components/templates/programs/Listing';
 import SpeakerRoundedList from 'application/components/templates/speakers/RoundedList';
@@ -42,7 +42,7 @@ const Index = ({ navigation }: any) => {
           <Stream />
           <ProgramListing />
           <SpeakerRoundedList />
-          <VerticalBoxItemListing />
+          <ExhibitorsListing />
           <PollListing />
         </ScrollView>
       </Center>
