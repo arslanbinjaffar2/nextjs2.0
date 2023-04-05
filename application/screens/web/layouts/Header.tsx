@@ -3,7 +3,7 @@ import { Badge, Box, Button, Center, Container, Heading, HStack, Image, Menu, Pr
 import Icosettings from 'application/assets/icons/Icosettings';
 import Icoreload from 'application/assets/icons/Icoreload';
 import { images } from 'application/styles';
-import NotificationMenu from 'application/components/atoms/header/NotificationMenu';
+import Notification from 'application/components/atoms/header/Notification';
 
 const Header = ({ width, navigation }: any) => {
   return (
@@ -27,7 +27,7 @@ const Header = ({ width, navigation }: any) => {
             <HStack space="10">
               <Box><Pressable onPress={() => { console.log('hello') }}><Icosettings width={32} height={32} /></Pressable></Box>
               <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={34} height={34} /></Pressable></Box>
-              <NotificationMenu />
+              <Notification />
             </HStack>
           </Center>
         </HStack>

@@ -8,7 +8,7 @@ import ExhibitorsListing from 'application/components/molecules/exhibitors/Listi
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import ProgramListing from 'application/components/templates/programs/Listing';
 import SpeakerRoundedList from 'application/components/templates/speakers/RoundedList';
-import PollListing from 'application/components/organisms/polls/Listing';
+import PollSlideView from 'application/components/templates/polls/SlideView';
 import ModulesTopBar from 'application/components/atoms/ModulesTopBar';
 import Stream from 'application/components/organisms/programs/videos/Stream';
 
@@ -43,7 +43,7 @@ const Index = ({ navigation }: any) => {
           <ProgramListing />
           <SpeakerRoundedList />
           <ExhibitorsListing />
-          <PollListing />
+          <PollSlideView />
         </ScrollView>
       </Center>
     </Master>

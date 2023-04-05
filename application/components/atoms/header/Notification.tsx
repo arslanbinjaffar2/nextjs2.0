@@ -3,7 +3,7 @@ import { Badge, Box, Button, HStack, Menu, Text, VStack } from 'native-base';
 import IcoBell from 'application/assets/icons/IcoBell';
 import IcoChat from 'application/assets/icons/IcoChat';
 
-const NotificationMenu = () => {
+const Notification = () => {
   return (
     <Menu
       w={['350px', '400px']}
@@ -54,4 +54,4 @@ const NotificationMenu = () => {
   )
 }
 
-export default NotificationMenu;
+export default Notification;
