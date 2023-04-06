@@ -3,6 +3,7 @@ import { Center, Heading, HStack, Icon, IconButton, Text } from 'native-base';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
 import WorkshopRectangleDetailView from 'application/components/atoms/programs/workshops/RectangleDetailView';
+import TrackRectangleDetailView from 'application/components/atoms/programs/tracks/RectangleDetailView';
 
 const SlideView = (props: any) => {
 
@@ -40,51 +41,61 @@ const SlideView = (props: any) => {
 
     return (
         <>
-            {props?.section === 'my-program' ? (
+            {props?.section === 'my-program' && (
                 <>
                     {programs?.map((program: any, key: any) =>
                         <RectangleDetailView key={key} program={program} k={key} />
                     )}
                 </>
-            ) : (
+            )}
+            {props?.section === 'program' && (
                 <>
-                    <HStack my={3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
-                        <Center alignItems="flex-start" w="10%">
-                            <IconButton
-                                p="0"
-                                w="40px"
-                                variant="transparent"
-                                icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
-                                onPress={() => {
-                                    console.log('hello')
-                                }}
-                            />
-                        </Center>
-                        <Center w="80%">
-                            <Heading fontSize="lg">Wednesday - Oktober 7</Heading>
-                        </Center>
-                        <Center alignItems="flex-end" w="10%">
-                            <IconButton
-                                p="0"
-                                w="40px"
-                                variant="transparent"
-                                icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
-                                onPress={() => {
-                                    console.log('hello')
-                                }}
-                            />
-                        </Center>
-                    </HStack>
+                    <>
+                        <HStack my={3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
+                            <Center alignItems="flex-start" w="10%">
+                                <IconButton
+                                    p="0"
+                                    w="40px"
+                                    variant="transparent"
+                                    icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
+                                    onPress={() => {
+                                        console.log('hello')
+                                    }}
+                                />
+                            </Center>
+                            <Center w="80%">
+                                <Heading fontSize="lg">Wednesday - Oktober 7</Heading>
+                            </Center>
+                            <Center alignItems="flex-end" w="10%">
+                                <IconButton
+                                    p="0"
+                                    w="40px"
+                                    variant="transparent"
+                                    icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                                    onPress={() => {
+                                        console.log('hello')
+                                    }}
+                                />
+                            </Center>
+                        </HStack>
+                        {programs?.map((program: any, key: any) =>
+                            <RectangleDetailView key={key} program={program} k={key} />
+                        )}
+                        <Text w="100%" pl="30px" bg="primary.darkbox">Afternoon sessions</Text>
+                        {programs?.map((program: any, key: any) =>
+                            <RectangleDetailView key={key} program={program} k={key} />
+                        )}
+                        <Text w="100%" pl="30px" bg="primary.darkbox">Workshops</Text>
+                        {programs?.map((program: any, key: any) =>
+                            <WorkshopRectangleDetailView key={key} program={program} k={key} />
+                        )}
+                    </>
+                </>
+            )}
+            {props?.section === 'tracks' && (
+                <>
                     {programs?.map((program: any, key: any) =>
-                        <RectangleDetailView key={key} program={program} k={key} />
-                    )}
-                    <Text w="100%" pl="30px" bg="primary.darkbox">Afternoon sessions</Text>
-                    {programs?.map((program: any, key: any) =>
-                        <RectangleDetailView key={key} program={program} k={key} />
-                    )}
-                    <Text w="100%" pl="30px" bg="primary.darkbox">Workshops</Text>
-                    {programs?.map((program: any, key: any) =>
-                        <WorkshopRectangleDetailView key={key} program={program} k={key} />
+                        <TrackRectangleDetailView key={key} program={program} k={key} />
                     )}
                 </>
             )}
