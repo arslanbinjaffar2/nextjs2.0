@@ -6,7 +6,8 @@ import IcoSharePost from 'application/assets/icons/IcoSharePost'
 import IcoMessagealt from 'application/assets/icons/IcoMessagealt'
 import Icolikealt from 'application/assets/icons/Icolikealt'
 
-const SocialPost = () => {
+const SquareBox = () => {
+
   return (
     <Box mb="3" borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="4" rounded="10px" overflow="hidden">
       <VStack space="3">
@@ -93,6 +94,7 @@ const SocialPost = () => {
       </VStack>
     </Box>
   )
+
 }
 
-export default SocialPost
+export default SquareBox
