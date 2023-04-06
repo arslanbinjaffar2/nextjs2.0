@@ -31,31 +31,7 @@ const Index = () => {
             </>
             <>
                 {tabs === 'MY_PROGRAM' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                    {[...Array(5)].map((item, k) =>
-                        <Box w="100%" key={k} borderBottomWidth={k === 4 ? 0 : 1} borderColor="primary.text" py="3">
-                            <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-                                <Box position="absolute" left="0" top="0" w="15px">
-                                    <ZStack>
-                                        {[...Array(1)].map((track, i) =>
-                                            <Box key={i} bg={`green.${i + 1}00`} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
-                                        )}
-                                    </ZStack>
-                                </Box>
-                                <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                                    <VStack w="40px" space="0">
-                                        <Text lineHeight="22px">08:50</Text>
-                                        <Text lineHeight="22px">09:45</Text>
-                                    </VStack>
-                                    <Center maxW={['62%', '70%', '42%']} alignSelf="flex-start" p="0">
-                                        <Text alignSelf="flex-start" lineHeight="22px">First point in the agenda, with room for two lines of text.</Text>
-                                    </Center>
-                                    <Spacer />
-                                    <HStack pr="5" space="2" alignItems="center">
-                                        <Icon size="xl" as={Ionicons} name="heart" color="primary.secondary" />
-                                    </HStack>
-                                </HStack>
-                            </HStack>
-                        </Box>)}
+                    <SlideView section="my-program" />
                 </Container>}
             </>
             <>

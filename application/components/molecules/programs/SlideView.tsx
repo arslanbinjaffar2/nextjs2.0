@@ -4,7 +4,7 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
 import WorkshopRectangleDetailView from 'application/components/atoms/programs/workshops/RectangleDetailView';
 
-const SlideView = () => {
+const SlideView = (props: any) => {
 
     const programs = [{
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -40,44 +40,55 @@ const SlideView = () => {
 
     return (
         <>
-            <HStack my={3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
-                <Center alignItems="flex-start" w="10%">
-                    <IconButton
-                        p="0"
-                        w="40px"
-                        variant="transparent"
-                        icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
-                        onPress={() => {
-                            console.log('hello')
-                        }}
-                    />
-                </Center>
-                <Center w="80%">
-                    <Heading fontSize="lg">Wednesday - Oktober 7</Heading>
-                </Center>
-                <Center alignItems="flex-end" w="10%">
-                    <IconButton
-                        p="0"
-                        w="40px"
-                        variant="transparent"
-                        icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
-                        onPress={() => {
-                            console.log('hello')
-                        }}
-                    />
-                </Center>
-            </HStack>
-            {programs?.map((program: any, key: any) =>
-                <RectangleDetailView key={key} program={program} k={key} />
+            {props?.section === 'my-program' ? (
+                <>
+                    {programs?.map((program: any, key: any) =>
+                        <RectangleDetailView key={key} program={program} k={key} />
+                    )}
+                </>
+            ) : (
+                <>
+                    <HStack my={3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
+                        <Center alignItems="flex-start" w="10%">
+                            <IconButton
+                                p="0"
+                                w="40px"
+                                variant="transparent"
+                                icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
+                                onPress={() => {
+                                    console.log('hello')
+                                }}
+                            />
+                        </Center>
+                        <Center w="80%">
+                            <Heading fontSize="lg">Wednesday - Oktober 7</Heading>
+                        </Center>
+                        <Center alignItems="flex-end" w="10%">
+                            <IconButton
+                                p="0"
+                                w="40px"
+                                variant="transparent"
+                                icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                                onPress={() => {
+                                    console.log('hello')
+                                }}
+                            />
+                        </Center>
+                    </HStack>
+                    {programs?.map((program: any, key: any) =>
+                        <RectangleDetailView key={key} program={program} k={key} />
+                    )}
+                    <Text w="100%" pl="30px" bg="primary.darkbox">Afternoon sessions</Text>
+                    {programs?.map((program: any, key: any) =>
+                        <RectangleDetailView key={key} program={program} k={key} />
+                    )}
+                    <Text w="100%" pl="30px" bg="primary.darkbox">Workshops</Text>
+                    {programs?.map((program: any, key: any) =>
+                        <WorkshopRectangleDetailView key={key} program={program} k={key} />
+                    )}
+                </>
             )}
-            <Text w="100%" pl="30px" bg="primary.darkbox">Afternoon sessions</Text>
-            {programs?.map((program: any, key: any) =>
-                <RectangleDetailView key={key} program={program} k={key} />
-            )}
-            <Text w="100%" pl="30px" bg="primary.darkbox">Workshops</Text>
-            {programs?.map((program: any, key: any) =>
-                <WorkshopRectangleDetailView key={key} program={program} k={key} />
-            )}
+
         </>
     );
 };
