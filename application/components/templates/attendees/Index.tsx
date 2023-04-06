@@ -5,7 +5,7 @@ import RectangleAttendeeView from 'application/components/atoms/attendees/Rectan
 import Search from 'application/components/atoms/attendees/Search';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
 
-const Listing = () => {
+const Index = () => {
 
     const [tabs, settabs] = useState<string | null>('PROGRAM');
 
@@ -63,4 +63,4 @@ const Listing = () => {
 
 }
 
-export default Listing
+export default Index
