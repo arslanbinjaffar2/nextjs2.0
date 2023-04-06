@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Master from 'application/screens/web/layouts/Master';
-import PollTabView from 'application/components/templates/polls/TabView';
+import IndexTemplate from 'application/components/templates/polls/Index';
 
 type indexProps = {
   navigation: unknown
@@ -11,7 +11,7 @@ const Index = ({ navigation }: indexProps) => {
 
   return (
     <Master navigation={navigation}>
-      <PollTabView />
+      <IndexTemplate />
     </Master>
   );
 

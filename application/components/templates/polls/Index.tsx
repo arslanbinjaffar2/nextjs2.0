@@ -4,7 +4,7 @@ import ListView from 'application/components/atoms/polls/ListView';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Button, Container, HStack, Icon, Input, Spacer, Text } from 'native-base';
 
-const TabView = () => {
+const Index = () => {
 
     const [tab, setTab] = React.useState(true)
 
@@ -32,4 +32,4 @@ const TabView = () => {
 
 }
 
-export default TabView
+export default Index
