@@ -25,45 +25,39 @@ const Listing = () => {
                 <Button onPress={() => settabs('MY_PROGRAM')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tabs === 'MY_PROGRAM' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>MY ATTENDEES</Button>
                 <Button onPress={() => settabs('GROUPS')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tabs === 'GROUPS' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>GROUPS</Button>
             </HStack>
-            <>
-                {tabs === 'PROGRAM' && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                    <VStack w="20px" position="absolute" right="-20px" top="0" space="1">
-                        {alphabet && alphabet.map((item, k) =>
-                            <Text textAlign="center" color="primary.text" opacity="0.5" key={k} fontSize="md">{item}</Text>
-                        )}
-                    </VStack>
-                    <Text w="100%" pl="18px" bg="primary.darkbox">A</Text>
-                    {[...Array(3)].map((item, k) =>
-                        <React.Fragment key={`item-box-${k}`}>
-                            <RectangleAttendeeView border={k === 2 ? 0 : 1} />
-                        </React.Fragment>
+            {tabs === 'PROGRAM' && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                <VStack w="20px" position="absolute" right="-20px" top="0" space="1">
+                    {alphabet && alphabet.map((item, k) =>
+                        <Text textAlign="center" color="primary.text" opacity="0.5" key={k} fontSize="md">{item}</Text>
                     )}
-                    <Text w="100%" pl="18px" bg="primary.darkbox">B</Text>
-                    {[...Array(3)].map((item, k) =>
-                        <React.Fragment key={`item-box-alt-${k}`}>
-                            <RectangleAttendeeView border={k === 2 ? 0 : 1} />
-                        </React.Fragment>
-                    )}
-                </Container>}
-            </>
-            <>
-                {tabs === 'MY_PROGRAM' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                    {[...Array(6)].map((item, k) =>
-                        <React.Fragment key={`item-box-programs-${k}`}>
-                            <RectangleAttendeeView border={k === 5 ? 0 : 1} />
-                        </React.Fragment>
-                    )}
-                </Container>}
-            </>
-            <>
-                {tabs === 'GROUPS' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                    {[...Array(7)].map((item, k) =>
-                        <React.Fragment key={`item-box-group-${k}`}>
-                            <RectangleGroupView k={k} />
-                        </React.Fragment>
-                    )}
-                </Container>}
-            </>
+                </VStack>
+                <Text w="100%" pl="18px" bg="primary.darkbox">A</Text>
+                {[...Array(3)].map((item, k) =>
+                    <React.Fragment key={`item-box-${k}`}>
+                        <RectangleAttendeeView border={k === 2 ? 0 : 1} />
+                    </React.Fragment>
+                )}
+                <Text w="100%" pl="18px" bg="primary.darkbox">B</Text>
+                {[...Array(3)].map((item, k) =>
+                    <React.Fragment key={`item-box-alt-${k}`}>
+                        <RectangleAttendeeView border={k === 2 ? 0 : 1} />
+                    </React.Fragment>
+                )}
+            </Container>}
+            {tabs === 'MY_PROGRAM' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                {[...Array(6)].map((item, k) =>
+                    <React.Fragment key={`item-box-programs-${k}`}>
+                        <RectangleAttendeeView border={k === 5 ? 0 : 1} />
+                    </React.Fragment>
+                )}
+            </Container>}
+            {tabs === 'GROUPS' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                {[...Array(7)].map((item, k) =>
+                    <React.Fragment key={`item-box-group-${k}`}>
+                        <RectangleGroupView k={k} />
+                    </React.Fragment>
+                )}
+            </Container>}
         </>
     )
 
