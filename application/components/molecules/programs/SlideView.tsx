@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Center, Heading, HStack, Icon, IconButton } from 'native-base';
+import { Center, Heading, HStack, Icon, IconButton, Text } from 'native-base';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
+import WorkshopRectangleDetailView from 'application/components/atoms/programs/workshops/RectangleDetailView';
 
 const SlideView = () => {
 
@@ -68,6 +69,14 @@ const SlideView = () => {
             </HStack>
             {programs?.map((program: any, key: any) =>
                 <RectangleDetailView key={key} program={program} k={key} />
+            )}
+            <Text w="100%" pl="30px" bg="primary.darkbox">Afternoon sessions</Text>
+            {programs?.map((program: any, key: any) =>
+                <RectangleDetailView key={key} program={program} k={key} />
+            )}
+            <Text w="100%" pl="30px" bg="primary.darkbox">Workshops</Text>
+            {programs?.map((program: any, key: any) =>
+                <WorkshopRectangleDetailView key={key} program={program} k={key} />
             )}
         </>
     );
