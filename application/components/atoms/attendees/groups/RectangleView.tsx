@@ -4,10 +4,10 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'application/assets/icons/Icoribbon'
 
 type boxItemProps = {
-    border: number
+    k: number
 }
 
-const RectangleView = ({ border }: boxItemProps) => {
+const RectangleView = ({ k }: boxItemProps) => {
     return (
         <Box w="100%" borderBottomWidth={k === 6 ? 0 : 1} borderColor="primary.text" py="4">
             <HStack px="4" alignItems="flex-start" space={0} justifyContent="flex-start">

@@ -35,7 +35,7 @@ const programs = [{
   tracks: [{ name: 'Technology', color: '#9F1C2B' }]
 }];
 
-const HomeListing = () => {
+const Listing = () => {
   return (
     <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
       <Heading py="1" fontSize="2xl" w="100%" textAlign="center">PROGRAMS</Heading>
@@ -67,7 +67,7 @@ const HomeListing = () => {
         </Center>
       </HStack>
       {programs?.map((program: any, key: any) =>
-        <RectangleDetailView key={key} program={program} />
+        <RectangleDetailView key={key} program={program} k={key} />
       )}
       <Center py="3" px="2" w="100%" alignItems="flex-end">
         <Button p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
@@ -78,4 +78,4 @@ const HomeListing = () => {
   )
 }
 
-export default HomeListing;
+export default Listing;

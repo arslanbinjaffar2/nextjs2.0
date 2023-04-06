@@ -85,7 +85,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push(`/${event.url}/attendees`)
+            push(`/${event.url}/attendees/detail`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
