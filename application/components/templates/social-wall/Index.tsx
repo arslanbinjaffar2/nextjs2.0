@@ -3,7 +3,7 @@ import { Box } from 'native-base'
 import SquareBox from 'application/components/atoms/social-wall/SquareBox';
 import AddPost from 'application/components/atoms/social-wall/AddPost';
 
-const VerticalView = () => {
+const Index = () => {
 
     return (
         <>
@@ -18,4 +18,4 @@ const VerticalView = () => {
 
 }
 
-export default VerticalView
+export default Index
