@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Container, HStack, Spacer, Text } from 'native-base';
 import { useState } from 'react';
-import Search from 'application/components/atoms/programs/Search';
+import Search from 'application/components/atoms/Search';
 import SlideView from 'application/components/molecules/programs/SlideView';
 
 const Index = () => {

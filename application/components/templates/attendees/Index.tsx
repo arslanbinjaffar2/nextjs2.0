@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { Button, Container, HStack, Spacer, Text, VStack } from 'native-base';
 import RectangleAttendeeView from 'application/components/atoms/attendees/RectangleView';
-import Search from 'application/components/atoms/attendees/Search';
+import Search from 'application/components/atoms/Search';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
 
 const Index = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Container, HStack, Icon, Spacer, Text } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import Search from 'application/components/atoms/attendees/Search';
+import Search from 'application/components/atoms/Search';
 import BasicInfoBlock from 'application/components/atoms/attendees/detail/BasicInfoBlock';
 import DetailInfoBlock from 'application/components/atoms/attendees/detail/DetailInfoBlock';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
