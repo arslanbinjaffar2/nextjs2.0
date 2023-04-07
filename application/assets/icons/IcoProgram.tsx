@@ -9,7 +9,7 @@ const IcoProgram = (props: SvgProps) => (
     viewBox="0 0 64 63.031"
   >
     <Defs>
-      <ClipPath id="clip-path">
+      <ClipPath>
         <Rect
           id="Rectangle_124"
           data-name="Rectangle 124"
@@ -24,7 +24,6 @@ const IcoProgram = (props: SvgProps) => (
         id="Group_659"
         data-name="Group 659"
         transform="translate(0 0)"
-        clipPath="url(#clip-path)"
       >
         <Path
           id="Path_1595"

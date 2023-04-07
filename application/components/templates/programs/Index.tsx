@@ -1,13 +1,8 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import { Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Input, Spacer, Text, VStack, ZStack } from 'native-base';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
-import Master from 'application/screens/web/layouts/Master';
+import { Button, Container, HStack, Spacer, Text } from 'native-base';
 import { useState } from 'react';
 import Search from 'application/components/atoms/programs/Search';
 import SlideView from 'application/components/molecules/programs/SlideView';
-import RectangleDetailView from 'application/components/atoms/programs/tracks/RectangleDetailView';
 
 const Index = () => {
 

@@ -50,56 +50,51 @@ const SlideView = (props: any) => {
             )}
             {props?.section === 'program' && (
                 <>
-                    <>
-                        <HStack my={3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
-                            <Center alignItems="flex-start" w="10%">
-                                <IconButton
-                                    p="0"
-                                    w="40px"
-                                    variant="transparent"
-                                    icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
-                                    onPress={() => {
-                                        console.log('hello')
-                                    }}
-                                />
-                            </Center>
-                            <Center w="80%">
-                                <Heading fontSize="lg">Wednesday - Oktober 7</Heading>
-                            </Center>
-                            <Center alignItems="flex-end" w="10%">
-                                <IconButton
-                                    p="0"
-                                    w="40px"
-                                    variant="transparent"
-                                    icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
-                                    onPress={() => {
-                                        console.log('hello')
-                                    }}
-                                />
-                            </Center>
-                        </HStack>
-                        {programs?.map((program: any, key: any) =>
-                            <RectangleDetailView key={key} program={program} k={key} />
-                        )}
-                        <Text w="100%" pl="30px" bg="primary.darkbox">Afternoon sessions</Text>
-                        {programs?.map((program: any, key: any) =>
-                            <RectangleDetailView key={key} program={program} k={key} />
-                        )}
-                        <Text w="100%" pl="30px" bg="primary.darkbox">Workshops</Text>
-                        {programs?.map((program: any, key: any) =>
-                            <WorkshopRectangleDetailView key={key} program={program} k={key} />
-                        )}
-                    </>
-                </>
-            )}
-            {props?.section === 'tracks' && (
-                <>
+                    <HStack my={3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
+                        <Center alignItems="flex-start" w="10%">
+                            <IconButton
+                                p="0"
+                                w="40px"
+                                variant="transparent"
+                                icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
+                                onPress={() => {
+                                    console.log('hello')
+                                }}
+                            />
+                        </Center>
+                        <Center w="80%">
+                            <Heading fontSize="lg">Wednesday - Oktober 7</Heading>
+                        </Center>
+                        <Center alignItems="flex-end" w="10%">
+                            <IconButton
+                                p="0"
+                                w="40px"
+                                variant="transparent"
+                                icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                                onPress={() => {
+                                    console.log('hello')
+                                }}
+                            />
+                        </Center>
+                    </HStack>
                     {programs?.map((program: any, key: any) =>
-                        <TrackRectangleDetailView key={key} program={program} k={key} />
+                        <RectangleDetailView key={key} program={program} k={key} />
+                    )}
+                    <Text w="100%" pl="30px" bg="primary.darkbox">Afternoon sessions</Text>
+                    {programs?.map((program: any, key: any) =>
+                        <RectangleDetailView key={key} program={program} k={key} />
+                    )}
+                    <Text w="100%" pl="30px" bg="primary.darkbox">Workshops</Text>
+                    {programs?.map((program: any, key: any) =>
+                        <WorkshopRectangleDetailView key={key} program={program} k={key} />
                     )}
                 </>
             )}
-
+            {props?.section === 'tracks' && (
+                programs?.map((program: any, key: any) =>
+                    <TrackRectangleDetailView key={key} program={program} k={key} />
+                )
+            )}
         </>
     );
 };

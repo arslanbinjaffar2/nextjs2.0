@@ -1,9 +1,10 @@
 import React from 'react'
-import { Box, HStack, Text, ZStack, Center } from 'native-base'
+import { Box, HStack, Text, ZStack, Center, Spacer, Icon } from 'native-base'
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const RectangleDetailView = (props: any) => {
     return <Box w="100%" key={props?.program.id} borderBottomWidth={props.k === 1 ? 0 : 1} borderColor="primary.text" py="3">
-        <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
+        <HStack pl="30px" alignItems="center" minH="55px" space={0}>
             <Box position="absolute" left="0" top="0" w="15px">
                 <ZStack>
                     {[...Array(1)].map((track, i) =>
@@ -11,10 +12,14 @@ const RectangleDetailView = (props: any) => {
                     )}
                 </ZStack>
             </Box>
-            <HStack pt="02" w="100%" space="5" alignItems="center" justifyContent="space-between">
+            <HStack pt="02" w="100%" space="5">
                 <Center maxW={['62%', '70%', '42%']} alignSelf="flex-start" p="0">
-                    <Text alignSelf="flex-start" lineHeight="22px">{props?.program.text}</Text>
+                    <Text lineHeight="22px">{props?.program.text}</Text>
                 </Center>
+                <Spacer />
+                <HStack pr="5" space="2" alignItems="center">
+                    <Icon size="xl" as={AntDesign} name="right" color="primary.text" />
+                </HStack>
             </HStack>
         </HStack>
     </Box>;
