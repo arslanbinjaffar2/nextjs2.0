@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Divider } from 'native-base'
-import ListView from 'application/components/atoms/polls/ListView';
+import RectangleView from 'application/components/atoms/polls/RectangleView';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Button, Container, HStack, Icon, Input, Spacer, Text } from 'native-base';
 
@@ -20,11 +20,11 @@ const Index = () => {
                 <Button onPress={() => setTab(false)} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
             </HStack>
             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                <ListView />
-                <ListView />
-                <ListView />
-                <ListView />
-                <ListView />
+                <RectangleView />
+                <RectangleView />
+                <RectangleView />
+                <RectangleView />
+                <RectangleView />
                 <Divider h="100px" bg="transparent" />
             </Box>
         </Container>

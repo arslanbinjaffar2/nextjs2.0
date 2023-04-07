@@ -1,7 +1,7 @@
 import React from 'react';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { Button, Center, Container, Heading, HStack, Icon, IconButton } from 'native-base';
-import ListView from 'application/components/atoms/polls/ListView';
+import RectangleView from 'application/components/atoms/polls/RectangleView';
 
 const SlideView = () => {
   return (
@@ -34,11 +34,11 @@ const SlideView = () => {
           />
         </Center>
       </HStack>
-      <ListView />
-      <ListView />
-      <ListView />
-      <ListView />
-      <ListView />
+      <RectangleView />
+      <RectangleView />
+      <RectangleView />
+      <RectangleView />
+      <RectangleView />
       <Center py="3" px="2" w="100%" alignItems="flex-end">
         <Button p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
           Show all
