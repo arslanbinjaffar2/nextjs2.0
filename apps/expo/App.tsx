@@ -13,7 +13,6 @@ const App = () => {
     api_base_url: APP_API_BASE_URL,
     msw_enabled: APP_MSW_ENABLED
   }
-console.log(APP_API_BASE_URL)
   return (
     <ReduxProvider store={store}>
       {env && (

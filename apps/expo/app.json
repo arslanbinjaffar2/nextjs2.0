@@ -4,11 +4,7 @@
     "slug": "web-app",
     "version": "1.0.0",
     "scheme": "web-app",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "ios": {
       "bundleIdentifier": "47U374K265"
     },
@@ -21,7 +17,14 @@
       }
     },
     "plugins": [
-      "expo-build-properties"
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "flipper": true
+          }
+        }
+      ]
     ]
   }
 }

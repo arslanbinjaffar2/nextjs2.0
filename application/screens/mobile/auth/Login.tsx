@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { images } from 'application/styles';
 import Master from 'application/screens/mobile/layouts/Master';
 import { Button, Center, Flex, Text, VStack, Image, Input, FormControl, Icon } from 'native-base';
-import IcoLogin from 'application/assets/icons/IcoLogin';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { useRouter } from 'solito/router'
@@ -21,7 +20,7 @@ type Inputs = {
 
 const Login = ({ navigation }: any) => {
 
-    const { FetchEventByCode, event } = UseEventService();
+    const { event } = UseEventService();
 
     const { message } = UseErrorService();
 
@@ -125,7 +124,7 @@ const Login = ({ navigation }: any) => {
                                             <Controller
                                                 control={control}
                                                 render={({ field: { onChange, onBlur, value } }) => (
-                                                    <Input onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={['200px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow /></Button>} />
+                                                    <Input onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={'100%'} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button isLoading={processing} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow /></Button>} />
                                                 )}
                                                 name="email"
                                                 rules={{
