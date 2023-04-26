@@ -17,3 +17,11 @@ We have already done the hard work for you and created a starter kit for you to 
 That’s it your starter kit is ready to be used.
 
 All your screens and components will be present in packages/app and this can be accessed in the next and expo projects.
+
+## Commands
+
+eas build
+eas build:status
+npx expo -h
+eas build:list
+eas build --platform android --profile development

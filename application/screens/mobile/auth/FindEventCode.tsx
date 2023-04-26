@@ -7,6 +7,7 @@ import IcoLogin from 'application/assets/icons/IcoLogin';
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import UseEventService from 'application/store/services/UseEventService';
 import UseErrorService from 'application/store/services/UseErrorService';
+import UseLoadingService from 'application/store/services/UseLoadingService';
 
 type Inputs = {
     code: string,
@@ -15,6 +16,8 @@ type Inputs = {
 const FindEventCode = ({ navigation }: any) => {
 
     const { FetchEventByCode, event } = UseEventService();
+
+    const { loading } = UseLoadingService();
 
     const { message } = UseErrorService();
 
@@ -35,7 +38,7 @@ const FindEventCode = ({ navigation }: any) => {
                             <Controller
                                 control={control}
                                 render={({ field: { onChange, onBlur, value } }) => (
-                                    <Input onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} placeholder="Event code…" InputRightElement={<Button onPress={handleSubmit(onSubmit)} h="46px"><IcoLogin /></Button>} />
+                                    <Input onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} placeholder="Event code…" InputRightElement={<Button isLoading={loading} onPress={handleSubmit(onSubmit)} h="46px"><IcoLogin /></Button>} />
                                 )}
                                 rules={{
                                     required: 'Field is required'

@@ -4,6 +4,7 @@ import logger from 'redux-logger'
 import EventSlice from 'application/store/slices/Event.Slice'
 import ResponseSlice from 'application/store/slices/Response.slice'
 import ErrorSlice from 'application/store/slices/Error.slice'
+import LoadingSlice from 'application/store/slices/Loading.Slice'
 import AuthSlice from 'application/store/slices/Auth.Slice'
 import EnvSlice from 'application/store/slices/Env.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
@@ -18,7 +19,8 @@ const makeStore = () => {
             auth: AuthSlice,
             env: EnvSlice,
             response: ResponseSlice,
-            error: ErrorSlice
+            error: ErrorSlice,
+            loading: LoadingSlice
         },
         devTools: true,
         middleware: getDefaultMiddleware =>

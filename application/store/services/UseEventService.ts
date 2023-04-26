@@ -1,7 +1,9 @@
 import { useCallback } from 'react'
 
 import { EventActions, SelectEvent } from 'application/store/slices/Event.Slice'
+
 import { Event } from 'application/models/Event'
+
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type EventServiceOperators = {

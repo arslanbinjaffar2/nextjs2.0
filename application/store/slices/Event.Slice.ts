@@ -1,16 +1,14 @@
-import { createAction, createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Event } from 'application/models/Event'
 
 import type { RootState } from 'application/store/Index'
 
 export interface EventState {
-    slug: string,
     event: Event
 }
 
 const initialState: EventState = {
-    slug: '',
     event: {}
 }
 
@@ -19,6 +17,8 @@ export const EventSlice = createSlice({
     name: 'event',
     initialState,
     reducers: {
+        FetchEvent(state, action: PayloadAction<string>) { },
+        FetchEventByCode(state, action: PayloadAction<string>) { },
         update(state, action: PayloadAction<Event>) {
             state.event = action.payload
         },
@@ -27,16 +27,8 @@ export const EventSlice = createSlice({
 
 // Actions
 export const EventActions = {
-    FetchEvent: createAction(`${EventSlice.name}/FetchEvent`, (slug: string) => ({
-        payload: {
-            slug: slug
-        },
-    })),
-    FetchEventByCode: createAction(`${EventSlice.name}/FetchEventByCode`, (code: string) => ({
-        payload: {
-            code: code
-        },
-    })),
+    FetchEvent: EventSlice.actions.FetchEvent,
+    FetchEventByCode: EventSlice.actions.FetchEventByCode,
     update: EventSlice.actions.update,
 }
 

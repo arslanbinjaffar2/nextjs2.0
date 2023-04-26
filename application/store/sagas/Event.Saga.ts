@@ -6,6 +6,8 @@ import { getEventApi, getEventByCodeApi } from 'application/store/api/Event.Api'
 
 import { EventActions } from 'application/store/slices/Event.Slice'
 
+import { LoadingActions } from 'application/store/slices/Loading.Slice'
+
 import { ErrorActions } from 'application/store/slices/Error.slice'
 
 import { EventResponse } from 'application/models/Event'
@@ -19,11 +21,13 @@ function* OnGetEvent({
     payload,
 }: {
     type: typeof EventActions.FetchEvent
-    payload: any
+    payload: string
 }): SagaIterator {
-    const env =  yield select(state => state);
+    yield put(LoadingActions.set(true))
+    const env = yield select(state => state);
     const response: EventResponse = yield call(getEventApi, payload, env)
     yield put(EventActions.update(response.event!))
+    yield put(LoadingActions.set(false))
 }
 
 // Worker Sagas handlers
@@ -31,9 +35,10 @@ function* OnGetEventByCode({
     payload,
 }: {
     type: typeof EventActions.FetchEventByCode
-    payload: any
+    payload: string
 }): SagaIterator {
-    const env =  yield select(state => state);
+    yield put(LoadingActions.set(true))
+    const env = yield select(state => state);
     const response = yield call(getEventByCodeApi, payload, env);
     if (response.success) {
         yield put(EventActions.update(response.event!));
@@ -43,6 +48,7 @@ function* OnGetEventByCode({
         yield put(ErrorActions.message(response.error));
         AsyncStorageClass.removeItem('eventbuizz-active-event-id');
     }
+    yield put(LoadingActions.set(false))
 }
 
 // Watcher Saga
