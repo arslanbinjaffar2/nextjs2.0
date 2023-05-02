@@ -1,7 +1,7 @@
 import React from 'react'
 import { Badge, Box, Button, HStack, Menu, Text, VStack } from 'native-base';
 import IcoBell from 'application/assets/icons/IcoBell';
-import IcoChat from 'application/assets/icons/IcoChat';
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 const Notification = () => {
   return (
@@ -29,7 +29,7 @@ const Notification = () => {
       <Menu.Item p="0">
         <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="6" py="3" w="100%" space="1" alignItems="center">
           <Box w="50px">
-            <IcoChat width="30" height="26" />
+            <DynamicIcon iconType="chat" iconProps={{ width: 30, height: 26 }} />
           </Box>
           <VStack w="80%" space="0">
             <Text fontSize="md">Emraan khan sent you a text massage. Emraan khan sent you a text massage.</Text>
@@ -41,7 +41,7 @@ const Notification = () => {
       <Menu.Item p="0">
         <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="6" py="3" w="100%" space="1" alignItems="center">
           <Box w="50px">
-            <IcoChat width="30" height="26" />
+            <DynamicIcon iconType="chat" iconProps={{ width: 30, height: 26 }} />
           </Box>
           <VStack w="80%" space="0">
             <Text fontSize="md">Emraan khan sent you a text massage. Emraan khan sent you a text massage.</Text>

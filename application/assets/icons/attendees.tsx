@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
-const IcoAttendees = (props: SvgProps) => (
+const attendees = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -30,4 +30,4 @@ const IcoAttendees = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoAttendees;
+export default attendees;

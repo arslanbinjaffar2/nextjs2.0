@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Container, HStack, Icon, Spacer, Text, Image, Divider } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import IcoCheckin from 'application/assets/icons/IcoCheckin';
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 const DetailBlock = (props: any) => {
     return <Container mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
@@ -20,7 +20,7 @@ const DetailBlock = (props: any) => {
             <HStack w="100%" mb="3" space="3" alignItems="flex-start">
                 <Text maxW="80%" fontSize="xl">Water cleaning in Africa</Text>
                 <Spacer />
-                <IcoCheckin width="25" height="24" />
+                <DynamicIcon iconType="checkIn" iconProps={{ width: 25, height: 24 }} />
             </HStack>
             <HStack w="100%" mb="3" space="10" alignItems="center">
                 <Text fontSize="md">12:15 - 13:30</Text>

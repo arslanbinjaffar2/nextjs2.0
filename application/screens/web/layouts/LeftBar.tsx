@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack } from 'native-base';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
-import IcoAttendees from 'application/assets/icons/IcoAttendees';
 import IcoSponsors from 'application/assets/icons/IcoSponsors';
 import IcoProgram from 'application/assets/icons/IcoProgram';
 import IcoPolls from 'application/assets/icons/IcoPolls';
 import IcoQuestionsAnswers from 'application/assets/icons/IcoQuestionsAnswers';
-import IcoCheckin from 'application/assets/icons/IcoCheckin';
 import IcoDocuments from 'application/assets/icons/IcoDocuments';
-import IcoChat from 'application/assets/icons/IcoChat';
 import IcoFloorPlan from 'application/assets/icons/IcoFloorPlan';
 import IcoMap from 'application/assets/icons/IcoMap';
 import IcoNetworkInterest from 'application/assets/icons/IcoNetworkInterest';
@@ -21,6 +18,7 @@ import { useWindowDimensions } from 'react-native';
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 const LeftBar = ({ navigation }: any) => {
 
@@ -89,7 +87,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoAttendees width="24" height="21" />
+              <DynamicIcon iconType="attendees" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Attendees</Text>}
           </HStack>
@@ -101,7 +99,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push(`/${event.url}/programs/detail`)
+            push(`/${event.url}/programs`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -153,7 +151,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoCheckin width="24" height="21" />
+              <DynamicIcon iconType="checkIn" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Check-in</Text>}
           </HStack>
@@ -185,7 +183,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoChat width="24" height="21" />
+              <DynamicIcon iconType="chat" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Chat</Text>}
           </HStack>
