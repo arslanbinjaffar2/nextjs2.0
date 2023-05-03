@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
-const IcoMap = (props: SvgProps) => (
+const maps = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -30,4 +30,4 @@ const IcoMap = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoMap;
+export default maps;

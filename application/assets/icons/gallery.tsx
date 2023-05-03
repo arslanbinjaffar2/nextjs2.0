@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
-const IcoGallery = (props: SvgProps) => (
+const gallery = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -30,4 +30,4 @@ const IcoGallery = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoGallery;
+export default gallery;

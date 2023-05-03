@@ -1,13 +1,13 @@
 import React from 'react'
 import { Container, Image, Text } from 'native-base'
 import IconWithLeftHeading from 'application/components/atoms/headings/IconWithLeftHeading'
-import IcoExhibitors from 'application/assets/icons/IcoExhibitors'
+import DynamicIcon from 'application/utils/DynamicIcon';
 import BoxItem from 'application/components/atoms/exhibitors/BoxItem'
 
 const Listing = () => {
   return (
     <Container w="100%" maxW="100%">
-      <IconWithLeftHeading icon={<IcoExhibitors width="22" height="24" />} title="OUR EXHIBITORS" />
+      <IconWithLeftHeading icon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 22, height: 24 }} />} title="OUR EXHIBITORS" />
       <BoxItem
         image={<Image source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="210px" h="72px" />}
         category="Technology"

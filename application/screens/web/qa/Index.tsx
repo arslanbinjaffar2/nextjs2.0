@@ -1,17 +1,15 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Box, Button, Container, Heading, HStack, Icon, IconButton, Image, Input, Spacer, Text, VStack, ZStack} from 'native-base';
+import { Box, Container, HStack, Icon, IconButton, Spacer, Text, VStack, ZStack } from 'native-base';
 import Master from 'application/screens/web/layouts/Master';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
-import BoxItem from 'application/components/atoms/exhibitors/BoxItem';
-import IcoExhibitors from 'application/assets/icons/IcoExhibitors';
-
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 type indexProps = {
   navigation: unknown
 }
 
-const Index = ({ navigation }: indexProps)  => {
+const Index = ({ navigation }: indexProps) => {
   const [tab, setTab] = React.useState(true)
   const [view, setView] = React.useState(true)
   return (
@@ -32,27 +30,27 @@ const Index = ({ navigation }: indexProps)  => {
                   </ZStack>
                 </Box>
                 <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                  <VStack  maxW={['62%', '70%', '40%']} space="1">
+                  <VStack maxW={['62%', '70%', '40%']} space="1">
                     <Text fontSize="md" lineHeight="22px">
-                        Alberto Mark Spancer Gloves
+                      Alberto Mark Spancer Gloves
                     </Text>
                     <Text fontSize="sm" lineHeight="16px">
-                      02 Dec 2021  -  01 Jan 2022 
+                      02 Dec 2021  -  01 Jan 2022
                     </Text>
-                      
+
                   </VStack>
-                    
+
                   <Spacer />
                   <HStack pr="3" space="5" alignItems="center">
                     <IconButton
                       bg="transparent"
                       p="1"
-                      _hover={{bg:'transparent'}}
+                      _hover={{ bg: 'transparent' }}
                       icon={<Icon size="lg" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
-                      onPress={()=>{
+                      onPress={() => {
                         console.log('hello')
                       }}
-                        
+
                     />
                   </HStack>
                 </HStack>
@@ -60,7 +58,7 @@ const Index = ({ navigation }: indexProps)  => {
             </Box>)}
         </Box>
       </Container>
-      
+
     </Master>
   );
 };

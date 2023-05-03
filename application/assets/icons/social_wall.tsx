@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
-const IcoSocialWall = (props: SvgProps) => (
+const social_wall = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -37,4 +37,4 @@ const IcoSocialWall = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoSocialWall;
+export default social_wall;

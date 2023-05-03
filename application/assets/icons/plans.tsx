@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
-const IcoFloorPlan = (props: SvgProps) => (
+const plans = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -51,4 +51,4 @@ const IcoFloorPlan = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoFloorPlan;
+export default plans;

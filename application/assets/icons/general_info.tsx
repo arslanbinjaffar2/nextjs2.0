@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
-const IcoGeneralInfo = (props: SvgProps) => (
+const general_info = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -37,4 +37,4 @@ const IcoGeneralInfo = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoGeneralInfo;
+export default general_info;

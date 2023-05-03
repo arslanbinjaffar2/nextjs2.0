@@ -1,18 +1,9 @@
 import * as React from 'react';
 import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack } from 'native-base';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
-import IcoSponsors from 'application/assets/icons/IcoSponsors';
-import IcoProgram from 'application/assets/icons/IcoProgram';
 import IcoPolls from 'application/assets/icons/IcoPolls';
 import IcoQuestionsAnswers from 'application/assets/icons/IcoQuestionsAnswers';
-import IcoDocuments from 'application/assets/icons/IcoDocuments';
-import IcoFloorPlan from 'application/assets/icons/IcoFloorPlan';
-import IcoMap from 'application/assets/icons/IcoMap';
 import IcoNetworkInterest from 'application/assets/icons/IcoNetworkInterest';
-import IcoSocialWall from 'application/assets/icons/IcoSocialWall';
-import IcoPracticalinfo from 'application/assets/icons/IcoPracticalinfo';
-import IcoAdditionalInfo from 'application/assets/icons/IcoAdditionalInfo';
-import IcoGeneralInfo from 'application/assets/icons/IcoGeneralInfo';
 import IcoLogin from 'application/assets/icons/IcoLogin';
 import { useWindowDimensions } from 'react-native';
 import { useRouter } from 'solito/router'
@@ -71,7 +62,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoSponsors width="15" height="24" />
+              <DynamicIcon iconType="sponsors" iconProps={{ width: 15, height: 24 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Sponsors</Text>}
           </HStack>
@@ -103,7 +94,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoProgram width="24" height="21" />
+              <DynamicIcon iconType="agendas" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Programs</Text>}
           </HStack>
@@ -167,7 +158,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoDocuments width="24" height="21" />
+              <DynamicIcon iconType="ddirectory" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Documents</Text>}
           </HStack>
@@ -199,7 +190,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoFloorPlan width="24" height="21" />
+              <DynamicIcon iconType="plans" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Floor plan</Text>}
           </HStack>
@@ -215,7 +206,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoMap width="24" height="21" />
+              <DynamicIcon iconType="maps" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Map</Text>}
           </HStack>
@@ -263,7 +254,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoSocialWall width="24" height="21" />
+              <DynamicIcon iconType="social_wall" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Social wall</Text>}
           </HStack>
@@ -279,7 +270,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoPracticalinfo width="24" height="21" />
+              <DynamicIcon iconType="infobooth" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Practical information</Text>}
           </HStack>
@@ -295,7 +286,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoGeneralInfo width="24" height="21" />
+              <DynamicIcon iconType="general_info" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">General information</Text>}
           </HStack>
@@ -311,7 +302,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoAdditionalInfo width="24" height="21" />
+              <DynamicIcon iconType="additional_info" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Additional information</Text>}
           </HStack>

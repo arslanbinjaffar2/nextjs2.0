@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
-const IcoNotes = (props: SvgProps) => (
+const my_notes = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -58,4 +58,4 @@ const IcoNotes = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoNotes;
+export default my_notes;

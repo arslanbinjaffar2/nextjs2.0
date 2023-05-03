@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path, Rect } from 'react-native-svg';
 
-const IcoMyDocuments = (props: SvgProps) => (
+const mydocuments = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -73,4 +73,4 @@ const IcoMyDocuments = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoMyDocuments;
+export default mydocuments;

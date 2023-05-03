@@ -2,7 +2,7 @@
 import * as React from "react";
 import Svg, { SvgProps, Defs, ClipPath, Rect, G, Path } from 'react-native-svg';
 
-const IcoProgram = (props: SvgProps) => (
+const agendas = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -51,4 +51,4 @@ const IcoProgram = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoProgram;
+export default agendas;

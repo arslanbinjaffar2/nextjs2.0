@@ -11,7 +11,8 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
   const env = {
     enviroment: process.env.NODE_ENV,
     api_base_url: process.env.APP_API_BASE_URL,
-    msw_enabled: process.env.APP_MSW_ENABLED
+    msw_enabled: process.env.APP_MSW_ENABLED,
+    eventcenter_base_url: process.env.APP_EVENTCENTER_BASE_URL
   }
 
   return (

@@ -5,7 +5,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import BoxItem from 'application/components/atoms/exhibitors/BoxItem';
-import IcoExhibitors from 'application/assets/icons/IcoExhibitors';
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 const Index = () => {
 
@@ -71,7 +71,7 @@ const Index = () => {
                                             <HStack pr="3" space="5" alignItems="center">
                                                 <Button
                                                     p="1"
-                                                    leftIcon={<IcoExhibitors width="16px" height="16px" />}
+                                                    leftIcon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />}
                                                     bg="transparent"
                                                     onPress={() => {
                                                         console.log('hello')

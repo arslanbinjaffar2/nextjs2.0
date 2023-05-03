@@ -1,12 +1,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Image, Divider, Avatar, TextArea, Button } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Image, Divider, Avatar, Button } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Master from 'application/screens/web/layouts/Master';
 import { useState } from 'react';
-import IcoExhibitors from 'application/assets/icons/IcoExhibitors';
+import DynamicIcon from 'application/utils/DynamicIcon';
 import Icouser from 'application/assets/icons/small/Icouser';
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import MultipleAnswer from 'application/components/atoms/surveys/MultipleAnswer';
@@ -43,18 +43,15 @@ const Detail = ({ navigation }: indexProps) => {
               <Text fontSize="md">Marketing</Text>
               <Spacer />
               <HStack alignItems="center" space="2">
-                <IcoExhibitors width="16px" height="16px" />
+                <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
                 <Text fontSize="md">109</Text>
-
               </HStack>
-
             </HStack>
             <Box mb="4" w="100%">
               <Divider mb="3" bg="primary.text" />
               <Text w="100%" fontSize="16px">Gul Ahmad is, firm, organization, etc., that finances and buysthe time to broadcast a radio or television program so as to advertise a product, a political party, etc. person who makes a pledge or promise on behalf of another.</Text>
             </Box>
           </Box>
-
         </Box>
         <Box w="100%" p="0">
           <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Center, HStack, Text } from 'native-base'
-import IcoExhibitors from 'application/assets/icons/IcoExhibitors'
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 type BoxProps = {
   image: HTMLElement,
@@ -23,7 +23,7 @@ const BoxItem = ({ image, category, bg, speakers }: BoxProps) => {
         </Center>
         <Center pr="6" alignItems="flex-end" w="50%">
           {speakers && <HStack space="3" alignItems="center">
-            <IcoExhibitors width="16" height="16" />
+            <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
             <Text fontSize="md">{speakers}</Text>
           </HStack>}
         </Center>

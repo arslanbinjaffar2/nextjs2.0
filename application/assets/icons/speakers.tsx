@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { SvgProps, G, Path } from "react-native-svg";
 
-const IcoSpeaker = (props: SvgProps) => (
+const speakers = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -37,4 +37,4 @@ const IcoSpeaker = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoSpeaker;
+export default speakers;
