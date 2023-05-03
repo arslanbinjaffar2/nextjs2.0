@@ -27,6 +27,11 @@ import social_wall from 'application/assets/icons/social_wall';
 import speakers from 'application/assets/icons/speakers';
 import sponsors from 'application/assets/icons/sponsors';
 import upcomingEvents from 'application/assets/icons/upcomingEvents';
+import qa from 'application/assets/icons/qa';
+import survey from 'application/assets/icons/survey';
+import polls from 'application/assets/icons/polls';
+import attendee_authority from 'application/assets/icons/attendee_authority';
+import checkin_agendas from 'application/assets/icons/checkin_agendas';
 
 type IconProps = {
     name?: string;
@@ -36,7 +41,7 @@ type IconProps = {
     height?: number;
 };
 
-type IconType = 'IcoMyEvents' | 'attendees' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'infobooth' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'myattendees' | 'mydocuments' | 'my_notes' | 'myagendas' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents';
+type IconType = 'IcoMyEvents' | 'attendees' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'infobooth' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'myattendees' | 'mydocuments' | 'my_notes' | 'myagendas' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas';
 
 type Props = {
     iconType: IconType;
@@ -73,6 +78,11 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         speakers,
         sponsors,
         upcomingEvents,
+        qa,
+        survey,
+        polls,
+        attendee_authority,
+        checkin_agendas,
     };
 
     const IconComponent = iconMap[iconType];

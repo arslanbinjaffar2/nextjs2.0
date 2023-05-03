@@ -77,7 +77,7 @@ const Drawer = (props: any) => {
                             onPress={() => { props.navigation.navigate(row?.alias) }}>
                             <HStack space="2" alignItems="center">
                                 <DynamicIcon iconType={row?.alias} iconProps={{ width: 24, height: 24 }} />
-                                <Text fontSize={'18px'} color="primary.text" fontWeight="600">{row?.alias}</Text>
+                                <Text fontSize={'18px'} color="primary.text" fontWeight="600">{row?.name}</Text>
                             </HStack>
                         </Pressable>
                     </Box>

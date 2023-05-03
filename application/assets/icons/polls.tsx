@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
-const IcoPolls = (props: SvgProps) => (
+const poll = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -35,4 +35,4 @@ const IcoPolls = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoPolls;
+export default poll;

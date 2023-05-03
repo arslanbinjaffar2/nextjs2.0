@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack } from 'native-base';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
-import IcoPolls from 'application/assets/icons/IcoPolls';
-import IcoQuestionsAnswers from 'application/assets/icons/IcoQuestionsAnswers';
 import IcoNetworkInterest from 'application/assets/icons/IcoNetworkInterest';
 import IcoLogin from 'application/assets/icons/IcoLogin';
 import { useWindowDimensions } from 'react-native';
@@ -110,7 +108,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoPolls width="24" height="21" />
+              <DynamicIcon iconType="polls" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Polls</Text>}
           </HStack>
@@ -126,7 +124,7 @@ const LeftBar = ({ navigation }: any) => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoQuestionsAnswers width="24" height="21" />
+              <DynamicIcon iconType="qa" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">QA</Text>}
           </HStack>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
-const IcoSponsors = (props: SvgProps) => (
+const sponsors = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -30,4 +30,4 @@ const IcoSponsors = (props: SvgProps) => (
   </Svg>
 );
 
-export default IcoSponsors;
+export default sponsors;

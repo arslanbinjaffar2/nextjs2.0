@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Heading, HStack, Icon, Spacer, Text, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import IcoSurvey from 'application/assets/icons/IcoSurvey';
+import DynamicIcon from 'application/utils/DynamicIcon';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 
 const DetailInfoBlock = (props: any) => {
@@ -61,7 +61,7 @@ const DetailInfoBlock = (props: any) => {
             </Box>
             <Box p="0">
                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                    <IcoSurvey width="14" height="17" />
+                    <DynamicIcon iconType="survey" iconProps={{ width: 14, height: 17 }} />
                     <Text fontSize="md">Sub-registrations</Text>
                 </HStack>
                 <Box w="100%" py="4">
