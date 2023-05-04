@@ -30,7 +30,9 @@ export default function makeApi(baseURL: string) {
     )
 
     api.interceptors.response.use(
-        (response) => response.data,
+        (response) => {
+            return response;
+        },
         (error) => Promise.reject(error)
     )
 

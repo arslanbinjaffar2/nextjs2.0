@@ -6,7 +6,6 @@ import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 import UseEventService from 'application/store/services/UseEventService';
 import Welcome from 'application/screens/mobile/Welcome';
 import FindEventCode from 'application/screens/mobile/auth/FindEventCode';
-import NavigationBack from 'application/components/atoms/NavigationBack';
 import UseAuthService from 'application/store/services/UseAuthService';
 
 const Stack = createNativeStackNavigator();

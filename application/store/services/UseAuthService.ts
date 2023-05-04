@@ -26,6 +26,7 @@ export type EventServiceOperators = {
  * @see https://reactjs.org/docs/hooks-custom.html
 */
 export const UseAuthService = (): Readonly<EventServiceOperators> => {
+    
     const dispatch = useAppDispatch()
 
     return {

@@ -26,11 +26,6 @@ function* OnLogin({
         const response: GeneralResponse = yield call(getLoginApi, payload, state);
         if (response.success) {
             yield put(AuthActions.success(response));
-            if (Platform.OS === 'web') {
-                localStorage.setItem('access_token', response.data.access_token);
-            } else {
-                AsyncStorageClass.setItem('access_token', response.data.access_token);
-            }
         } else {
             yield put(AuthActions.failed(response.message!));
         }
@@ -141,11 +136,7 @@ function* OnGetUser({ }: {
     try {
         const state = yield select(state => state);
         const response: GeneralResponse = yield call(getUserApi, state);
-        if (response.success) {
-            yield put(AuthActions.success(response));
-        } else {
-            yield put(AuthActions.logout());
-        }
+        yield put(AuthActions.success(response));
     } catch (error: any) {
         yield put(AuthActions.logout());
     }
@@ -156,11 +147,7 @@ function* OnLogout({
     type: typeof AuthActions.logout
     payload: Event
 }): SagaIterator {
-    if (Platform.OS === 'web') {
-        localStorage.removeItem('access_token');
-    } else {
-        AsyncStorageClass.removeItem('access_token');
-    }
+    //Later use
 }
 
 // Watcher Saga

@@ -2,7 +2,8 @@ import { RootState } from 'application/store/Index'
 import { GeneralResponse } from 'application/models/GeneralResponse';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAction } from '@reduxjs/toolkit';
-
+import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+import { Platform } from 'react-native';
 export interface LoginPayload {
     email: string;
     password: string;
@@ -77,10 +78,17 @@ const AuthSlice = createSlice({
             state.processing = true;
         },
         success(state, action: PayloadAction<GeneralResponse>) {
-            state.isLoggedIn = true;
             state.processing = false;
             state.response = action.payload;
             state.error = '';
+            if (action.payload.data.access_token !== undefined) {
+                state.isLoggedIn = true;
+                if (Platform.OS === 'web') {
+                    localStorage.setItem('access_token', action.payload.data.access_token);
+                } else {
+                    AsyncStorageClass.setItem('access_token', action.payload.data.access_token);
+                }
+            }
         },
         failed(state, action: PayloadAction<string>) {
             state.processing = false;
@@ -90,6 +98,11 @@ const AuthSlice = createSlice({
             state.isLoggedIn = false;
             state.processing = false;
             state.response = {};
+            if (Platform.OS === 'web') {
+                localStorage.removeItem('access_token');
+            } else {
+                AsyncStorageClass.removeItem('access_token');
+            }
         },
     },
 });

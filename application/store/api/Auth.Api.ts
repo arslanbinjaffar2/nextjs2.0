@@ -4,8 +4,6 @@ import { GeneralResponse } from 'application/models/GeneralResponse';
 
 import makeApi from "application/utils/ConfigureAxios";
 
-import { store } from 'application/store/Index'
-
 const EventBaseUrl = `/event`
 
 export const getLoginApi = (payload: LoginPayload, state: any): Promise<GeneralResponse> => {
