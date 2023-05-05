@@ -34,7 +34,7 @@ const RootStack = () => {
           component={FindEventCode}
           options={{ ..._options, title: 'Login with event code' }}
         />
-        <Stack.Screen options={{ headerShown: false }} name="dashboard" component={AppStack} />
+        <Stack.Screen options={{ headerShown: false }} name="app" component={AppStack} />
         <Stack.Screen options={{ headerShown: false }} name="auth" component={AuthStack} />
       </Stack.Navigator>
     </>

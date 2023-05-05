@@ -14,7 +14,7 @@ const Drawer = (props: any) => {
 
     const { event, loadModules, modules } = UseEventService();
 
-    const route = useRoute();
+    const route: any = useRoute();
 
     React.useEffect(() => {
         loadModules();
@@ -35,7 +35,7 @@ const Drawer = (props: any) => {
             </Box>
             <VStack space="3">
                 <Box bg={
-                    'dashboard' === route.name
+                    'dashboard' === route.params?.screen
                         ? {
                             linearGradient: {
                                 colors: ['primary.400', 'transparent'],
@@ -49,7 +49,7 @@ const Drawer = (props: any) => {
                     <Pressable
                         px="5"
                         py="3"
-                        onPress={() => { props.navigation.navigate('dashboard') }}>
+                        onPress={() => { props.navigation.navigate(`app`, { screen: 'dashboard' }) }}>
                         <HStack space="2" alignItems="center">
                             <DynamicIcon iconType="IcoMyEvents" iconProps={{ width: 24, height: 24 }} />
                             <Text fontSize={'18px'} color="primary.text" fontWeight="600">Dashboard</Text>
@@ -59,7 +59,7 @@ const Drawer = (props: any) => {
                 {modules.map((row: any, key: any) =>
                     <Box
                         bg={
-                            row.alias === route.name
+                            row.alias === route.params?.screen
                                 ? {
                                     linearGradient: {
                                         colors: ['primary.400', 'transparent'],
@@ -74,7 +74,7 @@ const Drawer = (props: any) => {
                         <Pressable
                             px="5"
                             py="3"
-                            onPress={() => { props.navigation.navigate(row?.alias) }}>
+                            onPress={() => { props.navigation.navigate(`app`, { screen: row?.alias }) }}>
                             <HStack space="2" alignItems="center">
                                 <DynamicIcon iconType={row?.alias} iconProps={{ width: 24, height: 24 }} />
                                 <Text fontSize={'18px'} color="primary.text" fontWeight="600">{row?.name}</Text>

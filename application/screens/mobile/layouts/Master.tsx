@@ -62,9 +62,11 @@ const Master = ({ children, navigation }: Props,) => {
   React.useEffect(() => {
     if (process) {
       if (event.id && isLoggedIn) {
-        navigation.navigate(`dashboard`)
+        navigation.navigate(`app`, { screen: 'dashboard' });
       } else if (event.id) {
         navigation.navigate(`login`)
+      } else {
+        navigation.navigate(`welcome`)
       }
     }
   }, [process]);
