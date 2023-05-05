@@ -82,12 +82,12 @@ const AuthSlice = createSlice({
             state.response = action.payload;
             state.error = '';
             if (action.payload.data.access_token !== undefined) {
-                state.isLoggedIn = true;
                 if (Platform.OS === 'web') {
                     localStorage.setItem('access_token', action.payload.data.access_token);
                 } else {
                     AsyncStorageClass.setItem('access_token', action.payload.data.access_token);
                 }
+                state.isLoggedIn = true;
             }
         },
         failed(state, action: PayloadAction<string>) {

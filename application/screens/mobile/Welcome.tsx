@@ -8,7 +8,7 @@ import { Link as SolitoLink } from 'solito/link'
 const Welcome = ({ navigation }: any) => {
 
   return (
-    <Master>
+    <Master navigation={navigation}>
       <Center w={'100%'} flex={1} px={15}>
         <View alignItems="center" justifyContent="center" w="100%" h="100%">
           <Flex justify="flex-end" p="0" w="100%" h={'50%'}>

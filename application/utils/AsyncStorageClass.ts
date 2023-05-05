@@ -14,7 +14,7 @@ class AsyncStorageClass {
     static getItem = async (key: string): Promise<any> => {
         try {
             const item: any = await AsyncStorage.getItem(key);
-            return typeof item === 'object' ? (item ? JSON.parse(item) : null) : null;
+            return JSON.parse(item);
         } catch (error) {
             return null;
         }

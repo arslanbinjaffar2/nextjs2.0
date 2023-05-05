@@ -17,7 +17,7 @@ const Index = ({ navigation }: any) => {
   const [scroll, setScroll] = useState(false);
 
   return (
-    <Master>
+    <Master navigation={navigation}>
       <DrawerHeaderNotification minimal={scroll} navigation={navigation} />
       <Center w={'100%'} px={15}>
         <Divider mx="auto" w="160px" bg="primary.text" my="5" />
