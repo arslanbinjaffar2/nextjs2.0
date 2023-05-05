@@ -24,20 +24,23 @@ const Master = ({ children, navigation }: Props,) => {
 
   React.useEffect(() => {
     if (response.redirect === "login") {
-      navigation.navigate(`login`)
+      navigation.navigate(`auth`, { screen: 'login' });
     } else if (response.redirect === "dashboard") {
-      navigation.navigate(`dashboard`)
+      navigation.navigate(`app`, { screen: 'dashboard' });
     } else if (response.redirect === "choose-provider") {
-      navigation.navigate(`choose-provider`, {
-        id: response.data.authentication_id
+      navigation.navigate(`app`, {
+        id: response.data.authentication_id,
+        screen: 'choose-provider'
       });
     } else if (response.redirect === "verification") {
-      navigation.navigate(`verification`, {
-        id: response.data.authentication_id
+      navigation.navigate(`app`, {
+        id: response.data.authentication_id,
+        screen: 'verification'
       });
     } else if (response.redirect === "reset-password") {
-      navigation.navigate(`reset-password`, {
-        token: response.data.token
+      navigation.navigate(`app`, {
+        token: response.data.token,
+        screen: 'reset-password'
       });
     }
   }, [response.redirect])
@@ -64,7 +67,9 @@ const Master = ({ children, navigation }: Props,) => {
       if (event.id && isLoggedIn) {
         navigation.navigate(`app`, { screen: 'dashboard' });
       } else if (event.id) {
-        navigation.navigate(`login`)
+        navigation.navigate(`auth`, {
+          screen: 'login'
+        });
       } else {
         navigation.navigate(`welcome`)
       }
