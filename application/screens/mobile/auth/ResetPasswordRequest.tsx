@@ -27,20 +27,8 @@ const ResetPasswordRequest = ({ navigation }: any) => {
         passwordReset({ email: input.email })
     };
 
-    React.useEffect(() => {
-        if (response.redirect === "choose-provider") {
-            navigation.navigate(`choose-provider`, {
-                id: response.data.authentication_id
-            });
-        } else if (response.redirect === "verification") {
-            navigation.navigate(`verification`, {
-                id: response.data.authentication_id
-            });
-        }
-    }, [response.redirect])
-
     return (
-        <Master>
+        <Master navigation={navigation}>
             <Center w={'100%'} pt={20} px={15}>
                 <Flex w="100%" rounded="10">
                     <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />

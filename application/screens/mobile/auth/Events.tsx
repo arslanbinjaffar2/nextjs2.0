@@ -7,7 +7,7 @@ import { Link as SolitoLink } from 'solito/link';
 
 const Events = ({ navigation }: any) => {
   return (
-    <Master>
+    <Master navigation={navigation}>
       <Center w={'100%'} pt="20" px={15}>
         <HStack mb="10px" space={0} justifyContent="center" w="100%">
           <Button borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg="primary.box" w="50%">ACTIVE</Button>

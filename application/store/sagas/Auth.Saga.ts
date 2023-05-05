@@ -6,11 +6,7 @@ import { getLoginApi, getUserApi, getPasswordResetApi, getChooseProviderApi, get
 
 import { LoginPayload, AuthActions, ChooseProviderPayload, PasswordResetPayload, LoadProviderPayload, VerificationPayload, ResetPayload } from 'application/store/slices/Auth.Slice';
 
-import { GeneralResponse } from 'application/models/GeneralResponse'
-
-import { Platform } from 'react-native';
-
-import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
 
@@ -23,11 +19,11 @@ function* OnLogin({
 }): SagaIterator {
     try {
         const state = yield select(state => state);
-        const response: GeneralResponse = yield call(getLoginApi, payload, state);
-        if (response.success) {
-            yield put(AuthActions.success(response));
+        const response: HttpResponse = yield call(getLoginApi, payload, state);
+        if (response.data.success) {
+            yield put(AuthActions.success(response.data));
         } else {
-            yield put(AuthActions.failed(response.message!));
+            yield put(AuthActions.failed(response.data.message!));
         }
     } catch (error: any) {
         yield put(AuthActions.failed(error.message));
@@ -42,11 +38,11 @@ function* OnPasswordReset({
 }): SagaIterator {
     try {
         const state = yield select(state => state);
-        const response: GeneralResponse = yield call(getPasswordResetApi, payload, state);
-        if (response.success) {
-            yield put(AuthActions.success(response));
+        const response: HttpResponse = yield call(getPasswordResetApi, payload, state);
+        if (response.data.success) {
+            yield put(AuthActions.success(response.data));
         } else {
-            yield put(AuthActions.failed(response.message!));
+            yield put(AuthActions.failed(response.data.message!));
         }
     } catch (error: any) {
         yield put(AuthActions.failed(error.message));
@@ -61,11 +57,11 @@ function* OnChooseProvider({
 }): SagaIterator {
     try {
         const state = yield select(state => state);
-        const response: GeneralResponse = yield call(getChooseProviderApi, payload, state);
-        if (response.success) {
-            yield put(AuthActions.success(response));
+        const response: HttpResponse = yield call(getChooseProviderApi, payload, state);
+        if (response.data.success) {
+            yield put(AuthActions.success(response.data));
         } else {
-            yield put(AuthActions.failed(response.message!));
+            yield put(AuthActions.failed(response.data.message!));
         }
     } catch (error: any) {
         yield put(AuthActions.failed(error.message));
@@ -80,11 +76,11 @@ function* OnReset({
 }): SagaIterator {
     try {
         const state = yield select(state => state);
-        const response: GeneralResponse = yield call(getResetApi, payload, state);
-        if (response.success) {
-            yield put(AuthActions.success(response));
+        const response: HttpResponse = yield call(getResetApi, payload, state);
+        if (response.data.success) {
+            yield put(AuthActions.success(response.data));
         } else {
-            yield put(AuthActions.failed(response.message!));
+            yield put(AuthActions.failed(response.data.message!));
         }
     } catch (error: any) {
         yield put(AuthActions.failed(error.message));
@@ -99,11 +95,11 @@ function* OnVerification({
 }): SagaIterator {
     try {
         const state = yield select(state => state);
-        const response: GeneralResponse = yield call(getVerificationApi, payload, state);
-        if (response.success) {
-            yield put(AuthActions.success(response));
+        const response: HttpResponse = yield call(getVerificationApi, payload, state);
+        if (response.data.success) {
+            yield put(AuthActions.success(response.data));
         } else {
-            yield put(AuthActions.failed(response.message!));
+            yield put(AuthActions.failed(response.data.message!));
         }
     } catch (error: any) {
         yield put(AuthActions.failed(error.message));
@@ -118,11 +114,11 @@ function* OnLoadProvider({
 }): SagaIterator {
     try {
         const state = yield select(state => state);
-        const response: GeneralResponse = yield call(getLoadProviderApi, payload, state);
-        if (response.success) {
-            yield put(AuthActions.success(response));
+        const response: HttpResponse = yield call(getLoadProviderApi, payload, state);
+        if (response.data.success) {
+            yield put(AuthActions.success(response.data));
         } else {
-            yield put(AuthActions.failed(response.message!));
+            yield put(AuthActions.failed(response.data.message!));
         }
     } catch (error: any) {
         yield put(AuthActions.failed(error.message));
@@ -135,8 +131,8 @@ function* OnGetUser({ }: {
 }): SagaIterator {
     try {
         const state = yield select(state => state);
-        const response: GeneralResponse = yield call(getUserApi, state);
-        yield put(AuthActions.success(response));
+        const response: HttpResponse = yield call(getUserApi, state);
+        yield put(AuthActions.success(response.data));
     } catch (error: any) {
         yield put(AuthActions.logout());
     }

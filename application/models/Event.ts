@@ -68,7 +68,6 @@ export interface Event {
     gdpr_log_count?: number;
     labels?: any;
 }
-
 interface Setting {
     poll_setting?: string;
     primary_color?: string;

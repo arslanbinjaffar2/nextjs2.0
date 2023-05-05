@@ -6,6 +6,8 @@ import { Module } from 'application/models/Module'
 
 import type { RootState } from 'application/store/Index'
 
+import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+
 export interface EventState {
     event: Event,
     modules: Array<Module>
@@ -24,7 +26,12 @@ export const EventSlice = createSlice({
         FetchEvent(state, action: PayloadAction<string>) { },
         FetchEventByCode(state, action: PayloadAction<string>) { },
         update(state, action: PayloadAction<Event>) {
-            state.event = action.payload
+            state.event = action.payload;
+            if(action.payload.id !== undefined) {
+                AsyncStorageClass.setItem('eventbuizz-active-event-id', action.payload.id);
+            } else {
+                AsyncStorageClass.removeItem('eventbuizz-active-event-id');
+            }
         },
         loadModules(state) { },
         updateModules(state, action: PayloadAction<Array<Module>>) {

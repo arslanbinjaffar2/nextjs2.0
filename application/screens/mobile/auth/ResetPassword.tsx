@@ -42,16 +42,8 @@ const ResetPassword = ({ navigation, route }: any) => {
         reset({ password: input.password, password_confirmation: input.password_confirmation, token: token! })
     };
 
-    React.useEffect(() => {
-        if (response.redirect === "login") {
-            navigation.navigate(`login`)
-        } else if (response.redirect === "dashboard") {
-            navigation.navigate(`dashboard`)
-        }
-    }, [response.redirect])
-
     return (
-        <Master>
+        <Master navigation={navigation}>
             <Center w={'100%'} pt={20} px={15}>
                 <Flex w="100%" rounded="10">
                     <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />

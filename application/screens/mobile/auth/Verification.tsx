@@ -47,27 +47,11 @@ const Verification = ({ navigation, route }: any) => {
     });
 
     React.useEffect(() => {
-        if (response.redirect === "verification") {
-            navigation.navigate(`verification`, {
-                id: response.data.authentication_id
-            });
-        } else if (response.redirect === "login") {
-            navigation.navigate(`login`);
-        } else if (response.redirect === "dashboard") {
-            navigation.navigate(`dashboard`);
-        } else if (response.redirect === "reset-password") {
-            navigation.navigate(`reset-password`, {
-                token: response.data.token
-            });
-        }
-    }, [response.redirect])
-
-    React.useEffect(() => {
         loadProvider({ id: id, screen: 'verification' });
     }, [id])
 
     return (
-        <Master>
+        <Master navigation={navigation}>
             <Center w={'100%'} pt={20} px={15}>
                 <Flex w="100%" rounded="10">
                     <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />

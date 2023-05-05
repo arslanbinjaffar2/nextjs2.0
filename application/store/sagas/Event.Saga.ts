@@ -10,11 +10,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 
 import { ErrorActions } from 'application/store/slices/Error.slice'
 
-import { EventResponse } from 'application/models/Event'
-
-import { ModuleResponse } from 'application/models/Module'
-
-import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
 
@@ -26,9 +22,9 @@ function* OnGetEvent({
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const env = yield select(state => state);
-    const response: EventResponse = yield call(getEventApi, payload, env)
-    yield put(EventActions.update(response.event!))
-    yield put(LoadingActions.set(false))
+    const response: HttpResponse = yield call(getEventApi, payload, env)
+    yield put(EventActions.update(response.data.data.event!))
+    yield put(LoadingActions.set(false));
 }
 
 function* OnGetEventByCode({
@@ -39,14 +35,13 @@ function* OnGetEventByCode({
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const env = yield select(state => state);
-    const response = yield call(getEventByCodeApi, payload, env);
-    if (response.success) {
-        yield put(EventActions.update(response.event!));
+    const response: HttpResponse = yield call(getEventByCodeApi, payload, env);
+    if (response.data.success) {
+        yield put(EventActions.update(response.data.data.event!));
         yield put(ErrorActions.message(''));
-        AsyncStorageClass.setItem('eventbuizz-active-event-id', response.event.id);
     } else {
-        yield put(ErrorActions.message(response.error));
-        AsyncStorageClass.removeItem('eventbuizz-active-event-id');
+        yield put(ErrorActions.message(response.data.error!));
+        yield put(EventActions.update({}));
     }
     yield put(LoadingActions.set(false))
 }
@@ -59,8 +54,8 @@ function* OnGetModules({
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const env = yield select(state => state);
-    const response: ModuleResponse = yield call(getModulesApi, env)
-    yield put(EventActions.updateModules(response.data.modules))
+    const response: HttpResponse = yield call(getModulesApi, env)
+    yield put(EventActions.updateModules(response.data.data.modules))
     yield put(LoadingActions.set(false))
 }
 

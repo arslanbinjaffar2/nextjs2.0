@@ -7,8 +7,9 @@ import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { Link as SolitoLink } from 'solito/link';
 
 const FindEmail = ({ navigation }: any) => {
+
     return (
-        <Master>
+        <Master navigation={navigation}>
             <Center w={'100%'} pt="20" px={15}>
                 <Flex w="100%" rounded="10">
                     <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
@@ -22,6 +23,7 @@ const FindEmail = ({ navigation }: any) => {
             </Center>
         </Master>
     );
+
 };
 
 FindEmail.propTypes = {

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { Platform } from 'react-native';
 import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 
@@ -31,7 +31,8 @@ export default function makeApi(baseURL: string) {
 
     api.interceptors.response.use(
         (response) => {
-            return response;
+            const responseData = response as AxiosResponse<any, any>;
+            return responseData;
         },
         (error) => Promise.reject(error)
     )

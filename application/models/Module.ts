@@ -5,10 +5,3 @@ export interface Module {
     alert: number,
     section_type?: string,
 }
-
-export interface ModuleResponse {
-    data: {
-        modules: Array<Module>
-    },
-    success?: boolean
-}
