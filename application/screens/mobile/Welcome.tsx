@@ -6,7 +6,6 @@ import { Button, Center, Flex, Text, VStack, Image, View } from 'native-base';
 import { Link as SolitoLink } from 'solito/link'
 
 const Welcome = ({ navigation }: any) => {
-
   return (
     <Master navigation={navigation}>
       <Center w={'100%'} flex={1} px={15}>

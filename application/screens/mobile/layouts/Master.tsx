@@ -2,6 +2,8 @@ import * as React from 'react';
 import { ImageBackground, View } from 'react-native';
 import { gStyle, images } from 'application/styles';
 import UseAuthService from 'application/store/services/UseAuthService';
+import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+import UseEventService from 'application/store/services/UseEventService';
 
 type Props = {
   children:
@@ -14,7 +16,11 @@ type Props = {
 
 const Master = ({ children, navigation }: Props,) => {
 
-  const { response } = UseAuthService();
+  const { response, loadToken, isLoggedIn } = UseAuthService();
+
+  const { FetchEventByCode, event } = UseEventService();
+
+  const [process, setProcess] = React.useState(false);
 
   React.useEffect(() => {
     if (response.redirect === "login") {
@@ -35,6 +41,33 @@ const Master = ({ children, navigation }: Props,) => {
       });
     }
   }, [response.redirect])
+
+  React.useEffect(() => {
+    if (event.id) {
+      AsyncStorageClass.getItem('access_token').then((token: string) => {
+        loadToken(Boolean(token));
+        setProcess(true);
+      });
+    }
+  }, [event.id])
+
+  React.useEffect(() => {
+    AsyncStorageClass.getItem('eventbuizz-active-event-id').then((event_id: any) => {
+      if (event_id) {
+        FetchEventByCode(event_id)
+      }
+    });
+  }, []);
+
+  React.useEffect(() => {
+    if (process) {
+      if (event.id && isLoggedIn) {
+        navigation.navigate(`dashboard`)
+      } else if (event.id) {
+        navigation.navigate(`login`)
+      }
+    }
+  }, [process]);
 
   return (
     <>

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import UseEventService from 'application/store/services/UseEventService';
+import UseAuthService from 'application/store/services/UseAuthService';
 import { useRouter } from 'solito/router'
 
 type Props = {
@@ -14,7 +15,7 @@ const AuthLayout = ({ children }: Props) => {
 
     const { event } = UseEventService();
 
-    const isLoggedIn = Boolean(localStorage.getItem('access_token'));
+    const { loadToken, isLoggedIn, getUser } = UseAuthService();
 
     const { push } = useRouter();
 
@@ -23,6 +24,10 @@ const AuthLayout = ({ children }: Props) => {
             push(`/${event.url}/qa`)
         }
     }, [isLoggedIn])
+
+    React.useEffect(() => {
+        loadToken(Boolean(localStorage.removeItem('access_token')));
+    }, [])
 
     return (
         <>

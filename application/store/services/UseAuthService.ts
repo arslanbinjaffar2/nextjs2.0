@@ -19,6 +19,7 @@ export type EventServiceOperators = {
     loadProvider: (payload: LoadProviderPayload) => void
     getUser: () => void
     logout: () => void
+    loadToken: (logged: boolean) => void
 }
 
 /**
@@ -26,7 +27,7 @@ export type EventServiceOperators = {
  * @see https://reactjs.org/docs/hooks-custom.html
 */
 export const UseAuthService = (): Readonly<EventServiceOperators> => {
-    
+
     const dispatch = useAppDispatch()
 
     return {
@@ -80,6 +81,14 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
             () => {
                 dispatch(
                     AuthActions.logout(),
+                )
+            },
+            [dispatch],
+        ),
+        loadToken: useCallback(
+            (logged: boolean) => {
+                dispatch(
+                    AuthActions.loadToken(logged),
                 )
             },
             [dispatch],

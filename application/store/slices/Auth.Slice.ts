@@ -104,6 +104,9 @@ const AuthSlice = createSlice({
                 AsyncStorageClass.removeItem('access_token');
             }
         },
+        loadToken(state, action: PayloadAction<boolean>) {
+            state.isLoggedIn = action.payload;
+        },
     },
 });
 
@@ -119,6 +122,7 @@ export const AuthActions = {
     success: AuthSlice.actions.success,
     failed: AuthSlice.actions.failed,
     logout: AuthSlice.actions.logout,
+    loadToken: AuthSlice.actions.loadToken,
 }
 
 // Selectors
