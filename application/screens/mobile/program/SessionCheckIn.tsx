@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Master from 'application/screens/mobile/layouts/Master';
-import DrawerHeaderNotification from 'application/screens/mobile/layouts/headers/DrawerHeaderNotification';
+import Header from 'application/screens/mobile/layouts/headers/Header';
 import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
 
@@ -11,7 +11,7 @@ const SessionCheckIn = ({ navigation }: any) => {
 
     return (
         <Master navigation={navigation}>
-            <DrawerHeaderNotification minimal={scroll} navigation={navigation} />
+            <Header minimal={scroll} navigation={navigation} />
             <Center w={'100%'} px={15}>
                 <Divider mx="auto" w="160px" bg="primary.text" my="5" />
                 <ScrollView h="85%" onScroll={(event: { nativeEvent: { contentOffset: { y: number; }; }; }) => setScroll(event.nativeEvent.contentOffset.y > 40 ? true : false)}>

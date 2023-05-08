@@ -21,7 +21,8 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.2.2",
     "solito": "0.0.22",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "in_array": "^1.1.0"
   },
   "sideEffects": false,
   "resolutions": {

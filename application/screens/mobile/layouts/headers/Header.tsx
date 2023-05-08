@@ -7,7 +7,7 @@ import { images } from 'application/styles'
 import IcoBell from 'application/assets/icons/IcoBell'
 import { useEffect } from 'react';
 
-const DrawerHeaderNotification = ({ navigation, minimal }: any) => {
+const Header = ({ navigation, minimal }: any) => {
 
     const width = Dimensions.get('window').width;
 
@@ -37,4 +37,4 @@ const DrawerHeaderNotification = ({ navigation, minimal }: any) => {
     )
 }
 
-export default DrawerHeaderNotification;
+export default Header;

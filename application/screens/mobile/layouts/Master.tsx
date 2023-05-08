@@ -4,6 +4,8 @@ import { gStyle, images } from 'application/styles';
 import UseAuthService from 'application/store/services/UseAuthService';
 import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 import UseEventService from 'application/store/services/UseEventService';
+import { useRoute } from '@react-navigation/native';
+import in_array from "in_array";
 
 type Props = {
   children:
@@ -21,6 +23,8 @@ const Master = ({ children, navigation }: Props,) => {
   const { FetchEventByCode, event } = UseEventService();
 
   const [process, setProcess] = React.useState(false);
+
+  const route: any = useRoute();
 
   React.useEffect(() => {
     if (response.redirect === "login") {
@@ -65,7 +69,9 @@ const Master = ({ children, navigation }: Props,) => {
   React.useEffect(() => {
     if (process) {
       if (event.id && isLoggedIn) {
-        navigation.navigate(`app`, { screen: 'dashboard' });
+        if (in_array(route.name, ['login', 'reset-password-request', 'choose-provider', 'verification', 'reset-password', 'email-login', 'events', 'welcome'])) {
+          navigation.navigate(`app`, { screen: 'dashboard' });
+        }
       } else if (event.id) {
         navigation.navigate(`auth`, {
           screen: 'login'
