@@ -16,7 +16,7 @@ type Props = {
   navigation: any
 };
 
-const Master = ({ children, navigation }: Props,) => {
+const Master = ({ children, navigation }: Props) => {
 
   const { response, loadToken, isLoggedIn } = UseAuthService();
 
