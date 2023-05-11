@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Master from 'application/screens/mobile/layouts/Master';
 import ModuleHeader from 'application/screens/mobile/layouts/headers/ModuleHeader';
-import { Center, ScrollView, Divider, HStack, Text } from 'native-base';
+import { Center, ScrollView, Divider, HStack, Text, Image } from 'native-base';
 import { useState } from 'react';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import { WebView } from 'react-native-webview'
@@ -24,9 +24,6 @@ const Index = ({ navigation }: any) => {
     FetchMap();
   }, [])
 
-
-  console.log("sssssssssss")
-  console.log(map)
   return (
     <Master navigation={navigation}>
       <ModuleHeader minimal={scroll} navigation={navigation} >
@@ -39,9 +36,14 @@ const Index = ({ navigation }: any) => {
             <Text w="100%" py="10px" pl="18px">MAP</Text>
           </HStack>
           <HStack bg="primary.darkbox" borderTopRadius="7" h='500' space={0} alignItems="center" w="100%" >
-            <WebView
-              source={{ uri: `${_env.api_base_url}/event/${event?.url}/map/iframe` }}
-            />
+            {map.google_map === 1 && (
+              <WebView
+                source={{ uri: `${_env.api_base_url}/event/${event?.url}/map/iframe` }}
+              />
+            )}
+            {map.google_map === 0 && map.image && (
+              <Image alt='logo' source={{ uri: map.image }} w="100%" h="52" alignSelf={'center'} />
+            )}
           </HStack>
         </ScrollView>
       </Center>

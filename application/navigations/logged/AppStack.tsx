@@ -14,6 +14,7 @@ import Gallery from 'application/screens/mobile/gallery/Index';
 import Sponsor from 'application/screens/mobile/sponsor/Index';
 import Exhibitor from 'application/screens/mobile/exhibitor/Index';
 import InformationPage from 'application/screens/mobile/information_page/Index';
+import EventInfo from 'application/screens/mobile/event_info/Index';
 import Poll from 'application/screens/mobile/poll/Index';
 import Survey from 'application/screens/mobile/survey/Index';
 import QA from 'application/screens/mobile/qa/Index';
@@ -75,6 +76,9 @@ const AppStack = () => {
       <Drawer.Screen options={{ headerShown: false }} name="social_wall" component={SocialWall} />
       <Drawer.Screen options={{ headerShown: false }} name="my_notes" component={MyNote} />
       <Drawer.Screen options={{ headerShown: false }} name="upcomingEvents" component={UpcomingEvent} />
+      <Drawer.Screen options={{ headerShown: false }} name="additional_info" component={EventInfo} />
+      <Drawer.Screen options={{ headerShown: false }} name="general_info" component={EventInfo} />
+      <Drawer.Screen options={{ headerShown: false }} name="infobooth" component={EventInfo} />
     </Drawer.Navigator>
   )
 }

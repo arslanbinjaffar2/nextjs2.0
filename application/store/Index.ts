@@ -8,6 +8,7 @@ import LoadingSlice from 'application/store/slices/Loading.Slice'
 import AuthSlice from 'application/store/slices/Auth.Slice'
 import EnvSlice from 'application/store/slices/Env.Slice'
 import MapSlice from 'application/store/slices/Map.Slice'
+import InfoSlice from 'application/store/slices/Info.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 
 const makeStore = () => {
@@ -22,7 +23,8 @@ const makeStore = () => {
             response: ResponseSlice,
             error: ErrorSlice,
             map: MapSlice,
-            loading: LoadingSlice
+            loading: LoadingSlice,
+            info: InfoSlice
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
