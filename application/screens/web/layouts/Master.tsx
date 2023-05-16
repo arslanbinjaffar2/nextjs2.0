@@ -33,7 +33,7 @@ const Master = ({ children, navigation }: Props) => {
   }, [])
 
   React.useEffect(() => {
-    if (Object.keys(response).length === 0) {
+    if (response.redirect === "login") {
       push(`/${event.url}/auth/login`)
     }
   }, [response])

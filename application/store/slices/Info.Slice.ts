@@ -5,11 +5,11 @@ import { Info } from 'application/models/Info'
 import type { RootState } from 'application/store/Index'
 
 export interface InfoState {
-    info: Info,
+    info: Info[],
 }
 
 const initialState: InfoState = {
-    info: {},
+    info: [],
 }
 
 export const InfoSlice = createSlice({
@@ -17,7 +17,7 @@ export const InfoSlice = createSlice({
     initialState,
     reducers: {
         FetchInfo(state, action: PayloadAction<string>) { },
-        update(state, action: PayloadAction<Info>) {
+        update(state, action: PayloadAction<Info[]>) {
             state.info = action.payload;
         },
     },

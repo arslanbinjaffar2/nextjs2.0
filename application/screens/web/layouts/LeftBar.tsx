@@ -264,7 +264,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push(`/${event.url}/practical-information`)
+            push(`/${event.url}/practical-info`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -280,7 +280,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push(`/${event.url}/general-information`)
+            push(`/${event.url}/general-info`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -296,7 +296,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push(`/${event.url}/additional-information`)
+            push(`/${event.url}/additional-info`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">

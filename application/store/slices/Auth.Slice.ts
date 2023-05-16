@@ -97,7 +97,7 @@ const AuthSlice = createSlice({
         logout(state) {
             state.isLoggedIn = false;
             state.processing = false;
-            state.response = {};
+            state.response = { redirect: 'login' };
             if (Platform.OS === 'web') {
                 localStorage.removeItem('access_token');
             } else {

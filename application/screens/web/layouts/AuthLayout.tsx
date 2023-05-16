@@ -20,13 +20,17 @@ const AuthLayout = ({ children }: Props) => {
     const { push } = useRouter();
 
     React.useEffect(() => {
+        getUser();
+    }, [])
+
+    React.useEffect(() => {
         if (isLoggedIn) {
             push(`/${event.url}/qa`)
         }
     }, [isLoggedIn])
 
     React.useEffect(() => {
-        loadToken(Boolean(localStorage.removeItem('access_token')));
+        loadToken(Boolean(localStorage.getItem('access_token')));
     }, [])
 
     return (

@@ -7,7 +7,7 @@ import { Info } from 'application/models/Info'
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type InfoServiceOperators = {
-    info: Info
+    info: Info[]
     FetchInfo: (type: string) => void
 }
 

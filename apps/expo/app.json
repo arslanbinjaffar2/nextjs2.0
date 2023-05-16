@@ -4,6 +4,7 @@
     "slug": "web-app",
     "version": "1.0.0",
     "scheme": "web-app",
+    "jscEnabled": true,
     "platforms": ["ios", "android", "web"],
     "ios": {
       "bundleIdentifier": "47U374K265"
