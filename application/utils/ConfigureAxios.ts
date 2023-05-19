@@ -13,7 +13,7 @@ export default function makeApi(baseURL: string) {
     api.defaults.headers.put['Content-Type'] = "application/json";
 
     api.defaults.headers.delete['Content-Type'] = "application/json";
-
+    
     api.interceptors.request.use(
         async (config: any) => {
             if (Platform.OS === 'web' && localStorage.getItem('access_token')) {

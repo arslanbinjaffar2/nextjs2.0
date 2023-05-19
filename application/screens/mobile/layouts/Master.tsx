@@ -60,7 +60,7 @@ const Master = ({ children, navigation }: Props) => {
 
   React.useEffect(() => {
     AsyncStorageClass.getItem('eventbuizz-active-event-id').then((event_id: any) => {
-      if (event_id) {
+      if (Object.keys(event).length === 0 && event_id) {
         FetchEventByCode(event_id)
       }
     });
