@@ -12,13 +12,13 @@ import Loading from 'application/components/atoms/Loading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { useIsFocused } from '@react-navigation/native';
 
-const Index = ({ navigation, route }: any) => {
+const PageDetail = ({ navigation, route }: any) => {
 
     const { loading } = UseLoadingService();
 
     const [scroll, setScroll] = useState(false);
 
-    const { FetchInfo, info } = UseInfoService();
+    const { FetchPage, page } = UseInfoService();
 
     const isFocused = useIsFocused();
 
@@ -29,8 +29,13 @@ const Index = ({ navigation, route }: any) => {
     }
 
     React.useEffect(() => {
-        FetchInfo(aliases[route.name]);
-    }, [isFocused]);
+        if (route.params.id) {
+            FetchPage({ id: route.params.id, type: aliases[route.params.type] });
+        }
+    }, [route.params.id]);
+
+    console.log("Ssssssssdddd")
+    console.log(page)
 
     return (
         <Master navigation={navigation}>
@@ -60,21 +65,18 @@ const Index = ({ navigation, route }: any) => {
                                 </Text>
                             </HStack>
                             <HStack>
-                                <Listing rounded={0} />
                             </HStack>
                         </ScrollView>
                         <BannerView />
                     </Center>
                 </>
             )}
-
-
         </Master>
     );
 };
 
-Index.propTypes = {
+PageDetail.propTypes = {
     navigation: PropTypes.object.isRequired,
 };
 
-export default Index;
+export default PageDetail;

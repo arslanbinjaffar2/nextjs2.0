@@ -7,3 +7,7 @@ const baseUrl = `/event`
 export const getInfoApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/info/listing/${payload}`);
 }
+
+export const getPageApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/info/detail/${payload.type}/${payload.id}`);
+}

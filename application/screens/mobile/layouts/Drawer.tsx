@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 
-import { Avatar, Box, Flex, HStack, Text, VStack, Pressable, Icon } from 'native-base';
+import { Avatar, Box, Flex, HStack, Text, VStack, Pressable } from 'native-base';
 
 import UseEventService from 'application/store/services/UseEventService';
 
@@ -76,7 +76,11 @@ const Drawer = (props: any) => {
                         <Pressable
                             px="5"
                             py="3"
-                            onPress={() => { props.navigation.replace(`app`, { screen: row?.alias }) }}>
+                            onPress={() => {
+                                props.navigation.replace(`app`, {
+                                    screen: row?.alias,
+                                })
+                            }}>
                             <HStack space="2" alignItems="center">
                                 <DynamicIcon iconType={row?.alias} iconProps={{ width: 24, height: 24 }} />
                                 <Text fontSize={'18px'} color="primary.text" fontWeight="600">{row?.name}</Text>

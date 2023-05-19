@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getInfoApi } from 'application/store/api/Info.api';
+import { getInfoApi, getPageApi } from 'application/store/api/Info.api';
 
 import { InfoActions } from 'application/store/slices/Info.Slice'
 
@@ -25,9 +25,23 @@ function* OnGetInfo({
     yield put(LoadingActions.set(false));
 }
 
+function* OnGetPage({
+    payload,
+}: {
+    type: typeof InfoActions.FetchPage
+    payload: string
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getPageApi, payload, state)
+    yield put(InfoActions.updatePage(response.data.data.record!))
+    yield put(LoadingActions.set(false));
+}
+
 // Watcher Saga
 export function* InfoWatcherSaga(): SagaIterator {
     yield takeEvery(InfoActions.FetchInfo.type, OnGetInfo)
+    yield takeEvery(InfoActions.FetchPage.type, OnGetPage)
 }
 
 export default InfoWatcherSaga
