@@ -1,29 +1,18 @@
 import React from 'react'
-import { Box, Container, HStack, Icon, IconButton, Image, Input, Spacer, Text, VStack, Pressable } from 'native-base';
+import { HStack, Icon, Spacer, Text, Pressable } from 'native-base';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Info } from 'application/models/Info'
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { Link as SolitoLink } from 'solito/link';
+import { useRouter } from 'solito/router'
 
 const RectangleView = (info: Info) => {
 
-    const navigation: any = useNavigation();
-
-    const route = useRoute();
+    const { push } = useRouter()
 
     return (
         <Pressable
-            px="5"
-            py="3"
             onPress={() => {
-                navigation.replace('app', {
-                    screen: 'event-info-detail',
-                    params: {
-                        type: route.name,
-                        id: info.id
-                    }
-                })
+                push(`/event-info-detail/${info.cms}/${info.id}`)
             }}>
             <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="4" py="5" space="4" alignItems="center">
                 {

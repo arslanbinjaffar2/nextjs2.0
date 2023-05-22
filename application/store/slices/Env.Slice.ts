@@ -5,12 +5,14 @@ import type { RootState } from 'application/store/Index'
 export interface EnvState {
     enviroment: string,
     api_base_url: string,
+    eventcenter_base_url: string,
     msw_enabled: string
 }
 
 const initialState: EnvState = {
     enviroment: '',
     api_base_url: '',
+    eventcenter_base_url: '',
     msw_enabled: ''
 }
 
@@ -22,6 +24,7 @@ export const EnvSlice = createSlice({
         update(state, action: PayloadAction<EnvState>) {
             state.enviroment = action.payload.enviroment
             state.api_base_url = action.payload.api_base_url
+            state.eventcenter_base_url = action.payload.eventcenter_base_url
             state.msw_enabled = action.payload.msw_enabled
         },
     },

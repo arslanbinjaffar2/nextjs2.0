@@ -8,7 +8,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import UseInfoService from 'application/store/services/UseInfoService';
 import Listing from 'application/components/templates/event_info/Listing';
 import BannerView from 'application/components/atoms/banners/RectangleView';
-import Loading from 'application/components/atoms/Loading';
+import Loading from 'application/components/atoms/MobileLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -35,32 +35,31 @@ const Index = ({ navigation, route }: any) => {
     return (
         <Master navigation={navigation}>
             {loading ? (
-                <Loading />
+                <MobileLoading />
             ) : (
                 <>
                     <ModuleHeader minimal={scroll} navigation={navigation} >
                         <DynamicIcon iconType="maps" iconProps={{ width: 20, height: 26 }} />
                     </ModuleHeader>
-                    <Center w={'100%'} px={15}>
-                        <Divider mx="auto" w="160px" bg="primary.text" my="5" />
+                    <Center w={'100%'} px={15} mt={5}>
+                        <HStack borderTopRadius="7" space={0} alignItems="center" w="100%" bg="primary.darkbox" >
+                            <Text w="100%" py="10px" pl="18px">
+                                {
+                                    (() => {
+                                        if (route.name === 'infobooth') {
+                                            return 'Practical information'
+                                        } else if (route.name === 'additional_info') {
+                                            return 'Additional information'
+                                        } else if (route.name === 'general_info') {
+                                            return 'General information'
+                                        }
+                                    })()
+                                }
+                            </Text>
+                        </HStack>
                         <ScrollView h="60%" onScroll={(event: { nativeEvent: { contentOffset: { y: number; }; }; }) => setScroll(event.nativeEvent.contentOffset.y > 40 ? true : false)}>
-                            <HStack borderTopRadius="7" space={0} alignItems="center" w="100%" bg="primary.darkbox" >
-                                <Text w="100%" py="10px" pl="18px">
-                                    {
-                                        (() => {
-                                            if (route.name === 'infobooth') {
-                                                return 'Practical information'
-                                            } else if (route.name === 'additional_info') {
-                                                return 'Additional information'
-                                            } else if (route.name === 'general_info') {
-                                                return 'General information'
-                                            }
-                                        })()
-                                    }
-                                </Text>
-                            </HStack>
                             <HStack>
-                                <Listing rounded={0} />
+                                <Listing rounded={0} cms={aliases[route.name]} />
                             </HStack>
                         </ScrollView>
                         <BannerView />

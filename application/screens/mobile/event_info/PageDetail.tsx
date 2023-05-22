@@ -1,18 +1,28 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Master from 'application/screens/mobile/layouts/Master';
-import ModuleHeader from 'application/screens/mobile/layouts/headers/ModuleHeader';
-import { Center, ScrollView, Divider, HStack, Text, Spinner } from 'native-base';
+import ReturnHeader from 'application/screens/mobile/layouts/headers/ReturnHeader';
+import { Center, ScrollView, HStack, Text, Box, VStack, Icon, Image } from 'native-base';
 import { useState } from 'react';
-import DynamicIcon from 'application/utils/DynamicIcon';
+import AntDesign from '@expo/vector-icons/AntDesign'
 import UseInfoService from 'application/store/services/UseInfoService';
-import Listing from 'application/components/templates/event_info/Listing';
 import BannerView from 'application/components/atoms/banners/RectangleView';
-import Loading from 'application/components/atoms/Loading';
+import Loading from 'application/components/atoms/MobileLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
-import { useIsFocused } from '@react-navigation/native';
+import { WebView } from 'react-native-webview'
+import { StyleSheet, useWindowDimensions, Linking } from 'react-native';
+import { createParam } from 'solito';
+import UseEnvService from 'application/store/services/UseEnvService';
+
+type ScreenParams = { id: string, cms: string | undefined }
+
+const { useParam } = createParam<ScreenParams>()
 
 const PageDetail = ({ navigation, route }: any) => {
+
+    const { _env } = UseEnvService()
+
+    const { height } = useWindowDimensions();
 
     const { loading } = UseLoadingService();
 
@@ -20,52 +30,70 @@ const PageDetail = ({ navigation, route }: any) => {
 
     const { FetchPage, page } = UseInfoService();
 
-    const isFocused = useIsFocused();
+    const [id] = useParam('id');
 
-    const aliases: any = {
-        infobooth: 'practical-info',
-        additional_info: 'additional-info',
-        general_info: 'general-info'
-    }
+    const [cms] = useParam('cms');
 
     React.useEffect(() => {
-        if (route.params.id) {
-            FetchPage({ id: route.params.id, type: aliases[route.params.type] });
+        if (id && cms) {
+            FetchPage({ id: Number(id), type: cms });
         }
-    }, [route.params.id]);
+    }, [id, cms]);
 
-    console.log("Ssssssssdddd")
-    console.log(page)
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            height: height
+        },
+    });
 
     return (
         <Master navigation={navigation}>
             {loading ? (
-                <Loading />
+                <MobileLoading />
             ) : (
                 <>
-                    <ModuleHeader minimal={scroll} navigation={navigation} >
-                        <DynamicIcon iconType="maps" iconProps={{ width: 20, height: 26 }} />
-                    </ModuleHeader>
-                    <Center w={'100%'} px={15}>
-                        <Divider mx="auto" w="160px" bg="primary.text" my="5" />
+                    <ReturnHeader minimal={scroll} navigation={navigation} >
+                        <Text fontSize="xl">Installing Demyst’s Libraries</Text>
+                    </ReturnHeader>
+                    <Center w={'100%'} px={15} mt={5}>
                         <ScrollView h="60%" onScroll={(event: { nativeEvent: { contentOffset: { y: number; }; }; }) => setScroll(event.nativeEvent.contentOffset.y > 40 ? true : false)}>
                             <HStack borderTopRadius="7" space={0} alignItems="center" w="100%" bg="primary.darkbox" >
-                                <Text w="100%" py="10px" pl="18px">
-                                    {
-                                        (() => {
-                                            if (route.name === 'infobooth') {
-                                                return 'Practical information'
-                                            } else if (route.name === 'additional_info') {
-                                                return 'Additional information'
-                                            } else if (route.name === 'general_info') {
-                                                return 'General information'
-                                            }
-                                        })()
-                                    }
-                                </Text>
+                                <Box w="100%" bg="primary.box" py="4" borderTopRadius="10">
+                                    <WebView
+                                        source={{ html: page.description }}
+                                        style={styles.container}
+                                    />
+                                    <Image
+                                        source={{
+                                            uri: `${_env.eventcenter_base_url}/assets/event_info/${page.image}`
+                                        }}
+                                        alt="Alternate Text"
+                                        w="100%"
+                                        h="150px"
+                                    />
+                                </Box>
                             </HStack>
-                            <HStack>
-                            </HStack>
+                            {page.pdf && (
+                                <Box mb="3" w="100%" bg="primary.box" py="4" borderBottomRadius="10">
+                                    <HStack mb="3" bg="primary.darkbox" py="1" px="4" space="2" alignItems="center">
+                                        <Icon as={AntDesign} name="file1" size="md" />
+                                        <Text fontSize="lg">Documents</Text>
+                                    </HStack>
+                                    <VStack px="4" w="100%" space="1">
+                                        <HStack w="100%" space="2" alignItems="center">
+                                            <Icon as={AntDesign} name="pdffile1" size="md" onPress={async () => {
+                                                const url = `${_env.eventcenter_base_url}/assets/event_info/${page.pdf}`;
+                                                const supported = await Linking.canOpenURL(url);
+                                                if (supported) {
+                                                    await Linking.openURL(url);
+                                                }
+                                            }} />
+                                            <Text fontSize="md">{page.pdf_title}</Text>
+                                        </HStack>
+                                    </VStack>
+                                </Box>
+                            )}
                         </ScrollView>
                         <BannerView />
                     </Center>

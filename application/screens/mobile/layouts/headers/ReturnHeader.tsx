@@ -1,7 +1,6 @@
 
 import * as React from 'react';
-import { Dimensions } from 'react-native';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import AntDesign from '@expo/vector-icons/AntDesign'
 import { Center, Flex, Image, Pressable, Icon, Box, View, VStack, HStack } from 'native-base';
 import { images } from 'application/styles'
 import { useEffect } from 'react';
@@ -16,9 +15,7 @@ type Props = {
     minimal: any;
 };
 
-const ModuleHeader = ({ children, navigation, minimal }: Props) => {
-
-    const width = Dimensions.get('window').width;
+const ReturnHeader = ({ children, navigation, minimal }: Props) => {
 
     useEffect(() => {
     }, [minimal]);
@@ -32,7 +29,7 @@ const ModuleHeader = ({ children, navigation, minimal }: Props) => {
                             navigation.toggleDrawer();
                         }}
                     >
-                        <Icon size="2xl" color="primary.text" as={MaterialIcons} name="menu" />
+                        <Icon size="2xl" color="primary.text" as={AntDesign} name="left" />
                     </Pressable>
                 </Center>
                 <Center style={{ flex: 1 }} >{children}</Center>
@@ -46,4 +43,4 @@ const ModuleHeader = ({ children, navigation, minimal }: Props) => {
     )
 }
 
-export default ModuleHeader;
+export default ReturnHeader;

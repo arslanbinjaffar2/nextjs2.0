@@ -18,6 +18,12 @@ export interface Info {
     info?: string;
     type?: string;
     detail?: Detail;
+    cms?: string;
+
+    //For detail api
+    name?: string,
+    description?: any,
+    pdf_title?: string
 }
 
 export interface Info {
@@ -34,6 +40,6 @@ export interface Info {
 
 export interface Detail {
     name?: string,
-    description?: string,
+    description?: any,
     pdf_title?: string
 }

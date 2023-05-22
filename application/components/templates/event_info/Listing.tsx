@@ -11,7 +11,7 @@ const Listing = (props: any) => {
         <>
             <Box mb="3" bg="primary.box" p="0" w="100%" rounded={props.rounded} overflow="hidden">
                 {info && info.map((row: any, key: number) =>
-                    <RectangleView key={key} {...row} />
+                    <RectangleView key={key} {...row} cms={props.cms} />
                 )}
             </Box>
         </>
