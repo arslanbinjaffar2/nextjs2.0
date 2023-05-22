@@ -23,7 +23,7 @@ export function NavigationProvider({
               'email-login': 'email-login',
               'events': 'events',
               'dashboard': 'dashboard',
-              'event-info-detail': 'event-info-detail/:cms/:id',
+              'event-info-detail': ':url/:cms/event-info-detail/:id',
             },
           },
         }),

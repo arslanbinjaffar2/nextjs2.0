@@ -7,7 +7,7 @@ import { useState } from 'react';
 import AntDesign from '@expo/vector-icons/AntDesign'
 import UseInfoService from 'application/store/services/UseInfoService';
 import BannerView from 'application/components/atoms/banners/RectangleView';
-import Loading from 'application/components/atoms/MobileLoading';
+import MobileLoading from 'application/components/atoms/MobileLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { WebView } from 'react-native-webview'
 import { StyleSheet, useWindowDimensions, Linking } from 'react-native';

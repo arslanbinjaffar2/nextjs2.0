@@ -8,7 +8,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import UseInfoService from 'application/store/services/UseInfoService';
 import Listing from 'application/components/templates/event_info/Listing';
 import BannerView from 'application/components/atoms/banners/RectangleView';
-import Loading from 'application/components/atoms/MobileLoading';
+import MobileLoading from 'application/components/atoms/MobileLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { useIsFocused } from '@react-navigation/native';
 

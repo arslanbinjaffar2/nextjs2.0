@@ -56,9 +56,7 @@ const Detail = ({ navigation }: indexProps) => {
           w="100%"
           h="150px"
           rounded="10"
-
         />
-
       </Container>
     </Master>
   );

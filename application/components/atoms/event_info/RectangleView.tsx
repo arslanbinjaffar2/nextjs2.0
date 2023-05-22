@@ -4,15 +4,18 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Info } from 'application/models/Info'
 import { useRouter } from 'solito/router'
+import UseEventService from 'application/store/services/UseEventService';
 
 const RectangleView = (info: Info) => {
 
     const { push } = useRouter()
 
+    const { event } = UseEventService()
+
     return (
         <Pressable
             onPress={() => {
-                push(`/event-info-detail/${info.cms}/${info.id}`)
+                push(`/${event.url}/${info.cms}/event-info-detail/${info.id}`)
             }}>
             <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="4" py="5" space="4" alignItems="center">
                 {
