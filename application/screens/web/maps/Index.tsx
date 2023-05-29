@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Box, Container, HStack, Image, Text} from 'native-base';
 import Master from 'application/screens/web/layouts/Master';
 
-
 type indexProps = {
   navigation: unknown
 }
@@ -26,11 +25,8 @@ const Index = ({ navigation }: indexProps)  => {
           w="100%"
           h="150px"
           rounded="10"
-          
         />
-        
       </Container>
-      
     </Master>
   );
 };

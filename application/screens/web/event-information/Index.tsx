@@ -20,7 +20,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const router = useRouter();
 
-  const alias: any = router.query['event-info'];
+  const alias: any = router.query['cms'];
 
   const { FetchInfo, info } = UseInfoService();
 
