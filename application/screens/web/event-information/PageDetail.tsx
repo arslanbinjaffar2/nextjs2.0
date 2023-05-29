@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Box, Container, HStack, Icon, IconButton, Image, Spacer, Text, VStack, ZStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Master from 'application/screens/web/layouts/Master';
-
+import Detail from 'application/components/templates/event_info/Detail';
 
 type indexProps = {
   navigation: unknown
 }
 
-const Detail = ({ navigation }: indexProps) => {
+const PageDetail = ({ navigation }: indexProps) => {
   return (
     <Master navigation={navigation}>
       <Container pt="2" maxW="100%" w="100%">
@@ -48,6 +48,7 @@ const Detail = ({ navigation }: indexProps) => {
             </HStack>
           </VStack>
         </Box>
+        <Detail />
         <Image
           source={{
             uri: 'https://wallpaperaccess.com/full/317501.jpg'
@@ -62,8 +63,8 @@ const Detail = ({ navigation }: indexProps) => {
   );
 };
 
-Detail.propTypes = {
+PageDetail.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default Detail;
+export default PageDetail;
