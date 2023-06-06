@@ -19,7 +19,7 @@ module.exports = withNativebase({
   plugins: [[withFonts, { projectRoot: __dirname }], [withImages, { projectRoot: __dirname }], [withExpo, { projectRoot: __dirname }]],
   nextConfig: {
     projectRoot: __dirname,
-    reactStrictMode: true,
+    reactStrictMode: false,
     webpack5: true,
     images: {
       disableStaticImages: true,

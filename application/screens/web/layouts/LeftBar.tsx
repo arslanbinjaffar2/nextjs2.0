@@ -9,7 +9,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import DynamicIcon from 'application/utils/DynamicIcon';
 
-const LeftBar = ({ navigation }: any) => {
+const LeftBar = () => {
 
   const { push, replace, back, parseNextPath } = useRouter()
 

@@ -5,7 +5,7 @@ import Icoreload from 'application/assets/icons/Icoreload';
 import { images } from 'application/styles';
 import Notification from 'application/components/atoms/header/Notification';
 
-const Header = ({ width, navigation }: any) => {
+const Header = ({ width }: any) => {
   return (
     <>
       <Container maxW="100%" w="100%">
