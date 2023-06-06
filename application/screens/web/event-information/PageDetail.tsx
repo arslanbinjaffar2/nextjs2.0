@@ -9,34 +9,38 @@ import { useRouter } from 'solito/router'
 import { createParam } from 'solito';
 import UseEventService from 'application/store/services/UseEventService';
 
-type indexProps = {
-  navigation: unknown
-}
-
-type ScreenParams = { id: string, cms: string | undefined }
+type ScreenParams = { id: any, cms: any }
 
 const { useParam } = createParam<ScreenParams>()
 
-const PageDetail = ({ navigation }: indexProps) => {
+const PageDetail = (props: any) => {
 
-  const { page } = UseInfoService();
+  const { page, FetchPage, parent_folder } = UseInfoService();
 
   const { push } = useRouter()
 
   const [cms] = useParam('cms');
 
+  const [id] = useParam('id');
+
   const { event } = UseEventService();
 
+  React.useEffect(() => {
+    if (id && cms) {
+      FetchPage({ id: Number(id), type: cms });
+    }
+  }, [id, cms]);
+
   return (
-    <Master navigation={navigation}>
+    <Master>
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <HStack space="3" alignItems="center">
             <Pressable
               onPress={() => {
-                push(`/${event.url}/${cms}`)
+                push(`/${event.url}/${cms}/event-info/${parent_folder}`)
               }}
-              style={{display: 'contents'}}
+              style={{ display: 'contents' }}
             >
               <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
               <Text fontSize="2xl">BACK</Text>
@@ -49,10 +53,6 @@ const PageDetail = ({ navigation }: indexProps) => {
       </Container>
     </Master>
   );
-};
-
-PageDetail.propTypes = {
-  navigation: PropTypes.object.isRequired,
 };
 
 export default PageDetail;

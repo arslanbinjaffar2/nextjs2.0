@@ -16,12 +16,13 @@ function* OnGetInfo({
     payload,
 }: {
     type: typeof InfoActions.FetchInfo
-    payload: string
+    payload: { id: number, type: string }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getInfoApi, payload, state)
     yield put(InfoActions.update(response.data.data.records!))
+    yield put(InfoActions.updateParentFolder(response.data.data.parent?.parent_id!))
     yield put(LoadingActions.set(false));
 }
 
@@ -29,12 +30,13 @@ function* OnGetPage({
     payload,
 }: {
     type: typeof InfoActions.FetchPage
-    payload: string
+    payload: { id: number, type: string }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getPageApi, payload, state)
     yield put(InfoActions.updatePage(response.data.data.record!))
+    yield put(InfoActions.updateParentFolder(response.data.data.record?.menu_id!))
     yield put(LoadingActions.set(false));
 }
 

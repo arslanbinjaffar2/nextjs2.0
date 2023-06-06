@@ -6,13 +6,17 @@ import { Avatar, Box, Flex, HStack, Text, VStack, Pressable } from 'native-base'
 
 import UseEventService from 'application/store/services/UseEventService';
 
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import DynamicIcon from 'application/utils/DynamicIcon';
 
+import in_array from "in_array";
+
 const Drawer = (props: any) => {
 
-    const { event, loadModules, modules } = UseEventService();
+    const navigation: any = useNavigation();
+
+    const { loadModules, modules } = UseEventService();
 
     const route: any = useRoute();
 
@@ -61,7 +65,7 @@ const Drawer = (props: any) => {
                 {modules.map((row: any, key: any) =>
                     <Box
                         bg={
-                            row.alias === route.params?.screen
+                            (row.alias === route.params?.screen || (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info']) && row.alias === route.params?.params?.cms))
                                 ? {
                                     linearGradient: {
                                         colors: ['primary.400', 'transparent'],
@@ -77,12 +81,22 @@ const Drawer = (props: any) => {
                             px="5"
                             py="3"
                             onPress={() => {
-                                props.navigation.replace(`app`, {
-                                    screen: row?.alias,
-                                })
+                                if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
+                                    navigation.navigate('app', {
+                                        screen: 'event-info',
+                                        params: {
+                                            cms: row?.alias,
+                                            id: 0
+                                        }
+                                    })
+                                } else {
+                                    props.navigation.navigate(`app`, {
+                                        screen: row?.alias,
+                                    })
+                                }
                             }}>
                             <HStack space="2" alignItems="center">
-                                <DynamicIcon iconType={row?.alias} iconProps={{ width: 24, height: 24 }} />
+                                <DynamicIcon iconType={row?.alias.replace('-', '_')} iconProps={{ width: 24, height: 24 }} />
                                 <Text fontSize={'18px'} color="primary.text" fontWeight="600">{row?.name}</Text>
                             </HStack>
                         </Pressable>

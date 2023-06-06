@@ -77,9 +77,7 @@ const AppStack = () => {
       <Drawer.Screen options={{ headerShown: false }} name="social_wall" component={SocialWall} />
       <Drawer.Screen options={{ headerShown: false }} name="my_notes" component={MyNote} />
       <Drawer.Screen options={{ headerShown: false }} name="upcomingEvents" component={UpcomingEvent} />
-      <Drawer.Screen options={{ headerShown: false }} name="additional_info" component={EventInfo} />
-      <Drawer.Screen options={{ headerShown: false }} name="general_info" component={EventInfo} />
-      <Drawer.Screen options={{ headerShown: false }} name="infobooth" component={EventInfo} />
+      <Drawer.Screen options={{ headerShown: false }} name="event-info" component={EventInfo} />
       <Drawer.Screen options={{ headerShown: false }} name="event-info-detail" component={EventInfoDetail} />
     </Drawer.Navigator>
   )

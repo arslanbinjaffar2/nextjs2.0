@@ -10,9 +10,9 @@ import plans from 'application/assets/icons/plans';
 import help_desk from 'application/assets/icons/help_desk';
 import homeMyevents from 'application/assets/icons/homeMyevents';
 import gallery from 'application/assets/icons/gallery';
-import infobooth from 'application/assets/icons/infobooth';
-import general_info from 'application/assets/icons/general_info';
-import additional_info from 'application/assets/icons/additional_info';
+import practical_info from 'application/assets/icons/practical-info';
+import general_info from 'application/assets/icons/general-info';
+import additional_info from 'application/assets/icons/additional-info';
 import information_pages from 'application/assets/icons/information_pages';
 import maps from 'application/assets/icons/maps';
 import myattendees from 'application/assets/icons/myattendees';
@@ -41,7 +41,7 @@ type IconProps = {
     height?: number;
 };
 
-type IconType = 'IcoMyEvents' | 'attendees' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'infobooth' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'myattendees' | 'mydocuments' | 'my_notes' | 'myagendas' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas';
+type IconType = 'IcoMyEvents' | 'attendees' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'myattendees' | 'mydocuments' | 'my_notes' | 'myagendas' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas';
 
 type Props = {
     iconType: IconType;
@@ -61,7 +61,7 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         help_desk,
         homeMyevents,
         gallery,
-        infobooth,
+        practical_info,
         general_info,
         additional_info,
         information_pages,

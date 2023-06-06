@@ -10,8 +10,9 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import Detail from 'application/components/templates/event_info/Detail';
 import UseEventService from 'application/store/services/UseEventService';
 import { createParam } from 'solito';
+import { useIsFocused } from '@react-navigation/native';
 
-type ScreenParams = { id: string, cms: string | undefined }
+type ScreenParams = { id: any, cms: any }
 
 const { useParam } = createParam<ScreenParams>()
 
@@ -21,11 +22,21 @@ const PageDetail = ({ navigation, route }: any) => {
 
     const [scroll, setScroll] = useState(false);
 
-    const { page } = UseInfoService();
+    const { page, parent_folder, FetchPage } = UseInfoService();
 
     const { event } = UseEventService();
 
     const [cms] = useParam('cms');
+
+    const [id] = useParam('id');
+
+    const isFocused = useIsFocused();
+
+    React.useMemo(() => {
+        if (isFocused) {
+            FetchPage({ id: Number(id), type: cms });
+        }
+    }, [id, cms, isFocused]);
 
     return (
         <Master navigation={navigation}>
@@ -33,7 +44,7 @@ const PageDetail = ({ navigation, route }: any) => {
                 <MobileLoading />
             ) : (
                 <>
-                    <ReturnHeader minimal={scroll} navigation={navigation} back={`/${event.url}/${cms}`} >
+                    <ReturnHeader minimal={scroll} navigation={navigation} back={`/${event.url}/${cms}/event-info/${parent_folder}`} >
                         <Text fontSize="xl">{page.name}</Text>
                     </ReturnHeader>
                     <Center w={'100%'} px={15} mt={5}>

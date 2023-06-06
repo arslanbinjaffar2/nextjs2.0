@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, G, Path } from 'react-native-svg';
 
-const infobooth = (props: SvgProps) => (
+const practical_info = (props: SvgProps) => (
   <Svg
     width={props.width}
     height={props.height}
@@ -39,4 +39,4 @@ const infobooth = (props: SvgProps) => (
   </Svg>
 );
 
-export default infobooth;
+export default practical_info;

@@ -264,11 +264,11 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push(`/${event.url}/practical-info`)
+            push(`/${event.url}/practical-info/event-info/0`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <DynamicIcon iconType="infobooth" iconProps={{ width: 24, height: 21 }} />
+              <DynamicIcon iconType="practical_info" iconProps={{ width: 24, height: 21 }} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Practical information</Text>}
           </HStack>
@@ -280,7 +280,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push(`/${event.url}/general-info`)
+            push(`/${event.url}/general-info/event-info/0`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -296,7 +296,7 @@ const LeftBar = ({ navigation }: any) => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push(`/${event.url}/additional-info`)
+            push(`/${event.url}/additional-info/event-info/0`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">

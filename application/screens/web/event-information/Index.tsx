@@ -20,13 +20,15 @@ const Index = ({ navigation }: indexProps) => {
 
   const router = useRouter();
 
-  const alias: any = router.query['cms'];
+  const cms: any = router.query['cms'];
+
+  const id: any = router.query['id'];
 
   const { FetchInfo, info } = UseInfoService();
 
   React.useEffect(() => {
-    FetchInfo(alias);
-  }, [alias])
+    FetchInfo({ type: cms, id: id });
+  }, [cms, id])
 
   return (
     <Master navigation={navigation}>
@@ -38,11 +40,11 @@ const Index = ({ navigation }: indexProps) => {
             <Text fontSize="2xl">
               {
                 (() => {
-                  if (alias === 'practical-info') {
+                  if (cms === 'practical-info') {
                     return 'Practical information'
-                  } else if (alias === 'additional-info') {
+                  } else if (cms === 'additional-info') {
                     return 'Additional information'
-                  } else if (alias === 'general-info') {
+                  } else if (cms === 'general-info') {
                     return 'General information'
                   }
                 })()
@@ -51,7 +53,7 @@ const Index = ({ navigation }: indexProps) => {
             <Spacer />
             <Input rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
           </HStack>
-          <Listing rounded={10} cms={alias} />
+          <Listing rounded={10} cms={cms} />
           <BannerView />
         </Container>
       )}

@@ -3,7 +3,7 @@ import { HStack, Text, Box, VStack, Icon, ScrollView, View } from 'native-base';
 import UseInfoService from 'application/store/services/UseInfoService';
 import { WebView } from 'react-native-webview'
 import AntDesign from '@expo/vector-icons/AntDesign'
-import { StyleSheet, useWindowDimensions, Linking, Platform } from 'react-native';
+import { useWindowDimensions, Linking, Platform } from 'react-native';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import { createParam } from 'solito';
@@ -23,7 +23,7 @@ const Detail = (props: any) => {
 
     const { height } = useWindowDimensions();
 
-    const { FetchPage, page } = UseInfoService();
+    const { page } = UseInfoService();
 
     const styles = {
         container: {
@@ -36,12 +36,6 @@ const Detail = (props: any) => {
     const [id] = useParam('id');
 
     const [cms] = useParam('cms');
-
-    React.useMemo(() => {
-        if (Object.keys(page).length === 0) {
-            FetchPage({ id: Number(id), type: cms });
-        }
-    }, [id, cms]);
 
     return (
         <View w="100%">

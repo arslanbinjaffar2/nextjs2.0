@@ -15,7 +15,11 @@ const RectangleView = (info: Info) => {
     return (
         <Pressable
             onPress={() => {
-                push(`/${event.url}/${info.cms}/event-info-detail/${info.id}`)
+                if (info.type === 'page') {
+                    push(`/${event.url}/${info.cms}/event-info-detail/${info.id}`)
+                } else if (info.type === 'folder') {
+                    push(`/${event.url}/${info.cms}/event-info/${info.id}`)
+                }
             }}>
             <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="4" py="5" space="4" alignItems="center">
                 {
@@ -37,7 +41,9 @@ const RectangleView = (info: Info) => {
                 }
                 <Text fontSize="lg">{info?.detail?.name}</Text>
                 <Spacer />
-                <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
+                {info.type === 'folder' && (
+                    <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
+                )}
             </HStack>
         </Pressable>
     )
