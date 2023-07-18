@@ -35,7 +35,6 @@ const Detail = (props: any) => {
         setweb_height(parseInt(event.nativeEvent.data) + 15);
     }
 
-    console.log(`${_env.api_base_url}/event/${event.url}/info/iframe/${cms}/${id}`)
     return (
         <View w="100%">
             <ScrollView h={'68%'}>

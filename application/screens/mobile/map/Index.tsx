@@ -36,12 +36,12 @@ const Index = ({ navigation }: any) => {
             <Text w="100%" py="10px" pl="18px">MAP</Text>
           </HStack>
           <HStack bg="primary.darkbox" borderTopRadius="7" h='500' space={0} alignItems="center" w="100%" >
-            {map.google_map === 1 && (
+            {event?.url && (
               <WebView
                 source={{ uri: `${_env.api_base_url}/event/${event?.url}/map/iframe` }}
               />
             )}
-            {map.google_map === 0 && map.image && (
+            {map.image && (
               <Image alt='logo' source={{ uri: map.image }} w="100%" h="52" alignSelf={'center'} />
             )}
           </HStack>

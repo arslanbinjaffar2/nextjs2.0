@@ -6,6 +6,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import BoxItem from 'application/components/atoms/exhibitors/BoxItem';
 import DynamicIcon from 'application/utils/DynamicIcon';
+import { Platform } from 'react-native';
+import UseSponsorService from 'application/store/services/UseSponsorService';
 
 const Index = () => {
 
@@ -13,20 +15,43 @@ const Index = () => {
 
     const [view, setView] = React.useState(true)
 
+    const { sponsors, categories } = UseSponsorService();
+
     return (
         <>
             <Container pt="2" maxW="100%" w="100%">
-                <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="uppercase" fontSize="2xl">Sponsors</Text>
-                    <Spacer />
-                    <Input rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-                </HStack>
-                <HStack mb="3" space={1} justifyContent="center" w="100%">
-                    <Button onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>NAME</Button>
-                    <Button onPress={() => setTab(false)} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>CATEGORY</Button>
-                </HStack>
+                {Platform.OS === 'web' ? (
+                    <>
+                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                            <Text textTransform="uppercase" fontSize="2xl">Sponsors</Text>
+                            <Spacer />
+                            <Input rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                        </HStack>
+                        <HStack mb="3" space={1} justifyContent="center" w="100%">
+                            <Button onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>NAME</Button>
+                            <Button onPress={() => setTab(false)} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>CATEGORY</Button>
+                        </HStack>
+                    </>
+                ) : (
+                    <>
+                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                            <Input rounded="10" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                        </HStack>
+                        <HStack mb="3" space={1} justifyContent="center" w="100%">
+                            <Button onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>NAME</Button>
+                            <Button onPress={() => setTab(false)} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>CATEGORY</Button>
+                        </HStack>
+                    </>
+                )}
+
                 {tab && <>
                     <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
+                        {Platform.OS !== 'web' && (
+                            <>
+                                <Text textTransform="uppercase" fontSize="2xl">Sponsors</Text>
+                                <Spacer />
+                            </>
+                        )}
                         <IconButton
                             opacity={!view ? 100 : 50}
                             p="0"

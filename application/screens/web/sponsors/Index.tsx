@@ -4,13 +4,13 @@ import Master from 'application/screens/web/layouts/Master';
 import IndexTemplate from 'application/components/templates/sponsors/Index';
 
 type indexProps = {
-  navigation: unknown
+  navigation: unknown 
 }
 
 const Index = ({ navigation }: indexProps) => {
 
   return (
-    <Master navigation={navigation}>
+    <Master>
       <IndexTemplate />
     </Master>
   );
