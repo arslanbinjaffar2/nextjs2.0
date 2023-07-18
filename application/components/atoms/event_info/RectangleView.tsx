@@ -5,6 +5,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { Info } from 'application/models/Info'
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
+import { Linking } from 'react-native';
 
 const RectangleView = (info: Info) => {
 
@@ -14,11 +15,17 @@ const RectangleView = (info: Info) => {
 
     return (
         <Pressable
-            onPress={() => {
+            onPress={async () => {
                 if (info.type === 'page') {
                     push(`/${event.url}/${info.cms}/event-info-detail/${info.id}`)
                 } else if (info.type === 'folder') {
                     push(`/${event.url}/${info.cms}/event-info/${info.id}`)
+                } else {
+                    const url: any = info.website_protocol! + info.url;
+                    const supported = await Linking.canOpenURL(url);
+                    if (supported) {
+                        await Linking.openURL(url);
+                    }
                 }
             }}>
             <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="4" py="5" space="4" alignItems="center">

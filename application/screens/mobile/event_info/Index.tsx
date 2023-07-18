@@ -72,7 +72,7 @@ const Index = ({ navigation }: any) => {
                                 }
                             </Text>
                         </HStack>
-                        <ScrollView h="60%" onScroll={(event: { nativeEvent: { contentOffset: { y: number; }; }; }) => setScroll(event.nativeEvent.contentOffset.y > 40 ? true : false)}>
+                        <ScrollView h="58%" onScroll={(event: { nativeEvent: { contentOffset: { y: number; }; }; }) => setScroll(event.nativeEvent.contentOffset.y > 40 ? true : false)}>
                             <HStack>
                                 <Listing rounded={0} cms={cms!} />
                             </HStack>
