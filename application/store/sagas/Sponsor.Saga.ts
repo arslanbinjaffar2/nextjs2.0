@@ -23,6 +23,7 @@ function* OnGetSponsors({
     const response: HttpResponse = yield call(getSponsorApi, payload, state)
     yield put(SponsorActions.update(response.data.data.sponsors!))
     yield put(SponsorActions.updateCategories(response.data.data.sponsorCategories!))
+    yield put(SponsorActions.updateSettings(response.data.data.settings!))
     yield put(LoadingActions.set(false));
 }
 

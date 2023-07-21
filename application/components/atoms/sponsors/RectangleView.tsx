@@ -3,6 +3,7 @@ import { Avatar, Box, HStack, Icon, Spacer, Text, VStack, ZStack, Button, IconBu
 import DynamicIcon from 'application/utils/DynamicIcon';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Sponsor, Category } from 'application/models/Sponsor'
+import UseSponsorService from 'application/store/services/UseSponsorService';
 
 type AppProps = {
     sponsor: Sponsor,
@@ -10,6 +11,9 @@ type AppProps = {
 }
 
 const RectangleView = ({ k, sponsor }: AppProps) => {
+
+    const { settings } = UseSponsorService();
+
     return (
         <Box w="100%" k={k} borderBottomWidth={k === 3 ? 0 : 1} borderColor="primary.text" py="3">
             <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
@@ -47,15 +51,17 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
                                 {sponsor.booth}
                             </Button>
                         )}
-                        <IconButton
-                            bg="transparent"
-                            p="1"
-                            _hover={{ bg: 'primary.500' }}
-                            icon={<Icon size="xl" as={Ionicons} name="heart-outline" color="primary.text" />}
-                            onPress={() => {
-                                console.log('hello')
-                            }}
-                        />
+                        {settings?.mark_favorite === 1 && (
+                            <IconButton
+                                bg="transparent"
+                                p="1"
+                                _hover={{ bg: 'primary.500' }}
+                                icon={<Icon size="xl" as={Ionicons} name="heart-outline" color="primary.text" />}
+                                onPress={() => {
+                                    console.log('hello')
+                                }}
+                            />
+                        )}
                     </HStack>
                 </HStack>
             </HStack>
