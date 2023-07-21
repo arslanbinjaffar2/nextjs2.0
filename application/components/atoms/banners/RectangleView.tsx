@@ -9,7 +9,7 @@ const RectangleView = () => {
             }}
             alt="Alternate Text"
             w="100%"
-            h="140px"
+            h="100px"
             rounded="10"
             mt={3}
         />

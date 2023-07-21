@@ -26,7 +26,7 @@ export interface Sponsor {
     show_cat: boolean;
 }
 
-interface Category {
+export interface Category {
     id: number;
     event_id: number;
     parent_id: number;
@@ -38,19 +38,11 @@ interface Category {
     updated_at: string;
     deleted_at: string;
     pivot: Pivot;
-    info: Info[];
+    info: Info;
 }
 
 interface Info {
-    id: number;
     name: string;
-    value: string;
-    category_id: number;
-    languages_id: number;
-    status: number;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
 }
 
 interface Pivot {
