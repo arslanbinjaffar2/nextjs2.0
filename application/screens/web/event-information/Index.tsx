@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Container, HStack, Icon, Image, Input, Spacer, Text } from 'native-base';
+import { Container, HStack, Icon, Input, Spacer, Text } from 'native-base';
 import Master from 'application/screens/web/layouts/Master';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseInfoService from 'application/store/services/UseInfoService';
@@ -31,7 +31,7 @@ const Index = ({ navigation }: indexProps) => {
   }, [cms, id])
 
   return (
-    <Master navigation={navigation}>
+    <Master>
       {loading ? (
         <WebLoading />
       ) : (

@@ -16,7 +16,7 @@ function* OnGetSponsors({
     payload,
 }: {
     type: typeof SponsorActions.FetchSponsors
-    payload: string
+    payload: { category_id: number, query: string }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
@@ -24,6 +24,8 @@ function* OnGetSponsors({
     yield put(SponsorActions.update(response.data.data.sponsors!))
     yield put(SponsorActions.updateCategories(response.data.data.sponsorCategories!))
     yield put(SponsorActions.updateSettings(response.data.data.settings!))
+    yield put(SponsorActions.updateCategory(payload.category_id))
+    yield put(SponsorActions.updateQuery(payload.query))
     yield put(LoadingActions.set(false));
 }
 

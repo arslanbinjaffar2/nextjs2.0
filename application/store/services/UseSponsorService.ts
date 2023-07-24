@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SponsorActions, SelectSponsors, SelectSponsorCategories, SelectSponsorSettings } from 'application/store/slices/Sponsor.Slice'
+import { SponsorActions, SelectSponsors, SelectSponsorCategories, SelectSponsorSettings, SelectSponsorCategoryID, SelectSponsorQuery } from 'application/store/slices/Sponsor.Slice'
 
 import { Sponsor } from 'application/models/Sponsor'
 
@@ -14,7 +14,9 @@ export type SponsorServiceOperators = {
     sponsors: Sponsor[]
     categories: SponsorCategory[]
     settings: SponsorSetting
-    FetchSponsors: () => void
+    category_id: number
+    query: string
+    FetchSponsors: (payload: { category_id: number, query: string }) => void
 }
 
 /**
@@ -29,9 +31,11 @@ export const UseSponsorService = (): Readonly<SponsorServiceOperators> => {
         sponsors: useAppSelector(SelectSponsors),
         categories: useAppSelector(SelectSponsorCategories),
         settings: useAppSelector(SelectSponsorSettings),
+        category_id: useAppSelector(SelectSponsorCategoryID),
+        query: useAppSelector(SelectSponsorQuery),
         FetchSponsors: useCallback(
-            () => {
-                dispatch(SponsorActions.FetchSponsors())
+            (payload: { category_id: number, query: string }) => {
+                dispatch(SponsorActions.FetchSponsors(payload))
             },
             [dispatch],
         )
