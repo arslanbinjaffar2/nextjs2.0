@@ -1,8 +1,10 @@
 import React from 'react'
-import { Box, Image, Spacer, Text, Center, HStack } from 'native-base'
+import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon } from 'native-base'
 import { Sponsor } from 'application/models/Sponsor'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
+import UseSponsorService from 'application/store/services/UseSponsorService';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 type AppProps = {
     sponsor: Sponsor,
@@ -13,10 +15,26 @@ const BoxView = ({ k, sponsor }: AppProps) => {
 
     const { _env } = UseEnvService()
 
+    const { settings, MakeFavourite } = UseSponsorService();
+
     return (
         <>
             <Box w="49%">
                 <Box mb="3" w="100%" bg="primary.box" p="0" borderWidth="1" borderColor="primary.bdBox" rounded="10">
+                    {settings?.mark_favorite === 1 && (
+                        <IconButton
+                            bg="transparent"
+                            p="1"
+                            _hover={{ bg: 'primary.500' }}
+                            icon={<Icon size="xl" as={Ionicons} name={sponsor.attendee_sponsors.length > 0 ? 'heart' : 'heart-outline'} color="primary.darkbox" />}
+                            onPress={() => {
+                                MakeFavourite({ sponsor_id: sponsor.id });
+                            }}
+                            position={'absolute'}
+                            zIndex={'999999'}
+                            right={'0'}
+                        />
+                    )}
                     <Center pt="5" pb="3" px="1" alignItems="center" w="100%">
                         {sponsor.logo ? (
                             <Image source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${sponsor.logo}` }} alt="Alternate Text" w="210px" h="72px" />

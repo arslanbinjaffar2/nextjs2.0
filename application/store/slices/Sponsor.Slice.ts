@@ -30,6 +30,7 @@ export const SponsorSlice = createSlice({
     initialState,
     reducers: {
         FetchSponsors(state, action: PayloadAction<{ category_id: number, query: string }>) { },
+        MakeFavourite(state, action: PayloadAction<{ sponsor_id: number }>) { },
         update(state, action: PayloadAction<Sponsor[]>) {
             state.sponsors = action.payload;
         },
@@ -56,6 +57,7 @@ export const SponsorActions = {
     updateCategory: SponsorSlice.actions.updateCategory,
     updateQuery: SponsorSlice.actions.updateQuery,
     updateSettings: SponsorSlice.actions.updateSettings,
+    MakeFavourite: SponsorSlice.actions.MakeFavourite,
 }
 
 export const SelectSponsors = (state: RootState) => state.sponsors.sponsors

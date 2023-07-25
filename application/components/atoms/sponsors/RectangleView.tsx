@@ -12,7 +12,7 @@ type AppProps = {
 
 const RectangleView = ({ k, sponsor }: AppProps) => {
 
-    const { settings } = UseSponsorService();
+    const { settings, MakeFavourite } = UseSponsorService();
 
     return (
         <Box w="100%" k={k} borderBottomWidth={k === 3 ? 0 : 1} borderColor="primary.text" py="3">
@@ -56,9 +56,9 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
                                 bg="transparent"
                                 p="1"
                                 _hover={{ bg: 'primary.500' }}
-                                icon={<Icon size="xl" as={Ionicons} name="heart-outline" color="primary.text" />}
+                                icon={<Icon size="xl" as={Ionicons} name={sponsor.attendee_sponsors.length > 0 ? 'heart' : 'heart-outline'} color="primary.darkbox" />}
                                 onPress={() => {
-                                    console.log('hello')
+                                    MakeFavourite({ sponsor_id: sponsor.id });
                                 }}
                             />
                         )}

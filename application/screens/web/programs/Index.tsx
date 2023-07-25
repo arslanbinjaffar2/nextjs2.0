@@ -13,7 +13,7 @@ const Index = ({ navigation }: indexProps) => {
   const [tabs, settabs] = useState<string | null>('PROGRAM');
 
   return (
-    <Master navigation={navigation}>
+    <Master>
       <IndexTemplate />
     </Master>
   );

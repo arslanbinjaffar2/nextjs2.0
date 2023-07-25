@@ -23,6 +23,7 @@ export interface Sponsor {
     api_key: string;
     allow_api_key_module: string;
     categories: Category[];
+    attendee_sponsors: AttendeeSponsors[];
     show_cat: boolean;
 }
 
@@ -43,6 +44,15 @@ export interface Category {
 
 interface Info {
     name: string;
+}
+
+interface AttendeeSponsors {
+    id: number;
+    attendee_id: number;
+    sponsor_id: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
 }
 
 interface Pivot {
