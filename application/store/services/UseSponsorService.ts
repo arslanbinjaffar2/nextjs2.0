@@ -2,11 +2,11 @@ import { useCallback } from 'react'
 
 import { SponsorActions, SelectSponsors, SelectSponsorCategories, SelectSponsorSettings, SelectSponsorCategoryID, SelectSponsorQuery } from 'application/store/slices/Sponsor.Slice'
 
-import { Sponsor } from 'application/models/Sponsor'
+import { Sponsor } from 'application/models/sponsor/Sponsor'
 
-import { SponsorCategory } from 'application/models/SponsorCategory'
+import { SponsorCategory } from 'application/models/sponsor/SponsorCategory'
 
-import { SponsorSetting } from 'application/models/SponsorSetting'
+import { SponsorSetting } from 'application/models/sponsor/SponsorSetting'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 

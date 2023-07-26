@@ -6,8 +6,8 @@ import UseSponsorService from 'application/store/services/UseSponsorService';
 import RectangleView from 'application/components/atoms/sponsors/RectangleView';
 import CategoryRectangleView from 'application/components/atoms/sponsors/categories/RectangleView';
 import BoxView from 'application/components/atoms/sponsors/BoxView';
-import { Sponsor } from 'application/models/Sponsor'
-import { SponsorCategory } from 'application/models/SponsorCategory'
+import { Sponsor } from 'application/models/sponsor/Sponsor'
+import { SponsorCategory } from 'application/models/sponsor/SponsorCategory'
 import BannerView from 'application/components/atoms/banners/RectangleView';
 import debounce from 'lodash.debounce';
 import MobileLoading from 'application/components/atoms/MobileLoading';

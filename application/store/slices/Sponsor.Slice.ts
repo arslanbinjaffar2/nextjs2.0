@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Sponsor } from 'application/models/Sponsor'
+import { Sponsor } from 'application/models/sponsor/Sponsor'
 
-import { SponsorSetting } from 'application/models/SponsorSetting'
+import { SponsorSetting } from 'application/models/sponsor/SponsorSetting'
 
-import { SponsorCategory } from 'application/models/SponsorCategory'
+import { SponsorCategory } from 'application/models/sponsor/SponsorCategory'
 
 import type { RootState } from 'application/store/Index'
 

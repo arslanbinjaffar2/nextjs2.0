@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, HStack, Icon, Spacer, Text, VStack, ZStack, IconButton, Pressable } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
-import { SponsorCategory } from 'application/models/SponsorCategory'
+import { SponsorCategory } from 'application/models/sponsor/SponsorCategory'
 import UseSponsorService from 'application/store/services/UseSponsorService';
 
 type AppProps = {

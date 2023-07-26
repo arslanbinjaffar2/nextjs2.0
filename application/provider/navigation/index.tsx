@@ -25,6 +25,7 @@ export function NavigationProvider({
               'dashboard': 'dashboard',
               'event-info': ':url/:cms/event-info/:id',
               'event-info-detail': ':url/:cms/event-info-detail/:id',
+              'sponsor-detail': ':url/sponsors/detail/:id',
             },
           },
         }),
