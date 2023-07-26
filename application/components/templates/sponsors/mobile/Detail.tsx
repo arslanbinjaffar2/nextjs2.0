@@ -8,6 +8,8 @@ import Icouser from 'application/assets/icons/small/Icouser';
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import MultipleAnswer from 'application/components/atoms/surveys/MultipleAnswer';
 import { createParam } from 'solito';
+import UseSponsorService from 'application/store/services/UseSponsorService';
+import DetailBox from 'application/components/atoms/sponsors/DetailBox';
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -15,45 +17,22 @@ const { useParam } = createParam<ScreenParams>()
 
 const Index = React.memo(() => {
 
+    const { FetchSponsorDetail, detail } = UseSponsorService();
+
     const [id] = useParam('id');
 
+    React.useEffect(() => {
+        if (id) {
+            FetchSponsorDetail({ id: Number(id) });
+        }
+    }, [id]);
+
+    console.log(detail)
     return (
         <>
             <ScrollView h={'90%'}>
                 <Container mb="4" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
-                    <Box w="100%" bg="primary.500" p="0">
-                        <Image
-                            source={{
-                                uri: 'https://wallpaperaccess.com/full/39050.jpg'
-                            }}
-                            alt="Alternate Text"
-                            size="full"
-                            w="100%"
-                            h="160px"
-                            rounded="10"
-                            mb="5"
-                        />
-                        <Box w="100%" px="5">
-                            <HStack w="100%" mb="1" space="3" alignItems="flex-start">
-                                <Text maxW="80%" fontSize="xl">Water cleaning in Africa</Text>
-                                <Spacer />
-                                <Icon as={Ionicons} size="xl" name="heart" color="primary.text" />
-
-                            </HStack>
-                            <HStack w="100%" mb="3" space="0" alignItems="center">
-                                <Text fontSize="md">Marketing</Text>
-                                <Spacer />
-                                <HStack alignItems="center" space="2">
-                                    <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
-                                    <Text fontSize="md">109</Text>
-                                </HStack>
-                            </HStack>
-                            <Box mb="4" w="100%">
-                                <Divider mb="3" bg="primary.text" />
-                                <Text w="100%" fontSize="16px">Gul Ahmad is, firm, organization, etc., that finances and buysthe time to broadcast a radio or television program so as to advertise a product, a political party, etc. person who makes a pledge or promise on behalf of another.</Text>
-                            </Box>
-                        </Box>
-                    </Box>
+                    <DetailBox />
                     <Box w="100%" p="0">
                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                             <Icouser />

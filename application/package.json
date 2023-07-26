@@ -17,6 +17,7 @@
     "native-base": "^3.4.26",
     "react-countdown": "^2.3.5",
     "react-hook-form": "^7.43.2",
+    "react-native-render-html": "^6.3.4",
     "react-native-web": "^0.17.7",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",

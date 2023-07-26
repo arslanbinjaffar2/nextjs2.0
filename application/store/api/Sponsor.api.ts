@@ -11,3 +11,7 @@ export const getSponsorApi = (payload: any, state: any): Promise<HttpResponse> =
 export const makeFavouriteApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/sponsors/make-favourite`, payload);
 }
+
+export const getSponsorDetailApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/sponsors/detail/${payload.id}`, payload);
+}

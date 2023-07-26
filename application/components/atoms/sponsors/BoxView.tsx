@@ -38,7 +38,7 @@ const BoxView = ({ k, sponsor }: AppProps) => {
                                 _hover={{ bg: 'primary.500' }}
                                 icon={<Icon size="xl" as={Ionicons} name={sponsor.attendee_sponsors.length > 0 ? 'heart' : 'heart-outline'} color="primary.darkbox" />}
                                 onPress={() => {
-                                    MakeFavourite({ sponsor_id: sponsor.id });
+                                    MakeFavourite({ sponsor_id: sponsor.id, screen: 'listing' });
                                 }}
                                 position={'absolute'}
                                 zIndex={'999999'}

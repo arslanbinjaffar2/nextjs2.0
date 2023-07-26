@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getSponsorApi, makeFavouriteApi } from 'application/store/api/Sponsor.api';
+import { getSponsorApi, makeFavouriteApi, getSponsorDetailApi } from 'application/store/api/Sponsor.api';
 
 import { SponsorActions } from 'application/store/slices/Sponsor.Slice'
 
@@ -33,16 +33,32 @@ function* OnMakeFavourite({
     payload,
 }: {
     type: typeof SponsorActions.MakeFavourite
-    payload: { sponsor_id: number }
+    payload: { sponsor_id: number, screen: string }
 }): SagaIterator {
     const state = yield select(state => state);
-    yield call(makeFavouriteApi, payload, state)
-    yield put(SponsorActions.FetchSponsors({ category_id: 0, query: '' }))
+    yield call(makeFavouriteApi, payload, state);
+    if (payload.screen === "listing") {
+        yield put(SponsorActions.FetchSponsors({ category_id: 0, query: '' }))
+    }
+}
+
+function* OnGetSponsorDetail({
+    payload,
+}: {
+    type: typeof SponsorActions.FetchSponsorDetail
+    payload: { id: number }
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getSponsorDetailApi, payload, state)
+    yield put(SponsorActions.updateSponsorDetail(response.data.data!))
+    yield put(LoadingActions.set(false));
 }
 
 // Watcher Saga
 export function* SponsorWatcherSaga(): SagaIterator {
     yield takeEvery(SponsorActions.FetchSponsors.type, OnGetSponsors)
+    yield takeEvery(SponsorActions.FetchSponsorDetail.type, OnGetSponsorDetail)
     yield takeEvery(SponsorActions.MakeFavourite.type, OnMakeFavourite)
 }
 
