@@ -39,6 +39,8 @@ function* OnMakeFavourite({
     yield call(makeFavouriteApi, payload, state);
     if (payload.screen === "listing") {
         yield put(SponsorActions.FetchSponsors({ category_id: 0, query: '' }))
+    } else {
+        yield put(SponsorActions.FetchSponsorDetail({ id: payload.sponsor_id }))
     }
 }
 

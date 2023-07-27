@@ -1,41 +1,33 @@
 import React from 'react'
-import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Divider } from 'native-base'
-import { Sponsor } from 'application/models/sponsor/Sponsor'
+import { Box, Image, Spacer, Text, HStack, IconButton, Icon, Divider } from 'native-base'
+import { Category, SponsorDetail } from 'application/models/sponsor/SponsorDetail'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseSponsorService from 'application/store/services/UseSponsorService';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useRouter } from 'solito/router'
-import UseEventService from 'application/store/services/UseEventService';
 import RenderHtml from 'react-native-render-html';
 import { useWindowDimensions } from 'react-native';
 
-const DetailBox = () => {
+type AppProps = {
+    detail: SponsorDetail,
+}
+
+const DetailBox = ({ detail }: AppProps) => {
 
     const { width } = useWindowDimensions();
 
     const { _env } = UseEnvService()
 
-    const { settings, MakeFavourite, detail } = UseSponsorService();
-
-    const { push } = useRouter()
-
-    const { event } = UseEventService()
+    const { MakeFavourite } = UseSponsorService();
 
     return (
         <>
             <Box w="100%" bg="primary.500" p="0">
-                <Image
-                    source={{
-                        uri: 'https://wallpaperaccess.com/full/39050.jpg'
-                    }}
-                    alt="Alternate Text"
-                    size="full"
-                    w="100%"
-                    h="160px"
-                    rounded="10"
-                    mb="5"
-                />
+                {detail?.detail?.logo ? (
+                    <Image mb="5" rounded="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="Alternate Text" w="100%" h="160px" />
+                ) : (
+                    <Image mb="5" rounded="10" size="full" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="100%" h="160px" />
+                )}
                 <Box w="100%" px="5">
                     <HStack w="100%" mb="1" space="3" alignItems="flex-start">
                         {detail?.detail?.name && (
@@ -46,9 +38,9 @@ const DetailBox = () => {
                             bg="transparent"
                             p="1"
                             _hover={{ bg: 'primary.500' }}
-                            icon={<Icon size="xl" as={Ionicons} name={sponsor.attendee_sponsors.length > 0 ? 'heart' : 'heart-outline'} color="primary.darkbox" />}
+                            icon={<Icon size="xl" as={Ionicons} name={detail?.detail?.attendee_sponsors!?.length > 0 ? 'heart' : 'heart-outline'} color="primary.darkbox" />}
                             onPress={() => {
-                                MakeFavourite({ sponsor_id: Number(detail?.detail?.id), screen: 'listing' });
+                                MakeFavourite({ sponsor_id: Number(detail?.detail?.id), screen: 'sponsor-detail' });
                             }}
                             position={'absolute'}
                             zIndex={'999999'}
@@ -56,7 +48,15 @@ const DetailBox = () => {
                         />
                     </HStack>
                     <HStack w="100%" mb="3" space="0" alignItems="center">
-                        <Text fontSize="md">Marketing</Text>
+                        {detail?.detail?.categories!?.length > 0 && (
+                            <Text fontSize="md">
+                                {detail?.detail?.categories!?.map((category: Category, i: number) =>
+                                    <React.Fragment key={i}>
+                                        {`${category.info.name}${(i + 1) < detail?.detail?.categories!?.length ? ', ' : ''}`}
+                                    </React.Fragment>
+                                )}
+                            </Text>
+                        )}
                         <Spacer />
                         {detail?.detail?.booth && (
                             <HStack alignItems="center" space="2">

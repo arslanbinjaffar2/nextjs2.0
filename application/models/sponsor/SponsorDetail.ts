@@ -28,11 +28,13 @@ interface Sponsor {
   api_key?: string;
   allow_api_key_module?: string;
   sponsors_attendee?: SponsorsAttendee[];
+  attendee_sponsors?: AttendeeSponsors[];
+  categories: Category[];
   show_cat?: boolean;
   description?: any;
 }
 
-interface SponsorsAttendee {
+export interface SponsorsAttendee {
   id?: number;
   first_name?: string;
   last_name?: string;
@@ -96,4 +98,37 @@ interface Info {
   linkedin_protocol?: string;
   twitter_protocol?: string;
   facebook_protocol?: string;
+}
+
+interface AttendeeSponsors {
+  id: number;
+  attendee_id: number;
+  sponsor_id: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+}
+
+export interface Category {
+  id: number;
+  event_id: number;
+  parent_id: number;
+  color: string;
+  sort_order: number;
+  status: number;
+  cat_type: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  pivot: SponsorCategoryPivot;
+  info: CategoryInfo;
+}
+
+interface CategoryInfo {
+  name: string;
+}
+
+interface SponsorCategoryPivot {
+  sponsor_id: number;
+  category_id: number;
 }
