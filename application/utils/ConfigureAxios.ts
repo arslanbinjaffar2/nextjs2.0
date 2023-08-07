@@ -34,7 +34,10 @@ export default function makeApi(baseURL: string) {
             const responseData = response as AxiosResponse<any, any>;
             return responseData;
         },
-        (error) => Promise.reject(error)
+        (error) => {
+            AsyncStorageClass.removeItem('access_token');
+            Promise.reject(error);
+        }
     )
 
     return api

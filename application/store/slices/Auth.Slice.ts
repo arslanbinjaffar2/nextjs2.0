@@ -81,7 +81,7 @@ const AuthSlice = createSlice({
             state.processing = false;
             state.response = action.payload;
             state.error = '';
-            if (action.payload.data.access_token !== undefined) {
+            if (action?.payload?.data?.access_token !== undefined) {
                 if (Platform.OS === 'web') {
                     localStorage.setItem('access_token', action.payload.data.access_token);
                 } else {

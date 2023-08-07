@@ -28,24 +28,38 @@ const Master = ({ children, navigation }: Props) => {
 
   React.useEffect(() => {
     if (response.redirect === "login") {
-      navigation.navigate(`auth`, { screen: 'login' });
+      navigation.navigate('auth', {
+        params: {
+          screen: 'login'
+        }
+      })
     } else if (response.redirect === "dashboard") {
-      navigation.navigate(`app`, { screen: 'dashboard' });
+      navigation.navigate('app', {
+        params: {
+          screen: 'dashboard'
+        }
+      })
     } else if (response.redirect === "choose-provider") {
-      navigation.navigate(`app`, {
-        id: response.data.authentication_id,
-        screen: 'choose-provider'
-      });
+      navigation.navigate('auth', {
+        screen: 'choose-provider',
+        params: {
+          id: response.data.authentication_id,
+        }
+      })
     } else if (response.redirect === "verification") {
-      navigation.navigate(`app`, {
-        id: response.data.authentication_id,
-        screen: 'verification'
-      });
+      navigation.navigate('auth', {
+        screen: 'verification',
+        params: {
+          id: response.data.authentication_id,
+        }
+      })
     } else if (response.redirect === "reset-password") {
-      navigation.navigate(`app`, {
-        token: response.data.token,
-        screen: 'reset-password'
-      });
+      navigation.navigate('auth', {
+        screen: 'reset-password',
+        params: {
+          token: response.data.token,
+        }
+      })
     }
   }, [response.redirect])
 
@@ -70,13 +84,19 @@ const Master = ({ children, navigation }: Props) => {
     if (process) {
       if (event.id && isLoggedIn) {
         if (in_array(route.name, ['login', 'reset-password-request', 'choose-provider', 'verification', 'reset-password', 'email-login', 'events', 'welcome'])) {
-          navigation.navigate(`app`, { screen: 'dashboard' });
+          navigation.navigate('app', {
+            params: {
+              screen: 'dashboard'
+            }
+          })
         }
-      } else if (event.id) {
-        navigation.navigate(`auth`, {
-          screen: 'login'
-        });
-      } else {
+      } else if (event.id && !isLoggedIn && !in_array(route.name, ['login', 'reset-password-request', 'choose-provider', 'verification', 'reset-password', 'email-login', 'events', 'welcome'])) {
+        navigation.navigate('auth', {
+          params: {
+            screen: 'login'
+          }
+        })
+      } else if (!event.id) {
         navigation.navigate(`welcome`)
       }
     }

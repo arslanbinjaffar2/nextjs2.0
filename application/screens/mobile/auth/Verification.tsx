@@ -47,7 +47,9 @@ const Verification = ({ navigation, route }: any) => {
     });
 
     React.useEffect(() => {
-        loadProvider({ id: id, screen: 'verification' });
+        if (id !== undefined) {
+            loadProvider({ id: id, screen: 'verification' });
+        }
     }, [id])
 
     return (

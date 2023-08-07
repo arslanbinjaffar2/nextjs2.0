@@ -28,7 +28,9 @@ const ChooseProvider = ({ navigation, route }: any) => {
     };
 
     React.useEffect(() => {
-        loadProvider({ id: id, screen: 'choose-provider' });
+        if (id !== undefined) {
+            loadProvider({ id: id, screen: 'choose-provider' });
+        }
     }, [id])
 
     return (
