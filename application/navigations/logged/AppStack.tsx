@@ -14,6 +14,7 @@ import Gallery from 'application/screens/mobile/gallery/Index';
 import Sponsor from 'application/screens/mobile/sponsor/Index';
 import SponsorDetail from 'application/screens/mobile/sponsor/Detail';
 import Exhibitor from 'application/screens/mobile/exhibitor/Index';
+import ExhibitorDetail from 'application/screens/mobile/exhibitor/Detail';
 import InformationPage from 'application/screens/mobile/information_page/Index';
 import EventInfo from 'application/screens/mobile/event_info/Index';
 import EventInfoDetail from 'application/screens/mobile/event_info/PageDetail';
@@ -66,6 +67,7 @@ const AppStack = () => {
       <Drawer.Screen options={{ headerShown: false }} name="sponsors" component={Sponsor} />
       <Drawer.Screen options={{ headerShown: false }} name="sponsor-detail" component={SponsorDetail} />
       <Drawer.Screen options={{ headerShown: false }} name="exhibitors" component={Exhibitor} />
+      <Drawer.Screen options={{ headerShown: false }} name="exhibitor-detail" component={ExhibitorDetail} />
       <Drawer.Screen options={{ headerShown: false }} name="polls" component={Poll} />
       <Drawer.Screen options={{ headerShown: false }} name="survey" component={Survey} />
       <Drawer.Screen options={{ headerShown: false }} name="qa" component={QA} />

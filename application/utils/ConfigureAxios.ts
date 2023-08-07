@@ -35,7 +35,6 @@ export default function makeApi(baseURL: string) {
             return responseData;
         },
         (error) => {
-            AsyncStorageClass.removeItem('access_token');
             Promise.reject(error);
         }
     )
