@@ -22,7 +22,7 @@ const DetailBox = ({ detail }: AppProps) => {
 
     return (
         <>
-            <Box w="100%" bg="primary.500" p="0">
+            <Box w="100%" bg="primary.500" p="0" rounded="10">
                 {detail?.detail?.logo ? (
                     <Image mb="5" rounded="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="Alternate Text" w="100%" h="160px" />
                 ) : (

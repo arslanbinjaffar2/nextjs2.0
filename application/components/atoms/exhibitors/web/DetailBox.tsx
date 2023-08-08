@@ -22,7 +22,7 @@ const DetailBox = ({ detail }: AppProps) => {
 
     return (
         <>
-            <Box w="100%" bg="primary.500" p="0">
+            <Box w="100%" bg="primary.500" p="0" rounded="10">
                 {detail?.detail?.logo ? (
                     <Image mb="5" rounded="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="Alternate Text" w="100%" h="160px" />
                 ) : (
@@ -67,10 +67,7 @@ const DetailBox = ({ detail }: AppProps) => {
                     </HStack>
                     <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
-                        <RenderHtml
-                            contentWidth={width}
-                            source={{ html: detail?.detail?.description }}
-                        />
+                        <div dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>
                     </Box>
                 </Box>
             </Box>

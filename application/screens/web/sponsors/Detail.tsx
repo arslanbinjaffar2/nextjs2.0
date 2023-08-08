@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Master from 'application/screens/web/layouts/Master';
-import DetailTemplate from 'application/components/templates/sponsors/mobile/Detail';
+import DetailTemplate from 'application/components/templates/sponsors/web/Detail';
 
 type indexProps = {
   navigation: unknown

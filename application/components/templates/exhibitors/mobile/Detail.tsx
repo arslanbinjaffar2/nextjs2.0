@@ -7,7 +7,7 @@ import Icodocument from 'application/assets/icons/small/Icodocument';
 import MultipleAnswer from 'application/components/atoms/surveys/MultipleAnswer';
 import { createParam } from 'solito';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
-import DetailBox from 'application/components/atoms/exhibitors/DetailBox';
+import DetailBox from 'application/components/atoms/exhibitors/mobile/DetailBox';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import MobileLoading from 'application/components/atoms/MobileLoading';
 import { ExhibitorsAttendee } from 'application/models/exhibitor/ExhibitorDetail'
