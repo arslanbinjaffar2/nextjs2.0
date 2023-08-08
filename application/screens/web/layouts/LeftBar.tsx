@@ -1,23 +1,29 @@
 import * as React from 'react';
 import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack } from 'native-base';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
-import IcoNetworkInterest from 'application/assets/icons/IcoNetworkInterest';
 import IcoLogin from 'application/assets/icons/IcoLogin';
 import { useWindowDimensions } from 'react-native';
-import { useRouter } from 'solito/router'
+import { useRouter } from 'next/router';
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import DynamicIcon from 'application/utils/DynamicIcon';
+import in_array from "in_array";
 
 const LeftBar = () => {
 
-  const { push, replace, back, parseNextPath } = useRouter()
+  const router = useRouter()
 
   const { width } = useWindowDimensions();
 
-  const { event } = UseEventService()
+  const { event, loadModules, modules } = UseEventService()
 
   const { logout } = UseAuthService();
+
+  React.useEffect(() => {
+    if (modules.length === 0) {
+      loadModules();
+    }
+  }, [modules])
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" h="100%" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
@@ -40,7 +46,7 @@ const LeftBar = () => {
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
-            push(`/${event.url}/dashboard`)
+            router.push(`/${event.url}/dashboard`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
@@ -49,262 +55,29 @@ const LeftBar = () => {
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Dashboard</Text>}
           </HStack>
         </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/sponsors`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="sponsors" iconProps={{ width: 15, height: 24 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Sponsors</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/attendees`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="attendees" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Attendees</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/programs`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="agendas" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Programs</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/polls`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="polls" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Polls</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/qa`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="qa" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">QA</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/checkin`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="checkIn" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Check-in</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/documents`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="ddirectory" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Documents</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/chat`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="chat" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Chat</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/floor-plan`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="plans" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Floor plan</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/map`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="maps" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Map</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/map`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <IcoNetworkInterest width="24" height="21" />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Network interest</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/social-media`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <IcoNetworkInterest width="24" height="21" />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Social media</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/social-wall`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="social_wall" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Social wall</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/practical-info/event-info/0`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="practical_info" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Practical information</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/general-info/event-info/0`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="general_info" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">General information</Text>}
-          </HStack>
-        </Pressable>
-        <Pressable
-          w="100%"
-          px="4"
-          py="2"
-          _hover={{ bg: 'primary.500' }}
-          borderRadius="4"
-          onPress={() => {
-            push(`/${event.url}/additional-info/event-info/0`)
-          }}>
-          <HStack space="4" alignItems="center">
-            <Center w="30px">
-              <DynamicIcon iconType="additional_info" iconProps={{ width: 24, height: 21 }} />
-            </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Additional information</Text>}
-          </HStack>
-        </Pressable>
+        {modules.map((row: any, key: any) =>
+          <Pressable
+            w="100%"
+            px="4"
+            py="2"
+            bg={`${router.pathname.includes(row?.alias) && 'primary.500'}`}
+            _hover={{ bg: 'primary.500' }}
+            borderRadius="4"
+            onPress={() => {
+              if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
+                router.push(`/${event.url}/${row?.alias}/event-info/0`)
+              } else {
+                router.push(`/${event.url}/${row?.alias}`)
+              }
+            }}>
+            <HStack space="4" alignItems="center">
+              <Center w="30px">
+                <DynamicIcon iconType={row?.alias.replace('-', '_')} iconProps={{ width: 24, height: 21 }} />
+              </Center>
+              {width > 1200 && <Text fontSize={'lg'} color="primary.text">{row?.name}</Text>}
+            </HStack>
+          </Pressable>
+        )}
         <Pressable
           w="100%"
           px="4"
