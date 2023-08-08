@@ -5,15 +5,23 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Master from 'application/screens/web/layouts/Master';
-
+import UseDocumentService from 'application/store/services/UseDocumentService';
 
 type indexProps = {
   navigation: unknown
 }
 
 const Index = ({ navigation }: indexProps) => {
+
+  const { FetchDocuments } = UseDocumentService();
+
+  React.useEffect(() => {
+    FetchDocuments();
+  }, [])
+
+
   return (
-    <Master navigation={navigation}>
+    <Master>
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text textTransform="uppercase" fontSize="2xl">Documents</Text>
