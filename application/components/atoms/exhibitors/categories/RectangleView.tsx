@@ -15,7 +15,7 @@ const RectangleView = ({ k, category, updateTab }: AppProps) => {
     const { FetchExhibitors } = UseExhibitorService();
 
     return (
-        <Box w="100%" key={k} borderBottomWidth={k === 3 ? 0 : 1} borderColor="primary.text" py="3">
+        <Box w="100%" key={k} borderBottomWidth={1} borderColor="primary.text" py="3">
             <Pressable
                 onPress={() => {
                     FetchExhibitors({ category_id: category.id, query: '' });
