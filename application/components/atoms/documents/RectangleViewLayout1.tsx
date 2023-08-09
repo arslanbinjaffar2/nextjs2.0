@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, HStack, Spacer, Text, VStack, Pressable, Icon } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const RectangleView = () => {
+const RectangleViewLayout1 = () => {
 
     return (
         <Box w="100%" py="4">
@@ -18,4 +18,4 @@ const RectangleView = () => {
 
 }
 
-export default RectangleView
+export default RectangleViewLayout1

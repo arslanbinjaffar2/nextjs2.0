@@ -1,14 +1,16 @@
 import { useCallback } from 'react'
 
-import { DocumentActions, SelectDocuments } from 'application/store/slices/Document.Slice'
+import { DocumentActions, SelectDocuments, SelectData } from 'application/store/slices/Document.Slice'
 
 import { Document } from 'application/models/document/Document'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type DocumentServiceOperators = {
+    data: Document[]
     documents: Document[]
     FetchDocuments: () => void
+    FilterDocuments: (payload: { document_id: number, query: string }) => void
 }
 
 /**
@@ -21,9 +23,16 @@ export const UseDocumentService = (): Readonly<DocumentServiceOperators> => {
 
     return {
         documents: useAppSelector(SelectDocuments),
+        data: useAppSelector(SelectData),
         FetchDocuments: useCallback(
             () => {
                 dispatch(DocumentActions.FetchDocuments())
+            },
+            [dispatch],
+        ),
+        FilterDocuments: useCallback(
+            (payload: { document_id: number, query: string }) => {
+                dispatch(DocumentActions.FilterDocuments(payload))
             },
             [dispatch],
         )

@@ -5,7 +5,7 @@ import DetailBlock from 'application/components/atoms/programs/DetailBlock';
 import SpeakerListing from 'application/components/molecules/speakers/Listing';
 import PollListing from 'application/components/molecules/polls/Listing';
 import RequestToSpeakListing from 'application/components/molecules/request_to_speak/Listing';
-import DocumentListing from 'application/components/molecules/documents/Listing';
+import ListingLayout1 from 'application/components/molecules/documents/ListingLayout1';
 
 const Detail = () => {
 
@@ -24,7 +24,7 @@ const Detail = () => {
                     <SpeakerListing />
                     <PollListing />
                     <RequestToSpeakListing />
-                    <DocumentListing />
+                    <ListingLayout1 />
                 </Box>
             </Container>
         </>

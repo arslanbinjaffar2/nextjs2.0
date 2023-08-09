@@ -9,7 +9,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { createParam } from 'solito';
 import BannerView from 'application/components/atoms/banners/RectangleView';
 import LoadImage from 'application/components/atoms/LoadImage';
-import ThemeColors from 'application/utils/validations/ThemeColors';
+import ThemeColors from 'application/utils/ThemeColors';
 
 type ScreenParams = { id: string, cms: string | undefined }
 

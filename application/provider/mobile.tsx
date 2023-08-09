@@ -7,7 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { func } from 'application/styles';
 import * as Font from 'expo-font';
 import UseEnvService from 'application/store/services/UseEnvService';
-import ThemeColors from 'application/utils/validations/ThemeColors';
+import ThemeColors from 'application/utils/ThemeColors';
 
 export function Provider({ children, env }: { children: React.ReactNode, env: any }) {
 
