@@ -51,6 +51,7 @@ const LeftBar = () => {
         </Pressable>
         {modules.map((row: any, key: any) =>
           <Pressable
+            key={key}
             w="100%"
             px="4"
             py="2"

@@ -9,6 +9,8 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 import WebLoading from 'application/components/atoms/WebLoading';
+import ScrollCloseToBottom from 'application/utils/ScrollCloseToBottom';
+import UseLoadingService from 'application/store/services/UseLoadingService';
 
 type Props = {
   children:
@@ -25,6 +27,8 @@ const Master = ({ children }: Props) => {
   const { event, modules, loadModules } = UseEventService();
 
   const { getUser, response, isLoggedIn } = UseAuthService();
+
+  const { scroll, setScrollCounter } = UseLoadingService();
 
   const { push } = useRouter();
 
@@ -50,7 +54,14 @@ const Master = ({ children }: Props) => {
         <WebLoading />
       ) : (
         <Flex w="100%" h="100%" direction="column">
-          <ScrollView>
+          <ScrollView nativeID="body-scroll"
+            onScroll={({ nativeEvent }) => {
+              if (ScrollCloseToBottom(nativeEvent)) {
+                setScrollCounter(scroll + 1);
+              }
+            }}
+            scrollEventThrottle={400}
+          >
             <Flex mx="auto" maxW={width <= 1200 && width >= 970 ? '970px' : width <= 970 ? '725px' : '1200px'} w="100%" py="40px" px="15px">
               {width > 725 ? <Header width={width} /> : (
                 <Header />

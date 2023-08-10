@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { AttendeeActions, SelectAttendees, SelectData, SelectQuery } from 'application/store/slices/Attendee.Slice'
+import { AttendeeActions, SelectAttendees, SelectData, SelectQuery, SelectPage } from 'application/store/slices/Attendee.Slice'
 
 import { Attendee } from 'application/models/attendee/Attendee'
 
@@ -8,10 +8,10 @@ import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type AttendeeServiceOperators = {
     query: string
+    page: number
     data: Attendee[]
     attendees: Attendee[]
-    FetchAttendees: () => void
-    FilterAttendees: (payload: { attendee_id: number, query: string }) => void
+    FetchAttendees: (payload: { group_id: number, query: string, page: number }) => void
 }
 
 /**
@@ -24,17 +24,12 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
 
     return {
         query: useAppSelector(SelectQuery),
+        page: useAppSelector(SelectPage),
         attendees: useAppSelector(SelectAttendees),
         data: useAppSelector(SelectData),
         FetchAttendees: useCallback(
-            () => {
-                dispatch(AttendeeActions.FetchAttendees())
-            },
-            [dispatch],
-        ),
-        FilterAttendees: useCallback(
-            (payload: { attendee_id: number, query: string }) => {
-                dispatch(AttendeeActions.FilterAttendees(payload))
+            (payload: { group_id: number, query: string, page: number }) => {
+                dispatch(AttendeeActions.FetchAttendees(payload))
             },
             [dispatch],
         )

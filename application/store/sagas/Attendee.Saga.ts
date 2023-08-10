@@ -16,12 +16,12 @@ function* OnGetAttendees({
     payload,
 }: {
     type: typeof AttendeeActions.FetchAttendees
-    payload: { category_id: number, query: string }
+    payload: { group_id: number, query: string, page: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAttendeeApi, payload, state)
-    yield put(AttendeeActions.update(response.data.data.attendees!))
+    yield put(AttendeeActions.update(response.data.data!))
     yield put(LoadingActions.set(false));
 }
 
