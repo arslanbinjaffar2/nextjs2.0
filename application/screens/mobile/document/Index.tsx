@@ -4,13 +4,10 @@ import Master from 'application/screens/mobile/layouts/Master';
 import Header from 'application/screens/mobile/layouts/headers/Header';
 import { Center } from 'native-base';
 import IndexTemplate from 'application/components/templates/documents/mobile/Index';
-import { useState } from 'react';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import { useIsFocused } from '@react-navigation/native';
 
 const Index = ({ navigation }: any) => {
-
-    const [scroll, setScroll] = useState(false);
 
     const { FetchDocuments } = UseDocumentService();
 
@@ -22,7 +19,7 @@ const Index = ({ navigation }: any) => {
 
     return (
         <Master navigation={navigation}>
-            <Header minimal={scroll} navigation={navigation} />
+            <Header minimal={false} navigation={navigation} />
             <Center w={'100%'} px={15}>
                 <IndexTemplate />
             </Center>

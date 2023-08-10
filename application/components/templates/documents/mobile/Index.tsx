@@ -11,7 +11,7 @@ const Index = React.memo(() => {
     const { loading } = UseLoadingService();
 
     return (
-        <Container pt="2" maxW="100%" h={'93%'} w="100%">
+        <Container pt="2" maxW="100%" h={'100%'} w="100%">
             {loading ? (
                 <MobileLoading />
             ) : (

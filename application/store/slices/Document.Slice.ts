@@ -12,11 +12,13 @@ import KeywordFilter from 'application/utils/KeywordFilter';
 export interface DocumentState {
     data: Document[],
     documents: Document[],
+    query: string,
 }
 
 const initialState: DocumentState = {
     data: [],
     documents: [],
+    query: '',
 }
 
 // Slice
@@ -47,6 +49,8 @@ export const DocumentSlice = createSlice({
 
             const records = action.payload.document_id === 0 ? KeywordFilter(current(state.data), 'name', action.payload.query) : readDocument(current(state.data), action.payload.document_id);
 
+            state.query = action.payload.query;
+
             state.documents = records;
         },
     },
@@ -62,6 +66,8 @@ export const DocumentActions = {
 export const SelectDocuments = (state: RootState) => state.documents.documents
 
 export const SelectData = (state: RootState) => state.documents.data
+
+export const SelectQuery = (state: RootState) => state.documents.query
 
 // Reducer
 export default DocumentSlice.reducer

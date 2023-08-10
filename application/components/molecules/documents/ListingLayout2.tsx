@@ -1,5 +1,5 @@
 import React from 'react'
-import { HStack, Text, Icon, Box, Pressable, ScrollView } from 'native-base'
+import { HStack, Text, Icon, Box, Pressable, ScrollView, Container, View } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import { Document } from 'application/models/document/Document'
@@ -18,7 +18,7 @@ const ListingLayout2 = () => {
     }
 
     return (
-        <>
+        <View w="100%" h="80%">
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Pressable
                     onPress={async () => {
@@ -44,22 +44,24 @@ const ListingLayout2 = () => {
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
                     {documents.map((document: Document, key: number) =>
                         <React.Fragment key={key}>
-                            <RectangleViewLayout2 document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
+                            <RectangleViewLayout2 length={documents.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
                         </React.Fragment>
                     )}
                 </Box>
             ) : (
-                <ScrollView w={'100%'}>
-                    <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
-                        {documents.map((document: Document, key: number) =>
-                            <React.Fragment key={key}>
-                                <RectangleViewLayout2 document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
-                            </React.Fragment>
-                        )}
-                    </Box>
-                </ScrollView>
+                <Container w="100%" h="90%" bg="primary.box" p="0" rounded="10" maxW={'100%'}>
+                    <ScrollView w={'100%'}>
+                        <Box overflow="hidden" w="100%">
+                            {documents.map((document: Document, key: number) =>
+                                <React.Fragment key={key}>
+                                    <RectangleViewLayout2 length={documents.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
+                                </React.Fragment>
+                            )}
+                        </Box>
+                    </ScrollView>
+                </Container>
             )}
-        </>
+        </View>
     )
 }
 

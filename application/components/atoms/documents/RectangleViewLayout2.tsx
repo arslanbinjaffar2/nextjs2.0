@@ -7,16 +7,21 @@ import FindPath from 'application/utils/FindPath';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import HumanFileSize from 'application/utils/HumanFileSize';
+import { Linking } from 'react-native';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 type AppProps = {
     document: Document,
     k: number,
+    length: number,
     updateBreadCrumbs: (documents: Document[]) => void,
 }
 
-const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs }: AppProps) => {
+const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppProps) => {
 
     const { data, FilterDocuments } = UseDocumentService();
+
+    const { _env } = UseEnvService()
 
     return (
         <>
@@ -29,7 +34,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs }: AppProps) => {
                                     FilterDocuments({ document_id: document.id, query: '' });
                                     updateBreadCrumbs(FindPath(data, document.id));
                                 }}>
-                                <HStack borderBottomWidth="1" borderBottomColor="primary.text" w="100%" px="4" py="4" space="3" alignItems="center">
+                                <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.text" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
                                     <Icon size="xl" as={MaterialIcons} name="folder" color="primary.text" />
                                     <VStack space="0">
                                         <Text fontSize="md">{document?.name}</Text>
@@ -41,19 +46,29 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs }: AppProps) => {
                         )
                     else
                         return (
-                            <HStack borderBottomWidth="1" borderBottomColor="primary.text" w="100%" px="4" py="4" space="3" alignItems="center">
-                                <Icon size="xl" as={AntDesign} name="pdffile1" color="primary.text" />
-                                <VStack space="0">
-                                    <Text fontSize="md">{document?.name}</Text>
-                                    <HStack space="3" alignItems="center">
-                                        <Text fontSize="xs">{HumanFileSize(document?.file_size)}</Text>
-                                        <Text fontSize="xs">{document?.start_date}</Text>
-                                        <Text fontSize="xs">{document?.start_time}</Text>
-                                    </HStack>
-                                </VStack>
-                                <Spacer />
-                                <Icon as={AntDesign} name="download" size="md" color="primary.text" />
-                            </HStack>
+                            <Pressable
+                                onPress={async () => {
+                                    const url: any = `${_env.eventcenter_base_url}/assets/directory/${document.path}`;
+                                    const supported = await Linking.canOpenURL(url);
+                                    if (supported) {
+                                        await Linking.openURL(url);
+                                    }
+                                }}>
+
+                                <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.text" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
+                                    <Icon size="xl" as={AntDesign} name="pdffile1" color="primary.text" />
+                                    <VStack space="0">
+                                        <Text fontSize="md">{document?.name}</Text>
+                                        <HStack space="3" alignItems="center">
+                                            <Text fontSize="xs">{HumanFileSize(document?.file_size)}</Text>
+                                            <Text fontSize="xs">{document?.start_date}</Text>
+                                            <Text fontSize="xs">{document?.start_time}</Text>
+                                        </HStack>
+                                    </VStack>
+                                    <Spacer />
+                                    <Icon as={AntDesign} name="download" size="md" color="primary.text" />
+                                </HStack>
+                            </Pressable>
                         )
                 })()
             }
