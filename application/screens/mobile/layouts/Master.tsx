@@ -6,6 +6,7 @@ import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRoute } from '@react-navigation/native';
 import in_array from "in_array";
+import MobileLoading from 'application/components/atoms/MobileLoading';
 
 type Props = {
   children:
@@ -20,7 +21,7 @@ const Master = ({ children, navigation }: Props) => {
 
   const { response, loadToken, isLoggedIn } = UseAuthService();
 
-  const { FetchEventByCode, event } = UseEventService();
+  const { FetchEventByCode, event, modules } = UseEventService();
 
   const [process, setProcess] = React.useState(false);
 
@@ -107,7 +108,11 @@ const Master = ({ children, navigation }: Props) => {
       <View style={gStyle.mainContainer}>
         <ImageBackground blurRadius={8} style={{ flex: 1, justifyContent: 'center' }} resizeMode='cover' source={images.SplashImage}>
           <View style={{ ...gStyle.flex1, ...gStyle.bgContainer }}>
-            {children}
+            {modules.length === 0 && isLoggedIn ? (
+              <MobileLoading />
+            ) : (
+              <>{children}</>
+            )}
           </View>
         </ImageBackground>
       </View>

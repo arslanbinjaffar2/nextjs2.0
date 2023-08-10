@@ -87,8 +87,8 @@ const AuthSlice = createSlice({
                 } else {
                     AsyncStorageClass.setItem('access_token', action.payload.data.access_token);
                 }
-                state.isLoggedIn = true;
             }
+            state.isLoggedIn = true;
         },
         failed(state, action: PayloadAction<string>) {
             state.processing = false;

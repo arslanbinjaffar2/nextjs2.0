@@ -8,6 +8,7 @@ import Header from 'application/screens/web/layouts/Header';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
+import WebLoading from 'application/components/atoms/WebLoading';
 
 type Props = {
   children:
@@ -21,9 +22,9 @@ const Master = ({ children }: Props) => {
 
   const { width } = useWindowDimensions();
 
-  const { event } = UseEventService();
+  const { event, modules, loadModules } = UseEventService();
 
-  const { getUser, response } = UseAuthService();
+  const { getUser, response, isLoggedIn } = UseAuthService();
 
   const { push } = useRouter();
 
@@ -37,28 +38,39 @@ const Master = ({ children }: Props) => {
     }
   }, [response])
 
+  React.useEffect(() => {
+    if (modules.length === 0 && isLoggedIn && event.id) {
+      loadModules();
+    }
+  }, [modules, event, isLoggedIn])
+
   return (
     <BackgroundLayout>
-      <Flex w="100%" h="100%" direction="column">
-        <ScrollView>
-          <Flex mx="auto" maxW={width <= 1200 && width >= 970 ? '970px' : width <= 970 ? '725px' : '1200px'} w="100%" py="40px" px="15px">
-            {width > 725 ? <Header width={width} /> : (
-              <Header />
-            )}
-            <Container position="relative" maxW="100%" w="100%">
-              <HStack w="100%" pt="3" space="5" alignItems="flex-start">
-                {width > 750 && <LeftBar />}
-                <Center w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={width > 750 ? '600px' : '100%'}>
-                  {children}
-                </Center>
-                {width >= 970 && <Center position="sticky" top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
-                  <RightBar />
-                </Center>}
-              </HStack>
-            </Container>
-          </Flex>
-        </ScrollView>
-      </Flex>
+      {modules.length === 0 ? (
+        <WebLoading />
+      ) : (
+        <Flex w="100%" h="100%" direction="column">
+          <ScrollView>
+            <Flex mx="auto" maxW={width <= 1200 && width >= 970 ? '970px' : width <= 970 ? '725px' : '1200px'} w="100%" py="40px" px="15px">
+              {width > 725 ? <Header width={width} /> : (
+                <Header />
+              )}
+              <Container position="relative" maxW="100%" w="100%">
+                <HStack w="100%" pt="3" space="5" alignItems="flex-start">
+                  {width > 750 && <LeftBar />}
+                  <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={width > 750 ? '600px' : '100%'}>
+                    {children}
+                  </Center>
+                  {width >= 970 && <Center position="sticky" top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
+                    <RightBar />
+                  </Center>}
+                </HStack>
+              </Container>
+            </Flex>
+          </ScrollView>
+        </Flex>
+      )}
+
     </BackgroundLayout>
   )
 };

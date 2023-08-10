@@ -15,15 +15,9 @@ const LeftBar = () => {
 
   const { width } = useWindowDimensions();
 
-  const { event, loadModules, modules } = UseEventService()
+  const { event, modules } = UseEventService()
 
   const { logout } = UseAuthService();
-
-  React.useEffect(() => {
-    if (modules.length === 0) {
-      loadModules();
-    }
-  }, [modules])
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
