@@ -11,6 +11,7 @@ import MapSlice from 'application/store/slices/Map.Slice'
 import SponsorSlice from 'application/store/slices/Sponsor.Slice'
 import ExhibitorSlice from 'application/store/slices/Exhibitor.Slice'
 import DocumentSlice from 'application/store/slices/Document.Slice'
+import AttendeeSlice from 'application/store/slices/Attendee.Slice'
 import InfoSlice from 'application/store/slices/Info.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 
@@ -29,6 +30,7 @@ const makeStore = () => {
             sponsors: SponsorSlice,
             exhibitors: ExhibitorSlice,
             documents: DocumentSlice,
+            attendees: AttendeeSlice,
             loading: LoadingSlice,
             info: InfoSlice
         },
