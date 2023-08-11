@@ -1,8 +1,10 @@
 import React from 'react'
-import { Avatar, Box, HStack, Icon, Spacer, Text, VStack } from 'native-base'
+import { Avatar, Box, HStack, Icon, Pressable, Spacer, Text, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'application/assets/icons/Icoribbon'
 import { Attendee } from 'application/models/attendee/Attendee'
+import UseAttendeeService from 'application/store/services/UseAttendeeService';
+import UseEventService from 'application/store/services/UseEventService';
 
 type boxItemProps = {
   attendee: Attendee
@@ -10,6 +12,11 @@ type boxItemProps = {
 }
 
 const RectangleView = ({ border, attendee }: boxItemProps) => {
+
+  const { MakeFavourite } = UseAttendeeService();
+
+  const { event } = UseEventService();
+
   return (
     <Box w="100%" borderBottomWidth={border} borderColor="primary.text" py="3">
       <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
@@ -45,8 +52,13 @@ const RectangleView = ({ border, attendee }: boxItemProps) => {
           </VStack>
           <Spacer />
           <HStack space="4" alignItems="center">
-            <Icoribbon width="20" height="28" />
-            <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
+            <Pressable
+              onPress={() => {
+                MakeFavourite({ attendee_id: attendee.id })
+              }}>
+              <Icoribbon width="20" height="28" color={attendee.favourite ? event?.settings?.primary_color : ''} />
+            </Pressable>
+            <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
           </HStack>
         </HStack>
       </HStack>

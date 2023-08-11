@@ -28,7 +28,7 @@ const Master = ({ children }: Props) => {
 
   const { getUser, response, isLoggedIn } = UseAuthService();
 
-  const { scroll, setScrollCounter } = UseLoadingService();
+  const { scroll, setScrollCounter, loading } = UseLoadingService();
 
   const { push } = useRouter();
 
@@ -56,7 +56,7 @@ const Master = ({ children }: Props) => {
         <Flex w="100%" h="100%" direction="column">
           <ScrollView nativeID="body-scroll"
             onScroll={({ nativeEvent }) => {
-              if (ScrollCloseToBottom(nativeEvent)) {
+              if (ScrollCloseToBottom(nativeEvent) && !loading) {
                 setScrollCounter(scroll + 1);
               }
             }}

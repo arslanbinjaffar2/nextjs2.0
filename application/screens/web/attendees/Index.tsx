@@ -13,7 +13,7 @@ const Index = ({ navigation }: indexProps) => {
   const { FetchAttendees, attendees } = UseAttendeeService();
 
   React.useEffect(() => {
-    FetchAttendees({ query: '', group_id: 0, page: 1 });
+    FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0 });
   }, [])
 
   console.log(attendees)
