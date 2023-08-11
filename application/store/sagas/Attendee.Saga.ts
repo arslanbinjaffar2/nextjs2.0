@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getAttendeeApi, makeFavouriteApi } from 'application/store/api/Attendee.Api';
+import { getAttendeeApi, makeFavouriteApi, getGroupsApi } from 'application/store/api/Attendee.Api';
 
 import { AttendeeActions } from 'application/store/slices/Attendee.Slice'
 
@@ -36,10 +36,24 @@ function* OnMakeFavourite({
     yield put(AttendeeActions.FetchAttendees({ query: state?.attendees?.query, page: 1, group_id: state?.attendees?.group_id, my_attendee_id: state?.attendees?.my_attendee_id }))
 }
 
+function* OnGetGroups({
+    payload,
+}: {
+    type: typeof AttendeeActions.FetchAttendees
+    payload: { group_id: number, query: string, page: number, my_attendee_id: number }
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getGroupsApi, payload, state)
+    yield put(AttendeeActions.updateGroups({ attendee: response.data.data!, query: payload.query, page: payload.page }))
+    yield put(LoadingActions.set(false));
+}
+
 // Watcher Saga
 export function* AttendeeWatcherSaga(): SagaIterator {
     yield takeEvery(AttendeeActions.FetchAttendees.type, OnGetAttendees)
     yield takeEvery(AttendeeActions.MakeFavourite.type, OnMakeFavourite)
+    yield takeEvery(AttendeeActions.FetchGroups.type, OnGetGroups)
 }
 
 export default AttendeeWatcherSaga
