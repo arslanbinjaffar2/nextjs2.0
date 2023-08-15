@@ -1,16 +1,19 @@
 export interface Group {
-    id: number;
-    email?: string;
-    ss_number?: string;
-    first_name?: string;
-    last_name?: string;
-    organizer_id?: number;
-    FIRST_NAME_PASSPORT?: string;
-    LAST_NAME_PASSPORT?: string;
-    BIRTHDAY_YEAR?: string;
-    EMPLOYMENT_DATE?: string;
-    SPOKEN_LANGUAGE?: string;
-    image?: string;
+    id?: number;
+    parent_id?: number;
+    link_type?: string;
+    event_id?: number;
+    color?: string;
+    sort_order?: number;
+    allow_multiple?: number;
     status?: number;
-    allow_vote?: number;
+    created_at?: string;
+    updated_at?: string;
+    deleted_at?: string;
+    info?: Info;
+}
+
+interface Info {
+    name?: string;
+    initial?: string;
 }

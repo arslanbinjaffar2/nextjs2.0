@@ -1,10 +1,11 @@
 import React from 'react'
-import { Avatar, Box, HStack, Icon, Pressable, Spacer, Text, VStack } from 'native-base'
+import { Box, HStack, Icon, Image, Pressable, Spacer, Text, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'application/assets/icons/Icoribbon'
 import { Attendee } from 'application/models/attendee/Attendee'
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseEventService from 'application/store/services/UseEventService';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 type boxItemProps = {
   attendee: Attendee
@@ -17,17 +18,17 @@ const RectangleView = ({ border, attendee }: boxItemProps) => {
 
   const { event } = UseEventService();
 
+  const { _env } = UseEnvService()
+
   return (
-    <Box w="100%" borderBottomWidth={border} borderColor="primary.text" py="3">
+    <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.text" py="3">
       <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
         <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
-          <Avatar
-            source={{
-              uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-            }}
-          >
-            AA
-          </Avatar>
+          {attendee?.image ? (
+            <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="Alternate Text" w="50px" h="50px" />
+          ) : (
+            <Image rounded="25" size="5" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="50px" h="50px" />
+          )}
           <VStack maxW={['62%', '70%', '40%']} space="0">
             {(attendee?.first_name || attendee?.last_name) && (
               <>

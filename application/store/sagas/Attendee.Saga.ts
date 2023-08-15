@@ -40,12 +40,12 @@ function* OnGetGroups({
     payload,
 }: {
     type: typeof AttendeeActions.FetchAttendees
-    payload: { group_id: number, query: string, page: number, my_attendee_id: number }
+    payload: { group_id: number, query: string, page: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getGroupsApi, payload, state)
-    yield put(AttendeeActions.updateGroups({ attendee: response.data.data!, query: payload.query, page: payload.page }))
+    yield put(AttendeeActions.updateGroups({ groups: response.data.data.groups.data!, query: payload.query, page: payload.page, group_id: payload.group_id }))
     yield put(LoadingActions.set(false));
 }
 

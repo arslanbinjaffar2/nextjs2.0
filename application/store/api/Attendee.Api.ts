@@ -13,5 +13,5 @@ export const makeFavouriteApi = (payload: any, state: any): Promise<HttpResponse
 }
 
 export const getGroupsApi = (payload: any, state: any): Promise<HttpResponse> => {
-    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/attendee/group-listing`, { ...payload, limit: 20 });
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/attendee/group-listing/${payload.group_id}`, { ...payload, limit: 20 });
 }

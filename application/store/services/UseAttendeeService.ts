@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups } from 'application/store/slices/Attendee.Slice'
+import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName } from 'application/store/slices/Attendee.Slice'
 
 import { Attendee } from 'application/models/attendee/Attendee'
 
@@ -11,10 +11,12 @@ import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 export type AttendeeServiceOperators = {
     query: string
     page: number
+    group_id: number
+    group_name: string
     attendees: Attendee[]
     groups: Group[]
     FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number }) => void
-    FetchGroups: (payload: { query: string, page: number }) => void
+    FetchGroups: (payload: { query: string, page: number, group_id: number }) => void
     MakeFavourite: (payload: { attendee_id: number }) => void
 }
 
@@ -29,6 +31,8 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
     return {
         query: useAppSelector(SelectQuery),
         page: useAppSelector(SelectPage),
+        group_id: useAppSelector(SelectGroup),
+        group_name: useAppSelector(SelectGroupName),
         attendees: useAppSelector(SelectAttendees),
         groups: useAppSelector(SelectGroups),
         FetchAttendees: useCallback(
@@ -38,7 +42,7 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
             [dispatch],
         ),
         FetchGroups: useCallback(
-            (payload: { query: string, page: number }) => {
+            (payload: { query: string, page: number, group_id: number }) => {
                 dispatch(AttendeeActions.FetchGroups(payload))
             },
             [dispatch],
