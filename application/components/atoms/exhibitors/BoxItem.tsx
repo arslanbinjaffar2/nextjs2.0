@@ -3,7 +3,7 @@ import { Box, Center, HStack, Text } from 'native-base'
 import DynamicIcon from 'application/utils/DynamicIcon';
 
 type BoxProps = {
-  image: HTMLElement,
+  image: any,
   category: string,
   bg: string,
   speakers: number

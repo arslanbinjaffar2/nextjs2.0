@@ -28,7 +28,6 @@ const StreamBlock = () => {
             uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
           }}
           useNativeControls
-          resizeMode="contain"
           isLooping
         />
       </Box>

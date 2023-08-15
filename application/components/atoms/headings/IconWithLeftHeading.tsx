@@ -2,7 +2,7 @@ import React from 'react';
 import { Center, Flex, HStack, Text, VStack } from 'native-base';
 type AppProps = {
     title: string,
-    icon: HTMLElement
+    icon: any
 }
 
 const IconWithLeftHeading = ({ title, icon }: AppProps) => {
