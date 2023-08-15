@@ -17,6 +17,7 @@ import ZocialFont from "react-native-vector-icons/Fonts/Zocial.ttf";
 import AvenirNextCondensed from "application/assets/fonts/AvenirNextCondensed.ttf";
 import AvenirNextCondensedMedium from "application/assets/fonts/AvenirNextCondensed-Medium.ttf";
 import AvenirNextCondensedDemiBold from "application/assets/fonts/AvenirNextCondensed-DemiBold.ttf";
+import AvenirNextCondensedBold from "application/assets/fonts/AvenirNextCondensedBold.ttf";
 import * as React from "react";
 import { AppRegistry } from "react-native";
 
@@ -53,6 +54,12 @@ export const style = `
   src: url(${AvenirNextCondensedDemiBold});
   font-family: Avenir;
   font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  src: url(${AvenirNextCondensedBold});
+  font-family: Avenir;
+  font-weight: 700;
   font-style: normal;
 }
 @font-face {
