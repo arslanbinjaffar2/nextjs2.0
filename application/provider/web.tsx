@@ -122,11 +122,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     'FontAwesome': require('react-native-vector-icons/Fonts/FontAwesome.ttf'),
                     'avenir': require('application/assets/fonts/AvenirNextCondensed.ttf'),
                     'avenir-medium': require('application/assets/fonts/AvenirNextCondensed-Medium.ttf'),
-                    'avenir-demi': require('application/assets/fonts/AvenirNextCondensed-DemiBold.ttf'),
-                    'avenir-bold': {
-                        uri: require('application/assets/fonts/AvenirNextCondensedBold.ttf'),
-                        display: Font.FontDisplay.FALLBACK,
-                    },
+                    'avenir-demi': require('application/assets/fonts/AvenirNextCondensed-DemiBold.ttf')
                 });
             } catch (e) {
                 console.warn(e);
