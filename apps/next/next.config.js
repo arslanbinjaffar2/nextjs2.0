@@ -21,6 +21,7 @@ module.exports = withNativebase({
     projectRoot: __dirname,
     reactStrictMode: false,
     webpack5: true,
+    distDir: 'build',
     images: {
       disableStaticImages: true,
     },
