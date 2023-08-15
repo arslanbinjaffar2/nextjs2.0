@@ -10,7 +10,7 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
 
   return (
-    <Master navigation={navigation}>
+    <Master>
       <IndexTemplate />
     </Master>
   );

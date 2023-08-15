@@ -20,7 +20,7 @@ const Detail = ({ navigation }: indexProps) => {
   const [steps, setsteps] = useState<number>(0);
   const [completed, setcompleted] = useState<boolean>(true);
   return (
-    <Master navigation={navigation}>
+    <Master>
       <Container mb="3" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <HStack space="3" alignItems="center">

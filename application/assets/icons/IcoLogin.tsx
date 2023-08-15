@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Svg, { G, Path } from 'react-native-svg';
 
 const IcoLogin = () => {
+  
   const fill = '#ffffff';
 
   return (

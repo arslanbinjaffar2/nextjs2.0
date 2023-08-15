@@ -11,7 +11,7 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
   
   return (
-    <Master navigation={navigation}>
+    <Master>
       <Container pt="1" maxW="100%" w="100%">
         <Text mb="3" textTransform="uppercase" fontSize="2xl">Session check-in</Text>
         <Box mb="3" w="100%" bg="primary.box" p="5" rounded="10">

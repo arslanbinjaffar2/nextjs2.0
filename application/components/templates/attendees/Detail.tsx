@@ -32,7 +32,7 @@ const Detail = () => {
                 {tabs === 'GROUPS' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                     {[...Array(7)].map((item, k) =>
                         <React.Fragment key={`item-box-group-${k}`}>
-                            <RectangleGroupView k={k} />
+                            {/* <RectangleGroupView k={k} /> */}
                         </React.Fragment>
                     )}
                 </Container>}

@@ -11,6 +11,7 @@ import BannerView from 'application/components/atoms/banners/RectangleView';
 import debounce from 'lodash.debounce';
 import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import { SponsorCategory } from 'application/models/sponsor/SponsorCategory';
 
 const Index = React.memo(() => {
 

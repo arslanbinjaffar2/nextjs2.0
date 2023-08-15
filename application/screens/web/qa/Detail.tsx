@@ -14,7 +14,7 @@ type indexProps = {
 const Detail = ({ navigation }: indexProps) => {
   const [tabs, settabs] = useState<string | null>('ABOUT');
   return (
-    <Master navigation={navigation}>
+    <Master>
       <Container overflow="hidden" mb="4" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <HStack  space="3" alignItems="center">

@@ -13,7 +13,7 @@ const Index = ({ navigation }: indexProps) => {
   const [tab, setTab] = React.useState(true)
   const [view, setView] = React.useState(true)
   return (
-    <Master navigation={navigation}>
+    <Master>
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text textTransform="uppercase" fontSize="2xl">Ask a question</Text>

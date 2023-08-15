@@ -84,7 +84,7 @@ const LeftBar = () => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoLogin width="24" height="21" />
+              <IcoLogin />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Logout</Text>}
           </HStack>

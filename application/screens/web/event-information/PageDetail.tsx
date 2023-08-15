@@ -40,7 +40,6 @@ const PageDetail = (props: any) => {
               onPress={() => {
                 push(`/${event.url}/${cms}/event-info/${parent_folder}`)
               }}
-              style={{ display: 'contents' }}
             >
               <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
               <Text fontSize="2xl">BACK</Text>

@@ -20,7 +20,7 @@ const Index = ({ navigation }: indexProps) => {
   const [tab, setTab] = useState('qa')
 
   return (
-    <Master navigation={navigation}>
+    <Master>
       <Stream />
       <ProgramListing />
       <SpeakerRoundedList />
