@@ -1,8 +1,10 @@
 import { useCallback } from 'react'
 
-import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName } from 'application/store/slices/Attendee.Slice'
+import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName, SelectAttendeeDetail } from 'application/store/slices/Attendee.Slice'
 
 import { Attendee } from 'application/models/attendee/Attendee'
+
+import { Detail } from 'application/models/attendee/Detail'
 
 import { Group } from 'application/models/attendee/Group'
 
@@ -14,10 +16,12 @@ export type AttendeeServiceOperators = {
     group_id: number
     group_name: string
     attendees: Attendee[]
+    detail: Detail
     groups: Group[]
     FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number }) => void
     FetchGroups: (payload: { query: string, page: number, group_id: number }) => void
-    MakeFavourite: (payload: { attendee_id: number }) => void
+    MakeFavourite: (payload: { attendee_id: number, screen: string }) => void
+    FetchAttendeeDetail: (payload: { id: number }) => void
 }
 
 /**
@@ -35,6 +39,7 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         group_name: useAppSelector(SelectGroupName),
         attendees: useAppSelector(SelectAttendees),
         groups: useAppSelector(SelectGroups),
+        detail: useAppSelector(SelectAttendeeDetail),
         FetchAttendees: useCallback(
             (payload: { group_id: number, query: string, page: number, my_attendee_id: number }) => {
                 dispatch(AttendeeActions.FetchAttendees(payload))
@@ -48,11 +53,17 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
             [dispatch],
         ),
         MakeFavourite: useCallback(
-            (payload: { attendee_id: number }) => {
+            (payload: { attendee_id: number, screen: string }) => {
                 dispatch(AttendeeActions.MakeFavourite(payload))
             },
             [dispatch],
-        )
+        ),
+        FetchAttendeeDetail: useCallback(
+            (payload: { id: number }) => {
+                dispatch(AttendeeActions.FetchAttendeeDetail(payload))
+            },
+            [dispatch],
+        ),
     }
 }
 

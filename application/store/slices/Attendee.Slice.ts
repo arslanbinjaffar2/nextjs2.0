@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Attendee } from 'application/models/attendee/Attendee'
 
+import { Detail } from 'application/models/attendee/Detail'
+
 import { Group } from 'application/models/attendee/Group'
 
 import type { RootState } from 'application/store/Index'
@@ -12,6 +14,7 @@ import {
 
 export interface AttendeeState {
     attendees: Attendee[],
+    detail: Detail,
     groups: Group[],
     query: string,
     page: number,
@@ -22,6 +25,7 @@ export interface AttendeeState {
 
 const initialState: AttendeeState = {
     attendees: [],
+    detail: {},
     groups: [],
     query: '',
     page: 1,
@@ -56,7 +60,11 @@ export const AttendeeSlice = createSlice({
             const existed: any = current(state.groups);
             state.groups = action.payload.page === 1 ? action.payload.groups : [...existed, ...action.payload.groups];
         },
-        MakeFavourite(state, action: PayloadAction<{ attendee_id: number }>) { },
+        MakeFavourite(state, action: PayloadAction<{ attendee_id: number, screen: string }>) { },
+        FetchAttendeeDetail(state, action: PayloadAction<{ id: number }>) { },
+        updateDetail(state, action: PayloadAction<{ detail: Detail }>) {
+            state.detail = action.payload.detail;
+        },
     },
 })
 
@@ -67,6 +75,8 @@ export const AttendeeActions = {
     update: AttendeeSlice.actions.update,
     updateGroups: AttendeeSlice.actions.updateGroups,
     MakeFavourite: AttendeeSlice.actions.MakeFavourite,
+    FetchAttendeeDetail: AttendeeSlice.actions.FetchAttendeeDetail,
+    updateDetail: AttendeeSlice.actions.updateDetail,
 }
 
 export const SelectAttendees = (state: RootState) => state.attendees.attendees
@@ -80,6 +90,8 @@ export const SelectPage = (state: RootState) => state.attendees.page
 export const SelectGroup = (state: RootState) => state.attendees.group_id
 
 export const SelectGroupName = (state: RootState) => state.attendees.group_name
+
+export const SelectAttendeeDetail = (state: RootState) => state.attendees.detail
 
 // Reducer
 export default AttendeeSlice.reducer
