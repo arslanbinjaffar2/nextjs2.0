@@ -101,7 +101,9 @@ const Index = () => {
                     </HStack>
                     {group_id > 0 && (
                         <HStack mb="3" pt="2" w="100%" space="3">
-                            <Text flex="1" textTransform="uppercase" fontSize="xs">{group_name}</Text>
+                            {group_name && (
+                                <Text flex="1" textTransform="uppercase" fontSize="xs">{group_name}</Text>
+                            )}
                             <Pressable
                                 onPress={async () => {
                                     FetchGroups({ query: query, page: 1, group_id: 0 });
@@ -110,27 +112,25 @@ const Index = () => {
                             </Pressable>
                         </HStack>
                     )}
-                    {in_array(tab, ['attendee', 'group-attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                        <VStack w="20px" position="absolute" right="-20px" top="0" space="1">
-                            {alphabet && alphabet.map((item, k) =>
-                                <Text textAlign="center" color="primary.text" opacity="0.5" key={k} fontSize="md">{item}</Text>
-                            )}
-                        </VStack>
-                        {GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
-                            <React.Fragment key={`item-box-${k}`}>
-                                <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
-                                {map?.records?.map((attendee: Attendee, k: number) =>
-                                    <RectangleAttendeeView attendee={attendee} border={attendees.length > 0 && attendees[attendees.length - 1]?.id !== attendee?.id ? 1 : 0} />
+                    <VStack w="20px" position="absolute" right="-20px" top="0" space="1">
+                        {alphabet && alphabet.map((item, k) =>
+                            <React.Fragment key={k}>
+                                {item && (
+                                    <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
                                 )}
                             </React.Fragment>
                         )}
-                    </Container>}
-                    {tab === 'my-attendee' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                    </VStack>
+                    {in_array(tab, ['attendee', 'group-attendee', 'my-attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                         {GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                             <React.Fragment key={`item-box-${k}`}>
-                                <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
-                                {map?.records?.map((attendee: Attendee, i: number) =>
-                                    <RectangleAttendeeView attendee={attendee} border={attendees.length > 0 && attendees[attendees.length - 1]?.id !== attendee?.id ? 1 : 0} />
+                                {map?.letter && (
+                                    <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                )}
+                                {map?.records?.map((attendee: Attendee, k: number) =>
+                                    <React.Fragment key={`${k}`}>
+                                        <RectangleAttendeeView attendee={attendee} border={attendees.length > 0 && attendees[attendees.length - 1]?.id !== attendee?.id ? 1 : 0} />
+                                    </React.Fragment>
                                 )}
                             </React.Fragment>
                         )}
@@ -138,9 +138,13 @@ const Index = () => {
                     {tab === 'group' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                         {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                             <React.Fragment key={`item-box-group-${k}`}>
-                                <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                {map?.letter && (
+                                    <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                )}
                                 {map?.records?.map((group: Group, k: number) =>
-                                    <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} updateTab={updateTab} />
+                                    <React.Fragment key={`${k}`}>
+                                        <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} updateTab={updateTab} />
+                                    </React.Fragment>
                                 )}
                             </React.Fragment>
                         )}

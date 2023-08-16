@@ -57,7 +57,7 @@ const RectangleView = ({ border, attendee }: boxItemProps) => {
               onPress={() => {
                 MakeFavourite({ attendee_id: attendee.id })
               }}>
-              <Icoribbon width="20" height="28" color={attendee.favourite ? event?.settings?.primary_color : ''} />
+              <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.primary_color : ''} />
             </Pressable>
             <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
           </HStack>
