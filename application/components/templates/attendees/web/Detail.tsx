@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Container, HStack, Icon, Spacer, Text } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import Search from 'application/components/atoms/Search';
+import Search from 'application/components/atoms/programs/Search';
 import BasicInfoBlock from 'application/components/atoms/attendees/detail/BasicInfoBlock';
 import SubRegistration from 'application/components/atoms/attendees/SubRegistration';
 import DetailInfoBlock from 'application/components/atoms/attendees/detail/web/DetailInfoBlock';
@@ -19,13 +19,15 @@ const { useParam } = createParam<ScreenParams>()
 
 const Detail = () => {
 
+    const mounted = React.useRef(false);
+
     const [tab, setTab] = useState<string>('');
 
     const { FetchAttendeeDetail, detail } = UseAttendeeService();
 
-    const { FetchMyPrograms, programs } = UseProgramService();
+    const { FetchMyPrograms, programs, page } = UseProgramService();
 
-    const { loading } = UseLoadingService();
+    const { loading, scroll } = UseLoadingService();
 
     const [id] = useParam('id');
 
@@ -42,10 +44,23 @@ const Detail = () => {
     }, [detail]);
 
     React.useEffect(() => {
-        if (tab == 'program') {
-            FetchMyPrograms({ page: 1, query: '', screen: 'my-program' });
+        if (mounted.current) {
+            if (tab == 'program') {
+                FetchMyPrograms({ page: 1, query: '', screen: 'my-program' });
+            }
         }
     }, [tab]);
+
+    React.useEffect(() => {
+        if (mounted.current) {
+            FetchMyPrograms({ query: '', page: page + 1, screen: 'my-program' });
+        }
+    }, [scroll]);
+
+    React.useEffect(() => {
+        mounted.current = true;
+        return () => { mounted.current = false; };
+    }, []);
 
     return (
         <>
@@ -59,7 +74,7 @@ const Detail = () => {
                             <Text fontSize="2xl">BACK</Text>
                         </HStack>
                         <Spacer />
-                        <Search />
+                        <Search tab={tab} />
                     </HStack>
                     <BasicInfoBlock detail={detail} />
                     {detail?.detail?.gdpr === 1 && (

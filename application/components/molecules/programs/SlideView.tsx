@@ -7,6 +7,8 @@ import TrackRectangleDetailView from 'application/components/atoms/programs/trac
 import { Program } from 'application/models/program/Program'
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import UseProgramService from 'application/store/services/UseProgramService';
+import LoadMore from 'application/components/atoms/LoadMore';
 
 type AppProps = {
     programs: any[],
@@ -17,13 +19,15 @@ const SlideView = ({ programs, section }: AppProps) => {
 
     const { loading } = UseLoadingService();
 
+    const { query, page } = UseProgramService();
+
     return (
         <>
-            {section === 'program' && (
+            {loading && page === 1 ? (
+                <SectionLoading />
+            ) : (
                 <>
-                    {loading ? (
-                        <SectionLoading />
-                    ) : (
+                    {section === 'program' && (
                         <>
                             {programs?.map((dates: any, index: any) =>
                                 <React.Fragment key={index}>
@@ -72,12 +76,15 @@ const SlideView = ({ programs, section }: AppProps) => {
                             )}
                         </>
                     )}
+                    {section === 'tracks' && (
+                        programs?.map((program: any, key: any) =>
+                            <TrackRectangleDetailView key={key} program={program} k={key} />
+                        )
+                    )}
                 </>
             )}
-            {section === 'tracks' && (
-                programs?.map((program: any, key: any) =>
-                    <TrackRectangleDetailView key={key} program={program} k={key} />
-                )
+            {loading && page > 1 && (
+                <LoadMore />
             )}
         </>
     );
