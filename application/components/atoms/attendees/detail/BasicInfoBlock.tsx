@@ -53,7 +53,7 @@ const BasicInfoBlock = ({ detail }: AppProps) => {
                             onPress={() => {
                                 MakeFavourite({ attendee_id: Number(detail?.detail?.id), screen: 'detail' })
                             }}>
-                                <Icoribbon width="20" height="28" color={detail?.is_favourite ? event?.settings?.primary_color : ''} />
+                            <Icoribbon width="20" height="28" color={detail?.is_favourite ? event?.settings?.primary_color : ''} />
                         </Pressable>
                     </Box>
                 </HStack>

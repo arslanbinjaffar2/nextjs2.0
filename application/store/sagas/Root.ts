@@ -14,10 +14,12 @@ import { DocumentWatcherSaga } from 'application/store/sagas/Document.Saga'
 
 import { AttendeeWatcherSaga } from 'application/store/sagas/Attendee.Saga'
 
+import { ProgramWatcherSaga } from 'application/store/sagas/Program.Saga'
+
 import { InfoWatcherSaga } from 'application/store/sagas/Info.Saga'
 
 export function* RootSaga() {
-    yield all([fork(EventWatcherSaga), fork(AuthWatcherSaga), fork(MapWatcherSaga), fork(InfoWatcherSaga), fork(SponsorWatcherSaga), fork(ExhibitorWatcherSaga), fork(DocumentWatcherSaga), fork(AttendeeWatcherSaga)])
+    yield all([fork(EventWatcherSaga), fork(AuthWatcherSaga), fork(MapWatcherSaga), fork(InfoWatcherSaga), fork(SponsorWatcherSaga), fork(ExhibitorWatcherSaga), fork(DocumentWatcherSaga), fork(AttendeeWatcherSaga), fork(ProgramWatcherSaga)])
 }
 
 export default RootSaga

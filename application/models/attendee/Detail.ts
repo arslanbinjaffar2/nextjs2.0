@@ -7,6 +7,7 @@ export interface Detail {
     speaker_setting?: SpeakerSetting;
     programs?: Program[];
     show_sub_registraiton?: number;
+    sub_registration_module_status?: number;
     is_favourite?: number;
 }
 

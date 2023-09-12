@@ -1,8 +1,6 @@
 import React from 'react'
 import { Box, Heading, HStack, Icon, Spacer, Text, View, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import DynamicIcon from 'application/utils/DynamicIcon';
-import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { Detail } from 'application/models/attendee/Detail';
 
 type AppProps = {
@@ -72,13 +70,13 @@ const DetailInfoBlock = ({ detail }: AppProps) => {
                                     </Box>
                                 </HStack>
                             )}
-                            {detail?.detail?.info?.network_group! && (
+                            {detail?.detail?.info?.private_post_code! && (
                                 <HStack w="50%" space="0" >
                                     <Box w="144px">
                                         <Heading fontSize="md" lineHeight="lg">Private post code :</Heading>
                                     </Box>
                                     <Box pl="1">
-                                        <Text fontSize="md">{detail?.detail?.info?.network_group}</Text>
+                                        <Text fontSize="md">{detail?.detail?.info?.private_post_code}</Text>
                                     </Box>
                                 </HStack>
                             )}
