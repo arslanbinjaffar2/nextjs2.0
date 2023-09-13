@@ -57,7 +57,7 @@ function* OnGetGroups({
     payload,
 }: {
     type: typeof AttendeeActions.FetchAttendees
-    payload: { group_id: number, query: string, page: number }
+    payload: { group_id: number, query: string, page: number, attendee_id: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);

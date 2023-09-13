@@ -2,13 +2,106 @@ export interface Detail {
     detail?: AttendeeDetail;
     meeting?: string;
     attendee_tabs_settings: AttendeeTabSetting[];
-    attendee_groups?: AttendeeGroup[];
-    program_setting?: ProgramSetting;
-    speaker_setting?: SpeakerSetting;
+    program_setting: ProgramSetting;
+    speaker_setting: SpeakerSetting;
+    setting: Setting;
+    field_setting: FieldSetting;
     programs?: Program[];
-    show_sub_registraiton?: number;
+    sub_registration: SubRegistration;
     sub_registration_module_status?: number;
     is_favourite?: number;
+    is_speaker?: number;
+}
+
+interface Setting {
+    id?: number;
+    domain_names?: string;
+    event_id?: number;
+    phone?: number;
+    email?: number;
+    title?: number;
+    organization?: number;
+    department?: number;
+    company_name?: number;
+    show_country?: number;
+    contact_vcf?: number;
+    linkedin?: number;
+    linkedin_registration?: number;
+    registration_password?: number;
+    program?: number;
+    attendee_group?: number;
+    attendee_my_group?: number;
+    tab?: number;
+    initial?: number;
+    network_group?: number;
+    table_number?: number;
+    delegate_number?: number;
+    voting?: number;
+    allow_my_document?: number;
+    image_gallery?: number;
+    default_display?: string;
+    create_profile?: number;
+    default_password?: string;
+    facebook_enable?: number;
+    hide_password?: number;
+    default_password_label?: number;
+    forgot_link?: number;
+    created_at?: string;
+    updated_at?: string;
+    deleted_at?: string;
+    attendee_reg_verification?: number;
+    validate_attendee_invite?: number;
+    interest?: number;
+    show_custom_field?: number;
+    bio_info?: number;
+    show_job_tasks?: number;
+    show_industry?: number;
+    password_lenght?: number;
+    strong_password?: number;
+    enable_foods?: number;
+    authentication?: number;
+    cpr?: number;
+    place_of_birth?: number;
+    passport_no?: number;
+    date_of_issue_passport?: number;
+    date_of_expiry_passport?: number;
+    pa_house_no?: number;
+    pa_street?: number;
+    pa_post_code?: number;
+    pa_city?: number;
+    pa_country?: number;
+    display_private_address?: number;
+    email_enable?: number;
+    share_enable?: number;
+    share_validation_enable?: number;
+    share_value?: string;
+    display_chat_notification?: number;
+    resume?: number;
+    display_registration_invoice?: number;
+    type?: number;
+    age?: number;
+    mark_favorite?: number;
+    export_original_cpr_number?: number;
+    send_email_to_organizer?: number;
+    validate_attendee_invite_with_domain?: number;
+}
+
+interface FieldSetting {
+    id?: number;
+    website?: number;
+    linkedin?: number;
+    facebook?: number;
+    twitter?: number;
+    event_language?: number;
+  }
+
+interface SubRegistration {
+    id?: number;
+    event_id?: number;
+    registration_form_id?: number;
+    updated_at?: string;
+    deleted_at?: string;
+    created_at?: string;
 }
 
 interface Program {
@@ -156,13 +249,6 @@ interface ProgramSetting {
     updated_at?: string;
     deleted_at?: string;
     program_view?: string;
-}
-
-interface AttendeeGroup {
-    id?: number;
-    name?: string;
-    allow_multiple?: number;
-    child?: Child[];
 }
 
 interface Child {

@@ -43,7 +43,7 @@ const Index = () => {
         if (mounted.current) {
             if (tab !== "group-attendee") {
                 if (tab === "group") {
-                    FetchGroups({ query: query, group_id: 0, page: 1 });
+                    FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0 });
                 } else {
                     FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0 });
                 }
@@ -69,7 +69,7 @@ const Index = () => {
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
             if (tab === "group") {
-                FetchGroups({ query: query, group_id: 0, page: 1 });
+                FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0 });
             } else {
                 FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0 });
             }
@@ -106,7 +106,7 @@ const Index = () => {
                             )}
                             <Pressable
                                 onPress={async () => {
-                                    FetchGroups({ query: query, page: 1, group_id: 0 });
+                                    FetchGroups({ query: query, page: 1, group_id: 0, attendee_id: 0 });
                                 }}>
                                 <Text textTransform="uppercase" fontSize="xs">Go back</Text>
                             </Pressable>

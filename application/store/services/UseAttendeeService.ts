@@ -19,7 +19,7 @@ export type AttendeeServiceOperators = {
     detail: Detail
     groups: Group[]
     FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number }) => void
-    FetchGroups: (payload: { query: string, page: number, group_id: number }) => void
+    FetchGroups: (payload: { query: string, page: number, group_id: number, attendee_id: number }) => void
     MakeFavourite: (payload: { attendee_id: number, screen: string }) => void
     FetchAttendeeDetail: (payload: { id: number }) => void
 }
@@ -47,7 +47,7 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
             [dispatch],
         ),
         FetchGroups: useCallback(
-            (payload: { query: string, page: number, group_id: number }) => {
+            (payload: { query: string, page: number, group_id: number, attendee_id: number }) => {
                 dispatch(AttendeeActions.FetchGroups(payload))
             },
             [dispatch],

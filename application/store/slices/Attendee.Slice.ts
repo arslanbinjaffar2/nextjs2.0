@@ -6,7 +6,7 @@ import { Detail } from 'application/models/attendee/Detail'
 
 import { Group } from 'application/models/attendee/Group'
 
-import type { RootState } from 'application/store/Index'
+import { RootState } from 'application/store/Index'
 
 import {
     current
@@ -25,7 +25,14 @@ export interface AttendeeState {
 
 const initialState: AttendeeState = {
     attendees: [],
-    detail: {},
+    detail: {
+        attendee_tabs_settings: [],
+        program_setting: {},
+        speaker_setting: {},
+        sub_registration: {},
+        setting: {},
+        field_setting: {},
+    },
     groups: [],
     query: '',
     page: 1,
@@ -46,7 +53,7 @@ export const AttendeeSlice = createSlice({
             state.my_attendee_id = action.payload.my_attendee_id;
             state.group_name = state.groups?.find((group: Group, key: number) => group.id === action.payload.group_id)?.info?.name!
         },
-        FetchGroups(state, action: PayloadAction<{ query: string, page: number, group_id: number }>) {
+        FetchGroups(state, action: PayloadAction<{ query: string, page: number, group_id: number, attendee_id: number }>) {
             state.query = action.payload.query;
             state.page = action.payload.page;
             state.group_id = action.payload.group_id;

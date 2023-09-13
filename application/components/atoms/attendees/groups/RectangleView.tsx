@@ -8,20 +8,25 @@ type boxItemProps = {
     group: Group
     border: number
     k: number
-    updateTab: (tab: string) => void
+    updateTab?: (tab: string) => void
+    navigation?: boolean
 }
 
-const RectangleView = ({ group, border, k, updateTab }: boxItemProps) => {
+const RectangleView = ({ group, border, k, updateTab, navigation }: boxItemProps) => {
 
     const { query, FetchGroups, group_id, FetchAttendees } = UseAttendeeService();
 
     return (
         <Pressable w={'100%'} onPress={() => {
-            if (group_id === 0) {
-                FetchGroups({ query: query, page: 1, group_id: group?.id! });
+            if (navigation) {
+
             } else {
-                updateTab('group-attendee');
-                FetchAttendees({ query: query, group_id: group?.id!, page: 1, my_attendee_id: 0 });
+                if (group_id === 0) {
+                    FetchGroups({ query: query, page: 1, group_id: group?.id!, attendee_id: 0 });
+                } else if (updateTab) {
+                    updateTab('group-attendee');
+                    FetchAttendees({ query: query, group_id: group?.id!, page: 1, my_attendee_id: 0 });
+                }
             }
         }}>
             <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.text" py="4">

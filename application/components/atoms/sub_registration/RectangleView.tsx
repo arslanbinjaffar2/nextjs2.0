@@ -8,7 +8,7 @@ type AppProps = {
     detail: Detail,
 }
 
-const SubRegistration = ({ detail }: AppProps) => {
+const RectangleView = ({ detail }: AppProps) => {
 
     return (
         <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
@@ -20,7 +20,7 @@ const SubRegistration = ({ detail }: AppProps) => {
                 <Box w="100%" py="4">
                     <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
                         <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                            <Text fontSize="md">10 things we can do to help</Text>
+                            <Text fontSize="md">Lorem Ipsum is simply dummy text of the printing and typesetting industry</Text>
                         </VStack>
                         <Spacer />
                         <Icon as={SimpleLineIcons} name="arrow-right" size="md" />
@@ -32,4 +32,4 @@ const SubRegistration = ({ detail }: AppProps) => {
 
 }
 
-export default SubRegistration
+export default RectangleView
