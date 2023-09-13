@@ -3,6 +3,8 @@ import { Avatar, Box, HStack, Icon, Pressable, Spacer, Text, VStack } from 'nati
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { Group } from 'application/models/attendee/Group'
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
+import UseEventService from 'application/store/services/UseEventService';
+import { useRouter } from 'solito/router'
 
 type boxItemProps = {
     group: Group
@@ -14,12 +16,16 @@ type boxItemProps = {
 
 const RectangleView = ({ group, border, k, updateTab, navigation }: boxItemProps) => {
 
+    const { event } = UseEventService();
+
     const { query, FetchGroups, group_id, FetchAttendees } = UseAttendeeService();
+
+    const { push } = useRouter()
 
     return (
         <Pressable w={'100%'} onPress={() => {
             if (navigation) {
-
+                push(`/${event.url}/attendees/${group?.id!}`)
             } else {
                 if (group_id === 0) {
                     FetchGroups({ query: query, page: 1, group_id: group?.id!, attendee_id: 0 });

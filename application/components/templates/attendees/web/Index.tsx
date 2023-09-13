@@ -14,6 +14,11 @@ import { Group } from 'application/models/attendee/Group';
 import in_array from "in_array";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import GroupAlphabatically from 'application/utils/GroupAlphabatically';
+import { createParam } from 'solito';
+
+type ScreenParams = { slug: any }
+
+const { useParam } = createParam<ScreenParams>()
 
 const Index = () => {
 
@@ -32,6 +37,8 @@ const Index = () => {
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name } = UseAttendeeService();
 
     const [searchQuery, setSearch] = React.useState('')
+
+    const [slug] = useParam('slug');
 
     useEffect(() => {
         if (mounted.current) {
@@ -53,6 +60,10 @@ const Index = () => {
 
     useEffect(() => {
         mounted.current = true;
+        if (slug !== undefined && slug.length === 1) { // Group attendees by slug
+            setTab('group-attendee');
+            FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0 });
+        }
         return () => { mounted.current = false; };
     }, []);
 
