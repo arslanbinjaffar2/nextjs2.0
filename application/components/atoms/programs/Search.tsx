@@ -26,7 +26,7 @@ const Search = ({ tab }: AppProps) => {
                 FetchMyPrograms({ query: query, page: 1, screen: 'my-program' });
             }
         }, 1000);
-    }, []);
+    }, [tab]);
 
     React.useEffect(() => {
         setSearch(query);
