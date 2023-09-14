@@ -6,6 +6,8 @@ import { getEventApi, getEventByCodeApi, getModulesApi } from 'application/store
 
 import { EventActions } from 'application/store/slices/Event.Slice'
 
+import { AuthActions } from 'application/store/slices/Auth.Slice'
+
 import { LoadingActions } from 'application/store/slices/Loading.Slice'
 
 import { ErrorActions } from 'application/store/slices/Error.slice'
@@ -55,8 +57,12 @@ function* OnGetModules({
     yield put(LoadingActions.set(true))
     const env = yield select(state => state);
     const response: HttpResponse = yield call(getModulesApi, env)
-    yield put(EventActions.updateModules(response.data.data.modules))
-    yield put(LoadingActions.set(false))
+    if (response?.status === 401) {
+        yield put(AuthActions.clearToken());
+    } else {
+        yield put(EventActions.updateModules(response.data.data.modules))
+        yield put(LoadingActions.set(false))
+    }
 }
 
 // Watcher Saga

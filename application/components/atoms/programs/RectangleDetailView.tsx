@@ -19,7 +19,7 @@ const RectangleDetailView = ({ program, k, border }: AppProps) => {
     <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
       <Box position="absolute" left="0" top="0" w="15px">
         <ZStack>
-          {program.program_tracks.length > 0 && program.program_tracks.map((track: any, i: number) =>
+          {program?.program_tracks?.length > 0 && program.program_tracks.map((track: any, i: number) =>
             <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
           )}
         </ZStack>

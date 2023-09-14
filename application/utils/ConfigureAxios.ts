@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { Platform } from 'react-native';
 import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 
+
 export default function makeApi(baseURL: string) {
 
     const api = axios.create({
@@ -13,7 +14,7 @@ export default function makeApi(baseURL: string) {
     api.defaults.headers.put['Content-Type'] = "application/json";
 
     api.defaults.headers.delete['Content-Type'] = "application/json";
-    
+
     api.interceptors.request.use(
         async (config: any) => {
             if (Platform.OS === 'web' && localStorage.getItem('access_token')) {
@@ -29,13 +30,21 @@ export default function makeApi(baseURL: string) {
         (error) => Promise.reject(error)
     )
 
+    api.interceptors.response.use((response) => response, (error) => {
+        if (error.response.status === 401) {
+            return {
+                status: error.response.status,
+                data: {
+                    data: []
+                }
+            }
+        }
+    });
+
     api.interceptors.response.use(
         (response) => {
             const responseData = response as AxiosResponse<any, any>;
             return responseData;
-        },
-        (error) => {
-            Promise.reject(error);
         }
     )
 

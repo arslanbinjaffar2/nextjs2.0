@@ -7,6 +7,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import { Attendee } from 'application/models/attendee/Attendee';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import UseEventService from 'application/store/services/UseEventService';
 import debounce from 'lodash.debounce';
 import LoadMore from 'application/components/atoms/LoadMore';
 import { Group } from 'application/models/attendee/Group';
@@ -14,6 +15,12 @@ import in_array from "in_array";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import GroupAlphabatically from 'application/utils/GroupAlphabatically';
 import MobileLoading from 'application/components/atoms/MobileLoading';
+import { createParam } from 'solito';
+import { useRouter } from 'solito/router'
+
+type ScreenParams = { slug: any }
+
+const { useParam } = createParam<ScreenParams>()
 
 const Index = () => {
 
@@ -31,22 +38,28 @@ const Index = () => {
 
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name } = UseAttendeeService();
 
+    const { event } = UseEventService();
+
     const [searchQuery, setSearch] = React.useState('')
+
+    const [slug] = useParam('slug');
+
+    const { push } = useRouter()
 
     useEffect(() => {
         if (mounted.current) {
-            FetchAttendees({ query: query, group_id: 0, page: page + 1, my_attendee_id: 0 });
+            if (in_array(tab, ['attendee'])) {
+                FetchAttendees({ query: query, group_id: 0, page: page + 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0 });
+            }
         }
     }, [scroll]);
 
     useEffect(() => {
         if (mounted.current) {
-            if (tab !== "group-attendee") {
-                if (tab === "group") {
-                    FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0 });
-                } else {
-                    FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0 });
-                }
+            if (tab === "group") {
+                FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0 });
+            } else if (in_array(tab, ['attendee'])) {
+                FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0 });
             }
         }
     }, [tab]);
@@ -55,6 +68,16 @@ const Index = () => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
+
+    useEffect(() => {
+        if (slug !== undefined && slug) { // Group attendees by slug
+            setTab('attendee');
+            FetchAttendees({ query: query, group_id: slug, page: 1, my_attendee_id: 0 });
+        } else if (slug === undefined) {
+            setTab('attendee');
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0 });
+        }
+    }, [slug]);
 
     const updateTab = (tab: string) => {
         setTab(tab);
@@ -70,7 +93,7 @@ const Index = () => {
         return debounce(function (query: string) {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0 });
-            } else {
+            } else if (in_array(tab, ['attendee'])) {
                 FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0 });
             }
         }, 1000);
@@ -93,7 +116,7 @@ const Index = () => {
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>ALL</Button>
+                        <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee']) ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>ALL</Button>
                         <Button onPress={() => setTab('my-attendee')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-attendee' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>MY ATTENDEES</Button>
                         <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>GROUPS</Button>
                     </HStack>
@@ -104,7 +127,11 @@ const Index = () => {
                             )}
                             <Pressable
                                 onPress={async () => {
-                                    FetchGroups({ query: query, page: 1, group_id: 0, attendee_id: 0 });
+                                    if (slug !== undefined && slug) {
+                                        push(`/${event.url}/attendees/0`)
+                                    } else {
+                                        FetchGroups({ query: query, page: 1, group_id: 0, attendee_id: 0 });
+                                    }
                                 }}>
                                 <Text textTransform="uppercase" fontSize="xs">Go back</Text>
                             </Pressable>
@@ -120,7 +147,7 @@ const Index = () => {
                                 </React.Fragment>
                             )}
                         </VStack>
-                        {in_array(tab, ['attendee', 'group-attendee', 'my-attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {in_array(tab, ['attendee', 'my-attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             <FlatList
                                 style={{ width: '100%' }}
                                 data={GroupAlphabatically(attendees, 'first_name')}

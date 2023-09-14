@@ -7,6 +7,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRoute } from '@react-navigation/native';
 import in_array from "in_array";
 import MobileLoading from 'application/components/atoms/MobileLoading';
+import { useIsFocused } from '@react-navigation/native';
 
 type Props = {
   children:
@@ -19,13 +20,15 @@ type Props = {
 
 const Master = ({ children, navigation }: Props) => {
 
-  const { response, loadToken, isLoggedIn } = UseAuthService();
+  const { response, loadToken, isLoggedIn, getUser } = UseAuthService();
 
   const { FetchEventByCode, event, modules } = UseEventService();
 
   const [process, setProcess] = React.useState(false);
 
   const route: any = useRoute();
+
+  const isFocused = useIsFocused();
 
   React.useEffect(() => {
     if (response.redirect === "login") {
@@ -102,6 +105,12 @@ const Master = ({ children, navigation }: Props) => {
       }
     }
   }, [process]);
+
+  React.useEffect(() => {
+    if (isFocused && isLoggedIn) {
+      getUser();
+    }
+  }, [isFocused]);
 
   return (
     <>

@@ -27,7 +27,7 @@ export function NavigationProvider({
               'event-info-detail': ':url/:cms/event-info-detail/:id',
               'sponsor-detail': ':url/sponsors/detail/:id',
               'exhibitor-detail': ':url/exhibitors/detail/:id',
-              'attendees': ':url/attendees/:id',
+              'attendees': ':url/attendees/:slug',
               'attendee-detail': ':url/attendees/detail/:id',
             },
           },

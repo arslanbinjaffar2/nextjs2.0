@@ -59,6 +59,9 @@ const AuthSlice = createSlice({
         login(state, action: PayloadAction<LoginPayload>) {
             state.processing = true;
         },
+        logout(state, action: PayloadAction<LoginPayload>) {
+            state.processing = true;
+        },
         passwordReset(state, action: PayloadAction<PasswordResetPayload>) {
             state.processing = true;
         },
@@ -94,7 +97,7 @@ const AuthSlice = createSlice({
             state.processing = false;
             state.error = action.payload;
         },
-        logout(state) {
+        clearToken(state) {
             state.isLoggedIn = false;
             state.processing = false;
             state.response = { redirect: 'login' };
@@ -123,6 +126,7 @@ export const AuthActions = {
     failed: AuthSlice.actions.failed,
     logout: AuthSlice.actions.logout,
     loadToken: AuthSlice.actions.loadToken,
+    clearToken: AuthSlice.actions.clearToken,
 }
 
 // Selectors

@@ -132,9 +132,13 @@ function* OnGetUser({ }: {
     try {
         const state = yield select(state => state);
         const response: HttpResponse = yield call(getUserApi, state);
-        yield put(AuthActions.success(response.data));
+        if (response?.status === 401) {
+            yield put(AuthActions.clearToken());
+        } else {
+            yield put(AuthActions.success(response.data));
+        }
     } catch (error: any) {
-        yield put(AuthActions.logout());
+        yield put(AuthActions.clearToken());
     }
 }
 
@@ -143,7 +147,7 @@ function* OnLogout({
     type: typeof AuthActions.logout
     payload: Event
 }): SagaIterator {
-    //Later use
+    yield put(AuthActions.clearToken());
 }
 
 // Watcher Saga
