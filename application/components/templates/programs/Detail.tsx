@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
-import { Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Input, Spacer, Text, VStack, ZStack, Image, Divider, Avatar, Pressable } from 'native-base';
+
+import { Box, Button, Container, HStack, Text } from 'native-base';
 
 import DetailBlock from 'application/components/atoms/programs/DetailBlock';
+
 import SpeakerListing from 'application/components/molecules/speakers/Listing';
-import PollListing from 'application/components/molecules/polls/Listing';
+
+import PollRectangleView from 'application/components/atoms/polls/RectangleView'
+
 import RequestToSpeakListing from 'application/components/molecules/request_to_speak/Listing';
+
 import ListingLayout1 from 'application/components/molecules/documents/ListingLayout1';
+
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 const Detail = () => {
 
@@ -22,7 +29,11 @@ const Detail = () => {
                 </HStack>
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
                     <SpeakerListing />
-                    <PollListing />
+                    <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                        <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
+                        <Text fontSize="md">Polls</Text>
+                    </HStack>
+                    <PollRectangleView />
                     <RequestToSpeakListing />
                     <ListingLayout1 />
                 </Box>

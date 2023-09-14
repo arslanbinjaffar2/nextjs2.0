@@ -21,10 +21,6 @@ const Index = () => {
             </HStack>
             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                 <RectangleView />
-                <RectangleView />
-                <RectangleView />
-                <RectangleView />
-                <RectangleView />
                 <Divider h="100px" bg="transparent" />
             </Box>
         </Container>
