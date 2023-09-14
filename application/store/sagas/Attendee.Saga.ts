@@ -21,7 +21,7 @@ function* OnGetAttendees({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAttendeeApi, payload, state)
-    yield put(AttendeeActions.update({ attendee: response.data.data!, group_id: payload.group_id, query: payload.query, page: payload.page }))
+    yield put(AttendeeActions.update({ attendee: response.data.data!, group_id: payload.group_id, query: payload.query, page: payload.page, group_name: response?.data?.meta?.group_name }))
     yield put(LoadingActions.set(false));
 }
 

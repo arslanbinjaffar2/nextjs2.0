@@ -51,7 +51,6 @@ export const AttendeeSlice = createSlice({
             state.page = action.payload.page;
             state.group_id = action.payload.group_id;
             state.my_attendee_id = action.payload.my_attendee_id;
-            state.group_name = state.groups?.find((group: Group, key: number) => group.id === action.payload.group_id)?.info?.name!
         },
         FetchGroups(state, action: PayloadAction<{ query: string, page: number, group_id: number, attendee_id: number }>) {
             state.query = action.payload.query;
@@ -59,9 +58,10 @@ export const AttendeeSlice = createSlice({
             state.group_id = action.payload.group_id;
             state.group_name = state.groups?.find((group: Group, key: number) => group.id === action.payload.group_id)?.info?.name!;
         },
-        update(state, action: PayloadAction<{ attendee: Attendee[], group_id: number, query: string, page: number }>) {
+        update(state, action: PayloadAction<{ attendee: Attendee[], group_id: number, query: string, page: number, group_name: string }>) {
             const existed: any = current(state.attendees);
             state.attendees = action.payload.page === 1 ? action.payload.attendee : [...existed, ...action.payload.attendee];
+            state.group_name = action.payload.group_name;
         },
         updateGroups(state, action: PayloadAction<{ groups: Group[], query: string, page: number, group_id: number }>) {
             const existed: any = current(state.groups);

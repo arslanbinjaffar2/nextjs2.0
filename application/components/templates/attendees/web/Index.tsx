@@ -60,12 +60,18 @@ const Index = () => {
 
     useEffect(() => {
         mounted.current = true;
+        return () => { mounted.current = false; };
+    }, []);
+
+    useEffect(() => {
         if (slug !== undefined && slug.length === 1) { // Group attendees by slug
             setTab('group-attendee');
             FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0 });
+        } else if (slug === undefined || slug.length === 1) {
+            setTab('attendee');
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0 });
         }
-        return () => { mounted.current = false; };
-    }, []);
+    }, [slug]);
 
     const updateTab = (tab: string) => {
         setTab(tab);

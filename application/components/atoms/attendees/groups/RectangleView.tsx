@@ -18,7 +18,7 @@ const RectangleView = ({ group, border, k, updateTab, navigation }: boxItemProps
 
     const { event } = UseEventService();
 
-    const { query, FetchGroups, group_id, FetchAttendees } = UseAttendeeService();
+    const { query, FetchGroups, group_id } = UseAttendeeService();
 
     const { push } = useRouter()
 
@@ -30,8 +30,7 @@ const RectangleView = ({ group, border, k, updateTab, navigation }: boxItemProps
                 if (group_id === 0) {
                     FetchGroups({ query: query, page: 1, group_id: group?.id!, attendee_id: 0 });
                 } else if (updateTab) {
-                    updateTab('group-attendee');
-                    FetchAttendees({ query: query, group_id: group?.id!, page: 1, my_attendee_id: 0 });
+                    push(`/${event.url}/attendees/${group?.id!}`)
                 }
             }
         }}>
