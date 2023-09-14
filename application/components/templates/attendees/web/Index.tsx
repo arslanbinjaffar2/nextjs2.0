@@ -48,7 +48,7 @@ const Index = () => {
 
     useEffect(() => {
         if (mounted.current) {
-            if (in_array(tab, ['attendee'])) {
+            if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
                 FetchAttendees({ query: query, group_id: 0, page: page + 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0 });
             }
         }
@@ -58,7 +58,7 @@ const Index = () => {
         if (mounted.current) {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0 });
-            } else if (in_array(tab, ['attendee'])) {
+            } else if (in_array(tab, ['attendee', 'my-attendee'])) {
                 FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0 });
             }
         }
@@ -71,7 +71,7 @@ const Index = () => {
 
     useEffect(() => {
         if (slug !== undefined && slug.length === 1) { // Group attendees by slug
-            setTab('attendee');
+            setTab('group-attendee');
             FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0 });
         } else if (slug === undefined || slug.length === 0) {
             setTab('attendee');
@@ -93,7 +93,7 @@ const Index = () => {
         return debounce(function (query: string) {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0 });
-            } else if (in_array(tab, ['attendee'])) {
+            } else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
                 FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0 });
             }
         }, 1000);
@@ -118,7 +118,7 @@ const Index = () => {
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee']) ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>ALL</Button>
+                        <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>ALL</Button>
                         <Button onPress={() => setTab('my-attendee')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-attendee' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>MY ATTENDEES</Button>
                         <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>GROUPS</Button>
                     </HStack>
@@ -148,7 +148,7 @@ const Index = () => {
                             </React.Fragment>
                         )}
                     </VStack>
-                    {in_array(tab, ['attendee', 'my-attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                    {in_array(tab, ['attendee', 'my-attendee', 'group-attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                         {GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                             <React.Fragment key={`item-box-${k}`}>
                                 {map?.letter && (
