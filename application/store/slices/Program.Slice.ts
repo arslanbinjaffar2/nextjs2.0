@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Program } from 'application/models/program/Program'
 
-import type { RootState } from 'application/store/Index'
+import { RootState } from 'application/store/Index'
 
 import {
     current

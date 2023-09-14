@@ -6,8 +6,6 @@ import { getMyProgramApi, makeFavouriteApi } from 'application/store/api/Program
 
 import { ProgramActions } from 'application/store/slices/Program.Slice'
 
-import { AttendeeActions } from 'application/store/slices/Attendee.Slice'
-
 import { LoadingActions } from 'application/store/slices/Loading.Slice'
 
 import { HttpResponse } from 'application/models/GeneralResponse'
