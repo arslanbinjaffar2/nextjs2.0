@@ -18,8 +18,10 @@ import { ProgramWatcherSaga } from 'application/store/sagas/Program.Saga'
 
 import { InfoWatcherSaga } from 'application/store/sagas/Info.Saga'
 
+import { PollWatcherSaga } from 'application/store/sagas/Poll.Saga'
+
 export function* RootSaga() {
-    yield all([fork(EventWatcherSaga), fork(AuthWatcherSaga), fork(MapWatcherSaga), fork(InfoWatcherSaga), fork(SponsorWatcherSaga), fork(ExhibitorWatcherSaga), fork(DocumentWatcherSaga), fork(AttendeeWatcherSaga), fork(ProgramWatcherSaga)])
+    yield all([fork(EventWatcherSaga), fork(AuthWatcherSaga), fork(MapWatcherSaga), fork(InfoWatcherSaga), fork(SponsorWatcherSaga), fork(ExhibitorWatcherSaga), fork(DocumentWatcherSaga), fork(AttendeeWatcherSaga), fork(ProgramWatcherSaga), fork(PollWatcherSaga)])
 }
 
 export default RootSaga
