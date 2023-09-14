@@ -4,21 +4,21 @@ import Master from 'application/screens/web/layouts/Master';
 import AttendeeDetail from 'application/components/templates/attendees/web/Detail';
 
 type indexProps = {
-  navigation: unknown
+    navigation: unknown
 }
 
 const Detail = ({ navigation }: indexProps) => {
 
-  return (
-    <Master>
-      <AttendeeDetail speaker={0} />
-    </Master>
-  );
+    return (
+        <Master>
+            <AttendeeDetail speaker={1} />
+        </Master>
+    );
 
 };
 
 Detail.propTypes = {
-  navigation: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
 };
 
 export default Detail;

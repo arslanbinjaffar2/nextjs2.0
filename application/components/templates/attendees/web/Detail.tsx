@@ -21,7 +21,11 @@ type ScreenParams = { id: string, cms: string | undefined }
 
 const { useParam } = createParam<ScreenParams>()
 
-const Detail = () => {
+type Props = {
+    speaker?: number
+}
+
+const Detail = ({ speaker }: Props) => {
 
     const mounted = React.useRef(false);
 

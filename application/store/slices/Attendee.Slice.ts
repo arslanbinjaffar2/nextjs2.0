@@ -46,7 +46,7 @@ export const AttendeeSlice = createSlice({
     name: 'attendees',
     initialState,
     reducers: {
-        FetchAttendees(state, action: PayloadAction<{ group_id: number, query: string, page: number, my_attendee_id: number }>) {
+        FetchAttendees(state, action: PayloadAction<{ group_id: number, query: string, page: number, my_attendee_id: number, speaker: number }>) {
             state.query = action.payload.query;
             state.page = action.payload.page;
             state.group_id = action.payload.group_id;

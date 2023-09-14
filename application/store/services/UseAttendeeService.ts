@@ -18,7 +18,7 @@ export type AttendeeServiceOperators = {
     attendees: Attendee[]
     detail: Detail
     groups: Group[]
-    FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number }) => void
+    FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number }) => void
     FetchGroups: (payload: { query: string, page: number, group_id: number, attendee_id: number }) => void
     MakeFavourite: (payload: { attendee_id: number, screen: string }) => void
     FetchAttendeeDetail: (payload: { id: number }) => void
@@ -41,7 +41,7 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         groups: useAppSelector(SelectGroups),
         detail: useAppSelector(SelectAttendeeDetail),
         FetchAttendees: useCallback(
-            (payload: { group_id: number, query: string, page: number, my_attendee_id: number }) => {
+            (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number }) => {
                 dispatch(AttendeeActions.FetchAttendees(payload))
             },
             [dispatch],

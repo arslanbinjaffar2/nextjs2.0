@@ -16,7 +16,7 @@ function* OnGetAttendees({
     payload,
 }: {
     type: typeof AttendeeActions.FetchAttendees
-    payload: { group_id: number, query: string, page: number, my_attendee_id: number }
+    payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
@@ -28,7 +28,7 @@ function* OnGetAttendees({
 function* OnGetAttendeeDetail({
     payload,
 }: {
-    type: typeof AttendeeActions.FetchAttendees
+    type: typeof AttendeeActions.FetchAttendeeDetail
     payload: { id: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
@@ -47,7 +47,7 @@ function* OnMakeFavourite({
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     if (payload.screen === "listing") {
-        yield put(AttendeeActions.FetchAttendees({ query: state?.attendees?.query, page: 1, group_id: state?.attendees?.group_id, my_attendee_id: state?.attendees?.my_attendee_id }))
+        yield put(AttendeeActions.FetchAttendees({ query: state?.attendees?.query, page: 1, group_id: state?.attendees?.group_id, my_attendee_id: state?.attendees?.my_attendee_id, speaker: 0 }))
     } else {
         yield put(AttendeeActions.FetchAttendeeDetail({ id: payload.attendee_id }))
     }
@@ -56,7 +56,7 @@ function* OnMakeFavourite({
 function* OnGetGroups({
     payload,
 }: {
-    type: typeof AttendeeActions.FetchAttendees
+    type: typeof AttendeeActions.FetchGroups
     payload: { group_id: number, query: string, page: number, attendee_id: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
