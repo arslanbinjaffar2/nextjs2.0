@@ -24,7 +24,6 @@ const { useParam } = createParam<ScreenParams>()
 
 type Props = {
     speaker: number
-    category_id: number
 }
 
 const Index = ({ speaker }: Props) => {
