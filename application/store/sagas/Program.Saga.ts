@@ -16,13 +16,13 @@ function* OnGetMyPrograms({
     payload,
 }: {
     type: typeof ProgramActions.FetchPrograms
-    payload: { query: string, page: number }
+    payload: { query: string, page: number, id: number }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'programs' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getProgramApi, payload, state)
-    yield put(ProgramActions.update({ programs: response.data?.data?.programs!, query: payload.query, page: payload.page }))
-    yield put(LoadingActions.set(false));
+    yield put(ProgramActions.update({ programs: response.data?.data, query: payload.query, page: payload.page }))
+    yield put(LoadingActions.removeProcess({ process: 'programs' }))
 }
 
 function* OnMakeFavourite({
@@ -34,7 +34,7 @@ function* OnMakeFavourite({
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     if (payload.screen === "my-program") {
-        yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'my-program' }))
+        yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'my-program', id: 0 }))
     }
 }
 

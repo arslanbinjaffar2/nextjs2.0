@@ -18,11 +18,11 @@ function* OnGetAttendees({
     type: typeof AttendeeActions.FetchAttendees
     payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'attendee-listing' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAttendeeApi, payload, state)
     yield put(AttendeeActions.update({ attendee: response.data.data!, group_id: payload.group_id, query: payload.query, page: payload.page, group_name: response?.data?.meta?.group_name }))
-    yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'attendee-listing' }))
 }
 
 function* OnGetAttendeeDetail({
@@ -31,11 +31,11 @@ function* OnGetAttendeeDetail({
     type: typeof AttendeeActions.FetchAttendeeDetail
     payload: { id: number }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'attendee-detail' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAttendeeDetailApi, payload, state)
     yield put(AttendeeActions.updateDetail({ detail: response.data.data! }))
-    yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'attendee-detail' }))
 }
 
 function* OnMakeFavourite({
@@ -59,11 +59,11 @@ function* OnGetGroups({
     type: typeof AttendeeActions.FetchGroups
     payload: { group_id: number, query: string, page: number, attendee_id: number }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'groups' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getGroupsApi, payload, state)
     yield put(AttendeeActions.updateGroups({ groups: response.data.data.groups.data!, query: payload.query, page: payload.page, group_id: payload.group_id }))
-    yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'groups' }))
 }
 
 // Watcher Saga
