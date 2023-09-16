@@ -17,9 +17,11 @@ const MultipleAnswer = ({ question, formData, updateFormData, error }: PropTypes
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.question} {Number(question?.required_question) === 1 && <Text color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <VStack space="4">
+        <Checkbox.Group defaultValue={formData[question.id]?.answer}>
           {question?.answer.map((answer, k) =>
-            <Checkbox key={k} size="md" isChecked={formData[question.id]?.answer?.includes(answer.id)}  onChange={()=> updateFormData(question.id, question.question_type, answer.id)}  value={`${answer.id}`}>{answer.answer}</Checkbox>
+            <Checkbox key={k} size="md"   onChange={()=> updateFormData(question.id, question.question_type, answer.id)}  value={`${answer.id}`}>{answer.answer}</Checkbox>
           )}
+        </Checkbox.Group>
         </VStack>
       </Box>
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
