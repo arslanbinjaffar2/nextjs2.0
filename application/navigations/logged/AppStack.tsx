@@ -34,7 +34,6 @@ import colors from 'application/styles/colors';
 import DrawerLayout from 'application/screens/mobile/layouts/Drawer';
 import MyProgram from 'application/screens/mobile/program/MyProgram';
 import SessionCheckIn from 'application/screens/mobile/program/SessionCheckIn';
-import MyAttendee from 'application/screens/mobile/attendee/MyAttendee';
 import MyNote from 'application/screens/mobile/notes/MyNote';
 
 const Drawer = createDrawerNavigator();
@@ -55,7 +54,6 @@ const AppStack = () => {
       <Drawer.Screen options={{ headerShown: false }} name="myagendas" component={MyProgram} />
       <Drawer.Screen options={{ headerShown: false }} name="checin_agendas" component={SessionCheckIn} />
       <Drawer.Screen options={{ headerShown: false }} name="attendees" component={Attendee} />
-      <Drawer.Screen options={{ headerShown: false }} name="myattendees" component={MyAttendee} />
       <Drawer.Screen options={{ headerShown: false }} name="speakers" component={Speaker} />
       <Drawer.Screen options={{ headerShown: false }} name="alerts" component={NewsUpdate} />
       <Drawer.Screen options={{ headerShown: false }} name="ddirectory" component={Document} />
