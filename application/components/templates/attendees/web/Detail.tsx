@@ -33,7 +33,7 @@ const Detail = ({ speaker }: Props) => {
 
     const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
 
-    const { FetchMyPrograms, programs, page } = UseProgramService();
+    const { FetchPrograms, programs, page } = UseProgramService();
 
     const { response } = UseAuthService();
 
@@ -56,7 +56,7 @@ const Detail = ({ speaker }: Props) => {
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
-                FetchMyPrograms({ page: 1, query: '', screen: 'my-program' });
+                FetchPrograms({ page: 1, query: '', screen: 'my-program' });
             } else if (tab === "groups") {
                 FetchGroups({ query: '', group_id: 0, page: 1, attendee_id: Number(id) });
             }
@@ -66,7 +66,7 @@ const Detail = ({ speaker }: Props) => {
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
-                FetchMyPrograms({ query: '', page: page + 1, screen: 'my-program' });
+                FetchPrograms({ query: '', page: page + 1, screen: 'my-program' });
             } else if (tab === "groups") {
                 FetchGroups({ query: '', group_id: 0, page: page + 1, attendee_id: Number(id) });
             }
@@ -104,7 +104,7 @@ const Detail = ({ speaker }: Props) => {
                                                     (() => {
                                                         if (row?.tab_name === 'program' && row?.status == 1) {
                                                             return (
-                                                                <Button onPress={() => setTab('program')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={detail?.attendee_tabs_settings[detail?.attendee_tabs_settings?.length - 1]?.tab_name === 'program' ? 8 : 0} borderLeftRadius={detail?.attendee_tabs_settings[0]?.tab_name === 'program' ? 8 : 0} h="42px" bg={tab === 'program' ? 'primary.darkbox' : 'primary.box'} w="22%" _text={{ fontWeight: '600' }}>MY PROGRAMS</Button>
+                                                                <Button onPress={() => setTab('program')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={detail?.attendee_tabs_settings[detail?.attendee_tabs_settings?.length - 1]?.tab_name === 'program' ? 8 : 0} borderLeftRadius={detail?.attendee_tabs_settings[0]?.tab_name === 'program' ? 8 : 0} h="42px" bg={tab === 'program' ? 'primary.darkbox' : 'primary.box'} w="22%" _text={{ fontWeight: '600' }}>{speaker ? 'PROGRAMS' : 'MY PROGRAMS'}</Button>
                                                             )
                                                         } else if (row?.tab_name === 'contact_info' && row?.status == 1 && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website))) {
                                                             return (
@@ -118,7 +118,7 @@ const Detail = ({ speaker }: Props) => {
                                                             return (
                                                                 <Button onPress={() => setTab('groups')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={detail?.attendee_tabs_settings[0]?.tab_name === 'groups' ? 8 : 0} borderRightRadius={detail?.attendee_tabs_settings[detail?.attendee_tabs_settings?.length - 1]?.tab_name === 'groups' ? 8 : 0} h="42px" bg={tab === 'groups' ? 'primary.darkbox' : 'primary.box'} w="15%" _text={{ fontWeight: '600' }}>GROUPS</Button>
                                                             )
-                                                        } else if (row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration) {
+                                                        } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration) {
                                                             return (
                                                                 <Button onPress={() => setTab('sub_registration')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={detail?.attendee_tabs_settings[0]?.tab_name === 'sub_registration' ? 8 : 0} borderRightRadius={detail?.attendee_tabs_settings[detail?.attendee_tabs_settings?.length - 1]?.tab_name === 'sub_registration' ? 8 : 0} h="42px" bg={tab === 'sub_registration' ? 'primary.darkbox' : 'primary.box'} w="25%" _text={{ fontWeight: '600' }}>SUB REGISTRATION</Button>
                                                             )

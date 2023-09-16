@@ -11,9 +11,10 @@ import { useRouter } from 'solito/router'
 type boxItemProps = {
   attendee: Attendee
   border: number
+  speaker: number
 }
 
-const RectangleView = ({ border, attendee }: boxItemProps) => {
+const RectangleView = ({ border, attendee, speaker }: boxItemProps) => {
 
   const { MakeFavourite } = UseAttendeeService();
 
@@ -27,7 +28,11 @@ const RectangleView = ({ border, attendee }: boxItemProps) => {
     <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.text" py="3">
       <Pressable
         onPress={() => {
-          push(`/${event.url}/attendees/detail/${attendee.id}`)
+          if (speaker) {
+            push(`/${event.url}/speakers/detail/${attendee.id}`)
+          } else {
+            push(`/${event.url}/attendees/detail/${attendee.id}`)
+          }
         }}>
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
           <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">

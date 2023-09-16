@@ -27,7 +27,7 @@ export const ProgramSlice = createSlice({
     name: 'programs',
     initialState,
     reducers: {
-        FetchMyPrograms(state, action: PayloadAction<{ query: string, page: number, screen: string }>) {
+        FetchPrograms(state, action: PayloadAction<{ query: string, page: number, screen: string }>) {
             state.query = action.payload.query;
             state.page = action.payload.page;
             state.screen = action.payload.screen;
@@ -42,7 +42,7 @@ export const ProgramSlice = createSlice({
 
 // Actions
 export const ProgramActions = {
-    FetchMyPrograms: ProgramSlice.actions.FetchMyPrograms,
+    FetchPrograms: ProgramSlice.actions.FetchPrograms,
     update: ProgramSlice.actions.update,
     MakeFavourite: ProgramSlice.actions.MakeFavourite,
 }

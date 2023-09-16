@@ -10,7 +10,7 @@ export type ProgramServiceOperators = {
     query: string
     page: number
     programs: Program[]
-    FetchMyPrograms: (payload: { query: string, page: number, screen: string }) => void
+    FetchPrograms: (payload: { query: string, page: number, screen: string }) => void
     MakeFavourite: (payload: { program_id: number, screen: string }) => void
 }
 
@@ -26,9 +26,9 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         query: useAppSelector(SelectQuery),
         page: useAppSelector(SelectPage),
         programs: useAppSelector(SelectMyPrograms),
-        FetchMyPrograms: useCallback(
+        FetchPrograms: useCallback(
             (payload: { query: string, page: number, screen: string }) => {
-                dispatch(ProgramActions.FetchMyPrograms(payload))
+                dispatch(ProgramActions.FetchPrograms(payload))
             },
             [dispatch],
         ),

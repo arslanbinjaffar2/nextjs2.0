@@ -163,7 +163,7 @@ const Index = ({ speaker }: Props) => {
                                             <Text w="100%" pl="18px" bg="primary.darkbox">{item?.letter}</Text>
                                             {item?.records?.map((attendee: Attendee, k: number) =>
                                                 <React.Fragment key={`${k}`}>
-                                                    <RectangleAttendeeView attendee={attendee} border={attendees.length > 0 && attendees[attendees.length - 1]?.id !== attendee?.id ? 1 : 0} />
+                                                    <RectangleAttendeeView attendee={attendee} border={attendees.length > 0 && attendees[attendees.length - 1]?.id !== attendee?.id ? 1 : 0} speaker={speaker} />
                                                 </React.Fragment>
                                             )}
                                         </>
