@@ -7,6 +7,8 @@ type PropTypes = {
   question: Question,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any) => void
+    error:string|null
+
 }
 const MatrixAnswer = ({ question, formData, updateFormData }: PropTypes) => {
   console.log(question)

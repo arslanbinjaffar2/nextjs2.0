@@ -6,7 +6,8 @@ import { Question, FormData } from 'application/models/poll/Detail';
 type PropTypes = {
   question: Question,
   formData: FormData,
-  updateFormData: (question_id:number, type:string, answer:any) => void
+  updateFormData: (question_id:number, type:string, answer:any) => void,
+  error:string|null
 }
 const WordCloudAnswer = ({ question, formData, updateFormData }: PropTypes) => {
   console.log(question)

@@ -30,7 +30,7 @@ const Index = ({ speaker }: Props) => {
 
     const mounted = React.useRef(false);
 
-    const { scroll, loading } = UseLoadingService();
+    const { scroll, processing } = UseLoadingService();
 
     const { response } = UseAuthService();
 
@@ -109,7 +109,7 @@ const Index = ({ speaker }: Props) => {
 
     return (
         <>
-            {loading && page === 1 ? (
+            {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page === 1 ? (
                 <WebLoading />
             ) : (
                 <>
@@ -182,7 +182,7 @@ const Index = ({ speaker }: Props) => {
                             </React.Fragment>
                         )}
                     </Container>}
-                    {loading && page > 1 && (
+                    {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />
                     )}
                 </>

@@ -13,6 +13,7 @@ export interface ProgramState {
     query: string,
     screen: string,
     page: number,
+    id: number,
 }
 
 const initialState: ProgramState = {
@@ -20,6 +21,7 @@ const initialState: ProgramState = {
     query: '',
     screen: '',
     page: 1,
+    id: 0,
 }
 
 // Slice
@@ -27,8 +29,9 @@ export const ProgramSlice = createSlice({
     name: 'programs',
     initialState,
     reducers: {
-        FetchPrograms(state, action: PayloadAction<{ query: string, page: number, screen: string }>) {
+        FetchPrograms(state, action: PayloadAction<{ query: string, page: number, screen: string, id: number }>) {
             state.query = action.payload.query;
+            state.id = action.payload.id;
             state.page = action.payload.page;
             state.screen = action.payload.screen;
         },
@@ -52,6 +55,8 @@ export const SelectMyPrograms = (state: RootState) => state.programs.programs
 export const SelectQuery = (state: RootState) => state.programs.query
 
 export const SelectPage = (state: RootState) => state.programs.page
+
+export const SelectID = (state: RootState) => state.programs.id
 
 // Reducer
 export default ProgramSlice.reducer

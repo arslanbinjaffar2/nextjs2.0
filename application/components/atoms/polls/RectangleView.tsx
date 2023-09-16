@@ -5,7 +5,7 @@ import { Poll } from 'application/models/poll/Poll';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 
-const RectangleView = ({poll}:{poll:Poll}) => {
+const RectangleView = ({poll, completed}:{poll:Poll, completed:boolean}) => {
   const { event } = UseEventService();
   const { push } = useRouter()
 
@@ -15,7 +15,9 @@ const RectangleView = ({poll}:{poll:Poll}) => {
       w="100%"
       _hover={{ bg: 'primary.500' }}
       onPress={() => { 
-        push(`/${event.url}/polls/detail/${poll.agenda_id}`)
+        if(!completed){
+          push(`/${event.url}/polls/detail/${poll.agenda_id}`)
+        }
        }}>
       <Box w="100%" borderBottomWidth='1' borderColor="primary.text" py="3">
         <HStack px="3" w="100%" space="0" alignItems="center" justifyContent="space-between">
