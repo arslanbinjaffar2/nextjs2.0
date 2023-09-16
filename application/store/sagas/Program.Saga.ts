@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getMyProgramApi, makeFavouriteApi } from 'application/store/api/Program.Api';
+import { getProgramApi, makeFavouriteApi } from 'application/store/api/Program.Api';
 
 import { ProgramActions } from 'application/store/slices/Program.Slice'
 
@@ -20,8 +20,8 @@ function* OnGetMyPrograms({
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getMyProgramApi, payload, state)
-    yield put(ProgramActions.update({ programs: response.data.data!, query: payload.query, page: payload.page }))
+    const response: HttpResponse = yield call(getProgramApi, payload, state)
+    yield put(ProgramActions.update({ programs: response.data?.data?.programs!, query: payload.query, page: payload.page }))
     yield put(LoadingActions.set(false));
 }
 
