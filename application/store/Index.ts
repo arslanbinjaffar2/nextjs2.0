@@ -16,6 +16,7 @@ import ProgramSlice from 'application/store/slices/Program.Slice'
 import InfoSlice from 'application/store/slices/Info.Slice'
 import PollSlice from './slices/Poll.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
+import SurveySlice from './slices/Survey.Slice'
 
 const makeStore = () => {
 
@@ -36,7 +37,8 @@ const makeStore = () => {
             programs: ProgramSlice,
             loading: LoadingSlice,
             info: InfoSlice,
-            polls:PollSlice
+            polls:PollSlice,
+            surveys:SurveySlice
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
