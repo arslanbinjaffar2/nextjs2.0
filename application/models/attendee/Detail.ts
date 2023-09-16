@@ -1,3 +1,5 @@
+
+import { Category } from 'application/models/attendee/Category';
 export interface Detail {
     detail?: AttendeeDetail;
     meeting?: string;
@@ -6,7 +8,6 @@ export interface Detail {
     speaker_setting: SpeakerSetting;
     setting: Setting;
     field_setting: FieldSetting;
-    programs?: Program[];
     sub_registration: SubRegistration;
     sub_registration_module_status?: number;
     is_favourite?: number;
@@ -93,7 +94,7 @@ interface FieldSetting {
     facebook?: number;
     twitter?: number;
     event_language?: number;
-  }
+}
 
 interface SubRegistration {
     id?: number;
@@ -103,69 +104,6 @@ interface SubRegistration {
     deleted_at?: string;
     created_at?: string;
 }
-
-interface Program {
-    id?: number;
-    hide_time?: number;
-    only_for_speaker_list?: number;
-    workshop_id?: number;
-    topic?: string;
-    description?: string;
-    date?: string;
-    heading_date?: string;
-    start_time?: string;
-    end_time?: string;
-    location?: string;
-    start_date_time?: string;
-    program_speakers?: ProgramSpeaker[];
-    program_tracks?: ProgramTrack[];
-}
-
-interface ProgramTrack {
-    name?: string;
-    color?: string;
-}
-
-interface ProgramSpeaker {
-    id?: number;
-    email?: string;
-    ss_number?: string;
-    first_name?: string;
-    last_name?: string;
-    organizer_id?: number;
-    FIRST_NAME_PASSPORT?: string;
-    LAST_NAME_PASSPORT?: string;
-    BIRTHDAY_YEAR?: string;
-    EMPLOYMENT_DATE?: string;
-    SPOKEN_LANGUAGE?: string;
-    image?: string;
-    status?: number;
-    show_home?: string;
-    allow_vote?: number;
-    billing_ref_attendee?: number;
-    billing_password?: string;
-    change_password?: number;
-    phone?: string;
-    is_updated?: number;
-    is_deleted?: number;
-    pid?: string;
-    pid_date?: string;
-    created_at?: string;
-    updated_at?: string;
-    deleted_at?: string;
-    attendee_cv?: string;
-    cv?: string;
-    encrypted_cpr_number?: string;
-    pivot?: Pivot;
-    info?: Info;
-    current_event_attendee?: CurrentEventAttendee;
-}
-
-interface Pivot {
-    agenda_id?: number;
-    attendee_id?: number;
-}
-
 interface SpeakerSetting {
     id?: number;
     event_id?: number;
@@ -222,7 +160,6 @@ interface SpeakerSetting {
     spoken_languages?: number;
     employment_date?: number;
 }
-
 interface ProgramSetting {
     id?: number;
     event_id?: number;
@@ -249,23 +186,6 @@ interface ProgramSetting {
     updated_at?: string;
     deleted_at?: string;
     program_view?: string;
-}
-
-interface Child {
-    present: boolean;
-    info: Info2;
-}
-
-interface Info2 {
-    id?: number;
-    name?: string;
-    value?: string;
-    end_date?: string;
-    languages_id?: number;
-    group_id?: number;
-    created_at?: string;
-    updated_at?: string;
-    deleted_at?: string;
 }
 
 interface AttendeeTabSetting {
@@ -313,6 +233,7 @@ interface AttendeeDetail {
     info?: Info;
     gdpr?: number;
     current_event_attendee?: CurrentEventAttendee;
+    categories: Category[];
 }
 
 interface CurrentEventAttendee {

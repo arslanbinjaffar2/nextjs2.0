@@ -68,7 +68,7 @@ export const AttendeeSlice = createSlice({
             state.groups = action.payload.page === 1 ? action.payload.groups : [...existed, ...action.payload.groups];
         },
         MakeFavourite(state, action: PayloadAction<{ attendee_id: number, screen: string }>) { },
-        FetchAttendeeDetail(state, action: PayloadAction<{ id: number }>) { },
+        FetchAttendeeDetail(state, action: PayloadAction<{ id: number, speaker: number }>) { },
         updateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
         },

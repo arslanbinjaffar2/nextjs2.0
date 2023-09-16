@@ -13,6 +13,11 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import MultipleAnswer from 'application/components/atoms/polls/questions/MultipleAnswer';
 import SingleAnswer from 'application/components/atoms/polls/questions/SingleAnswer';
 import DropdownAnswer from 'application/components/atoms/polls/questions/DropdownAnswer';
+import WordCloudAnswer from 'application/components/atoms/polls/questions/WordCloudAnswer';
+import MatrixAnswer from 'application/components/atoms/polls/questions/MatrixAnswer';
+import OpenQuestionAnswer from 'application/components/atoms/polls/questions/OpenQuestionAnswer';
+import NumberAnswer from 'application/components/atoms/polls/questions/NumberAnswer';
+import DateAnswer from 'application/components/atoms/polls/questions/DateAnswer';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -215,15 +220,15 @@ const Detail = () => {
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                 {detail?.questions.length! > 0 &&  detail?.questions[steps] !== undefined && (
                   <>
-                    {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
-                    {detail?.questions[steps].question_type === 'single' && <SingleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
+                    {detail?.questions[steps].question_type === 'matrix' && <MatrixAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
+                    {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
+                    {detail?.questions[steps].question_type === 'single' && <SingleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
                     {detail?.questions[steps].question_type === 'dropdown' && <DropdownAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
-                    {detail?.questions[steps].question_type === 'open' && "open question"}
-                    {detail?.questions[steps].question_type === 'number' && 'number'}
-                    {detail?.questions[steps].question_type === 'date' && 'date'}
+                    {detail?.questions[steps].question_type === 'open' && <OpenQuestionAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
+                    {detail?.questions[steps].question_type === 'number' && <NumberAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
+                    {detail?.questions[steps].question_type === 'date' && <DateAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                     {detail?.questions[steps].question_type === 'date_time' && 'datetime'}
-                    {detail?.questions[steps].question_type === 'matrix' && 'matrix'}
-                    {detail?.questions[steps].question_type === 'world_cloud' && 'world_cloud'}
+                    {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                   </>
                 )}
                 <Box py="0" px="4" w="100%">
