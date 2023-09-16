@@ -15,7 +15,7 @@ import { select } from 'redux-saga/effects';
 function* OnGetMyPrograms({
     payload,
 }: {
-    type: typeof ProgramActions.FetchMyPrograms
+    type: typeof ProgramActions.FetchPrograms
     payload: { query: string, page: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
@@ -34,13 +34,13 @@ function* OnMakeFavourite({
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     if (payload.screen === "my-program") {
-        yield put(ProgramActions.FetchMyPrograms({ query: '', page: 1, screen: 'my-program' }))
+        yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'my-program' }))
     }
 }
 
 // Watcher Saga
 export function* ProgramWatcherSaga(): SagaIterator {
-    yield takeEvery(ProgramActions.FetchMyPrograms.type, OnGetMyPrograms)
+    yield takeEvery(ProgramActions.FetchPrograms.type, OnGetMyPrograms)
     yield takeEvery(ProgramActions.MakeFavourite.type, OnMakeFavourite)
 }
 

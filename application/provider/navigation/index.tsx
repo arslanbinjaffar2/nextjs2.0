@@ -29,6 +29,7 @@ export function NavigationProvider({
               'exhibitor-detail': ':url/exhibitors/detail/:id',
               'attendees': ':url/attendees/:slug',
               'attendee-detail': ':url/attendees/detail/:id',
+              'speaker-detail': ':url/speakers/detail/:id',
             },
           },
         }),
