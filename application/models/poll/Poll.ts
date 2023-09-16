@@ -1,4 +1,5 @@
 export type Polls = Record<string, Poll[]>;
+export type PollLabels = Record<string, string>;
 export interface Poll {
   id: number;
   event_id: number;

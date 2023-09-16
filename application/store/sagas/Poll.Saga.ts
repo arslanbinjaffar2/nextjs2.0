@@ -32,7 +32,7 @@ function* OnFetchPollDetail({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getPollDetailApi, payload, state)
-    yield put(PollActions.updateDetail({ detail: response.data.data.poll_details! }))
+    yield put(PollActions.updateDetail({ detail: response.data.data.poll_details!, poll_labels: response.data.data.poll_labels  }))
     yield put(LoadingActions.set(false));
 }
 

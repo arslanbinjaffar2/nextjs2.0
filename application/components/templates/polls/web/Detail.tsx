@@ -13,6 +13,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import MultipleAnswer from 'application/components/atoms/polls/questions/MultipleAnswer';
 import SingleAnswer from 'application/components/atoms/polls/questions/SingleAnswer';
 import DropdownAnswer from 'application/components/atoms/polls/questions/DropdownAnswer';
+import UseEventService from 'application/store/services/UseEventService';
 
 
 type ScreenParams = { id: string }
@@ -29,11 +30,16 @@ const Detail = () => {
 
   const { loading, scroll } = UseLoadingService();
 
-  const { FetchPollDetail, detail } = UsePollService();
+  const { event :{ labels} } = UseEventService();
+
+  const { FetchPollDetail, detail, poll_labels } = UsePollService();
 
   const [formData, setFormData] = useState<FormData>({});
 
+  const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
+
   const updateFormData = (question_id:number, type:string, answer:any) => {
+    setActiveQuestionError(null);
     let newFormData = formData;
     if(newFormData[question_id] === undefined){
       newFormData[question_id] = {
@@ -56,6 +62,9 @@ const Detail = () => {
     else if(type === 'dropdown'){
       newFormData[question_id].answer = [answer]
     }
+    else if(type === 'comment'){
+      newFormData[question_id].comment = answer
+    }
     setFormData(newFormData);
     console.log(newFormData);
   }
@@ -70,6 +79,45 @@ const Detail = () => {
     }, [id]);
 
     const stepIndicatorWidth = detail !== null ? 100/(detail.questions.length) : 10;
+
+    const setNextStep = () => {
+        setActiveQuestionError(null);
+        const activeQuestion = detail?.questions[steps];
+        if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!] !== undefined &&  formData[activeQuestion?.id!].answer !== null)){
+          if(activeQuestion?.question_type === 'multiple'){
+              if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+                setActiveQuestionError(labels.REGISTRATION_FORM_FIELD_REQUIRED);
+                return;
+              }
+              else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
+                setActiveQuestionError(poll_labels.POLL_SURVEY_MIN_SELECTION_ERROR
+                  .replace(/%q/g, activeQuestion.info.question)
+                  .replace(/%s/g, activeQuestion.min_options.toString())
+                );
+                return;
+              }
+              else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
+                setActiveQuestionError(poll_labels.POLL_SURVEY_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString()));
+                return;
+              }
+            }
+            else if(activeQuestion?.question_type === 'single') {
+              if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+                setActiveQuestionError(labels.REGISTRATION_FORM_FIELD_REQUIRED);
+                return;
+              }
+            }
+            else if(activeQuestion?.question_type === 'dropdown') {
+              if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+                setActiveQuestionError(labels.REGISTRATION_FORM_FIELD_REQUIRED);
+                return;
+            }
+          }
+          
+        }
+        setsteps(steps + 1);
+        
+    }
 
   return (
     <>
@@ -93,9 +141,9 @@ const Detail = () => {
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                 {detail?.questions.length! > 0 &&  detail?.questions[steps] !== undefined && (
                   <>
-                    {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData}  />}
-                    {detail?.questions[steps].question_type === 'single' && <SingleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} />}
-                    {detail?.questions[steps].question_type === 'dropdown' && <DropdownAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} />}
+                    {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
+                    {detail?.questions[steps].question_type === 'single' && <SingleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
+                    {detail?.questions[steps].question_type === 'dropdown' && <DropdownAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                     {detail?.questions[steps].question_type === 'open' && "open question"}
                     {detail?.questions[steps].question_type === 'number' && 'number'}
                     {detail?.questions[steps].question_type === 'date' && 'date'}
@@ -131,7 +179,7 @@ const Detail = () => {
                       rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       colorScheme="primary"
                       onPress={() => {
-                        setsteps(steps + 1);
+                        setNextStep();
                       }}
                     >
                       next
