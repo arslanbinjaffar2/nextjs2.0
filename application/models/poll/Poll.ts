@@ -106,3 +106,33 @@ export interface PollSetting {
   enable_projectors: number;
   refresh_projector_view: number;
 }
+
+export interface PollSubmitData {
+  poll_id?: number;
+  agenda_id?: number;
+  event_id: number;
+  attendee_id: number;
+  base_url: string;
+  organizer_id: number;
+  create_date: string;
+  submitted_questions: SubmittedQuestion[];
+}
+
+export interface SubmittedQuestion {
+  id: number;
+  type: string;
+  required: string;
+  is_anonymous: number;
+  comment?: string;
+  original_answers?: OriginalAnswer[];
+  answers?: Answer[];
+}
+
+export interface Answer {
+  id: number | string | any;
+}
+
+export interface OriginalAnswer {
+  id: number;
+  correct?: number;
+}

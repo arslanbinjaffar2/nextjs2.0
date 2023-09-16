@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
@@ -14,6 +14,10 @@ import MultipleAnswer from 'application/components/atoms/polls/questions/Multipl
 import SingleAnswer from 'application/components/atoms/polls/questions/SingleAnswer';
 import DropdownAnswer from 'application/components/atoms/polls/questions/DropdownAnswer';
 import UseEventService from 'application/store/services/UseEventService';
+import UseEnvService from 'application/store/services/UseEnvService';
+import UseAuthService from 'application/store/services/UseAuthService';
+import { SubmittedQuestion } from 'application/models/poll/Poll';
+import { useRouter } from 'solito/router'
 
 
 type ScreenParams = { id: string }
@@ -28,11 +32,19 @@ const Detail = () => {
 
   const [completed, setcompleted] = useState<boolean>(false);
 
+  const [submittingPoll, setSubmittingPoll] = useState(false);
+
   const { loading, scroll } = UseLoadingService();
 
-  const { event :{ labels} } = UseEventService();
+  const { _env } = UseEnvService();
 
-  const { FetchPollDetail, detail, poll_labels } = UsePollService();
+  const { event  } = UseEventService();
+
+  const { response  } = UseAuthService();
+
+  const { push } = useRouter()
+
+  const { FetchPollDetail, detail, poll_labels, submitSuccess, SubmitPoll } = UsePollService();
 
   const [formData, setFormData] = useState<FormData>({});
 
@@ -66,7 +78,6 @@ const Detail = () => {
       newFormData[question_id].comment = answer
     }
     setFormData(newFormData);
-    console.log(newFormData);
   }
 
 
@@ -78,6 +89,11 @@ const Detail = () => {
         }
     }, [id]);
 
+    React.useEffect(() => {
+      console.log(submitSuccess, 'useEffect');
+        setcompleted(submitSuccess);
+    }, [submitSuccess]);
+
     const stepIndicatorWidth = detail !== null ? 100/(detail.questions.length) : 10;
 
     const setNextStep = () => {
@@ -86,7 +102,7 @@ const Detail = () => {
         if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!] !== undefined &&  formData[activeQuestion?.id!].answer !== null)){
           if(activeQuestion?.question_type === 'multiple'){
               if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
-                setActiveQuestionError(labels.REGISTRATION_FORM_FIELD_REQUIRED);
+                setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
                 return;
               }
               else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
@@ -103,33 +119,91 @@ const Detail = () => {
             }
             else if(activeQuestion?.question_type === 'single') {
               if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
-                setActiveQuestionError(labels.REGISTRATION_FORM_FIELD_REQUIRED);
+                setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
                 return;
               }
             }
             else if(activeQuestion?.question_type === 'dropdown') {
               if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
-                setActiveQuestionError(labels.REGISTRATION_FORM_FIELD_REQUIRED);
+                setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
                 return;
             }
           }
           
         }
-        setsteps(steps + 1);
+        if(steps === (detail?.questions.length! - 1)){
+          onSubmit()
+        }else{
+          setsteps(steps + 1);
+        }
         
+    }
+
+    const onSubmit = ( ) => {
+      setSubmittingPoll(true)
+        const submitedData:SubmittedQuestion[] | undefined = detail?.questions.map((q)=>{
+            let answeredQuestion:any = {
+              id:q.id,
+              type:q.question_type,
+              required:q.required_question,
+              is_anonymous:q.is_anonymous,
+              comment:formData[q.id] !== undefined ? formData[q.id]?.comment : '',
+            }
+            if(q.question_type === 'single' || q.question_type === 'multiple' || q.question_type === 'dropdown' || q.question_type === 'matrix'){
+              answeredQuestion['original_answers']= q.answer.map((answer)=>({id:answer.id, correct:answer.correct}));
+              if(q.question_type === 'single'){
+                answeredQuestion['answers'] = [{id:(formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer[0] : ''}]
+              }
+              else if(q.question_type === 'dropdown'){
+                answeredQuestion['answers'] = [{id:(formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer[0] : ''}]
+              }
+              else if(q.question_type === 'multiple'){
+                answeredQuestion['answers'] = (formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer.map((i:number)=>({id:i})) : [];
+              }
+            }
+            else{
+              if(q.question_type === 'world_cloud'){
+                
+              }
+              else{
+                answeredQuestion['answers'] = [{value:(formData[q.id] !== undefined && formData[q.id].answer !== null) ? formData[q.id].answer : ''}]
+              }
+            }
+            return answeredQuestion;
+
+        });
+
+        console.log();
+
+        const postData = {
+          poll_id: detail?.questions[0]?.poll_id,
+          agenda_id: parseInt(id!),
+          event_id: event.id!,
+          attendee_id: response.data.user.id,
+          base_url: _env.eventcenter_base_url,
+          organizer_id: event.organizer_id!,
+          create_date: new Date().toLocaleDateString(),
+          env: _env.app_server_enviornment,
+          submitted_questions:submitedData!
+        };
+        
+        SubmitPoll(postData);
+
     }
 
   return (
     <>
-      {loading && detail === null ? (
+      {loading ? (
                 <WebLoading />
             ) : (
             <Container mb="3" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <HStack space="3" alignItems="center">
-                  <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                  <Text fontSize="2xl">BACK</Text>
-                </HStack>
+                <Pressable onPress={()=> push(`/${event.url}/polls`)}>
+                  <HStack space="3" alignItems="center">
+                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                        <Text fontSize="2xl">BACK</Text>
+                  </HStack>
+                </Pressable>
                 <Spacer />
                 <Text isTruncated pr="6" fontSize="lg">{detail?.topic}</Text>
               </HStack>
@@ -193,15 +267,16 @@ const Detail = () => {
                         px="1"
                         leftIcon={<IcoLongArrow />}
                         colorScheme="primary"
+                        isLoading={submittingPoll}
                         onPress={() => {
-                          setcompleted(true)
+                         setNextStep();
                         }}
                       />
                     </Box>
                   </Box>}
                 </Box>
               </Box>}
-              {completed && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
+              {completed === true && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
                   <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.text" rounded="100%" alignItems="center" justifyContent="center">
                     <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />

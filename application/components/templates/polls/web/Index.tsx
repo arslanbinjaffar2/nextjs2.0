@@ -53,7 +53,7 @@ const Index = () => {
                                             return poll;
                                         }
                                     }).map((poll:Poll)=>(
-                                        <RectangleView key={poll.id} poll={poll} />
+                                        <RectangleView key={poll.id} poll={poll} completed={false} />
                                     ))}
                                     <Divider h="100px" bg="transparent" />
                                 </Box>
@@ -69,7 +69,7 @@ const Index = () => {
                                             return poll;
                                         }
                                     }).map((poll:Poll)=>(
-                                        <RectangleView key={poll.id} poll={poll} />
+                                        <RectangleView key={poll.id} poll={poll} completed={true} />
                                     ))}
                                     <Divider h="100px" bg="transparent" />
                                 </Box>
