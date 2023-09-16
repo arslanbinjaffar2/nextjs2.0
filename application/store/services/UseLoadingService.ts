@@ -1,4 +1,4 @@
-import { isLoading, scroll } from 'application/store/slices/Loading.Slice'
+import { isLoading, scroll, processing } from 'application/store/slices/Loading.Slice'
 
 import { LoadingActions } from 'application/store/slices/Loading.Slice'
 
@@ -8,6 +8,7 @@ import { useCallback } from 'react'
 
 export type LoadingServiceOperators = {
     loading: boolean,
+    processing: Array<string>,
     scroll: number,
     setScrollCounter: (counter: number) => void
 }
@@ -23,6 +24,7 @@ export const UseLoadingService = (): Readonly<LoadingServiceOperators> => {
     return {
         loading: useAppSelector(isLoading),
         scroll: useAppSelector(scroll),
+        processing: useAppSelector(processing),
         setScrollCounter: useCallback(
             (counter: number) => {
                 dispatch(LoadingActions.setScrollCounter(counter))

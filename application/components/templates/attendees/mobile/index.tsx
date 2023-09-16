@@ -30,7 +30,7 @@ const Index = ({ speaker }: Props) => {
 
     const mounted = React.useRef(false);
 
-    const { scroll, loading, setScrollCounter } = UseLoadingService();
+    const { scroll, setScrollCounter, processing } = UseLoadingService();
 
     const { response } = UseAuthService();
 
@@ -109,7 +109,7 @@ const Index = ({ speaker }: Props) => {
 
     return (
         <Container maxW="100%" h={'100%'} w="100%">
-            {loading && page === 1 ? (
+            {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page === 1 ? (
                 <MobileLoading />
             ) : (
                 <>
@@ -199,7 +199,7 @@ const Index = ({ speaker }: Props) => {
                                 onEndReachedThreshold={0.1}
                             />
                         </Container>}
-                        {loading && page > 1 && (
+                        {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                             <LoadMore p='2' />
                         )}
                     </Container>
