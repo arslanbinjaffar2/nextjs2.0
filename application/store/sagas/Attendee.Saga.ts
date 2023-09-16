@@ -29,7 +29,7 @@ function* OnGetAttendeeDetail({
     payload,
 }: {
     type: typeof AttendeeActions.FetchAttendeeDetail
-    payload: { id: number }
+    payload: { id: number, speaker: number }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'attendee-detail' }))
     const state = yield select(state => state);
@@ -49,7 +49,7 @@ function* OnMakeFavourite({
     if (payload.screen === "listing") {
         yield put(AttendeeActions.FetchAttendees({ query: state?.attendees?.query, page: 1, group_id: state?.attendees?.group_id, my_attendee_id: state?.attendees?.my_attendee_id, speaker: 0 }))
     } else {
-        yield put(AttendeeActions.FetchAttendeeDetail({ id: payload.attendee_id }))
+        yield put(AttendeeActions.FetchAttendeeDetail({ id: payload.attendee_id, speaker: 0 }))
     }
 }
 

@@ -7,6 +7,7 @@ import ContactInfo from 'application/components/atoms/attendees/detail/ContactIn
 import SubRegistration from 'application/components/atoms/sub_registration/RectangleView';
 import DetailInfoBlock from 'application/components/atoms/attendees/detail/web/DetailInfoBlock';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
+import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';
 import SlideView from 'application/components/molecules/programs/SlideView';
 import WebLoading from 'application/components/atoms/WebLoading';
 import { createParam } from 'solito';
@@ -19,13 +20,14 @@ import { Group } from 'application/models/attendee/Group';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import LoadMore from 'application/components/atoms/LoadMore';
 import in_array from "in_array";
+import { Category } from 'application/models/attendee/Category';
 
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
 
 type Props = {
-    speaker?: number
+    speaker: number
 }
 
 const Detail = ({ speaker }: Props) => {
@@ -46,7 +48,7 @@ const Detail = ({ speaker }: Props) => {
 
     React.useEffect(() => {
         if (_id) {
-            FetchAttendeeDetail({ id: Number(_id) });
+            FetchAttendeeDetail({ id: Number(_id), speaker: speaker! });
         }
     }, [_id]);
 
@@ -109,6 +111,10 @@ const Detail = ({ speaker }: Props) => {
                                                             return (
                                                                 <Button onPress={() => setTab('program')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={detail?.attendee_tabs_settings[detail?.attendee_tabs_settings?.length - 1]?.tab_name === 'program' ? 8 : 0} borderLeftRadius={detail?.attendee_tabs_settings[0]?.tab_name === 'program' ? 8 : 0} h="42px" bg={tab === 'program' ? 'primary.darkbox' : 'primary.box'} w="22%" _text={{ fontWeight: '600' }}>{speaker ? 'PROGRAMS' : 'MY PROGRAMS'}</Button>
                                                             )
+                                                        } else if (row?.tab_name === 'category' && row?.status == 1) {
+                                                            return (
+                                                                <Button onPress={() => setTab('category')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={detail?.attendee_tabs_settings[detail?.attendee_tabs_settings?.length - 1]?.tab_name === 'category' ? 8 : 0} borderLeftRadius={detail?.attendee_tabs_settings[0]?.tab_name === 'category' ? 8 : 0} h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w="22%" _text={{ fontWeight: '600' }}>CATEGORIES</Button>
+                                                            )
                                                         } else if (row?.tab_name === 'contact_info' && row?.status == 1 && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website))) {
                                                             return (
                                                                 <Button onPress={() => setTab('contact_info')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={detail?.attendee_tabs_settings[detail?.attendee_tabs_settings?.length - 1]?.tab_name === 'contact_info' ? 8 : 0} borderLeftRadius={detail?.attendee_tabs_settings[0]?.tab_name === 'contact_info' ? 8 : 0} h="42px" bg={tab === 'contact_info' ? 'primary.darkbox' : 'primary.box'} w="20%" _text={{ fontWeight: '600' }}>CONTACT INFO</Button>
@@ -160,6 +166,20 @@ const Detail = ({ speaker }: Props) => {
                                             <SectionLoading />
                                         ) : (
                                             <SlideView section="program" programs={programs} />
+                                        )}
+                                    </Container>}
+                                    {tab === 'category' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                        {detail?.detail?.categories.map((map: any, k: number) =>
+                                            <React.Fragment key={`item-box-group-${k}`}>
+                                                {map?.name && (
+                                                    <Text w="100%" pl="18px" bg="primary.darkbox">{map?.name}</Text>
+                                                )}
+                                                {map?.children?.map((category: Category, index: number) =>
+                                                    <React.Fragment key={`${k}`}>
+                                                        <RectangleCategoryView category={category} k={k} border={map?.children.length != (index + 1)} navigation={true} />
+                                                    </React.Fragment>
+                                                )}
+                                            </React.Fragment>
                                         )}
                                     </Container>}
                                     {(in_array('programs', processing) || in_array('groups', processing)) && page > 1 && (
