@@ -10,5 +10,5 @@ export interface Category {
     updated_at: string;
     deleted_at: string;
     name: string;
-    children: Category[];
+    children?: Category[];
 }

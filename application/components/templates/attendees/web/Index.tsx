@@ -17,6 +17,8 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import GroupAlphabatically from 'application/utils/GroupAlphabatically';
 import { createParam } from 'solito';
 import { useRouter } from 'solito/router'
+import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';
+import { Category } from 'application/models/event/Category';
 
 type ScreenParams = { slug: any }
 
@@ -40,7 +42,7 @@ const Index = ({ speaker }: Props) => {
 
     const alphabet = alpha.map((x) => String.fromCharCode(x));
 
-    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name } = UseAttendeeService();
+    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name } = UseAttendeeService();
 
     const { event } = UseEventService();
 
@@ -53,7 +55,7 @@ const Index = ({ speaker }: Props) => {
     useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
-                FetchAttendees({ query: query, group_id: 0, page: page + 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker });
+                FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id });
             }
         }
     }, [scroll]);
@@ -63,10 +65,12 @@ const Index = ({ speaker }: Props) => {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0 });
             } else if (in_array(tab, ['attendee', 'my-attendee'])) {
-                FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker });
+                FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id });
+            } else if (in_array(tab, ['category'])) {
+                FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
             }
         }
-    }, [tab]);
+    }, [tab, category_id]);
 
     useEffect(() => {
         mounted.current = true;
@@ -76,10 +80,10 @@ const Index = ({ speaker }: Props) => {
     useEffect(() => {
         if (slug !== undefined && slug.length === 1) { // Group attendees by slug
             setTab('group-attendee');
-            FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0, speaker: speaker });
+            FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0 });
         } else if (slug === undefined || slug.length === 0) {
             setTab('attendee');
-            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker });
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id });
         }
     }, [slug]);
 
@@ -96,9 +100,9 @@ const Index = ({ speaker }: Props) => {
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
             if (tab === "group") {
-                FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0 });
+                FetchGroups({ query: query, group_id: group_id, page: 1, attendee_id: 0 });
             } else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
-                FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker });
+                FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id });
             }
         }, 1000);
     }, []);
@@ -109,7 +113,7 @@ const Index = ({ speaker }: Props) => {
 
     return (
         <>
-            {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page === 1 ? (
+            {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('category-listing', processing)) && page === 1 ? (
                 <WebLoading />
             ) : (
                 <>
@@ -144,6 +148,17 @@ const Index = ({ speaker }: Props) => {
                                     } else {
                                         FetchGroups({ query: query, page: 1, group_id: 0, attendee_id: 0 });
                                     }
+                                }}>
+                                <Text textTransform="uppercase" fontSize="xs">Go back</Text>
+                            </Pressable>
+                        </HStack>
+                    )}
+                    {category_name && (
+                        <HStack mb="3" pt="2" w="100%" space="3">
+                            <Text flex="1" textTransform="uppercase" fontSize="xs">{category_name}</Text>
+                            <Pressable
+                                onPress={async () => {
+                                    FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
                                 }}>
                                 <Text textTransform="uppercase" fontSize="xs">Go back</Text>
                             </Pressable>
@@ -186,7 +201,14 @@ const Index = ({ speaker }: Props) => {
                             </React.Fragment>
                         )}
                     </Container>}
-                    {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
+                    {tab === 'category' && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {categories.map((category: Category, k: number) =>
+                            <React.Fragment key={`item-box-group-${k}`}>
+                                <RectangleCategoryView category={category} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />
+                            </React.Fragment>
+                        )}
+                    </Container>}
+                    {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('category-listing', processing)) && page > 1 && (
                         <LoadMore />
                     )}
                 </>

@@ -176,7 +176,7 @@ const Detail = ({ speaker }: Props) => {
                                                 )}
                                                 {map?.children?.map((category: Category, index: number) =>
                                                     <React.Fragment key={`${k}`}>
-                                                        <RectangleCategoryView category={category} k={k} border={map?.children.length != (index + 1)} navigation={true} />
+                                                        <RectangleCategoryView category={category} k={k} border={map?.children.length != (index + 1)} navigation={true} screen="detail" />
                                                     </React.Fragment>
                                                 )}
                                             </React.Fragment>
