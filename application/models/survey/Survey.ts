@@ -1,4 +1,4 @@
-export type Surveys = Record<string, Survey[]>;
+export type Surveys = Survey[];
 export type SurveyLabels = Record<string, string>;
 
 

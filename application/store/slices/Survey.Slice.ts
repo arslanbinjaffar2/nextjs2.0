@@ -8,21 +8,22 @@ import { RootState } from 'application/store/Index'
 import {
     current
 } from '@reduxjs/toolkit';
+import { SurveyDetail } from 'application/models/survey/Detail';
 
 export interface SurveyState {
     surveys: Surveys,
     completed_surveys: Surveys,
-    // detail: SurveyDetail | null,
+    detail: SurveyDetail | null,
     survey_settings:SurveySetting | {},
     survey_labels:SurveyLabels
     submitSuccess:boolean,
 }
 
 const initialState: SurveyState = {
-    surveys: {},
-    completed_surveys: {},
+    surveys: [],
+    completed_surveys: [],
     survey_settings:{},
-    // detail: null,
+    detail: null,
     survey_labels:{},
     submitSuccess:false,
 }
@@ -41,7 +42,7 @@ export const SurveySlice = createSlice({
         },
         FetchSurveyDetail(state, action: PayloadAction<{ id: number }>) { },
         updateDetail(state, action: PayloadAction<{ detail: SurveyDetail, survey_labels:SurveyLabels }>) {
-            // state.detail = action.payload.detail;
+            state.detail = action.payload.detail;
             state.survey_labels = action.payload.survey_labels;
         },
         SubmitSurvey(state, action: PayloadAction<SurveySubmitData>){
@@ -68,7 +69,7 @@ export const SelectSurveys = (state: RootState) => state.surveys.surveys
 
 export const SelectCompletedSurveys = (state: RootState) => state.surveys.completed_surveys
 
-// export const SelectSurveyDetail = (state: RootState) => state.surveys.detail
+export const SelectSurveyDetail = (state: RootState) => state.surveys.detail
 
 export const SelectSurveyLabelDetail = (state: RootState) => state.surveys.survey_labels
 

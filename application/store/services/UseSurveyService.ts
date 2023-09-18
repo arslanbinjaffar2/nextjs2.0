@@ -1,57 +1,57 @@
 import { useCallback } from 'react'
 
-import { SelectPolls, SelectCompletedPolls, PollActions, SelectPollDetail, SelectPollLabelDetail, SelectPollSubmitting, SelectPollSubmitSuccess } from 'application/store/slices/Poll.Slice'
+import { SelectSurveys, SelectCompletedSurveys, SurveyActions, SelectSurveyLabelDetail, SelectSurveySubmitSuccess, SelectSurveyDetail } from 'application/store/slices/Survey.Slice'
 
-import { PollLabels, PollSubmitData, Polls } from 'application/models/poll/Poll'
-import { PollDetail } from 'application/models/poll/Detail'
+import { SurveyLabels, SurveySubmitData, Surveys } from 'application/models/survey/Survey'
+import { SurveyDetail } from 'application/models/survey/Detail'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
-export type PollServiceOperators = {
-    polls: Polls,
-    completed_polls: Polls,
-    detail:PollDetail | null,
-    poll_labels:PollLabels,
+export type SurveyServiceOperators = {
+    surveys: Surveys,
+    completed_surveys: Surveys,
+    detail:SurveyDetail | null,
+    survey_labels:SurveyLabels,
     submitSuccess:boolean,
-    FetchPolls: () => void,
-    FetchPollDetail: (payload:{id:number}) => void,
-    SubmitPoll: (payload:PollSubmitData) => void,
+    FetchSurveys: () => void,
+    FetchSurveyDetail: (payload:{id:number}) => void,
+    SubmitSurvey: (payload:SurveySubmitData) => void,
 }
 
 /**
  * AttendeeService custom-hooks
  * @see https://reactjs.org/docs/hooks-custom.html
 */
-export const UsePollService = (): Readonly<PollServiceOperators> => {
+export const UseSurveyService = (): Readonly<SurveyServiceOperators> => {
 
     const dispatch = useAppDispatch()
 
     return {
         
-        polls: useAppSelector(SelectPolls),
-        completed_polls: useAppSelector(SelectCompletedPolls),
-        detail: useAppSelector(SelectPollDetail),
-        poll_labels: useAppSelector(SelectPollLabelDetail),
-        submitSuccess: useAppSelector(SelectPollSubmitSuccess),
-        FetchPolls: useCallback(
+        surveys: useAppSelector(SelectSurveys),
+        completed_surveys: useAppSelector(SelectCompletedSurveys),
+        detail: useAppSelector(SelectSurveyDetail),
+        survey_labels: useAppSelector(SelectSurveyLabelDetail),
+        submitSuccess: useAppSelector(SelectSurveySubmitSuccess),
+        FetchSurveys: useCallback(
             () => {
-                dispatch(PollActions.FetchPolls())
+                dispatch(SurveyActions.FetchSurveys())
             },
             [dispatch],
         ),
-        FetchPollDetail: useCallback(
+        FetchSurveyDetail: useCallback(
             (payload: { id: number }) => {
-                dispatch(PollActions.FetchPollDetail(payload))
+                dispatch(SurveyActions.FetchSurveyDetail(payload))
             },
             [dispatch],
         ),
-        SubmitPoll: useCallback(
-            (payload: PollSubmitData) => {
-                dispatch(PollActions.SubmitPoll(payload))
+        SubmitSurvey: useCallback(
+            (payload: SurveySubmitData) => {
+                dispatch(SurveyActions.SubmitSurvey(payload))
             },
             [dispatch],
         ),
     }
 }
 
-export default UsePollService
+export default UseSurveyService
