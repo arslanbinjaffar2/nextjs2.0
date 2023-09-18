@@ -11,7 +11,6 @@ type PropTypes = {
 
 }
 const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) => {
-  console.log(question)
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
@@ -66,6 +65,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
           overflow="auto"
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
+          onChangeText={(text) => updateFormData(question.id, 'comment', text)}
           borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
       </Box>
     </Center>
