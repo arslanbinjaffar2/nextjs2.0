@@ -25,7 +25,7 @@ const RectangleView = ({survey, completed}:{survey:Survey, completed:boolean}) =
             <Text fontSize="md">{survey.info.name}</Text>
           </VStack>
           <Spacer />
-          <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
+          {!completed && <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
         </HStack>
       </Box>
     </Pressable>

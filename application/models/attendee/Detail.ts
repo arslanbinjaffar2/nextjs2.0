@@ -1,5 +1,5 @@
 
-import { Category } from 'application/models/attendee/Category';
+import { Category } from 'application/models/event/Category';
 export interface Detail {
     detail?: AttendeeDetail;
     meeting?: string;

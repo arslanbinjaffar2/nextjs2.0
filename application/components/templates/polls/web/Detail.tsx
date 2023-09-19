@@ -55,7 +55,7 @@ const Detail = () => {
 
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
 
-  const updateFormData = (question_id:number, type:string, answer:any) => {
+  const updateFormData = (question_id:number, type:string, answer:any, index?:number) => {
     setActiveQuestionError(null);
     let newFormData = formData;
     if(newFormData[question_id] === undefined){
@@ -79,8 +79,23 @@ const Detail = () => {
     else if(type === 'dropdown'){
       newFormData[question_id].answer = [answer]
     }
+    else if(type === 'world_cloud'){
+      if(newFormData[question_id].answer === null){
+        newFormData[question_id].answer = {}
+      }
+      newFormData[question_id].answer[index!] = answer
+    }
+    else if(type === 'matrix'){
+      if(newFormData[question_id].answer === null){
+        newFormData[question_id].answer = {}
+      }
+      newFormData[question_id].answer[index!] = answer
+    }
     else if(type === 'comment'){
       newFormData[question_id].comment = answer
+    }
+    else{
+      newFormData[question_id].answer = answer
     }
     setFormData(newFormData);
   }
@@ -106,32 +121,50 @@ const Detail = () => {
         const activeQuestion = detail?.questions[steps];
         if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!] !== undefined &&  formData[activeQuestion?.id!].answer !== null)){
           if(activeQuestion?.question_type === 'multiple'){
-              if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
-                setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
-                return;
-              }
-              else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
-                setActiveQuestionError(poll_labels.POLL_SURVEY_MIN_SELECTION_ERROR
-                  .replace(/%q/g, activeQuestion.info.question)
-                  .replace(/%s/g, activeQuestion.min_options.toString())
-                );
-                return;
-              }
-              else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
-                setActiveQuestionError(poll_labels.POLL_SURVEY_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString()));
-                return;
-              }
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+              setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
+              return;
             }
-            else if(activeQuestion?.question_type === 'single') {
-              if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
-                setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
-                return;
-              }
+            else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
+              setActiveQuestionError(poll_labels.POLL_SURVEY_MIN_SELECTION_ERROR
+                .replace(/%q/g, activeQuestion.info.question)
+                .replace(/%s/g, activeQuestion.min_options.toString())
+              );
+              return;
             }
-            else if(activeQuestion?.question_type === 'dropdown') {
-              if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
-                setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
-                return;
+            else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
+              setActiveQuestionError(poll_labels.POLL_SURVEY_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString()));
+              return;
+            }
+          }
+          else if(activeQuestion?.question_type === 'single') {
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+              setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
+              return;
+            }
+          }
+          else if(activeQuestion?.question_type === 'dropdown') {
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+              setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
+              return;
+            } 
+          }
+          else if(activeQuestion?.question_type === 'world_cloud') {
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || Object.keys(formData[activeQuestion?.id!].answer).length < activeQuestion.entries_per_participant){
+              setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
+              return;
+            } 
+          }
+          else if(activeQuestion?.question_type === 'matrix') {
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || Object.keys(formData[activeQuestion?.id!].answer).length < activeQuestion.answer.length){
+              setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
+              return;
+            } 
+          }
+          else{
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === ''){
+              setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
+              return;
             }
           }
           
@@ -165,10 +198,13 @@ const Detail = () => {
               else if(q.question_type === 'multiple'){
                 answeredQuestion['answers'] = (formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer.map((i:number)=>({id:i})) : [];
               }
+              else if(q.question_type === 'matrix'){
+                answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, i)=>([...ack, {id: `${i}_${formData[q.id].answer[i]}`}]), []) : [];
+              }
             }
             else{
               if(q.question_type === 'world_cloud'){
-                
+                answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, i)=>([...ack, {value: formData[q.id].answer[i]}]), []) : [];
               }
               else{
                 answeredQuestion['answers'] = [{value:(formData[q.id] !== undefined && formData[q.id].answer !== null) ? formData[q.id].answer : ''}]

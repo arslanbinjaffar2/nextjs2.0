@@ -39,7 +39,6 @@ const MultipleAnswer = ({ question, formData, updateFormData, error }: PropTypes
             h="30px"
             focusOutlineColor="transparent"
             _focus={{ bg: 'transparent' }}
-            onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.value)}
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}
             borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
         </Box>

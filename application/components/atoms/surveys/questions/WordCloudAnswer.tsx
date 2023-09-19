@@ -44,7 +44,6 @@ const WordCloudAnswer = ({ question, formData, updateFormData, error }: PropType
             h="30px"
             focusOutlineColor="transparent"
             _focus={{ bg: 'transparent' }}
-            onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.value)}
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}
             borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
         </Box>

@@ -6,7 +6,7 @@ import { Question, FormData } from 'application/models/poll/Detail';
 type PropTypes = {
   question: Question,
   formData: FormData,
-  updateFormData: (question_id:number, type:string, answer:any) => void,
+  updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
   error:string|null
 }
 const SingleAnswer = ({ question, formData, updateFormData, error }: PropTypes) => {
