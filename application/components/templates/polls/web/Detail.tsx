@@ -65,13 +65,7 @@ const Detail = () => {
       };
     }
     if(type === 'multiple'){
-       if(newFormData[question_id].answer !== null && newFormData[question_id].answer.length > 0){
-        newFormData[question_id].answer = !newFormData[question_id].answer.includes(answer) ?
-         [...newFormData[question_id].answer, answer] : 
-         newFormData[question_id].answer.filter((id:number)=> ( id !== answer ))
-       } else{
-          newFormData[question_id].answer = [answer]
-       }        
+          newFormData[question_id].answer = answer      
     }
     else if(type === 'single'){
       newFormData[question_id].answer = [answer]
