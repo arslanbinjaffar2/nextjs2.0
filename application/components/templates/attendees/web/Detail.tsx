@@ -20,7 +20,7 @@ import { Group } from 'application/models/attendee/Group';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import LoadMore from 'application/components/atoms/LoadMore';
 import in_array from "in_array";
-import { Category } from 'application/models/attendee/Category';
+import { Category } from 'application/models/event/Category';
 
 type ScreenParams = { id: string }
 
