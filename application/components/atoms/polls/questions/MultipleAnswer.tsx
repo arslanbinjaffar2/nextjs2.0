@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Text, TextArea, VStack } from 'native-base';
 import Icodocument from 'application/assets/icons/small/Icodocument';
-import { Question, FormData } from 'application/models/poll/Detail';
+import { Question, FormData, Answer } from 'application/models/poll/Detail';
 
 type PropTypes = {
   question: Question,
@@ -11,15 +11,16 @@ type PropTypes = {
 }
 
 const MultipleAnswer = ({ question, formData, updateFormData, error }: PropTypes) => {
+
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.question} {Number(question?.required_question) === 1 && <Text color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <VStack space="4">
-        <Checkbox.Group defaultValue={formData[question.id]?.answer}>
+        <Checkbox.Group value={formData[question.id]?.answer} onChange={(answers) => updateFormData(question.id, question.question_type, answers)} aria-label={question?.info?.question}>
           {question?.answer.map((answer, k) =>
-            <Checkbox key={k} size="md"   onChange={()=> updateFormData(question.id, question.question_type, answer.id)}  value={`${answer.id}`}>{answer.answer}</Checkbox>
+            <Checkbox key={k} size="md"    value={`${answer.id}`}>{answer.answer}</Checkbox>
           )}
         </Checkbox.Group>
         </VStack>

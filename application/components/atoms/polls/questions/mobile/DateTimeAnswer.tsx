@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, VStack, Button } from 'native-base';
 import Icodocument from 'application/assets/icons/small/Icodocument';
-import { Question, FormData } from 'application/models/survey/Detail';
+import { Question, FormData } from 'application/models/poll/Detail';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment';
 type PropTypes = {
@@ -30,7 +30,7 @@ const DateTimeAnswer = ({ question, formData, updateFormData }: PropTypes) => {
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
-        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.value} {question?.required_question == '1' && <Text display="inline" color="red.500">*</Text>}</Text>
+        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.question} {question?.required_question == '1' && <Text display="flex" color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <Input w="100%" keyboardType = 'numeric' isReadOnly={true}  value={moment(date).format("YYYY-MM-DD HH:mm:ss")} mb={5}/>
         {show && (

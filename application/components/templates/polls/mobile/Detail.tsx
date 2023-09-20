@@ -17,7 +17,8 @@ import WordCloudAnswer from 'application/components/atoms/polls/questions/WordCl
 import MatrixAnswer from 'application/components/atoms/polls/questions/MatrixAnswer';
 import OpenQuestionAnswer from 'application/components/atoms/polls/questions/OpenQuestionAnswer';
 import NumberAnswer from 'application/components/atoms/polls/questions/NumberAnswer';
-// import DateAnswer from 'application/components/atoms/polls/questions/DateAnswer';
+import DateAnswer from 'application/components/atoms/polls/questions/mobile/DateAnswer';
+import DateTimeAnswer from 'application/components/atoms/polls/questions/mobile/DateTimeAnswer';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -75,13 +76,7 @@ const Detail = () => {
       };
     }
     if(type === 'multiple'){
-       if(newFormData[question_id].answer !== null && newFormData[question_id].answer.length > 0){
-        newFormData[question_id].answer = !newFormData[question_id].answer.includes(answer) ?
-         [...newFormData[question_id].answer, answer] : 
-         newFormData[question_id].answer.filter((id:number)=> ( id !== answer ))
-       } else{
-          newFormData[question_id].answer = [answer]
-       }        
+          newFormData[question_id].answer = answer       
     }
     else if(type === 'single'){
       newFormData[question_id].answer = [answer]
@@ -263,8 +258,8 @@ const Detail = () => {
                     {detail?.questions[steps].question_type === 'dropdown' && <DropdownAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                     {detail?.questions[steps].question_type === 'open' && <OpenQuestionAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
                     {detail?.questions[steps].question_type === 'number' && <NumberAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
-                    {/* {detail?.questions[steps].question_type === 'date' && <DateAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />} */}
-                    {detail?.questions[steps].question_type === 'date_time' && null}
+                    {detail?.questions[steps].question_type === 'date' && <DateAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
+                    {detail?.questions[steps].question_type === 'date_time' && <DateTimeAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                     {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                   </>
                 )}

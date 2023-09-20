@@ -18,6 +18,7 @@ import MatrixAnswer from 'application/components/atoms/surveys/questions/MatrixA
 import OpenQuestionAnswer from 'application/components/atoms/surveys/questions/OpenQuestionAnswer';
 import NumberAnswer from 'application/components/atoms/surveys/questions/NumberAnswer';
 import DateAnswer from 'application/components/atoms/surveys/questions/mobile/DateAnswer';
+import DateTimeAnswer from 'application/components/atoms/surveys/questions/mobile/DateTimeAnswer';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -75,13 +76,7 @@ const Detail = () => {
       };
     }
     if(type === 'multiple'){
-       if(newFormData[question_id].answer !== null && newFormData[question_id].answer.length > 0){
-        newFormData[question_id].answer = !newFormData[question_id].answer.includes(answer) ?
-         [...newFormData[question_id].answer, answer] : 
-         newFormData[question_id].answer.filter((id:number)=> ( id !== answer ))
-       } else{
-          newFormData[question_id].answer = [answer]
-       }        
+          newFormData[question_id].answer = answer
     }
     else if(type === 'single'){
       newFormData[question_id].answer = [answer]
@@ -265,7 +260,7 @@ const Detail = () => {
                     {detail?.questions[steps].question_type === 'open' && <OpenQuestionAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
                     {detail?.questions[steps].question_type === 'number' && <NumberAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                     {detail?.questions[steps].question_type === 'date' && <DateAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
-                    {/* {detail?.questions[steps].question_type === 'date_time' && 'datetime'} */}
+                    {detail?.questions[steps].question_type === 'date_time' && <DateTimeAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                     {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                   </>
                 )}
@@ -320,7 +315,7 @@ const Detail = () => {
                   </Box>}
                 </Box>
               </Box>}
-              { <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
+              {completed === true && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
                   <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.text" rounded="full" alignItems="center" justifyContent="center">
                     <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
