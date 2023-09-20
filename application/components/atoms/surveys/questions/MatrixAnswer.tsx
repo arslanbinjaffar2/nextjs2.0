@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, ScrollView, Text, TextArea, VStack } from 'native-base';
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData } from 'application/models/survey/Detail';
@@ -19,7 +20,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
         <ScrollView w="100%" pb="5" showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
           <Box position="relative" w="100%" rounded="lg">
           <HStack space="1" alignItems="center" pb="3">
-            <Center zIndex={9} position={'sticky'} left={0} minW="150px" maxW="150px"  flex="1" height="20px"></Center>
+            <Center zIndex={9} position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1" height="20px"></Center>
             {question?.matrix.map((matrix, k) =>
              <React.Fragment key={k}>
                 <Center minW="100px" flex="1"><Text fontSize="lg">{matrix.name}</Text></Center>
@@ -28,16 +29,16 @@ const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
           </HStack>
           <VStack  w="100%" space="3">
             {question?.answer.map((answer, k) =>
-            <Radio.Group w="100%" display={'flex'} name={`group-${k}`} aria-label={answer?.answer}  defaultValue={`${formData[question.id]?.answer[k] ?? ''}`}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
+            <Radio.Group w="100%" display={'flex'} key={k} name={`group-${k}`} aria-label={answer?.answer}  defaultValue={`${formData[question.id]?.answer[k] ?? ''}`}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
               <HStack w="100%" key={k} space="1" alignItems="center">
-                <Center  zIndex={9} alignItems="flex-start" position={'sticky'} left={0} minW="150px" maxW="150px"  flex="1">
+                <Center  zIndex={9} position={Platform.OS === 'web' ? `sticky`: 'absolute'} alignItems="flex-start" left={0} minW="150px" maxW="150px"  flex="1">
                   <Text fontSize="lg">
                     {answer?.answer}
                   </Text>
                 </Center>
                 
                 {question.matrix.map((matrix, i) =>
-                  <Center minW="100px" flex="1">
+                  <Center minW="100px" flex="1" key={i}>
                    <Radio key={i} value={`${matrix.id}`}  />
                   </Center>
                 )}
@@ -62,7 +63,6 @@ const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
         <TextArea
           p="0"
           h="30px"
-          overflow="auto"
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
           onChangeText={(text) => updateFormData(question.id, 'comment', text)}

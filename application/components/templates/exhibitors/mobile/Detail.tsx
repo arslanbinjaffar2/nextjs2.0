@@ -4,7 +4,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icouser from 'application/assets/icons/small/Icouser';
 import Icodocument from 'application/assets/icons/small/Icodocument';
-import MultipleAnswer from 'application/components/atoms/surveys/MultipleAnswer';
+// import MultipleAnswer from 'application/components/atoms/surveys/MultipleAnswer';
 import { createParam } from 'solito';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
 import DetailBox from 'application/components/atoms/exhibitors/mobile/DetailBox';
@@ -85,7 +85,7 @@ const Index = React.memo(() => {
                                             <Box bg="transparent" h="22px" w="33.33%" />
                                         </HStack>
                                     </Box>
-                                    <MultipleAnswer req={true} title="What types of workouts will I be doing on DAMY Programs? Does it include cardio and weights?" />
+                                    {/* <MultipleAnswer req={true} title="What types of workouts will I be doing on DAMY Programs? Does it include cardio and weights?" /> */}
                                     <Box py="0" px="4" w="100%">
                                         <Divider mb="15" opacity={0.27} bg="primary.text" />
                                         <HStack mb="3" space="3" alignItems="center">

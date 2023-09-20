@@ -4,9 +4,9 @@ import Master from 'application/screens/mobile/layouts/Master';
 import Header from 'application/screens/mobile/layouts/headers/Header';
 import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
-import IndexTemplate from 'application/components/templates/surveys/mobile/Index';
+import IndexTemplate from 'application/components/templates/surveys/mobile/Detail';
 
-const Index = ({ navigation }: any) => {
+const Detail = ({ navigation }: any) => {
 
   const [scroll, setScroll] = useState(false);
 
@@ -20,8 +20,8 @@ const Index = ({ navigation }: any) => {
   );
 };
 
-Index.propTypes = {
+Detail.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-export default Index;
+export default Detail;

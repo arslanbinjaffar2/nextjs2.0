@@ -34,7 +34,6 @@ const SingleAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
             <TextArea
               p="0"
               h="30px"
-              overflow="auto"
               focusOutlineColor="transparent"
               _focus={{ bg: 'transparent' }}
               onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.value)}

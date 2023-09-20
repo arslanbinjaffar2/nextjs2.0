@@ -19,7 +19,9 @@ import InformationPage from 'application/screens/mobile/information_page/Index';
 import EventInfo from 'application/screens/mobile/event_info/Index';
 import EventInfoDetail from 'application/screens/mobile/event_info/PageDetail';
 import Poll from 'application/screens/mobile/poll/Index';
+import PollDetail from 'application/screens/mobile/poll/Detail';
 import Survey from 'application/screens/mobile/survey/Index';
+import SurveyDetail from 'application/screens/mobile/survey/Detail';
 import QA from 'application/screens/mobile/qa/Index';
 import CheckIn from 'application/screens/mobile/checkin/Index';
 import SocialMedia from 'application/screens/mobile/social_media/Index';
@@ -67,7 +69,9 @@ const AppStack = () => {
       <Drawer.Screen options={{ headerShown: false }} name="exhibitors" component={Exhibitor} />
       <Drawer.Screen options={{ headerShown: false }} name="exhibitor-detail" component={ExhibitorDetail} />
       <Drawer.Screen options={{ headerShown: false }} name="polls" component={Poll} />
+      <Drawer.Screen options={{ headerShown: false }} name="poll-detail" component={PollDetail} />
       <Drawer.Screen options={{ headerShown: false }} name="survey" component={Survey} />
+      <Drawer.Screen options={{ headerShown: false }} name="survey-detail" component={SurveyDetail} />
       <Drawer.Screen options={{ headerShown: false }} name="qa" component={QA} />
       <Drawer.Screen options={{ headerShown: false }} name="social" component={SocialMedia} />
       <Drawer.Screen options={{ headerShown: false }} name="checkIn" component={CheckIn} />

@@ -33,7 +33,7 @@ const Detail = () => {
                         <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
                         <Text fontSize="md">Polls</Text>
                     </HStack>
-                    <PollRectangleView />
+                    {/* <PollRectangleView /> */}
                     <RequestToSpeakListing />
                     <ListingLayout1 />
                 </Box>
