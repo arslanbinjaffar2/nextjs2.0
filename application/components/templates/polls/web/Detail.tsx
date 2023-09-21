@@ -17,7 +17,8 @@ import WordCloudAnswer from 'application/components/atoms/polls/questions/WordCl
 import MatrixAnswer from 'application/components/atoms/polls/questions/MatrixAnswer';
 import OpenQuestionAnswer from 'application/components/atoms/polls/questions/OpenQuestionAnswer';
 import NumberAnswer from 'application/components/atoms/polls/questions/NumberAnswer';
-import DateAnswer from 'application/components/atoms/polls/questions/DateAnswer';
+import DateAnswer from 'application/components/atoms/polls/questions/web/DateAnswer';
+import DateTimeAnswer from 'application/components/atoms/polls/questions/web/DateTimeAnswer';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -257,7 +258,7 @@ const Detail = () => {
                     {detail?.questions[steps].question_type === 'open' && <OpenQuestionAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
                     {detail?.questions[steps].question_type === 'number' && <NumberAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                     {detail?.questions[steps].question_type === 'date' && <DateAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
-                    {detail?.questions[steps].question_type === 'date_time' && 'datetime'}
+                    {detail?.questions[steps].question_type === 'date_time' && <DateTimeAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                     {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
                   </>
                 )}
