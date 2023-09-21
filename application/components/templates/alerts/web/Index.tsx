@@ -31,7 +31,7 @@ const Index = () => {
                 ):(
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text textTransform="uppercase" fontSize="2xl">Polls</Text>
+                            <Text textTransform="uppercase" fontSize="2xl">News and updated</Text>
                             <Spacer />
                         </HStack>
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
