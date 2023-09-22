@@ -7,7 +7,7 @@ import {  FloorPlan } from 'application/models/floorPlans/FloorPlans'
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type FloorPlanServiceOperators = {
-    floorPlans: FloorPlan[],
+    floor_plans: FloorPlan[],
     FetchFloorPlans: () => void,
 }
 
@@ -21,7 +21,7 @@ export const UseFloorPlanService = (): Readonly<FloorPlanServiceOperators> => {
 
     return {
         
-        floorPlans: useAppSelector(SelectFloorPlans),
+        floor_plans: useAppSelector(SelectFloorPlans),
         FetchFloorPlans: useCallback(
             () => {
                 dispatch(FloorPlanActions.FetchFloorPlans())

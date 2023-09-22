@@ -1,5 +1,5 @@
 export interface RootObject {
-  floor_plans: Floorplan[];
+  floor_plans: FloorPlan[];
   filters: any[];
   sponsorCount: number;
   exhibitorCount: number;
