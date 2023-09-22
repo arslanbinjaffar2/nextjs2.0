@@ -17,7 +17,8 @@ const Index = () => {
   useFocusEffect(React.useCallback(() => {
     FetchFloorPlans();
   }, [])
-);
+  );
+  
   return (
     <Container maxW="100%" h={'100%'} w="100%">
       {
