@@ -12,6 +12,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 
 import in_array from "in_array";
 import UseAuthService from 'application/store/services/UseAuthService';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 const Drawer = (props: any) => {
 
