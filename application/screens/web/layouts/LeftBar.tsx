@@ -8,6 +8,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import in_array from "in_array";
+import UseEnvService from 'application/store/services/UseEnvService';
 
 const LeftBar = () => {
 
@@ -18,13 +19,15 @@ const LeftBar = () => {
   const { event, modules } = UseEventService()
 
   const { logout, response } = UseAuthService();
+  
+  const { _env } = UseEnvService();
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Box pb="3">
         <Flex alignItems="center" flexDirection={'row'}>
-          <Avatar w="70px" h="70px" bg="green.500">
-            HA
+          <Avatar w="70px" h="70px" bg="green.500" source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`}}>
+            {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
           </Avatar>
           {width > 1200 && <VStack px="5" space="0">
             <Text fontSize="lg" textTransform={'uppercase'} bold>{response?.data?.user?.name}</Text>
