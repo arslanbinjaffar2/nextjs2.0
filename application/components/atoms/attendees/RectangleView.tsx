@@ -64,15 +64,17 @@ const RectangleView = ({ border, attendee, speaker }: boxItemProps) => {
               )}
             </VStack>
             <Spacer />
-            <HStack space="4" alignItems="center">
-              <Pressable
-                onPress={() => {
-                  MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
-                }}>
-                <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.primary_color : ''} />
-              </Pressable>
-              <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
-            </HStack>
+            {!speaker && (
+              <HStack space="4" alignItems="center">
+                <Pressable
+                  onPress={() => {
+                    MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
+                  }}>
+                  <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.primary_color : ''} />
+                </Pressable>
+                <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
+              </HStack>
+            )}
           </HStack>
         </HStack>
       </Pressable>

@@ -16,13 +16,13 @@ function* OnGetDocuments({
     payload,
 }: {
     type: typeof DocumentActions.FetchDocuments
-    payload: { category_id: number, query: string }
+    payload: { speaker_id: number, sponsor_id: number, exhibitor_id: number }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'documents' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getDocumentApi, payload, state)
     yield put(DocumentActions.update(response.data.data.documents!))
-    yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'documents' }))
 }
 
 // Watcher Saga

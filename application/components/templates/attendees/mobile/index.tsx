@@ -83,7 +83,7 @@ const Index = ({ speaker }: Props) => {
             FetchAttendees({ query: query, group_id: slug, page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0 });
         } else if (slug === undefined) {
             setTab('attendee');
-            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id });
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0 });
         }
     }, [slug]);
 

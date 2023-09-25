@@ -61,6 +61,7 @@ export const AttendeeSlice = createSlice({
             state.page = action.payload.page;
             state.group_id = action.payload.group_id;
             state.my_attendee_id = action.payload.my_attendee_id;
+            state.category_id = action.payload.category_id;
             state.category_name = '';
             state.attendees = []
         },

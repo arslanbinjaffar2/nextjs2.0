@@ -13,12 +13,18 @@ export interface DocumentState {
     data: Document[],
     documents: Document[],
     query: string,
+    speaker_id: number,
+    sponsor_id: number,
+    exhibitor_id: number,
 }
 
 const initialState: DocumentState = {
     data: [],
     documents: [],
     query: '',
+    speaker_id: 0,
+    sponsor_id: 0,
+    exhibitor_id: 0,
 }
 
 // Slice
@@ -26,7 +32,11 @@ export const DocumentSlice = createSlice({
     name: 'documents',
     initialState,
     reducers: {
-        FetchDocuments(state, action: PayloadAction) { },
+        FetchDocuments(state, action: PayloadAction<{ speaker_id: number, sponsor_id: number, exhibitor_id: number }>) {
+            state.speaker_id = action.payload.speaker_id;
+            state.sponsor_id = action.payload.sponsor_id;
+            state.exhibitor_id = action.payload.exhibitor_id;
+        },
         update(state, action: PayloadAction<Document[]>) {
             state.data = action.payload;
             state.documents = action.payload;
@@ -68,6 +78,12 @@ export const SelectDocuments = (state: RootState) => state.documents.documents
 export const SelectData = (state: RootState) => state.documents.data
 
 export const SelectQuery = (state: RootState) => state.documents.query
+
+export const SelectSpeakerID = (state: RootState) => state.documents.speaker_id
+
+export const SelectSponsorID = (state: RootState) => state.documents.sponsor_id
+
+export const SelectExhibitor = (state: RootState) => state.documents.exhibitor_id
 
 // Reducer
 export default DocumentSlice.reducer
