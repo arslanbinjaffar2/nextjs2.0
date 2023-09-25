@@ -10,4 +10,5 @@ export interface GeneralResponse {
     error?: string,
     redirect?: string,
     success?: boolean
+    attendee_detail?:any
 }

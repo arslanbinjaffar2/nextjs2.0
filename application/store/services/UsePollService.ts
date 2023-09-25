@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectPolls, SelectCompletedPolls, PollActions, SelectPollDetail, SelectPollLabelDetail, SelectPollSubmitting, SelectPollSubmitSuccess } from 'application/store/slices/Poll.Slice'
+import { SelectPolls, SelectCompletedPolls, PollActions, SelectPollDetail, SelectPollLabelDetail, SelectPollSubmitSuccess } from 'application/store/slices/Poll.Slice'
 
 import { PollLabels, PollSubmitData, Polls } from 'application/models/poll/Poll'
 import { PollDetail } from 'application/models/poll/Detail'

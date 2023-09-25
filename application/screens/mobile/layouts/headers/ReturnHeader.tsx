@@ -5,6 +5,8 @@ import { Center, Flex, Image, Pressable, Icon, Box, View } from 'native-base';
 import { images } from 'application/styles'
 import { useEffect } from 'react';
 import { useRouter } from 'solito/router'
+import UseEnvService from 'application/store/services/UseEnvService';
+import UseEventService from 'application/store/services/UseEventService';
 
 type Props = {
     children:
@@ -24,6 +26,9 @@ const ReturnHeader = ({ children, navigation, minimal, back }: Props) => {
     useEffect(() => {
     }, [minimal]);
 
+    const { _env } = UseEnvService();
+    const { event } = UseEventService();
+
     return (
         <View>
             <Flex pt="3" direction="row" alignItems="center" safeAreaTop>
@@ -39,7 +44,7 @@ const ReturnHeader = ({ children, navigation, minimal, back }: Props) => {
                 <Center style={{ flex: 1 }} >{children}</Center>
                 <Center style={{ flex: 1 }}>
                     <Box>
-                        <Image alt='logo' width={140} height={30} source={images.Logo} alignSelf={'center'} />
+                        <Image alt='logo' width={140} height={30} source={{uri:`${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}`}} alignSelf={'center'} />
                     </Box>
                 </Center>
             </Flex>

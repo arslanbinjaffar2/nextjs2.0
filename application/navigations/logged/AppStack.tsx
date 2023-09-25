@@ -37,6 +37,7 @@ import DrawerLayout from 'application/screens/mobile/layouts/Drawer';
 import MyProgram from 'application/screens/mobile/program/MyProgram';
 import SessionCheckIn from 'application/screens/mobile/program/SessionCheckIn';
 import MyNote from 'application/screens/mobile/notes/MyNote';
+import Alert from 'application/screens/mobile/alerts/Index';
 
 const Drawer = createDrawerNavigator();
 
@@ -57,10 +58,10 @@ const AppStack = () => {
       <Drawer.Screen options={{ headerShown: false }} name="checin_agendas" component={SessionCheckIn} />
       <Drawer.Screen options={{ headerShown: false }} name="attendees" component={Attendee} />
       <Drawer.Screen options={{ headerShown: false }} name="speakers" component={Speaker} />
-      <Drawer.Screen options={{ headerShown: false }} name="alerts" component={NewsUpdate} />
       <Drawer.Screen options={{ headerShown: false }} name="ddirectory" component={Document} />
       <Drawer.Screen options={{ headerShown: false }} name="mydocuments" component={MyDocument} />
       <Drawer.Screen options={{ headerShown: false }} name="maps" component={Map} />
+      <Drawer.Screen options={{ headerShown: false }} name="alerts" component={Alert} />
       <Drawer.Screen options={{ headerShown: false }} name="chat" component={Chat} />
       <Drawer.Screen options={{ headerShown: false }} name="gallery" component={Gallery} />
       <Drawer.Screen options={{ headerShown: false }} name="information_pages" component={InformationPage} />

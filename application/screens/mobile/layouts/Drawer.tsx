@@ -11,12 +11,18 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import DynamicIcon from 'application/utils/DynamicIcon';
 
 import in_array from "in_array";
+import UseAuthService from 'application/store/services/UseAuthService';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 const Drawer = (props: any) => {
 
     const navigation: any = useNavigation();
 
     const { loadModules, modules } = UseEventService();
+
+    const { response } = UseAuthService();
+
+    const { _env } = UseEnvService();
 
     const route: any = useRoute();
 
@@ -30,12 +36,12 @@ const Drawer = (props: any) => {
         <DrawerContentScrollView {...props} safeArea>
             <Box px="4" py="5">
                 <Flex alignItems="center" flexDirection={'row'}>
-                    <Avatar w="70px" h="70px" bg="green.500">
-                        HA
+                    <Avatar w="70px" h="70px" bg="green.500" source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`}}>
+                        {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
                     </Avatar>
                     <VStack px="4" space="0">
-                        <Text isTruncated w="200px" pr="20px" fontSize="xl" textTransform={'uppercase'} bold> MIKE HECHSON</Text>
-                        <Text p="0" fontSize="16" mt="0">Marketing sales person</Text>
+                        <Text isTruncated w="200px" pr="20px" fontSize="xl" textTransform={'uppercase'} bold> {response?.data?.user?.name}</Text>
+                        <Text p="0" fontSize="16" mt="0">{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
                     </VStack>
                 </Flex>
             </Box>
