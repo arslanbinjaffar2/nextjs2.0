@@ -67,6 +67,7 @@ export interface Event {
     detail?: Detail;
     gdpr_log_count?: number;
     labels?: any;
+    calendar_date?:string;
 }
 interface Setting {
     poll_setting?: string;
@@ -79,6 +80,7 @@ interface Setting {
     desktop_program_screen_sidebar_gdpr?: string;
     desktop_program_screen_sidebar_checkin?: string;
     enable_vp?: string;
+    header_logo?: string;
     streaming_service?: string;
     badgeName?: string;
     badgeTitle?: string;

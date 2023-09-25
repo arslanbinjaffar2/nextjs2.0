@@ -17,7 +17,7 @@ const LeftBar = () => {
 
   const { event, modules } = UseEventService()
 
-  const { logout } = UseAuthService();
+  const { logout, response } = UseAuthService();
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
@@ -27,8 +27,8 @@ const LeftBar = () => {
             HA
           </Avatar>
           {width > 1200 && <VStack px="5" space="0">
-            <Text fontSize="lg" textTransform={'uppercase'} bold>MIKE HECHSON</Text>
-            <Text p="0" fontSize="md" mt="0">Marketing sales person</Text>
+            <Text fontSize="lg" textTransform={'uppercase'} bold>{response?.data?.user?.name}</Text>
+            <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
           </VStack>}
         </Flex>
       </Box>
