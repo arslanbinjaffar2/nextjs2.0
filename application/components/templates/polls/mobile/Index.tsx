@@ -9,12 +9,13 @@ import UsePollService from 'application/store/services/UsePollService';
 import MobileLoading from 'application/components/atoms/MobileLoading';
 import { Poll } from 'application/models/poll/Poll';
 import {useFocusEffect } from '@react-navigation/native'
+import in_array from 'in_array'
 
 const Index = () => {
 
     const mounted = React.useRef(false);
 
-    const { loading } = UseLoadingService();
+    const { processing } = UseLoadingService();
 
     const [tab, setTab] = React.useState<'pending'| 'completed'>('pending')
 
@@ -31,7 +32,7 @@ const Index = () => {
     return (
         <Container maxW="100%" h={'100%'} w="100%">
             {
-                loading ? (
+                in_array('poll-listing', processing) ? (
                     <MobileLoading />
                 ):(
                     <Container pt="2" maxW="100%" w="100%">
