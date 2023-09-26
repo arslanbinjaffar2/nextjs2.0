@@ -2,7 +2,7 @@ import React from 'react';
 import { Spinner, HStack, Heading, Center } from 'native-base';
 
 type Props = {
-    h?: number
+    h?: string
 }
 
 const SectionLoading = ({ h }: Props) => {
