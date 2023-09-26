@@ -1,11 +1,11 @@
 import React from 'react'
 import { Image } from 'native-base';
 
-const RectangleView = () => {
+const RectangleView = ({url}:{url:string}) => {
     return (
         <Image
             source={{
-                uri: 'https://wallpaperaccess.com/full/316101.jpg'
+                uri: url ?? 'https://wallpaperaccess.com/full/316101.jpg'
             }}
             alt="Alternate Text"
             w="100%"
