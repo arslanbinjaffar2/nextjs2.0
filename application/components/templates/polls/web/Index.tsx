@@ -8,12 +8,13 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UsePollService from 'application/store/services/UsePollService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Poll } from 'application/models/poll/Poll';
+import in_array from "in_array";
 
 const Index = () => {
 
     const mounted = React.useRef(false);
 
-    const { loading } = UseLoadingService();
+    const { processing } = UseLoadingService();
 
     const [tab, setTab] = React.useState<'pending'| 'completed'>('pending')
 
@@ -29,7 +30,7 @@ const Index = () => {
     return (
         <>
             {
-                loading ? (
+                in_array('poll-listing', processing) ? (
                     <WebLoading />
                 ):(
                     <Container pt="2" maxW="100%" w="100%">
