@@ -37,7 +37,6 @@ const Detail = React.memo(() => {
                 <WebLoading />
             ) : (
                 <Container overflow="hidden" mb="4" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
-
                     <Container mb="4" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
                         <DetailBox detail={detail} />
                         <Box w="100%" p="0">

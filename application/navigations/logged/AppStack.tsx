@@ -4,6 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Index from 'application/screens/mobile/dashboard/Index';
 import Program from 'application/screens/mobile/program/Index';
 import Attendee from 'application/screens/mobile/attendee/Index';
+import AttendeeDetail from 'application/screens/mobile/attendee/Detail';
 import Speaker from 'application/screens/mobile/speaker/Index';
 import NewsUpdate from 'application/screens/mobile/news_update/Index';
 import Document from 'application/screens/mobile/document/Index';
@@ -57,6 +58,7 @@ const AppStack = () => {
       <Drawer.Screen options={{ headerShown: false }} name="myagendas" component={MyProgram} />
       <Drawer.Screen options={{ headerShown: false }} name="checin_agendas" component={SessionCheckIn} />
       <Drawer.Screen options={{ headerShown: false }} name="attendees" component={Attendee} />
+      <Drawer.Screen options={{ headerShown: false }} name="attendee-detail" component={AttendeeDetail} />
       <Drawer.Screen options={{ headerShown: false }} name="speakers" component={Speaker} />
       <Drawer.Screen options={{ headerShown: false }} name="ddirectory" component={Document} />
       <Drawer.Screen options={{ headerShown: false }} name="mydocuments" component={MyDocument} />
