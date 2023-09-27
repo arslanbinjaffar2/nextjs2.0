@@ -1,10 +1,11 @@
 import React from 'react'
-import { Box, HStack, Icon, Spacer, Text, VStack, ZStack, IconButton, Pressable } from 'native-base'
+import { Box, HStack, Text, VStack, ZStack, Pressable } from 'native-base'
 import { Category } from 'application/models/event/Category'
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseEventService from 'application/store/services/UseEventService';
-import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
+import { useNavigation } from '@react-navigation/native';
+import { Platform } from 'react-native';
 
 type AppProps = {
     category: Category,
@@ -21,9 +22,9 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
 
     const { event } = UseEventService();
 
-    const { _env } = UseEnvService()
-
     const { push } = useRouter()
+
+    const navigation: any = useNavigation();
 
     return (
         <Box w="100%" key={k} borderBottomWidth={border ? 1 : 0} borderColor="primary.text" py="3">
@@ -31,9 +32,15 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
                 onPress={() => {
                     if (category.parent_id > 0) {
                         if (updateTab) updateTab('attendee');
-                        UpdateCategory({ category_id: category.id });
+                        UpdateCategory({ category_id: category.id, category_name: category.name });
                         if (screen === "detail") {
-                            push(`/${event.url}/speakers`);
+                            if (Platform.OS === "web") {
+                                push(`/${event.url}/speakers`);
+                            } else {
+                                navigation.replace('app', {
+                                    screen: 'speakers'
+                                })
+                            }
                         }
                     } else {
                         FetchCategories({ parent_id: category.id, query: query, page: 1, cat_type: 'speakers' })

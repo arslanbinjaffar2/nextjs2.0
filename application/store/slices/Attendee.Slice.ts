@@ -62,7 +62,9 @@ export const AttendeeSlice = createSlice({
             state.group_id = action.payload.group_id;
             state.my_attendee_id = action.payload.my_attendee_id;
             state.category_id = action.payload.category_id;
-            state.category_name = '';
+            if (action.payload.category_id === 0) {
+                state.category_name = '';
+            }
             if (action.payload.page === 1) {
                 state.attendees = []
             }
@@ -90,14 +92,17 @@ export const AttendeeSlice = createSlice({
         UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
         },
-        UpdateCategory(state, action: PayloadAction<{ category_id: number }>) {
+        UpdateCategory(state, action: PayloadAction<{ category_id: number, category_name: string }>) {
             state.category_id = action.payload.category_id;
+            state.category_name = action.payload.category_name;
         },
         FetchCategories(state, action: PayloadAction<{ parent_id: number, query: string, page: number, cat_type: string }>) {
             state.query = action.payload.query;
             state.page = action.payload.page;
             state.parent_id = action.payload.parent_id;
-            state.category_name = '';
+            if (action.payload.parent_id=== 0) {
+                state.category_name = '';
+            }
             state.categories = []
         },
         UpdateCategories(state, action: PayloadAction<{ categories: Category[], page: number, category_name: string }>) {

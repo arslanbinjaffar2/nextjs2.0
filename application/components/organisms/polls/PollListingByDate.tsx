@@ -25,12 +25,12 @@ const PollListingByDate = ({polls}:{polls:Polls}) => {
           variant="transparent"
           icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
           onPress={() => {
-            setPollDateIndex(pollDateIndex > 0 ? (pollDateIndex - 1) : (Object.keys(polls).length - 1));
+            setPollDateIndex(pollDateIndex > 0 ? (pollDateIndex - 1) : (Object.keys(polls)?.length - 1));
           }}
         />
       </Center>
       <Center w="80%">
-        <Heading fontSize="lg">{polls[Object.keys(polls)[pollDateIndex]].length > 0 && polls[Object.keys(polls)[pollDateIndex]][0].agenda_start_date_formatted}</Heading>
+        <Heading fontSize="lg">{polls[Object.keys(polls)[pollDateIndex]]?.length > 0 && polls[Object.keys(polls)[pollDateIndex]][0].agenda_start_date_formatted}</Heading>
       </Center>
       <Center alignItems="flex-end" w="10%">
         <IconButton
@@ -39,12 +39,12 @@ const PollListingByDate = ({polls}:{polls:Polls}) => {
           variant="transparent"
           icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
           onPress={() => {
-            setPollDateIndex(Object.keys(polls).length - 1 > pollDateIndex ? (pollDateIndex +1) : 0);
+            setPollDateIndex(Object.keys(polls)?.length - 1 > pollDateIndex ? (pollDateIndex +1) : 0);
           }}
         />
       </Center>
     </HStack>
-    {polls[Object.keys(polls)[pollDateIndex]].slice(0, 4).map((poll:Poll)=>{
+    {polls[Object.keys(polls)[pollDateIndex]]?.slice(0, 4).map((poll:Poll)=>{
        return <PollRectangleView poll={poll} key={poll.id} completed={false} />
     })}
     <Center py="3" px="2" w="100%" alignItems="flex-end">

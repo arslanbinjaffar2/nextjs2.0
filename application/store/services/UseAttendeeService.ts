@@ -26,7 +26,7 @@ export type AttendeeServiceOperators = {
     FetchGroups: (payload: { query: string, page: number, group_id: number, attendee_id: number }) => void
     MakeFavourite: (payload: { attendee_id: number, screen: string }) => void
     FetchAttendeeDetail: (payload: { id: number, speaker: number }) => void
-    UpdateCategory: (payload: { category_id: number }) => void
+    UpdateCategory: (payload: { category_id: number, category_name: string }) => void
     FetchCategories: (payload: { parent_id: number, query: string, page: number, cat_type: string }) => void
 }
 
@@ -74,7 +74,7 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
             [dispatch],
         ),
         UpdateCategory: useCallback(
-            (payload: { category_id: number }) => {
+            (payload: { category_id: number, category_name: string }) => {
                 dispatch(AttendeeActions.UpdateCategory(payload))
             },
             [dispatch],
