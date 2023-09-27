@@ -5,9 +5,10 @@ import { Detail } from 'application/models/attendee/Detail';
 
 type AppProps = {
     detail: Detail,
+    info: React.ReactNode,
 }
 
-const DetailInfoBlock = ({ detail }: AppProps) => {
+const DetailInfoBlock = ({ detail, info }: AppProps) => {
 
     return (
         <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
@@ -18,7 +19,7 @@ const DetailInfoBlock = ({ detail }: AppProps) => {
             {detail?.detail?.info?.about! && (
                 <VStack py="5" px="4" space="0" alignItems="center">
                     <View w={'100%'}>
-                        <div dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div>
+                        {info}
                     </View>
                 </VStack>
             )}

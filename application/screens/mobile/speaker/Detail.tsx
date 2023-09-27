@@ -14,12 +14,12 @@ const Detail = ({ navigation }: any) => {
     return (
         <Master navigation={navigation}>
             <ReturnHeader minimal={scroll} navigation={navigation} back={{
-                screen: 'attendees',
+                screen: 'speakers',
             }} mobile={true} >
-                <DynamicIcon iconType={'attendees'} iconProps={{ width: 35, height: 26 }} />
+                <DynamicIcon iconType={'speakers'} iconProps={{ width: 35, height: 26 }} />
             </ReturnHeader>
             <Center w={'100%'} px={15}>
-                <DetailTemplate speaker={0} />
+                <DetailTemplate speaker={1} />
             </Center>
         </Master>
     );

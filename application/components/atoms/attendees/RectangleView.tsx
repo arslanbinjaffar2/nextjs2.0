@@ -7,6 +7,8 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
+import { useNavigation } from '@react-navigation/native';
+import { Platform } from 'react-native'
 
 type boxItemProps = {
   attendee: Attendee
@@ -24,14 +26,25 @@ const RectangleView = ({ border, attendee, speaker }: boxItemProps) => {
 
   const { push } = useRouter()
 
+  const navigation: any = useNavigation();
+
   return (
     <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.text" py="3">
       <Pressable
         onPress={() => {
-          if (speaker) {
-            push(`/${event.url}/speakers/detail/${attendee.id}`)
+          if (Platform.OS === "web") {
+            if (speaker) {
+              push(`/${event.url}/speakers/detail/${attendee.id}`)
+            } else {
+              push(`/${event.url}/attendees/detail/${attendee.id}`)
+            }
           } else {
-            push(`/${event.url}/attendees/detail/${attendee.id}`)
+            navigation.replace('app', {
+              screen: speaker ? 'speaker-detail' : 'attendee-detail',
+              params: {
+                id: attendee.id
+              }
+            })
           }
         }}>
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">

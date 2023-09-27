@@ -6,9 +6,10 @@ import UseProgramService from 'application/store/services/UseProgramService';
 
 type AppProps = {
     tab: string,
+    w?: string,
 }
 
-const Search = ({ tab }: AppProps) => {
+const Search = ({ tab, w }: AppProps) => {
 
     const { FetchPrograms, query, id } = UseProgramService();
 
@@ -33,7 +34,7 @@ const Search = ({ tab }: AppProps) => {
     }, [query]);
 
     return (
-        <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+        <Input rounded="10" w={w ? w : '60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
             search(text);
             setSearch(text);
         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
