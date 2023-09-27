@@ -17,7 +17,7 @@ const Index = ({ navigation }: indexProps) => {
   return (
     <Master>
       <Center px={'0'} w="100%" maxW="100%" >
-        {setting_modules.map((row: any, key: any) =>
+        {setting_modules?.map((row: any, key: any) =>
             <Pressable
                 key={key}
                 w="100%"

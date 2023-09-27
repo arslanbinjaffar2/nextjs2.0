@@ -19,6 +19,7 @@ import SurveySlice from './slices/Survey.Slice'
 import AlertSlice from './slices/Alert.Slice'
 import FloorPlanSlice from './slices/FloorPlan.Slice'
 import BannerSlice from './slices/Banner.Slice'
+import EditProfileSlice from './slices/EditProfile.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 
 const makeStore = () => {
@@ -44,7 +45,8 @@ const makeStore = () => {
             surveys:SurveySlice,
             alerts:AlertSlice,
             floorPlans:FloorPlanSlice,
-            banners:BannerSlice
+            banners:BannerSlice,
+            editProfiles:EditProfileSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>

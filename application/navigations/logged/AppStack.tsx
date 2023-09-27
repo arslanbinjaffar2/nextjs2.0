@@ -40,6 +40,7 @@ import MyProgram from 'application/screens/mobile/program/MyProgram';
 import SessionCheckIn from 'application/screens/mobile/program/SessionCheckIn';
 import MyNote from 'application/screens/mobile/notes/MyNote';
 import Alert from 'application/screens/mobile/alerts/Index';
+import Settings from 'application/screens/mobile/Settings/Index';
 
 const Drawer = createDrawerNavigator();
 
@@ -90,6 +91,7 @@ const AppStack = () => {
       <Drawer.Screen options={{ headerShown: false }} name="upcomingEvents" component={UpcomingEvent} />
       <Drawer.Screen options={{ headerShown: false }} name="event-info" component={EventInfo} />
       <Drawer.Screen options={{ headerShown: false }} name="event-info-detail" component={EventInfoDetail} />
+      <Drawer.Screen options={{ headerShown: false }} name="settings" component={Settings} />
     </Drawer.Navigator>
   )
 }

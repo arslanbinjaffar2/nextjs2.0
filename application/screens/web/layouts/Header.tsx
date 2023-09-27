@@ -7,10 +7,12 @@ import Notification from 'application/components/atoms/header/Notification';
 import { Event } from 'application/models/Event'
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
+import { useRouter } from 'next/router';
 
 const Header = ({ width }: any) => {
   const { _env } = UseEnvService();
   const { event } = UseEventService();
+  const router = useRouter()
 
   return (
     <>
@@ -31,7 +33,7 @@ const Header = ({ width }: any) => {
           <Spacer />
           <Center alignItems="flex-end" w="100%" maxW={width! >= 1201 ? '265px' : '40%'}>
             <HStack space="10">
-              <Box><Pressable onPress={() => { console.log('hello') }}><Icosettings width={32} height={32} /></Pressable></Box>
+              <Box><Pressable onPress={() => { router.push(`/${event.url}/settings`)}}><Icosettings width={32} height={32} /></Pressable></Box>
               <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={34} height={34} /></Pressable></Box>
               <Notification />
             </HStack>
