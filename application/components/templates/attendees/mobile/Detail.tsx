@@ -154,7 +154,7 @@ const Detail = ({ speaker }: Props) => {
                                             )}
                                         </ScrollView>
                                     </HStack>
-                                    <Container mb="3" rounded="10" bg="primary.box" w="100%" h={'57%'} maxW="100%">
+                                    <Container mb="3" rounded="10" bg={!in_array(tab, ["documents"]) ? 'primary.box' : '0'} w="100%" h={'57%'} maxW="100%">
                                         {((in_array('groups', processing) || in_array('programs', processing) || in_array('documents', processing)) && page === 1) ? (
                                             <SectionLoading h={'100%'} />
                                         ) : (
@@ -197,18 +197,20 @@ const Detail = ({ speaker }: Props) => {
                                                     <SlideView section="program" programs={programs} />
                                                 }
                                                 {tab === 'category' &&
-                                                    detail?.detail?.categories.map((map: any, k: number) =>
-                                                        <React.Fragment key={`item-box-group-${k}`}>
-                                                            {map?.name && (
-                                                                <Text w="100%" pl="18px" bg="primary.darkbox">{map?.name}</Text>
-                                                            )}
-                                                            {map?.children?.map((category: Category, index: number) =>
-                                                                <React.Fragment key={`${k}`}>
-                                                                    <RectangleCategoryView category={category} k={k} border={map?.children.length != (index + 1)} navigation={true} screen="detail" />
-                                                                </React.Fragment>
-                                                            )}
-                                                        </React.Fragment>
-                                                    )
+                                                    <ScrollView w={'100%'}>
+                                                        {detail?.detail?.categories.map((map: any, k: number) =>
+                                                            <React.Fragment key={`item-box-group-${k}`}>
+                                                                {map?.name && (
+                                                                    <Text w="100%" pl="18px" bg="primary.darkbox">{map?.name}</Text>
+                                                                )}
+                                                                {map?.children?.map((category: Category, index: number) =>
+                                                                    <React.Fragment key={`${index}`}>
+                                                                        <RectangleCategoryView category={category} k={k} border={map?.children.length != (index + 1)} navigation={true} screen="detail" />
+                                                                    </React.Fragment>
+                                                                )}
+                                                            </React.Fragment>
+                                                        )}
+                                                    </ScrollView>
                                                 }
                                                 {tab === 'documents' &&
                                                     <ListingLayout2 />

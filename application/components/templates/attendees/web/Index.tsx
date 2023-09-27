@@ -83,7 +83,7 @@ const Index = ({ speaker }: Props) => {
             FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0 });
         } else if (slug === undefined || slug.length === 0) {
             setTab('attendee');
-            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0 });
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id });
         }
     }, [slug]);
 
@@ -154,7 +154,11 @@ const Index = ({ speaker }: Props) => {
                     <Text flex="1" textTransform="uppercase" fontSize="xs">{category_name}</Text>
                     <Pressable
                         onPress={async () => {
-                            FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+                            if (in_array(tab, ['attendee', 'my-attendee'])) {
+                                FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: 0 });
+                            } else {
+                                FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+                            }
                         }}>
                         <Text textTransform="uppercase" fontSize="xs">Go back</Text>
                     </Pressable>

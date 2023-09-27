@@ -83,7 +83,7 @@ const Index = ({ speaker }: Props) => {
             FetchAttendees({ query: query, group_id: slug, page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0 });
         } else if (slug === undefined) {
             setTab('attendee');
-            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0 });
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id });
         }
     }, [slug]);
 
@@ -119,13 +119,17 @@ const Index = ({ speaker }: Props) => {
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
             </HStack>
-            {speaker === 0 && (
-                <HStack mb="3" space={1} justifyContent="center" w="100%">
-                    <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>ALL</Button>
-                    <Button onPress={() => setTab('my-attendee')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-attendee' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>MY ATTENDEES</Button>
-                    <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} w="33.3%" _text={{ fontWeight: '600' }}>GROUPS</Button>
-                </HStack>
-            )}
+            <HStack mb="3" space={1} justifyContent="center" w="100%">
+                <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>ALL</Button>
+                {speaker === 0 ? (
+                    <>
+                        <Button onPress={() => setTab('my-attendee')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-attendee' ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>MY ATTENDEES</Button>
+                        <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>GROUPS</Button>
+                    </>
+                ) : (
+                    <Button onPress={() => setTab('category')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>CATEGORIES</Button>
+                )}
+            </HStack>
             {group_id > 0 && (
                 <HStack mb="3" pt="2" w="100%" space="3">
                     {group_name && (
@@ -148,7 +152,11 @@ const Index = ({ speaker }: Props) => {
                     <Text flex="1" textTransform="uppercase" fontSize="xs">{category_name}</Text>
                     <Pressable
                         onPress={async () => {
-                            FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+                            if (in_array(tab, ['attendee', 'my-attendee'])) {
+                                FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: 0 });
+                            } else {
+                                FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+                            }
                         }}>
                         <Text textTransform="uppercase" fontSize="xs">Go back</Text>
                     </Pressable>
