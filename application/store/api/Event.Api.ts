@@ -17,3 +17,7 @@ export const getEventByCodeApi = (payload: any, state: any): Promise<HttpRespons
 export const getModulesApi = (state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).get(`${EventBaseUrl}/${state?.event?.event.url}/event/app-modules`);
 }
+
+export const getSettingModulesApi = (state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).get(`${EventBaseUrl}/${state?.event?.event.url}/event/app-settings-modules`);
+}

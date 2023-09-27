@@ -5,3 +5,8 @@ export interface Module {
     alert: number,
     section_type?: string,
 }
+
+export interface SettingModule {
+  name: string;
+  alias: string;
+}

@@ -56,8 +56,8 @@ const Index = ({ navigation }: any) => {
           <ProgramListing />
           <SpeakerRoundedList />
           <ExhibitorsListing />
-          {polls && <PollListingByDate polls={polls} />}
-          {banners && <BannerSlider banners={banners}/>}
+          {Object.keys(polls).length > 0 && <PollListingByDate polls={polls} />}
+          {banners.length > 0 && <BannerSlider banners={banners}/>}
         </ScrollView>
       </Center>
     </Master>

@@ -24,7 +24,7 @@ const Master = ({ children }: Props) => {
 
   const { width } = useWindowDimensions();
 
-  const { event, modules, loadModules } = UseEventService();
+  const { event, modules, loadModules, loadSettingsModules } = UseEventService();
 
   const { getUser, response, isLoggedIn } = UseAuthService();
 
@@ -45,6 +45,7 @@ const Master = ({ children }: Props) => {
   React.useEffect(() => {
     if (modules.length === 0 && isLoggedIn && event.id) {
       loadModules();
+      loadSettingsModules();
     }
   }, [modules, event, isLoggedIn])
 

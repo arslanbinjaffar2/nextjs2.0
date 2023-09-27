@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Event } from 'application/models/Event'
 
-import { Module } from 'application/models/Module'
+import { Module, SettingModule } from 'application/models/Module'
 
 import type { RootState } from 'application/store/Index'
 
@@ -11,11 +11,13 @@ import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 export interface EventState {
     event: Event,
     modules: Array<Module>
+    setting_modules: SettingModule[]
 }
 
 const initialState: EventState = {
     event: {},
-    modules: []
+    modules: [],
+    setting_modules: []
 }
 
 // Slice
@@ -37,6 +39,10 @@ export const EventSlice = createSlice({
         updateModules(state, action: PayloadAction<Array<Module>>) {
             state.modules = action.payload
         },
+        loadSettingsModules(state) { },
+        updateSettingsModules(state, action: PayloadAction<Array<SettingModule>>) {
+            state.setting_modules = action.payload
+        },
     },
 })
 
@@ -47,12 +53,16 @@ export const EventActions = {
     update: EventSlice.actions.update,
     loadModules: EventSlice.actions.loadModules,
     updateModules: EventSlice.actions.updateModules,
+    loadSettingsModules: EventSlice.actions.loadSettingsModules,
+    updateSettingsModules: EventSlice.actions.updateSettingsModules,
 }
 
 // Selectors
 export const SelectEvent = (state: RootState) => state.event.event
 
 export const Modules = (state: RootState) => state.event.modules
+
+export const SettingModules = (state: RootState) => state.event.setting_modules
 
 // Reducer
 export default EventSlice.reducer

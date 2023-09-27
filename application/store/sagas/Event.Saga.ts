@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getEventApi, getEventByCodeApi, getModulesApi } from 'application/store/api/Event.Api';
+import { getEventApi, getEventByCodeApi, getModulesApi, getSettingModulesApi } from 'application/store/api/Event.Api';
 
 import { EventActions } from 'application/store/slices/Event.Slice'
 
@@ -65,11 +65,29 @@ function* OnGetModules({
     }
 }
 
+function* OnGetSettingModules({
+    payload,
+}: {
+    type: typeof EventActions.FetchEvent
+    payload: string
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const env = yield select(state => state);
+    const response: HttpResponse = yield call(getSettingModulesApi, env)
+    if (response?.status === 401) {
+        yield put(AuthActions.clearToken());
+    } else {
+        yield put(EventActions.updateSettingsModules(response.data.data.modules))
+        yield put(LoadingActions.set(false))
+    }
+}
+
 // Watcher Saga
 export function* EventWatcherSaga(): SagaIterator {
     yield takeEvery(EventActions.FetchEvent.type, OnGetEvent)
     yield takeEvery(EventActions.FetchEventByCode.type, OnGetEventByCode)
     yield takeEvery(EventActions.loadModules.type, OnGetModules)
+    yield takeEvery(EventActions.loadSettingsModules.type, OnGetSettingModules)
 }
 
 export default EventWatcherSaga
