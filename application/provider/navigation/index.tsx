@@ -28,8 +28,6 @@ export function NavigationProvider({
               'sponsor-detail': ':url/sponsors/detail/:id',
               'exhibitor-detail': ':url/exhibitors/detail/:id',
               'attendees': ':url/attendees/:slug',
-              'attendee-detail': ':url/attendees/detail/:id',
-              'speaker-detail': ':url/speakers/detail/:id',
               'polls': ':url/polls',
               'poll-detail': ':url/polls/detail/:id',
               'survey': ':url/survey',

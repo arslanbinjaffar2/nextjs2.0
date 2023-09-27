@@ -2,7 +2,6 @@
 import * as React from 'react';
 import AntDesign from '@expo/vector-icons/AntDesign'
 import { Center, Flex, Image, Pressable, Icon, Box, View } from 'native-base';
-import { images } from 'application/styles'
 import { useEffect } from 'react';
 import { useRouter } from 'solito/router'
 import UseEnvService from 'application/store/services/UseEnvService';
@@ -16,10 +15,11 @@ type Props = {
     | string[];
     navigation: any;
     minimal: any;
-    back: string;
+    back: any;
+    mobile?: boolean;
 };
 
-const ReturnHeader = ({ children, navigation, minimal, back }: Props) => {
+const ReturnHeader = ({ children, navigation, minimal, back, mobile }: Props) => {
 
     const { push } = useRouter()
 
@@ -27,6 +27,7 @@ const ReturnHeader = ({ children, navigation, minimal, back }: Props) => {
     }, [minimal]);
 
     const { _env } = UseEnvService();
+
     const { event } = UseEventService();
 
     return (
@@ -35,7 +36,11 @@ const ReturnHeader = ({ children, navigation, minimal, back }: Props) => {
                 <Center style={{ flex: 1 }} ml="-10%" pt="10px">
                     <Pressable
                         onPress={() => {
-                            push(back)
+                            if (mobile) {
+                                navigation.replace('app', back);
+                            } else {
+                                push(back)
+                            }
                         }}
                     >
                         <Icon size="2xl" color="primary.text" as={AntDesign} name="left" />
@@ -44,7 +49,7 @@ const ReturnHeader = ({ children, navigation, minimal, back }: Props) => {
                 <Center style={{ flex: 1 }} >{children}</Center>
                 <Center style={{ flex: 1 }}>
                     <Box>
-                        <Image alt='logo' width={140} height={30} source={{uri:`${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}`}} alignSelf={'center'} />
+                        <Image alt='logo' width={140} height={30} source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` }} alignSelf={'center'} />
                     </Box>
                 </Center>
             </Flex>

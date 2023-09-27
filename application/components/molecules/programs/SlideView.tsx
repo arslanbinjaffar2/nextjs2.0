@@ -66,6 +66,12 @@ const SlideView = ({ programs, section }: AppProps) => {
         )
     }
 
+    const totalPrograms = (programs: any) => {
+        let total = 0;
+        programs.forEach((program: any) => total += program.length);
+        return total;
+    }
+
     return (
         <>
             {section === 'program' && (
@@ -91,7 +97,9 @@ const SlideView = ({ programs, section }: AppProps) => {
                             }}
                             keyExtractor={(item, index) => index.toString()}
                             onEndReached={async () => {
-                                setScrollCounter(scroll + 1);
+                                if (totalPrograms(programs) >= 20) {
+                                    setScrollCounter(scroll + 1);
+                                }
                             }}
                             onEndReachedThreshold={0.1}
                         />

@@ -23,6 +23,8 @@ import in_array from "in_array";
 import { Category } from 'application/models/event/Category';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
+import RenderHtml from 'react-native-render-html';
+import { useWindowDimensions } from 'react-native';
 
 type ScreenParams = { id: string }
 
@@ -33,6 +35,8 @@ type Props = {
 }
 
 const Detail = ({ speaker }: Props) => {
+
+    const { width } = useWindowDimensions();
 
     const mounted = React.useRef(false);
 
@@ -89,6 +93,12 @@ const Detail = ({ speaker }: Props) => {
         return () => { mounted.current = false; };
     }, []);
 
+    const totalGroups = (groups: any) => {
+        let total = 0;
+        groups.forEach((group: any) => total += group?.records?.length);
+        return total;
+    }
+
     return (
         <Container pt="2" maxW="100%" h={'100%'} w="100%">
             {in_array('attendee-detail', processing) ? (
@@ -96,12 +106,7 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                        <HStack space="3" alignItems="center">
-                            <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                            <Text fontSize="2xl">BACK</Text>
-                        </HStack>
-                        <Spacer />
-                        <Search tab={tab} />
+                        <Search tab={tab} w='100%' />
                     </HStack>
                     <BasicInfoBlock detail={detail} />
                     {detail?.detail?.gdpr === 1 && (
@@ -149,71 +154,71 @@ const Detail = ({ speaker }: Props) => {
                                             )}
                                         </ScrollView>
                                     </HStack>
-                                    {tab === 'about' && <DetailInfoBlock detail={detail} />}
-                                    {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
-                                    {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && <SubRegistration detail={detail} />}
-                                    {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) && <Container h={'57%'} mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                                        {in_array('groups', processing) && page === 1 ? (
-                                            <SectionLoading h={'250px'} />
+                                    <Container mb="3" rounded="10" bg="primary.box" w="100%" h={'57%'} maxW="100%">
+                                        {((in_array('groups', processing) || in_array('programs', processing) || in_array('documents', processing)) && page === 1) ? (
+                                            <SectionLoading h={'100%'} />
                                         ) : (
                                             <>
-                                                <FlatList
-                                                    style={{ width: '100%' }}
-                                                    data={GroupAlphabatically(groups, 'info')}
-                                                    renderItem={({ item }: any) => {
-                                                        return (
-                                                            <>
-                                                                {item?.letter && (
-                                                                    <Text w="100%" pl="18px" bg="primary.darkbox">{item?.letter}</Text>
-                                                                )}
-                                                                {item?.records?.map((group: Group, k: number) =>
-                                                                    <React.Fragment key={`${k}`}>
-                                                                        <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
-                                                                    </React.Fragment>
-                                                                )}
-                                                            </>
-                                                        );
-                                                    }}
-                                                    keyExtractor={item => item.letter.toString()}
-                                                    onEndReached={async () => {
-                                                        setScrollCounter(scroll + 1);
-                                                    }}
-                                                    onEndReachedThreshold={0.1}
-                                                />
+                                                {tab === 'about' && (
+                                                    <ScrollView w={'100%'}>
+                                                        <DetailInfoBlock detail={detail} info={<RenderHtml contentWidth={width} source={{ html: detail?.detail?.info?.about! }} />} />
+                                                    </ScrollView>
+                                                )}
+                                                {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
+                                                {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && <SubRegistration detail={detail} />}
+                                                {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) && groups?.length > 0 &&
+                                                    <FlatList
+                                                        style={{ width: '100%' }}
+                                                        data={GroupAlphabatically(groups, 'info')}
+                                                        renderItem={({ item }: any) => {
+                                                            return (
+                                                                <>
+                                                                    {item?.letter && (
+                                                                        <Text w="100%" pl="18px" bg="primary.darkbox">{item?.letter}</Text>
+                                                                    )}
+                                                                    {item?.records?.map((group: Group, k: number) =>
+                                                                        <React.Fragment key={`${k}`}>
+                                                                            <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
+                                                                        </React.Fragment>
+                                                                    )}
+                                                                </>
+                                                            );
+                                                        }}
+                                                        keyExtractor={item => item.letter.toString()}
+                                                        onEndReached={async () => {
+                                                            if (totalGroups(GroupAlphabatically(groups, 'info')) > 20) {
+                                                                setScrollCounter(scroll + 1);
+                                                            }
+                                                        }}
+                                                        onEndReachedThreshold={0.1}
+                                                    />
+                                                }
+                                                {tab === 'program' && programs?.length > 0 &&
+                                                    <SlideView section="program" programs={programs} />
+                                                }
+                                                {tab === 'category' &&
+                                                    detail?.detail?.categories.map((map: any, k: number) =>
+                                                        <React.Fragment key={`item-box-group-${k}`}>
+                                                            {map?.name && (
+                                                                <Text w="100%" pl="18px" bg="primary.darkbox">{map?.name}</Text>
+                                                            )}
+                                                            {map?.children?.map((category: Category, index: number) =>
+                                                                <React.Fragment key={`${k}`}>
+                                                                    <RectangleCategoryView category={category} k={k} border={map?.children.length != (index + 1)} navigation={true} screen="detail" />
+                                                                </React.Fragment>
+                                                            )}
+                                                        </React.Fragment>
+                                                    )
+                                                }
+                                                {tab === 'documents' &&
+                                                    <ListingLayout2 />
+                                                }
                                             </>
                                         )}
-                                    </Container>}
-                                    {tab === 'program' && <Container mb="3" rounded="10" bg="primary.box" w="100%" h={'57%'} maxW="100%">
-                                        {in_array('programs', processing) && page === 1 ? (
-                                            <SectionLoading h={'250px'} />
-                                        ) : (
-                                            <SlideView section="program" programs={programs} />
+                                        {(in_array('programs', processing) || in_array('groups', processing)) && page > 1 && (
+                                            <LoadMore />
                                         )}
-                                    </Container>}
-                                    {tab === 'category' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                                        {detail?.detail?.categories.map((map: any, k: number) =>
-                                            <React.Fragment key={`item-box-group-${k}`}>
-                                                {map?.name && (
-                                                    <Text w="100%" pl="18px" bg="primary.darkbox">{map?.name}</Text>
-                                                )}
-                                                {map?.children?.map((category: Category, index: number) =>
-                                                    <React.Fragment key={`${k}`}>
-                                                        <RectangleCategoryView category={category} k={k} border={map?.children.length != (index + 1)} navigation={true} screen="detail" />
-                                                    </React.Fragment>
-                                                )}
-                                            </React.Fragment>
-                                        )}
-                                    </Container>}
-                                    {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
-                                        {in_array('documents', processing) && page === 1 ? (
-                                            <SectionLoading />
-                                        ) : (
-                                            <ListingLayout2 />
-                                        )}
-                                    </Container>}
-                                    {(in_array('programs', processing) || in_array('groups', processing)) && page > 1 && (
-                                        <LoadMore />
-                                    )}
+                                    </Container>
                                 </Container>
                             )}
                         </>

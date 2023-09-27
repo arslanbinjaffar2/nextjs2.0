@@ -6,6 +6,7 @@ import Program from 'application/screens/mobile/program/Index';
 import Attendee from 'application/screens/mobile/attendee/Index';
 import AttendeeDetail from 'application/screens/mobile/attendee/Detail';
 import Speaker from 'application/screens/mobile/speaker/Index';
+import SpeakerDetail from 'application/screens/mobile/speaker/Detail';
 import NewsUpdate from 'application/screens/mobile/news_update/Index';
 import Document from 'application/screens/mobile/document/Index';
 import MyDocument from 'application/screens/mobile/document/MyDocument';
@@ -60,6 +61,7 @@ const AppStack = () => {
       <Drawer.Screen options={{ headerShown: false }} name="attendees" component={Attendee} />
       <Drawer.Screen options={{ headerShown: false }} name="attendee-detail" component={AttendeeDetail} />
       <Drawer.Screen options={{ headerShown: false }} name="speakers" component={Speaker} />
+      <Drawer.Screen options={{ headerShown: false }} name="speaker-detail" component={SpeakerDetail} />
       <Drawer.Screen options={{ headerShown: false }} name="ddirectory" component={Document} />
       <Drawer.Screen options={{ headerShown: false }} name="mydocuments" component={MyDocument} />
       <Drawer.Screen options={{ headerShown: false }} name="maps" component={Map} />
