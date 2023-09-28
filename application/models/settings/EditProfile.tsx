@@ -6,10 +6,10 @@ export interface EditProfileResponse {
   event_food_disclaimers: Eventfooddisclaimer[];
   attendee_feild_settings: Attendeefeildsettings;
   customFields: any[];
-  languages: Country[];
+  languages: Language[];
   enable_cancel: boolean;
   order_attendee_count: number;
-  settings: Settings;
+  settings: Setting[];
   labels: Labels;
 }
 
@@ -17,82 +17,73 @@ export interface Labels {
   initial: string;
   first_name: string;
   last_name: string;
-  industry: string;
+  company_name: string;
   email: string;
+  department: string;
+  custom_field_id: string;
+  password: string;
+  confirm_password: string;
+  delegate: string;
+  table_number: string;
+  network_group: string;
+  age: string;
+  gender: string;
   organization: string;
   jobs: string;
   interests: string;
-  age: string;
-  gender: string;
+  title: string;
+  industry: string;
+  about: string;
   phone: string;
-  department: string;
-  network_group: string;
-  delegate: string;
-  table_number: string;
+  member_number: string;
+  private_house_number: string;
+  private_street: string;
+  private_post_code: string;
+  private_city: string;
+  private_country: string;
+  company_type: string;
+  company_registration_number: string;
+  ean: string;
+  contact_person_name: string;
+  contact_person_email: string;
+  contact_person_mobile_number: string;
+  company_street: string;
+  company_house_number: string;
+  company_post_code: string;
+  company_city: string;
+  company_country: string;
+  credit_card_payment: string;
+  company_public_payment: string;
+  company_invoice_payment: string;
+  poNumber: string;
+  FIRST_NAME_PASSPORT: string;
+  LAST_NAME_PASSPORT: string;
+  BIRTHDAY_YEAR: string;
+  EMPLOYMENT_DATE: string;
+  SPOKEN_LANGUAGE: string;
+  attendee_type: string;
+  country: string;
   place_of_birth: string;
   passport_no: string;
   date_of_issue_passport: string;
   date_of_expiry_passport: string;
-  BIRTHDAY_YEAR: string;
-  attendee_type: string;
-  about: string;
-  custom_field_id: string;
-  private_street: string;
-  private_house_number: string;
-  private_post_code: string;
-  private_city: string;
-  private_country: string;
-  country: string;
-  company_name: string;
-  title: string;
+  company_invoice_payer_company_name: string;
+  company_invoice_payer_street_house_number: string;
+  company_invoice_payer_post_code: string;
+  company_invoice_payer_city: string;
+  company_invoice_payer_country: string;
+  private_street_2: string;
+  private_state: string;
+  company_street_2: string;
+  company_state: string;
 }
 
-export interface Settings {
-  initial: Initial;
-  first_name: Initial;
-  last_name: Initial;
-  show_industry: Initial;
-  email: Initial;
-  organization: Initial;
-  show_job_tasks: Initial;
-  interest: Initial;
-  age: Initial;
-  gender: Initial;
-  phone: Initial;
-  password: Initial;
-  department: Initial;
-  network_group: Initial;
-  delegate_number: Initial;
-  table_number: Initial;
-  first_name_passport: Initial;
-  last_name_passport: Initial;
-  place_of_birth: Initial;
-  passport_no: Initial;
-  date_of_issue_passport: Initial;
-  date_of_expiry_passport: Initial;
-  birth_date: Initial;
-  employment_date: Initial;
-  spoken_languages: Initial;
-  profile_picture: Initial;
-  resume: Initial;
-  type: Initial;
-  bio_info: Initial;
-  show_custom_field: Initial;
-  pa_street: Initial;
-  pa_house_no: Initial;
-  pa_post_code: Initial;
-  pa_city: Initial;
-  pa_country: Initial;
-  country: Initial;
-  company_name: Initial;
-  title: Initial;
-}
-
-export interface Initial {
-  status: number;
+export interface Setting {
+  name: string;
   is_editable: number;
   is_private: number;
 }
+
 
 export interface Attendeefeildsettings {
   id: number;
@@ -177,6 +168,10 @@ export interface Country {
   id: number;
   name: string;
 }
+export interface Language {
+  id: number;
+  name: string;
+}
 
 export interface Attendee {
   id: number;
@@ -211,6 +206,8 @@ export interface Attendee {
   info: Info;
   current_event_attendee: Currenteventattendee;
   countryName: string;
+  callingCode?:string
+  gdpr?:boolean
 }
 
 export interface Currenteventattendee {

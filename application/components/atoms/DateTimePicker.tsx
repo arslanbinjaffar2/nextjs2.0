@@ -14,6 +14,7 @@ type Props = {
   showdate: boolean;
   locale?: any;
   initialValue?: any;
+  readOnly?:boolean
 }
 
 const MyDTPicker: FC<any> = (props: Props): ReactElement => {
@@ -55,7 +56,7 @@ const MyDTPicker: FC<any> = (props: Props): ReactElement => {
     );
   }
 
-  return <Datetime locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue} ref={textInput} renderView={(mode, renderDefault) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={props.showtime ? false : true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, timeOnly: props.showtime && !props.showdate }} renderInput={renderInput} />;
+  return <Datetime locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue} ref={textInput} renderView={(mode, renderDefault) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={props.showtime ? false : true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, timeOnly: props.showtime && !props.showdate, disabled: props.readOnly }} renderInput={renderInput} />;
 };
 
 type DateTimeProps = {
@@ -69,11 +70,12 @@ type DateTimeProps = {
   fromDate?: any;
   locale?: any;
   initialValue?: any;
+  readOnly?:boolean
 }
 
 const DateTimePicker: FC<DateTimeProps> = (props): ReactElement => {
   return (
-    <MyDTPicker locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue} onChange={props.onChange} value={props.value} showtime={props.showtime !== undefined ? props.showtime : false} showdate={props.showdate !== undefined ? props.showdate : true} placeholder={props.label} />
+    <MyDTPicker locale={props?.locale !== undefined ? props?.locale : 'en'} readOnly={props.readOnly} initialValue={props.initialValue} onChange={props.onChange} value={props.value} showtime={props.showtime !== undefined ? props.showtime : false} showdate={props.showdate !== undefined ? props.showdate : true} placeholder={props.label} />
   )
 };
 

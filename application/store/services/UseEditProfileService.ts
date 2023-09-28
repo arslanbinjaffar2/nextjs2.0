@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 
-import { EditProfileActions, SelectAttendee, SelectCountries, SelectEventLanguageDetails, SelectCallingCodes, SelectEventFoodDisclaimers, SelectAttendeeFeildSettings, SelectCustomFields, SelectLanguages, SelectEnableCancel, SelectOrderAttendeeCount, SelectSettings, SelectLabels,  } from 'application/store/slices/EditProfile.Slice'
+import { EditProfileActions, SelectAttendee, SelectCountries, SelectEventLanguageDetails, SelectCallingCodes, SelectEventFoodDisclaimers, SelectAttendeeFeildSettings, SelectCustomFields, SelectLanguages, SelectEnableCancel, SelectOrderAttendeeCount, SelectSettings, SelectLabels, SelectUpdatingAttendee,  } from 'application/store/slices/EditProfile.Slice'
 
-import {   } from 'application/models/settings/EditProfile'
+import { Language } from 'application/models/settings/EditProfile'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 import { Attendee, Attendeefeildsettings, CallingCode, Country, Eventfooddisclaimer, Eventlanguagedetail, Labels, Settings } from '../../models/settings/EditProfile'
@@ -15,12 +15,14 @@ export type EditProfileServiceOperators = {
     event_food_disclaimers: Eventfooddisclaimer[];
     attendee_feild_settings: Attendeefeildsettings | null;
     customFields: any[];
-    languages: Country[];
+    languages: Language[];
     enable_cancel: boolean;
     order_attendee_count: number;
     settings: Settings | null;
     labels: Labels | null;
-    FetchEditProfiles: () => void,
+    updatingAttendee:boolean;
+    FetchEditProfiles: () => void;
+    UpdateAttendee: (data:any) => void;
 }
 
 /**
@@ -45,9 +47,16 @@ export const UseEditProfileService = (): Readonly<EditProfileServiceOperators> =
         order_attendee_count:useAppSelector(SelectOrderAttendeeCount),
         settings: useAppSelector(SelectSettings),
         labels: useAppSelector(SelectLabels),
+        updatingAttendee: useAppSelector(SelectUpdatingAttendee),
         FetchEditProfiles: useCallback(
             () => {
                 dispatch(EditProfileActions.FetchEditProfileData())
+            },
+            [dispatch],
+        ),
+        UpdateAttendee: useCallback(
+            (payload:any) => {
+                dispatch(EditProfileActions.UpdateAttendee(payload))
             },
             [dispatch],
         ),

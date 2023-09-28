@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getEditProfileDataApi } from 'application/store/api/EditProfile.Api'
+import { getEditProfileDataApi, updateAttendeeApi } from 'application/store/api/EditProfile.Api'
 
 import { EditProfileActions } from 'application/store/slices/EditProfile.Slice'
 
@@ -23,13 +23,26 @@ function* OnFetchEditProfileData({
     yield put(LoadingActions.set(false));
 }
 
-
+function* OnUpdateAttendee({
+    payload,
+}: {
+    type: typeof EditProfileActions.UpdateAttendee
+    payload: any
+}): SagaIterator {
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(updateAttendeeApi, payload, state)
+    console.log(response);
+    if (response?.status === 200) {
+        // yield put(EditProfileActions.PollSubmitSuccess())
+    }
+}
 
 
 
 // Watcher Saga
 export function* EditProfileWatcherSaga(): SagaIterator {
     yield takeEvery(EditProfileActions.FetchEditProfileData.type, OnFetchEditProfileData)
+    yield takeEvery(EditProfileActions.UpdateAttendee.type, OnUpdateAttendee)
 }
 
 export default EditProfileWatcherSaga

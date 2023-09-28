@@ -28,8 +28,10 @@ import {FloorPlanWatcherSaga} from 'application/store/sagas/FloorPlan.Saga'
 
 import {BannerWatcherSaga} from 'application/store/sagas/Banner.Saga'
 
+import {EditProfileWatcherSaga} from 'application/store/sagas/EditProfile.Saga'
+
 export function* RootSaga() {
-    yield all([fork(EventWatcherSaga), fork(AuthWatcherSaga), fork(MapWatcherSaga), fork(InfoWatcherSaga), fork(SponsorWatcherSaga), fork(ExhibitorWatcherSaga), fork(DocumentWatcherSaga), fork(AttendeeWatcherSaga), fork(ProgramWatcherSaga), fork(PollWatcherSaga), fork(SurveyWatcherSaga), fork(AlertWatcherSaga), fork(FloorPlanWatcherSaga), fork(BannerWatcherSaga)])
+    yield all([fork(EventWatcherSaga), fork(AuthWatcherSaga), fork(MapWatcherSaga), fork(InfoWatcherSaga), fork(SponsorWatcherSaga), fork(ExhibitorWatcherSaga), fork(DocumentWatcherSaga), fork(AttendeeWatcherSaga), fork(ProgramWatcherSaga), fork(PollWatcherSaga), fork(SurveyWatcherSaga), fork(AlertWatcherSaga), fork(FloorPlanWatcherSaga), fork(BannerWatcherSaga), fork(EditProfileWatcherSaga)])
 }
 
 export default RootSaga

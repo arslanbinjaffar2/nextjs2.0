@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Attendee, Country, Eventlanguagedetail, Eventfooddisclaimer, CallingCode, Attendeefeildsettings, Settings, Labels, EditProfileResponse } from 'application/models/settings/EditProfile'
+import { Attendee, Country, Eventlanguagedetail, Eventfooddisclaimer, CallingCode, Attendeefeildsettings, Setting, Labels, EditProfileResponse } from 'application/models/settings/EditProfile'
 
 import { RootState } from 'application/store/Index'
 
@@ -19,8 +19,9 @@ export interface EditProfileState {
     languages: Country[];
     enable_cancel: boolean;
     order_attendee_count: number;
-    settings: Settings | null;
+    settings: Setting[] | null;
     labels: Labels | null;
+    updatingAttendee:boolean
 }
 
 const initialState: EditProfileState = {
@@ -34,8 +35,9 @@ const initialState: EditProfileState = {
     languages: [],
     enable_cancel: false,
     order_attendee_count: 0,
-    settings: null,
+    settings: [],
     labels: null,
+    updatingAttendee:false
 }
 
 // Slice
@@ -57,7 +59,13 @@ export const EditProfileSlice = createSlice({
             state.order_attendee_count = action.payload.order_attendee_count
             state.settings = action.payload.settings
             state.labels = action.payload.labels
-        }
+        },
+        UpdateAttendee(state, action: PayloadAction<any>){
+            state.updatingAttendee = true
+        },
+        AttendeeUpdatedSuccessfully(state){
+            state.updatingAttendee = false
+        },
 
     },
 })
@@ -66,6 +74,8 @@ export const EditProfileSlice = createSlice({
 export const EditProfileActions = {
     FetchEditProfileData:EditProfileSlice.actions.FetchEditProfileData,
     update:EditProfileSlice.actions.update,
+    UpdateAttendee:EditProfileSlice.actions.UpdateAttendee,
+    AttendeeUpdatedSuccessfully:EditProfileSlice.actions.AttendeeUpdatedSuccessfully,
 }
 
 export const SelectAttendee = (state: RootState) => state.editProfiles.attendee
@@ -80,6 +90,7 @@ export const SelectEnableCancel = (state: RootState) => state.editProfiles.enabl
 export const SelectOrderAttendeeCount = (state: RootState) => state.editProfiles.order_attendee_count
 export const SelectSettings = (state: RootState) => state.editProfiles.settings
 export const SelectLabels = (state: RootState) => state.editProfiles.labels
+export const SelectUpdatingAttendee = (state: RootState) => state.editProfiles.updatingAttendee
 
 
 // Reducer
