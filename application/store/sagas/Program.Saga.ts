@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getProgramApi, makeFavouriteApi } from 'application/store/api/Program.Api';
+import { getProgramApi, getTrackApi, makeFavouriteApi } from 'application/store/api/Program.Api';
 
 import { ProgramActions } from 'application/store/slices/Program.Slice'
 
@@ -21,7 +21,7 @@ function* OnGetMyPrograms({
     yield put(LoadingActions.addProcess({ process: 'programs' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getProgramApi, payload, state)
-    yield put(ProgramActions.update({ programs: response.data?.data, query: payload.query, page: payload.page }))
+    yield put(ProgramActions.update({ programs: response.data?.data?.programs, query: payload.query, page: payload.page, track: response.data.data.track! }))
     yield put(LoadingActions.removeProcess({ process: 'programs' }))
 }
 
@@ -38,10 +38,24 @@ function* OnMakeFavourite({
     }
 }
 
+function* OnGetTracks({
+    payload,
+}: {
+    type: typeof ProgramActions.FetchTracks
+    payload: { query: string, page: number, screen: string, track_id: number }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: 'tracks' }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getTrackApi, payload, state)
+    yield put(ProgramActions.UpdateTracks({ tracks: response.data.data.tracks!, query: payload.query, page: payload.page, track: response.data.data.track! }))
+    yield put(LoadingActions.removeProcess({ process: 'tracks' }))
+}
+
 // Watcher Saga
 export function* ProgramWatcherSaga(): SagaIterator {
     yield takeEvery(ProgramActions.FetchPrograms.type, OnGetMyPrograms)
     yield takeEvery(ProgramActions.MakeFavourite.type, OnMakeFavourite)
+    yield takeEvery(ProgramActions.FetchTracks.type, OnGetTracks)
 }
 
 export default ProgramWatcherSaga

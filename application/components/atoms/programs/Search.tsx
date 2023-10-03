@@ -3,6 +3,7 @@ import { Icon, Input } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import debounce from 'lodash.debounce';
 import UseProgramService from 'application/store/services/UseProgramService';
+import in_array from "in_array";
 
 type AppProps = {
     tab: string,
@@ -23,8 +24,8 @@ const Search = ({ tab, w }: AppProps) => {
 
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
-            if (tab === "program") {
-                FetchPrograms({ query: query, page: 1, screen: 'my-program', id: id, track_id: track_id });
+            if (in_array(tab, ['program', 'my-program'])) {
+                FetchPrograms({ query: query, page: 1, screen: tab, id: tab === 'my-program' ? id : 0, track_id: track_id });
             }
         }, 1000);
     }, [tab]);

@@ -3,7 +3,6 @@ import { Center, Heading, HStack, Icon, IconButton, Text, FlatList } from 'nativ
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
 import WorkshopRectangleDetailView from 'application/components/atoms/programs/workshops/RectangleDetailView';
-import TrackRectangleDetailView from 'application/components/atoms/programs/tracks/RectangleDetailView';
 import { Program } from 'application/models/program/Program'
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { Platform } from 'react-native';
@@ -105,11 +104,6 @@ const SlideView = ({ programs, section }: AppProps) => {
                         />
                     )}
                 </>
-            )}
-            {section === 'tracks' && (
-                programs?.map((program: any, key: any) =>
-                    <TrackRectangleDetailView key={key} program={program} k={key} />
-                )
             )}
             {section === 'workshops' && (
                 programs?.map((program: any, key: any) =>
