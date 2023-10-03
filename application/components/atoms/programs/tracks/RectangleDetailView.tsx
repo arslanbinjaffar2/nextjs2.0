@@ -16,6 +16,7 @@ const RectangleDetailView = ({ track, border, updateTab }: AppProps) => {
     return <Box w="100%" key={track.id} borderBottomWidth={border ? 1 : 0} borderColor="primary.text" py="3">
         <Pressable onPress={() => {
             if (track?.parent_id == 0) {
+                updateTab('track');
                 FetchTracks({ page: 1, query: '', screen: 'track', track_id: track.id });
             } else {
                 updateTab('track-program');

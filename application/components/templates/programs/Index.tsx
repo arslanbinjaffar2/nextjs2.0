@@ -64,7 +64,7 @@ const Index = () => {
                 <Search tab={tab} />
             </HStack>
             <HStack mb="3" space={1} justifyContent="center" w="100%">
-                <Button onPress={() => setTab('program')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['program']) ? 'primary.darkbox' : 'primary.box'} w={'33%'} _text={{ fontWeight: '600' }}>PROGRAMS</Button>
+                <Button onPress={() => setTab('program')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.darkbox' : 'primary.box'} w={'33%'} _text={{ fontWeight: '600' }}>PROGRAMS</Button>
                 <Button onPress={() => setTab('my-program')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.darkbox' : 'primary.box'} w={'33%'} _text={{ fontWeight: '600' }}>MY PROGRAMS</Button>
                 <Button onPress={() => setTab('track')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'track' ? 'primary.darkbox' : 'primary.box'} w={'33%'} _text={{ fontWeight: '600' }}>TRACKS</Button>
             </HStack>
