@@ -1,8 +1,10 @@
 import { useCallback } from 'react'
 
-import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack } from 'application/store/slices/Program.Slice'
+import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail } from 'application/store/slices/Program.Slice'
 
 import { Program } from 'application/models/program/Program'
+
+import { Track } from 'application/models/program/Track'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
@@ -12,8 +14,11 @@ export type ProgramServiceOperators = {
     id: number
     track_id: number
     programs: Program[]
+    tracks: Track[]
+    track: Track
     FetchPrograms: (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => void
     MakeFavourite: (payload: { program_id: number, screen: string }) => void
+    FetchTracks: (payload: { query: string, page: number, screen: string, track_id: number }) => void
 }
 
 /**
@@ -30,6 +35,8 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         id: useAppSelector(SelectID),
         track_id: useAppSelector(SelectTrack),
         programs: useAppSelector(SelectMyPrograms),
+        tracks: useAppSelector(SelectTracks),
+        track: useAppSelector(SelectTrackDetail),
         FetchPrograms: useCallback(
             (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => {
                 dispatch(ProgramActions.FetchPrograms(payload))
@@ -41,8 +48,15 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
                 dispatch(ProgramActions.MakeFavourite(payload))
             },
             [dispatch],
-        )
+        ),
+        FetchTracks: useCallback(
+            (payload: { query: string, page: number, screen: string, track_id: number }) => {
+                dispatch(ProgramActions.FetchTracks(payload))
+            },
+            [dispatch],
+        ),
     }
+
 }
 
 export default UseProgramService
