@@ -16,7 +16,7 @@ function* OnGetMyPrograms({
     payload,
 }: {
     type: typeof ProgramActions.FetchPrograms
-    payload: { query: string, page: number, id: number }
+    payload: { query: string, page: number, id: number, track_id: number }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'programs' }))
     const state = yield select(state => state);
@@ -34,7 +34,7 @@ function* OnMakeFavourite({
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     if (payload.screen === "my-program") {
-        yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'my-program', id: 0 }))
+        yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'my-program', id: 0, track_id: state?.programs?.track_id }))
     }
 }
 

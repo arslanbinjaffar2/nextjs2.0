@@ -24,7 +24,7 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
 
     const { push } = useRouter()
 
-    const navigation: any = useNavigation();
+    const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
     return (
         <Box w="100%" key={k} borderBottomWidth={border ? 1 : 0} borderColor="primary.text" py="3">

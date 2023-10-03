@@ -26,7 +26,7 @@ const RectangleView = ({ border, attendee, speaker }: boxItemProps) => {
 
   const { push } = useRouter()
 
-  const navigation: any = useNavigation();
+  const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
   return (
     <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.text" py="3">

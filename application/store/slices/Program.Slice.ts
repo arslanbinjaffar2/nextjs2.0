@@ -14,6 +14,7 @@ export interface ProgramState {
     screen: string,
     page: number,
     id: number,
+    track_id: number,
 }
 
 const initialState: ProgramState = {
@@ -22,6 +23,7 @@ const initialState: ProgramState = {
     screen: '',
     page: 1,
     id: 0,
+    track_id: 0,
 }
 
 // Slice
@@ -29,11 +31,12 @@ export const ProgramSlice = createSlice({
     name: 'programs',
     initialState,
     reducers: {
-        FetchPrograms(state, action: PayloadAction<{ query: string, page: number, screen: string, id: number }>) {
+        FetchPrograms(state, action: PayloadAction<{ query: string, page: number, screen: string, id: number, track_id: number }>) {
             state.query = action.payload.query;
             state.id = action.payload.id;
             state.page = action.payload.page;
             state.screen = action.payload.screen;
+            state.track_id = action.payload.track_id;
         },
         update(state, action: PayloadAction<{ programs: Program[], query: string, page: number }>) {
             const existed: any = current(state.programs);
@@ -57,6 +60,8 @@ export const SelectQuery = (state: RootState) => state.programs.query
 export const SelectPage = (state: RootState) => state.programs.page
 
 export const SelectID = (state: RootState) => state.programs.id
+
+export const SelectTrack = (state: RootState) => state.programs.track_id
 
 // Reducer
 export default ProgramSlice.reducer

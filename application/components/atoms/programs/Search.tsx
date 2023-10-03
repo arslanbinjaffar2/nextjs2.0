@@ -11,7 +11,7 @@ type AppProps = {
 
 const Search = ({ tab, w }: AppProps) => {
 
-    const { FetchPrograms, query, id } = UseProgramService();
+    const { FetchPrograms, query, id, track_id } = UseProgramService();
 
     const [searchQuery, setSearch] = React.useState('')
 
@@ -24,7 +24,7 @@ const Search = ({ tab, w }: AppProps) => {
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
             if (tab === "program") {
-                FetchPrograms({ query: query, page: 1, screen: 'my-program', id: id });
+                FetchPrograms({ query: query, page: 1, screen: 'my-program', id: id, track_id: track_id });
             }
         }, 1000);
     }, [tab]);

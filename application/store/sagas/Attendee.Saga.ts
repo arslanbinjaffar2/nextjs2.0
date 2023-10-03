@@ -79,6 +79,19 @@ function* OnGetCategories({
     yield put(LoadingActions.removeProcess({ process: 'category-listing' }))
 }
 
+function* OnGetTracks({
+    payload,
+}: {
+    type: typeof AttendeeActions.FetchTracks
+    payload: { query: string, page: number }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: 'tracks' }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getGroupsApi, payload, state)
+    yield put(AttendeeActions.UpdateTracks({ groups: response.data.data.groups.data!, query: payload.query, page: payload.page, group_id: payload.group_id }))
+    yield put(LoadingActions.removeProcess({ process: 'tracks' }))
+}
+
 // Watcher Saga
 export function* AttendeeWatcherSaga(): SagaIterator {
     yield takeEvery(AttendeeActions.FetchAttendees.type, OnGetAttendees)

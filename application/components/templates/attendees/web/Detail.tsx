@@ -65,7 +65,7 @@ const Detail = ({ speaker }: Props) => {
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
-                FetchPrograms({ page: 1, query: '', screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id) });
+                FetchPrograms({ page: 1, query: '', screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
             } else if (tab === "groups") {
                 FetchGroups({ query: '', group_id: 0, page: 1, attendee_id: Number(_id) });
             } else if (tab === "documents") {
@@ -77,7 +77,7 @@ const Detail = ({ speaker }: Props) => {
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
-                FetchPrograms({ query: '', page: page + 1, screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id) });
+                FetchPrograms({ query: '', page: page + 1, screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
             } else if (tab === "groups") {
                 FetchGroups({ query: '', group_id: 0, page: page + 1, attendee_id: Number(_id) });
             }

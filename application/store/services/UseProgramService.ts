@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID } from 'application/store/slices/Program.Slice'
+import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack } from 'application/store/slices/Program.Slice'
 
 import { Program } from 'application/models/program/Program'
 
@@ -10,8 +10,9 @@ export type ProgramServiceOperators = {
     query: string
     page: number
     id: number
+    track_id: number
     programs: Program[]
-    FetchPrograms: (payload: { query: string, page: number, screen: string, id: number }) => void
+    FetchPrograms: (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => void
     MakeFavourite: (payload: { program_id: number, screen: string }) => void
 }
 
@@ -27,9 +28,10 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         query: useAppSelector(SelectQuery),
         page: useAppSelector(SelectPage),
         id: useAppSelector(SelectID),
+        track_id: useAppSelector(SelectTrack),
         programs: useAppSelector(SelectMyPrograms),
         FetchPrograms: useCallback(
-            (payload: { query: string, page: number, screen: string, id: number }) => {
+            (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => {
                 dispatch(ProgramActions.FetchPrograms(payload))
             },
             [dispatch],
