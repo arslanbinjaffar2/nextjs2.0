@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack } from 'native-base';
 import WebLoading from 'application/components/atoms/WebLoading';
 import UseEditProfileService from 'application/store/services/UseEditProfileService'
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -156,38 +156,53 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
       };
 
   return (
-    <Container mb="3" maxW="100%" w="100%">
+    <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
+        <Box mb="4" w="100%" bg="primary.darkbox" px="3" py="2" roundedTop="md">
+            <Text fontSize="lg">General information</Text>
+        </Box>
+        
         {settings?.map((setting:Setting, index:number)=>(
-            <React.Fragment key={index}>
+            <VStack alignItems={"center"}  w="100%" key={index}>
                 {setting?.name === 'initial'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.initial}</Text>
-                        <Input w="100%" 
-                            placeholder={labels?.initial} 
-                            isReadOnly={setting.is_editable === 1 ? false : true}
-                            onChangeText={(answer)=>{
-                                updateAttendeeInfoFeild('initial', answer);
-                            }}
-                            value={attendeeData?.info?.initial}
-                            />
-                    </Box>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                       <Center alignItems="flex-start"  w="225px">
+                         <Text isTruncated fontWeight="500" fontSize="lg">{labels?.initial}</Text>
+                       </Center>
+                       <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Input w="100%" 
+                                placeholder={labels?.initial} 
+                                isReadOnly={setting.is_editable === 1 ? false : true}
+                                onChangeText={(answer)=>{
+                                    updateAttendeeInfoFeild('initial', answer);
+                                }}
+                                value={attendeeData?.info?.initial}
+                                />
+                        </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'first_name'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.first_name}</Text>
-                        <Input w="100%" 
-                            placeholder={labels?.first_name} 
-                            isReadOnly={setting.is_editable === 1 ? false : true}
-                            onChangeText={(answer)=>{
-                                updateAttendeeFeild('first_name', answer);
-                            }}
-                            value={attendeeData?.first_name}
-                            />
-                    </Box>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                       <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.first_name}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Input w="100%" 
+                                placeholder={labels?.first_name} 
+                                isReadOnly={setting.is_editable === 1 ? false : true}
+                                onChangeText={(answer)=>{
+                                    updateAttendeeFeild('first_name', answer);
+                                }}
+                                value={attendeeData?.first_name}
+                                />
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'last_name'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.last_name}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.last_name}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.last_name} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -196,11 +211,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.last_name}
                             />
-                    </Box>
+                        </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'bio_info'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.about}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.about}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.about} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -209,11 +228,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.about}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'age'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.age}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.age}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.age} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -222,11 +245,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.age}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'first_name_passport'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.FIRST_NAME_PASSPORT}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.FIRST_NAME_PASSPORT}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.FIRST_NAME_PASSPORT} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -235,11 +262,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.FIRST_NAME_PASSPORT}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'last_name_passport'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.LAST_NAME_PASSPORT}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.LAST_NAME_PASSPORT}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.LAST_NAME_PASSPORT} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -248,11 +279,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.LAST_NAME_PASSPORT}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'place_of_birth'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.place_of_birth}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.place_of_birth}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.place_of_birth} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -261,11 +296,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.place_of_birth}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'passport_no'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.passport_no}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.passport_no}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.passport_no} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -274,11 +313,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.passport_no}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'company_name'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.company_name}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.company_name}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.company_name} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -287,11 +330,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.company_name}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'title'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.title}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.title}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.title} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -300,11 +347,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.title}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'organization'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.organization}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.organization}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.organization} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -313,11 +364,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.organization}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'department'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.department}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.department}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.department} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -326,11 +381,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.department}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'show_industry'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.industry}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.industry}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.industry} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -339,11 +398,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.industry}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'show_job_tasks'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.jobs}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.jobs}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.jobs} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -352,11 +415,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.jobs}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'interest'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.interests}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.interests}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.interests} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -365,11 +432,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.interests}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'network_group'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.network_group}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.network_group}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.network_group} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -378,11 +449,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.network_group}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'delegate_number'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.delegate}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.delegate}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.delegate} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -391,11 +466,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.delegate_number}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'table_number'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.table_number}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.table_number}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.table_number} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -404,11 +483,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.table_number}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'pa_street'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.private_street}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_street}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.private_street} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -417,11 +500,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.private_street}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'pa_house_no'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.private_house_number}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_house_number}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.private_house_number} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -430,11 +517,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.private_house_number}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'pa_post_code'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.private_post_code}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_post_code}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.private_post_code} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -443,11 +534,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.private_post_code}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'pa_city'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.private_city}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_city}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.private_city} 
                             isReadOnly={setting.is_editable === 1 ? false : true}
@@ -456,11 +551,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.info?.private_city}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'pa_country'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.private_country}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_country}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Select
                             placeholder="Please Select"
                             minWidth="64"
@@ -471,11 +570,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             >
                             {countries.map((answer, key)=>(<Select.Item  key={key} label={answer.name} value={`${answer.id}`} />))}
                         </Select>
-                    </Box>
+                        </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'email'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.email}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.email}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Input w="100%" 
                             placeholder={labels?.email} 
                             isReadOnly={true}
@@ -484,20 +587,31 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             }}
                             value={attendeeData?.email}
                             />
-                    </Box>
+                            </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'gender'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.gender}</Text>
-                        <Radio.Group space="5" defaultValue={attendeeData.info.gender} name="MyRadioGroup"  onChange={gender => {updateAttendeeInfoFeild('gender', gender);}}>
-                                <Radio value={'male'}> Male </Radio>
-                                <Radio value={'female'}> Female </Radio>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.gender}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Radio.Group space="5" defaultValue={attendeeData.info.gender} name="MyRadioGroup"  onChange={gender => {updateAttendeeInfoFeild('gender', gender);}}>
+                                <HStack  space="3" alignItems="center">
+                                  <Radio value={'male'}> Male </Radio>
+                                    <Radio value={'female'}> Female </Radio>
+                                </HStack>
+                                
                         </Radio.Group>
-                    </Box>
+                        </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'birth_date'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.BIRTHDAY_YEAR}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.BIRTHDAY_YEAR}</Text>
+                        </Center>
+                        <Center alignItems="flex-start"  w="calc(100% - 225px)">
                         <DateTimePicker 
                             readOnly={setting?.is_editable === 1 ? false : true}
                             onChange={(item:any) => {
@@ -506,12 +620,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             value={attendeeData.BIRTHDAY_YEAR !== '' && attendeeData.BIRTHDAY_YEAR !== '0000-00-00' && attendeeData.BIRTHDAY_YEAR !== '0000-00-00 00:00:00' ? moment(attendeeData.BIRTHDAY_YEAR).format('YYYY-MM-DD') : ''}
                             showdate={"YYYY-MM-DD"}
                         />
+                        </Center>
 
-                    </Box>
+                    </HStack>
                 )}
                 {setting?.name === 'date_of_issue_passport'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.date_of_issue_passport}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.date_of_issue_passport}</Text>
+                        </Center>
+                        <Center alignItems="flex-start"  w="calc(100% - 225px)">
                         <DateTimePicker 
                             readOnly={setting?.is_editable === 1 ? false : true}
                             onChange={(item:any) => {
@@ -520,12 +638,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             value={attendeeData?.info?.date_of_issue_passport !== '' && attendeeData?.info?.date_of_issue_passport !== '0000-00-00' && attendeeData?.info?.date_of_issue_passport !== '0000-00-00 00:00:00' ? moment(attendeeData?.info?.date_of_issue_passport).format('YYYY-MM-DD') : ''}
                             showdate={"YYYY-MM-DD"}
                         />
+                        </Center>
 
-                    </Box>
+                    </HStack>
                 )}
                 {setting?.name === 'date_of_expiry_passport'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.date_of_expiry_passport}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.date_of_expiry_passport}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <DateTimePicker 
                             readOnly={setting?.is_editable === 1 ? false : true}
                             onChange={(item:any) => {
@@ -534,11 +656,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             value={attendeeData?.info?.date_of_expiry_passport !== '' && attendeeData?.info?.date_of_expiry_passport !== '0000-00-00' && attendeeData?.info?.date_of_expiry_passport !== '0000-00-00 00:00:00' ? moment(attendeeData?.info?.date_of_expiry_passport).format('YYYY-MM-DD') : ''}
                             showdate={"YYYY-MM-DD"}
                         />
-                    </Box>
+                        </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'employment_date'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.EMPLOYMENT_DATE}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.EMPLOYMENT_DATE}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <DateTimePicker 
                             readOnly={setting?.is_editable === 1 ? false : true}
                             onChange={(item:any) => {
@@ -547,14 +673,19 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             value={attendeeData?.EMPLOYMENT_DATE !== '' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.EMPLOYMENT_DATE).format('YYYY-MM-DD') : ''}
                             showdate={"YYYY-MM-DD"}
                         />
-                    </Box>
+                        </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'country'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.country}</Text>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.country}</Text>
+                        </Center>
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                         <Select
                             placeholder="Please Select"
                             minWidth="64"
+                            w="100%"
                             h="50px"
                             isDisabled={setting?.is_editable === 1 ? false : true}
                             selectedValue={attendeeData.info.country}
@@ -562,16 +693,20 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             >
                             {countries.map((answer, key)=>(<Select.Item  key={key} label={answer.name} value={`${answer.id}`} />))}
                         </Select>
-                    </Box>
+                        </Center>
+                    </HStack>
                 )}
                 {setting?.name === 'phone'  && (
-                    <Box mb="3" py="3" px="4" w="100%">
-                        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{labels?.phone}</Text>
-                        <Box flexDirection={'row'}>
+                    <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <Center alignItems="flex-start"  w="225px">
+                            <Text isTruncated fontWeight="500" fontSize="lg">{labels?.phone}</Text>
+                        </Center>
+                        <Center alignItems="flex-start"  w="calc(100% - 225px)">
+                        <HStack w="100%">
+                            <Center w="100px">
                             <Select
                                 placeholder="Please Select"
-                                minWidth="64"
-                                w={'49%'}
+                                w={'100%'}
                                 h="50px"
                                 isDisabled={setting?.is_editable === 1 ? false : true}
                                 selectedValue={attendeeData?.callingCode}
@@ -579,7 +714,10 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 >
                                 {callingCodes.map((answer, key)=>(<Select.Item  key={key} label={answer.name} value={`${answer.id}`} />))}
                             </Select>
-                            <Input w="49%" 
+                            </Center>
+                            <Center pl="2" w="calc(100% - 100px)">
+                            <Input w="100%"
+                                h="50px" 
                                 placeholder={labels?.phone} 
                                 isReadOnly={setting.is_editable === 1 ? false : true}
                                 onChangeText={(answer)=>{
@@ -587,13 +725,21 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 }}
                                 value={attendeeData?.phone.split("-")[1]}
                                 />
-                        </Box>
-                    </Box>
+                            </Center>
+                        </HStack>
+                        </Center>
+                    </HStack>
                 )}
-            </React.Fragment>
+            </VStack>
         ))}
-        {attendee_feild_settings?.website === 1 && <Box mb="3" py="3" px="4" w="100%">
-            <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">Website</Text>
+         <Box mb="4" w="100%" bg="primary.darkbox" px="3" py="1" >
+            <Text fontSize="lg">General information</Text>
+        </Box>
+        {attendee_feild_settings?.website === 1 && <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+            <Center alignItems="flex-start"  w="225px">
+                <Text isTruncated fontWeight="500" fontSize="lg">Website</Text>
+            </Center>
+            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
             <Input w="100%" 
                 placeholder={"Website"} 
                 isReadOnly={true}
@@ -602,9 +748,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 }}
                 value={attendeeData?.info?.website}
                 />
-        </Box>  }        
-        {attendee_feild_settings?.facebook === 1 &&  <Box mb="3" py="3" px="4" w="100%">
-            <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">Facebook</Text>
+                </Center>
+        </HStack>  }        
+        {attendee_feild_settings?.facebook === 1 &&  <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+            <Center alignItems="flex-start"  w="225px">
+                <Text isTruncated fontWeight="500" fontSize="lg">Facebook</Text>
+            </Center>
+            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
             <Input w="100%" 
                 placeholder={"Facebook"} 
                 isReadOnly={true}
@@ -613,9 +763,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 }}
                 value={attendeeData?.info?.facebook}
                 />
-        </Box>  }        
-        {attendee_feild_settings?.twitter === 1 && <Box mb="3" py="3" px="4" w="100%">
-            <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">Twitter</Text>
+                </Center>
+        </HStack>  }        
+        {attendee_feild_settings?.twitter === 1 && <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+            <Center alignItems="flex-start"  w="225px">
+                <Text isTruncated fontWeight="500" fontSize="lg">Twitter</Text>
+            </Center>
+            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
             <Input w="100%" 
                 placeholder={"Twitter"} 
                 isReadOnly={true}
@@ -624,9 +778,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 }}
                 value={attendeeData?.info?.twitter}
                 />
-        </Box>  }        
-        {attendee_feild_settings?.linkedin === 1 &&  <Box mb="3" py="3" px="4" w="100%">
-            <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">LinkedIn</Text>
+                </Center>
+        </HStack>  }        
+        {attendee_feild_settings?.linkedin === 1 &&  <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+            <Center alignItems="flex-start"  w="225px">
+                <Text isTruncated fontWeight="500" fontSize="lg">LinkedIn</Text>
+            </Center>
+            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
             <Input w="100%" 
                 placeholder={"LinkedIn"} 
                 isReadOnly={true}
@@ -635,18 +793,21 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 }}
                 value={attendeeData?.info?.linkedin}
                 />
-        </Box> }         
-        {attendee?.current_event_attendee.gdpr === 1 &&  <Box mb="3" py="3" px="4" w="100%">
-            <Checkbox defaultIsChecked={attendee.current_event_attendee.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected)=>{ 
+                </Center>
+        </HStack> }         
+        {attendee?.current_event_attendee.gdpr === 1 &&  <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+            <Center alignItems="flex-start"  w="225px">
+                <Checkbox defaultIsChecked={attendee.current_event_attendee.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected)=>{ 
                     updateAttendeeFeild('gdpr', isSelected);
-              }} size="md"   >GDPR</Checkbox>
-        </Box> }         
-         <Box mb="3" py="3" px="4" w="100%">
-                   
+                }} size="md"   >GDPR</Checkbox>
+            </Center>
+        </HStack> }         
+         <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
             <Button
-                w="100%"
-                py="3"
-                px="1"
+                minW={225}
+                py="5"
+                px="5"
+                mx={'auto'}
                 leftIcon={<IcoLongArrow />}
                 colorScheme="primary"
                 isLoading={updatingAttendee}
@@ -654,7 +815,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     updateAttendeeData();
                 }}
             />
-        </Box>          
+        </HStack>          
     </Container>
   )
 }

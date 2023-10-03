@@ -49,7 +49,7 @@ const MyDTPicker: FC<any> = (props: Props): ReactElement => {
     return (
       <Box fontFamily={'Avenir'} w="100%">
         <label className={`label-input ${props.timeOnly ? 'ebs-time-icon' : ''}`}>
-          <Input readOnly {...props} placeholder=' ' />
+          <Input rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} readOnly {...props} placeholder=' ' />
           <span>{props.placeholder}{props.required && <em className="req">*</em>}</span>
         </label>
       </Box>
@@ -75,7 +75,9 @@ type DateTimeProps = {
 
 const DateTimePicker: FC<DateTimeProps> = (props): ReactElement => {
   return (
-    <MyDTPicker locale={props?.locale !== undefined ? props?.locale : 'en'} readOnly={props.readOnly} initialValue={props.initialValue} onChange={props.onChange} value={props.value} showtime={props.showtime !== undefined ? props.showtime : false} showdate={props.showdate !== undefined ? props.showdate : true} placeholder={props.label} />
+    <div style={{width: '100%'}}>
+      <MyDTPicker locale={props?.locale !== undefined ? props?.locale : 'en'} readOnly={props.readOnly} initialValue={props.initialValue} onChange={props.onChange} value={props.value} showtime={props.showtime !== undefined ? props.showtime : false} showdate={props.showdate !== undefined ? props.showdate : true} placeholder={props.label} />
+    </div>
   )
 };
 
