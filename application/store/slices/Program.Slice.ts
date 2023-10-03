@@ -55,7 +55,6 @@ export const ProgramSlice = createSlice({
         },
         FetchTracks(state, action: PayloadAction<{ query: string, page: number, screen: string, track_id: number }>) {
             state.query = action.payload.query;
-            state.id = action.payload.id;
             state.page = action.payload.page;
             state.screen = action.payload.screen;
             state.track_id = action.payload.track_id;

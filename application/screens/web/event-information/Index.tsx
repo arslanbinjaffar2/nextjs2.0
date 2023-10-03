@@ -54,7 +54,7 @@ const Index = ({ navigation }: indexProps) => {
             <Input rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
           </HStack>
           <Listing rounded={10} cms={cms} />
-          <BannerView />
+          <BannerView url={''} />
         </Container>
       )}
 

@@ -59,7 +59,7 @@ const AuthSlice = createSlice({
         login(state, action: PayloadAction<LoginPayload>) {
             state.processing = true;
         },
-        logout(state, action: PayloadAction<LoginPayload>) {
+        logout(state) {
             state.processing = true;
         },
         passwordReset(state, action: PayloadAction<PasswordResetPayload>) {

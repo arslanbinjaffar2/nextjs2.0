@@ -79,7 +79,7 @@ const Detail = (props: any) => {
                 </HStack>
             </ScrollView>
             <HStack w={'100%'}>
-                <BannerView />
+                <BannerView url={''} />
             </HStack>
         </View>
     )

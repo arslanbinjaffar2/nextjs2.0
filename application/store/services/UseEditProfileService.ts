@@ -5,7 +5,7 @@ import { EditProfileActions, SelectAttendee, SelectCountries, SelectEventLanguag
 import { Language } from 'application/models/settings/EditProfile'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
-import { Attendee, Attendeefeildsettings, CallingCode, Country, Eventfooddisclaimer, Eventlanguagedetail, Labels, Settings } from '../../models/settings/EditProfile'
+import { Attendee, Attendeefeildsettings, CallingCode, Country, Eventfooddisclaimer, Eventlanguagedetail, Labels, Setting } from '../../models/settings/EditProfile'
 
 export type EditProfileServiceOperators = {
     attendee: Attendee | null;
@@ -18,7 +18,7 @@ export type EditProfileServiceOperators = {
     languages: Language[];
     enable_cancel: boolean;
     order_attendee_count: number;
-    settings: Settings | null;
+    settings: Setting[] | null;
     labels: Labels | null;
     updatingAttendee:boolean;
     FetchEditProfiles: () => void;

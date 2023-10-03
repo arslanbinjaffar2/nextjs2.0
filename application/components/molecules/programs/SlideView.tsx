@@ -9,10 +9,11 @@ import { Platform } from 'react-native';
 
 type AppProps = {
     programs: Program[],
-    section: string
+    section: string,
+    my?: number
 }
 
-const SlideView = ({ programs, section }: AppProps) => {
+const SlideView = ({ programs, section, my }: AppProps) => {
 
     const { setScrollCounter, scroll } = UseLoadingService();
 
@@ -20,7 +21,7 @@ const SlideView = ({ programs, section }: AppProps) => {
 
         return (
             <>
-                <HStack my={3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
+                <HStack my={my !== undefined ? my : 3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
                     <Center alignItems="flex-start" w="10%">
                         <IconButton
                             p="0"

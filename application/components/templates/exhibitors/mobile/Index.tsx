@@ -119,7 +119,7 @@ const Index = React.memo(() => {
                                 </HStack>
                             </ScrollView>
                         </Box>}
-                        <BannerView />
+                        <BannerView url={''} />
                     </>
                 )}
             </Container>

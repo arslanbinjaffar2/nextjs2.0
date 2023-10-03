@@ -1,7 +1,7 @@
 import React from 'react';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { Box, HStack, Spacer, Text, VStack, Pressable, Icon } from 'native-base'
-import { Survey } from 'application/models/Survey/Survey';
+import { Survey } from 'application/models/survey/Survey';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 

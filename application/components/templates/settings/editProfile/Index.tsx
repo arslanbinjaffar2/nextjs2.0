@@ -49,7 +49,7 @@ type formProps = {
      languages:Language[], 
      callingCodes:CallingCode[], 
      countries:Country[], 
-     settings:Setting[], 
+     settings:Setting[] | null, 
      labels:Labels | null, 
      customFields:any[]
      event:Event
