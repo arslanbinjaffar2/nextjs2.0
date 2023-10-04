@@ -1,0 +1,52 @@
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { Platform } from 'react-native';
+import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+
+
+export default function makeApi(baseURL: string) {
+
+    const api = axios.create({
+        baseURL,
+    })
+
+    api.defaults.headers.post['Content-Type'] = "application/json";
+
+    api.defaults.headers.put['Content-Type'] = "application/json";
+
+    api.defaults.headers.delete['Content-Type'] = "application/json";
+
+    api.interceptors.request.use(
+        async (config: any) => {
+            if (Platform.OS === 'web' && localStorage.getItem('access_token')) {
+                config.headers = { ...config.headers, Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+            } else if (Platform.OS === "android" || Platform.OS === "ios") {
+                const token = await AsyncStorageClass.getItem('access_token');
+                if (token) {
+                    config.headers = { ...config.headers, Authorization: `Bearer ${token}` }
+                }
+            }
+            return config;
+        },
+        (error) => Promise.reject(error)
+    )
+
+    api.interceptors.response.use((response) => response, (error) => {
+        if (error.response.status === 401) {
+            return {
+                status: error.response.status,
+                data: {
+                    data: []
+                }
+            }
+        }
+    });
+
+    api.interceptors.response.use(
+        (response) => {
+            const responseData = response as AxiosResponse<any, any>;
+            return responseData;
+        }
+    )
+
+    return api
+}

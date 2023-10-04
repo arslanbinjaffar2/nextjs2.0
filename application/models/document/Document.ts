@@ -1,0 +1,30 @@
+export interface Document {
+    id: number;
+    parent_id: number;
+    other: number;
+    agenda_id: number;
+    event_id: number;
+    speaker_id: number;
+    sponsor_id: number;
+    exhibitor_id: number;
+    sort_order: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+    group_id: string;
+    alias: string;
+    groups?: any[];
+    files: Document[];
+    event: Event;
+    Program?: string;
+    name?: string;
+    organizer_id?: number;
+    directory_id?: number;
+    file_size?: number;
+    path?: string;
+    start_date?: string;
+    start_time?: string;
+    s3?: number;
+    children: Document[];
+    children_files: Document[];
+}
