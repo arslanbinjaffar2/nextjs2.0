@@ -2,7 +2,7 @@ import React, { ReactElement, FC, useRef } from 'react';
 import { Box, Button, Center, Checkbox, Divider, HStack, Icon, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import "react-datetime/css/react-datetime.css";
-import Datetime from "react-datetime";
+import * as Datetime from "react-datetime";
 
 type Props = {
   value: any;
@@ -17,7 +17,7 @@ type Props = {
   readOnly?:boolean
 }
 
-const MyDTPicker: FC<any> = (props: Props): ReactElement => {
+const MyDTPicker: FC<any> = (props: Props): any => {
 
   const textInput = useRef<any>(null);
   const [tab, setTab] = React.useState('days');
@@ -56,7 +56,7 @@ const MyDTPicker: FC<any> = (props: Props): ReactElement => {
     );
   }
 
-  return <Datetime locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue} ref={textInput} renderView={(mode, renderDefault) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={props.showtime ? false : true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={renderInput} />;
+  return <Datetime locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue} ref={textInput} renderView={(mode:any, renderDefault:any) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={props.showtime ? false : true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={renderInput} />;
 };
 
 type DateTimeProps = {
