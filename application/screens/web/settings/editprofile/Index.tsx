@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import MasterProfile from 'application/screens/web/layouts/MasterProfile';
 
-import IndexTemplate from 'application/components/templates/settings/editprofile/Index';
+import IndexTemplate from 'application/components/templates/settings/editProfile/Index';
 
 type indexProps = {
   navigation: unknown
