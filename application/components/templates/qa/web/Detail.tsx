@@ -29,7 +29,7 @@ const Detail = () => {
 
     const [query, setQuery] = React.useState('');
     
-    const { qaDetials, qaSettings FetchProgramDetail, FetchTabDetails} = UseQaService();
+    const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails} = UseQaService();
     
     const { push } = useRouter()
 
@@ -67,30 +67,30 @@ const Detail = () => {
         const pg = qaDetials?.paragraph?.find((sp)=>(sp.id == paragraph));
 
         const postData =  {
-            env: _env.enviroment,
-            submitted: true,
-            speaker_name: `${sp?.attendee.first_name} ${sp?.attendee.last_name}`,
-            agenda_id: id,
-            paragraph_id: pg?.id,
-            paragraph_number: pg?.heading,
-            line_number: lineNumber,
-            speaker_id: sp?.id,
-            enableSpeakerValidation: sp?.id > 0 ? true : false,
-            question: question,
-            cmd: 'posted',
-            event_id: event.id,
-            attendee_id: ,
-            anonymous_user: anonymously ? 1 : 0,
-            show_projector: qaSettings?.moderator == 1 ? 0 : 1,
-            question_for_label: 'Question For',
-            QA_MODERATOR_PARAGRAPH: 'Paragraph',
-            QA_MODERATOR_LINE_NUMBER: 'Line number',
-            answered: 0,
-            allLanguages: [1],
-            created_at: moment().toDate(),
-            updated_at: moment().toDate(),
-            language_id: 1,
-            base_url: _env.eventcenter_base_url,
+            // env: _env.enviroment,
+            // submitted: true,
+            // speaker_name: `${sp?.attendee.first_name} ${sp?.attendee.last_name}`,
+            // agenda_id: id,
+            // paragraph_id: pg?.id,
+            // paragraph_number: pg?.heading,
+            // line_number: lineNumber,
+            // speaker_id: sp?.id,
+            // enableSpeakerValidation: sp?.id > 0 ? true : false,
+            // question: question,
+            // cmd: 'posted',
+            // event_id: event.id,
+            // attendee_id: ,
+            // anonymous_user: anonymously ? 1 : 0,
+            // show_projector: qaSettings?.moderator == 1 ? 0 : 1,
+            // question_for_label: 'Question For',
+            // QA_MODERATOR_PARAGRAPH: 'Paragraph',
+            // QA_MODERATOR_LINE_NUMBER: 'Line number',
+            // answered: 0,
+            // allLanguages: [1],
+            // created_at: moment().toDate(),
+            // updated_at: moment().toDate(),
+            // language_id: 1,
+            // base_url: _env.eventcenter_base_url,
             // enable_gdpr: 1,
             // enable_attendee_gdpr: 1,
             // attendee_invisible: 0,
