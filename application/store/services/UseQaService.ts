@@ -1,16 +1,28 @@
 import { useCallback } from 'react'
 
-import { SelectPrograms, QaActions, SelectProgramSettings, SelectQaSettings,  } from 'application/store/slices/Qa.Slice'
+import { SelectPrograms, QaActions, SelectProgramSettings, SelectQaSettings, SelectQaDetails,  } from 'application/store/slices/Qa.Slice'
 
 import { Program, ProgramSettings, QaSettings } from 'application/models/qa/Qa'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
+import { AgendaDetail, Paragraph, Question, Speaker } from 'application/models/qa/Detail'
 
 export type QaServiceOperators = {
     programs: Program[],
     programSettings:ProgramSettings | null
     qaSettings:QaSettings | null
+    qaDetials:{
+        program_detail:AgendaDetail|null,
+        speakers:Speaker[],
+        paragraph:Paragraph[],
+        popular_questions:Question[],
+        recent_questions:Question[],
+        archived_questions:Question[],
+        my_questions:Question[],
+    },
     FetchPrograms: () => void,
+    FetchProgramDetail: (payload:{id:number}) => void,
+    FetchTabDetails: (payload:{id:number}) => void,
 }
 
 /**
@@ -26,9 +38,22 @@ export const UseQaService = (): Readonly<QaServiceOperators> => {
         programs: useAppSelector(SelectPrograms),
         programSettings: useAppSelector(SelectProgramSettings),
         qaSettings: useAppSelector(SelectQaSettings),
+        qaDetials: useAppSelector(SelectQaDetails),
         FetchPrograms: useCallback(
             () => {
                 dispatch(QaActions.OnFetchPrograms())
+            },
+            [dispatch],
+        ),
+        FetchProgramDetail: useCallback(
+            (payload: { id: number }) => {
+                dispatch(QaActions.OnFetchProgramDetail(payload))
+            },
+            [dispatch],
+        ),
+        FetchTabDetails: useCallback(
+            (payload: { id: number }) => {
+                dispatch(QaActions.OnFetchTabDetails(payload))
             },
             [dispatch],
         ),
