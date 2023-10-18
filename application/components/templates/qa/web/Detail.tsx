@@ -12,6 +12,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
 import moment from 'moment';
+import UseAuthService from 'application/store/services/UseAuthService';
 
 type ScreenParams = { id: string }
 
@@ -28,8 +29,11 @@ const Detail = () => {
     const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | 'my_question'>('popular')
 
     const [query, setQuery] = React.useState('');
+
+    const { response  } = UseAuthService();
+
     
-    const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails} = UseQaService();
+    const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails,  SubmitQa} = UseQaService();
     
     const { push } = useRouter()
 
@@ -43,61 +47,70 @@ const Detail = () => {
         }
     }, [id]);
 
-    const [speaker, setSpeaker] = React.useState(null);
-    const [paragraph, setParagraph] = React.useState(null);
-    const [lineNumber, setLineNumber] = React.useState('');
-    const [question, setQuestion] = React.useState('');
-    const [anonymously, setAnonymously] = React.useState(false);
+    const [speaker, setSpeaker] = React.useState<any>(null);
+    const [paragraph, setParagraph] = React.useState<any>(null);
+    const [lineNumber, setLineNumber] = React.useState<any>('');
+    const [question, setQuestion] = React.useState<any>('');
+    const [anonymously, setAnonymously] = React.useState<any>(false);
     
     const onSubmit = ( ) => {
     
-        //   const postData = {
-        //     poll_id: detail?.questions[0]?.poll_id,
-        //     agenda_id: parseInt(id!),
-        //     event_id: event.id!,
-        //     attendee_id: response.data.user.id,
-        //     base_url: _env.eventcenter_base_url,
-        //     organizer_id: event.organizer_id!,
-        //     create_date: new Date().toLocaleDateString(),
-        //     env: _env.app_server_enviornment,
-        //     submitted_questions:submitedData!
-        //   };
+        if(question == ''){
+            return;
+        }
+        if(qaSettings?.enable_paragraph_number == 1 && (paragraph == null || paragraph == 0)){
+            return;
+        }
+
+        if(qaSettings?.line_number == 1 && qaSettings?.enable_line_number == 1 && (lineNumber == '')){
+            return;
+        }
+
 
         const sp = qaDetials?.speakers?.find((sp)=>(sp.id == speaker));
         const pg = qaDetials?.paragraph?.find((sp)=>(sp.id == paragraph));
 
+        console.log(sp)
+        console.log(pg)
+
         const postData =  {
-            // env: _env.enviroment,
-            // submitted: true,
-            // speaker_name: `${sp?.attendee.first_name} ${sp?.attendee.last_name}`,
-            // agenda_id: id,
-            // paragraph_id: pg?.id,
-            // paragraph_number: pg?.heading,
-            // line_number: lineNumber,
-            // speaker_id: sp?.id,
-            // enableSpeakerValidation: sp?.id > 0 ? true : false,
-            // question: question,
-            // cmd: 'posted',
-            // event_id: event.id,
-            // attendee_id: ,
-            // anonymous_user: anonymously ? 1 : 0,
-            // show_projector: qaSettings?.moderator == 1 ? 0 : 1,
-            // question_for_label: 'Question For',
-            // QA_MODERATOR_PARAGRAPH: 'Paragraph',
-            // QA_MODERATOR_LINE_NUMBER: 'Line number',
-            // answered: 0,
-            // allLanguages: [1],
-            // created_at: moment().toDate(),
-            // updated_at: moment().toDate(),
-            // language_id: 1,
-            // base_url: _env.eventcenter_base_url,
-            // enable_gdpr: 1,
-            // enable_attendee_gdpr: 1,
-            // attendee_invisible: 0,
-            // ip: 39.61.51.233
+            env: _env.enviroment,
+            submitted: true,
+            speaker_name: `${sp?.attendee.first_name} ${sp?.attendee.last_name}`,
+            agenda_id: id,
+            paragraph_id: pg?.id,
+            paragraph_number: pg?.heading,
+            line_number: lineNumber,
+            speaker_id: sp?.attendee_id,
+            enableSpeakerValidation: sp ? true : false,
+            question: question,
+            cmd: 'posted',
+            event_id: event.id,
+            attendee_id: response.data.user.id,
+            anonymous_user: anonymously ? 1 : 0,
+            show_projector: qaSettings?.moderator == 1 ? 0 : 1,
+            question_for_label: 'Question For',
+            QA_MODERATOR_PARAGRAPH: 'Paragraph',
+            QA_MODERATOR_LINE_NUMBER: 'Line number',
+            answered: 0,
+            allLanguages: JSON.stringify(qaDetials.all_languages),
+            created_at: moment().toDate(),
+            updated_at: moment().toDate(),
+            language_id: event.language_id,
+            base_url: _env.eventcenter_base_url,
+            enable_gdpr: event?.gdpr_settings?.enable_gdpr,
+            enable_attendee_gdpr: response?.attendee_detail?.event_attendee?.gdpr,
+            attendee_invisible: event?.gdpr_settings?.attendee_invisible,
+            ip: qaDetials.clientIp,
         }
           
-        //   SubmitPoll(postData);
+        SubmitQa(postData);
+        
+        setAnonymously(false);
+        setParagraph(null);
+        setLineNumber('');
+        setQuestion('');
+        setSpeaker(null);
   
       }
   return (
@@ -146,9 +159,10 @@ const Detail = () => {
                         h="30px"
                         borderWidth="1"
                         selectedValue={speaker ?? ''}
+                        onValueChange={(item)=>setSpeaker(item)}
                     >
                         {qaDetials?.speakers?.map((speaker, i)=>(
-                            <Select.Item label={`${speaker?.attendee?.first_name} ${speaker?.attendee?.last_name}`} value={`${speaker?.attendee_id}`} />
+                            <Select.Item label={`${speaker?.attendee?.first_name} ${speaker?.attendee?.last_name}`} value={`${speaker?.id}`} />
                         ))}
                     </Select>
                     
@@ -163,6 +177,7 @@ const Detail = () => {
                         h="30px"
                         borderWidth="1"
                         selectedValue={paragraph ?? ''}
+                        onValueChange={(item)=>setParagraph(item)}
                     >
                         {qaDetials?.paragraph?.map((pg, i)=>(
                             <Select.Item label={`${pg?.heading}`} value={`${pg.id}`} />
@@ -170,19 +185,19 @@ const Detail = () => {
                     </Select>
                     
                     </HStack>}
-                    <HStack pl="6" pr={"6"}  w="100%" height={'40px'} bg="primary.box" mb="3" alignItems="center">
+                    {qaSettings?.line_number == 1 && <HStack pl="6" pr={"6"}  w="100%" height={'40px'} bg="primary.box" mb="3" alignItems="center">
                         <Text fontSize="lg">Line number</Text>
                         <Spacer />
-                        <Input w="30%" height={'28px'} placeholder="1" value={lineNumber}/>
-                    </HStack>
-                    <TextArea focusOutlineColor="transparent" _focus={{ bg: 'transparent' }} value={question} px="4" py="0" fontSize="lg" w="100%" borderWidth="0" rounded="0" minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
+                        <Input w="30%" height={'28px'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
+                    </HStack>}
+                    <TextArea focusOutlineColor="transparent" _focus={{ bg: 'transparent' }} value={question} onChangeText={(value)=>setQuestion(value)}  px="4" py="0" fontSize="lg" w="100%" borderWidth="0" rounded="0" minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
                     <HStack px="3" py="2" space="3" alignItems="center">
-                    <Checkbox my="0" isChecked={anonymously}  value="checkbox">Send anonymously</Checkbox>
+                    <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">Send anonymously</Checkbox>
                     <Spacer />
                     <IconButton
                         variant="transparent"
                         icon={<Icon size="lg" as={Feather} name="send" color="white" />}
-                        onPress={() => { console.log('hello') }}
+                        onPress={() => { onSubmit(); }}
 
                     />
                     </HStack>

@@ -21,6 +21,8 @@ export interface QaState {
         recent_questions:Question[],
         archived_questions:Question[],
         my_questions:Question[],
+        clientIp:string,
+        all_languages:number[]
     },
 }
 
@@ -36,6 +38,8 @@ const initialState: QaState = {
         recent_questions:[],
         archived_questions:[],
         my_questions:[],
+        clientIp:'',
+        all_languages:[]
     }
 }
 
@@ -51,12 +55,14 @@ export const QaSlice = createSlice({
             state.programSettings = action.payload.program_settings;
         },
         OnFetchProgramDetail(state, action: PayloadAction<{ id: number }>) {},
-        updateDetail(state, action: PayloadAction<{ program_detail:AgendaDetail, speakers:Speaker[], paragraph:Paragraph[], qa_settings:QaSettings, program_settings:ProgramSettings }>) {
+        updateDetail(state, action: PayloadAction<{ program_detail:AgendaDetail, speakers:Speaker[], paragraph:Paragraph[], qa_settings:QaSettings, program_settings:ProgramSettings, client_ip:string, all_languages:number[] }>) {
             state.qaDetails.program_detail = action.payload.program_detail;
             state.qaDetails.speakers = action.payload.speakers;
             state.qaDetails.paragraph = action.payload.paragraph;
             state.qaSettings = action.payload.qa_settings;
             state.programSettings = action.payload.program_settings;
+            state.qaDetails.clientIp = action.payload.client_ip;
+            state.qaDetails.all_languages = action.payload.all_languages;
         },
         OnFetchTabDetails(state, action: PayloadAction<{ id: number }>) {},
         updateTabDetail(state, action: PayloadAction<{ popular_questions:Question[], recent_questions:Question[], archived_questions:Question[], my_questions:Question[] }>) {
@@ -64,7 +70,8 @@ export const QaSlice = createSlice({
             state.qaDetails.recent_questions = action.payload.recent_questions;
             state.qaDetails.archived_questions = action.payload.archived_questions;
             state.qaDetails.my_questions = action.payload.my_questions;
-        }
+        },
+        SubmitQa(state, action: PayloadAction<any>) {},
         
     },
 })
@@ -77,6 +84,7 @@ export const QaActions = {
     update:QaSlice.actions.update,
     updateDetail:QaSlice.actions.updateDetail,
     updateTabDetail:QaSlice.actions.updateTabDetail,
+    SubmitQa:QaSlice.actions.SubmitQa,
 }
 
 export const SelectPrograms = (state: RootState) => state.qa.programs

@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getQaProgramDetailApi, getQaProgramListingApi, getQaTabListingsApi } from 'application/store/api/Qa.Api'
+import { getQaProgramDetailApi, getQaProgramListingApi, getQaTabListingsApi, submitQaApi } from 'application/store/api/Qa.Api'
 
 import { QaActions } from 'application/store/slices/Qa.Slice'
 
@@ -37,7 +37,9 @@ function* OnFetchProgramDetail({
             speakers: response.data.data.speakers!,
             paragraph: response.data.data.paragraph!,
             qa_settings:response.data.data.qa_settings!,
-            program_settings:response.data.data.program_settings!
+            program_settings:response.data.data.program_settings!,
+            client_ip:response.data.data.client_ip!,
+            all_languages:response.data.data.all_languages!
         }))
     yield put(LoadingActions.removeProcess({process:'qa-detail'}));
 }
@@ -60,6 +62,17 @@ function* OnFetchTabDetails({
     yield put(LoadingActions.set(false));
 }
 
+function* SubmitQa({
+    payload
+}: {
+    type: typeof QaActions.OnFetchPrograms
+    payload: any
+}): SagaIterator {
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(submitQaApi, payload, state)
+    yield put(QaActions.OnFetchTabDetails({id:payload.agenda_id}))
+}
+
 
 
 
@@ -69,6 +82,7 @@ export function* QaWatcherSaga(): SagaIterator {
     yield takeEvery(QaActions.OnFetchPrograms.type, OnFetchPrograms)
     yield takeEvery(QaActions.OnFetchProgramDetail.type, OnFetchProgramDetail)
     yield takeEvery(QaActions.OnFetchTabDetails.type, OnFetchTabDetails)
+    yield takeEvery(QaActions.SubmitQa.type, SubmitQa)
 }
 
 export default QaWatcherSaga

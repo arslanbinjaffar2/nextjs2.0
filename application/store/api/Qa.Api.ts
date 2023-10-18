@@ -15,3 +15,7 @@ export const getQaProgramDetailApi = (payload: any, state: any): Promise<HttpRes
 export const getQaTabListingsApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/qa/tab-question-listings/${payload.id}`);
 }
+
+export const submitQaApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_gateway_url}`).post(`/v2/save-qa`, { ...payload });
+}

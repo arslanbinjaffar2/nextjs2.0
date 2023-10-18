@@ -19,10 +19,13 @@ export type QaServiceOperators = {
         recent_questions:Question[],
         archived_questions:Question[],
         my_questions:Question[],
+        clientIp:string,
+        all_languages:number[]
     },
     FetchPrograms: () => void,
     FetchProgramDetail: (payload:{id:number}) => void,
     FetchTabDetails: (payload:{id:number}) => void,
+    SubmitQa: (payload:any) => void,
 }
 
 /**
@@ -54,6 +57,12 @@ export const UseQaService = (): Readonly<QaServiceOperators> => {
         FetchTabDetails: useCallback(
             (payload: { id: number }) => {
                 dispatch(QaActions.OnFetchTabDetails(payload))
+            },
+            [dispatch],
+        ),
+        SubmitQa: useCallback(
+            (payload: any) => {
+                dispatch(QaActions.SubmitQa(payload))
             },
             [dispatch],
         ),
