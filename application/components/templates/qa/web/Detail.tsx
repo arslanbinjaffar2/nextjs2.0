@@ -52,17 +52,22 @@ const Detail = () => {
     const [lineNumber, setLineNumber] = React.useState<any>('');
     const [question, setQuestion] = React.useState<any>('');
     const [anonymously, setAnonymously] = React.useState<any>(false);
+    const [error, setError] = React.useState<any>(null);
     
     const onSubmit = ( ) => {
+        setError(null);
     
         if(question == ''){
+            setError('Please enter a question first');
             return;
         }
         if(qaSettings?.enable_paragraph_number == 1 && (paragraph == null || paragraph == 0)){
+            setError('Please select a paragraph');
             return;
         }
-
+        
         if(qaSettings?.line_number == 1 && qaSettings?.enable_line_number == 1 && (lineNumber == '')){
+            setError('Please add line number');
             return;
         }
 
@@ -70,8 +75,6 @@ const Detail = () => {
         const sp = qaDetials?.speakers?.find((sp)=>(sp.id == speaker));
         const pg = qaDetials?.paragraph?.find((sp)=>(sp.id == paragraph));
 
-        console.log(sp)
-        console.log(pg)
 
         const postData =  {
             env: _env.enviroment,
@@ -149,6 +152,9 @@ const Detail = () => {
                     <HStack pl="6"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
                         <Text fontSize="lg">Ask a question</Text>
                     </HStack>
+                    {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
+                            <Text color="red.400"> {error} </Text>
+                    </Box>}
                     {qaDetials?.speakers?.length > 0 && <HStack pl="6"  w="100%" bg="primary.box" mb="3" alignItems="center">
                     <Text fontSize="lg">Select speaker</Text>
                     <Spacer />
