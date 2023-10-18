@@ -36,7 +36,8 @@ const index = () => {
                     return <Center mb="8" w="25%" alignItems="center" justifyContent="center">
                     <Pressable
                     onPress={async () => {
-                        const url: any = `${link.select_type}${link.value}`;
+                      
+                        const url: any = link.name !== 'twitter_hash_tag' ? `${link.select_type}${link.value}` : `https://twitter.com/search?q=${link.value}&src=hash`;
                         const supported = await Linking.canOpenURL(url);
                         if (supported) {
                             await Linking.openURL(url);
