@@ -13,7 +13,7 @@ const Index = ({ navigation }: indexProps) => {
   const { FetchExhibitors } = UseExhibitorService();
 
   React.useEffect(() => {
-    FetchExhibitors({ category_id: 0, query: '' });
+    FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
   }, [])
 
   return (

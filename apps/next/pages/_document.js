@@ -38,6 +38,22 @@ class Document extends NativebaseDocument {
 }
 
 export const style = `
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af transparent
+}
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px
+}
+::-webkit-scrollbar-corner,::-webkit-scrollbar-track {
+  background: transparent
+}
+::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 20px;
+  border: 3px solid transparent
+}
 @font-face {
   src: url(${AvenirNextCondensed});
   font-family: Avenir;

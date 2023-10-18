@@ -38,7 +38,7 @@ const Index = React.memo(() => {
 
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
-            FetchSponsors({ category_id: category_id, query: query });
+            FetchSponsors({ category_id: category_id, query: query, screen: 'sponsors' });
             Keyboard.dismiss();
         }, 1000);
     }, []);

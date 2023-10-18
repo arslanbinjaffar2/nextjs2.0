@@ -1,36 +1,52 @@
 import React from 'react'
-import { Avatar, Box, HStack, Icon, Spacer, Text, VStack } from 'native-base'
+import { Avatar, Center, HStack, Icon, Spacer, Text, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
-import Icoribbon from 'application/assets/icons/Icoribbon'
+import { Attendee } from 'application/models/attendee/Attendee'
 
 type boxItemProps = {
-    border: number
+    k: number,
+    attendee: Attendee,
+    total: number
 }
 
-const RectangleView = ({ border }: boxItemProps) => {
+const RectangleView = ({ k, attendee, total }: boxItemProps) => {
     return (
-        <Box w="100%" borderBottomWidth={border} borderColor="primary.text" py="3">
-            <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-                <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
+        <HStack key={k} borderBottomWidth={total !== (k + 1) ? '1px' : '0'} borderColor="primary.text" px="3" py="3" w="100%" space="0" alignItems="center">
+            <Center alignItems="flex-start" w="70%" p="0">
+                <HStack space="3" alignItems="center">
                     <Avatar
                         source={{
                             uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
                         }}
                     >
-                        AA
+                        SS
                     </Avatar>
-                    <VStack maxW={['62%', '70%', '40%']} space="0">
-                        <Text lineHeight="22px" fontSize="lg">Stephen Hendry</Text>
-                        <Text lineHeight="22px" fontSize="lg">Global INC - Social media Expert</Text>
-                        <Text pt="1" lineHeight="22px" fontSize="md">Private address: New york</Text>
+                    <VStack space="0">
+                        {(attendee?.first_name || attendee?.last_name) && (
+                            <>
+                                <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
+                                {attendee?.info &&
+                                    (attendee?.info.company_name ||
+                                        attendee?.info.title) && (
+                                        <>
+                                            {attendee?.info.title && (
+                                                <Text lineHeight="22px" fontSize="lg">{attendee?.info?.title}&nbsp;{attendee?.info?.company_name &&
+                                                    attendee?.info?.title &&
+                                                    ", "}
+                                                    {attendee?.info?.company_name && attendee?.info?.company_name}</Text>
+                                            )}
+                                        </>
+                                    )}
+                            </>
+                        )}
                     </VStack>
-                    <Spacer />
-                    <HStack space="4" alignItems="center">
-                        <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
-                    </HStack>
                 </HStack>
-            </HStack>
-        </Box>
+            </Center>
+            <Spacer />
+            <Center p="0">
+                <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
+            </Center>
+        </HStack>
     )
 }
 

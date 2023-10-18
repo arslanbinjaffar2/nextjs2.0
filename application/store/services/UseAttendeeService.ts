@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName, SelectAttendeeDetail, SelectAttendeeCategory, SelectCategories, SelectCategoryName } from 'application/store/slices/Attendee.Slice'
+import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName, SelectAttendeeDetail, SelectAttendeeCategory, SelectCategories, SelectCategoryName, SelectMyAttendees, SelectSelectTotal } from 'application/store/slices/Attendee.Slice'
 
 import { Attendee } from 'application/models/attendee/Attendee'
 
@@ -19,10 +19,12 @@ export type AttendeeServiceOperators = {
     group_name: string
     category_name: string
     attendees: Attendee[]
+    my_attendees: Attendee[]
     detail: Detail
     groups: Group[]
     categories: Category[]
-    FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number }) => void
+    total: Number
+    FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string }) => void
     FetchGroups: (payload: { query: string, page: number, group_id: number, attendee_id: number }) => void
     MakeFavourite: (payload: { attendee_id: number, screen: string }) => void
     FetchAttendeeDetail: (payload: { id: number, speaker: number }) => void
@@ -46,11 +48,13 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         group_name: useAppSelector(SelectGroupName),
         category_name: useAppSelector(SelectCategoryName),
         attendees: useAppSelector(SelectAttendees),
+        my_attendees: useAppSelector(SelectMyAttendees),
         groups: useAppSelector(SelectGroups),
         detail: useAppSelector(SelectAttendeeDetail),
         categories: useAppSelector(SelectCategories),
+        total: useAppSelector(SelectSelectTotal),
         FetchAttendees: useCallback(
-            (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number }) => {
+            (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string }) => {
                 dispatch(AttendeeActions.FetchAttendees(payload))
             },
             [dispatch],

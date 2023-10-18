@@ -12,19 +12,23 @@ import type { RootState } from 'application/store/Index'
 
 export interface ExhibitorState {
     exhibitors: Exhibitor[],
+    our_exhibitors: Exhibitor[],
     categories: ExhibitorCategory[],
     settings: ExhibitorSetting,
     category_id: number,
     query: string,
+    screen: string,
     detail: ExhibitorDetail,
 }
 
 const initialState: ExhibitorState = {
     exhibitors: [],
+    our_exhibitors: [],
     categories: [],
     settings: {},
     category_id: 0,
     query: '',
+    screen: 'exhibitors',
     detail: {},
 }
 
@@ -33,11 +37,16 @@ export const ExhibitorSlice = createSlice({
     name: 'exhibitors',
     initialState,
     reducers: {
-        FetchExhibitors(state, action: PayloadAction<{ category_id: number, query: string }>) { },
+        FetchExhibitors(state, action: PayloadAction<{ category_id: number, query: string, screen: string }>) {
+            state.screen = action.payload.screen;
+        },
         FetchExhibitorDetail(state, action: PayloadAction<{ id: number }>) { },
         MakeFavourite(state, action: PayloadAction<{ exhibitor_id: number, screen: string }>) { },
         update(state, action: PayloadAction<Exhibitor[]>) {
             state.exhibitors = action.payload;
+        },
+        updateOurExhibitors(state, action: PayloadAction<Exhibitor[]>) {
+            state.our_exhibitors = action.payload;
         },
         updateCategory(state, action: PayloadAction<number>) {
             state.category_id = action.payload;
@@ -62,6 +71,7 @@ export const ExhibitorActions = {
     FetchExhibitors: ExhibitorSlice.actions.FetchExhibitors,
     FetchExhibitorDetail: ExhibitorSlice.actions.FetchExhibitorDetail,
     update: ExhibitorSlice.actions.update,
+    updateOurExhibitors: ExhibitorSlice.actions.updateOurExhibitors,
     updateCategories: ExhibitorSlice.actions.updateCategories,
     updateCategory: ExhibitorSlice.actions.updateCategory,
     updateQuery: ExhibitorSlice.actions.updateQuery,
@@ -71,6 +81,8 @@ export const ExhibitorActions = {
 }
 
 export const SelectExhibitors = (state: RootState) => state.exhibitors.exhibitors
+
+export const SelectOurExhibitors = (state: RootState) => state.exhibitors.our_exhibitors
 
 export const SelectExhibitorCategories = (state: RootState) => state.exhibitors.categories
 
