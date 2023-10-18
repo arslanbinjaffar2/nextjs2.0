@@ -4,7 +4,7 @@ import Master from 'application/screens/mobile/layouts/Master';
 import Header from 'application/screens/mobile/layouts/headers/Header';
 import { Center, VStack, ScrollView, Divider, Heading, HStack } from 'native-base';
 import { useState } from 'react';
-import IndexTemplate from 'application/components/templates/qa/mobile/Index'
+import DetailTemplate from 'application/components/templates/qa/mobile/Detail'
 
 const Index = ({ navigation }: any) => {
 
@@ -14,7 +14,7 @@ const Index = ({ navigation }: any) => {
     <Master navigation={navigation}>
       <Header minimal={scroll} navigation={navigation} />
       <Center w={'100%'} px={15}>
-      <IndexTemplate/>
+      <DetailTemplate/>
       </Center>
     </Master>
   );

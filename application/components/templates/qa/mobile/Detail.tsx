@@ -15,6 +15,7 @@ import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
 import RenderHtml from 'react-native-render-html';
 import { useWindowDimensions } from 'react-native';
+import {useFocusEffect } from '@react-navigation/native'
 
 type ScreenParams = { id: string }
 
@@ -44,12 +45,14 @@ const Detail = () => {
 
     const [id] = useParam('id');
 
-    React.useEffect(() => {
+
+    useFocusEffect(React.useCallback(() => {
         if (id) {
             FetchProgramDetail({ id: Number(id) });
             FetchTabDetails({ id: Number(id) });
         }
-    }, [id]);
+      }, [id])
+      );
 
     const [speaker, setSpeaker] = React.useState<any>(null);
     const [paragraph, setParagraph] = React.useState<any>(null);
