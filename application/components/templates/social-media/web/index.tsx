@@ -33,7 +33,8 @@ const index = () => {
               <Flex direction="row" flexWrap="wrap">
                 {socialMedia.length > 0 && socialMedia.map((link)=>{
                   if(link.value !== ''){
-                    return <Pressable
+                    return <Center mb="8" w="25%" alignItems="center" justifyContent="center">
+                    <Pressable
                     onPress={async () => {
                         const url: any = `${link.select_type}${link.value}`;
                         const supported = await Linking.canOpenURL(url);
@@ -42,12 +43,11 @@ const index = () => {
                         }
                     }}>
                     
-                    <Center mb="8" w="25%" alignItems="center" justifyContent="center">
                     <Box w="90px" h="90px" shadow="1" bg={SocialStyleOptions[link.name].color} rounded="100%" alignItems="center" justifyContent="center">
                       <Icon textAlign="center" color="#fff" size="5xl" as={FontAwesome} name={SocialStyleOptions[link.name].icon} />
                     </Box>
-                  </Center>
                   </Pressable>
+                  </Center>
                   }
                 })}
                 
