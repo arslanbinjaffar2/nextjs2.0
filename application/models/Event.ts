@@ -68,7 +68,7 @@ export interface Event {
     gdpr_log_count?: number;
     labels?: any;
     calendar_date?:string;
-    gdpr_settings:any
+    gdpr_settings?:any
 }
 interface Setting {
     poll_setting?: string;
