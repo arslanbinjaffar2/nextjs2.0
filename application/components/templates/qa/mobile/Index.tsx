@@ -9,6 +9,7 @@ import in_array from "in_array";
 import moment from 'moment';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
+import {useFocusEffect } from '@react-navigation/native'
 
 const Index = () => {
 
@@ -26,11 +27,11 @@ const Index = () => {
     
     const { push } = useRouter()
 
-
-    useEffect(() => {
-        FetchPrograms();
-    }, []);
     
+    useFocusEffect(React.useCallback(() => {
+      FetchPrograms();
+        }, [])
+      );
 
   return (
     <Container maxW="100%" h={'100%'} w="100%">
