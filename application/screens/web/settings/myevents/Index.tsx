@@ -4,24 +4,22 @@ import PropTypes from 'prop-types';
 
 import Master from 'application/screens/web/layouts/Master';
 
-import IndexTemplate from 'application/components/templates/settings/editProfile/Index';
-
 type indexProps = {
-  navigation: unknown
+    navigation: unknown
 }
 
 const Index = ({ navigation }: indexProps) => {
 
-  return (
-    <Master section='settings'>
-      <IndexTemplate />
-    </Master>
-  );
+    return (
+        <Master section='settings'>
+
+        </Master>
+    );
 
 };
 
 Index.propTypes = {
-  navigation: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
 };
 
 export default Index;

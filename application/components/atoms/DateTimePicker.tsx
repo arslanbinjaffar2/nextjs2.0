@@ -20,6 +20,7 @@ type Props = {
 const MyDTPicker: FC<any> = (props: Props): any => {
 
   const textInput = useRef<any>(null);
+  
   const [tab, setTab] = React.useState('days');
 
   const renderView = (mode: any, renderDefault: any, showTime: any,showDate:any,) => {
