@@ -10,11 +10,7 @@ const Listing = () => {
                 <DynamicIcon iconType="speakers" iconProps={{ width: 12, height: 18 }} />
                 <Text fontSize="md">Speaker</Text>
             </HStack>
-            <RectangleView border={1} />
-            <RectangleView border={1} />
-            <RectangleView border={1} />
-            <RectangleView border={1} />
-            <RectangleView border={1} />
+            {/* <RectangleView border={1} /> */}
         </>
     )
 }
