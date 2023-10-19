@@ -15,7 +15,7 @@ import general_info from 'application/assets/icons/general-info';
 import additional_info from 'application/assets/icons/additional-info';
 import information_pages from 'application/assets/icons/information_pages';
 import maps from 'application/assets/icons/maps';
-import myattendees from 'application/assets/icons/myattendees';
+import myattendeelist from 'application/assets/icons/myattendeelist';
 import my_registrations from 'application/assets/icons/my_registrations';
 import mydocuments from 'application/assets/icons/mydocuments';
 import my_notes from 'application/assets/icons/my_notes';
@@ -42,7 +42,7 @@ type IconProps = {
     height?: number;
 };
 
-type IconType = 'IcoMyEvents' | 'attendees' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'myattendees' | 'mydocuments' | 'my_notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'my_registrations';
+type IconType = 'IcoMyEvents' | 'attendees' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'myattendeelist' | 'mydocuments' | 'my_notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'my_registrations';
 
 type Props = {
     iconType: IconType;
@@ -67,7 +67,7 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         additional_info,
         information_pages,
         maps,
-        myattendees,
+        myattendeelist,
         mydocuments,
         my_notes,
         myprograms,

@@ -26,6 +26,7 @@ const { useParam } = createParam<ScreenParams>()
 
 type Props = {
     speaker: number
+    screen: string
 }
 
 const Index = ({ speaker }: Props) => {
