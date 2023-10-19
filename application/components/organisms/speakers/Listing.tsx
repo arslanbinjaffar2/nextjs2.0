@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import React from 'react';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import { Avatar, Box, Center, HStack, Icon, IconButton, Pressable, Spacer, Text, VStack } from 'native-base'

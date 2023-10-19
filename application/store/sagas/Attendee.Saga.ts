@@ -12,17 +12,19 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
 
+import in_array from "in_array";
+
 function* OnGetAttendees({
     payload,
 }: {
     type: typeof AttendeeActions.FetchAttendees
     payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string }
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: 'attendee-listing' }))
+    yield put(LoadingActions.addProcess({ process: in_array(payload.screen, ['dashboard-my-speakers']) ? payload.screen : 'attendee-listing' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAttendeeApi, payload, state)
     yield put(AttendeeActions.Update({ attendee: response.data.data!, group_id: payload.group_id, query: payload.query, page: payload.page, group_name: response?.data?.meta?.group_name, screen: payload.screen, total: response.data.meta?.total! }))
-    yield put(LoadingActions.removeProcess({ process: 'attendee-listing' }))
+    yield put(LoadingActions.removeProcess({ process: in_array(payload.screen, ['dashboard-my-speakers']) ? payload.screen : 'attendee-listing' }))
 }
 
 function* OnGetAttendeeDetail({

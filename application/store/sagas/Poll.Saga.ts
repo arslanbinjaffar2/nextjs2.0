@@ -11,6 +11,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
+
 import { PollSubmitData } from 'application/models/poll/Poll'
 
 function* OnFetchPolls({
@@ -20,7 +21,7 @@ function* OnFetchPolls({
     yield put(LoadingActions.addProcess({ process: 'poll-listing' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getPollApi, {}, state)
-    yield put(PollActions.update({ polls: response.data.data.polls.pending_polls!, completed_polls:response.data.data.polls.completed_polls, poll_settings:response.data.data.pollSettings}))
+    yield put(PollActions.update({ polls: response.data.data.polls.pending_polls!, completed_polls: response.data.data.polls.completed_polls, poll_settings: response.data.data.pollSettings }))
     yield put(LoadingActions.removeProcess({ process: 'poll-listing' }));
 }
 
@@ -33,10 +34,9 @@ function* OnFetchPollDetail({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getPollDetailApi, payload, state)
-    yield put(PollActions.updateDetail({ detail: response.data.data.poll_details!, poll_labels: response.data.data.poll_labels  }))
+    yield put(PollActions.updateDetail({ detail: response.data.data.poll_details!, poll_labels: response.data.data.poll_labels }))
     yield put(LoadingActions.set(false));
 }
-
 
 function* OnPollSubmit({
     payload,
@@ -51,8 +51,6 @@ function* OnPollSubmit({
         yield put(PollActions.PollSubmitSuccess())
     }
 }
-
-
 
 // Watcher Saga
 export function* PollWatcherSaga(): SagaIterator {

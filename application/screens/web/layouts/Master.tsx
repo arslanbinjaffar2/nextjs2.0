@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Center, Container, Flex, HStack, ScrollView } from 'native-base';
 import { useWindowDimensions } from 'react-native';
 import LeftBar from 'application/screens/web/layouts/LeftBar';
+import LeftBarProfile from 'application/screens/web/layouts/LeftBarProfile';
 import RightBar from 'application/screens/web/layouts/RightBar';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import Header from 'application/screens/web/layouts/Header';
@@ -18,9 +19,10 @@ type Props = {
   | JSX.Element[]
   | string
   | string[];
+  section?: string
 };
 
-const Master = ({ children }: Props) => {
+const Master = ({ children, section }: Props) => {
 
   const { width } = useWindowDimensions();
 
@@ -69,11 +71,19 @@ const Master = ({ children }: Props) => {
               )}
               <Container position="relative" maxW="100%" w="100%">
                 <HStack w="100%" pt="3" space="5" alignItems="flex-start">
-                  {width > 750 && <LeftBar />}
-                  <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={width > 750 ? '600px' : '100%'}>
+                  {width > 750 && (
+                    <>
+                      {section === 'settings' ? (
+                        <LeftBarProfile />
+                      ) : (
+                        <LeftBar />
+                      )}
+                    </>
+                  )}
+                  <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={section === 'settings' ? '100%' : (width > 750 ? '600px' : '100%')}>
                     {children}
                   </Center>
-                  {width >= 970 && <Center position="sticky" top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
+                  {width >= 970 && section !== 'settings' && <Center position="sticky" top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
                     <RightBar />
                   </Center>}
                 </HStack>

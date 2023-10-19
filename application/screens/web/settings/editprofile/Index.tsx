@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
-import MasterProfile from 'application/screens/web/layouts/MasterProfile';
+import Master from 'application/screens/web/layouts/Master';
 
 import IndexTemplate from 'application/components/templates/settings/editProfile/Index';
 
@@ -13,9 +13,9 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
 
   return (
-    <MasterProfile>
+    <Master section='settings'>
       <IndexTemplate />
-    </MasterProfile>
+    </Master>
   );
 
 };
