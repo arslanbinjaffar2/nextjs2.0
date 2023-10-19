@@ -11,7 +11,7 @@ const BannerSlider = ({ banners }: { banners: Banner[] }) => {
   const [currentBanner, setCurrentBanner] = React.useState(0);
 
   React.useEffect(() => {
-    
+
     const bannerInterval = setInterval(() => {
       setCurrentBanner((prevState) => ((prevState < (banners.length - 1)) ? (prevState + 1) : 0));
     }, 5000)
@@ -24,10 +24,10 @@ const BannerSlider = ({ banners }: { banners: Banner[] }) => {
 
   return (
     <Box width="full" height={100} my={5}>
-      <RectangleView url={`${_env.eventcenter_base_url}/assets/banners/${banners[currentBanner].image}`} />
+      <RectangleView url={`${_env.eventcenter_base_url}/assets/banners/${banners[currentBanner]?.image}`} />
     </Box>
   )
-  
+
 }
 
 export default BannerSlider

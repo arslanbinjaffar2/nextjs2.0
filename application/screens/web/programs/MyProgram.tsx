@@ -1,24 +1,24 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Master from 'application/screens/web/layouts/Master';
-import IndexTemplate from 'application/components/templates/programs/Index';
+import MyProgram from 'application/components/templates/programs/MyProgram';
 
 type indexProps = {
-  navigation: unknown
+    navigation: unknown
 }
 
 const Index = ({ navigation }: indexProps) => {
 
-  return (
-    <Master>
-      <IndexTemplate />
-    </Master>
-  );
+    return (
+        <Master>
+            <MyProgram />
+        </Master>
+    );
 
 };
 
 Index.propTypes = {
-  navigation: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
 };
 
 export default Index;
