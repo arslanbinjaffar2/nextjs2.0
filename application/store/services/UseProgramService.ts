@@ -1,12 +1,14 @@
 import { useCallback } from 'react'
 
-import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail } from 'application/store/slices/Program.Slice'
+import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail } from 'application/store/slices/Program.Slice'
 
 import { Program } from 'application/models/program/Program'
 
 import { Track } from 'application/models/program/Track'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
+
+import { Detail } from 'application/models/program/Detail';
 
 export type ProgramServiceOperators = {
     query: string
@@ -16,9 +18,11 @@ export type ProgramServiceOperators = {
     programs: Program[]
     tracks: Track[]
     track: Track
+    detail: Detail
     FetchPrograms: (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => void
     MakeFavourite: (payload: { program_id: number, screen: string }) => void
     FetchTracks: (payload: { query: string, page: number, screen: string, track_id: number }) => void
+    FetchProgramDetail: (payload: { id: number }) => void
 }
 
 /**
@@ -37,6 +41,7 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         programs: useAppSelector(SelectMyPrograms),
         tracks: useAppSelector(SelectTracks),
         track: useAppSelector(SelectTrackDetail),
+        detail: useAppSelector(SelectProgramDetail),
         FetchPrograms: useCallback(
             (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => {
                 dispatch(ProgramActions.FetchPrograms(payload))
@@ -52,6 +57,12 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         FetchTracks: useCallback(
             (payload: { query: string, page: number, screen: string, track_id: number }) => {
                 dispatch(ProgramActions.FetchTracks(payload))
+            },
+            [dispatch],
+        ),
+        FetchProgramDetail: useCallback(
+            (payload: { id: number }) => {
+                dispatch(ProgramActions.FetchProgramDetail(payload))
             },
             [dispatch],
         ),
