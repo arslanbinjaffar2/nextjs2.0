@@ -11,7 +11,7 @@ import UseEventService from 'application/store/services/UseEventService';
 type AppProps = {
     exhibitor: Exhibitor,
     k: number
-    w: string
+    w?: string
 }
 
 const BoxView = ({ k, exhibitor, w }: AppProps) => {

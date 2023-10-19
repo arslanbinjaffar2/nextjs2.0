@@ -100,7 +100,7 @@ const Index = React.memo(() => {
                                 <ScrollView h={'53%'} w={'100%'}>
                                     <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
                                         {exhibitors.length > 0 && exhibitors.map((exhibitor: Exhibitor, key: number) =>
-                                            <BoxView exhibitor={exhibitor} k={key} key={key} />
+                                            <BoxView exhibitor={exhibitor} k={key} />
                                         )}
                                     </HStack>
                                 </ScrollView>
