@@ -2,6 +2,7 @@ export interface FetchCheckInOutResponse {
   attendee: Attendee;
   setting: Setting;
   history: History[];
+  type_history: {event:History[],program:History[],group:History[],ticket:History[]};
   enableEvent: boolean;
   enableCheckinWithoutLocatiom: boolean;
   status: string;

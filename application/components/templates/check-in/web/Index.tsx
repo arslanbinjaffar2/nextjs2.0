@@ -5,10 +5,12 @@ import UseCheckInOutService from 'application/store/services/UseCheckInOutServic
 import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import moment from 'moment';
+import in_array from "in_array";
+
 const Index = () => {
-    const { loading } = UseLoadingService();
+    const { loading, processing } = UseLoadingService();
     
-  const { FetchCheckInOut, checkInOut }  = UseCheckInOutService();
+  const { FetchCheckInOut, checkInOut, SendQRCode }  = UseCheckInOutService();
   React.useEffect(() => {  
     FetchCheckInOut();
   }, [])
@@ -28,14 +30,15 @@ const Index = () => {
                 <HStack space="3" alignItems="center">
                     <Text fontSize="lg">My ticket for </Text>
                     <Spacer />
-                    <IconButton
-                    variant="transparent"
-                    p="1"
-                    icon={<Icon size="md" as={SimpleLineIcons} name="envelope" color="white" />}
-                    onPress={() => {
-                        console.log('hello')
-                    }}
-                    />
+                    {in_array('checkin-send-qr-code', processing) ?  <WebLoading/> : <IconButton
+                        variant="transparent"
+                        p="1"
+                        icon={<Icon size="md" as={SimpleLineIcons} name="envelope" color="white" />}
+                        onPress={() => {
+                            SendQRCode();
+                        }}
+                    />}
+                   
                 </HStack>
                 {checkInOut?.setting?.self_checkin && <>
                         <Box mx="auto" w="190px" h="190px" bg="primary.darkbox" p="3" rounded="10">
@@ -72,8 +75,8 @@ const Index = () => {
                 <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="10">
                     <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK IN</Text>
                     <VStack space="1">
-                    {checkInOut?.history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
-                        <Text fontSize="md">{(item.checkin !== '' && item.checkin !== '0000-00-00 00:00:00') ? moment(item.checkin).format('DD/mm/yyyy HH:mm:ss') : '---'}</Text>
+                    {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
+                        <Text fontSize="md">{getTypeEntityName(item)} {(item.checkin !== '' && item.checkin !== '0000-00-00 00:00:00') ? moment(item.checkin).format('DD/mm/yyyy HH:mm:ss') : '---'}</Text>
                     </HStack>))}
                     </VStack>
                 </Box>
@@ -81,7 +84,7 @@ const Index = () => {
                 <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="10">
                     <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK OUT</Text>
                     <VStack space="1">
-                    {checkInOut?.history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
+                    {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
                         <Text fontSize="md">{(item.checkout !== '' && item.checkout !== '0000-00-00 00:00:00') ? moment(item.checkout).format('DD/mm/yyyy HH:mm:ss') : " ---"}</Text>
                     </HStack>))}
                     </VStack>
@@ -95,3 +98,16 @@ const Index = () => {
 }
 
 export default Index
+
+const getTypeEntityName = (item:any) =>{
+    if(item.type_name === 'program'){
+        return item.program.info.topic;
+    }
+    else if(item.type_name === 'group'){
+        return item.group.info.name;
+    }
+    else if(item.type_name === 'ticket'){
+        return item.ticket.info.name;
+    }
+    return item.type_name;
+}

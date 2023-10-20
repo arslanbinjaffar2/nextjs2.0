@@ -10,7 +10,8 @@ export type CheckInOutServiceOperators = {
     checkInOut:{
         attendee: Attendee | null;
         setting: Setting  | null;
-        history: {event:History[],program:History[],group:History[],ticket:History[]};
+        history:History[];
+        type_history: {event:History[],program:History[],group:History[],ticket:History[]};
         enableEvent: boolean;
         enableCheckinWithoutLocatiom: boolean;
         status: string;
@@ -20,6 +21,7 @@ export type CheckInOutServiceOperators = {
         qrCodeImgSrc:string;
     }
     FetchCheckInOut: () => void,
+    SendQRCode: () => void,
 }
 
 /**
@@ -36,6 +38,12 @@ export const UseCheckInOutService = (): Readonly<CheckInOutServiceOperators> => 
         FetchCheckInOut: useCallback(
             () => {
                 dispatch(CheckInOutActions.FetchCheckInOut())
+            },
+            [dispatch],
+        ),
+        SendQRCode: useCallback(
+            () => {
+                dispatch(CheckInOutActions.SendQRCode())
             },
             [dispatch],
         ),

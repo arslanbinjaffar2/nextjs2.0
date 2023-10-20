@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Attendee, History, FetchCheckInOutResponse, Setting, Checkin } from 'application/models/CheckInOut/CheckInOut'
+import { Attendee, History, FetchCheckInOutResponse, Setting, Checkin } from 'application/models/checkInOut/CheckInOut'
 
 import { RootState } from 'application/store/Index'
 
@@ -12,7 +12,8 @@ export interface CheckInOutState  {
     checkInOut:{
         attendee: Attendee | null;
         setting: Setting  | null;
-        history: {event:History[],program:History[],group:History[],ticket:History[]};
+        history:History[],
+        type_history: {event:History[],program:History[],group:History[],ticket:History[]};
         enableEvent: boolean;
         enableCheckinWithoutLocatiom: boolean;
         status: string;
@@ -27,7 +28,8 @@ const initialState: CheckInOutState = {
     checkInOut:{
         attendee: null,
         setting: null,
-        history: {event:[],program:[],group:[],ticket:[]},
+        history:[],
+        type_history: {event:[],program:[],group:[],ticket:[]},
         enableEvent: false,
         enableCheckinWithoutLocatiom: false,
         status: 'check-out',
@@ -46,14 +48,15 @@ export const CheckInOutSlice = createSlice({
         FetchCheckInOut() {},
         update(state, action: PayloadAction<FetchCheckInOutResponse>) {
             state.checkInOut= action.payload;
-        }
-
+        },
+        SendQRCode() {},
     },
 })
 
 // Actions
 export const CheckInOutActions = {
     FetchCheckInOut:CheckInOutSlice.actions.FetchCheckInOut,
+    SendQRCode:CheckInOutSlice.actions.SendQRCode,
     update:CheckInOutSlice.actions.update,
 }
 
