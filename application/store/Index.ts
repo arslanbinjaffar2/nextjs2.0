@@ -24,6 +24,7 @@ import QaSlice from './slices/Qa.Slice'
 import SocialMediaSlice from './slices/SocialMedia.Slice'
 import CheckInOutSlice from './slices/CheckInOut.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
+import SubRegistrationSlice from './slices/SubRegistration.Slice'
 
 const makeStore = () => {
 
@@ -53,6 +54,7 @@ const makeStore = () => {
             qa:QaSlice,
             socialMedia:SocialMediaSlice,
             checkInOut:CheckInOutSlice,
+            subRegistration:SubRegistrationSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
