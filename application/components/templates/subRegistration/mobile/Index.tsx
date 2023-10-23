@@ -55,17 +55,7 @@ const Detail = () => {
 
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
 
-  const [optionals] = useState(
-    afterLogin?.questions?.question
-      .filter((item) => item.required_question !== "1")
-      .map((item) => item.id)
-  );
-  const [questionsType] = useState(
-    afterLogin?.questions?.question.reduce(
-      (ack, item) => Object.assign(ack, { [item.id]: item.question_type }),
-      {}
-    )
-  );
+  
 
   const updateFormData = (question_id:number, type:string, answer:any, index?:number, agendaId?:number) => {
     
@@ -225,31 +215,35 @@ const Detail = () => {
              let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id].answer[0]}-${item?.answer?.find((answer)=>(formData[item.id].answer[0] === answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "matrix" && formData[item.id].answer.length > 0){
+           else if(item.question_type === "matrix" && Object.keys(formData[item.id].answer).length > 0){
              let newObj ={ [`answer${item.id}`]: Object.keys(formData[item.id].answer), [`comments${item.id}`]: formData[item.id].comment }
              let matrix = Object.keys(formData[item.id].answer).reduce((ack, ritem) => {
-                return Object.assign(ack, { [`answer_matrix${item.id}_${ritem}`] : [`${ritem}-${formData[item.id].answer.ritem}`] })},
+                return Object.assign(ack, { [`answer_matrix${item.id}_${ritem}`] : [`${ritem}-${formData[item.id].answer[ritem]}`] })},
                
              {})
              return Object.assign(ack, {...newObj, ...matrix} );
            }
            else{
              if(formData[item.id] !== undefined && formData[item.id].answer.length > 0){
-               return Object.assign(ack, { [`answer_${item.question_type}${item.id}`]: formData[item.id].answer, [`comments${item.id}`]:formData[item.id].comment} );
+               return Object.assign(ack, { [`answer_${item.question_type}${item.id}`]: [formData[item.id].answer], [`comments${item.id}`]:formData[item.id].comment} );
              }else{
                return ack;
              }
            }
          },{})
 
-
-
          SaveSubRegistration({
           first_time:"yes",
           sub_reg_id: afterLogin?.questions?.id,
-          optionals,
-          questionsType,
+          optionals:afterLogin?.questions?.question
+          .filter((item) => item.required_question !== "1")
+          .map((item) => item.id),
+          questionsType:afterLogin?.questions?.question.reduce(
+            (ack, item) => Object.assign(ack, { [item.id]: item.question_type }),
+            {}
+          ),
           questions:afterLogin?.questions?.question.reduce((ack, item:any) => { return ack.concat(item.id)},[]),
+          ...answers,
          });
       }
     }

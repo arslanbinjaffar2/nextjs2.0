@@ -9,7 +9,7 @@ export const getSubRegistrationApi = (payload: any, state: any): Promise<HttpRes
 }
 
 export const getMySubRegistrationApi = (payload: any, state: any): Promise<HttpResponse> => {
-    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/settings/my-sub-registration`);
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/settings/my-sub-registration`);
 }
 
 export const saveSubRegistrationApi = (payload: any, state: any): Promise<HttpResponse> => {

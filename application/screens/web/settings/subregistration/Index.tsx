@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Master from 'application/screens/web/layouts/Master';
 
-import IndexTemplate from 'application/components/templates/subRegistration/web/';
+import IndexTemplate from 'application/components/templates/settings/subRegistration/web/Index';
 
 
 type indexProps = {
