@@ -57,7 +57,7 @@ const Listing = () => {
             </HStack>
           </HStack>
           <Box mb="2" p="0">
-            <Text fontSize="lg">Total Speakers :{total}</Text>
+            <Text fontSize="lg">{`Total Speakers :${total}`}</Text>
           </Box>
           <Box w="100%" mb="3" bg="primary.box" p="0" rounded="10">
             {attendees.map((attendee: Attendee, k: number) =>
