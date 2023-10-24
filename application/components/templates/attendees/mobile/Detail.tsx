@@ -4,7 +4,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Search from 'application/components/atoms/programs/Search';
 import BasicInfoBlock from 'application/components/atoms/attendees/detail/BasicInfoBlock';
 import ContactInfo from 'application/components/atoms/attendees/detail/ContactInfo';
-import SubRegistration from 'application/components/atoms/sub_registration/RectangleView';
+import SubRegistration from 'application/components/atoms/subRegistration/RectangleView';
 import DetailInfoBlock from 'application/components/atoms/attendees/detail/web/DetailInfoBlock';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
 import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';

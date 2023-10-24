@@ -189,7 +189,7 @@ const Detail = () => {
       if(!isError){
          const answers = afterLogin?.questions?.question
          .reduce(
-           (ack, item) => {
+           (ack:any, item:any) => {
            if(item.question_type === "multiple" &&  formData[item.id].answer.length > 0){
              let newObj ={ [`answer${item.id}`]: formData[item.id].answer.map((item:any) =>(item)), [`comments${item.id}`]:formData[item.id].comment }
              let agendas = item?.answer?.filter((filterItem)=>(filterItem.link_to > 0))?.reduce((ack, ritem) => {

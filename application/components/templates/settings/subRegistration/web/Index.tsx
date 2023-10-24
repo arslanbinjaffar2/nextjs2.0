@@ -80,28 +80,28 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
 
   const [formData, setFormData] = useState<FormData>(mySubReg?.questions?.question
     .reduce(
-      (ack, item) => {
+      (ack:any, item:any) => {
       if(item.question_type === "multiple" && item.result.length > 0){
         ack[item.id] = {
-          answer:item.result.map(item=>item.id),
+          answer:item.result.map((item:any)=>item.id),
           comment:item.result[0].comments
         }
       }
       else if(item.question_type === "single" && item.result.length > 0){
         ack[item.id] = {
-          answer:item.result.map(item=>item.answer_id),
+          answer:item.result.map((item:any)=>item.answer_id),
           comment:item.result[0].comments
         }
       }
       else if(item.question_type === "dropdown" && item.result.length > 0){
         ack[item.id] = {
-          answer:item.result.map(item=>item.answer_id),
+          answer:item.result.map((item:any)=>item.answer_id),
           comment:item.result[0].comments
         }
       }
       else if(item.question_type === "matrix" && item.result.length > 0){
         ack[item.id] = {
-          answer:item.result.reduce((ack,item)=> {ack[item.answer_id] = item.answer; return ack;} , {}),
+          answer:item.result.reduce((ack:any,item:any)=> {ack[item.answer_id] = item.answer; return ack;} , {}),
           comment:item.result[0].comments
         }
       }
