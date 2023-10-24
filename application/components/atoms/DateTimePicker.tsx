@@ -2,7 +2,7 @@ import React, { ReactElement, FC, useRef } from 'react';
 import { Box, Button, Center, Checkbox, Divider, HStack, Icon, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import "react-datetime/css/react-datetime.css";
-import * as Datetime from "react-datetime";
+import Datetime from "react-datetime";
 
 type Props = {
   value: any;
