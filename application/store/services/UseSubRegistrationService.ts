@@ -18,6 +18,7 @@ export type SubRegistrationServiceOperators = {
         min_alert_label: string;
         displaySubregistration: string;
         all_programs: Allprogram[];
+        show_skip_button:boolean
     },
     mySubReg:any,
     submitting:boolean,

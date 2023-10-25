@@ -37,6 +37,9 @@ const Master = ({ children, section }: Props) => {
 
   const { push } = useRouter();
 
+  const sub_reg_skip =  localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
+
+
   React.useEffect(() => {
     getUser();
   }, [])
@@ -45,7 +48,7 @@ const Master = ({ children, section }: Props) => {
     if (response.redirect === "login") {
       push(`/${event.url}/auth/login`)
     }
-    else if(skip !== true){
+    else if((sub_reg_skip) !== true){
       push(`/${event.url}/subRegistration`)
     }
   }, [response])
