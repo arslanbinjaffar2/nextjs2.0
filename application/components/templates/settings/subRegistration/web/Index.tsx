@@ -33,7 +33,7 @@ const { useParam } = createParam<ScreenParams>()
 const Detail = () => {
 
 
-  const [completed, setcompleted] = useState<boolean>(false);
+  const [firstLoad, setFirstLoad] = useState<boolean>(true);
 
   const [submittingPoll, setSubmittingPoll] = useState(false);
 
@@ -51,13 +51,14 @@ const Detail = () => {
 
     React.useEffect(() => {
             FetchMySubRegistration();
+            setFirstLoad(false);
     }, []);
 
     
 
   return (
     <>
-      {loading ? (
+      {(firstLoad||loading) ? (
                 <WebLoading />
             ) : (
            <RegForm
@@ -321,7 +322,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
         <Divider mb="15" opacity={0.27} bg="primary.text" />
         <HStack mb="3" space="3" alignItems="center" justifyContent={'center'}>
 
-            <Button
+            {mySubReg.settings.answer === 1 && mySubReg.show_save === 1 && <Button
               w="48px"
               py="3"
               px="1"
@@ -331,7 +332,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
               onPress={() => {
                onSubmit();
               }}
-            />
+            />}
         </HStack>
       </Box>
     </Box>
