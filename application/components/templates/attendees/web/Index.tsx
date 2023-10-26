@@ -56,7 +56,7 @@ const Index = ({ speaker, screen }: Props) => {
     useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
-                FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees' });
+                FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }
     }, [scroll]);
@@ -64,9 +64,9 @@ const Index = ({ speaker, screen }: Props) => {
     useEffect(() => {
         if (mounted.current) {
             if (tab === "group") {
-                FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0 });
+                FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0, program_id: 0 });
             } else if (in_array(tab, ['attendee', 'my-attendee'])) {
-                FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees' });
+                FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             } else if (in_array(tab, ['category'])) {
                 FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
             }
@@ -81,10 +81,10 @@ const Index = ({ speaker, screen }: Props) => {
     useEffect(() => {
         if (slug !== undefined && slug.length === 1) { // Group attendees by slug
             setTab('group-attendee');
-            FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0, screen: speaker ? 'speakers' : 'attendees' });
+            FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
         } else if (slug === undefined || slug.length === 0) {
             setTab('attendee');
-            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees' });
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
         }
     }, [slug]);
 
@@ -101,9 +101,9 @@ const Index = ({ speaker, screen }: Props) => {
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
             if (tab === "group") {
-                FetchGroups({ query: query, group_id: group_id, page: 1, attendee_id: 0 });
+                FetchGroups({ query: query, group_id: group_id, page: 1, attendee_id: 0, program_id: 0 });
             } else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
-                FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees' });
+                FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }, 1000);
     }, []);
@@ -151,7 +151,7 @@ const Index = ({ speaker, screen }: Props) => {
                                     if (slug !== undefined || slug?.length > 0) {
                                         push(`/${event.url}/attendees`)
                                     } else {
-                                        FetchGroups({ query: query, page: 1, group_id: 0, attendee_id: 0 });
+                                        FetchGroups({ query: query, page: 1, group_id: 0, attendee_id: 0, program_id: 0 });
                                     }
                                 }}>
                                 <Text textTransform="uppercase" fontSize="xs">Go back</Text>
@@ -164,7 +164,7 @@ const Index = ({ speaker, screen }: Props) => {
                             <Pressable
                                 onPress={async () => {
                                     if (in_array(tab, ['attendee', 'my-attendee'])) {
-                                        FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: 0, screen: speaker ? 'speakers' : 'attendees' });
+                                        FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: 0, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
                                     } else {
                                         FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
                                     }

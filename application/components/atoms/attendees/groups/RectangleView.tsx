@@ -28,7 +28,7 @@ const RectangleView = ({ group, border, k, updateTab, navigation }: boxItemProps
                 push(`/${event.url}/attendees/${group?.id!}`)
             } else {
                 if (group_id === 0) {
-                    FetchGroups({ query: query, page: 1, group_id: group?.id!, attendee_id: 0 });
+                    FetchGroups({ query: query, page: 1, group_id: group?.id!, attendee_id: 0, program_id: 0 });
                 } else if (updateTab) {
                     push(`/${event.url}/attendees/${group?.id!}`)
                 }

@@ -24,8 +24,8 @@ export type AttendeeServiceOperators = {
     groups: Group[]
     categories: Category[]
     total: Number
-    FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string }) => void
-    FetchGroups: (payload: { query: string, page: number, group_id: number, attendee_id: number }) => void
+    FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }) => void
+    FetchGroups: (payload: { query: string, page: number, group_id: number, attendee_id: number, program_id: number }) => void
     MakeFavourite: (payload: { attendee_id: number, screen: string }) => void
     FetchAttendeeDetail: (payload: { id: number, speaker: number }) => void
     UpdateCategory: (payload: { category_id: number, category_name: string }) => void
@@ -54,13 +54,13 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         categories: useAppSelector(SelectCategories),
         total: useAppSelector(SelectSelectTotal),
         FetchAttendees: useCallback(
-            (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string }) => {
+            (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }) => {
                 dispatch(AttendeeActions.FetchAttendees(payload))
             },
             [dispatch],
         ),
         FetchGroups: useCallback(
-            (payload: { query: string, page: number, group_id: number, attendee_id: number }) => {
+            (payload: { query: string, page: number, group_id: number, attendee_id: number, program_id: number }) => {
                 dispatch(AttendeeActions.FetchGroups(payload))
             },
             [dispatch],

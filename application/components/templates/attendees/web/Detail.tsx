@@ -67,9 +67,9 @@ const Detail = ({ speaker }: Props) => {
             if (tab == 'program') {
                 FetchPrograms({ page: 1, query: '', screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
             } else if (tab === "groups") {
-                FetchGroups({ query: '', group_id: 0, page: 1, attendee_id: Number(_id) });
+                FetchGroups({ query: '', group_id: 0, page: 1, attendee_id: Number(_id), program_id: 0 });
             } else if (tab === "documents") {
-                FetchDocuments({ speaker_id: Number(_id), exhibitor_id: 0, sponsor_id: 1 });
+                FetchDocuments({ speaker_id: Number(_id), exhibitor_id: 0, sponsor_id: 0, agenda_id: 0 });
             }
         }
     }, [tab]);
@@ -79,7 +79,7 @@ const Detail = ({ speaker }: Props) => {
             if (tab == 'program') {
                 FetchPrograms({ query: '', page: page + 1, screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
             } else if (tab === "groups") {
-                FetchGroups({ query: '', group_id: 0, page: page + 1, attendee_id: Number(_id) });
+                FetchGroups({ query: '', group_id: 0, page: page + 1, attendee_id: Number(_id), program_id: 0 });
             }
         }
     }, [scroll]);

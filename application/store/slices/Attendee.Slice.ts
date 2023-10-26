@@ -29,6 +29,7 @@ export interface AttendeeState {
     category_id: number,
     category_name: string,
     total: number,
+    program_id: number,
 }
 
 const initialState: AttendeeState = {
@@ -53,6 +54,7 @@ const initialState: AttendeeState = {
     category_id: 0,
     category_name: '',
     total: 0,
+    program_id: 0,
 }
 
 // Slice
@@ -60,12 +62,13 @@ export const AttendeeSlice = createSlice({
     name: 'attendees',
     initialState,
     reducers: {
-        FetchAttendees(state, action: PayloadAction<{ group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string }>) {
+        FetchAttendees(state, action: PayloadAction<{ group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }>) {
             state.query = action.payload.query;
             state.page = action.payload.page;
             state.group_id = action.payload.group_id;
             state.my_attendee_id = action.payload.my_attendee_id;
             state.category_id = action.payload.category_id;
+            state.program_id = action.payload.program_id;
             if (action.payload.category_id === 0) {
                 state.category_name = '';
             }
@@ -74,7 +77,7 @@ export const AttendeeSlice = createSlice({
                 state.my_attendees = []
             }
         },
-        FetchGroups(state, action: PayloadAction<{ query: string, page: number, group_id: number, attendee_id: number }>) {
+        FetchGroups(state, action: PayloadAction<{ query: string, page: number, group_id: number, attendee_id: number, program_id: number }>) {
             state.query = action.payload.query;
             state.page = action.payload.page;
             state.group_id = action.payload.group_id;

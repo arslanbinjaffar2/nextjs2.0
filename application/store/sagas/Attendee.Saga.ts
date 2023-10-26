@@ -18,7 +18,7 @@ function* OnGetAttendees({
     payload,
 }: {
     type: typeof AttendeeActions.FetchAttendees
-    payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string }
+    payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: in_array(payload.screen, ['dashboard-my-speakers']) ? payload.screen : 'attendee-listing' }))
     const state = yield select(state => state);
@@ -49,7 +49,7 @@ function* OnMakeFavourite({
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     if (payload.screen === "listing") {
-        yield put(AttendeeActions.FetchAttendees({ query: state?.attendees?.query, page: 1, group_id: state?.attendees?.group_id, my_attendee_id: state?.attendees?.my_attendee_id, speaker: 0, category_id: state?.attendees?.category_id, screen: state?.attendees?.screen }))
+        yield put(AttendeeActions.FetchAttendees({ query: state?.attendees?.query, page: 1, group_id: state?.attendees?.group_id, my_attendee_id: state?.attendees?.my_attendee_id, speaker: 0, category_id: state?.attendees?.category_id, screen: state?.attendees?.screen, program_id: state?.attendees?.program_id }))
     } else {
         yield put(AttendeeActions.FetchAttendeeDetail({ id: payload.attendee_id, speaker: 0 }))
     }
@@ -59,7 +59,7 @@ function* OnGetGroups({
     payload,
 }: {
     type: typeof AttendeeActions.FetchGroups
-    payload: { group_id: number, query: string, page: number, attendee_id: number }
+    payload: { group_id: number, query: string, page: number, attendee_id: number, program_id: number }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'groups' }))
     const state = yield select(state => state);

@@ -54,7 +54,7 @@ const Index = ({ navigation }: indexProps) => {
       FetchPrograms({ query: '', page: 1, screen: 'dashboard', id: 0, track_id: 0 });
     }
     if (modules.filter((module: any, key: number) => module.alias === 'speakers').length > 0) {
-      FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: 1, category_id: 0, screen: 'dashboard-my-speakers' });
+      FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: 1, category_id: 0, screen: 'dashboard-my-speakers', program_id: 0 });
     }
   }, [modules.length]);
 

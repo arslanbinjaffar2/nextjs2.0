@@ -19,7 +19,7 @@ const Listing = () => {
 
   React.useEffect(() => {
     if (modules.filter((module: any, key: number) => module.alias === 'speakers').length > 0) {
-      FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: 1, category_id: 0, screen: 'dashboard-speakers' });
+      FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: 1, category_id: 0, screen: 'dashboard-speakers', program_id: 0 });
     }
   }, [])
 
