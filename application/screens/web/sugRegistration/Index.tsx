@@ -11,6 +11,9 @@ import { Center, Container, Flex, HStack, ScrollView } from 'native-base';
 import BackgroundLayout from '../layouts/BackgroundLayout';
 import Header from '../layouts/Header';
 import { useWindowDimensions } from 'react-native';
+import { useRouter } from 'solito/router';
+import UseAuthService from 'application/store/services/UseAuthService';
+import { UseEventService } from 'application/store/services';
 
 
 type indexProps = {
@@ -20,6 +23,20 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
   const { width } = useWindowDimensions();
 
+  const { push } = useRouter();
+
+  const { isLoggedIn } = UseAuthService();
+
+  const { event, modules, loadModules, loadSettingsModules } = UseEventService();
+
+  const access_token_exists =  Boolean(localStorage.getItem(`access_token`));
+  
+  React.useEffect(() => {
+    if (isLoggedIn === false || access_token_exists === false) {
+      push(`/${event.url}/auth/login`)
+    }
+  }, [])
+  
   return (
     <BackgroundLayout>
       <Flex w="100%" h="100%" direction="column">

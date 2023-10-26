@@ -84,25 +84,25 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
       (ack:any, item:any) => {
       if(item.question_type === "multiple" && item.result.length > 0){
         ack[item.id] = {
-          answer:item.result.map((item:any)=>item.id),
+          answer:item.result.map((item:any)=>`${item.answer_id}`),
           comment:item.result[0].comments
         }
       }
       else if(item.question_type === "single" && item.result.length > 0){
         ack[item.id] = {
-          answer:item.result.map((item:any)=>item.answer_id),
+          answer:item.result.map((item:any)=>`${item.answer_id}`),
           comment:item.result[0].comments
         }
       }
       else if(item.question_type === "dropdown" && item.result.length > 0){
         ack[item.id] = {
-          answer:item.result.map((item:any)=>item.answer_id),
+          answer:item.result.map((item:any)=>`${item.answer_id}`),
           comment:item.result[0].comments
         }
       }
       else if(item.question_type === "matrix" && item.result.length > 0){
         ack[item.id] = {
-          answer:item.result.reduce((ack:any,item:any)=> {ack[item.answer_id] = item.answer; return ack;} , {}),
+          answer:item.result.reduce((ack:any,item:any)=> {ack[item.answer_id] = `${item.answer}`; return ack;} , {}),
           comment:item.result[0].comments
         }
       }
@@ -308,21 +308,21 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
      <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
       {mySubReg?.questions?.question.length! > 0 &&  mySubReg?.questions?.question.map((item:any, index:any)=>(
           <React.Fragment key={item.id}>
-          {item.question_type === 'matrix' && <MatrixAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
-          {item.question_type === 'multiple' && <MultipleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-          {item.question_type === 'single' && <SingleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-          {item.question_type === 'dropdown' && <DropdownAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-          {item.question_type === 'open' && <OpenQuestionAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-          {item.question_type === 'number' && <NumberAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-          {item.question_type === 'date' && <DateAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-          {item.question_type === 'date_time' && <DateTimeAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'matrix' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MatrixAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
+          {item.question_type === 'multiple' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MultipleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+          {item.question_type === 'single' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <SingleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+          {item.question_type === 'dropdown' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DropdownAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'open' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <OpenQuestionAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+          {item.question_type === 'number' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <NumberAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'date' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DateAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'date_time' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DateTimeAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
         </React.Fragment>
       )) }
       <Box py="0" px="4" w="100%">
         <Divider mb="15" opacity={0.27} bg="primary.text" />
         <HStack mb="3" space="3" alignItems="center" justifyContent={'center'}>
 
-            {mySubReg.settings.answer === 1 && mySubReg.show_save === 1 && <Button
+            {mySubReg?.settings?.answer === 1 && mySubReg?.show_save === 1 && <Button
               w="48px"
               py="3"
               px="1"

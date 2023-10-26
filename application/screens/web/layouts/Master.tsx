@@ -39,13 +39,15 @@ const Master = ({ children, section }: Props) => {
 
   const sub_reg_skip =  localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
 
+  const access_token_exists =  Boolean(localStorage.getItem(`access_token`));
+
 
   React.useEffect(() => {
     getUser();
   }, [])
 
   React.useEffect(() => {
-    if (response.redirect === "login") {
+    if (response.redirect === "login" || access_token_exists === false) {
       push(`/${event.url}/auth/login`)
     }
     else if((sub_reg_skip) !== true){
