@@ -1,6 +1,6 @@
 export interface Detail {
     program?: Program;
-    program_tabs_settings: TabSetting[];
+    program_tabs_settings?: TabSetting[];
     agenda_poll_questions?: PollQuestion[];
     attendee_program_groups?: number;
     attached_attendee_count?: number;
