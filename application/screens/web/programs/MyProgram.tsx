@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Master from 'application/screens/web/layouts/Master';
-import MyProgram from 'application/components/templates/programs/MyProgram';
+import MyProgram from 'application/components/templates/programs/web/MyProgram';
 
 type indexProps = {
     navigation: unknown
