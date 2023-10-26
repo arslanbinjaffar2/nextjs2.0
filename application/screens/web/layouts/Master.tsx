@@ -37,9 +37,9 @@ const Master = ({ children, section }: Props) => {
 
   const { push } = useRouter();
 
-  const sub_reg_skip =  localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
+  const sub_reg_skip = localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
 
-  const access_token_exists =  Boolean(localStorage.getItem(`access_token`));
+  const access_token_exists = Boolean(localStorage.getItem(`access_token`));
 
 
   React.useEffect(() => {
@@ -50,8 +50,8 @@ const Master = ({ children, section }: Props) => {
     if (response.redirect === "login" || access_token_exists === false) {
       push(`/${event.url}/auth/login`)
     }
-    else if((sub_reg_skip) !== true){
-      push(`/${event.url}/subRegistration`)
+    else if ((sub_reg_skip) !== true) {
+      //push(`/${event.url}/subRegistration`)
     }
   }, [response])
 
