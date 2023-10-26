@@ -2,7 +2,7 @@ import React, { ReactElement, FC, useRef } from 'react';
 import { Box, Button, Center, Checkbox, Divider, HStack, Icon, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import "react-datetime/css/react-datetime.css";
-import * as Datetime from "react-datetime";
+import Datetime from "react-datetime";
 
 type Props = {
   value: any;
@@ -50,8 +50,8 @@ const MyDTPicker: FC<any> = (props: Props): any => {
     return (
       <Box fontFamily={'Avenir'} w="100%">
         <label className={`label-input ${props.timeOnly ? 'ebs-time-icon' : ''}`}>
-          <Input rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} readOnly {...props} placeholder=' ' />
-          <span>{props.placeholder}{props.required && <em className="req">*</em>}</span>
+          <Input rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} isReadOnly={true} {...props} placeholder={props.placeholder} />
+          <span>{props.required && <em className="req">*</em>}</span>
         </label>
       </Box>
     );

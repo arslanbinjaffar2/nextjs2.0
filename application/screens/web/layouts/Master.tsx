@@ -12,6 +12,7 @@ import { useRouter } from 'solito/router'
 import WebLoading from 'application/components/atoms/WebLoading';
 import ScrollCloseToBottom from 'application/utils/ScrollCloseToBottom';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 
 type Props = {
   children:
@@ -32,15 +33,25 @@ const Master = ({ children, section }: Props) => {
 
   const { scroll, setScrollCounter, loading } = UseLoadingService();
 
+  const { skip } = UseSubRegistrationService();
+
   const { push } = useRouter();
+
+  const sub_reg_skip =  localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
+
+  const access_token_exists =  Boolean(localStorage.getItem(`access_token`));
+
 
   React.useEffect(() => {
     getUser();
   }, [])
 
   React.useEffect(() => {
-    if (response.redirect === "login") {
+    if (response.redirect === "login" || access_token_exists === false) {
       push(`/${event.url}/auth/login`)
+    }
+    else if((sub_reg_skip) !== true){
+      push(`/${event.url}/subRegistration`)
     }
   }, [response])
 

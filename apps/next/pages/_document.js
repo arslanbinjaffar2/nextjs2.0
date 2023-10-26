@@ -144,7 +144,14 @@ export const style = `
 }
 body {
   display: flex;
-}`;
+}
+.rdtDays, .ebs-date-wrapper,.rdtCount {
+  font-family: 'Avenir', sans-serif;
+}
+.rdtTime .rdtSwitch,.rdtTimeToggle {
+  display: none !important;
+}
+`;
 
 export async function getInitialProps({ renderPage }) {
   AppRegistry.registerComponent("Main", () => Main);
