@@ -16,12 +16,16 @@ function* OnGetExhibitors({
     payload,
 }: {
     type: typeof ExhibitorActions.FetchExhibitors
-    payload: { category_id: number, query: string }
+    payload: { category_id: number, query: string, screen: string }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getExhibitorApi, payload, state)
-    yield put(ExhibitorActions.update(response.data.data.exhibitors!))
+    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 20 }, state)
+    if (payload.screen === 'our-exhibitors') {
+        yield put(ExhibitorActions.updateOurExhibitors(response.data.data.exhibitors!))
+    } else {
+        yield put(ExhibitorActions.update(response.data.data.exhibitors!))
+    }
     yield put(ExhibitorActions.updateCategories(response.data.data.exhibitorCategories!))
     yield put(ExhibitorActions.updateSettings(response.data.data.settings!))
     yield put(ExhibitorActions.updateCategory(payload.category_id))
@@ -38,7 +42,7 @@ function* OnMakeFavourite({
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     if (payload.screen === "listing") {
-        yield put(ExhibitorActions.FetchExhibitors({ category_id: 0, query: '' }))
+        yield put(ExhibitorActions.FetchExhibitors({ category_id: 0, query: '', screen: state?.exhibitors?.screen }))
     } else {
         yield put(ExhibitorActions.FetchExhibitorDetail({ id: payload.exhibitor_id }))
     }

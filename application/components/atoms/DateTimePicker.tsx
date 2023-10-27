@@ -17,9 +17,10 @@ type Props = {
   readOnly?:boolean
 }
 
-const MyDTPicker: FC<any> = (props: Props): ReactElement => {
+const MyDTPicker: FC<any> = (props: Props): any => {
 
   const textInput = useRef<any>(null);
+  
   const [tab, setTab] = React.useState('days');
 
   const renderView = (mode: any, renderDefault: any, showTime: any,showDate:any,) => {
@@ -49,14 +50,14 @@ const MyDTPicker: FC<any> = (props: Props): ReactElement => {
     return (
       <Box fontFamily={'Avenir'} w="100%">
         <label className={`label-input ${props.timeOnly ? 'ebs-time-icon' : ''}`}>
-          <Input rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} readOnly {...props} placeholder=' ' />
-          <span>{props.placeholder}{props.required && <em className="req">*</em>}</span>
+          <Input rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} isReadOnly={true} {...props} placeholder={props.placeholder} />
+          <span>{props.required && <em className="req">*</em>}</span>
         </label>
       </Box>
     );
   }
 
-  return <Datetime locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue} ref={textInput} renderView={(mode, renderDefault) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={props.showtime ? false : true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={renderInput} />;
+  return <Datetime locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue} ref={textInput} renderView={(mode:any, renderDefault:any) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={props.showtime ? false : true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={renderInput} />;
 };
 
 type DateTimeProps = {

@@ -14,7 +14,7 @@ const Index = ({ navigation }: any) => {
     const isFocused = useIsFocused();
 
     React.useEffect(() => {
-        FetchDocuments({ speaker_id: 0, sponsor_id: 0, exhibitor_id: 0 });
+        FetchDocuments({ speaker_id: 0, sponsor_id: 0, exhibitor_id: 0, agenda_id: 0 });
     }, [isFocused])
 
     return (

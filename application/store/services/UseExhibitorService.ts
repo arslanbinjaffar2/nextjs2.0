@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { ExhibitorActions, SelectExhibitors, SelectExhibitorCategories, SelectExhibitorSettings, SelectExhibitorCategoryID, SelectExhibitorQuery, SelectExhibitorDetail } from 'application/store/slices/Exhibitor.Slice'
+import { ExhibitorActions, SelectExhibitors, SelectExhibitorCategories, SelectExhibitorSettings, SelectExhibitorCategoryID, SelectExhibitorQuery, SelectExhibitorDetail, SelectOurExhibitors } from 'application/store/slices/Exhibitor.Slice'
 
 import { Exhibitor } from 'application/models/exhibitor/Exhibitor'
 
@@ -14,12 +14,13 @@ import { ExhibitorDetail } from 'application/models/exhibitor/ExhibitorDetail'
 
 export type ExhibitorServiceOperators = {
     exhibitors: Exhibitor[]
+    our_exhibitors: Exhibitor[]
     categories: ExhibitorCategory[]
     settings: ExhibitorSetting
     detail: ExhibitorDetail
     category_id: number
     query: string
-    FetchExhibitors: (payload: { category_id: number, query: string }) => void
+    FetchExhibitors: (payload: { category_id: number, query: string, screen: string }) => void
     FetchExhibitorDetail: (payload: { id: number }) => void
     MakeFavourite: (payload: { exhibitor_id: number, screen: string }) => void
 }
@@ -34,13 +35,14 @@ export const UseExhibitorService = (): Readonly<ExhibitorServiceOperators> => {
 
     return {
         exhibitors: useAppSelector(SelectExhibitors),
+        our_exhibitors: useAppSelector(SelectOurExhibitors),
         categories: useAppSelector(SelectExhibitorCategories),
         settings: useAppSelector(SelectExhibitorSettings),
         category_id: useAppSelector(SelectExhibitorCategoryID),
         query: useAppSelector(SelectExhibitorQuery),
         detail: useAppSelector(SelectExhibitorDetail),
         FetchExhibitors: useCallback(
-            (payload: { category_id: number, query: string }) => {
+            (payload: { category_id: number, query: string, screen: string }) => {
                 dispatch(ExhibitorActions.FetchExhibitors(payload))
             },
             [dispatch],

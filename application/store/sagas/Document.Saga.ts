@@ -16,7 +16,7 @@ function* OnGetDocuments({
     payload,
 }: {
     type: typeof DocumentActions.FetchDocuments
-    payload: { speaker_id: number, sponsor_id: number, exhibitor_id: number }
+    payload: { speaker_id: number, sponsor_id: number, exhibitor_id: number, agenda_id: number }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'documents' }))
     const state = yield select(state => state);

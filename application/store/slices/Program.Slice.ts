@@ -10,8 +10,11 @@ import {
     current
 } from '@reduxjs/toolkit';
 
+import { Detail } from 'application/models/program/Detail';
+
 export interface ProgramState {
     programs: Program[],
+    detail: Detail,
     tracks: Track[],
     track: Track,
     query: string,
@@ -23,6 +26,7 @@ export interface ProgramState {
 
 const initialState: ProgramState = {
     programs: [],
+    detail:{},
     tracks: [],
     track: {},
     query: '',
@@ -69,6 +73,10 @@ export const ProgramSlice = createSlice({
             state.track = action.payload.track;
         },
         MakeFavourite(state, action: PayloadAction<{ program_id: number, screen: string }>) { },
+        FetchProgramDetail(state, action: PayloadAction<{ id: number }>) { },
+        UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
+            state.detail = action.payload.detail;
+        },
     },
 })
 
@@ -79,6 +87,8 @@ export const ProgramActions = {
     MakeFavourite: ProgramSlice.actions.MakeFavourite,
     FetchTracks: ProgramSlice.actions.FetchTracks,
     UpdateTracks: ProgramSlice.actions.UpdateTracks,
+    FetchProgramDetail: ProgramSlice.actions.FetchProgramDetail,
+    UpdateDetail: ProgramSlice.actions.UpdateDetail,
 }
 
 export const SelectMyPrograms = (state: RootState) => state.programs.programs
@@ -94,6 +104,8 @@ export const SelectTrack = (state: RootState) => state.programs.track_id
 export const SelectTracks = (state: RootState) => state.programs.tracks
 
 export const SelectTrackDetail = (state: RootState) => state.programs.track
+
+export const SelectProgramDetail = (state: RootState) => state.programs.detail
 
 // Reducer
 export default ProgramSlice.reducer

@@ -12,19 +12,23 @@ import type { RootState } from 'application/store/Index'
 
 export interface SponsorState {
     sponsors: Sponsor[],
+    our_sponsors: Sponsor[],
     categories: SponsorCategory[],
     settings: SponsorSetting,
     category_id: number,
     query: string,
+    screen: string,
     detail: SponsorDetail,
 }
 
 const initialState: SponsorState = {
     sponsors: [],
+    our_sponsors: [],
     categories: [],
     settings: {},
     category_id: 0,
     query: '',
+    screen: 'sponsors',
     detail: {},
 }
 
@@ -33,11 +37,16 @@ export const SponsorSlice = createSlice({
     name: 'sponsors',
     initialState,
     reducers: {
-        FetchSponsors(state, action: PayloadAction<{ category_id: number, query: string }>) { },
+        FetchSponsors(state, action: PayloadAction<{ category_id: number, query: string, screen: string }>) {
+            state.screen = action.payload.screen;
+        },
         FetchSponsorDetail(state, action: PayloadAction<{ id: number }>) { },
         MakeFavourite(state, action: PayloadAction<{ sponsor_id: number, screen: string }>) { },
         update(state, action: PayloadAction<Sponsor[]>) {
             state.sponsors = action.payload;
+        },
+        updateOurSponsors(state, action: PayloadAction<Sponsor[]>) {
+            state.our_sponsors = action.payload;
         },
         updateCategory(state, action: PayloadAction<number>) {
             state.category_id = action.payload;
@@ -62,6 +71,7 @@ export const SponsorActions = {
     FetchSponsors: SponsorSlice.actions.FetchSponsors,
     FetchSponsorDetail: SponsorSlice.actions.FetchSponsorDetail,
     update: SponsorSlice.actions.update,
+    updateOurSponsors: SponsorSlice.actions.updateOurSponsors,
     updateCategories: SponsorSlice.actions.updateCategories,
     updateCategory: SponsorSlice.actions.updateCategory,
     updateQuery: SponsorSlice.actions.updateQuery,
@@ -71,6 +81,8 @@ export const SponsorActions = {
 }
 
 export const SelectSponsors = (state: RootState) => state.sponsors.sponsors
+
+export const SelectOurSponsors = (state: RootState) => state.sponsors.our_sponsors
 
 export const SelectSponsorCategories = (state: RootState) => state.sponsors.categories
 

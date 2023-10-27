@@ -11,7 +11,7 @@ const Index = ({ navigation }: any) => {
     <Master navigation={navigation}>
       <Header minimal={false} navigation={navigation} />
       <Center w={'100%'} px={15}>
-        <IndexTemplate speaker={1} />
+        <IndexTemplate speaker={1} screen='attendees' />
       </Center>
     </Master>
   );

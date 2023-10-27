@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SponsorActions, SelectSponsors, SelectSponsorCategories, SelectSponsorSettings, SelectSponsorCategoryID, SelectSponsorQuery, SelectSponsorDetail } from 'application/store/slices/Sponsor.Slice'
+import { SponsorActions, SelectSponsors, SelectSponsorCategories, SelectSponsorSettings, SelectSponsorCategoryID, SelectSponsorQuery, SelectSponsorDetail, SelectOurSponsors } from 'application/store/slices/Sponsor.Slice'
 
 import { Sponsor } from 'application/models/sponsor/Sponsor'
 
@@ -14,12 +14,13 @@ import { SponsorDetail } from 'application/models/sponsor/SponsorDetail'
 
 export type SponsorServiceOperators = {
     sponsors: Sponsor[]
+    our_sponsors: Sponsor[]
     categories: SponsorCategory[]
     settings: SponsorSetting
     detail: SponsorDetail
     category_id: number
     query: string
-    FetchSponsors: (payload: { category_id: number, query: string }) => void
+    FetchSponsors: (payload: { category_id: number, query: string, screen: string }) => void
     FetchSponsorDetail: (payload: { id: number }) => void
     MakeFavourite: (payload: { sponsor_id: number, screen: string }) => void
 }
@@ -34,13 +35,14 @@ export const UseSponsorService = (): Readonly<SponsorServiceOperators> => {
 
     return {
         sponsors: useAppSelector(SelectSponsors),
+        our_sponsors: useAppSelector(SelectOurSponsors),
         categories: useAppSelector(SelectSponsorCategories),
         settings: useAppSelector(SelectSponsorSettings),
         category_id: useAppSelector(SelectSponsorCategoryID),
         query: useAppSelector(SelectSponsorQuery),
         detail: useAppSelector(SelectSponsorDetail),
         FetchSponsors: useCallback(
-            (payload: { category_id: number, query: string }) => {
+            (payload: { category_id: number, query: string, screen: string }) => {
                 dispatch(SponsorActions.FetchSponsors(payload))
             },
             [dispatch],

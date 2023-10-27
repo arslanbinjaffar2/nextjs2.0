@@ -1,0 +1,130 @@
+export interface Program {
+  id: number;
+  event_id: number;
+  start_date: string;
+  start_time: string;
+  link_type: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  workshop_id: number;
+  qa: any[];
+  ticket: number;
+  enable_checkin: number;
+  enable_speakerlist: number;
+  hide_on_registrationsite: number;
+  hide_on_app: number;
+  only_for_qa: number;
+  only_for_speaker_list: number;
+  vonageSessionId: string;
+  show_program_on_check_in_app: number;
+  validate_session_checkin: number;
+  hide_time: number;
+  activate_json_feed: number;
+  only_for_poll: number;
+  registration_form_ids: string;
+  info: Info;
+}
+
+export interface Info {
+  topic: string;
+  description: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  location: string;
+}
+
+export interface QaSettings {
+  id: number;
+  countdown_time: number;
+  parallel_session_projector: number;
+  project_list_time: number;
+  max_project_list_time: number;
+  event_id: number;
+  qa_answers_view: number;
+  send_attendee_email: number;
+  show_attendee_popup: number;
+  moderator: number;
+  projector_program: number;
+  organizer_info: number;
+  archive: number;
+  up_vote: number;
+  qa_listing: number;
+  anonymous: number;
+  qa_tabs: number;
+  order_by_likes: number;
+  background_color: string;
+  headings_color: string;
+  description_color: string;
+  program_section_color: string;
+  font_size: number;
+  show_profile_images: number;
+  show_dashboard: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  program_heading_text_color: string;
+  program_heading_background_color: string;
+  program_text_color: string;
+  program_date_time_color: string;
+  program_icon_color: string;
+  program_description_color: string;
+  program_detail_background_color: string;
+  active_question_attendee_detail_color: string;
+  active_question_text_color: string;
+  active_question_speaker_heading_background_color: string;
+  active_question_speaker_heading_text_color: string;
+  active_question_speaker_listing_text_color: string;
+  active_question_icon_color: string;
+  active_question_like_count_color: string;
+  active_question_box_background_color: string;
+  question_attendee_detail_color: string;
+  question_text_color: string;
+  question_speaker_heading_background_color: string;
+  question_speaker_heading_text_color: string;
+  question_speaker_listing_text_color: string;
+  question_icon_color: string;
+  question_like_count_color: string;
+  question_box_background_color: string;
+  allow_qa_all: number;
+  paragraph_number: number;
+  enable_paragraph_number: number;
+  line_number: number;
+  enable_line_number: number;
+  hide_projector_upvote: number;
+  popular: number;
+  recent: number;
+  my_question: number;
+  enable_projectors: number;
+  enable_ask_question: number;
+}
+
+export interface ProgramSettings {
+  id: number;
+  event_id: number;
+  agenda_list: number;
+  session_ratings: number;
+  agenda_tab: number;
+  admin_fav_attendee: number;
+  attach_attendee_mobile: number;
+  qa: number;
+  program_fav: number;
+  show_tracks: number;
+  show_attach_attendee: number;
+  agenda_display_time: number;
+  show_program_dashboard: number;
+  show_my_program_dashboard: number;
+  agenda_collapse_workshop: number;
+  agendaTimer: number;
+  agenda_search_filter: number;
+  agenda_display_alerts: number;
+  enable_notes: number;
+  enable_program_attendee: number;
+  program_groups: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  program_view: string;
+}
+

@@ -18,7 +18,7 @@ const Index = ({ navigation }: any) => {
 
   React.useEffect(() => {
     if (isFocused) {
-      FetchSponsors({ category_id: 0, query: '' });
+      FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
     }
   }, [isFocused]);
 

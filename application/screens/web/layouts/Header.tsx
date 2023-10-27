@@ -19,8 +19,8 @@ const Header = ({ width }: any) => {
       <Container maxW="100%" w="100%">
         <HStack w="100%" alignItems="flex-start" space="5">
           <Center overflow="hidden" alignItems="flex-start" w="100%" maxW={width! > 1200 ? '265px' : '70px'}>
-            <Pressable onPress={() => { console.log('hello') }}>
-              <Image alt='logo' source={{uri:`${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}`}} w="225px" h="48px" alignSelf={'center'} />
+            <Pressable onPress={() => { router.push(`/${event.url}/dashboard`) }}>
+              <Image alt='logo' source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` }} w="225px" h="48px" alignSelf={'center'} />
             </Pressable>
           </Center>
           <Center w="100%" maxW={width! > 1200 ? '600px' : '40%'}>
@@ -33,7 +33,7 @@ const Header = ({ width }: any) => {
           <Spacer />
           <Center alignItems="flex-end" w="100%" maxW={width! >= 1201 ? '265px' : '40%'}>
             <HStack space="10">
-              <Box><Pressable onPress={() => { router.push(`/${event.url}/settings`)}}><Icosettings width={32} height={32} /></Pressable></Box>
+              <Box><Pressable onPress={() => { router.push(`/${event.url}/settings/editprofile`) }}><Icosettings width={32} height={32} /></Pressable></Box>
               <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={34} height={34} /></Pressable></Box>
               <Notification />
             </HStack>

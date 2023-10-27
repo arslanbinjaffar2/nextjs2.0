@@ -38,6 +38,8 @@ export default function makeApi(baseURL: string) {
                     data: []
                 }
             }
+        } else if (error.response.status === 422) {
+            return error.response;
         }
     });
 

@@ -20,7 +20,11 @@ import AlertSlice from './slices/Alert.Slice'
 import FloorPlanSlice from './slices/FloorPlan.Slice'
 import BannerSlice from './slices/Banner.Slice'
 import EditProfileSlice from './slices/EditProfile.Slice'
+import QaSlice from './slices/Qa.Slice'
+import SocialMediaSlice from './slices/SocialMedia.Slice'
+import CheckInOutSlice from './slices/CheckInOut.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
+import SubRegistrationSlice from './slices/SubRegistration.Slice'
 
 const makeStore = () => {
 
@@ -47,6 +51,10 @@ const makeStore = () => {
             floorPlans:FloorPlanSlice,
             banners:BannerSlice,
             editProfiles:EditProfileSlice,
+            qa:QaSlice,
+            socialMedia:SocialMediaSlice,
+            checkInOut:CheckInOutSlice,
+            subRegistration:SubRegistrationSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
