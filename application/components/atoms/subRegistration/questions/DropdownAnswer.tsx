@@ -54,9 +54,13 @@ const DropdownAnswer = ({ question, formData, updateFormData, error }: PropTypes
 export default DropdownAnswer
 
 const checkIfdisabled = (answer:Answer, result:any[]):boolean =>{
+  let disabled = false;
   const is_my_answer = result?.find((item:any)=> item.answer_id == answer.id) ? true : false;
-  if(answer?.sub_registration_limit !== "0"){
-    return (Number(answer?.total_answer_submissions) >= Number(answer?.sub_registration_limit) && !is_my_answer) ? true : false;
+  if(answer.link_to <= 0  && Number(answer?.sub_registration_limit) > 0){
+    disabled = (Number(answer?.total_answer_submissions) >= Number(answer?.sub_registration_limit) && !is_my_answer) ? true : false;
   }
-  return false;
+  else if((answer.link_to > 0 && answer.tickets !== undefined)){
+      disabled =  (answer.tickets !== 'unlimited' && Number(answer.tickets) <= 0 && !is_my_answer) ? true : false;
+  }
+  return disabled;
 }

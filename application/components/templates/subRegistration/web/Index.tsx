@@ -75,7 +75,9 @@ const Detail = () => {
       };
     }
     if(type === 'multiple'){
-          newFormData[question_id].answer = answer      
+          newFormData[question_id].answer = answer 
+          setUpdates(updates + 1);
+
     }
     else if(type === 'single'){
       newFormData[question_id].answer = [answer]
@@ -210,13 +212,14 @@ const Detail = () => {
            }
            else if(item.question_type === "single" && formData[item.id]?.answer.length > 0){
              let newObj ={ [`answer${item.id}`]: formData[item.id]?.answer, [`comments${item.id}`]:formData[item.id]?.comment }
-             if((item.answer.find((answer:any)=>(formData[item.id]?.answer[0] === answer.id))?.link_to ?? 0) > 0){
-               newObj ={...newObj,[`answer_agenda_${formData[item.id]?.answer[0]}`] : item.answer.find((answer:any)=>(formData[item.id]?.answer[0] === answer.id))?.link_to ?? 0};
+             
+             if((item.answer.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0) > 0){
+               newObj ={...newObj,[`answer_agenda_${formData[item.id]?.answer[0]}`] : item.answer.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0};
              }
              return Object.assign(ack, {...newObj} );
            }
            else if(item.question_type === "dropdown" && formData[item.id]?.answer.length > 0){
-             let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id]?.answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id]?.answer[0] === answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
+             let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id]?.answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
              return Object.assign(ack, {...newObj} );
            }
            else if(item.question_type === "matrix" && Object.keys(formData[item.id]?.answer).length > 0){
@@ -266,7 +269,7 @@ const Detail = () => {
                 {afterLogin?.questions?.question.length! > 0 &&  afterLogin?.questions?.question.map((item, index)=>(
                     <React.Fragment key={item.id}>
                     {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
-                    {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer settings={afterLogin.settings!} programs={afterLogin.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
                     {item.question_type === 'single' && item.display_question === "yes" && <SingleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
                     {item.question_type === 'dropdown' && item.display_question === "yes" && <DropdownAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
                     {item.question_type === 'open' && <OpenQuestionAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}

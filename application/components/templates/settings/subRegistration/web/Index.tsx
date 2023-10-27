@@ -139,6 +139,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
     }
     if(type === 'multiple'){
           newFormData[question_id].answer = answer      
+          setUpdates(updates + 1);
     }
     else if(type === 'single'){
       newFormData[question_id].answer = [answer]
