@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Select, Text, TextArea, VStack } from 'native-base';
 import Icodocument from 'application/assets/icons/small/Icodocument';
-import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
+import { Question, FormData, Answer } from 'application/models/subRegistration/SubRegistration';
 import { Platform } from 'react-native';
 
 type PropTypes = {
@@ -24,7 +24,7 @@ const DropdownAnswer = ({ question, formData, updateFormData, error }: PropTypes
           selectedValue={formData[question.id]?.answer[0]}
           onValueChange={answer => updateFormData(question.id, question.question_type, answer)}
         >
-          {question?.answer.map((answer, key)=>(<Select.Item  key={key} label={answer?.info[0]?.value} value={`${answer.id}`} />))}
+          {question?.answer.map((answer, key)=>(<Select.Item  isDisabled={checkIfdisabled(answer, question.result)} key={key} label={answer?.info[0]?.value} value={`${answer.id}`} />))}
         </Select>
       </Box>
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
@@ -52,3 +52,11 @@ const DropdownAnswer = ({ question, formData, updateFormData, error }: PropTypes
 }
 
 export default DropdownAnswer
+
+const checkIfdisabled = (answer:Answer, result:any[]):boolean =>{
+  const is_my_answer = result?.find((item:any)=> item.answer_id == answer.id) ? true : false;
+  if(answer?.sub_registration_limit !== "0"){
+    return (Number(answer?.total_answer_submissions) >= Number(answer?.sub_registration_limit) && !is_my_answer) ? true : false;
+  }
+  return false;
+}

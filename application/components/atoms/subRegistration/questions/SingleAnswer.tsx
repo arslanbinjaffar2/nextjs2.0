@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Radio, Text, TextArea, VStack } from 'native-base';
 import Icodocument from 'application/assets/icons/small/Icodocument';
-import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
+import { Question, FormData, Answer } from 'application/models/subRegistration/SubRegistration';
 import { Platform } from 'react-native';
 
 type PropTypes = {
@@ -19,7 +19,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <Radio.Group space="5" defaultValue={`${formData[question.id]?.answer[0]}`} name="MyRadioGroup"  onChange={answer_id => {updateFormData(question.id, question.question_type, answer_id);}}>
           {question.answer.map((answer, k) =>
-            <Radio key={k}  value={`${answer.id}`}> {answer?.info[0]?.value} </Radio>
+            <Radio key={k} isDisabled={checkIfdisabled(answer, question.result)}  value={`${answer.id}`}> {answer?.info[0]?.value} </Radio>
           )}
         </Radio.Group>
       </Box>
@@ -49,3 +49,11 @@ const SingleAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
 }
 
 export default SingleAnswer
+
+const checkIfdisabled = (answer:Answer, result:any[]):boolean =>{
+  const is_my_answer = result?.find((item:any)=> item.answer_id == answer.id) ? true : false;
+  if(answer?.sub_registration_limit !== "0"){
+    return (Number(answer?.total_answer_submissions) >= Number(answer?.sub_registration_limit) && !is_my_answer) ? true : false;
+  }
+  return false;
+}

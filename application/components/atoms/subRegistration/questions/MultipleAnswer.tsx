@@ -20,7 +20,7 @@ const MultipleAnswer = ({ question, formData, updateFormData, error }: PropTypes
         <VStack space="4">
         <Checkbox.Group defaultValue={formData[question.id]?.answer} onChange={(answers) => { updateFormData(question.id, question.question_type, answers)}} aria-label={question?.info?.[0]?.value}>
           {question?.answer.map((answer, k) =>
-            <Checkbox key={k} size="md"    value={`${answer.id}`}>{answer?.info[0]?.value} </Checkbox>
+            <Checkbox key={k} size="md" isDisabled={checkIfdisabled(answer, question.result)}   value={`${answer.id}`}>{answer?.info[0]?.value} </Checkbox>
           )}
         </Checkbox.Group>
         </VStack>
@@ -51,3 +51,11 @@ const MultipleAnswer = ({ question, formData, updateFormData, error }: PropTypes
 }
 
 export default MultipleAnswer
+
+const checkIfdisabled = (answer:Answer, result:any[]):boolean =>{
+  const is_my_answer = result?.find((item:any)=> item.answer_id == answer.id) ? true : false;
+  if(answer?.sub_registration_limit !== "0"){
+    return (Number(answer?.total_answer_submissions) >= Number(answer?.sub_registration_limit) && !is_my_answer) ? true : false;
+  }
+  return false;
+}

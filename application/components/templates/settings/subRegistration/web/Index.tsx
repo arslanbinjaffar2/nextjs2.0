@@ -58,7 +58,7 @@ const Detail = () => {
 
   return (
     <>
-      {(firstLoad||loading) ? (
+      {(firstLoad||loading || mySubReg == null) ? (
                 <WebLoading />
             ) : (
            <RegForm
