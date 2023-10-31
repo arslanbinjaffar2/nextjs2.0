@@ -77,7 +77,7 @@ const Index = ({ navigation }: any) => {
                                 <Listing rounded={0} cms={cms!} />
                             </HStack>
                         </ScrollView>
-                        <BannerView />
+                        {/* <BannerView /> */}
                     </Center>
                 </>
             )}

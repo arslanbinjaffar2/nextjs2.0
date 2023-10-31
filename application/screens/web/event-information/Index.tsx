@@ -30,6 +30,8 @@ const Index = ({ navigation }: indexProps) => {
     FetchInfo({ type: cms, id: id });
   }, [cms, id])
 
+  const [searchText, setSearchText] = React.useState<string>("")
+
   return (
     <Master>
       {loading ? (
@@ -51,10 +53,10 @@ const Index = ({ navigation }: indexProps) => {
               }
             </Text>
             <Spacer />
-            <Input rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+            <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
           </HStack>
-          <Listing rounded={10} cms={cms} />
-          <BannerView url={''} />
+          <Listing rounded={10} cms={cms} searchText={searchText} />
+          {/* <BannerView url={''} /> */}
         </Container>
       )}
 
