@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import Master from 'application/screens/web/layouts/Master';
 
+import IndexTemplate from 'application/components/templates/settings/mykeywords/Index';
+
 type indexProps = {
     navigation: unknown
 }
@@ -12,7 +14,7 @@ const Index = ({ navigation }: indexProps) => {
 
     return (
         <Master section='settings'>
-
+            <IndexTemplate/>
         </Master>
     );
 
