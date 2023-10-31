@@ -41,7 +41,6 @@ const Master = ({ children, section }: Props) => {
 
   const access_token_exists = Boolean(localStorage.getItem(`access_token`));
 
-
   React.useEffect(() => {
     getUser();
   }, [])
@@ -51,7 +50,7 @@ const Master = ({ children, section }: Props) => {
       push(`/${event.url}/auth/login`)
     }
     else if ((sub_reg_skip) !== true) {
-      //push(`/${event.url}/subRegistration`)
+      push(`/${event.url}/subRegistration`)
     }
   }, [response])
 
