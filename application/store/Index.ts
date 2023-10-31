@@ -23,8 +23,9 @@ import EditProfileSlice from './slices/EditProfile.Slice'
 import QaSlice from './slices/Qa.Slice'
 import SocialMediaSlice from './slices/SocialMedia.Slice'
 import CheckInOutSlice from './slices/CheckInOut.Slice'
-import { RootSaga } from 'application/store/sagas/Root'
 import SubRegistrationSlice from './slices/SubRegistration.Slice'
+import NetworkInterestSlice from './slices/NetworkInterest.Slice'
+import { RootSaga } from 'application/store/sagas/Root'
 
 const makeStore = () => {
 
@@ -55,6 +56,7 @@ const makeStore = () => {
             socialMedia:SocialMediaSlice,
             checkInOut:CheckInOutSlice,
             subRegistration:SubRegistrationSlice,
+            networkInterest:NetworkInterestSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
