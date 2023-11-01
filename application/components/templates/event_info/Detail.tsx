@@ -34,27 +34,33 @@ const Detail = (props: any) => {
     const onWebViewMessage = (event: any) => {
         setweb_height(parseInt(event.nativeEvent.data) + 15);
     }
+    const informationModulesImage:Record<string, string> = {
+        "additional-info": "additional_info",
+        "general-info": "general_info",
+        "practical-info": "event_info",
+        "information-pages": "information_pages/temp",
+      };
 
     return (
         <View w="100%">
             <ScrollView h={'68%'}>
                 <HStack borderTopRadius="7" space={0} alignItems="center" w="100%" bg="primary.box" >
                     <Box w="100%" bg="primary.box" py="4" borderTopRadius="10">
-                        {Platform.OS === 'web' ? (
-                            <iframe style={{ borderWidth: 0, height: (35 / 100) * height }} src={`${_env.api_base_url}/event/${event.url}/info/iframe/${cms}/${id}`} />
+                        {page.image !== '' && page.image_position === 'top' && <HStack w="90%" ml={5} mb={5}>
+                            <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%" h={(10 / 100) * height} />
+                        </HStack>}
+                        {page?.description != "" && (Platform.OS === 'web' ? (
+                            <iframe style={{ borderWidth: 0, height: (35 / 100) * height, color:'#fff' }} srcDoc={page?.description} />
                         ) : (
                             <WebView
                                 onMessage={onWebViewMessage}
                                 javaScriptEnabled={true}
                                 scrollEnabled={false}
-                                source={{ uri: `${_env.api_base_url}/event/${event.url}/info/iframe/${cms}/${id}` }}
-                                style={{ flex: 1, backgroundColor: ThemeColors.primary.box, height: web_height }}
+                                source={{ html:page?.description }}
+                                style={{ flex: 1, backgroundColor: ThemeColors.primary.box, height: web_height, color:'#fff' }}
                                 injectedJavaScript='window.ReactNativeWebView.postMessage(document.body.scrollHeight)'
                             />
-                        )}
-                        <HStack w="90%" ml={5}>
-                            <LoadImage path={`${_env.eventcenter_base_url}/assets/event_info/${page.image}`} w="100%" h={(10 / 100) * height} />
-                        </HStack>
+                        ))}
                         {page.pdf && (
                             <Box mb="3" w="100%" bg="primary.box" py="4" borderBottomRadius="10">
                                 <HStack mb="3" bg="primary.darkbox" py="1" px="4" space="2" alignItems="center">
@@ -75,11 +81,14 @@ const Detail = (props: any) => {
                                 </VStack>
                             </Box>
                         )}
+                        {page.image !== '' && page.image_position !== 'top' && <HStack w="90%" ml={5}>
+                            <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%" h={(10 / 100) * height} />
+                        </HStack>}
                     </Box>
                 </HStack>
             </ScrollView>
             <HStack w={'100%'}>
-                <BannerView url={''} />
+                {/* <BannerView url={''} /> */}
             </HStack>
         </View>
     )

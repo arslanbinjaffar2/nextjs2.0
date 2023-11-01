@@ -38,15 +38,22 @@ const PageDetail = (props: any) => {
           <HStack space="3" alignItems="center">
             <Pressable
               onPress={() => {
-                push(`/${event.url}/${cms}/event-info/${parent_folder}`)
+                if(cms !== 'information-pages'){
+                  push(`/${event.url}/${cms}/event-info/${parent_folder}`)
+                }else{
+                  push(`/${event.url}/${cms}/${parent_folder}`)
+                }
               }}
             >
-              <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-              <Text fontSize="2xl">BACK</Text>
+              <HStack>
+                <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                <Text fontSize="2xl">BACK</Text>
+              </HStack>
             </Pressable>
           </HStack>
           <Spacer />
           <Text fontSize="xl">{page.name}</Text>
+          <Spacer />
         </HStack>
         <Detail />
       </Container>

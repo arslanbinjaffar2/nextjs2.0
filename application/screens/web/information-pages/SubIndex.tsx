@@ -24,7 +24,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const { FetchInfo, info } = UseInfoService();
 
-  const cms = 'information-pages';
+  const cms = 'information-pages-sub';
 
   React.useEffect(() => {
     FetchInfo({ type: cms, id: id });
