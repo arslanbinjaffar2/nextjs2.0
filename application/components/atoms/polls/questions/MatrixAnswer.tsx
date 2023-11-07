@@ -7,10 +7,10 @@ type PropTypes = {
   question: Question,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void
-    error:string|null
-
+  error:string|null,
+  labels:any
 }
-const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) => {
+const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
@@ -66,6 +66,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
           _focus={{ bg: 'transparent' }}
           onChangeText={(text) => updateFormData(question.id, 'comment', text)}
           borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+          <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
       </Box>
     </Center>
   )

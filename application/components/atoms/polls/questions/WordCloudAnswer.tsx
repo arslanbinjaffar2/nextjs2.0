@@ -9,8 +9,9 @@ type PropTypes = {
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
   error:string|null
+  labels:any
 }
-const WordCloudAnswer = ({ question, formData, updateFormData, error }: PropTypes) => {
+const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
   const [inputTextArray, setInputTextArray] = React.useState(formData[question.id]?.answer ?? {})
   return (
     <Center maxW="100%" w="100%" mb="0">
@@ -47,6 +48,7 @@ const WordCloudAnswer = ({ question, formData, updateFormData, error }: PropType
             _focus={{ bg: 'transparent' }}
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}
             borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+            <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
         </Box>
         </>
       }

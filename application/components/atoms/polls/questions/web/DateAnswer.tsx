@@ -9,9 +9,10 @@ type PropTypes = {
   question: Question,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
-  error:string|null
+  error:string|null,
+  labels:any
 }
-const DateAnswer = ({ question, formData, updateFormData }: PropTypes) => {
+const DateAnswer = ({ question, formData, updateFormData, labels }: PropTypes) => {
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box zIndex={9999} position={'relative'} mb="3" py="3" px="4" w="100%">
@@ -31,6 +32,7 @@ const DateAnswer = ({ question, formData, updateFormData }: PropTypes) => {
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
           borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+         <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
       </Box>
     </Center>
   )

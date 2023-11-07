@@ -10,9 +10,10 @@ type PropTypes = {
   question: Question,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any) => void,
-  error:string|null
+  error:string|null,
+  labels:any,
 }
-const DateAnswer = ({ question, formData, updateFormData }: PropTypes) => {
+const DateAnswer = ({ question, formData, updateFormData, labels }: PropTypes) => {
   const [show, setshow] = React.useState(false)
   const handleChange = ({}) => {
     console.log('handleChange')
@@ -35,6 +36,7 @@ const DateAnswer = ({ question, formData, updateFormData }: PropTypes) => {
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
           borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+          <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
       </Box>
     </Center>
   )
