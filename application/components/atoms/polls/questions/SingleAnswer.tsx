@@ -23,8 +23,8 @@ const SingleAnswer = ({ question, formData, updateFormData, error, labels }: Pro
           )}
         </Radio.Group>
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
-              <Text color="red.400"> {error} </Text>
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.300" w="100%">
+              <Text color="red.900"> {error} </Text>
       </Box>}
       {Number(question.enable_comments) === 1 &&
         <>
