@@ -20,7 +20,7 @@ const Index = () => {
 
     const [query, setQuery] = React.useState('');
     
-    const { FetchPolls, polls, completed_polls } = UsePollService();
+    const { FetchPolls, polls, completed_polls, poll_labels } = UsePollService();
 
 
     useEffect(() => {
@@ -45,33 +45,39 @@ const Index = () => {
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                                    {Object.keys(polls).reduce((ack:Poll[] | [], key) => ( [...ack, ...polls[key]]), []).filter((poll)=>{
-                                        if(query !== ''){
-                                            if(poll.program.info.topic.toLowerCase().indexOf(query.toLowerCase()) > -1){
-                                                return poll;
-                                            }
-                                        }else{
-                                            return poll;
-                                        }
-                                    }).map((poll:Poll)=>(
-                                        <RectangleView key={poll.id} poll={poll} completed={false} />
-                                    ))}
+                                    {(polls && typeof polls === 'object' && Object.keys(polls).length > 0) ? Object.keys(polls).map((key:string)=>(
+                                        <React.Fragment key={key}>
+                                            <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                                <Text fontSize="lg">{polls[key][0]?.agenda_start_date_formatted}</Text>
+                                            </HStack>
+                                            {polls[key].map((poll)=>(
+                                                <RectangleView key={poll.id} poll={poll} completed={false} />
+                                            ))}
+                                        </React.Fragment>
+                                    )): (
+                                        <Box padding={5}>
+                                            <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
+                                        </Box>
+                                    )}
                                     <Divider h="100px" bg="transparent" />
                                 </Box>
                             ) }
                         {tab === 'completed' && (
                                 <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                                    {Object.keys(completed_polls).reduce((ack:Poll[] | [], key) => ( [...ack, ...completed_polls[key]]), []).filter((poll)=>{
-                                        if(query !== ''){
-                                            if(poll.program.info.topic.toLowerCase().indexOf(query.toLowerCase()) > -1){
-                                                return poll;
-                                            }
-                                        }else{
-                                            return poll;
-                                        }
-                                    }).map((poll:Poll)=>(
-                                        <RectangleView key={poll.id} poll={poll} completed={true} />
-                                    ))}
+                                    {polls && typeof completed_polls === 'object' && Object.keys(completed_polls).length > 0 ? Object.keys(completed_polls).map((key:string)=>(
+                                        <React.Fragment key={key}>
+                                            <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                                <Text fontSize="lg">{completed_polls[key][0]?.agenda_start_date_formatted}</Text>
+                                            </HStack>
+                                            {completed_polls[key].map((poll)=>(
+                                                <RectangleView key={poll.id} poll={poll} completed={false} />
+                                            ))}
+                                        </React.Fragment>
+                                    )): (
+                                        <Box padding={5}>
+                                            <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
+                                        </Box>
+                                    )}
                                     <Divider h="100px" bg="transparent" />
                                 </Box>
                             )

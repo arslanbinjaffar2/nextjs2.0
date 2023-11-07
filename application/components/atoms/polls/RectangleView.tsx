@@ -4,11 +4,12 @@ import { Box, HStack, Spacer, Text, VStack, Pressable, Icon } from 'native-base'
 import { Poll } from 'application/models/poll/Poll';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
+import moment from 'moment';
 
 const RectangleView = ({poll, completed}:{poll:Poll, completed:boolean}) => {
   const { event } = UseEventService();
   const { push } = useRouter()
-
+  console.log(`${poll.program.start_date} ${poll.program.start_time}`)
   return (
     <Pressable
       p="0"
@@ -23,7 +24,7 @@ const RectangleView = ({poll, completed}:{poll:Poll, completed:boolean}) => {
         <HStack px="3" w="100%" space="0" alignItems="center" justifyContent="space-between">
           <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="1">
             <Text fontSize="md">{poll.program.info.topic}</Text>
-            <Text fontSize="sm">{poll.agenda_start_date_formatted} </Text>
+            <Text fontSize="sm">{moment(`${poll.program.start_date} ${poll.program.start_time}`).format('HH:ss')} - {moment(`${poll.program.start_date} ${poll.end_time}`).format('HH:ss')} </Text>
           </VStack>
           <Spacer />
           {!completed && <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}

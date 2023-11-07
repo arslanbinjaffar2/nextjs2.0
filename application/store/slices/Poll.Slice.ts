@@ -33,10 +33,11 @@ export const PollSlice = createSlice({
     initialState,
     reducers: {
         FetchPolls() {},
-        update(state, action: PayloadAction<{ polls: Polls, completed_polls: Polls, poll_settings:PollSetting }>) {
+        update(state, action: PayloadAction<{ polls: Polls, completed_polls: Polls, poll_settings:PollSetting, poll_labels:PollLabels }>) {
             state.polls = action.payload.polls;
             state.completed_polls = action.payload.completed_polls;
             state.poll_settings = action.payload.poll_settings;
+            state.poll_labels = action.payload.poll_labels;
             state.submitSuccess = false
         },
         FetchPollDetail(state, action: PayloadAction<{ id: number }>) { },

@@ -21,8 +21,8 @@ function* OnGetInfo({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getInfoApi, payload, state)
-    yield put(InfoActions.update(response.data.data.records!))
-    yield put(InfoActions.updateParentFolder(response.data.data.parent?.parent_id!))
+    yield put(InfoActions.update(response?.data?.data?.records!))
+    yield put(InfoActions.updateParentFolder(response?.data?.data?.parent?.parent_id!))
     yield put(LoadingActions.set(false));
 }
 

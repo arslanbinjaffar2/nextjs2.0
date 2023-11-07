@@ -21,7 +21,7 @@ function* OnFetchPolls({
     yield put(LoadingActions.addProcess({ process: 'poll-listing' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getPollApi, {}, state)
-    yield put(PollActions.update({ polls: response.data.data.polls.pending_polls!, completed_polls: response.data.data.polls.completed_polls, poll_settings: response.data.data.pollSettings }))
+    yield put(PollActions.update({ polls: response.data.data.polls.pending_polls!, completed_polls: response.data.data.polls.completed_polls, poll_settings: response.data.data.pollSettings, poll_labels: response.data.data.poll_labels }))
     yield put(LoadingActions.removeProcess({ process: 'poll-listing' }));
 }
 
