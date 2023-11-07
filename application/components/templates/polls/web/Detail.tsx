@@ -317,7 +317,7 @@ const Detail = () => {
                   <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.text" rounded="100%" alignItems="center" justifyContent="center">
                     <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
                   </Box>
-                  <Text fontSize="lg">Thanks for submitting.</Text>
+                  <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
                 </VStack>
               </Box>}
             </Container>
