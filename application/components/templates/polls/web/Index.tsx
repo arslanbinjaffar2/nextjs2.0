@@ -7,8 +7,9 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UsePollService from 'application/store/services/UsePollService';
 import WebLoading from 'application/components/atoms/WebLoading';
-import { Poll } from 'application/models/poll/Poll';
+import { Poll, Polls } from 'application/models/poll/Poll';
 import in_array from "in_array";
+import UseEventService from 'application/store/services/UseEventService';
 
 const Index = () => {
 
@@ -19,6 +20,9 @@ const Index = () => {
     const [tab, setTab] = React.useState<'pending'| 'completed'>('pending')
 
     const [query, setQuery] = React.useState('');
+
+    const { event  } = UseEventService();
+
     
     const { FetchPolls, polls, completed_polls, poll_labels } = UsePollService();
 
@@ -26,6 +30,63 @@ const Index = () => {
     useEffect(() => {
             FetchPolls();
     }, []);
+
+
+    const [filteredPendingPolls, setFilteredPendingPolls] = React.useState<string[]>([]);
+    const [filteredCompletedPolls, setFilteredCompletedPolls] = React.useState<string[]>([]);
+
+
+    useEffect(() => {
+
+        if(polls && typeof polls === 'object' && Object.keys(polls).length > 0) {
+            
+            const filteredPendingPollsKeys =  Object.keys(polls).filter((key)=>{
+                                                
+                const filteredPolls = polls[key].filter((poll) => {
+                     if(query !== ''){
+                         if(poll.program.info.topic.toLowerCase().indexOf(query.toLowerCase()) > -1){
+                             return poll;
+                         }
+                     }else{
+                         return poll;
+                     }
+                 });
+    
+                 if(filteredPolls.length > 0){
+                     return key;
+                 }
+    
+             });
+            
+             setFilteredPendingPolls(filteredPendingPollsKeys)
+        }
+        
+        if(completed_polls && typeof completed_polls === 'object' && Object.keys(completed_polls).length > 0) {
+            
+            const filteredCompletedPollsKeys =  Object.keys(completed_polls).filter((key)=>{
+                                                
+                const filteredPolls = completed_polls[key].filter((poll) => {
+                     if(query !== ''){
+                         if(poll.program.info.topic.toLowerCase().indexOf(query.toLowerCase()) > -1){
+                             return poll;
+                         }
+                     }else{
+                         return poll;
+                     }
+                 });
+    
+                 if(filteredPolls.length > 0){
+                     return key;
+                 }
+    
+             });
+            
+             setFilteredCompletedPolls(filteredCompletedPollsKeys)
+        }
+        
+
+    },[query, completed_polls, polls]);
+    
 
     return (
         <>
@@ -45,7 +106,7 @@ const Index = () => {
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                                    {(polls && typeof polls === 'object' && Object.keys(polls).length > 0) ? Object.keys(polls).map((key:string)=>(
+                                    {(polls && typeof polls === 'object' && Object.keys(polls).length > 0) ? (filteredPendingPolls.length > 0 ? filteredPendingPolls.map((key:string)=>(
                                         <React.Fragment key={key}>
                                             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                                 <Text fontSize="lg">{polls[key][0]?.agenda_start_date_formatted}</Text>
@@ -54,7 +115,11 @@ const Index = () => {
                                                 <RectangleView key={poll.id} poll={poll} completed={false} />
                                             ))}
                                         </React.Fragment>
-                                    )): (
+                                    )) : 
+                                        <Box padding={5}>
+                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                        </Box>
+                                    ): (
                                         <Box padding={5}>
                                             <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
                                         </Box>
@@ -64,7 +129,7 @@ const Index = () => {
                             ) }
                         {tab === 'completed' && (
                                 <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                                    {polls && typeof completed_polls === 'object' && Object.keys(completed_polls).length > 0 ? Object.keys(completed_polls).map((key:string)=>(
+                                    {polls && typeof completed_polls === 'object' && Object.keys(completed_polls).length > 0 ? (filteredCompletedPolls.length > 0 ? filteredCompletedPolls.map((key:string)=>(
                                         <React.Fragment key={key}>
                                             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                                 <Text fontSize="lg">{completed_polls[key][0]?.agenda_start_date_formatted}</Text>
@@ -73,7 +138,11 @@ const Index = () => {
                                                 <RectangleView key={poll.id} poll={poll} completed={false} />
                                             ))}
                                         </React.Fragment>
-                                    )): (
+                                    )) : 
+                                        <Box padding={5}>
+                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                        </Box>
+                                    ): (
                                         <Box padding={5}>
                                             <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
                                         </Box>
