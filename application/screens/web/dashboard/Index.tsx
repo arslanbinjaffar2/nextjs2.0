@@ -24,6 +24,7 @@ import { Attendee } from 'application/models/attendee/Attendee';
 import WebLoading from 'application/components/atoms/WebLoading';
 import in_array from "in_array";
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import UseAuthService from 'application/store/services/UseAuthService';
 
 type indexProps = {
   navigation: unknown
@@ -44,6 +45,8 @@ const Index = ({ navigation }: indexProps) => {
   const { FetchAttendees, attendees, my_attendees } = UseAttendeeService();
 
   const { processing } = UseLoadingService();
+
+  const { response } = UseAuthService();
 
   const { push } = useRouter()
 
@@ -94,7 +97,7 @@ const Index = ({ navigation }: indexProps) => {
 
           {banners && <BannerSlider banners={banners} />}
 
-          <PollListingByDate polls={polls} />
+          {response?.attendee_detail?.event_attendee?.allow_vote === 1 && <PollListingByDate polls={polls} />}
 
           <HStack mb="3" space={1} justifyContent="center" w="100%">
             <Button onPress={() => setTab('qa')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>Q & A</Button>

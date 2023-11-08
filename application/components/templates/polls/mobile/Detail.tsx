@@ -186,10 +186,10 @@ const Detail = () => {
             if(q.question_type === 'single' || q.question_type === 'multiple' || q.question_type === 'dropdown' || q.question_type === 'matrix'){
               answeredQuestion['original_answers']= q.answer.map((answer)=>({id:answer.id, correct:answer.correct}));
               if(q.question_type === 'single'){
-                answeredQuestion['answers'] = [{id:(formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer[0] : ''}]
+                answeredQuestion['answers'] = formData[q.id] !== undefined && formData[q.id].answer.length > 0 ? [{id: formData[q.id].answer[0]}] : [];
               }
               else if(q.question_type === 'dropdown'){
-                answeredQuestion['answers'] = [{id:(formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer[0] : ''}]
+                answeredQuestion['answers'] = formData[q.id] !== undefined && formData[q.id].answer.length > 0 ? [{id: formData[q.id].answer[0]}] : [];
               }
               else if(q.question_type === 'multiple'){
                 answeredQuestion['answers'] = (formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer.map((i:number)=>({id:i})) : [];
@@ -203,7 +203,7 @@ const Detail = () => {
                 answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, i)=>([...ack, {value: formData[q.id].answer[i]}]), []) : [];
               }
               else{
-                answeredQuestion['answers'] = [{value:(formData[q.id] !== undefined && formData[q.id].answer !== null) ? formData[q.id].answer : ''}]
+                answeredQuestion['answers'] = (formData[q.id] !== undefined && formData[q.id].answer !== null) ? [{value: formData[q.id].answer }] : [];
               }
             }
             return answeredQuestion;
