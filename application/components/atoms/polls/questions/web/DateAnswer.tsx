@@ -10,7 +10,8 @@ type PropTypes = {
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
   error:string|null,
-  labels:any
+  labels:any,
+  forceRender:number,
 }
 const DateAnswer = ({ question, formData, updateFormData, labels }: PropTypes) => {
   const [commentText, setCommentText] = React.useState(formData[question.id]?.comment ?? '')
@@ -20,7 +21,7 @@ const DateAnswer = ({ question, formData, updateFormData, labels }: PropTypes) =
       <Box zIndex={9999} position={'relative'} mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.question} {question?.required_question == '1' && <Text display="flex" color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
-        <DateTimePicker showdate={true} onChange={(currentDate:any)=>{updateFormData(question.id, question.question_type, currentDate._isAMomentObject !== undefined && currentDate._isAMomentObject === true ? moment(currentDate).format("YYYY-MM-DD") : '')}} />
+        <DateTimePicker showdate={'DD-MM-YYYY'} onChange={(currentDate:any)=>{updateFormData(question.id, question.question_type, currentDate._isAMomentObject !== undefined && currentDate._isAMomentObject === true ? moment(currentDate).format("YYYY-MM-DD") : '')}} />
       </Box>
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
         <Icodocument width="15px" height="18px" />

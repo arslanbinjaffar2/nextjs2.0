@@ -8,7 +8,8 @@ type PropTypes = {
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void
   error:string|null,
-  labels:any
+  labels:any,
+  forceRender:number,
 }
 const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
   const [commentText, setCommentText] = React.useState(formData[question.id]?.comment ?? '')

@@ -8,8 +8,9 @@ type PropTypes = {
   question: Question,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
-  error:string|null
-  labels:any
+  error:string|null,
+  labels:any,
+  forceRender:number,
 }
 const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
   const [inputTextArray, setInputTextArray] = React.useState(formData[question.id]?.answer ?? {})
