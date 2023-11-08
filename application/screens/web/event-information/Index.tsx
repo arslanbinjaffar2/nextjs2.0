@@ -26,11 +26,14 @@ const Index = ({ navigation }: indexProps) => {
 
   const [searchText, setSearchText] = React.useState<string>("")
 
-  const { FetchInfo, info } = UseInfoService();
+  const { FetchInfo, info, ClearState } = UseInfoService();
 
   React.useEffect(() => {
     FetchInfo({ type: cms, id: id });
     setSearchText('');
+    return () => {
+      ClearState();
+    }
   }, [cms, id])
 
 

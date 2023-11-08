@@ -31,6 +31,11 @@ export const InfoSlice = createSlice({
         updateParentFolder(state, action: PayloadAction<number>) {
             state.parent_folder = action.payload;
         },
+        ClearState(state){
+            state.parent_folder= 0;
+            state.page = {};
+            state.info = [];
+        },
     },
 })
 
@@ -41,6 +46,7 @@ export const InfoActions = {
     update: InfoSlice.actions.update,
     updatePage: InfoSlice.actions.updatePage,
     updateParentFolder: InfoSlice.actions.updateParentFolder,
+    ClearState: InfoSlice.actions.ClearState,
 }
 
 export const SelectInfo = (state: RootState) => state.info.info

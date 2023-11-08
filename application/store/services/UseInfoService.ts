@@ -12,6 +12,7 @@ export type InfoServiceOperators = {
     page: Info
     FetchInfo: (payload: { id: number, type: string }) => void
     FetchPage: (payload: { id: number, type: string }) => void
+    ClearState: () => void
 }
 
 /**
@@ -35,6 +36,12 @@ export const UseInfoService = (): Readonly<InfoServiceOperators> => {
         FetchPage: useCallback(
             (payload: { id: number, type: string }) => {
                 dispatch(InfoActions.FetchPage(payload))
+            },
+            [dispatch],
+        ),
+        ClearState: useCallback(
+            () => {
+                dispatch(InfoActions.ClearState())
             },
             [dispatch],
         )

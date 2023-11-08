@@ -65,7 +65,7 @@ const LeftBar = () => {
               if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
                 router.push(`/${event.url}/${row?.alias}/event-info/0`)
               } else if (in_array(row?.alias, ['information_pages'])) {
-                router.push(`/${event.url}/information-pages/${row?.id}`)
+                router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
               } else if (row?.alias === 'my-registrations') {
                 router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
               } else {
