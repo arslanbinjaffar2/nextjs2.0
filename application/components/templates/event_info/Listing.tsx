@@ -27,9 +27,11 @@ const Listing = (props: any) => {
     return (
         <>
             <Box mb="3" bg="primary.box" p="0" w="100%" rounded={props.rounded} overflow="hidden">
-                {((info && props?.searchText == '') || (info && props?.searchText == undefined) )&& info.map((row: any, key: number) =>
+                {((info && props?.searchText == '') || (info && props?.searchText == undefined) ) && (info.length > 0  ? info.map((row: any, key: number) =>
                     <RectangleView key={key} {...row} cms={props.cms} />
-                )}
+                ): <Box padding={5}>
+                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+            </Box> )}
                 {(info && props?.searchText !== '') && (filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
                     <RectangleView key={key} {...row} cms={props.cms} />
                 ) : <Box padding={5}>
