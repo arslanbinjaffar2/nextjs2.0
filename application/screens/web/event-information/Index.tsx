@@ -24,13 +24,15 @@ const Index = ({ navigation }: indexProps) => {
 
   const id: any = router.query['id'];
 
+  const [searchText, setSearchText] = React.useState<string>("")
+
   const { FetchInfo, info } = UseInfoService();
 
   React.useEffect(() => {
     FetchInfo({ type: cms, id: id });
+    setSearchText('');
   }, [cms, id])
 
-  const [searchText, setSearchText] = React.useState<string>("")
 
   return (
     <Master>
