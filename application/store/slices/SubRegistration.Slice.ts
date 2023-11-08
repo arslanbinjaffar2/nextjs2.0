@@ -57,14 +57,15 @@ export const SubRegistrationSlice = createSlice({
     reducers: {
         FetchSubRegistrationAfterLogin() {},
         update(state, action: PayloadAction<AfterLogin>) {
-            state.afterLogin = {...action.payload, show_skip_button : action.payload.questions.question.find((question)=>(question.required_question === '1')) ? false : true };
             if (action.payload.displaySubregistration === 'no' || action.payload.questions == undefined || action.payload.questions.question.length <= 0 || action.payload.settings['show_sub_registration_on_web_app'] === 0) {
-                state.skip=true;
+                    state.skip=true;
                     if (Platform.OS === 'web') {
                         localStorage.setItem('skip_sub_reg', 'true');
                     } else {
                         AsyncStorageClass.setItem('skip_sub_reg', 'true');
                     }
+            }else{
+                state.afterLogin = {...action.payload, show_skip_button : action.payload.questions.question.find((question)=>(question.required_question === '1')) ? false : true };
             }
         },
         FetchMySubRegistration() {},
