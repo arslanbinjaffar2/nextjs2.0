@@ -70,7 +70,7 @@ const Detail = (props: any) => {
                                 <VStack px="6" w="100%" space="1">
                                     <HStack w="100%" space="2" alignItems="center">
                                         <Icon as={AntDesign} name="pdffile1" size="md" onPress={async () => {
-                                            const url = `${_env.eventcenter_base_url}/assets/event_info/${page.pdf}`;
+                                            const url = `${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.pdf}`;
                                             const supported = await Linking.canOpenURL(url);
                                             if (supported) {
                                                 await Linking.openURL(url);
