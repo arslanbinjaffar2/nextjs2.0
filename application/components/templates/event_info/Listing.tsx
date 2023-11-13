@@ -15,7 +15,7 @@ const Listing = (props: any) => {
 
     React.useEffect(() => {
        if(props.searchText !== ''){
-            const filteredData = info.filter((i)=>(i?.detail?.name?.toLowerCase().includes(props.searchText.toLowerCase())));
+            const filteredData = info ? info?.filter((i)=>(i?.detail?.name?.toLowerCase().includes(props.searchText.toLowerCase()))) : [];
             setFilteredInfo(filteredData);
        }else{
          setFilteredInfo([]);
