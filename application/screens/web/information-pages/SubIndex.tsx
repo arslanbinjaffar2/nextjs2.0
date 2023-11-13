@@ -22,12 +22,15 @@ const Index = ({ navigation }: indexProps) => {
 
   const id: any = router.query['id'];
 
-  const { FetchInfo, info } = UseInfoService();
+  const { FetchInfo, info, ClearState } = UseInfoService();
 
   const cms = 'information-pages-sub';
 
   React.useEffect(() => {
     FetchInfo({ type: cms, id: id });
+    return () => {
+      ClearState();
+    }
   }, [cms, id])
 
   const [searchText, setSearchText] = React.useState<string>("")

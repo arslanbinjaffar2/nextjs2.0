@@ -6,14 +6,14 @@ import type { RootState } from 'application/store/Index'
 
 export interface InfoState {
     parent_folder: number,
-    page: Info,
-    info: Info[],
+    page: Info | null,
+    info: Info[] | null,
 }
 
 const initialState: InfoState = {
     parent_folder: 0,
-    page: {},
-    info: [],
+    page: null,
+    info: null,
 }
 
 export const InfoSlice = createSlice({
@@ -33,8 +33,8 @@ export const InfoSlice = createSlice({
         },
         ClearState(state){
             state.parent_folder= 0;
-            state.page = {};
-            state.info = [];
+            state.page = null;
+            state.info = null;
         },
     },
 })

@@ -8,8 +8,8 @@ import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type InfoServiceOperators = {
     parent_folder: number
-    info: Info[]
-    page: Info
+    info: Info[] | null
+    page: Info | null
     FetchInfo: (payload: { id: number, type: string }) => void
     FetchPage: (payload: { id: number, type: string }) => void
     ClearState: () => void

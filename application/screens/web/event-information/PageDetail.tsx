@@ -8,6 +8,8 @@ import UseInfoService from 'application/store/services/UseInfoService';
 import { useRouter } from 'solito/router'
 import { createParam } from 'solito';
 import UseEventService from 'application/store/services/UseEventService';
+import WebLoading from 'application/components/atoms/WebLoading';
+import UseLoadingService from 'application/store/services/UseLoadingService';
 
 type ScreenParams = { id: any, cms: any }
 
@@ -15,7 +17,9 @@ const { useParam } = createParam<ScreenParams>()
 
 const PageDetail = (props: any) => {
 
-  const { page, FetchPage, parent_folder } = UseInfoService();
+  const { loading } = UseLoadingService();
+
+  const { page, FetchPage, parent_folder, ClearState } = UseInfoService();
 
   const { push } = useRouter()
 
@@ -29,10 +33,16 @@ const PageDetail = (props: any) => {
     if (id && cms) {
       FetchPage({ id: Number(id), type: cms });
     }
+    return () => {
+        ClearState();
+    }
   }, [id, cms]);
 
   return (
     <Master>
+      {(loading || !page) ? (
+        <WebLoading />
+      ) : (
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
           <HStack space="3" alignItems="center">
@@ -56,6 +66,7 @@ const PageDetail = (props: any) => {
         </HStack>
         <Detail />
       </Container>
+      ) }
     </Master>
   );
 };
