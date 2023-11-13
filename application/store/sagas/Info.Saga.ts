@@ -1,6 +1,6 @@
 import { SagaIterator } from '@redux-saga/core'
 
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import { getInfoApi, getPageApi } from 'application/store/api/Info.api';
 
@@ -42,8 +42,8 @@ function* OnGetPage({
 
 // Watcher Saga
 export function* InfoWatcherSaga(): SagaIterator {
-    yield takeEvery(InfoActions.FetchInfo.type, OnGetInfo)
-    yield takeEvery(InfoActions.FetchPage.type, OnGetPage)
+    yield takeLatest(InfoActions.FetchInfo.type, OnGetInfo)
+    yield takeLatest(InfoActions.FetchPage.type, OnGetPage)
 }
 
 export default InfoWatcherSaga
