@@ -20,6 +20,9 @@ function* OnFetchNetworkInterests({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getNetworkInterestApi, {}, state)
     yield put(NetworkInterestActions.update({ keywords: response.data.data! }))
+    if(response?.data?.data.length <= 0){
+        yield put(NetworkInterestActions.setSkip());
+    }
     yield put(LoadingActions.set(false));
 }
 

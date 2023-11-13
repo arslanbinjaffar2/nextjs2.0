@@ -39,6 +39,8 @@ const Master = ({ children, section }: Props) => {
 
   const sub_reg_skip = localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
 
+  const keyword_skip = localStorage.getItem(`keyword_skip`) === 'true' ? true : false;
+
   const access_token_exists = Boolean(localStorage.getItem(`access_token`));
 
   React.useEffect(() => {
@@ -51,6 +53,9 @@ const Master = ({ children, section }: Props) => {
     }
     else if ((sub_reg_skip) !== true) {
       push(`/${event.url}/subRegistration`)
+    }
+    else if ((keyword_skip) !== true) {
+      push(`/${event.url}/network-interest`)
     }
   }, [response])
 

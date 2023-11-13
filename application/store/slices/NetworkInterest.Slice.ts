@@ -7,15 +7,19 @@ import { RootState } from 'application/store/Index'
 import {
     current
 } from '@reduxjs/toolkit';
+import { Platform } from 'react-native';
+import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 
 export interface NetworkInterestState {
     keywords: Keyword[],
     updatingMykeywords:boolean,
+    skip:boolean,
 }
 
 const initialState: NetworkInterestState = {
     keywords: [],
     updatingMykeywords:false,
+    skip:false,
 }
 
 // Slice
@@ -32,6 +36,20 @@ export const NetworkInterestSlice = createSlice({
         },
         saveMyKeywordSuccess(state) {
             state.updatingMykeywords = false;
+            state.skip = true;
+            if (Platform.OS === 'web') {
+                localStorage.setItem('keyword_skip', 'true');
+            } else {
+                AsyncStorageClass.setItem('keyword_skip', 'true');
+            }
+        },
+        setSkip(state){
+            state.skip = true;
+            if (Platform.OS === 'web') {
+                localStorage.setItem('keyword_skip', 'true');
+            } else {
+                AsyncStorageClass.setItem('keyword_skip', 'true');
+            }
         }
     },
 })
@@ -42,10 +60,12 @@ export const NetworkInterestActions = {
     update:NetworkInterestSlice.actions.update,
     SaveMykeywords:NetworkInterestSlice.actions.SaveMykeywords,
     saveMyKeywordSuccess:NetworkInterestSlice.actions.saveMyKeywordSuccess,
+    setSkip:NetworkInterestSlice.actions.setSkip,
 }
 
 export const SelectNetworkInterests = (state: RootState) => state.networkInterest.keywords
 export const SelectUpdatingMyKeywords = (state: RootState) => state.networkInterest.updatingMykeywords
+export const SelectNetworkSkip = (state: RootState) => state.networkInterest.skip
 
 
 

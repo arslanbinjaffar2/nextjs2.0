@@ -7,6 +7,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import { Keyword } from 'application/models/networkInterest/NetworkInterest';
+import { useRouter } from 'solito/router';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -15,12 +16,14 @@ const Index = () => {
   
     const { event  } = UseEventService();
 
-    const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords  } = UseNetworkInterestService();
+    const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords } = UseNetworkInterestService();
+    
+    const { push } = useRouter()
 
     useEffect(() => {
         FetchNetworkInterests();
     }, [])
-    
+
 
   return (
     <>
@@ -173,7 +176,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                             SaveMykerwords(mykeywords);
                         }}
                     >
-                        MATCH SEARCH
+                        Done
                     </Button>
                     </Box>
                 </Container>
