@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Button, Center, Container, Flex, HStack, Icon, Input, Spacer, Switch, Text } from 'native-base';
+import { Box, Button, Center, Container, Flex, HStack, Icon, Input, Pressable, Spacer, Switch, Text,Image, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign'
-import WebLoading from 'application/components/atoms/WebLoading';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import { Keyword } from 'application/models/networkInterest/NetworkInterest';
-import { useFocusEffect } from '@react-navigation/native'
+import { useRouter } from 'solito/router';
+import { Attendee } from 'application/models/attendee/Attendee';
+import RectangleAttendeeView from 'application/components/atoms/attendees/RectangleView';
+import { Platform } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -16,19 +21,30 @@ const Index = () => {
   
     const { event  } = UseEventService();
 
-    const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords  } = UseNetworkInterestService();
+    const [showAttendees, setShowAttendees] = useState(false);
+
+    const { keywords, FetchNetworkInterests, searchMatchAttendees, searchingAttendees, FetchSearchMatchAttendees } = UseNetworkInterestService();
+    
+    const { push } = useRouter()
 
     useFocusEffect(React.useCallback(() => {
-        FetchNetworkInterests();
-      }, [])
-    );
-    
+      FetchNetworkInterests();
+    }, [])
+  );
+
 
   return (
     <>
-        {loading && <WebLoading />}
+        {loading && <SectionLoading />}
         {(!loading  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
-        {(!loading  && keywords.length > 0 ) && <ManageKeywords keywords={keywords} SaveMykerwords={SaveMykeywords} UpdatingMyKeywords={UpdatingMyKeywords} />}
+        {(!loading  && keywords.length > 0 ) && <ManageKeywords 
+          keywords={keywords} 
+          searchMatchAttendees={searchMatchAttendees} 
+          searchingAttendees={searchingAttendees}
+          FetchSearchMatchAttendees={FetchSearchMatchAttendees}
+          showAttendees={showAttendees}
+          setShowAttendees={setShowAttendees}
+         />}
     </>
   )
 }
@@ -37,28 +53,19 @@ export default Index
 
 
 
-const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords:Keyword[], UpdatingMyKeywords:boolean, SaveMykerwords:(payload:any)=>void}) => {
-    const [interestkeywords, setInterestKeywords] = useState(keywords);
-  const [mykeywords, setMyKeywords] = useState(keywords?.reduce((ack:any, item:Keyword)=>{
-    const childern = item?.children?.reduce((ack2:any, item2:any)=>{
-      if(item2?.keywords?.length > 0){
-          return [item2.id, ...ack2]
-      }else{
-        return ack2
-      }
-    },[]);
-    if(item?.keywords?.length > 0 ){
-      return [item?.id, ...childern, ...ack];
-    }else{
-      return [...ack, ...childern];
-    }
-  },[]));
+const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, FetchSearchMatchAttendees, showAttendees, setShowAttendees }:{keywords:Keyword[],searchMatchAttendees:Attendee[]|null, searchingAttendees:boolean, FetchSearchMatchAttendees:(payload:any)=>void, showAttendees:boolean, setShowAttendees:React.Dispatch<React.SetStateAction<boolean>>}) => {
+  
+  const { event } = UseEventService();
+  const { _env } = UseEnvService();
+
+  const [interestkeywords, setInterestKeywords] = useState(keywords);
+  const [mykeywords, setMyKeywords] = useState<any>([]);
   const [filteredkeywords, setFilteredKeywords] = useState<Keyword[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<any[]>([]);
 
   const setFilter= (kid:any)=>{
-    setSearchTerm("");
+      setSearchTerm("");
     if(kid !== 0){
       if(filters.indexOf(kid) === -1) {
         setFilters([...filters, kid])
@@ -70,10 +77,12 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
     }
     console.log(filters, 'filters');
   }
+
   const setSearch = (value:any)=>{
     setSearchTerm(value);
     setFilters([ ...interestkeywords?.filter((kword)=> (kword?.name?.toLowerCase().indexOf(value?.toLowerCase()) !== -1))?.map((kword)=>(kword?.id)) ])
   }
+
   useEffect(() => {
     if(filters?.length > 0)
     {
@@ -88,12 +97,89 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
     if(mykeywords?.indexOf(kid) === -1) {
       setMyKeywords([...mykeywords, kid])
     }else{
-      setMyKeywords([...mykeywords?.filter((item)=>( item !== kid))])
+      setMyKeywords([...mykeywords?.filter((item:any)=>( item !== kid))])
     }
   }
 
+  const { push } = useRouter()
+
+  const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
+
   return (
-    <Container pt="2" maxW="100%" w="100%">
+    <>
+                {showAttendees ? (
+                    <Container  pt="2" maxW="100%" w="100%" >
+                      <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                      <Text textTransform="uppercase" fontSize="2xl">Attendees</Text>
+                    </HStack>
+                    {searchingAttendees && <SectionLoading/>}
+                    <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
+                      {searchMatchAttendees && searchMatchAttendees.map((attendee: any, k: number) =>
+                          <React.Fragment key={`item-box-${k}`}>
+                                  <React.Fragment key={`${k}`}>
+                                    <Box w="100%" borderBottomWidth={(searchMatchAttendees.length - 1) == k ? 0 : 1} borderColor="primary.text" py="3">
+                                      <Pressable
+                                        onPress={() => {
+                                          if (Platform.OS === "web") {
+                                              push(`/${event.url}/attendees/detail/${attendee.id}`)
+                                            
+                                          } else {
+                                            navigation.replace('app', {
+                                              screen: 'attendee-detail',
+                                              params: {
+                                                id: attendee.id
+                                              }
+                                            })
+                                          }
+                                        }}>
+                                        <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
+                                          <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
+                                            {attendee?.image ? (
+                                              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="Alternate Text" w="50px" h="50px" />
+                                            ) : (
+                                              <Image rounded="25" size="5" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="50px" h="50px" />
+                                            )}
+                                            <VStack maxW={['62%', '70%', '40%']} space="0">
+                                              {(attendee?.first_name || attendee?.last_name) && (
+                                                <>
+                                                  <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
+                                                
+                                                </>
+                                              )}
+                                              
+                                            </VStack>
+                                            <Spacer />
+                                            <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
+                                            
+                                          </HStack>
+                                        </HStack>
+                                      </Pressable>
+                                  </Box>
+                                  </React.Fragment>
+                          </React.Fragment>
+                      )}
+                      {!searchingAttendees && !searchMatchAttendees && <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>} 
+                    </Box>
+                    {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
+                      <Button
+                          size="lg"
+                          minH="58px"
+                          w="100%"
+                          maxW="400px"
+                          shadow="1"
+                          textTransform="uppercase"
+                          _text={{ fontWeight: 600, fontSize: '2xl' }}
+                          colorScheme="primary"
+                          onPress={() => {
+                            setShowAttendees(false);
+                          }}
+                      >
+                          Back
+                      </Button>
+                    </Box>}
+                    </Container>
+
+                 )  : (<Container pt="2" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                     <Text textTransform="uppercase" fontSize="2xl">Network interest</Text>
                     </HStack>
@@ -165,20 +251,22 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         minH="58px"
                         w="100%"
                         maxW="400px"
-                        isLoading={UpdatingMyKeywords}
-                        isDisabled={UpdatingMyKeywords}
+                        isLoading={searchingAttendees}
+                        isDisabled={searchingAttendees}
                         shadow="1"
                         textTransform="uppercase"
                         _text={{ fontWeight: 600, fontSize: '2xl' }}
                         colorScheme="primary"
                         onPress={() => {
-                            SaveMykerwords(mykeywords);
+                          FetchSearchMatchAttendees(mykeywords);
+                          setShowAttendees(true);
                         }}
                     >
-                        Done
+                        Match search
                     </Button>
                     </Box>
-                </Container>
+                </Container>)}
+    </>
   )
 }
 

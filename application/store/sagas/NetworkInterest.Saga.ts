@@ -38,14 +38,14 @@ function* OnSaveMykeywords({
 }
 
 function* OnFetchSearchMatchAttendees({
+    payload
 }: {
     type: typeof NetworkInterestActions.FetchSearchMatchAttendees
+    payload:any
 }): SagaIterator {
-    // yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getSearchMatchAttendeesApi, {}, state)
-    yield put(NetworkInterestActions.update({ keywords: response.data.data! }))
-    // yield put(LoadingActions.set(false));
+    const response: HttpResponse = yield call(getSearchMatchAttendeesApi, payload, state)
+    yield put(NetworkInterestActions.updateSearchMatchAttendees({ attendees: response.data.data! }))
 }
 
 

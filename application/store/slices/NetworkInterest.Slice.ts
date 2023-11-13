@@ -9,17 +9,22 @@ import {
 } from '@reduxjs/toolkit';
 import { Platform } from 'react-native';
 import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+import { Attendee } from 'application/models/attendee/Attendee';
 
 export interface NetworkInterestState {
     keywords: Keyword[],
     updatingMykeywords:boolean,
     skip:boolean,
+    searchMatchAttendees:Attendee[]|null
+    searchingAttendees:boolean
 }
 
 const initialState: NetworkInterestState = {
     keywords: [],
     updatingMykeywords:false,
     skip:false,
+    searchMatchAttendees:null,
+    searchingAttendees:false,
 }
 
 // Slice
@@ -51,7 +56,15 @@ export const NetworkInterestSlice = createSlice({
                 AsyncStorageClass.setItem('keyword_skip', 'true');
             }
         },
-        FetchSearchMatchAttendees(state, action: PayloadAction<any>) {},
+        FetchSearchMatchAttendees(state, action: PayloadAction<any>) {
+            state.searchingAttendees = true;
+            state.searchMatchAttendees = null;
+        },
+        updateSearchMatchAttendees(state, action: PayloadAction<{ attendees:Attendee[] }>) {
+            state.searchMatchAttendees = action.payload.attendees.length > 0 ? action.payload.attendees : null;
+            state.searchingAttendees = false;
+
+        },
     },
 })
 
@@ -63,11 +76,14 @@ export const NetworkInterestActions = {
     saveMyKeywordSuccess:NetworkInterestSlice.actions.saveMyKeywordSuccess,
     setSkip:NetworkInterestSlice.actions.setSkip,
     FetchSearchMatchAttendees:NetworkInterestSlice.actions.FetchSearchMatchAttendees,
+    updateSearchMatchAttendees:NetworkInterestSlice.actions.updateSearchMatchAttendees,
 }
 
 export const SelectNetworkInterests = (state: RootState) => state.networkInterest.keywords
 export const SelectUpdatingMyKeywords = (state: RootState) => state.networkInterest.updatingMykeywords
 export const SelectNetworkSkip = (state: RootState) => state.networkInterest.skip
+export const SelectSearchMatchAttendees = (state: RootState) => state.networkInterest.searchMatchAttendees
+export const SelectSearchingAttendees = (state: RootState) => state.networkInterest.searchingAttendees
 
 
 
