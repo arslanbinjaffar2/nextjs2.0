@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Button, Center, Container, Flex, HStack, Icon, Input, Spacer, Switch, Text } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign'
-import SectionLoading from 'application/components/atoms/SectionLoading';
+import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import { Keyword } from 'application/models/networkInterest/NetworkInterest';
-import { useRouter } from 'solito/router';
+import { useFocusEffect } from '@react-navigation/native'
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -16,18 +16,17 @@ const Index = () => {
   
     const { event  } = UseEventService();
 
-    const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords } = UseNetworkInterestService();
-    
-    const { push } = useRouter()
+    const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords  } = UseNetworkInterestService();
 
-    useEffect(() => {
+    useFocusEffect(React.useCallback(() => {
         FetchNetworkInterests();
-    }, [])
-
+      }, [])
+    );
+    
 
   return (
     <>
-        {loading && <SectionLoading />}
+        {loading && <WebLoading />}
         {(!loading  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
         {(!loading  && keywords.length > 0 ) && <ManageKeywords keywords={keywords} SaveMykerwords={SaveMykeywords} UpdatingMyKeywords={UpdatingMyKeywords} />}
     </>

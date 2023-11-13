@@ -11,3 +11,7 @@ export const getNetworkInterestApi = (payload: any, state: any): Promise<HttpRes
 export const saveNetworkInterestApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).put(`${baseUrl}/${state?.event?.event.url}/network-interest/update`, {keywords:payload});
 }
+
+export const getSearchMatchAttendeesApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/network-interest/search-match-attendees`, {matchKeywords:payload});
+}

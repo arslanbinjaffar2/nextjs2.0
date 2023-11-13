@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getNetworkInterestApi, saveNetworkInterestApi } from 'application/store/api/NetworkInterest.Api'
+import { getNetworkInterestApi, getSearchMatchAttendeesApi, saveNetworkInterestApi } from 'application/store/api/NetworkInterest.Api'
 
 import { NetworkInterestActions } from 'application/store/slices/NetworkInterest.Slice'
 
@@ -37,6 +37,17 @@ function* OnSaveMykeywords({
     yield put(NetworkInterestActions.saveMyKeywordSuccess());
 }
 
+function* OnFetchSearchMatchAttendees({
+}: {
+    type: typeof NetworkInterestActions.FetchSearchMatchAttendees
+}): SagaIterator {
+    // yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getSearchMatchAttendeesApi, {}, state)
+    yield put(NetworkInterestActions.update({ keywords: response.data.data! }))
+    // yield put(LoadingActions.set(false));
+}
+
 
 
 
@@ -45,6 +56,7 @@ function* OnSaveMykeywords({
 export function* NetworkInterestWatcherSaga(): SagaIterator {
     yield takeEvery(NetworkInterestActions.FetchNetworkInterests.type, OnFetchNetworkInterests)
     yield takeEvery(NetworkInterestActions.SaveMykeywords.type, OnSaveMykeywords)
+    yield takeEvery(NetworkInterestActions.FetchSearchMatchAttendees.type, OnFetchSearchMatchAttendees)
 }
 
 export default NetworkInterestWatcherSaga

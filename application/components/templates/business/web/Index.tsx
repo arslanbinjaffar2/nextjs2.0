@@ -38,22 +38,10 @@ export default Index
 
 
 
-const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords:Keyword[], UpdatingMyKeywords:boolean, SaveMykerwords:(payload:any)=>void}) => {
-    const [interestkeywords, setInterestKeywords] = useState(keywords);
-  const [mykeywords, setMyKeywords] = useState(keywords?.reduce((ack:any, item:Keyword)=>{
-    const childern = item?.children?.reduce((ack2:any, item2:any)=>{
-      if(item2?.keywords?.length > 0){
-          return [item2.id, ...ack2]
-      }else{
-        return ack2
-      }
-    },[]);
-    if(item?.keywords?.length > 0 ){
-      return [item?.id, ...childern, ...ack];
-    }else{
-      return [...ack, ...childern];
-    }
-  },[]));
+const ManageKeywords = ({keywords,  UpdatingMyKeywords}:{keywords:Keyword[], UpdatingMyKeywords:boolean, SaveMykerwords:(payload:any)=>void}) => {
+  
+  const [interestkeywords, setInterestKeywords] = useState(keywords);
+  const [mykeywords, setMyKeywords] = useState<any>([]);
   const [filteredkeywords, setFilteredKeywords] = useState<Keyword[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<any[]>([]);
@@ -71,10 +59,12 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
     }
     console.log(filters, 'filters');
   }
+
   const setSearch = (value:any)=>{
     setSearchTerm(value);
     setFilters([ ...interestkeywords?.filter((kword)=> (kword?.name?.toLowerCase().indexOf(value?.toLowerCase()) !== -1))?.map((kword)=>(kword?.id)) ])
   }
+
   useEffect(() => {
     if(filters?.length > 0)
     {
@@ -89,7 +79,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
     if(mykeywords?.indexOf(kid) === -1) {
       setMyKeywords([...mykeywords, kid])
     }else{
-      setMyKeywords([...mykeywords?.filter((item)=>( item !== kid))])
+      setMyKeywords([...mykeywords?.filter((item:any)=>( item !== kid))])
     }
   }
 
@@ -173,10 +163,10 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         _text={{ fontWeight: 600, fontSize: '2xl' }}
                         colorScheme="primary"
                         onPress={() => {
-                            SaveMykerwords(mykeywords);
+                            
                         }}
                     >
-                        Done
+                        Match search
                     </Button>
                     </Box>
                 </Container>

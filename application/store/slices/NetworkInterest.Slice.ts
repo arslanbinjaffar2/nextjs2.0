@@ -50,7 +50,8 @@ export const NetworkInterestSlice = createSlice({
             } else {
                 AsyncStorageClass.setItem('keyword_skip', 'true');
             }
-        }
+        },
+        FetchSearchMatchAttendees(state, action: PayloadAction<any>) {},
     },
 })
 
@@ -61,6 +62,7 @@ export const NetworkInterestActions = {
     SaveMykeywords:NetworkInterestSlice.actions.SaveMykeywords,
     saveMyKeywordSuccess:NetworkInterestSlice.actions.saveMyKeywordSuccess,
     setSkip:NetworkInterestSlice.actions.setSkip,
+    FetchSearchMatchAttendees:NetworkInterestSlice.actions.FetchSearchMatchAttendees,
 }
 
 export const SelectNetworkInterests = (state: RootState) => state.networkInterest.keywords
