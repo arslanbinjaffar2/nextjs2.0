@@ -8,7 +8,7 @@ import Listing from 'application/components/templates/event_info/Listing';
 import { useRouter } from 'next/router'
 import BannerView from 'application/components/atoms/banners/RectangleView';
 import UseLoadingService from 'application/store/services/UseLoadingService';
-import WebLoading from 'application/components/atoms/WebLoading';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type indexProps = {
   navigation: unknown
@@ -40,7 +40,7 @@ const Index = ({ navigation }: indexProps) => {
   return (
     <Master>
       {loading ? (
-        <WebLoading />
+        <SectionLoading />
       ) : (
         <Container pt="2" maxW="100%" w="100%">
           <HStack mb="3" w="100%" space="3" alignItems="center">
