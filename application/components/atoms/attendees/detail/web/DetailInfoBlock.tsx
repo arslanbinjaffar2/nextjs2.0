@@ -28,7 +28,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                     </VStack>
                 </>
             )}
-            {(detail?.detail?.info?.jobs! || detail?.detail?.info?.interests! || detail?.detail?.info?.network_group! || detail?.detail?.info?.age! || detail?.detail?.info?.network_group!) && (
+            {(detail?.sort_field_setting.length > 0) && (
                 <Box p="0">
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                         <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
@@ -313,6 +313,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                     </VStack>
                 </Box>
             )}
+            
         </Box>
     )
 
