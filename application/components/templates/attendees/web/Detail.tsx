@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Container, HStack, Icon, Spacer, Text } from 'native-base';
+import { Button, Container, HStack, Icon, Pressable, Spacer, Text } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Search from 'application/components/atoms/programs/Search';
 import BasicInfoBlock from 'application/components/atoms/attendees/detail/BasicInfoBlock';
@@ -23,6 +23,8 @@ import in_array from "in_array";
 import { Category } from 'application/models/event/Category';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
+import UseEventService from 'application/store/services/UseEventService';
+import { useRouter } from 'solito/router';
 
 type ScreenParams = { id: string }
 
@@ -38,6 +40,8 @@ const Detail = ({ speaker }: Props) => {
 
     const [tab, setTab] = useState<string>('');
 
+    const { event  } = UseEventService();
+
     const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
 
     const { FetchPrograms, programs, page, id, query } = UseProgramService();
@@ -49,6 +53,9 @@ const Detail = ({ speaker }: Props) => {
     const { loading, scroll, processing } = UseLoadingService();
 
     const [_id] = useParam('id');
+    
+    const { push } = useRouter()
+
 
     React.useEffect(() => {
         if (_id) {
@@ -96,10 +103,12 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                        <HStack space="3" alignItems="center">
-                            <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                            <Text fontSize="2xl">BACK</Text>
-                        </HStack>
+                            <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
+                                <HStack space="3" alignItems="center">
+                                    <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                                    <Text fontSize="2xl">BACK</Text>
+                                </HStack>
+                            </Pressable>
                         <Spacer />
                         <Search tab={tab} />
                     </HStack>
