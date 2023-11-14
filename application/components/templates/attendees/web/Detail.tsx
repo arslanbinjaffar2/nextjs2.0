@@ -112,7 +112,7 @@ const Detail = ({ speaker }: Props) => {
                         <Spacer />
                         <Search tab={tab} />
                     </HStack>
-                    <BasicInfoBlock detail={detail} />
+                    <BasicInfoBlock detail={detail} showPrivate={response.data.user.id == _id ? 1 : 0} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
                             {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0 && (
@@ -156,7 +156,7 @@ const Detail = ({ speaker }: Props) => {
                                             </React.Fragment>
                                         )}
                                     </HStack>
-                                    {tab === 'about' && <DetailInfoBlock detail={detail} info={<div dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div>} />}
+                                    {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response.data.user.id == _id ? 1 : 0} info={<div dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div>} />}
                                     {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
                                     {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && <SubRegistration detail={detail} />}
                                     {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">

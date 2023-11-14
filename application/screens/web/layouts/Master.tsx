@@ -44,7 +44,7 @@ const Master = ({ children, section }: Props) => {
   const access_token_exists = Boolean(localStorage.getItem(`access_token`));
 
   React.useEffect(() => {
-    getUser();
+      getUser();
   }, [])
 
   React.useEffect(() => {
