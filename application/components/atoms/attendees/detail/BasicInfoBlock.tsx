@@ -7,6 +7,8 @@ import { Detail } from 'application/models/attendee/Detail';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseEventService from 'application/store/services/UseEventService';
+import { Linking } from 'react-native';
+import { useRouter } from 'solito/router';
 
 type AppProps = {
     detail: Detail,
@@ -20,6 +22,8 @@ const BasicInfoBlock = ({ detail, showPrivate }: AppProps) => {
     const { MakeFavourite } = UseAttendeeService();
 
     const { event } = UseEventService();
+
+    const { push } = useRouter();
 
     const isPrivate = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s.is_private}),{});
 
@@ -93,12 +97,26 @@ const BasicInfoBlock = ({ detail, showPrivate }: AppProps) => {
             </Box>
             <Box w="100%" bg="primary.secondary" px="5" py="3" borderTopWidth="1" borderColor="primary.darkbox">
                 <HStack w="100%" space="0">
-                    <Center w="20%" borderRightWidth="1" alignItems="flex-start">
-                        <Icoresume width="22" height="25" />
-                    </Center>
-                    <Center w="20%"  borderColor="primary.text" alignItems="center">
-                        <Icohotelbed width="24" height="18" />
-                    </Center>
+                    {(showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && <Center w="20%" borderRightWidth={showPrivate == 1 ? '1' : '0'} alignItems="flex-start">
+                        <Pressable
+                            onPress={async () => {
+                                const url: any = `${_env.eventcenter_base_url}/event/${event.url}/settings/downloadResume/${detail?.detail?.attendee_cv}`;
+                                const supported = await Linking.canOpenURL(url);
+                                if (supported) {
+                                    await Linking.openURL(url);
+                                }
+                        }}>
+                            <Icoresume width="22" height="25" />
+                        </Pressable>
+                    </Center>}
+                    {showPrivate == 1 && <Center w="20%"  borderColor="primary.text" alignItems="center">
+                        <Pressable
+                                onPress={async () => {
+                                    push(`/${event.url}/attendees/detail/${detail?.detail?.id}/hotel`)
+                        }}>
+                            <Icohotelbed width="24" height="18" />
+                        </Pressable>
+                    </Center>}
                 </HStack>
             </Box>
         </Container>
