@@ -23,3 +23,7 @@ export const getAttendeeDetailApi = (payload: any, state: any): Promise<HttpResp
 export const getCategoryApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/event/categories`, { ...payload, limit: 20 });
 }
+
+export const getHotelApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/attendee/hotel`);
+}

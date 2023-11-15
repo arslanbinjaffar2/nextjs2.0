@@ -112,7 +112,7 @@ const BasicInfoBlock = ({ detail, showPrivate }: AppProps) => {
                     {showPrivate == 1 && <Center w="20%"  borderColor="primary.text" alignItems="center">
                         <Pressable
                                 onPress={async () => {
-                                    push(`/${event.url}/attendees/detail/${detail?.detail?.id}/hotel`)
+                                    push(`/${event.url}/attendees/hotel/${detail?.detail?.id}`)
                         }}>
                             <Icohotelbed width="24" height="18" />
                         </Pressable>
