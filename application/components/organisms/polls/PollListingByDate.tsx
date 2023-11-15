@@ -48,9 +48,9 @@ const PollListingByDate = ({polls}:{polls:Polls}) => {
        return <PollRectangleView poll={poll} key={poll.id} completed={false} />
     })}
     <Center py="3" px="2" w="100%" alignItems="flex-end">
-      <Button p="1" onPress={()=> push(`/${event.url}/polls`)} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-        Show all
-      </Button>
+      {polls[Object.keys(polls)[pollDateIndex]]?.length > 4 && <Button p="1" onPress={()=> push(`/${event.url}/polls`)} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+        See all
+      </Button>}
     </Center>
   </Container>
   )

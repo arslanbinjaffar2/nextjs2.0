@@ -11,7 +11,7 @@ const Index = ({ navigation }: indexProps) => {
 
     return (
         <Master>
-            <IndexTemplate speaker={1} />
+            <IndexTemplate speaker={1} screen='attendees' />
         </Master>
     );
 

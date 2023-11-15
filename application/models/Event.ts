@@ -67,7 +67,10 @@ export interface Event {
     detail?: Detail;
     gdpr_log_count?: number;
     labels?: any;
-    calendar_date?:string;
+    calendar_date?: string;
+    gdpr_settings?: any;
+    myturnlist_setting?: MyTurnlistSetting
+    agenda_settings?: AgendaSetting
 }
 interface Setting {
     poll_setting?: string;
@@ -104,7 +107,6 @@ interface Setting {
     third_party_header_script?: string;
     third_party_order_success?: string;
 }
-
 interface AttendeeSetting {
     id?: number;
     domain_names?: string;
@@ -175,7 +177,6 @@ interface AttendeeSetting {
     mark_favorite?: number;
     export_original_cpr_number?: number;
 }
-
 interface Detail {
     support_email?: string;
     dateformat?: string;
@@ -183,12 +184,10 @@ interface Detail {
     location_name?: string;
     sms_organizer_name?: string;
 }
-
 export interface EventResponse {
     event?: Event,
     success?: boolean
 }
-
 interface Info {
     id?: number;
     name?: string;
@@ -199,4 +198,103 @@ interface Info {
     created_at?: string;
     updated_at?: string;
     deleted_at?: string;
+}
+
+interface MyTurnlistSetting {
+    id: number;
+    event_id: number;
+    status: number;
+    turnlist_attendee_approval: number;
+    enable_speech_time: number;
+    enable_speech_time_for_moderator: number;
+    display_time: number;
+    show_image_turnlist: number;
+    show_company_turnlist: number;
+    show_title_turnlist: number;
+    show_awaiting_turnlist: number;
+    show_delegate_turnlist: number;
+    show_department_turnlist: number;
+    show_program_section: number;
+    show_network_group_turnlist: number;
+    speak_time: number;
+    turn_project_refresh_time: number;
+    delegate_label: string;
+    network_label: string;
+    lobby_url: string;
+    show_dashboard: number;
+    streaming_option: string;
+    program_heading_background_color: string;
+    program_heading_text_color: string;
+    program_text_color: string;
+    program_date_time_color: string;
+    program_icon_color: string;
+    program_description_color: string;
+    department_label: string;
+    time_between_attendees: number;
+    background_image: string;
+    background_color: string;
+    headings_color: string;
+    text_color: string;
+    description_color: string;
+    program_section_color: string;
+    font_size: number;
+    text_color1: string;
+    text_color2: string;
+    text_color3: string;
+    organizer_info: number;
+    ask_to_apeak: number;
+    ask_to_speak_notes: number;
+    av_output_all_template: string;
+    av_output_active_template: string;
+    av_output_sub_active_template: string;
+    av_output_next_template: string;
+    av_output_count_template: string;
+    active_bg_color: string;
+    all_bg_color: string;
+    count_bg_color: string;
+    live_attendee_detail_bg_color: string;
+    speaking_now_background_color: string;
+    speaking_now_text_color: string;
+    speaker_text_color: string;
+    attendee_detail_background_color: string;
+    program_detail_background_color: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+    use_group_to_control_request_to_speak: number;
+    ask_to_speak: number;
+    sqs_queue_connection: number;
+    current_queue: string;
+    is_show_date_on_project: number;
+    show_speaker_counter_on_projector: number;
+    socket_reconnect: number;
+    enable_projectors: number;
+}
+
+interface AgendaSetting {
+    id: number;
+    event_id: number;
+    agenda_list: number;
+    session_ratings: number;
+    agenda_tab: number;
+    admin_fav_attendee: number;
+    attach_attendee_mobile: number;
+    qa: number;
+    program_fav: number;
+    show_tracks: number;
+    show_attach_attendee: number;
+    agenda_display_time: number;
+    show_program_dashboard: number;
+    show_my_program_dashboard: number;
+    agenda_collapse_workshop: number;
+    agendaTimer: number;
+    agenda_search_filter: number;
+    agenda_display_alerts: number;
+    enable_notes: number;
+    enable_program_attendee: number;
+    program_groups: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+    program_view: string;
 }

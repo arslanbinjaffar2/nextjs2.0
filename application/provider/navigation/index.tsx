@@ -32,6 +32,7 @@ export function NavigationProvider({
               'poll-detail': ':url/polls/detail/:id',
               'survey': ':url/survey',
               'survey-detail': ':url/survey/detail/:id',
+              'agendas': ':url/agendas',
             },
           },
         }),

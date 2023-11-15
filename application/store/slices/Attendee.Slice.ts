@@ -16,6 +16,7 @@ import {
 
 export interface AttendeeState {
     attendees: Attendee[],
+    my_attendees: Attendee[],
     categories: Category[],
     detail: Detail,
     groups: Group[],
@@ -27,10 +28,13 @@ export interface AttendeeState {
     my_attendee_id: number,
     category_id: number,
     category_name: string,
+    total: number,
+    program_id: number,
 }
 
 const initialState: AttendeeState = {
     attendees: [],
+    my_attendees: [],
     categories: [],
     detail: {
         attendee_tabs_settings: [],
@@ -49,6 +53,8 @@ const initialState: AttendeeState = {
     my_attendee_id: 0,
     category_id: 0,
     category_name: '',
+    total: 0,
+    program_id: 0,
 }
 
 // Slice
@@ -56,20 +62,22 @@ export const AttendeeSlice = createSlice({
     name: 'attendees',
     initialState,
     reducers: {
-        FetchAttendees(state, action: PayloadAction<{ group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number }>) {
+        FetchAttendees(state, action: PayloadAction<{ group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }>) {
             state.query = action.payload.query;
             state.page = action.payload.page;
             state.group_id = action.payload.group_id;
             state.my_attendee_id = action.payload.my_attendee_id;
             state.category_id = action.payload.category_id;
+            state.program_id = action.payload.program_id;
             if (action.payload.category_id === 0) {
                 state.category_name = '';
             }
             if (action.payload.page === 1) {
                 state.attendees = []
+                state.my_attendees = []
             }
         },
-        FetchGroups(state, action: PayloadAction<{ query: string, page: number, group_id: number, attendee_id: number }>) {
+        FetchGroups(state, action: PayloadAction<{ query: string, page: number, group_id: number, attendee_id: number, program_id: number }>) {
             state.query = action.payload.query;
             state.page = action.payload.page;
             state.group_id = action.payload.group_id;
@@ -78,9 +86,14 @@ export const AttendeeSlice = createSlice({
                 state.groups = []
             }
         },
-        Update(state, action: PayloadAction<{ attendee: Attendee[], group_id: number, query: string, page: number, group_name: string }>) {
+        Update(state, action: PayloadAction<{ attendee: Attendee[], group_id: number, query: string, page: number, group_name: string, screen: string, total: number }>) {
             const existed: any = current(state.attendees);
-            state.attendees = action.payload.page === 1 ? action.payload.attendee : [...existed, ...action.payload.attendee];
+            if (action.payload.screen === "dashboard-my-speakers") {
+                state.my_attendees = action.payload.page === 1 ? action.payload.attendee : [...existed, ...action.payload.attendee];
+            } else {
+                state.attendees = action.payload.page === 1 ? action.payload.attendee : [...existed, ...action.payload.attendee];
+                state.total = action.payload.total;
+            }
             state.group_name = action.payload.group_name;
         },
         UpdateGroups(state, action: PayloadAction<{ groups: Group[], query: string, page: number, group_id: number }>) {
@@ -100,7 +113,7 @@ export const AttendeeSlice = createSlice({
             state.query = action.payload.query;
             state.page = action.payload.page;
             state.parent_id = action.payload.parent_id;
-            if (action.payload.parent_id=== 0) {
+            if (action.payload.parent_id === 0) {
                 state.category_name = '';
             }
             state.categories = []
@@ -128,6 +141,10 @@ export const AttendeeActions = {
 }
 
 export const SelectAttendees = (state: RootState) => state.attendees.attendees
+
+export const SelectMyAttendees = (state: RootState) => state.attendees.my_attendees
+
+export const SelectSelectTotal = (state: RootState) => state.attendees.total
 
 export const SelectGroups = (state: RootState) => state.attendees.groups
 

@@ -6,14 +6,14 @@ import type { RootState } from 'application/store/Index'
 
 export interface InfoState {
     parent_folder: number,
-    page: Info,
-    info: Info[],
+    page: Info | null,
+    info: Info[] | null,
 }
 
 const initialState: InfoState = {
     parent_folder: 0,
-    page: {},
-    info: [],
+    page: null,
+    info: null,
 }
 
 export const InfoSlice = createSlice({
@@ -31,6 +31,11 @@ export const InfoSlice = createSlice({
         updateParentFolder(state, action: PayloadAction<number>) {
             state.parent_folder = action.payload;
         },
+        ClearState(state){
+            state.parent_folder= 0;
+            state.page = null;
+            state.info = null;
+        },
     },
 })
 
@@ -41,6 +46,7 @@ export const InfoActions = {
     update: InfoSlice.actions.update,
     updatePage: InfoSlice.actions.updatePage,
     updateParentFolder: InfoSlice.actions.updateParentFolder,
+    ClearState: InfoSlice.actions.ClearState,
 }
 
 export const SelectInfo = (state: RootState) => state.info.info

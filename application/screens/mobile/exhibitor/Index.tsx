@@ -18,7 +18,7 @@ const Index = ({ navigation }: any) => {
 
   React.useEffect(() => {
     if (isFocused) {
-      FetchExhibitors({ category_id: 0, query: '' });
+      FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
     }
   }, [isFocused]);
 

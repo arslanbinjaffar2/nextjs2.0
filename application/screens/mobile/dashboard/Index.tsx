@@ -4,7 +4,7 @@ import Master from 'application/screens/mobile/layouts/Master';
 import Header from 'application/screens/mobile/layouts/headers/Header';
 import { Center, VStack, ScrollView, Divider, Heading, HStack, Container, IconButton, Icon, Button } from 'native-base';
 import { useState } from 'react';
-import ExhibitorsListing from 'application/components/molecules/exhibitors/Listing';
+import OurExhibitors from 'application/components/molecules/exhibitors/OurExhibitors';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import ProgramListing from 'application/components/templates/programs/Listing';
 import SpeakerRoundedList from 'application/components/templates/speakers/RoundedList';
@@ -13,10 +13,11 @@ import Stream from 'application/components/organisms/programs/videos/Stream';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import PollRectangleView from 'application/components/atoms/polls/RectangleView';
 import UsePollService from 'application/store/services/UsePollService';
-import {useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect } from '@react-navigation/native'
 import PollListingByDate from 'application/components/organisms/polls/PollListingByDate';
 import UseBannerService from 'application/store/services/UseBannerService';
 import BannerSlider from 'application/components/organisms/banner/BannerSlider';
+import UseAuthService from 'application/store/services/UseAuthService';
 
 const Index = ({ navigation }: any) => {
 
@@ -24,11 +25,13 @@ const Index = ({ navigation }: any) => {
   const { polls, FetchPolls } = UsePollService();
   const { banners, FetchBanners } = UseBannerService();
 
+  const { response } = UseAuthService();
+
   useFocusEffect(React.useCallback(() => {
     FetchPolls();
     FetchBanners();
   }, [])
-);
+  );
   return (
     <Master navigation={navigation}>
       <Header minimal={scroll} navigation={navigation} />
@@ -55,9 +58,9 @@ const Index = ({ navigation }: any) => {
           <Stream />
           <ProgramListing />
           <SpeakerRoundedList />
-          <ExhibitorsListing />
-          {Object.keys(polls).length > 0 && <PollListingByDate polls={polls} />}
-          {banners.length > 0 && <BannerSlider banners={banners}/>}
+          <OurExhibitors />
+          {Object.keys(polls).length > 0 && response?.attendee_detail?.event_attendee?.allow_vote === 1 && <PollListingByDate polls={polls} />}
+          {banners.length > 0 && <BannerSlider banners={banners} />}
         </ScrollView>
       </Center>
     </Master>

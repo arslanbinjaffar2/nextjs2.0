@@ -12,17 +12,19 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
 
+import in_array from "in_array";
+
 function* OnGetAttendees({
     payload,
 }: {
     type: typeof AttendeeActions.FetchAttendees
-    payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number }
+    payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: 'attendee-listing' }))
+    yield put(LoadingActions.addProcess({ process: in_array(payload.screen, ['dashboard-my-speakers']) ? payload.screen : 'attendee-listing' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAttendeeApi, payload, state)
-    yield put(AttendeeActions.Update({ attendee: response.data.data!, group_id: payload.group_id, query: payload.query, page: payload.page, group_name: response?.data?.meta?.group_name }))
-    yield put(LoadingActions.removeProcess({ process: 'attendee-listing' }))
+    yield put(AttendeeActions.Update({ attendee: response.data.data!, group_id: payload.group_id, query: payload.query, page: payload.page, group_name: response?.data?.meta?.group_name, screen: payload.screen, total: response.data.meta?.total! }))
+    yield put(LoadingActions.removeProcess({ process: in_array(payload.screen, ['dashboard-my-speakers']) ? payload.screen : 'attendee-listing' }))
 }
 
 function* OnGetAttendeeDetail({
@@ -47,7 +49,7 @@ function* OnMakeFavourite({
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     if (payload.screen === "listing") {
-        yield put(AttendeeActions.FetchAttendees({ query: state?.attendees?.query, page: 1, group_id: state?.attendees?.group_id, my_attendee_id: state?.attendees?.my_attendee_id, speaker: 0, category_id: state?.attendees?.category_id }))
+        yield put(AttendeeActions.FetchAttendees({ query: state?.attendees?.query, page: 1, group_id: state?.attendees?.group_id, my_attendee_id: state?.attendees?.my_attendee_id, speaker: 0, category_id: state?.attendees?.category_id, screen: state?.attendees?.screen, program_id: state?.attendees?.program_id }))
     } else {
         yield put(AttendeeActions.FetchAttendeeDetail({ id: payload.attendee_id, speaker: 0 }))
     }
@@ -57,7 +59,7 @@ function* OnGetGroups({
     payload,
 }: {
     type: typeof AttendeeActions.FetchGroups
-    payload: { group_id: number, query: string, page: number, attendee_id: number }
+    payload: { group_id: number, query: string, page: number, attendee_id: number, program_id: number }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'groups' }))
     const state = yield select(state => state);
@@ -69,7 +71,7 @@ function* OnGetGroups({
 function* OnGetCategories({
     payload,
 }: {
-    type: typeof AttendeeActions.FetchAttendees
+    type: typeof AttendeeActions.FetchCategories
     payload: { parent_id: number, query: string, page: number, cat_type: string }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'category-listing' }))

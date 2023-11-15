@@ -11,9 +11,10 @@ import UseEventService from 'application/store/services/UseEventService';
 type AppProps = {
     exhibitor: Exhibitor,
     k: number
+    w?: string
 }
 
-const BoxView = ({ k, exhibitor }: AppProps) => {
+const BoxView = ({ k, exhibitor, w }: AppProps) => {
 
     const { _env } = UseEnvService()
 
@@ -25,7 +26,7 @@ const BoxView = ({ k, exhibitor }: AppProps) => {
 
     return (
         <>
-            <Box w="49%">
+            <Box w={w ? w : "49%"}>
                 <Pressable
                     onPress={() => {
                         push(`/${event.url}/exhibitors/detail/${exhibitor.id}`)

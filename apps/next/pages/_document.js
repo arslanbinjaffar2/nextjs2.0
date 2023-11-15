@@ -38,6 +38,22 @@ class Document extends NativebaseDocument {
 }
 
 export const style = `
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af transparent
+}
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px
+}
+::-webkit-scrollbar-corner,::-webkit-scrollbar-track {
+  background: transparent
+}
+::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 20px;
+  border: 3px solid transparent
+}
 @font-face {
   src: url(${AvenirNextCondensed});
   font-family: Avenir;
@@ -128,7 +144,14 @@ export const style = `
 }
 body {
   display: flex;
-}`;
+}
+.rdtDays, .ebs-date-wrapper,.rdtCount {
+  font-family: 'Avenir', sans-serif;
+}
+.rdtTime .rdtSwitch,.rdtTimeToggle {
+  display: none !important;
+}
+`;
 
 export async function getInitialProps({ renderPage }) {
   AppRegistry.registerComponent("Main", () => Main);

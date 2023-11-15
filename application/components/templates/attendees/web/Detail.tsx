@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Button, Container, HStack, Icon, Spacer, Text } from 'native-base';
+import { Button, Container, HStack, Icon, Pressable, Spacer, Text } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Search from 'application/components/atoms/programs/Search';
 import BasicInfoBlock from 'application/components/atoms/attendees/detail/BasicInfoBlock';
 import ContactInfo from 'application/components/atoms/attendees/detail/ContactInfo';
-import SubRegistration from 'application/components/atoms/sub_registration/RectangleView';
+import SubRegistration from 'application/components/atoms/subRegistration/RectangleView';
 import DetailInfoBlock from 'application/components/atoms/attendees/detail/web/DetailInfoBlock';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
 import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';
@@ -23,6 +23,8 @@ import in_array from "in_array";
 import { Category } from 'application/models/event/Category';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
+import UseEventService from 'application/store/services/UseEventService';
+import { useRouter } from 'solito/router';
 
 type ScreenParams = { id: string }
 
@@ -38,6 +40,8 @@ const Detail = ({ speaker }: Props) => {
 
     const [tab, setTab] = useState<string>('');
 
+    const { event  } = UseEventService();
+
     const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
 
     const { FetchPrograms, programs, page, id, query } = UseProgramService();
@@ -49,6 +53,9 @@ const Detail = ({ speaker }: Props) => {
     const { loading, scroll, processing } = UseLoadingService();
 
     const [_id] = useParam('id');
+    
+    const { push } = useRouter()
+
 
     React.useEffect(() => {
         if (_id) {
@@ -67,9 +74,9 @@ const Detail = ({ speaker }: Props) => {
             if (tab == 'program') {
                 FetchPrograms({ page: 1, query: '', screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
             } else if (tab === "groups") {
-                FetchGroups({ query: '', group_id: 0, page: 1, attendee_id: Number(_id) });
+                FetchGroups({ query: '', group_id: 0, page: 1, attendee_id: Number(_id), program_id: 0 });
             } else if (tab === "documents") {
-                FetchDocuments({ speaker_id: Number(_id), exhibitor_id: 0, sponsor_id: 1 });
+                FetchDocuments({ speaker_id: Number(_id), exhibitor_id: 0, sponsor_id: 0, agenda_id: 0 });
             }
         }
     }, [tab]);
@@ -79,7 +86,7 @@ const Detail = ({ speaker }: Props) => {
             if (tab == 'program') {
                 FetchPrograms({ query: '', page: page + 1, screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
             } else if (tab === "groups") {
-                FetchGroups({ query: '', group_id: 0, page: page + 1, attendee_id: Number(_id) });
+                FetchGroups({ query: '', group_id: 0, page: page + 1, attendee_id: Number(_id), program_id: 0 });
             }
         }
     }, [scroll]);
@@ -96,14 +103,16 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                        <HStack space="3" alignItems="center">
-                            <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                            <Text fontSize="2xl">BACK</Text>
-                        </HStack>
+                            <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
+                                <HStack space="3" alignItems="center">
+                                    <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                                    <Text fontSize="2xl">BACK</Text>
+                                </HStack>
+                            </Pressable>
                         <Spacer />
                         <Search tab={tab} />
                     </HStack>
-                    <BasicInfoBlock detail={detail} />
+                    <BasicInfoBlock detail={detail} showPrivate={response.data.user.id == _id ? 1 : 0} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
                             {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0 && (
@@ -147,7 +156,7 @@ const Detail = ({ speaker }: Props) => {
                                             </React.Fragment>
                                         )}
                                     </HStack>
-                                    {tab === 'about' && <DetailInfoBlock detail={detail} info={<div dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div>} />}
+                                    {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<div dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div>} />}
                                     {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
                                     {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && <SubRegistration detail={detail} />}
                                     {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">

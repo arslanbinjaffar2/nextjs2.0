@@ -19,14 +19,14 @@ const LeftBar = () => {
   const { event, modules } = UseEventService()
 
   const { logout, response } = UseAuthService();
-  
+
   const { _env } = UseEnvService();
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Box pb="3">
         <Flex alignItems="center" flexDirection={'row'}>
-          <Avatar w="70px" h="70px" bg="green.500" source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`}}>
+          <Avatar w="70px" h="70px" bg="green.500" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
             {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
           </Avatar>
           {width > 1200 && <VStack px="5" space="0">
@@ -58,12 +58,16 @@ const LeftBar = () => {
             w="100%"
             px="4"
             py="2"
-            bg={`${router.pathname.includes(row?.alias) && 'primary.500'}`}
+            bg={`${router.asPath.includes(row?.alias == 'information_pages' ? `information-pages/${row?.id}` : row?.alias) && 'primary.500'}`}
             _hover={{ bg: 'primary.500' }}
             borderRadius="4"
             onPress={() => {
               if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
                 router.push(`/${event.url}/${row?.alias}/event-info/0`)
+              } else if (in_array(row?.alias, ['information_pages'])) {
+                router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
+              } else if (row?.alias === 'my-registrations') {
+                router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
               } else {
                 router.push(`/${event.url}/${row?.alias}`)
               }
