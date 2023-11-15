@@ -2,7 +2,12 @@ import React from 'react'
 
 import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack } from 'native-base';
 
+import {Select as ReactSelect} from "react-select";
+
+
 import WebLoading from 'application/components/atoms/WebLoading';
+
+import DropDown from 'application/components/atoms/DropDown';
 
 import UseEditProfileService from 'application/store/services/UseEditProfileService'
 
@@ -19,6 +24,22 @@ import DateTimePicker from 'application/components/atoms/DateTimePicker';
 import moment from 'moment';
 
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
+import UseEnvService from 'application/store/services/UseEnvService';
+import LoadImage from 'application/components/atoms/LoadImage';
+import { Pressable } from 'react-native';
+import { Linking } from 'react-native';
+
+const Selectstyles2 = {
+    control: (base:any) => ({
+      ...base,
+      height: 50,
+      minHeight: 50,
+      width: '100%',
+      maxWidth: '100%',
+      marginBottom: 10,
+  
+    })
+};
 
 const index = () => {
 
@@ -74,15 +95,48 @@ type formProps = {
 
 const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee }: formProps) => {
 
-    const [attendeeData, setAttendeeData] = React.useState(attendee)
+    const { _env } = UseEnvService()
+
+    
+    const [attendeeData, setAttendeeData] = React.useState({
+        ...attendee,
+        phone: attendee?.phone && attendee?.phone?.split("-")[1],
+        callingCode: attendee?.phone && attendee?.phone?.split("-")[0]
+    })
+
+    const [customFieldData, setCustomFieldData] = React.useState<any>(customFields.reduce((ack1, question, i)=>{
+        let answers = attendee.info[`custom_field_id${question.event_id}`].split(',').reduce((ack2:any, id, i)=>{ 
+           let is_answer = question.children_recursive.find((answer:any)=>(answer.id == id));
+           if(is_answer !== undefined){
+             ack2.push({
+               label: is_answer.name,
+               value: is_answer.id,
+             });
+           }
+           return ack2;
+         }, []);
+         ack1[`custom_field_id_q${i}`] = question.allow_multiple === 1 ? answers : answers[0];
+         return ack1;
+     }, {}));
+
+    const inputFileRef = React.useRef<HTMLInputElement | null>(null);
+
+    const inputresumeFileRef = React.useRef<HTMLInputElement | null>(null);
 
     React.useEffect(() => {
-        setAttendeeData({
-            ...attendeeData,
-            phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
-            callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
-        });
+        // setAttendeeData({
+        //     ...attendeeData,
+        //     phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
+        //     callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
+        // });
     }, []);
+
+    const updateCustomFieldSelect = (obj:any) => {
+        setCustomFieldData({
+          ...customFieldData,
+          [obj.name]: obj.item,
+        });
+      };
 
     const updateAttendeeFeild = (name: string, value: any) => {
         setAttendeeData({
@@ -112,7 +166,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         setAttendeeData({
             ...attendeeData,
             info: {
-                ...attendeeData.info,
+                ...attendeeData?.info,
                 [obj.name]: (typeof obj.item === 'object' && obj.item !== null) ? obj.item.format("YYYY-MM-DD") : obj.item,
             },
         });
@@ -130,7 +184,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         setAttendeeData({
             ...attendeeData,
             info: {
-                ...attendeeData.info,
+                ...attendeeData?.info,
                 [obj.name]: obj.item,
             },
         });
@@ -142,31 +196,46 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             phone: `${attendeeData?.callingCode}-${attendeeData?.phone}`,
         };
 
-        let infoObj = {
-            ...attendeeData.info,
+        let custom_field_id = customFields.reduce((ack, question, i)=>{
+            if(customFieldData[`custom_field_id_q${i}`] !== undefined){
+               let ids =question.allow_multiple === 1 ? customFieldData[`custom_field_id_q${i}`].map((ans:any)=>(ans.value)).join(',') + "," : customFieldData[`custom_field_id_q${i}`].value +',';
+                ack += ids;
+            }
+            return ack;
+          }, '');
+
+        let infoObj:any = {
+            ...attendeeData?.info,
+            phone: `${attendeeData?.callingCode}-${attendeeData?.phone}`,
         }
+
+        infoObj[`custom_field_id${event.id}`] = custom_field_id;
 
         let settings = {
-            gdpr: attendeeData.gdpr
+            gdpr: attendeeData?.gdpr
         }
 
-        if (attendeeData.email) attendeeObj.email = attendeeData.email;
+        if (attendeeData?.email) attendeeObj.email = attendeeData?.email;
 
-        if (attendeeData.first_name) attendeeObj.first_name = attendeeData.first_name;
+        if (attendeeData?.first_name) attendeeObj.first_name = attendeeData?.first_name;
 
-        if (attendeeData.last_name) attendeeObj.last_name = attendeeData.last_name;
+        if (attendeeData?.last_name) attendeeObj.last_name = attendeeData?.last_name;
 
-        if (attendeeData.FIRST_NAME_PASSPORT) attendeeObj.FIRST_NAME_PASSPORT = attendeeData.FIRST_NAME_PASSPORT;
+        if (attendeeData?.FIRST_NAME_PASSPORT) attendeeObj.FIRST_NAME_PASSPORT = attendeeData?.FIRST_NAME_PASSPORT;
 
-        if (attendeeData.LAST_NAME_PASSPORT) attendeeObj.LAST_NAME_PASSPORT = attendeeData.LAST_NAME_PASSPORT;
+        if (attendeeData?.LAST_NAME_PASSPORT) attendeeObj.LAST_NAME_PASSPORT = attendeeData?.LAST_NAME_PASSPORT;
 
-        if (attendeeData.BIRTHDAY_YEAR) attendeeObj.BIRTHDAY_YEAR = attendeeData.BIRTHDAY_YEAR;
+        if (attendeeData?.BIRTHDAY_YEAR) attendeeObj.BIRTHDAY_YEAR = attendeeData?.BIRTHDAY_YEAR;
 
-        if (attendeeData.EMPLOYMENT_DATE) attendeeObj.EMPLOYMENT_DATE = attendeeData.EMPLOYMENT_DATE;
+        if (attendeeData?.EMPLOYMENT_DATE) attendeeObj.EMPLOYMENT_DATE = attendeeData?.EMPLOYMENT_DATE;
 
-        if (attendeeData.image) attendeeObj.image = attendeeData.image;
+        if (attendeeData?.image) attendeeObj.image = attendeeData?.image;
 
-        if (attendeeData.attendee_cv) attendeeObj.att_cv = attendeeData.attendee_cv;
+        if (attendeeData.file) attendeeObj.file = attendeeData.file;
+
+        if (attendeeData?.attendee_cv) attendeeObj.att_cv = attendeeData?.attendee_cv;
+
+        if (attendeeData?.password && attendeeData?.password !== '') attendeeObj.password = attendeeData?.password;
 
 
         const data = {
@@ -175,7 +244,14 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             infoObj
         };
 
-        updateAttendee(data);
+        const formData = new FormData();
+        formData.append('attendeeObj', JSON.stringify(data.attendeeObj));
+        formData.append('infoObj', JSON.stringify(data.infoObj));
+        formData.append('settings', JSON.stringify(data.settings));
+        formData.append('file', data.attendeeObj.file);
+        formData.append('attendee_cv', data.attendeeObj.att_cv);
+
+        updateAttendee(formData);
     };
 
     return (
@@ -200,6 +276,23 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                         updateAttendeeInfoFeild('initial', answer);
                                     }}
                                     value={attendeeData?.info?.initial}
+                                />
+                            </Center>
+                        </HStack>
+                    )}
+                    {setting?.name === 'password' && setting?.is_editable == 1 && (
+                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                            <Center alignItems="flex-start" w="225px">
+                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.password}</Text>
+                            </Center>
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                                <Input w="100%"
+                                    placeholder={'********'}
+                                    type='password'
+                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    onChangeText={(answer) => {
+                                        updateAttendeeFeild('password', answer);
+                                    }}
                                 />
                             </Center>
                         </HStack>
@@ -589,7 +682,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     minWidth="64"
                                     h="50px"
                                     isDisabled={setting?.is_editable === 1 ? false : true}
-                                    selectedValue={attendeeData.info.private_country}
+                                    selectedValue={attendeeData?.info?.private_country}
                                     onValueChange={answer => updateInfoSelect({ answer, name: "private_country" })}
                                 >
                                     {countries.map((answer, key) => (<Select.Item key={key} label={answer.name} value={`${answer.id}`} />))}
@@ -620,7 +713,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.gender}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
-                                <Radio.Group space="5" defaultValue={attendeeData.info.gender} name="MyRadioGroup" onChange={gender => { updateAttendeeInfoFeild('gender', gender); }}>
+                                <Radio.Group space="5" defaultValue={attendeeData?.info?.gender} name="MyRadioGroup" onChange={gender => { updateAttendeeInfoFeild('gender', gender); }}>
                                     <HStack space="3" alignItems="center">
                                         <Radio value={'male'}> Male </Radio>
                                         <Radio value={'female'}> Female </Radio>
@@ -636,14 +729,14 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.BIRTHDAY_YEAR}</Text>
                             </Center>
                             <Center alignItems="flex-start" w="calc(100% - 225px)">
-                                {/* <DateTimePicker
+                                <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
                                         updateDate({ item, name: "BIRTHDAY_YEAR" });
                                     }}
-                                    value={attendeeData.BIRTHDAY_YEAR !== '' && attendeeData.BIRTHDAY_YEAR !== '0000-00-00' && attendeeData.BIRTHDAY_YEAR !== '0000-00-00 00:00:00' ? moment(attendeeData.BIRTHDAY_YEAR).format('YYYY-MM-DD') : ''}
+                                    value={attendeeData?.BIRTHDAY_YEAR !== '' && attendeeData?.BIRTHDAY_YEAR !== '0000-00-00' && attendeeData?.BIRTHDAY_YEAR !== '0000-00-00 00:00:00' ? moment(attendeeData?.BIRTHDAY_YEAR).format('YYYY-MM-DD') : ''}
                                     showdate={"YYYY-MM-DD"}
-                                /> */}
+                                />
                             </Center>
 
                         </HStack>
@@ -654,14 +747,14 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.date_of_issue_passport}</Text>
                             </Center>
                             <Center alignItems="flex-start" w="calc(100% - 225px)">
-                                {/* <DateTimePicker
+                                <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
                                         updateInfoDate({ item, name: "date_of_issue_passport" });
                                     }}
                                     value={attendeeData?.info?.date_of_issue_passport !== '' && attendeeData?.info?.date_of_issue_passport !== '0000-00-00' && attendeeData?.info?.date_of_issue_passport !== '0000-00-00 00:00:00' ? moment(attendeeData?.info?.date_of_issue_passport).format('YYYY-MM-DD') : ''}
                                     showdate={"YYYY-MM-DD"}
-                                /> */}
+                                />
                             </Center>
 
                         </HStack>
@@ -672,14 +765,14 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.date_of_expiry_passport}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
-                                {/* <DateTimePicker
+                                <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
                                         updateInfoDate({ item, name: "date_of_expiry_passport" });
                                     }}
                                     value={attendeeData?.info?.date_of_expiry_passport !== '' && attendeeData?.info?.date_of_expiry_passport !== '0000-00-00' && attendeeData?.info?.date_of_expiry_passport !== '0000-00-00 00:00:00' ? moment(attendeeData?.info?.date_of_expiry_passport).format('YYYY-MM-DD') : ''}
                                     showdate={"YYYY-MM-DD"}
-                                /> */}
+                                />
                             </Center>
                         </HStack>
                     )}
@@ -689,14 +782,14 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.EMPLOYMENT_DATE}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
-                                {/* <DateTimePicker
+                                <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
                                         updateInfoDate({ item, name: "EMPLOYMENT_DATE" });
                                     }}
                                     value={attendeeData?.EMPLOYMENT_DATE !== '' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.EMPLOYMENT_DATE).format('YYYY-MM-DD') : ''}
                                     showdate={"YYYY-MM-DD"}
-                                /> */}
+                                />
                             </Center>
                         </HStack>
                     )}
@@ -712,13 +805,69 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     w="100%"
                                     h="50px"
                                     isDisabled={setting?.is_editable === 1 ? false : true}
-                                    selectedValue={attendeeData.info.country}
+                                    selectedValue={attendeeData?.info?.country}
                                     onValueChange={answer => updateInfoSelect({ answer, name: "country" })}
                                 >
                                     {countries.map((answer, key) => (<Select.Item key={key} label={answer.name} value={`${answer.id}`} />))}
                                 </Select>
                             </Center>
                         </HStack>
+                    )}
+                    {setting?.name === 'spoken_languages' && (
+                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                            <Center alignItems="flex-start" w="225px">
+                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.SPOKEN_LANGUAGE}</Text>
+                            </Center>
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <DropDown
+                                label={labels?.SPOKEN_LANGUAGE}
+                                listitems={languages}
+                                required={false}
+                                isDisabled={setting?.is_editable === 1 ? false : true}
+                                isMulti={true}
+                                selected={
+                                    attendeeData.SPOKEN_LANGUAGE &&
+                                    typeof attendeeData.SPOKEN_LANGUAGE !== 'string'
+                                    ? attendeeData.SPOKEN_LANGUAGE
+                                    : null
+                                }
+                                onChange={(item:any) => {
+                                    updateSelect({ item, name: "SPOKEN_LANGUAGE" });
+                                }}
+                                />
+                            </Center>
+                        </HStack>
+                    )}
+
+                    {setting?.name === 'show_custom_field' && (
+                      customFields.map((question, i)=>(
+                        <HStack mb="3" key={i} alignItems="center" px="3" zIndex="auto" w="100%">
+                            <Center alignItems="flex-start" w="225px">
+                                <Text isTruncated fontWeight="500" fontSize="lg">{question?.name}</Text>
+                            </Center>
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <ReactSelect
+                                styles={Selectstyles2}
+                                isDisabled={setting?.is_editable === 1 ? false : true}
+                                placeholder={question.name}
+                                components={{ IndicatorSeparator: null }}
+                                options={question.children_recursive.map((item:any, index:number) => {
+                                    return {
+                                    label: item.name,
+                                    value: item.id,
+                                    key: index,
+                                    };
+                                })}
+                                value={customFieldData[`custom_field_id_q${i}`] !== undefined ? customFieldData[`custom_field_id_q${i}`] : null}
+                                isMulti={question.allow_multiple === 1 ? true : 0}
+                                onChange={(item:any) => {
+                                    console.log(item);
+                                    updateCustomFieldSelect({ item, name: `custom_field_id_q${i}` });
+                                }}
+                            />
+                            </Center>
+                        </HStack>
+                      ))
                     )}
                     {setting?.name === 'phone' && (
                         <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
@@ -747,17 +896,118 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             onChangeText={(answer) => {
                                                 updateAttendeeFeild('phone', answer);
                                             }}
-                                            value={attendeeData?.phone.split("-")[1]}
+                                            value={attendeeData?.phone}
                                         />
                                     </Center>
                                 </HStack>
                             </Center>
                         </HStack>
                     )}
+                    {setting?.name === 'profile_picture' && (
+                            <HStack mb="3" alignItems="start" px="3" zIndex="auto" w="100%" >
+                                <Pressable onPress={()=>{
+                                    if(inputFileRef.current){
+                                        inputFileRef.current.click();
+                                    }
+                                }}>
+                                    <HStack mb="3" alignItems="center" zIndex="auto" w="100%" >
+                                        <Center alignItems="flex-start" w="225px">
+                                            <Text isTruncated fontWeight="500" fontSize="lg">Profile picture</Text>
+                                        </Center>
+                                        <Center alignItems="flex-start" w="calc(100% - 225px)">
+                                            <HStack w="100%">
+                                                <Center w="100px">
+                                                    {((attendeeData && attendeeData?.image && attendeeData?.image !== "") || attendeeData?.blob_image !== undefined) ? 
+                                                    <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="200px" />
+                                                    : <LoadImage path={`https://via.placeholder.com/155.png`} w="200px" />}
+                                                </Center>
+                                                {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
+                                                    <input 
+                                                    width="100%"
+                                                        height="50px"
+                                                        type='file'
+                                                        style={{display:'none'}}
+                                                        placeholder={labels?.phone}
+                                                        readOnly={setting.is_editable === 1 ? false : true}
+                                                        onChange={(e) => {
+                                                            if (e?.target?.files! && e?.target?.files?.length > 0) {
+                                                                setAttendeeData({
+                                                                ...attendeeData,
+                                                                file: e.target.files[0],
+                                                                blob_image: URL.createObjectURL(e.target.files[0]),
+                                                                });
+                                                            }
+                                                        }}
+                                                        ref={inputFileRef}
+                                                    />
+                                                </Center>}
+                                            </HStack>
+                                        </Center>
+                                    </HStack>
+                                </Pressable>
+                            </HStack>
+                    )}
+                    {setting?.name === 'resume' && (
+                            <HStack mb="3" alignItems="start" px="3" zIndex="auto" w="100%" >
+                            
+                                <HStack mb="3" alignItems="start"  zIndex="auto" w="100%" >
+                                    <Center alignItems="flex-start" width={'225px'} maxW="225px">
+                                        <Text isTruncated fontWeight="500" fontSize="lg">Resume</Text>
+                                    </Center>
+                                    <Center alignItems="flex-start" w="calc(100% - 225px)">
+                                        <HStack w="100%">
+                                            <VStack>
+                                                <Center w="100px">
+                                                    {(typeof attendeeData.attendee_cv === 'string') ? 
+                                                    <Pressable 
+                                                    onPress={async () => {
+                                                        const url: any = `${_env.eventcenter_base_url}/event/${event.url}/settings/downloadResume/${attendeeData?.attendee_cv}`;
+                                                        const supported = await Linking.canOpenURL(url);
+                                                        if (supported) {
+                                                            await Linking.openURL(url);
+                                                        }
+                                                    }}>
+                                                        <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="200px" />
+                                                    </Pressable>
+                                                    : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="200px" />}
+                                                </Center>
+                                                <Pressable  onPress={()=>{
+                                                    if(inputresumeFileRef.current){
+                                                        inputresumeFileRef.current.click();
+                                                    }
+                                                }}>
+
+                                                    <Text>UPLOAD</Text>
+                                                </Pressable>
+                                            </VStack>
+                                            {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
+                                                <input 
+                                                width="100%"
+                                                    height="50px"
+                                                    type='file'
+                                                    style={{display:'none'}}
+                                                    placeholder={labels?.phone}
+                                                    readOnly={setting.is_editable === 1 ? false : true}
+                                                    onChange={(e) => {
+                                                        if (e?.target?.files! && e?.target?.files?.length > 0) {
+                                                            setAttendeeData({
+                                                            ...attendeeData,
+                                                            attendee_cv: e.target.files[0],
+                                                            });
+                                                        }
+                                                    }}
+                                                    ref={inputresumeFileRef}
+                                                />
+                                            </Center>}
+                                        </HStack>
+                                    </Center>
+                                </HStack>
+                            </HStack>
+                    )}
                 </VStack>
             ))}
             <Box mb="4" w="100%" bg="primary.darkbox" px="3" py="1" >
-                <Text fontSize="lg">General information</Text>
+                <Text fontSize="lg">Contact information</Text>
             </Box>
             {attendee_feild_settings?.website === 1 && <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
                 <Center alignItems="flex-start" w="225px">

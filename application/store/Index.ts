@@ -19,7 +19,7 @@ import SurveySlice from './slices/Survey.Slice'
 import AlertSlice from './slices/Alert.Slice'
 import FloorPlanSlice from './slices/FloorPlan.Slice'
 import BannerSlice from './slices/Banner.Slice'
-import EditProfileSlice from './slices/EditProfile.Slice'
+import EditProfileSlice, { EditProfileActions } from './slices/EditProfile.Slice'
 import QaSlice from './slices/Qa.Slice'
 import SocialMediaSlice from './slices/SocialMedia.Slice'
 import CheckInOutSlice from './slices/CheckInOut.Slice'
@@ -60,9 +60,14 @@ const makeStore = () => {
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
-            getDefaultMiddleware({ thunk: false })
-                .concat(sagaMiddleware)
-                .concat(logger),
+            getDefaultMiddleware({ thunk: false, 
+                serializableCheck: {
+                    // Ignore these action types
+                    ignoredActions: [EditProfileActions.UpdateAttendee.type],
+              },
+             })
+            .concat(sagaMiddleware)
+            .concat(logger),
     })
 
     sagaMiddleware.run(RootSaga)
