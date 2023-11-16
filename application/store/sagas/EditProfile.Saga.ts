@@ -33,7 +33,7 @@ function* OnUpdateAttendee({
     const response: HttpResponse = yield call(updateAttendeeApi, payload, state)
     console.log(response);
     if (response?.status === 200) {
-        // yield put(EditProfileActions.PollSubmitSuccess())
+        yield put(EditProfileActions.AttendeeUpdatedSuccessfully())
     }
 }
 

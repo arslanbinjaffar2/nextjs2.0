@@ -30,6 +30,7 @@ export interface AttendeeState {
     category_name: string,
     total: number,
     program_id: number,
+    hotels:any
 }
 
 const initialState: AttendeeState = {
@@ -43,6 +44,11 @@ const initialState: AttendeeState = {
         sub_registration: {},
         setting: {},
         field_setting: {},
+        sort_field_labels:{},
+        sort_field_setting:[],
+        show_hotel_management:0,
+        show_hotels:0,
+        sub_registration_module_status:0,
     },
     groups: [],
     query: '',
@@ -55,6 +61,7 @@ const initialState: AttendeeState = {
     category_name: '',
     total: 0,
     program_id: 0,
+    hotels:null
 }
 
 // Slice
@@ -122,7 +129,11 @@ export const AttendeeSlice = createSlice({
             const existed: any = current(state.categories);
             state.categories = action.payload.page === 1 ? action.payload.categories : [...existed, ...action.payload.categories];
             state.category_name = action.payload.category_name;
-        }
+        },
+        FetchHotels(){},
+        updateHotels(state, action: PayloadAction<any>){
+            state.hotels = action.payload
+        },
     },
 });
 
@@ -138,6 +149,8 @@ export const AttendeeActions = {
     UpdateCategory: AttendeeSlice.actions.UpdateCategory,
     FetchCategories: AttendeeSlice.actions.FetchCategories,
     UpdateCategories: AttendeeSlice.actions.UpdateCategories,
+    FetchHotels: AttendeeSlice.actions.FetchHotels,
+    updateHotels: AttendeeSlice.actions.updateHotels,
 }
 
 export const SelectAttendees = (state: RootState) => state.attendees.attendees
@@ -163,6 +176,8 @@ export const SelectAttendeeCategory = (state: RootState) => state.attendees.cate
 export const SelectCategories = (state: RootState) => state.attendees.categories
 
 export const SelectCategoryName = (state: RootState) => state.attendees.category_name
+
+export const SelectHotels = (state: RootState) => state.attendees.hotels
 
 // Reducer
 export default AttendeeSlice.reducer

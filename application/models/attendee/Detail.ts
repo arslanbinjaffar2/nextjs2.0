@@ -15,7 +15,8 @@ export interface Detail {
     is_favourite?: number;
     is_speaker?: number;
     custom_fields?:any;
-
+    show_hotel_management?:number;
+    show_hotels?:number;
 }
 
 interface Setting {
@@ -234,7 +235,7 @@ interface AttendeeDetail {
     attendee_cv?: string;
     cv?: string;
     encrypted_cpr_number?: string;
-    info?: any extends Info;
+    info?: Info;
     gdpr?: number;
     current_event_attendee?: CurrentEventAttendee;
     categories: Category[];

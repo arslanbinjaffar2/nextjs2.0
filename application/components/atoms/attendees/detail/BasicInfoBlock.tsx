@@ -109,10 +109,10 @@ const BasicInfoBlock = ({ detail, showPrivate }: AppProps) => {
                             <Icoresume width="22" height="25" />
                         </Pressable>
                     </Center>}
-                    {showPrivate == 1 && <Center w="20%"  borderColor="primary.text" alignItems="center">
+                    {showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && <Center w="20%"  borderColor="primary.text" alignItems="center">
                         <Pressable
                                 onPress={async () => {
-                                    push(`/${event.url}/attendees/detail/${detail?.detail?.id}/hotel`)
+                                    push(`/${event.url}/attendees/hotel/${detail?.detail?.id}`)
                         }}>
                             <Icohotelbed width="24" height="18" />
                         </Pressable>

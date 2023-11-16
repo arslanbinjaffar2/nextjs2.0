@@ -293,7 +293,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                                 <Text fontSize="18px">{detail?.detail?.info && detail?.detail?.info[`custom_field_id${question.event_id}`] && detail?.detail?.info[`custom_field_id${question.event_id}`].split(',').reduce((ack:any, answer:any, i:any) => {
                                                                         let ans = question.children_recursive.find((child:any) => (child.id == answer))?.name !== undefined ? question.children_recursive.find((child:any) => (child.id == answer))?.name : '';
                                                                         ack += ans;
-                                                                        if (i > 0 && i < detail?.detail?.info[`custom_field_id${question.event_id}`].split(',').length && ans !== '') {
+                                                                        if (i > 0 && detail?.detail?.info !== undefined &&  i < detail?.detail?.info[`custom_field_id${question.event_id}`].split(',').length && ans !== '') {
                                                                             ack += ',';
                                                                         }
                                                                         return ack;
