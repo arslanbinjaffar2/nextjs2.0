@@ -3,6 +3,7 @@ import { Box, Heading, HStack, Icon, Spacer, Text, View, VStack } from 'native-b
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Detail } from 'application/models/attendee/Detail';
 import moment from 'moment';
+import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
     detail: Detail,
@@ -11,7 +12,7 @@ type AppProps = {
 }
 
 const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
-
+    const { event  } = UseEventService();
     return (
         <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
             {(showPrivate == 1 ||  detail?.sort_field_setting.find((s:any)=>(s.name === 'bio_info'))?.is_private == 0 ) && detail?.detail?.info?.about! && (
@@ -313,6 +314,9 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                     </VStack>
                 </Box>
             )}
+            {detail?.sort_field_setting.length <= 0 && 
+                        <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+            }
             
         </Box>
     )

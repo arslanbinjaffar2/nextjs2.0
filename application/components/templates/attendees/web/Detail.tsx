@@ -164,18 +164,17 @@ const Detail = ({ speaker }: Props) => {
                                             <SectionLoading />
                                         ) : (
                                             <>
-                                                {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
-                                                    <React.Fragment key={`item-box-group-${k}`}>
-                                                        {map?.letter && (
-                                                            <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
-                                                        )}
-                                                        {map?.records?.map((group: Group, k: number) =>
-                                                            <React.Fragment key={`${k}`}>
-                                                                <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
-                                                            </React.Fragment>
-                                                        )}
+                                                {groups?.map((group: Group, k: number) =>
+                                                    <React.Fragment key={`${k}`}>
+                                                        <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
                                                     </React.Fragment>
                                                 )}
+                                                        
+                                                {
+                                                    groups?.length <= 0 && (
+                                                        <Text w="100%" pl="18px" bg="primary.darkbox">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                                    )
+                                                }
                                             </>
                                         )}
 
@@ -184,7 +183,9 @@ const Detail = ({ speaker }: Props) => {
                                         {in_array('programs', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
-                                            <SlideView  speaker={speaker} section="program" programs={programs} />
+                                            programs.length > 0 ? 
+                                            <SlideView  speaker={speaker} section="program" programs={programs} /> :
+                                            <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
                                         )}
                                     </Container>}
                                     {tab === 'category' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
@@ -200,6 +201,8 @@ const Detail = ({ speaker }: Props) => {
                                                 )}
                                             </React.Fragment>
                                         )}
+                                        {detail?.detail?.categories.length <=0 && 
+                                        <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>}
                                     </Container>}
                                     {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
                                         {in_array('documents', processing) && page === 1 ? (

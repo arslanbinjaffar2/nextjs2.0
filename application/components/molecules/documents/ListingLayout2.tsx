@@ -6,6 +6,7 @@ import { Document } from 'application/models/document/Document'
 import FindPath from 'application/utils/FindPath';
 import { Platform } from 'react-native';
 import RectangleViewLayout2 from 'application/components/atoms/documents/RectangleViewLayout2';
+import UseEventService from 'application/store/services/UseEventService';
 
 const ListingLayout2 = () => {
 
@@ -16,6 +17,8 @@ const ListingLayout2 = () => {
     const updateBreadCrumbs = (breadcrumbs: Document[]) => {
         setBreadCrumbs(breadcrumbs);
     }
+
+    const { event  } = UseEventService();
 
     return (
         <View w="100%" h="80%">
@@ -47,6 +50,9 @@ const ListingLayout2 = () => {
                             <RectangleViewLayout2 length={documents.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
                         </React.Fragment>
                     )}
+                    { documents.length <= 0 &&
+                        <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                    }
                 </Box>
             ) : (
                 <Container w="100%" h="90%" bg="primary.box" p="0" rounded="10" maxW={'100%'}>

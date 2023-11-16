@@ -9,6 +9,7 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
+import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
 
 type AppProps = {
     detail: Detail,
@@ -35,7 +36,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     {detail?.detail?.image ? (
                         <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="Alternate Text" w="50px" h="50px" />
                     ) : (
-                        <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="50px" h="50px" />
+                        <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={UserPlaceholderImage} alt="Alternate Text" w="50px" h="50px" />
                     )}
                     <VStack maxW="70%" space="0">
                         <Text lineHeight="sm" fontSize="xl">
