@@ -234,7 +234,7 @@ interface AttendeeDetail {
     attendee_cv?: string;
     cv?: string;
     encrypted_cpr_number?: string;
-    info?: any extends Info;
+    info?: Info;
     gdpr?: number;
     current_event_attendee?: CurrentEventAttendee;
     categories: Category[];
