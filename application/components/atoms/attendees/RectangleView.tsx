@@ -9,6 +9,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
+import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
 
 type boxItemProps = {
   attendee: Attendee
@@ -52,7 +53,7 @@ const RectangleView = ({ border, attendee, speaker }: boxItemProps) => {
             {attendee?.image ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="Alternate Text" w="50px" h="50px" />
             ) : (
-              <Image rounded="25" size="5" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="50px" h="50px" />
+              <Image rounded="25" size="5" source={UserPlaceholderImage} alt="Alternate Text" w="50px" h="50px" />
             )}
             <VStack maxW={['62%', '70%', '40%']} space="0">
               {(attendee?.first_name || attendee?.last_name) && (

@@ -104,9 +104,11 @@ const AuthSlice = createSlice({
             if (Platform.OS === 'web') {
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('skip_sub_reg');
+                localStorage.removeItem('keyword_skip');
             } else {
                 AsyncStorageClass.removeItem('access_token');
                 AsyncStorageClass.removeItem('skip_sub_reg');
+                AsyncStorageClass.removeItem('keyword_skip');
             }
         },
         loadToken(state, action: PayloadAction<boolean>) {
