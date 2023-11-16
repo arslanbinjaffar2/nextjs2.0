@@ -13,9 +13,10 @@ import { useRouter } from 'solito/router';
 type AppProps = {
     detail: Detail,
     showPrivate:number,
+    speaker:number
 }
 
-const BasicInfoBlock = ({ detail, showPrivate }: AppProps) => {
+const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
 
     const { _env } = UseEnvService()
 
@@ -59,14 +60,14 @@ const BasicInfoBlock = ({ detail, showPrivate }: AppProps) => {
                         )}
                     </VStack>
                     <Spacer />
-                    <Box w="20px" h="100%">
+                    {speaker == 0 && <Box w="20px" h="100%">
                         <Pressable
                             onPress={() => {
                                 MakeFavourite({ attendee_id: Number(detail?.detail?.id), screen: 'detail' })
                             }}>
                             <Icoribbon width="20" height="28" color={detail?.is_favourite ? event?.settings?.primary_color : ''} />
                         </Pressable>
-                    </Box>
+                    </Box>}
                 </HStack>
                 <HStack w="100%" space="0">
                     {(showPrivate == 1 || isPrivate?.initial == 0) && detail?.detail?.info?.initial && (
