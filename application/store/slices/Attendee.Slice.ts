@@ -45,7 +45,7 @@ const initialState: AttendeeState = {
         setting: {},
         field_setting: {},
         sort_field_labels:{},
-        sort_field_setting:{},
+        sort_field_setting:[],
         show_hotel_management:0,
         show_hotels:0,
         sub_registration_module_status:0,
