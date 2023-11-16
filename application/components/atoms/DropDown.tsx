@@ -32,7 +32,7 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
       ? isMulti
       : false;
 
-  const options = listitems.map((item, index) => {
+  const options = listitems.map((item:any, index:number) => {
     return {
       label: item.name,
       value: item.id,
@@ -41,14 +41,14 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
   });
 
   const style = {
-    control: (base) => ({
+    control: (base:any) => ({
       ...base,
       border: 0,
       boxShadow: 'none'
     })
   };
 
-  const Blanket = (props) => (
+  const Blanket = (props:any) => (
     <div
       className="blanket-wrapper"
       {...props}
@@ -67,7 +67,7 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
     </div>
   );
 
-  const Svg = (p) => (
+  const Svg = (p:any) => (
     <svg
       width="24"
       height="24"
@@ -107,7 +107,7 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
               value={selectedOption}
               onChange={onChange}
               options={options}
-              promptTextCreator={false}
+              // promptTextCreator={false}
               placeholder='search'
               styles={style}
               controlShouldRenderValue={is_isMulti ? true : false}
@@ -131,7 +131,7 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
             value={selected}
             onChange={onChange}
             options={options}
-            promptTextCreator={false}
+            // promptTextCreator={false}
             placeholder={label ? label : 'Search'}
             styles={style}
             controlShouldRenderValue={is_isMulti ? true : false}
