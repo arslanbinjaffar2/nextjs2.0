@@ -9,9 +9,10 @@ type AppProps = {
   program: Program,
   k: number,
   border: boolean,
+  speaker:number
 }
 
-const RectangleDetailView = ({ program, k, border }: AppProps) => {
+const RectangleDetailView = ({ program, k, border, speaker }: AppProps) => {
 
   const { MakeFavourite } = UseProgramService();
 
@@ -36,7 +37,7 @@ const RectangleDetailView = ({ program, k, border }: AppProps) => {
         <HStack pr="3" space="5" alignItems="center">
           <Pressable
             onPress={() => {
-              MakeFavourite({ program_id: program.id, screen: 'my-program' })
+              MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' :'my-program' })
             }}>
             <Icon size="xl" as={Ionicons} name="heart" color={program?.program_attendees_attached?.length ? "primary.secondary" : "primary.text"} />
           </Pressable>

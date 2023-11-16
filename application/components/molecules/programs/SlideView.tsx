@@ -10,10 +10,11 @@ import { Platform } from 'react-native';
 type AppProps = {
     programs: Program[],
     section: string,
-    my?: number
+    my?: number,
+    speaker:number
 }
 
-const SlideView = ({ programs, section, my }: AppProps) => {
+const SlideView = ({ programs, section, my, speaker }: AppProps) => {
 
     const { setScrollCounter, scroll } = UseLoadingService();
 
@@ -54,11 +55,11 @@ const SlideView = ({ programs, section, my }: AppProps) => {
                             <React.Fragment>
                                 <Text w="100%" pl="30px" bg="primary.darkbox">{program.program_workshop}</Text>
                                 {program.workshop_programs?.map((workshop_program: Program, i: number) =>
-                                    <RectangleDetailView program={workshop_program} k={i} border={program.workshop_programs?.length !== (i + 1)} />
+                                    <RectangleDetailView speaker={speaker} program={workshop_program} k={i} border={program.workshop_programs?.length !== (i + 1)} />
                                 )}
                             </React.Fragment>
                         ) : (
-                            <RectangleDetailView program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+                            <RectangleDetailView speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
                         )}
                     </React.Fragment>
                 )}

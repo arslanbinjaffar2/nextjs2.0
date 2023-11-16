@@ -49,6 +49,9 @@ function* OnMakeFavourite({
     if (payload.screen === "my-program") {
         yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'my-program', id: 0, track_id: state?.programs?.track_id }))
     }
+    if (payload.screen === "speaker-program") {
+        yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'speaker-program', id: state?.attendees?.detail?.detail?.id, track_id: state?.programs?.track_id }))
+    }
 }
 
 function* OnGetTracks({

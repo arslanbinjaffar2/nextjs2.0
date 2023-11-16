@@ -103,7 +103,7 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
+                            <Pressable onPress={()=> push(`/${event.url}/${speaker ? 'speakers' : 'attendees'}`)}>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                                     <Text fontSize="2xl">BACK</Text>
@@ -184,7 +184,7 @@ const Detail = ({ speaker }: Props) => {
                                         {in_array('programs', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
-                                            <SlideView section="program" programs={programs} />
+                                            <SlideView  speaker={speaker} section="program" programs={programs} />
                                         )}
                                     </Container>}
                                     {tab === 'category' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
