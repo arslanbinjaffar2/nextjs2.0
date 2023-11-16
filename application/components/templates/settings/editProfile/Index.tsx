@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack } from 'native-base';
 
-import {Select as ReactSelect} from "react-select";
+import {default  as ReactSelect} from "react-select";
 
 
 import WebLoading from 'application/components/atoms/WebLoading';
