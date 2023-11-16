@@ -15,7 +15,8 @@ export interface Detail {
     is_favourite?: number;
     is_speaker?: number;
     custom_fields?:any;
-
+    show_hotel_management?:number;
+    show_hotels?:number;
 }
 
 interface Setting {
