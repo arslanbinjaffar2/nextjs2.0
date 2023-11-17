@@ -9,7 +9,7 @@ type AppProps = {
   program: Program,
   k: number,
   border: boolean,
-  speaker:number
+  speaker?:number
 }
 
 const RectangleDetailView = ({ program, k, border, speaker }: AppProps) => {

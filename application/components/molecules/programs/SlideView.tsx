@@ -11,7 +11,7 @@ type AppProps = {
     programs: Program[],
     section: string,
     my?: number,
-    speaker:number
+    speaker?:number
 }
 
 const SlideView = ({ programs, section, my, speaker }: AppProps) => {
