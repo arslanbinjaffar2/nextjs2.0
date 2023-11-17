@@ -12,7 +12,6 @@ const Index = ({ navigation }: indexProps) => {
 
     return (
         <>
-
         </>
     );
 
