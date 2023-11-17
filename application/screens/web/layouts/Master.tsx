@@ -13,6 +13,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import ScrollCloseToBottom from 'application/utils/ScrollCloseToBottom';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
+import { useRouter as UseNextRouter } from 'next/router';
 
 type Props = {
   children:
@@ -36,6 +37,8 @@ const Master = ({ children, section }: Props) => {
   const { skip } = UseSubRegistrationService();
 
   const { push } = useRouter();
+
+  const nextRouter = UseNextRouter();
 
   const sub_reg_skip = localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
 
@@ -88,17 +91,17 @@ const Master = ({ children, section }: Props) => {
                 <HStack w="100%" pt="3" space="5" alignItems="flex-start">
                   {width > 750 && (
                     <>
-                      {section === 'settings' ? (
+                      {nextRouter.asPath.includes('settings') ? (
                         <LeftBarProfile />
                       ) : (
                         <LeftBar />
                       )}
                     </>
                   )}
-                  <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={section === 'settings' ? '100%' : (width > 750 ? '600px' : '100%')}>
+                  <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={nextRouter.asPath.includes('settings') ? '100%' : (width > 750 ? '600px' : '100%')}>
                     {children}
                   </Center>
-                  {width >= 970 && section !== 'settings' && <Center position="sticky" top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
+                  {width >= 970 && !nextRouter.asPath.includes('settings') && <Center position="sticky" top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
                     <RightBar />
                   </Center>}
                 </HStack>

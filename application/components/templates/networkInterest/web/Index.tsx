@@ -16,13 +16,19 @@ const Index = () => {
   
     const { event  } = UseEventService();
 
-    const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords } = UseNetworkInterestService();
+    const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords, skip } = UseNetworkInterestService();
     
     const { push } = useRouter()
 
     useEffect(() => {
         FetchNetworkInterests();
     }, [])
+
+    React.useEffect(() => {
+      if(skip === true){
+          push(`/${event.url}/dashboard`)
+      }
+    }, [skip]);
 
 
   return (

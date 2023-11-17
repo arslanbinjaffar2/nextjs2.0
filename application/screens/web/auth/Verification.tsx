@@ -56,81 +56,77 @@ const Verification = ({ props }: any) => {
     }, [id])
 
     return (
-        <AuthLayout>
-            <BackgroundLayout>
-                <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
-                    <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
-                        <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
-                        {Object.keys(response).length > 0 ? (
-                            <VStack w={'100%'} space='4'>
-                                <VStack space="20px" width={'100%'}>
-                                    <Text w={'100%'} fontSize='lg' lineHeight='sm' >{event.labels.DESKTOP_VERIFICATION_SCREEN_HEADING}</Text>
-                                    <FormControl isRequired isInvalid={'code' in errors || error !== ''}>
-                                        <Controller
-                                            control={control}
-                                            render={({ field: { onChange } }) => (
-                                                <ReactCodeInput type='number' onChange={(val) => onChange(val)} fields={6} fieldHeight={40} fieldWidth={75} />
-                                            )}
-                                            name="code"
-                                            rules={{ required: 'Code is required' }}
-                                        />
-                                        <FormControl.ErrorMessage>
-                                            {error ? error : errors.code?.message}
-                                        </FormControl.ErrorMessage>
-                                    </FormControl>
-                                    <Flex direction="row">
-                                        <Countdown
-                                            date={Date.now() + (response?.data?.ms! ? Number(response?.data?.ms) : 0)}
-                                            renderer={({ hours, minutes, seconds, completed }) => {
-                                                if (completed) {
-                                                    return (
-                                                        Number(minutes) < 4 && (
+        <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
+            <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
+                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
+                {Object.keys(response).length > 0 ? (
+                    <VStack w={'100%'} space='4'>
+                        <VStack space="20px" width={'100%'}>
+                            <Text w={'100%'} fontSize='lg' lineHeight='sm' >{event.labels.DESKTOP_VERIFICATION_SCREEN_HEADING}</Text>
+                            <FormControl isRequired isInvalid={'code' in errors || error !== ''}>
+                                <Controller
+                                    control={control}
+                                    render={({ field: { onChange } }) => (
+                                        <ReactCodeInput type='number' onChange={(val) => onChange(val)} fields={6} fieldHeight={40} fieldWidth={75} />
+                                    )}
+                                    name="code"
+                                    rules={{ required: 'Code is required' }}
+                                />
+                                <FormControl.ErrorMessage>
+                                    {error ? error : errors.code?.message}
+                                </FormControl.ErrorMessage>
+                            </FormControl>
+                            <Flex direction="row">
+                                <Countdown
+                                    date={Date.now() + (response?.data?.ms! ? Number(response?.data?.ms) : 0)}
+                                    renderer={({ hours, minutes, seconds, completed }) => {
+                                        if (completed) {
+                                            return (
+                                                Number(minutes) < 4 && (
+                                                    <Text onPress={() => {
+                                                        verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
+                                                    }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
+                                                )
+                                            );
+                                        } else {
+                                            return (
+                                                <>
+                                                    <Text>{event.labels.EVENTSITE_TIME_LEFT} = {minutes}:{seconds}</Text>
+                                                    {minutes < 4 && (
+                                                        <>
+                                                            <Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
                                                             <Text onPress={() => {
                                                                 verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
                                                             }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
-                                                        )
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <>
-                                                            <Text>{event.labels.EVENTSITE_TIME_LEFT} = {minutes}:{seconds}</Text>
-                                                            {minutes < 4 && (
-                                                                <>
-                                                                    <Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
-                                                                    <Text onPress={() => {
-                                                                        verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
-                                                                    }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
-                                                                </>
-                                                            )}
                                                         </>
-                                                    );
-                                                }
-                                            }}
-                                        />
-                                    </Flex>
-                                    <Link href={`/${event.url}/auth/login`}>
-                                        <Text w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
-                                    </Link>
-                                    <Button
-                                        width={'100%'}
-                                        isLoading={processing}
-                                        onPress={handleSubmit(onSubmit)}
-                                        minH='48px'
-                                        endIcon={<IcoLongArrow />}
-                                        _hover={{ bg: 'primary.secondary' }}
-                                    >
-                                    </Button>
-                                </VStack>
-                            </VStack>
-                        ) : (
-                            <VStack space={10} height='187px' alignItems="center" style={{ justifyContent: 'center' }}>
-                                <Spinner accessibilityLabel="Loading posts" />
-                            </VStack>
-                        )}
-                    </Flex>
-                </Center >
-            </BackgroundLayout >
-        </AuthLayout>
+                                                    )}
+                                                </>
+                                            );
+                                        }
+                                    }}
+                                />
+                            </Flex>
+                            <Link href={`/${event.url}/auth/login`}>
+                                <Text w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
+                            </Link>
+                            <Button
+                                width={'100%'}
+                                isLoading={processing}
+                                onPress={handleSubmit(onSubmit)}
+                                minH='48px'
+                                endIcon={<IcoLongArrow />}
+                                _hover={{ bg: 'primary.secondary' }}
+                            >
+                            </Button>
+                        </VStack>
+                    </VStack>
+                ) : (
+                    <VStack space={10} height='187px' alignItems="center" style={{ justifyContent: 'center' }}>
+                        <Spinner accessibilityLabel="Loading posts" />
+                    </VStack>
+                )}
+            </Flex>
+        </Center >
     );
 };
 

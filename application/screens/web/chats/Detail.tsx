@@ -12,7 +12,6 @@ type indexProps = {
 
 const Detail = ({ navigation }: indexProps) => {
   return (
-    <Master>
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <HStack space="3" alignItems="center">
@@ -105,7 +104,6 @@ const Detail = ({ navigation }: indexProps) => {
           rounded="10"
         />
       </Container>
-    </Master>
   );
 };
 

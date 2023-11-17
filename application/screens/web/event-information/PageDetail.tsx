@@ -39,7 +39,7 @@ const PageDetail = (props: any) => {
   }, [id, cms]);
 
   return (
-    <Master>
+    <>
       {(loading || !page) ? (
         <SectionLoading />
       ) : (
@@ -67,7 +67,7 @@ const PageDetail = (props: any) => {
         <Detail />
       </Container>
       ) }
-    </Master>
+    </>
   );
 };
 

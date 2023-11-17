@@ -59,60 +59,56 @@ const ResetPassword = ({ props }: any) => {
     }, [response.redirect])
 
     return (
-        <AuthLayout>
-            <BackgroundLayout>
-                <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
-                    <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
-                        <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
-                        <VStack w={'100%'} alignItems={'center'} space='4'>
-                            <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the new password & confirm password.</Text>
-                            <FormControl isRequired isInvalid={'password' in errors || error !== ''}>
-                                <Controller
-                                    control={control}
-                                    render={({ field: { onChange, onBlur, value } }) => (
-                                        <Input onChangeText={(val) => onChange(val)} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} placeholder={event.labels.GENERAL_PASSWORD} />
-                                    )}
-                                    name="password"
-                                    defaultValue=""
-                                />
-                                <FormControl.ErrorMessage>
-                                    {error
-                                        ? error
-                                        : errors.password?.message}
-                                </FormControl.ErrorMessage>
-                            </FormControl>
-                            <FormControl isRequired isInvalid={'password_confirmation' in errors}>
-                                <Controller
-                                    control={control}
-                                    render={({ field: { onChange, onBlur, value } }) => (
-                                        <Input onChangeText={(val) => onChange(val)} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} placeholder={event.labels.CONFIRM_PASSWORD} />
-                                    )}
-                                    name="password_confirmation"
-                                    defaultValue=""
-                                />
-                                <FormControl.ErrorMessage>
-                                    {errors.password_confirmation?.message
-                                        ? errors.password_confirmation?.message
-                                        : errors.password_confirmation?.message}
-                                </FormControl.ErrorMessage>
-                            </FormControl>
-                            <Link href={`/${event.url}/auth/login`}>
-                                <Text fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
-                            </Link>
-                            <Button
-                                isLoading={processing}
-                                onPress={handleSubmit(onSubmit)}
-                                minH='48px'
-                                w={'100%'}
-                                endIcon={<IcoLongArrow />}
-                                _hover={{ bg: 'primary.secondary' }}
-                            >
-                            </Button>
-                        </VStack>
-                    </Flex>
-                </Center >
-            </BackgroundLayout >
-        </AuthLayout >
+        <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
+            <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
+                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
+                <VStack w={'100%'} alignItems={'center'} space='4'>
+                    <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the new password & confirm password.</Text>
+                    <FormControl isRequired isInvalid={'password' in errors || error !== ''}>
+                        <Controller
+                            control={control}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <Input onChangeText={(val) => onChange(val)} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} placeholder={event.labels.GENERAL_PASSWORD} />
+                            )}
+                            name="password"
+                            defaultValue=""
+                        />
+                        <FormControl.ErrorMessage>
+                            {error
+                                ? error
+                                : errors.password?.message}
+                        </FormControl.ErrorMessage>
+                    </FormControl>
+                    <FormControl isRequired isInvalid={'password_confirmation' in errors}>
+                        <Controller
+                            control={control}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <Input onChangeText={(val) => onChange(val)} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} placeholder={event.labels.CONFIRM_PASSWORD} />
+                            )}
+                            name="password_confirmation"
+                            defaultValue=""
+                        />
+                        <FormControl.ErrorMessage>
+                            {errors.password_confirmation?.message
+                                ? errors.password_confirmation?.message
+                                : errors.password_confirmation?.message}
+                        </FormControl.ErrorMessage>
+                    </FormControl>
+                    <Link href={`/${event.url}/auth/login`}>
+                        <Text fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
+                    </Link>
+                    <Button
+                        isLoading={processing}
+                        onPress={handleSubmit(onSubmit)}
+                        minH='48px'
+                        w={'100%'}
+                        endIcon={<IcoLongArrow />}
+                        _hover={{ bg: 'primary.secondary' }}
+                    >
+                    </Button>
+                </VStack>
+            </Flex>
+        </Center >
     );
 };
 

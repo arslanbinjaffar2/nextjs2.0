@@ -62,7 +62,7 @@ const Index = ({ navigation }: indexProps) => {
   }, [modules.length]);
 
   return (
-    <Master>
+    <>
       {(in_array('programs', processing) || in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
         <WebLoading />
       ) : (
@@ -118,7 +118,7 @@ const Index = ({ navigation }: indexProps) => {
         </>
 
       )}
-    </Master>
+    </>
   );
 
 };

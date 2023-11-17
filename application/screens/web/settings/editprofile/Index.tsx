@@ -13,9 +13,9 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
 
   return (
-    <Master section='settings'>
+    // <Master section='settings'>
       <IndexTemplate />
-    </Master>
+    // </Master>
   );
 
 };
