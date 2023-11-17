@@ -19,7 +19,7 @@ type AppProps = {
 
 const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppProps) => {
 
-    const { data, FilterDocuments } = UseDocumentService();
+    const {data, FilterDocuments } = UseDocumentService();
 
     const { _env } = UseEnvService()
 

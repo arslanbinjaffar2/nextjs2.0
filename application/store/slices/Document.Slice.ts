@@ -7,7 +7,9 @@ import type { RootState } from 'application/store/Index'
 import {
     current
 } from '@reduxjs/toolkit';
+
 import KeywordFilter from 'application/utils/KeywordFilter';
+import ReadDocumentFilter from 'application/utils/ReadDocumentFilter';
 
 export interface DocumentState {
     data: Document[],
@@ -45,22 +47,12 @@ export const DocumentSlice = createSlice({
             state.documents = action.payload;
         },
         FilterDocuments(state, action: PayloadAction<{ document_id: number, query: string }>) {
-            const readDocument = (data: Document[], document_id: number): Document[] => {
-                for (let obj of data) {
-                    if (obj.id === document_id) {
-                        return obj.children_files;
-                    }
-                    if (obj.children) {
-                        let result = readDocument(obj.children_files, document_id);
-                        if (result) {
-                            return result;
-                        }
-                    }
-                }
-                return [];
-            }
-
-            const records = action.payload.document_id === 0 ? KeywordFilter(current(state.data), 'name', action.payload.query) : readDocument(current(state.data), action.payload.document_id);
+            
+            console.log(action.payload.document_id, 'doc_id');
+            
+            const records = action.payload.document_id === 0 ? KeywordFilter(current(state.data), 'name', action.payload.query) : ReadDocumentFilter(current(state.data), action.payload.document_id);
+            
+            console.log(records);
 
             state.query = action.payload.query;
 

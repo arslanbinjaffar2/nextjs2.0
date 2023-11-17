@@ -18,6 +18,9 @@ const ListingLayout2 = () => {
         setBreadCrumbs(breadcrumbs);
     }
 
+    console.log(documents);
+    console.log(data);
+
     const { event  } = UseEventService();
 
     return (
@@ -45,10 +48,13 @@ const ListingLayout2 = () => {
             </HStack>
             {Platform.OS === 'web' ? (
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
-                    {documents.map((document: Document, key: number) =>
-                        <React.Fragment key={key}>
-                            <RectangleViewLayout2 length={documents.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
-                        </React.Fragment>
+                    {documents.map((document: Document, key: number) => {
+                            if(document?.path !== undefined ||document?.files?.length > 0 || document?.children_files?.length > 0){
+                               return <React.Fragment key={key}>
+                                    <RectangleViewLayout2 length={documents.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
+                                </React.Fragment>
+                            }
+                        }
                     )}
                     { documents.length <= 0 &&
                         <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>

@@ -7,7 +7,7 @@ import { Map } from 'application/models/Map'
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type MapServiceOperators = {
-    map: Map
+    map: Map|null
     FetchMap: () => void
 }
 
