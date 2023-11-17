@@ -71,6 +71,7 @@ export interface Event {
     gdpr_settings?: any;
     myturnlist_setting?: MyTurnlistSetting
     agenda_settings?: AgendaSetting
+    speaker_settings?: SpeakerSettings
 }
 interface Setting {
     poll_setting?: string;
@@ -297,4 +298,61 @@ interface AgendaSetting {
     updated_at: string;
     deleted_at: string;
     program_view: string;
+}
+
+interface SpeakerSettings {
+  id: number;
+  event_id: number;
+  phone: number;
+  email: number;
+  title: number;
+  department: number;
+  company_name: number;
+  show_country: number;
+  contact_vcf: number;
+  program: number;
+  group: number;
+  category_group: number;
+  show_group: number;
+  show_document: number;
+  initial: number;
+  chat: number;
+  hide_attendee: number;
+  tab: number;
+  default_display: string;
+  order_by: string;
+  registration_site_limit: number;
+  poll: number;
+  document: number;
+  delegate_number: number;
+  network_group: number;
+  table_number: number;
+  organization: number;
+  interest: number;
+  bio_info: number;
+  show_custom_field: number;
+  show_industry: number;
+  show_job_tasks: number;
+  gdpr_accepted: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  resume: number;
+  type: number;
+  place_of_birth: number;
+  passport_no: number;
+  date_of_issue_passport: number;
+  date_of_expiry_passport: number;
+  pa_house_no: number;
+  pa_street: number;
+  pa_post_code: number;
+  pa_city: number;
+  pa_country: number;
+  age: number;
+  display_speaker_dashboard: number;
+  first_name_passport: number;
+  last_name_passport: number;
+  birth_date: number;
+  spoken_languages: number;
+  employment_date: number;
 }
