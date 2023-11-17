@@ -25,6 +25,7 @@ import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 import { error } from 'application/store/slices/Auth.Slice';
+import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 
 
 type ScreenParams = { id: string }
@@ -49,6 +50,9 @@ const Detail = () => {
   const { push } = useRouter()
 
   const { afterLogin, FetchSubRegistrationAfterLogin, SaveSubRegistration, submitting, skip, setSkip } = UseSubRegistrationService();
+
+  const { netWorkskip } = UseNetworkInterestService();
+
 
   const [formData, setFormData] = useState<FormData>({});
   const [errors, setErrors] = useState<FormData>({});
@@ -116,7 +120,7 @@ const Detail = () => {
 
     React.useEffect(() => {
       if(skip === true){
-          push(`/${event.url}/dashboard`)
+          push(`/${event.url}/${netWorkskip !== true ? 'network-interest' : 'dashboard'}`)
       }
     }, [skip]);
 

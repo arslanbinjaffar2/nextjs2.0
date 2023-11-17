@@ -10,6 +10,7 @@ import { Attendee } from 'application/models/attendee/Attendee'
 export type NetworkInterestServiceOperators = {
     keywords: Keyword[],
     skip:boolean,
+    netWorkskip:boolean,
     UpdatingMyKeywords:boolean,
     searchMatchAttendees:Attendee[]|null,
     searchingAttendees:boolean,
@@ -34,6 +35,7 @@ export const UseNetworkInterestService = (): Readonly<NetworkInterestServiceOper
         searchMatchAttendees: useAppSelector(SelectSearchMatchAttendees),
         searchingAttendees: useAppSelector(SelectSearchingAttendees),
         skip: useAppSelector(SelectNetworkSkip),
+        netWorkskip: useAppSelector(SelectNetworkSkip),
         FetchNetworkInterests: useCallback(
             () => {
                 dispatch(NetworkInterestActions.FetchNetworkInterests())

@@ -54,13 +54,17 @@ const Master = ({ children, section }: Props) => {
     if (response.redirect === "login" || access_token_exists === false) {
       push(`/${event.url}/auth/login`)
     }
-    else if ((sub_reg_skip) !== true) {
+  }, [response])
+  
+  React.useEffect(() => {
+    if ((sub_reg_skip) !== true) {
       push(`/${event.url}/subRegistration`)
-    }
-    else if ((keyword_skip) !== true) {
+    } else if ((keyword_skip) !== true) {
       push(`/${event.url}/network-interest`)
     }
-  }, [response])
+  }, [nextRouter.asPath])
+
+
 
   React.useEffect(() => {
     if (modules.length === 0 && isLoggedIn && event.id) {
