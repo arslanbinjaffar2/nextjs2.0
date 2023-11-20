@@ -6,6 +6,7 @@ import { Exhibitor, Category } from 'application/models/exhibitor/Exhibitor'
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
+import { Linking } from 'react-native';
 
 type AppProps = {
     exhibitor: Exhibitor,
@@ -23,9 +24,18 @@ const RectangleView = ({ k, exhibitor }: AppProps) => {
     return (
         <Box w="100%" borderBottomWidth={1} borderColor="primary.text" py="3">
             <Pressable
-                onPress={() => {
-                    push(`/${event.url}/exhibitors/detail/${exhibitor.id}`)
-                }}>
+                onPress={async () => {
+                    if(exhibitor?.url && exhibitor?.url !== '' && exhibitor.url !== 'http://' && exhibitor.url !== 'https://'){
+                        const url: any = `${exhibitor?.url}`;
+                        const supported = await Linking.canOpenURL(url);
+                        if (supported) {
+                            await Linking.openURL(url);
+                        }}
+                    else{
+                        push(`/${event.url}/exhibitors/detail/${exhibitor.id}`)
+                    }
+                }}
+            >
                 <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                     <Box position="absolute" left="0" top="0" w="15px">
                         <ZStack>

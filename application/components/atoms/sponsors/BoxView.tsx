@@ -7,6 +7,8 @@ import UseSponsorService from 'application/store/services/UseSponsorService';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
+import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
+import { Linking } from 'react-native';
 
 type AppProps = {
     sponsor: Sponsor,
@@ -28,10 +30,19 @@ const BoxView = ({ k, sponsor, w }: AppProps) => {
         <>
             <Box w={w ? w : '49%'}>
                 <Pressable
-                    onPress={() => {
+                onPress={async () => {
+                    if(sponsor?.url && sponsor?.url !== '' && sponsor.url !== 'http://' && sponsor.url !== 'https://'){
+                        const url: any = `${sponsor?.url}`;
+                        const supported = await Linking.canOpenURL(url);
+                        if (supported) {
+                            await Linking.openURL(url);
+                        }}
+                    else{
                         push(`/${event.url}/sponsors/detail/${sponsor.id}`)
-                    }}>
-                    <Box mb="3" w="100%" bg="primary.box" p="0" borderWidth="1" borderColor="primary.bdBox" rounded="10">
+                    }
+                }}
+                    >
+                    <Box mb="3" w="100%" bg="primary.boxTransparent" p="0" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                         {settings?.mark_favorite === 1 && (
                             <IconButton
                                 bg="transparent"
@@ -50,16 +61,16 @@ const BoxView = ({ k, sponsor, w }: AppProps) => {
                             {sponsor.logo ? (
                                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${sponsor.logo}` }} alt="Alternate Text" w="210px" h="72px" />
                             ) : (
-                                <Image source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="210px" h="72px" />
+                                <Image source={ExhibitorDefaultImage} alt="Alternate Text" w="210px" h="72px" />
                             )}
                         </Center>
                         <HStack pb="3" space="3" alignItems="center">
-                            <Center alignItems="flex-start" w="70%">
-                                {sponsor.name && <Box bg={'#E03C30'} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" shadow="1" w="auto" px="2">
+                            <Center alignItems="flex-start" w="50%">
+                                {sponsor.name && <Box bg={sponsor?.categories.length > 0 ? sponsor?.categories[0].color : '#E03C30'} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" shadow="1" w="auto" px="2">
                                     <Text fontSize="xs">{sponsor.name}</Text>
                                 </Box>}
                             </Center>
-                            <Center pr="6" alignItems="flex-end" w="30%">
+                            <Center pr="6" alignItems="flex-end" w="50%">
                                 {sponsor.booth && <HStack space="3" alignItems="center">
                                     <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
                                     <Text fontSize="md">{sponsor.booth}</Text>

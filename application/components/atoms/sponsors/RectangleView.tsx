@@ -6,6 +6,7 @@ import { Sponsor, Category } from 'application/models/sponsor/Sponsor'
 import UseSponsorService from 'application/store/services/UseSponsorService';
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
+import { Linking } from 'react-native';
 
 type AppProps = {
     sponsor: Sponsor,
@@ -23,8 +24,16 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
     return (
         <Box w="100%" borderBottomWidth={1} borderColor="primary.text" py="3">
             <Pressable
-                onPress={() => {
-                    push(`/${event.url}/sponsors/detail/${sponsor.id}`)
+                onPress={async () => {
+                    if(sponsor?.url && sponsor?.url !== '' && sponsor.url !== 'http://' && sponsor.url !== 'https://'){
+                        const url: any = `${sponsor?.url}`;
+                        const supported = await Linking.canOpenURL(url);
+                        if (supported) {
+                            await Linking.openURL(url);
+                        }}
+                    else{
+                        push(`/${event.url}/sponsors/detail/${sponsor.id}`)
+                    }
                 }}>
                 <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                     <Box position="absolute" left="0" top="0" w="15px">

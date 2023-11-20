@@ -116,7 +116,7 @@ const Index = React.memo(() => {
                             </HStack>
                         </ScrollView>
                     </Box>}
-                    <BannerView url={''} />
+                    {/* <BannerView url={''} /> */}
                 </Container>
             )}
         </>

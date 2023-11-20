@@ -1,11 +1,12 @@
 import React from 'react'
-import { Box, Image, Spacer, Text, HStack, IconButton, Icon, Divider } from 'native-base'
+import { Box, Image, Spacer, Text, HStack, IconButton, Icon, Divider, ZStack } from 'native-base'
 import { Category, ExhibitorDetail } from 'application/models/exhibitor/ExhibitorDetail'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useWindowDimensions } from 'react-native';
+import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 
 type AppProps = {
     detail: ExhibitorDetail,
@@ -25,9 +26,9 @@ const DetailBox = ({ detail }: AppProps) => {
                 {detail?.detail?.logo ? (
                     <Image mb="5" rounded="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="Alternate Text" w="100%" h="160px" />
                 ) : (
-                    <Image mb="5" rounded="10" size="full" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="100%" h="160px" />
+                    <Image mb="5" rounded="10" size="full" source={ExhibitorDefaultImage} alt="Alternate Text" w="100%" h="160px" />
                 )}
-                <Box w="100%" px="5">
+                <Box w="100%" px="5" position={'relative'}>
                     <HStack w="100%" mb="1" space="3" alignItems="flex-start">
                         {detail?.detail?.name && (
                             <Text maxW="80%" fontSize="xl">{detail?.detail?.name}</Text>
@@ -37,7 +38,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             bg="transparent"
                             p="1"
                             _hover={{ bg: 'primary.500' }}
-                            icon={<Icon size="xl" as={Ionicons} name={detail?.detail?.attendee_exhibitors!?.length > 0 ? 'heart' : 'heart-outline'} color="primary.darkbox" />}
+                            icon={<Icon size="xl" as={Ionicons} name={detail?.detail?.attendee_exhibitors!?.length > 0 ? 'heart' : 'heart-outline'} color={detail?.detail?.attendee_exhibitors!?.length > 0 ? 'red.600' : "primary.darkbox"} />}
                             onPress={() => {
                                 MakeFavourite({ exhibitor_id: Number(detail?.detail?.id), screen: 'exhibitor-detail' });
                             }}
@@ -47,6 +48,11 @@ const DetailBox = ({ detail }: AppProps) => {
                         />
                     </HStack>
                     <HStack w="100%" mb="3" space="0" alignItems="center">
+                        <Box position="absolute" left="-20px" top="0">
+                            <ZStack>
+                                <Box bg={detail?.detail?.categories[0].color} borderWidth="1" borderColor="primary.darkbox" w="16px" mt='0px' h={`32px`} borderRightRadius="10" shadow={2} />
+                            </ZStack>
+                        </Box>
                         {detail?.detail?.categories!?.length > 0 && (
                             <Text fontSize="md">
                                 {detail?.detail?.categories!?.map((category: Category, i: number) =>

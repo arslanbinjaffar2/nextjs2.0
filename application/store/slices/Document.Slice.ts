@@ -58,6 +58,15 @@ export const DocumentSlice = createSlice({
 
             state.documents = records;
         },
+        clearState(state){
+            state.data= [];
+            state.documents= [];
+            state.query= '';
+            state.speaker_id= 0;
+            state.sponsor_id= 0;
+            state.exhibitor_id= 0;
+            state.agenda_id= 0;
+        }
     },
 })
 
@@ -66,6 +75,7 @@ export const DocumentActions = {
     FetchDocuments: DocumentSlice.actions.FetchDocuments,
     FilterDocuments: DocumentSlice.actions.FilterDocuments,
     update: DocumentSlice.actions.update,
+    clearState: DocumentSlice.actions.clearState,
 }
 
 export const SelectDocuments = (state: RootState) => state.documents.documents

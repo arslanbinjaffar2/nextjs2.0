@@ -8,7 +8,7 @@ import { Platform } from 'react-native';
 import RectangleViewLayout2 from 'application/components/atoms/documents/RectangleViewLayout2';
 import UseEventService from 'application/store/services/UseEventService';
 
-const ListingLayout2 = () => {
+const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
 
     const [breadcrumbs, setBreadCrumbs] = React.useState<Document[]>([]);
 
@@ -18,21 +18,18 @@ const ListingLayout2 = () => {
         setBreadCrumbs(breadcrumbs);
     }
 
-    // console.log(typeof documents[0]['children_files']);
-    console.log(data);
-
     const { event  } = UseEventService();
 
     return (
         <View w="100%" h="80%">
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Pressable
+                {!disableTitle && <Pressable
                     onPress={async () => {
                         FilterDocuments({ document_id: 0, query: '' });
                         setBreadCrumbs([]);
                     }}>
                     <Text textTransform="uppercase" fontSize="xs">Documents</Text>
-                </Pressable>
+                </Pressable>}
                 {breadcrumbs.length > 0 && breadcrumbs.map((breadcrumb: Document, key: number) =>
                     <React.Fragment key={key}>
                         <Icon ml="-1" color="primary.text" size="3" as={AntDesign} name="right" />

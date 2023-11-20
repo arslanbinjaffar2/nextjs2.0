@@ -11,6 +11,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
+import { DocumentActions } from '../slices/Document.Slice';
 
 function* OnGetSponsors({
     payload,
@@ -59,6 +60,7 @@ function* OnGetSponsorDetail({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getSponsorDetailApi, payload, state)
     yield put(SponsorActions.updateSponsorDetail(response.data.data!))
+    yield put(DocumentActions.update(response.data.data.documents!))
     yield put(LoadingActions.set(false));
 }
 

@@ -16,6 +16,7 @@ export type DocumentServiceOperators = {
     documents: Document[]
     FetchDocuments: (payload: { speaker_id: number, sponsor_id: number, exhibitor_id: number, agenda_id: number }) => void
     FilterDocuments: (payload: { document_id: number, query: string }) => void
+    clearState: () => void
 }
 
 /**
@@ -43,6 +44,12 @@ export const UseDocumentService = (): Readonly<DocumentServiceOperators> => {
         FilterDocuments: useCallback(
             (payload: { document_id: number, query: string }) => {
                 dispatch(DocumentActions.FilterDocuments(payload))
+            },
+            [dispatch],
+        ),
+        clearState: useCallback(
+            () => {
+                dispatch(DocumentActions.clearState())
             },
             [dispatch],
         )

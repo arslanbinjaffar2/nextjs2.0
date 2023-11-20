@@ -12,6 +12,11 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import { ExhibitorsAttendee } from 'application/models/exhibitor/ExhibitorDetail'
 import RectangleView from 'application/components/atoms/exhibitors/contact-person/RectangleView';
 import WebLoading from 'application/components/atoms/WebLoading';
+import SectionLoading from 'application/components/atoms/SectionLoading';
+import in_array from "in_array";
+import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
+import UseDocumentService from 'application/store/services/UseDocumentService';
+
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -21,13 +26,19 @@ const Detail = React.memo(() => {
 
     const { FetchExhibitorDetail, detail } = UseExhibitorService();
 
-    const { loading } = UseLoadingService();
+    const { loading, processing } = UseLoadingService();
 
     const [id] = useParam('id');
+
+    const { clearState } = UseDocumentService();
+
 
     React.useEffect(() => {
         if (id) {
             FetchExhibitorDetail({ id: Number(id) });
+        }
+        return () =>{
+            clearState();
         }
     }, [id]);
 
@@ -58,18 +69,12 @@ const Detail = React.memo(() => {
                                     <Icodocument width="15px" height="18px" />
                                     <Text fontSize="lg">Documents</Text>
                                 </HStack>
-                                <Box w="100%" py="4">
-                                    <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
-                                        <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                            <HStack space="3" alignItems="center">
-                                                <Icon size="md" as={AntDesign} name="pdffile1" color="primary.text" />
-                                                <Text fontSize="md">10 things we can do to help</Text>
-                                            </HStack>
-
-                                        </VStack>
-                                        <Spacer />
-                                        <Icon size="lg" as={AntDesign} name="download" color="primary.text" />
-                                    </HStack>
+                                <Box p={2} >
+                                    {in_array('documents', processing) ? (
+                                                <SectionLoading />
+                                            ) : (
+                                           <ListingLayout2 disableTitle />
+                                      )}
                                 </Box>
                             </Box>
                         </Container>
