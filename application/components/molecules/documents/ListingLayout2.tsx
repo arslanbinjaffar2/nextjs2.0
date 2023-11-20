@@ -18,7 +18,7 @@ const ListingLayout2 = () => {
         setBreadCrumbs(breadcrumbs);
     }
 
-    console.log(documents);
+    // console.log(typeof documents[0]['children_files']);
     console.log(data);
 
     const { event  } = UseEventService();

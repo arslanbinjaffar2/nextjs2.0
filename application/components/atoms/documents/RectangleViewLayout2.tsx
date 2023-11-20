@@ -9,6 +9,7 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import HumanFileSize from 'application/utils/HumanFileSize';
 import { Linking } from 'react-native';
 import UseEnvService from 'application/store/services/UseEnvService';
+import FileIconByType from 'application/components/atoms/documents/FileIconByType';
 
 type AppProps = {
     document: Document,
@@ -56,7 +57,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                 }}>
 
                                 <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.text" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
-                                    <Icon size="xl" as={AntDesign} name="pdffile1" color="primary.text" />
+                                    <FileIconByType type={document?.path.split('.')[1]} />
                                     <VStack space="0">
                                         <Text fontSize="md">{document?.name}</Text>
                                         <HStack space="3" alignItems="center">
@@ -78,3 +79,4 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
 }
 
 export default RectangleViewLayout2
+
