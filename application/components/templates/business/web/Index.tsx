@@ -65,9 +65,9 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
   const [filters, setFilters] = useState<any[]>([]);
 
   const setFilter= (kid:any)=>{
-      setSearchTerm("");
+    setSearchTerm("");
     if(kid !== 0){
-      if(filters.indexOf(kid) === -1) {
+      if(!filters.includes(kid)) {
         setFilters([...filters, kid])
       }else{
         setFilters([...filters.filter((item:any)=>( item !== kid))])
@@ -75,12 +75,22 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
     }else{
       setFilters([]);
     }
-    console.log(filters, 'filters');
   }
 
   const setSearch = (value:any)=>{
-    setSearchTerm(value);
-    setFilters([ ...interestkeywords?.filter((kword)=> (kword?.name?.toLowerCase().indexOf(value?.toLowerCase()) !== -1))?.map((kword)=>(kword?.id)) ])
+    // setSearchTerm(value);
+    const filterIds = interestkeywords?.filter((kword)=> {
+      if(kword?.name?.toLowerCase().indexOf(searchTerm?.toLowerCase()) > -1){
+          return true;
+        }
+      else if(kword?.children?.filter((subkey)=>( subkey?.name?.toLowerCase().indexOf(searchTerm?.toLowerCase()) > -1))?.length! > 0){
+        return true;
+      }
+      else{
+        return false;
+      }
+    })?.map((kword)=>(kword?.id));
+    setFilters([ ...filterIds ]);
   }
 
   useEffect(() => {
@@ -92,6 +102,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
       setFilteredKeywords([])
     }
   }, [filters])
+ 
   
   const addMyKeyword = (kid:any) =>{
     if(mykeywords?.indexOf(kid) === -1) {
@@ -115,7 +126,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                     {searchingAttendees && <SectionLoading/>}
                     {searchMatchAttendees && <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
                       {searchMatchAttendees.map((attendee: any, k: number) =>
-                          <RectangleView attendee={attendee} border={searchMatchAttendees.length - 1 < k ? 1 : 0 } speaker={0} disableMarkFavroute/>
+                          <RectangleView attendee={attendee} border={searchMatchAttendees.length - 1 == k ? 0 : 1 } speaker={0} disableMarkFavroute/>
                       )}
                     </Box>}
                     {!searchingAttendees && !searchMatchAttendees && <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>} 
@@ -181,7 +192,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                     ))}
                     </HStack>
                     <Box w="100%" mb="3">
-                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </Box>
                     <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
                     {filteredkeywords?.length > 0 ? filteredkeywords?.map((keyword:Keyword)=>(
