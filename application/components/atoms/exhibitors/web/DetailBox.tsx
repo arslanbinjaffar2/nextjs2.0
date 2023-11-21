@@ -9,7 +9,7 @@ import { useWindowDimensions } from 'react-native';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 
 type AppProps = {
-    detail: ExhibitorDetail,
+    detail: ExhibitorDetail | null,
 }
 
 const DetailBox = ({ detail }: AppProps) => {
