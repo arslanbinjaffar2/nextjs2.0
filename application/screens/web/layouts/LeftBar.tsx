@@ -9,6 +9,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
+import UseInfoService from 'application/store/services/UseInfoService';
 
 const LeftBar = () => {
 
@@ -19,6 +20,8 @@ const LeftBar = () => {
   const { event, modules } = UseEventService()
 
   const { logout, response } = UseAuthService();
+
+  const { info, page } = UseInfoService();
 
   const { _env } = UseEnvService();
 
@@ -58,7 +61,7 @@ const LeftBar = () => {
             w="100%"
             px="4"
             py="2"
-            bg={`${router.asPath.includes(row?.alias == 'information_pages' ? `information-pages/${row?.id}` : row?.alias) && 'primary.500'}`}
+            bg={`${ checkActiveRoute(row, router.asPath, info, page) && 'primary.500'}`}
             _hover={{ bg: 'primary.500' }}
             borderRadius="4"
             onPress={() => {
@@ -103,3 +106,22 @@ const LeftBar = () => {
 }
 
 export default LeftBar;
+
+const checkActiveRoute = (row:any, path:any, info:any, page:any) => {
+  if(row?.alias == 'information_pages'){
+    if(path.includes((`information-pages/${row?.id}`))){
+      return true;
+    }
+    else if(info && info[0] && row?.id == info[0]?.section_id ){
+      return true;
+    }
+    else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.section_id)){
+      return true;
+    }
+  }else{
+    if(path.includes(row?.alias)){
+      return true;
+    };
+  }
+  
+}
