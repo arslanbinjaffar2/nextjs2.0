@@ -13,6 +13,7 @@ import RectangleAttendeeView from 'application/components/atoms/attendees/Rectan
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
+import RectangleView from 'application/components/atoms/attendees/RectangleView';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -112,53 +113,12 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                       <Text textTransform="uppercase" fontSize="2xl">Attendees</Text>
                     </HStack>
                     {searchingAttendees && <SectionLoading/>}
-                    <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
-                      {searchMatchAttendees && searchMatchAttendees.map((attendee: any, k: number) =>
-                          <React.Fragment key={`item-box-${k}`}>
-                                  <React.Fragment key={`${k}`}>
-                                    <Box w="100%" borderBottomWidth={(searchMatchAttendees.length - 1) == k ? 0 : 1} borderColor="primary.text" py="3">
-                                      <Pressable
-                                        onPress={() => {
-                                          if (Platform.OS === "web") {
-                                              push(`/${event.url}/attendees/detail/${attendee.id}`)
-                                            
-                                          } else {
-                                            navigation.replace('app', {
-                                              screen: 'attendee-detail',
-                                              params: {
-                                                id: attendee.id
-                                              }
-                                            })
-                                          }
-                                        }}>
-                                        <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-                                          <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                                            {attendee?.image ? (
-                                              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="Alternate Text" w="50px" h="50px" />
-                                            ) : (
-                                              <Image rounded="25" size="5" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="50px" h="50px" />
-                                            )}
-                                            <VStack maxW={['62%', '70%', '40%']} space="0">
-                                              {(attendee?.first_name || attendee?.last_name) && (
-                                                <>
-                                                  <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
-                                                
-                                                </>
-                                              )}
-                                              
-                                            </VStack>
-                                            <Spacer />
-                                            <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
-                                            
-                                          </HStack>
-                                        </HStack>
-                                      </Pressable>
-                                  </Box>
-                                  </React.Fragment>
-                          </React.Fragment>
+                    {searchMatchAttendees && <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
+                      {searchMatchAttendees.map((attendee: any, k: number) =>
+                          <RectangleView attendee={attendee} border={searchMatchAttendees.length - 1 < k ? 1 : 0 } speaker={0} disableMarkFavroute/>
                       )}
-                      {!searchingAttendees && !searchMatchAttendees && <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>} 
-                    </Box>
+                    </Box>}
+                    {!searchingAttendees && !searchMatchAttendees && <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>} 
                     {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
                       <Button
                           size="lg"

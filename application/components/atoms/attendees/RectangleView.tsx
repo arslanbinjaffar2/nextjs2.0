@@ -15,9 +15,10 @@ type boxItemProps = {
   attendee: Attendee
   border: number
   speaker: number
+  disableMarkFavroute?: boolean
 }
 
-const RectangleView = ({ border, attendee, speaker }: boxItemProps) => {
+const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxItemProps) => {
 
   const { MakeFavourite } = UseAttendeeService();
 
@@ -78,7 +79,7 @@ const RectangleView = ({ border, attendee, speaker }: boxItemProps) => {
               )}
             </VStack>
             <Spacer />
-            {!speaker && (
+            {(!speaker && !disableMarkFavroute) && (
               <HStack space="4" alignItems="center">
                 <Pressable
                   onPress={() => {
