@@ -49,6 +49,16 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                             </Box>
                                         </HStack>
                                     )}
+                                    {setting.name === 'show_industry' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.industry! && (
+                                        <HStack space="0" alignItems="flex-start">
+                                            <Box w="25%">
+                                                <Heading fontSize="18px" lineHeight="lg">{detail?.sort_field_labels?.industry}:</Heading>
+                                            </Box>
+                                            <Box w="65%" pl="1">
+                                                <Text fontSize="18px">{detail?.detail?.info?.industry}</Text>
+                                            </Box>
+                                        </HStack>
+                                    )}
                                     {setting.name === 'interest' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.interests! && (
                                         <HStack space="0" alignItems="flex-start">
                                             <Box w="25%">

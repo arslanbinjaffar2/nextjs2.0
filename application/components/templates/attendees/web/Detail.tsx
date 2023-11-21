@@ -112,7 +112,7 @@ const Detail = ({ speaker }: Props) => {
                         <Spacer />
                         <Search tab={tab} />
                     </HStack>
-                    <BasicInfoBlock detail={detail} showPrivate={response.data.user.id == _id ? 1 : 0} speaker={speaker} />
+                    <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
                             {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0 && (
