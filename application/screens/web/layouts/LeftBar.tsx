@@ -10,6 +10,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseInfoService from 'application/store/services/UseInfoService';
+import UseLoadingService from 'application/store/services/UseLoadingService';
 
 const LeftBar = () => {
 
@@ -24,6 +25,9 @@ const LeftBar = () => {
   const { info, page } = UseInfoService();
 
   const { _env } = UseEnvService();
+
+  const { setLoading } = UseLoadingService();
+
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
@@ -66,8 +70,10 @@ const LeftBar = () => {
             borderRadius="4"
             onPress={() => {
               if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
+                // setLoading(true);
                 router.push(`/${event.url}/${row?.alias}/event-info/0`)
               } else if (in_array(row?.alias, ['information_pages'])) {
+                // setLoading(true);
                 router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
               } else if (row?.alias === 'my-registrations') {
                 router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
@@ -110,6 +116,9 @@ export default LeftBar;
 const checkActiveRoute = (row:any, path:any, info:any, page:any) => {
   if(row?.alias == 'information_pages'){
     if(path.includes((`information-pages/${row?.id}`))){
+      return true;
+    }
+    else if(path.includes((`information-pages/sub/${row?.id}`)) ){
       return true;
     }
     else if(info && info[0] && row?.id == info[0]?.section_id ){

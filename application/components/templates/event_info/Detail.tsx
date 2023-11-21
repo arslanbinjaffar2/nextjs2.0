@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { HStack, Text, Box, VStack, Icon, ScrollView, View } from 'native-base';
 import UseInfoService from 'application/store/services/UseInfoService';
 import { WebView } from 'react-native-webview'
@@ -31,6 +31,9 @@ const Detail = (props: any) => {
 
     const [cms] = useParam('cms');
 
+    const [iframeHeight, setIframeHeight] = useState(0);
+    const iframe = useRef<any>();
+
     const onWebViewMessage = (event: any) => {
         setweb_height(parseInt(event.nativeEvent.data) + 15);
     }
@@ -51,7 +54,19 @@ const Detail = (props: any) => {
                                 <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%" h={(10 / 100) * height} />
                             </HStack>}
                             {page?.description != "" && (Platform.OS === 'web' ? (
-                                <iframe style={{ borderWidth: 0, height: (100 / 100) * height, color:'#fff' }} srcDoc={page?.description} />
+                                <iframe 
+                                    style={{ borderWidth: 0, color:'#fff' }} 
+                                    ref={iframe}
+                                    onLoad={() => {
+                                        const obj = iframe.current;
+                                        obj.contentWindow.document.body.style.fontFamily = '"Open Sans", sans-serif';
+                                        setIframeHeight(
+                                            obj.contentWindow.document.body.scrollHeight + 50 
+                                        );
+                                    }}
+                                    height={iframeHeight}
+                                    srcDoc={page?.description} 
+                                />
                             ) : (
                                 <WebView
                                     onMessage={onWebViewMessage}
