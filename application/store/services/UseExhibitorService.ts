@@ -17,7 +17,7 @@ export type ExhibitorServiceOperators = {
     our_exhibitors: Exhibitor[]
     categories: ExhibitorCategory[]
     settings: ExhibitorSetting
-    detail: ExhibitorDetail
+    detail: ExhibitorDetail|null
     category_id: number
     query: string
     FetchExhibitors: (payload: { category_id: number, query: string, screen: string }) => void
