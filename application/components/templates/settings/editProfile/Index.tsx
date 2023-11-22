@@ -271,7 +271,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.initial}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('initial', answer);
                                     }}
@@ -280,7 +280,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             </Center>
                         </HStack>
                     )}
-                    {setting?.name === 'password' && setting?.is_editable == 1 && (
+                    {setting?.name === 'password' && setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1  && event?.attendee_settings?.create_profile == 1 && (
                         <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.password}</Text>
@@ -289,7 +289,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Input w="100%"
                                     placeholder={'********'}
                                     type='password'
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('password', answer);
                                     }}
@@ -305,7 +305,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.first_name}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('first_name', answer);
                                     }}
@@ -322,7 +322,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.last_name}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('last_name', answer);
                                     }}
@@ -339,7 +339,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.about}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('about', answer);
                                     }}
@@ -356,7 +356,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.age}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('age', answer);
                                     }}
@@ -373,7 +373,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.FIRST_NAME_PASSPORT}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('FIRST_NAME_PASSPORT', answer);
                                     }}
@@ -390,7 +390,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.LAST_NAME_PASSPORT}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('LAST_NAME_PASSPORT', answer);
                                     }}
@@ -407,7 +407,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.place_of_birth}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('place_of_birth', answer);
                                     }}
@@ -424,7 +424,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.passport_no}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('passport_no', answer);
                                     }}
@@ -441,7 +441,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.company_name}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('company_name', answer);
                                     }}
@@ -458,7 +458,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.title}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('title', answer);
                                     }}
@@ -475,7 +475,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.organization}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('organization', answer);
                                     }}
@@ -492,7 +492,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.department}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('department', answer);
                                     }}
@@ -509,7 +509,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.industry}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('industry', answer);
                                     }}
@@ -526,7 +526,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.jobs}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('jobs', answer);
                                     }}
@@ -543,7 +543,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.interests}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('interests', answer);
                                     }}
@@ -560,7 +560,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.network_group}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('network_group', answer);
                                     }}
@@ -577,7 +577,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.delegate}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('delegate_number', answer);
                                     }}
@@ -594,7 +594,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.table_number}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('table_number', answer);
                                     }}
@@ -611,7 +611,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.private_street}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_street', answer);
                                     }}
@@ -628,7 +628,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.private_house_number}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_house_number', answer);
                                     }}
@@ -645,7 +645,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.private_post_code}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_post_code', answer);
                                     }}
@@ -662,7 +662,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                                 <Input w="100%"
                                     placeholder={labels?.private_city}
-                                    isReadOnly={setting.is_editable === 1 ? false : true}
+                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_city', answer);
                                     }}
@@ -892,7 +892,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                         <Input w="100%"
                                             h="50px"
                                             placeholder={labels?.phone}
-                                            isReadOnly={setting.is_editable === 1 ? false : true}
+                                            isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                             onChangeText={(answer) => {
                                                 updateAttendeeFeild('phone', answer);
                                             }}
@@ -935,7 +935,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                         type='file'
                                                         style={{display:'none'}}
                                                         placeholder={labels?.phone}
-                                                        readOnly={setting.is_editable === 1 ? false : true}
+                                                        readOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                                         onChange={(e) => {
                                                             if (e?.target?.files! && e?.target?.files?.length > 0) {
                                                                 setAttendeeData({
@@ -996,7 +996,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     type='file'
                                                     style={{display:'none'}}
                                                     placeholder={labels?.phone}
-                                                    readOnly={setting.is_editable === 1 ? false : true}
+                                                    readOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                                     onChange={(e) => {
                                                         if (e?.target?.files! && e?.target?.files?.length > 0) {
                                                             setAttendeeData({
