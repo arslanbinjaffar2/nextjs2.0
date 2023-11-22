@@ -63,7 +63,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         )}
                     </VStack>
                     <Spacer />
-                    {speaker == 0 && <Box w="20px" h="100%">
+                    {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && <Box w="20px" h="100%">
                         <Pressable
                             onPress={() => {
                                 MakeFavourite({ attendee_id: Number(detail?.detail?.id), screen: 'detail' })

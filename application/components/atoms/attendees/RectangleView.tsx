@@ -87,7 +87,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
             </VStack>
             <Spacer />
               <HStack space="4" alignItems="center">
-              {(!speaker && !disableMarkFavroute) && (
+              {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
                   onPress={() => {
                     MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
