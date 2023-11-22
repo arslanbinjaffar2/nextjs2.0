@@ -29,6 +29,8 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
 
     const isPrivate = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s.is_private}),{});
 
+    console.log(showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1), 'show_hotel')
+
     return (
         <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
             <Box w="100%" p="4" py="5" rounded="10">
@@ -40,7 +42,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     )}
                     <VStack maxW="70%" space="0">
                         <Text lineHeight="sm" fontSize="xl">
-                            {`${(showPrivate == 1 || isPrivate?.first_name == 0) ? detail?.detail?.first_name : ''} ${(showPrivate == 1 || isPrivate?.last_name == 0) ? detail?.detail?.last_name : ''}`}
+                            {`${detail?.detail?.first_name} ${detail?.detail?.last_name}`}
                         </Text>
                         {detail?.detail?.info &&
                             (detail?.detail?.info.company_name ||

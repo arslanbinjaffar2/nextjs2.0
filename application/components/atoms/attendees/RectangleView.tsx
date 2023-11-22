@@ -74,9 +74,16 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     )}
                 </>
               )}
-              {attendee?.info?.private_street && (
-                <Text pt="1" lineHeight="22px" fontSize="md">Private address: {attendee?.info?.private_street}</Text>
-              )}
+              {
+                <Text pt="1" lineHeight="22px" fontSize="md"> 
+                 { attendee?.field_settings?.pa_street.is_private == 0 && attendee?.info?.private_street && attendee?.info?.private_street}
+                 {attendee?.field_settings?.pa_house_no.is_private == 0 && attendee?.info?.private_house_number && ` ${attendee?.info?.private_house_number}`}
+                 {attendee?.field_settings?.pa_post_code.is_private == 0 && attendee?.info?.private_post_code&& ` ${attendee?.info?.private_post_code}`}
+                 {attendee?.field_settings?.pa_city.is_private == 0 && attendee?.info?.private_city &&  ` ${attendee?.info?.private_city}`}
+                 {attendee?.field_settings?.pa_country.is_private == 0 && attendee?.private_country_display_name && ` ${attendee?.private_country_display_name}`}
+                 </Text>
+              }
+              
             </VStack>
             <Spacer />
               <HStack space="4" alignItems="center">
