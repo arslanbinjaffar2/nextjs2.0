@@ -185,7 +185,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             ...attendeeData,
             info: {
                 ...attendeeData?.info,
-                [obj.name]: obj.item,
+                [obj.name]: obj.answer,
             },
         });
     };
@@ -905,22 +905,29 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     )}
                     {setting?.name === 'profile_picture' && (
                             <HStack mb="3" alignItems="start" px="3" zIndex="auto" w="100%" >
-                                <Pressable onPress={()=>{
-                                    if(inputFileRef.current){
-                                        inputFileRef.current.click();
-                                    }
-                                }}>
+                                
                                     <HStack mb="3" alignItems="center" zIndex="auto" w="100%" >
                                         <Center alignItems="flex-start" w="225px">
                                             <Text isTruncated fontWeight="500" fontSize="lg">Profile picture</Text>
                                         </Center>
                                         <Center alignItems="flex-start" w="calc(100% - 225px)">
                                             <HStack w="100%">
-                                                <Center w="100px">
-                                                    {((attendeeData && attendeeData?.image && attendeeData?.image !== "") || attendeeData?.blob_image !== undefined) ? 
-                                                    <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="200px" />
-                                                    : <LoadImage path={`https://via.placeholder.com/155.png`} w="200px" />}
-                                                </Center>
+                                                <VStack w={'100%'} space={2}>
+                                                    <Center w="100px">
+                                                        {((attendeeData && attendeeData?.image && attendeeData?.image !== "") || attendeeData?.blob_image !== undefined) ? 
+                                                        <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="200px" />
+                                                        : <LoadImage path={`https://via.placeholder.com/155.png`} w="200px" />}
+                                                    </Center>
+                                                    <Button w={100} onPress={()=>{
+                                                            if(inputFileRef.current){
+                                                                inputFileRef.current.click();
+                                                            }
+                                                        }} 
+                                                        size={'xs'}
+                                                     >
+                                                    Browse
+                                                    </Button>
+                                                </VStack>
                                                 {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
                                                     <input 
                                                     width="100%"
@@ -944,7 +951,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             </HStack>
                                         </Center>
                                     </HStack>
-                                </Pressable>
                             </HStack>
                     )}
                     {setting?.name === 'resume' && (
@@ -957,7 +963,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     <Center alignItems="flex-start" w="calc(100% - 225px)">
                                         <HStack w="100%">
                                             <VStack>
-                                                <Center w="100px">
+                                                <Center mb={3} w="100px">
                                                     {(typeof attendeeData.attendee_cv === 'string') ? 
                                                     <Pressable 
                                                     onPress={async () => {
@@ -971,14 +977,17 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     </Pressable>
                                                     : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="200px" />}
                                                 </Center>
-                                                <Pressable  onPress={()=>{
-                                                    if(inputresumeFileRef.current){
-                                                        inputresumeFileRef.current.click();
-                                                    }
-                                                }}>
 
-                                                    <Text>UPLOAD</Text>
-                                                </Pressable>
+                                                <Button
+                                                    onPress={()=>{
+                                                        if(inputresumeFileRef.current){
+                                                            inputresumeFileRef.current.click();
+                                                        }
+                                                    }}
+                                                    size={'xs'}
+                                                     >
+                                                    Browse
+                                                    </Button>
                                             </VStack>
                                             {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
                                                 <input 
@@ -1069,9 +1078,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     />
                 </Center>
             </HStack>}
-            {attendee?.current_event_attendee.gdpr === 1 && <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+            {<HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
                 <Center alignItems="flex-start" w="225px">
-                    <Checkbox defaultIsChecked={attendee.current_event_attendee.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
+                    <Checkbox defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
                         updateAttendeeFeild('gdpr', isSelected);
                     }} size="md"   >GDPR</Checkbox>
                 </Center>
