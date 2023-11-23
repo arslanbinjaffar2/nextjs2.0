@@ -103,7 +103,7 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
                             renderItem={({ item }: any) => {
                                 return (
                                     <>
-                                        <RenderPrograms dates={item} />
+                                        <RenderPrograms programs={item} />
                                     </>
                                 );
                             }}
