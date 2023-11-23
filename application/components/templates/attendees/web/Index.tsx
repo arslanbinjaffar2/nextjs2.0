@@ -39,7 +39,7 @@ const Index = ({ speaker, screen }: Props) => {
 
     const { event } = UseEventService();
     
-    const [tab, setTab] = useState<string | null>(speaker === 1 ?  (event?.speaker_settings?.default_display !== 'name' ? 'category' : 'attendee') :'attendee');
+    const [tab, setTab] = useState<string | null>(speaker === 1 ?  (event?.speaker_settings?.default_display !== 'name' ? 'category' : 'attendee') :  (event?.attendee_settings?.default_display !== 'name' ? 'group' : 'attendee'));
 
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
 
@@ -90,6 +90,9 @@ const Index = ({ speaker, screen }: Props) => {
         } else if ((slug === undefined || slug.length === 0) && tab === 'category') {
             setTab('category');
             FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+        } else if ((slug === undefined || slug.length === 0) && tab === 'group') {
+            setTab('group');
+            FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0, program_id: 0 });
         }
     }, [slug]);
 
@@ -135,19 +138,21 @@ const Index = ({ speaker, screen }: Props) => {
             </HStack>
             {screen === 'attendees' && (
                 <>
-                    <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        {(speaker === 0 || (speaker === 1 && (event?.speaker_settings?.default_display === 'name' || event?.speaker_settings?.tab == 1))) &&  
-                            <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' :  ((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} _text={{ fontWeight: '600' }}>ALL</Button>}
-                        {speaker === 0 ? (
-                            <>
-                                <Button onPress={() => setTab('my-attendee')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-attendee' ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>MY ATTENDEES</Button>
-                                <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>GROUPS</Button>
-                            </>
-                        ) : (
-                            (event?.speaker_settings?.default_display !== 'name' || event?.speaker_settings?.tab == 1) &&
-                            <Button onPress={() => setTab('category')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : ((event?.speaker_settings?.default_display !== 'name' && event?.speaker_settings?.tab == 0)) ? '100%' : '50%'} _text={{ fontWeight: '600' }}>CATEGORIES</Button>
-                        )}
-                    </HStack>
+                    {speaker === 0 && <HStack mb="3" space={1} justifyContent="center" w="100%">
+                        {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  
+                            <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} _text={{ fontWeight: '600' }}>ALL</Button>}
+                            <Button onPress={() => setTab('my-attendee')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} bg={tab === 'my-attendee' ? 'primary.darkbox' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>MY ATTENDEES</Button>
+                        {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
+                                <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} _text={{ fontWeight: '600' }}>GROUPS</Button>
+                        }
+                    </HStack>}
+                    {speaker ===  1 && <HStack mb="3" space={1} justifyContent="center" w="100%">
+                        {((event?.speaker_settings?.default_display === 'name' || event?.speaker_settings?.tab == 1)) &&  
+                            <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} _text={{ fontWeight: '600' }}>ALL</Button>}
+                        {(event?.speaker_settings?.default_display !== 'name' || event?.speaker_settings?.tab == 1) &&
+                            <Button onPress={() => setTab('category')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display !== 'name' && event?.speaker_settings?.tab == 0)) ? '100%' : '50%'} _text={{ fontWeight: '600' }}>CATEGORIES</Button>
+                        }
+                    </HStack>}
                     {group_id > 0 && (
                         <HStack mb="3" pt="2" w="100%" space="3">
                             {group_name && (

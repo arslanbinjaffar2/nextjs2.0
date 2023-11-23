@@ -50,12 +50,11 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
                                 && (
                                 <>
-                                    {detail?.detail?.info.title && (
                                         <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}&nbsp;{detail?.detail?.info?.company_name &&
                                             detail?.detail?.info?.title &&
                                             ", "}
                                             {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>
-                                    )}
+                                    
                                 </>
                             )}
                         {(showPrivate == 1 || isPrivate?.department == 0) && detail?.detail?.info?.department && (
@@ -101,7 +100,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
             </Box>
             <Box w="100%" bg="primary.secondary" px="5" py="3" borderTopWidth="1" borderColor="primary.darkbox">
                 <HStack w="100%" space="0">
-                    {(showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && <Center w="20%" borderRightWidth={showPrivate == 1 ? '1' : '0'} alignItems="flex-start">
+                    {(showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 ? '1' : '0'} alignItems="flex-start">
                         <Pressable
                             onPress={async () => {
                                 const url: any = `${_env.eventcenter_base_url}/event/${event.url}/settings/downloadResume/${detail?.detail?.attendee_cv}`;
