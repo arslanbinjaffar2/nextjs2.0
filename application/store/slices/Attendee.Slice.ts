@@ -80,8 +80,10 @@ export const AttendeeSlice = createSlice({
                 state.category_name = '';
             }
             if (action.payload.page === 1) {
-                state.attendees = []
-                state.my_attendees = []
+                if(action.payload.screen !== 'dashboard-speakers'){
+                    state.my_attendees = []
+                }
+                state.attendees =  []
             }
         },
         FetchGroups(state, action: PayloadAction<{ query: string, page: number, group_id: number, attendee_id: number, program_id: number }>) {

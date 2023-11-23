@@ -18,35 +18,43 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
 
     const { setScrollCounter, scroll } = UseLoadingService();
 
-    const RenderPrograms = ({ dates }: { dates: any }) => {
+    const RenderPrograms = ({ programs }: { programs: any }) => {
+        const [dates, setDates] = React.useState(programs[0]);
+        const [currentIndex, setCurrentIndex] = React.useState(0);
 
         return (
             <>
                 <HStack my={my !== undefined ? my : 3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
                     <Center alignItems="flex-start" w="10%">
-                        <IconButton
-                            p="0"
-                            w="40px"
-                            variant="transparent"
-                            icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
-                            onPress={() => {
-                                console.log('hello')
-                            }}
-                        />
+                        {currentIndex > 0 && 
+                            <IconButton
+                                p="0"
+                                w="40px"
+                                variant="transparent"
+                                icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
+                                onPress={() => {
+                                    setCurrentIndex(currentIndex - 1);
+                                    setDates(programs[currentIndex - 1]);
+                                }}
+                            />
+                        }
                     </Center>
                     <Center w="80%">
                         <Heading fontSize="lg">{dates[0]?.heading_date}</Heading>
                     </Center>
                     <Center alignItems="flex-end" w="10%">
-                        <IconButton
-                            p="0"
-                            w="40px"
-                            variant="transparent"
-                            icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
-                            onPress={() => {
-                                console.log('hello')
-                            }}
-                        />
+                        {(currentIndex < (programs.length)) &&  programs.length > 1 && 
+                            <IconButton
+                                p="0"
+                                w="40px"
+                                variant="transparent"
+                                icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                                onPress={() => {
+                                    setCurrentIndex(currentIndex + 1);
+                                    setDates(programs[currentIndex + 1]);
+                                }}
+                            />
+                        }
                     </Center>
                 </HStack>
                 {dates?.map((program: Program, key: number) =>
@@ -79,11 +87,14 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
                 <>
                     {Platform.OS === 'web' ? (
                         <>
-                            {programs?.map((item: any, index: any) =>
+                            {/* {programs?.map((item: any, index: any) =>
                                 <React.Fragment key={index}>
                                     <RenderPrograms dates={item} />
                                 </React.Fragment>
-                            )}
+                            )} */}
+                            
+                             {programs.length > 0 && <RenderPrograms programs={programs} />}
+
                         </>
                     ) : (
                         <FlatList

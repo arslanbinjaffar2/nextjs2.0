@@ -107,7 +107,7 @@ const Index = ({ speaker, screen }: Props) => {
     }, []);
 
     const search = React.useMemo(() => {
-        return debounce(function (query: string) {
+        return debounce(function (query: string, tab:string) {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: group_id, page: 1, attendee_id: 0, program_id: 0 });
             } else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
@@ -132,7 +132,7 @@ const Index = ({ speaker, screen }: Props) => {
                 <Text fontSize="2xl">{speaker === 0 ? 'ATTENDEES' : 'SPEAKERS'}</Text>
                 <Spacer />
                 <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
-                    search(text);
+                    search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
             </HStack>

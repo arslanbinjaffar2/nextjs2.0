@@ -81,7 +81,7 @@ const Index = ({ navigation }: indexProps) => {
             </Container>
           ) : <></>}
 
-          {my_attendees?.length > 0 ? (
+          {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
             <Container mb="3" w="100%" maxW="100%">
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
               <ScrollView horizontal={true} maxWidth={'100%'}>
@@ -100,8 +100,8 @@ const Index = ({ navigation }: indexProps) => {
           {response?.attendee_detail?.event_attendee?.allow_vote === 1 && <PollListingByDate polls={polls} />}
 
           <HStack mb="3" space={1} justifyContent="center" w="100%">
-            <Button onPress={() => setTab('qa')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>Q & A</Button>
-            <Button onPress={() => setTab('speakerlist')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>SPEAKERS LIST</Button>
+            <Button onPress={() => setTab('qa')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w={event?.speaker_settings?.display_speaker_dashboard == 1 ? "50%" : "100%"} _text={{ fontWeight: '600' }}>Q & A</Button>
+            {event?.speaker_settings?.display_speaker_dashboard == 1 && <Button onPress={() => setTab('speakerlist')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>SPEAKERS LIST</Button>}
           </HStack>
 
           <>
