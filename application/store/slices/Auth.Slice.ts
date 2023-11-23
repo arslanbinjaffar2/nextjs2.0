@@ -92,6 +92,9 @@ const AuthSlice = createSlice({
                 }
                 state.isLoggedIn = true;
             }
+            else if(action?.payload?.data?.user !== undefined){
+                state.isLoggedIn = true;
+            }
         },
         failed(state, action: PayloadAction<string>) {
             state.processing = false;
