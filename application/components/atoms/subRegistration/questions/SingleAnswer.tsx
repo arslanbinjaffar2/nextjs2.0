@@ -9,17 +9,18 @@ type PropTypes = {
   updates:number,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
-  error:string|null
+  error:string|null,
+  canChangeAnswer?:number
 }
-const SingleAnswer = ({ question, formData, updateFormData, error }: PropTypes) => {
+const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnswer }: PropTypes) => {
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.[0]?.value} {Number(question?.required_question) === 1 && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
-        <Radio.Group space="5" defaultValue={`${formData[question.id]?.answer[0]}`} name="MyRadioGroup"  onChange={answer_id => {updateFormData(question.id, question.question_type, answer_id);}}>
+        <Radio.Group space="5"   defaultValue={`${formData[question.id]?.answer[0]}`} name="MyRadioGroup"  onChange={answer_id => {updateFormData(question.id, question.question_type, answer_id);}}>
           {question.answer.map((answer, k) =>
-            <Radio key={k} isDisabled={checkIfdisabled(answer, question.result)}  value={`${answer.id}`}> {answer?.info[0]?.value} </Radio>
+            <Radio key={k} isDisabled={(canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : checkIfdisabled(answer, question.result)}  value={`${answer.id}`}> {answer?.info[0]?.value} </Radio>
           )}
         </Radio.Group>
       </Box>
@@ -38,6 +39,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
               h="30px"
               focusOutlineColor="transparent"
               _focus={{ bg: 'transparent' }}
+              isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
               onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
               onChangeText={(text) => updateFormData(question.id, 'comment', text)}
               borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />

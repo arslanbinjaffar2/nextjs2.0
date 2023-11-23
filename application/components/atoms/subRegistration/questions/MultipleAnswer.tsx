@@ -9,12 +9,13 @@ type PropTypes = {
   question: Question,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void
-  error:string|null
+  error:string|null,
+  canChangeAnswer?:number
   settings:Settings
   programs:Allprogram[]
 }
 
-const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, programs}: PropTypes) => {
+const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, programs, canChangeAnswer}: PropTypes) => {
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
@@ -23,7 +24,7 @@ const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, 
         <VStack space="4">
         <Checkbox.Group defaultValue={formData[question.id]?.answer} onChange={(answers) => { updateFormData(question.id, question.question_type, answers)}} aria-label={question?.info?.[0]?.value}>
           {question?.answer.map((answer, k) =>
-            <Checkbox key={k} size="md" isDisabled={checkIfProgramdisabled(answer, question.result, settings, programs, (formData[question.id]?.answer ?? []), question.answer)}   value={`${answer.id}`}>{answer?.info[0]?.value} </Checkbox>
+            <Checkbox key={k} size="md" isDisabled={(canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : checkIfProgramdisabled(answer, question.result, settings, programs, (formData[question.id]?.answer ?? []), question.answer)}   value={`${answer.id}`}>{answer?.info[0]?.value} </Checkbox>
           )}
         </Checkbox.Group>
         </VStack>
@@ -43,6 +44,7 @@ const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, 
             h="30px"
             focusOutlineColor="transparent"
             _focus={{ bg: 'transparent' }}
+            isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
             onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}
             borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />

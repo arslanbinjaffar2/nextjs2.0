@@ -10,20 +10,24 @@ type PropTypes = {
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
   error:string|null
+  canChangeAnswer?:number
 }
-const DropdownAnswer = ({ question, formData, updateFormData, error }: PropTypes) => {
+const DropdownAnswer = ({ question, formData, updateFormData, error, canChangeAnswer }: PropTypes) => {
+  
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="5" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.[0]?.value} {Number(question?.required_question) === 1 &&  <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <Select
-          placeholder="Please Select"
+          // placeholder="Please Select"
           minWidth="64"
           h="50px"
-          selectedValue={formData[question.id]?.answer[0]}
+          isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
+          defaultValue={formData[question.id]?.answer[0] !== undefined ? formData[question.id]?.answer[0] : '0'}
           onValueChange={answer => updateFormData(question.id, question.question_type, answer)}
         >
+          <Select.Item label={"Please select"} value={"0"} />
           {question?.answer.map((answer, key)=>(<Select.Item  isDisabled={checkIfdisabled(answer, question.result)} key={key} label={answer?.info[0]?.value} value={`${answer.id}`} />))}
         </Select>
       </Box>
@@ -42,6 +46,7 @@ const DropdownAnswer = ({ question, formData, updateFormData, error }: PropTypes
               h="30px"
               focusOutlineColor="transparent"
               _focus={{ bg: 'transparent' }}
+              isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
               onChangeText={(text) => updateFormData(question.id, 'comment', text)}
               borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
           </Box>

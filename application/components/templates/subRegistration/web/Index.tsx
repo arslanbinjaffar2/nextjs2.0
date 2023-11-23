@@ -66,6 +66,7 @@ const Detail = () => {
     
     let newErrors = errors;
     console.log(newErrors[question_id])
+    console.log(answer)
     if(newErrors[question_id] !== undefined && newErrors[question_id].error !== undefined && newErrors[question_id].error !== null){
       newErrors[question_id].error = null;
       setUpdates(updates + 1);
@@ -78,6 +79,8 @@ const Detail = () => {
         comment:null
       };
     }
+    console.log(newFormData[question_id])
+
     if(type === 'multiple'){
           newFormData[question_id].answer = answer 
           setUpdates(updates + 1);
@@ -87,7 +90,7 @@ const Detail = () => {
       newFormData[question_id].answer = [answer]
     }
     else if(type === 'dropdown'){
-      newFormData[question_id].answer = [answer]
+      newFormData[question_id].answer = answer == '0' ? [] : [answer]
     }
     else if(type === 'world_cloud'){
       if(newFormData[question_id].answer === null){
@@ -222,7 +225,7 @@ const Detail = () => {
              }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "dropdown" && formData[item.id]?.answer.length > 0){
+           else if(item.question_type === "dropdown" && formData[item.id]?.answer.length > 0 && formData[item.id]?.answer[0] !== '0'){
              let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id]?.answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
              return Object.assign(ack, {...newObj} );
            }

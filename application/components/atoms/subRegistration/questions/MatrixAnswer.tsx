@@ -8,10 +8,11 @@ type PropTypes = {
   updates:number,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void
-    error:string|null
+    error:string|null,
+    canChangeAnswer?:number
 
 }
-const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) => {
+const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnswer }: PropTypes) => {
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
@@ -29,7 +30,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
           </HStack>
           <VStack  w="100%" space="3">
             {question?.answer.map((answer, k) =>
-            <Radio.Group w="100%" key={answer.id} display={'flex'} name={`group-${k}`} aria-label={answer?.info[0]?.value}  defaultValue={`${formData[question.id]?.answer[answer.id] ?? ''}`}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
+            <Radio.Group w="100%" isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false } key={answer.id} display={'flex'} name={`group-${k}`} aria-label={answer?.info[0]?.value}  defaultValue={`${formData[question.id]?.answer[answer.id] ?? ''}`}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
               <HStack w="100%" key={k} space="1" alignItems="center">
                 <Center  zIndex={9} alignItems="flex-start" position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1">
                   <Text fontSize="lg">
@@ -39,7 +40,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
                 
                 {question.matrix.map((matrix, i) =>
                   <Center minW="100px" flex="1" key={matrix.id}>
-                   <Radio key={i} value={`${matrix.id}`}  />
+                   <Radio  isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false } key={i} value={`${matrix.id}`}  />
                   </Center>
                 )}
               </HStack>
@@ -63,6 +64,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error }: PropTypes) 
         <TextArea
           p="0"
           h="30px"
+          isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
           onChangeText={(text) => updateFormData(question.id, 'comment', text)}
