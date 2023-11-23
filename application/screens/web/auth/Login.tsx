@@ -11,6 +11,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import validateEmail from 'application/utils/validations/ValidateEmail'
 import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import { Link } from 'solito/link'
+import UseEnvService from 'application/store/services/UseEnvService';
 
 type Inputs = {
     email: string,
@@ -21,7 +22,9 @@ const Login = ({ props }: any) => {
 
     const { event } = UseEventService();
 
-    const { isLoggedIn, processing, login, error } = UseAuthService();
+    const { _env } = UseEnvService();
+
+    const { isLoggedIn, processing, login, error, response } = UseAuthService();
 
     const { push } = useRouter();
 
@@ -31,10 +34,19 @@ const Login = ({ props }: any) => {
         login({ email: input.email, password: input.password })
     };
 
+    React.useEffect(() => {
+        if (response.redirect === "choose-provider") {
+            push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
+        } 
+        if (response.redirect === "verification") {
+            push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
+        } 
+    }, [response.redirect]);
+
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
-                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
+                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: ((event.settings?.header_logo !== undefined && event.settings?.header_logo !== '') ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` : images.Logo) }} w="180px" h="39px" alignSelf={'center'} />
                 <VStack w={'100%'} alignItems={'center'} space='4'>
                     {event.attendee_settings?.cpr === 1 && (
                         <>
@@ -57,7 +69,7 @@ const Login = ({ props }: any) => {
                         <>
                             {event.attendee_settings?.hide_password === 0 && event.attendee_settings?.registration_password === 0 && event.attendee_settings?.authentication === 0 ? (
                                 <VStack space="20px" w={'100%'}>
-                                    <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the credentials you have received from your organizer.</Text>
+                                    <Text w={'100%'} fontSize='lg' lineHeight='sm' textAlign={'center'}>{event?.name}</Text>
                                     <FormControl isRequired isInvalid={'email' in errors || error !== ''}>
                                         <Controller
                                             control={control}
@@ -115,7 +127,7 @@ const Login = ({ props }: any) => {
                                 </VStack>
                             ) : (
                                 <VStack space="10px">
-                                    <Text w={'100%'} fontSize='lg' lineHeight='sm' >Please enter the Email address to find your events.</Text>
+                                    <Text w={'100%'} fontSize='lg' lineHeight='sm' textAlign={'center'} >{event?.name}</Text>
                                     <FormControl isRequired isInvalid={'email' in errors || error !== ''}>
                                         <Controller
                                             control={control}

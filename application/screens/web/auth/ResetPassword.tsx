@@ -63,7 +63,7 @@ const ResetPassword = ({ props }: any) => {
             <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
                 <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
                 <VStack w={'100%'} alignItems={'center'} space='4'>
-                    <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the new password & confirm password.</Text>
+                    <Text w={'100%'} fontSize='lg' lineHeight='sm'>{event?.labels?.CHANGE_PASSWORD}</Text>
                     <FormControl isRequired isInvalid={'password' in errors || error !== ''}>
                         <Controller
                             control={control}

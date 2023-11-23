@@ -44,6 +44,9 @@ const ResetPasswordRequest = ({ props }: any) => {
                 <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
                 <VStack w={'100%'} alignItems={'center'} space='4'>
                     <VStack space="20px" width={'100%'}>
+                    <Text w={'100%'} fontSize='lg' lineHeight='sm' textAlign={'center'}>{event?.labels?.EVENTSITE_FORGOT_PASSWORD}</Text>
+                    <Text w={'100%'} fontSize='lg' lineHeight='sm' textAlign={'left'}>{event?.labels?.EVENTSITE_ENTER_EMAIL}</Text>
+
                         <FormControl isRequired isInvalid={'email' in errors || error !== ''}>
                             <Controller
                                 control={control}
