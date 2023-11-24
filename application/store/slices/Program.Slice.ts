@@ -22,6 +22,7 @@ export interface ProgramState {
     page: number,
     id: number,
     track_id: number,
+    favouriteProgramError:string;
 }
 
 const initialState: ProgramState = {
@@ -34,6 +35,7 @@ const initialState: ProgramState = {
     page: 1,
     id: 0,
     track_id: 0,
+    favouriteProgramError:'',
 }
 
 // Slices
@@ -77,6 +79,9 @@ export const ProgramSlice = createSlice({
         UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
         },
+        SetFavouriteProgramError(state, action : PayloadAction<string>){
+            state.favouriteProgramError = action.payload;
+        }
     },
 })
 
@@ -89,6 +94,7 @@ export const ProgramActions = {
     UpdateTracks: ProgramSlice.actions.UpdateTracks,
     FetchProgramDetail: ProgramSlice.actions.FetchProgramDetail,
     UpdateDetail: ProgramSlice.actions.UpdateDetail,
+    SetFavouriteProgramError: ProgramSlice.actions.SetFavouriteProgramError,
 }
 
 export const SelectMyPrograms = (state: RootState) => state.programs.programs
@@ -106,6 +112,8 @@ export const SelectTracks = (state: RootState) => state.programs.tracks
 export const SelectTrackDetail = (state: RootState) => state.programs.track
 
 export const SelectProgramDetail = (state: RootState) => state.programs.detail
+
+export const SelectFavouriteProgramError = (state: RootState) => state.programs.favouriteProgramError
 
 // Reducer
 export default ProgramSlice.reducer

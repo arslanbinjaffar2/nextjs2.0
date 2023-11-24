@@ -26,8 +26,8 @@ const RectangleDetailView = ({ track, border, updateTab }: AppProps) => {
             <HStack pl="30px" alignItems="center" minH="55px" space={0}>
                 <Box position="absolute" left="0" top="0" w="15px">
                     <ZStack>
-                        {[...Array(1)].map((track, i) =>
-                            <Box key={i} bg={`green.${i + 1}00`} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
+                        {[...Array(1)].map((item, i) =>
+                            <Box key={i} bg={`${track?.color}`} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
                         )}
                     </ZStack>
                 </Box>

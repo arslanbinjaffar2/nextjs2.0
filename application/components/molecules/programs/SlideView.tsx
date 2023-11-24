@@ -6,6 +6,7 @@ import WorkshopRectangleDetailView from 'application/components/atoms/programs/w
 import { Program } from 'application/models/program/Program'
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { Platform } from 'react-native';
+import in_array from "in_array";
 
 type AppProps = {
     programs: Program[],
@@ -43,7 +44,7 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
                         <Heading fontSize="lg">{dates[0]?.heading_date}</Heading>
                     </Center>
                     <Center alignItems="flex-end" w="10%">
-                        {(currentIndex < (programs.length)) &&  programs.length > 1 && 
+                        {(currentIndex < (programs.length - 1)) &&  programs.length > 1 && 
                             <IconButton
                                 p="0"
                                 w="40px"
@@ -63,11 +64,11 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
                             <React.Fragment>
                                 <Text w="100%" pl="30px" bg="primary.darkbox">{program.program_workshop}</Text>
                                 {program.workshop_programs?.map((workshop_program: Program, i: number) =>
-                                    <RectangleDetailView speaker={speaker} program={workshop_program} k={i} border={program.workshop_programs?.length !== (i + 1)} />
+                                    <RectangleDetailView section={section} speaker={speaker} program={workshop_program} k={i} border={program.workshop_programs?.length !== (i + 1)} />
                                 )}
                             </React.Fragment>
                         ) : (
-                            <RectangleDetailView speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+                            <RectangleDetailView section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
                         )}
                     </React.Fragment>
                 )}
@@ -83,7 +84,7 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
 
     return (
         <>
-            {section === 'program' && (
+            {in_array(section, ['program', 'my-program']) && (
                 <>
                     {Platform.OS === 'web' ? (
                         <>

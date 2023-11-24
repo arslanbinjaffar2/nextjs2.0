@@ -45,12 +45,20 @@ function* OnMakeFavourite({
     payload: { exhibitor_id: number, screen: string }
 }): SagaIterator {
     const state = yield select(state => state);
-    yield call(makeFavouriteApi, payload, state);
-    if (payload.screen === "my-program") {
-        yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'my-program', id: 0, track_id: state?.programs?.track_id }))
+    const response: HttpResponse =  yield call(makeFavouriteApi, payload, state);
+    if(response?.data?.data.status == 0){
+       yield put(ProgramActions.SetFavouriteProgramError(response?.data?.data?.error));
     }
-    if (payload.screen === "speaker-program") {
-        yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'speaker-program', id: state?.attendees?.detail?.detail?.id, track_id: state?.programs?.track_id }))
+    else{
+        if (payload.screen === "my-program") {
+            yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'my-program', id: 0, track_id: state?.programs?.track_id }))
+        }
+        else if (payload.screen === "program") {
+            yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'program', id: 0, track_id: state?.programs?.track_id }))
+        }
+        else if (payload.screen === "speaker-program") {
+            yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'speaker-program', id: state?.attendees?.detail?.detail?.id, track_id: state?.programs?.track_id }))
+        }
     }
 }
 
