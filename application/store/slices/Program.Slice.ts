@@ -56,7 +56,25 @@ export const ProgramSlice = createSlice({
         },
         update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track }>) {
             const existed: any = current(state.programs);
-            state.programs = action.payload.page === 1 ? action.payload.programs : [...existed, ...action.payload.programs];
+            console.log(action.payload.programs.reduce((ack, item:any)=>{
+                let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
+                if(existingDate > -1){
+                    ack[existingDate] = [ ...ack[existingDate], ...item];
+                }else{
+                    ack.push(item);
+                }
+                return ack;
+            }, [...existed]));
+
+            state.programs = action.payload.page === 1 ? action.payload.programs : action.payload.programs.reduce((ack, item:any)=>{
+                let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
+                if(existingDate > -1){
+                    ack[existingDate] = [ ...ack[existingDate], ...item];
+                }else{
+                    ack.push(item);
+                }
+                return ack;
+            }, [...existed]);
             state.track = action.payload.track;
         },
         FetchTracks(state, action: PayloadAction<{ query: string, page: number, screen: string, track_id: number }>) {

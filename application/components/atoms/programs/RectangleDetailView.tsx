@@ -7,7 +7,6 @@ import { Program } from 'application/models/program/Program';
 import UseProgramService from 'application/store/services/UseProgramService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-import AlertPopup from '../AlertPopup';
 
 type AppProps = {
   program: Program,
@@ -48,7 +47,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                     </ZStack>
                   </Box>
                   <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                    {event.agenda_settings?.agenda_display_time == 1 && <VStack w="40px" space="0">
+                    {event.agenda_settings?.agenda_display_time == 1 && <VStack w="60px" space="0">
                       <Text lineHeight="22px">{program.start_time}</Text>
                       <Text lineHeight="22px">{program.end_time}</Text>
                     </VStack>}
