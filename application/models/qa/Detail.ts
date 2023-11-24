@@ -42,6 +42,7 @@ export interface AgendaDetail {
   only_for_poll: number;
   registration_form_ids: string;
   info: Info;
+  tracks:any;
 }
 
 export interface Info {

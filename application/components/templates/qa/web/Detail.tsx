@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Image, Divider, Avatar, TextArea, Button, IconButton, ZStack, Select, Checkbox, Center, Input } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Pressable,  Image, Divider, Avatar, TextArea, Button, IconButton, ZStack, Select, Checkbox, Center, Input } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import IcoHistory from 'application/assets/icons/IcoHistory';
@@ -125,8 +125,12 @@ const Detail = () => {
             <Container overflow="hidden" mb="4" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <HStack  space="3" alignItems="center">
-                    <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text"  />
-                    <Text  fontSize="2xl">BACK</Text>
+                    <Pressable onPress={()=>{
+                        push(`/${event.url}/qa`)
+                    }}>
+                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text"  />
+                        <Text  fontSize="2xl">BACK</Text>
+                    </Pressable>
                 </HStack>
                 </HStack>
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" borderBottomWidth={1} borderColor="primary.bdBox">
@@ -134,9 +138,9 @@ const Detail = () => {
                     <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                     <Box position="absolute" left="0" top="0" w="15px">
                         <ZStack>
-                        {[...Array(1)].map((track, i) =>
-                            <Box key={i} bg="#F5B761" borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
-                        )}
+                        {qaDetials?.program_detail && qaDetials?.program_detail?.tracks?.length > 0 && qaDetials?.program_detail?.tracks.map((track: any, i: number) =>
+                        <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
+                      )}
                         </ZStack>
                     </Box>
                     <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
