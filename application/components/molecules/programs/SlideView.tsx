@@ -99,7 +99,7 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
 
     return (
         <>
-            {in_array(section, ['program', 'my-program']) && (
+            {in_array(section, ['program', 'my-program', 'track-program']) && (
                 <>
                     {Platform.OS === 'web' ? (
                         <>

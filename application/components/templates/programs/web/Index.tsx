@@ -17,7 +17,7 @@ const Index = () => {
 
     const mounted = React.useRef(false);
 
-    const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track } = UseProgramService();
+    const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track, parent_track } = UseProgramService();
 
     const { loading, scroll, processing } = UseLoadingService();
 
@@ -70,11 +70,14 @@ const Index = () => {
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack mb="3" pt="2" w="100%" space="3">
-                    <Text flex="1" textTransform="uppercase" fontSize="xs">{track?.name}</Text>
+                    <Text flex="1" textTransform="uppercase" fontSize="xs">{track.parent_id !== 0 ?  `${parent_track.name}   >   ${track?.name}` : track?.name}</Text>
                     <Pressable
                         onPress={async () => {
-                            if (tab === 'track') {
-                                FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
+                            if (in_array(tab, ['track', 'track-program', 'sub-track'])) {
+                                FetchTracks({ page: 1, query: '', screen: tab, track_id: (track?.parent_id !== undefined ? track?.parent_id : 0) });
+                                if(tab === 'track-program'){
+                                    setTab('sub-track');
+                                }
                             } else {
                                 FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                             }
@@ -90,7 +93,7 @@ const Index = () => {
                     {in_array(tab, ['program', 'my-program', 'track-program']) && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                         <SlideView section={tab} programs={programs} />
                     </Container>}
-                    {in_array(tab, ['track']) && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                    {in_array(tab, ['track', 'sub-track']) && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                         {tracks?.map((track: any, key: any) =>
                             <TrackRectangleDetailView key={key} track={track} border={tracks.length != (key + 1)} updateTab={updateTab} />
                         )}

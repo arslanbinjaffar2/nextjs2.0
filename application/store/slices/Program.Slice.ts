@@ -17,6 +17,7 @@ export interface ProgramState {
     detail: Detail,
     tracks: Track[],
     track: Track,
+    parent_track: Track,
     query: string,
     screen: string,
     page: number,
@@ -30,6 +31,7 @@ const initialState: ProgramState = {
     detail:{},
     tracks: [],
     track: {},
+    parent_track: {},
     query: '',
     screen: '',
     page: 1,
@@ -90,6 +92,9 @@ export const ProgramSlice = createSlice({
         UpdateTracks(state, action: PayloadAction<{ tracks: Track[], query: string, page: number, track: Track }>) {
             const existed: any = current(state.programs);
             state.tracks = action.payload.page === 1 ? action.payload.tracks : [...existed, ...action.payload.tracks];
+            if(action.payload.track.parent_id == 0){
+                state.parent_track = action.payload.track;
+            }
             state.track = action.payload.track;
         },
         MakeFavourite(state, action: PayloadAction<{ program_id: number, screen: string }>) { },
@@ -128,6 +133,8 @@ export const SelectTrack = (state: RootState) => state.programs.track_id
 export const SelectTracks = (state: RootState) => state.programs.tracks
 
 export const SelectTrackDetail = (state: RootState) => state.programs.track
+
+export const SelectParentTrackDetail = (state: RootState) => state.programs.parent_track
 
 export const SelectProgramDetail = (state: RootState) => state.programs.detail
 
