@@ -49,8 +49,12 @@ export const DocumentSlice = createSlice({
         FilterDocuments(state, action: PayloadAction<{ document_id: number, query: string }>) {
             
             console.log(action.payload.document_id, 'doc_id');
+
+            console.log(action.payload.query, 'doc_id');
+
+            console.log(ReadDocumentFilter(current(state.data), action.payload.document_id), 'filteredDocuments');
             
-            const records = action.payload.document_id === 0 ? KeywordFilter(current(state.data), 'name', action.payload.query) : ReadDocumentFilter(current(state.data), action.payload.document_id);
+            const records = action.payload.query !== '' ? KeywordFilter(ReadDocumentFilter(current(state.data), action.payload.document_id), 'name', action.payload.query) : ReadDocumentFilter(current(state.data), action.payload.document_id);
             
             console.log(records);
 

@@ -1,5 +1,7 @@
 const readDocument = (data: any[], document_id: any): Document[]|boolean => {
-    console.log(data, 'filter');
+    if(document_id === 0){
+        return data;
+    }
     for (let obj of data) {
         if (obj.id === document_id) {
             return obj.children_files;

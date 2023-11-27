@@ -22,7 +22,7 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
 
     return (
         <View w="100%" h="80%">
-            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" flexWrap={'wrap'}>
                 {!disableTitle && <Pressable
                     onPress={async () => {
                         FilterDocuments({ document_id: 0, query: '' });

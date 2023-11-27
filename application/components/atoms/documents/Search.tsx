@@ -8,7 +8,7 @@ import { Keyboard } from 'react-native';
 
 const Search = () => {
 
-    const { FilterDocuments, query } = UseDocumentService();
+    const { FilterDocuments, query, documents } = UseDocumentService();
 
     const searchInputRef = React.useRef<any>(null);
 
@@ -19,8 +19,8 @@ const Search = () => {
     }, []);
 
     const search = React.useMemo(() => {
-        return debounce(function (query: string) {
-            FilterDocuments({ document_id: 0, query: query });
+        return debounce(function (query: string, document_id:number) {
+            FilterDocuments({ document_id: document_id, query: query });
             Keyboard.dismiss();
         }, 1000);
     }, []);
@@ -29,11 +29,12 @@ const Search = () => {
         if (query) {
             searchInputRef.current.focus();
         }
+        searchInputRef.current.value = query;
     }, [query])
 
     return (
         <Input rounded="10" ref={searchInputRef} bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} onChangeText={(text: string) => {
-            search(text);
+            search(text, (documents.length > 0 ? (documents[0]?.directory_id !== undefined ? documents[0]?.directory_id : documents[0]?.parent_id) : 0));
         }} />
     )
 
