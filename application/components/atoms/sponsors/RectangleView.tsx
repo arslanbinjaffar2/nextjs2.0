@@ -36,25 +36,25 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
                     }
                 }}>
                 <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
-                    <Box position="absolute" left="0" top="0" w="15px">
+                    {event?.sponsor_settings?.catTab == 1 && <Box position="absolute" left="0" top="0" w="15px">
                         <ZStack>
                             {sponsor.categories.length > 0 && sponsor.categories.map((category: Category, i: number) =>
                                 <Box key={i} bg={`${category.color}`} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
                             )}
                         </ZStack>
-                    </Box>
+                    </Box>}
                     <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
                         <VStack maxW={['62%', '70%', '40%']} space="0">
                             <Text fontSize="lg" lineHeight="22px">
                                 {sponsor.name}
                             </Text>
-                            <Text fontSize="md">
+                            {event?.sponsor_settings?.catTab == 1 && <Text fontSize="md">
                                 {sponsor.categories.length > 0 && sponsor.categories.map((category: Category, i: number) =>
                                     <React.Fragment key={i}>
                                         {`${category.info.name}${(i + 1) < sponsor.categories.length ? ', ' : ''}`}
                                     </React.Fragment>
                                 )}
-                            </Text>
+                            </Text>}
                         </VStack>
                         <Spacer />
                         <HStack pr="3" space="5" alignItems="center">
