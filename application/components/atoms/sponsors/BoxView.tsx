@@ -66,7 +66,7 @@ const BoxView = ({ k, sponsor, w }: AppProps) => {
                         </Center>
                         <HStack pb="3" space="3" alignItems="center">
                             <Center alignItems="flex-start" w="50%">
-                                {sponsor.name && <Box bg={sponsor?.categories.length > 0 ? sponsor?.categories[0].color : '#E03C30'} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" shadow="1" w="auto" px="2">
+                                {event?.sponsor_settings?.sponsorName ==  1 &&  sponsor.name && <Box bg={sponsor?.categories.length > 0 ? sponsor?.categories[0].color : '#E03C30'} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" shadow="1" w="auto" px="2">
                                     <Text fontSize="xs">{sponsor.name}</Text>
                                 </Box>}
                             </Center>

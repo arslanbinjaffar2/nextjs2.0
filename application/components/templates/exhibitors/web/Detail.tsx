@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icouser from 'application/assets/icons/small/Icouser';
@@ -16,6 +16,8 @@ import SectionLoading from 'application/components/atoms/SectionLoading';
 import in_array from "in_array";
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import UseDocumentService from 'application/store/services/UseDocumentService';
+import UseEventService from 'application/store/services/UseEventService';
+import { useRouter } from 'solito/router';
 
 
 type ScreenParams = { id: string, cms: string | undefined }
@@ -31,7 +33,10 @@ const Detail = React.memo(() => {
     const [id] = useParam('id');
 
     const { clearState } = UseDocumentService();
+    
+    const { event } = UseEventService()
 
+    const { push } = useRouter()
 
     React.useEffect(() => {
         if (id) {
@@ -48,8 +53,17 @@ const Detail = React.memo(() => {
                 <WebLoading />
             ) : (
                 <>
+                    <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
+                            <Pressable onPress={()=> push(`/${event.url}/exhibitors`)}>
+                                <HStack space="3" alignItems="center">
+                                    <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                                    <Text fontSize="2xl">BACK</Text>
+                                </HStack>
+                            </Pressable>
+                        <Spacer />
+                    </HStack>
                     <Container maxW="100%" h={'93%'} w="100%">
-                        <Container mb="4" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
+                        <Container mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" rounded="10">
                             <DetailBox detail={detail} />
                             <Box w="100%" p="0">
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
@@ -78,7 +92,7 @@ const Detail = React.memo(() => {
                                 </Box>
                             </Box>
                         </Container>
-                        <Container mb="3" maxW="100%" w="100%">
+                        {/* <Container mb="3" maxW="100%" w="100%">
                             <Text mb="3" fontSize="lg" textTransform="uppercase">Available Survey</Text>
                             <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                                 <Box py="3" px="4" w="100%">
@@ -89,7 +103,7 @@ const Detail = React.memo(() => {
                                         <Box bg="transparent" h="22px" w="33.33%" />
                                     </HStack>
                                 </Box>
-                                {/* <MultipleAnswer req={true} title="What types of workouts will I be doing on DAMY Programs? Does it include cardio and weights?" /> */}
+                                <MultipleAnswer req={true} title="What types of workouts will I be doing on DAMY Programs? Does it include cardio and weights?" />
                                 <Box py="0" px="4" w="100%">
                                     <Divider mb="15" opacity={0.27} bg="primary.text" />
                                     <HStack mb="3" space="3" alignItems="center">
@@ -123,7 +137,7 @@ const Detail = React.memo(() => {
                                     </HStack>
                                 </Box>
                             </Box>
-                        </Container>
+                        </Container> */}
                     </Container>
                 </>
             )}

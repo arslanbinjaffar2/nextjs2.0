@@ -15,8 +15,8 @@ const ContactInfo = () => {
                 <Icodocument width="15px" height="18px" />
                 <Text fontSize="lg">Contact Info</Text>
             </HStack>
-            <VStack px="3" py="4" w="100%" space="3">
-                {detail?.detail?.email && detail?.detail?.phone_number !== '' && <HStack space="0" alignItems="flex-start">
+            {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack px="3" py="2" w="100%" space="3">
+                {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="0" alignItems="flex-start">
                     <Box w="25%">
                     <Icon size="md" as={AntDesign} name="mail" color={'primary.darkbox'} />
                     </Box>
@@ -32,7 +32,7 @@ const ContactInfo = () => {
                         <Text fontSize="14px">{detail?.detail?.phone_number}</Text>
                     </Box>
                 </HStack>}
-            </VStack>
+            </VStack>}
             <HStack p={2}>
                         {detail?.detail?.facebook ? (
                             <Pressable

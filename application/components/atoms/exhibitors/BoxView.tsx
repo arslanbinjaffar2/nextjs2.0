@@ -65,7 +65,7 @@ const BoxView = ({ k, exhibitor, w }: AppProps) => {
                         </Center>
                         <HStack pb="3" space="3" alignItems="center">
                             <Center alignItems="flex-start" w="50%">
-                                {exhibitor.name && <Box bg={exhibitor?.categories.length > 0 ? exhibitor?.categories[0].color : '#E03C30'} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" shadow="1" w="auto" px="2">
+                                {event?.exhibitor_settings?.exhibitorName == 1 && exhibitor.name && <Box bg={exhibitor?.categories.length > 0 ? exhibitor?.categories[0].color : '#E03C30'} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" shadow="1" w="auto" px="2">
                                     <Text fontSize="sm">{exhibitor.name}</Text>
                                 </Box>}
                             </Center>
