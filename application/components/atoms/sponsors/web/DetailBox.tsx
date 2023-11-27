@@ -6,6 +6,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseSponsorService from 'application/store/services/UseSponsorService';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
+import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
     detail: SponsorDetail,
@@ -16,6 +17,8 @@ const DetailBox = ({ detail }: AppProps) => {
     const { _env } = UseEnvService()
 
     const { MakeFavourite } = UseSponsorService();
+    
+    const { event } = UseEventService()
 
     return (
         <>
@@ -31,7 +34,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             <Text maxW="80%" fontSize="xl">{detail?.detail?.name}</Text>
                         )}
                         <Spacer />
-                        <IconButton
+                       {event?.sponsor_settings?.mark_favorite == 1 && <IconButton
                             bg="transparent"
                             p="1"
                             _hover={{ bg: 'primary.500' }}
@@ -42,7 +45,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             position={'absolute'}
                             zIndex={'999999'}
                             right={'0'}
-                        />
+                        />}
                     </HStack>
                     <HStack w="100%" mb="3" space="0" alignItems="center">
                     <Box position="absolute" left="-20px" top="0">

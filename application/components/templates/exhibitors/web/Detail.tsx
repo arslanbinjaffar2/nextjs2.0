@@ -65,20 +65,21 @@ const Detail = React.memo(() => {
                     <Container maxW="100%" h={'93%'} w="100%">
                         <Container mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" rounded="10">
                             <DetailBox detail={detail} />
-                            <Box w="100%" p="0">
-                                <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                    <Icouser />
-                                    <Text fontSize="lg">Contact person(s)</Text>
-                                </HStack>
-                                {detail?.detail?.exhibitors_attendee!?.length > 0 && (
-                                    detail?.detail?.exhibitors_attendee?.map((attendee: ExhibitorsAttendee, key: number) =>
-                                        <React.Fragment key={key}>
-                                            <RectangleView attendee={attendee} k={key} />
-                                        </React.Fragment>
-                                    )
-                                )}
-                            </Box>
-                            <Box p="0" w="100%">
+                            {detail?.detail?.exhibitors_attendee!?.length > 0 && (
+                                <Box w="100%" p="0">
+                                    <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                        <Icouser />
+                                        <Text fontSize="lg">Contact person(s)</Text>
+                                    </HStack>
+                                    
+                                        {detail?.detail?.exhibitors_attendee?.map((attendee: ExhibitorsAttendee, key: number) =>
+                                            <React.Fragment key={key}>
+                                                <RectangleView attendee={attendee} k={key} />
+                                            </React.Fragment>
+                                        )}
+                                </Box>
+                            )}
+                            {event?.exhibitor_settings?.document == 1 &&<Box p="0" w="100%">
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                     <Icodocument width="15px" height="18px" />
                                     <Text fontSize="lg">Documents</Text>
@@ -90,7 +91,7 @@ const Detail = React.memo(() => {
                                            <ListingLayout2 disableTitle />
                                       )}
                                 </Box>
-                            </Box>
+                            </Box>}
                         </Container>
                         {/* <Container mb="3" maxW="100%" w="100%">
                             <Text mb="3" fontSize="lg" textTransform="uppercase">Available Survey</Text>

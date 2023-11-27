@@ -7,6 +7,7 @@ import UseExhibitorService from 'application/store/services/UseExhibitorService'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useWindowDimensions } from 'react-native';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
+import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
     detail: ExhibitorDetail | null,
@@ -19,6 +20,8 @@ const DetailBox = ({ detail }: AppProps) => {
     const { _env } = UseEnvService()
 
     const { MakeFavourite } = UseExhibitorService();
+
+    const { event } = UseEventService()
 
     return (
         <>
@@ -34,7 +37,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             <Text maxW="80%" fontSize="xl">{detail?.detail?.name}</Text>
                         )}
                         <Spacer />
-                        <IconButton
+                        {event?.exhibitor_settings?.mark_favorite == 1 &&  <IconButton
                             bg="transparent"
                             p="1"
                             _hover={{ bg: 'primary.500' }}
@@ -45,7 +48,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             position={'absolute'}
                             zIndex={'999999'}
                             right={'0'}
-                        />
+                        />}
                     </HStack>
                     <HStack w="100%" mb="3" space="0" alignItems="center">
                         <Box position="absolute" left="-20px" top="0">
