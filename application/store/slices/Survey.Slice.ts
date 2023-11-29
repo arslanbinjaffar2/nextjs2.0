@@ -34,10 +34,11 @@ export const SurveySlice = createSlice({
     initialState,
     reducers: {
         FetchSurveys() {},
-        update(state, action: PayloadAction<{ surveys: Surveys, completed_surveys: Surveys, survey_settings:SurveySetting }>) {
+        update(state, action: PayloadAction<{ surveys: Surveys, completed_surveys: Surveys, survey_settings:SurveySetting, survey_labels:SurveyLabels }>) {
             state.surveys = action.payload.surveys;
             state.completed_surveys = action.payload.completed_surveys;
             state.survey_settings = action.payload.survey_settings;
+            state.survey_labels = action.payload.survey_labels;
             state.submitSuccess = false
         },
         FetchSurveyDetail(state, action: PayloadAction<{ id: number }>) { },

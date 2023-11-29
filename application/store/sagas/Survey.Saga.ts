@@ -21,7 +21,7 @@ function* OnFetchSurveys({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getSurveyApi, {}, state)
-    yield put(SurveyActions.update({ surveys: response.data.data.surveys.pending_surveys!, completed_surveys:response.data.data.surveys.completed_surveys, survey_settings:response.data.data.surveySettings}))
+    yield put(SurveyActions.update({ surveys: response.data.data.surveys.pending_surveys!, completed_surveys:response.data.data.surveys.completed_surveys, survey_settings:response.data.data.surveySettings, survey_labels:response.data.data.survey_labels}))
     yield put(LoadingActions.set(false));
 }
 
