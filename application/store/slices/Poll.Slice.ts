@@ -11,6 +11,7 @@ import {
 
 export interface PollState {
     polls: Polls,
+    polls_count:number
     completed_polls: Polls,
     detail: PollDetail | null,
     poll_settings:PollSetting | {},
@@ -22,6 +23,7 @@ const initialState: PollState = {
     polls: {},
     completed_polls: {},
     poll_settings:{},
+    polls_count:0,
     detail: null,
     poll_labels:{},
     submitSuccess:false,
@@ -33,11 +35,12 @@ export const PollSlice = createSlice({
     initialState,
     reducers: {
         FetchPolls() {},
-        update(state, action: PayloadAction<{ polls: Polls, completed_polls: Polls, poll_settings:PollSetting, poll_labels:PollLabels }>) {
+        update(state, action: PayloadAction<{ polls: Polls, completed_polls: Polls, poll_settings:PollSetting, poll_labels:PollLabels, polls_count:number }>) {
             state.polls = action.payload.polls;
             state.completed_polls = action.payload.completed_polls;
             state.poll_settings = action.payload.poll_settings;
             state.poll_labels = action.payload.poll_labels;
+            state.polls_count = action.payload.polls_count;
             state.submitSuccess = false
         },
         FetchPollDetail(state, action: PayloadAction<{ id: number }>) { },
@@ -74,6 +77,8 @@ export const SelectPollDetail = (state: RootState) => state.polls.detail
 export const SelectPollLabelDetail = (state: RootState) => state.polls.poll_labels
 
 export const SelectPollSubmitSuccess = (state: RootState) => state.polls.submitSuccess
+
+export const SelectPollsCount = (state: RootState) => state.polls.polls_count
 
 
 // Reducer

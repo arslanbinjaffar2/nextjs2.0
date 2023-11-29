@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectPolls, SelectCompletedPolls, PollActions, SelectPollDetail, SelectPollLabelDetail, SelectPollSubmitSuccess } from 'application/store/slices/Poll.Slice'
+import { SelectPolls, SelectCompletedPolls, PollActions, SelectPollDetail, SelectPollLabelDetail, SelectPollSubmitSuccess, SelectPollsCount } from 'application/store/slices/Poll.Slice'
 
 import { PollLabels, PollSubmitData, Polls } from 'application/models/poll/Poll'
 import { PollDetail } from 'application/models/poll/Detail'
@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type PollServiceOperators = {
     polls: Polls,
+    polls_count:number,
     completed_polls: Polls,
     detail:PollDetail | null,
     poll_labels:PollLabels,
@@ -30,6 +31,7 @@ export const UsePollService = (): Readonly<PollServiceOperators> => {
         
         polls: useAppSelector(SelectPolls),
         completed_polls: useAppSelector(SelectCompletedPolls),
+        polls_count: useAppSelector(SelectPollsCount),
         detail: useAppSelector(SelectPollDetail),
         poll_labels: useAppSelector(SelectPollLabelDetail),
         submitSuccess: useAppSelector(SelectPollSubmitSuccess),

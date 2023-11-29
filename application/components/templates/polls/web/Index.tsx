@@ -10,6 +10,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import { Poll, Polls } from 'application/models/poll/Poll';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
+import { useRouter } from 'solito/router';
 
 const Index = () => {
 
@@ -21,10 +22,11 @@ const Index = () => {
 
     const [query, setQuery] = React.useState('');
 
-    const { event  } = UseEventService();
+    const { event, modules  } = UseEventService();
 
+    const { push } = useRouter()
     
-    const { FetchPolls, polls, completed_polls, poll_labels } = UsePollService();
+    const { FetchPolls, polls, completed_polls, poll_labels, polls_count } = UsePollService();
 
 
     useEffect(() => {
@@ -37,6 +39,10 @@ const Index = () => {
 
 
     useEffect(() => {
+        
+        if(polls_count == 1 && (completed_polls && typeof completed_polls === 'object' && Object.keys(completed_polls).length == 0)){
+            push(`/${event.url}/polls/detail/${polls[Object.keys(polls)[0]][0].agenda_id}`);
+        }
 
         if(polls && typeof polls === 'object' && Object.keys(polls).length > 0) {
             
@@ -96,7 +102,7 @@ const Index = () => {
                 ):(
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text textTransform="uppercase" fontSize="2xl">Polls</Text>
+                            <Text textTransform="uppercase" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Text>
                             <Spacer />
                             <Input rounded="10" w="60%" bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
