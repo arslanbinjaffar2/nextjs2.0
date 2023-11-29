@@ -101,8 +101,8 @@ const Index = () => {
                             <Input rounded="10" w="60%" bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
-                            <Button onPress={() => setTab('pending')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>Not attended</Button>
-                            <Button onPress={() => setTab('completed')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
+                            <Button onPress={() => setTab('pending')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>Not attended</Button>
+                            <Button onPress={() => setTab('completed')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
@@ -124,7 +124,7 @@ const Index = () => {
                                             <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
                                         </Box>
                                     )}
-                                    <Divider h="100px" bg="transparent" />
+                                    <Divider h="20px" bg="transparent" />
                                 </Box>
                             ) }
                         {tab === 'completed' && (
@@ -147,7 +147,7 @@ const Index = () => {
                                             <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
                                         </Box>
                                     )}
-                                    <Divider h="100px" bg="transparent" />
+                                    <Divider h="20px" bg="transparent" />
                                 </Box>
                             )
                         }

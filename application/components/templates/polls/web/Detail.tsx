@@ -64,7 +64,7 @@ const Detail = () => {
     if(newFormData[question_id] === undefined){
       newFormData[question_id] = {
         answer:null,
-        comment:null
+        comment:""
       };
     }
     if(type === 'multiple'){
@@ -119,18 +119,18 @@ const Detail = () => {
         const activeQuestion = detail?.questions[steps];
         if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!] !== undefined &&  formData[activeQuestion?.id!].answer !== null)){
           if(activeQuestion?.question_type === 'multiple'){
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || (Number(activeQuestion?.required_question) === 1 && formData[activeQuestion?.id!].answer.length <= 0)){
               setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
               return;
             }
-            else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
+            else if(activeQuestion.min_options > 0 && ((formData[activeQuestion?.id!].answer.length < activeQuestion.min_options) && formData[activeQuestion?.id!].answer.length != 0)){
               setActiveQuestionError(poll_labels.POLL_SURVEY_MIN_SELECTION_ERROR
                 .replace(/%q/g, activeQuestion.info.question)
                 .replace(/%s/g, activeQuestion.min_options.toString())
               );
               return;
             }
-            else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
+            else if(activeQuestion.max_options > 0 && ((formData[activeQuestion?.id!].answer.length > activeQuestion.max_options) && formData[activeQuestion?.id!].answer.length != 0)){
               setActiveQuestionError(poll_labels.POLL_SURVEY_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString()));
               return;
             }

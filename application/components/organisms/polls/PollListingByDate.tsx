@@ -19,29 +19,29 @@ const PollListingByDate = ({polls}:{polls:Polls}) => {
     <Heading py="1" fontSize="2xl" w="100%" textAlign="center">POLLS</Heading>
     <HStack py="1" w="100%" bg="primary.darkbox" space="0" alignItems="center">
       <Center alignItems="flex-start" w="10%">
-        <IconButton
+        {pollDateIndex > 0 && <IconButton
           p="0"
           w="40px"
           variant="transparent"
           icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
           onPress={() => {
-            setPollDateIndex(pollDateIndex > 0 ? (pollDateIndex - 1) : (Object.keys(polls)?.length - 1));
+            setPollDateIndex((pollDateIndex - 1));
           }}
-        />
+        />}
       </Center>
       <Center w="80%">
         <Heading fontSize="lg">{polls[Object.keys(polls)[pollDateIndex]]?.length > 0 && polls[Object.keys(polls)[pollDateIndex]][0].agenda_start_date_formatted}</Heading>
       </Center>
       <Center alignItems="flex-end" w="10%">
-        <IconButton
+        {((Object.keys(polls)?.length - 1) > pollDateIndex)&& <IconButton
           p="0"
           w="40px"
           variant="transparent"
           icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
           onPress={() => {
-            setPollDateIndex(Object.keys(polls)?.length - 1 > pollDateIndex ? (pollDateIndex +1) : 0);
+            setPollDateIndex((pollDateIndex +1));
           }}
-        />
+        />}
       </Center>
     </HStack>
     {polls[Object.keys(polls)[pollDateIndex]]?.slice(0, 4).map((poll:Poll)=>{
