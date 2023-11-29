@@ -9,7 +9,7 @@ import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.
 import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
-    detail: SponsorDetail,
+    detail: SponsorDetail|null,
 }
 
 const DetailBox = ({ detail }: AppProps) => {
@@ -22,7 +22,7 @@ const DetailBox = ({ detail }: AppProps) => {
 
     return (
         <>
-            <Box w="100%" bg="primary.500" p="0" rounded="10">
+            {detail && <Box w="100%" bg="primary.500" p="0" rounded="10">
                 {detail?.detail?.logo ? (
                     <Image mb="5" rounded="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="Alternate Text" w="100%" h="160px" />
                 ) : (
@@ -75,7 +75,7 @@ const DetailBox = ({ detail }: AppProps) => {
                         <div dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>
                     </Box>
                 </Box>
-            </Box>
+            </Box>}
         </>
     )
 }

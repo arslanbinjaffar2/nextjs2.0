@@ -10,7 +10,14 @@ const ContactInfo = () => {
   const { detail } = UseSponsorService();
   return (
     <>
-        {detail && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
+        {detail && (
+            detail?.detail?.email !== '' 
+            || detail?.detail?.phone_number !== ''
+            || (detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://')
+            || (detail?.detail?.twitter !== '' && detail?.detail?.twitter !== 'http://' &&  detail?.detail?.twitter !== 'https://')
+            || (detail?.detail?.linkedin !== '' && detail?.detail?.linkedin !== 'http://' &&  detail?.detail?.linkedin !== 'https://')
+            || (detail?.detail?.website !== '' && detail?.detail?.website !== 'http://' &&  detail?.detail?.linkedin !== 'https://')
+        ) && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                 <Icodocument width="15px" height="18px" />
                 <Text fontSize="lg">Contact Info</Text>
@@ -34,7 +41,7 @@ const ContactInfo = () => {
                 </HStack>}
             </VStack>}
             <HStack p={2}>
-                        {detail?.detail?.facebook ? (
+                        {detail?.detail?.facebook && detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://' ? (
                             <Pressable
                                 onPress={async () => {
                                     const url: any = `${detail?.detail?.facebook}`;
@@ -46,7 +53,7 @@ const ContactInfo = () => {
                                 <Icon size="md" as={AntDesign} name="facebook-square" color={'primary.darkbox'} />
                             </Pressable>
                         ) : ''}
-                        {detail?.detail?.twitter ? (
+                        {detail?.detail?.twitter && detail?.detail?.twitter !== '' && detail?.detail?.twitter !== 'http://' &&  detail?.detail?.twitter !== 'https://' ? (
                             <Pressable
                                 onPress={async () => {
                                     const url: any = `${detail?.detail?.twitter}`;
@@ -58,7 +65,7 @@ const ContactInfo = () => {
                                 <Icon ml={5} size="md" as={AntDesign} name="twitter" color={'primary.darkbox'} />
                             </Pressable>
                         ) : ''}
-                        {detail?.detail?.linkedin ? (
+                        {detail?.detail?.linkedin && detail?.detail?.linkedin !== '' && detail?.detail?.linkedin !== 'http://' &&  detail?.detail?.linkedin !== 'https://' ? (
                             <Pressable
                                 onPress={async () => {
                                     const url: any = `${detail?.detail?.linkedin}`;
@@ -70,7 +77,7 @@ const ContactInfo = () => {
                                 <Icon ml={5} size="md" as={AntDesign} name="linkedin-square" color={'primary.darkbox'} />
                             </Pressable>
                         ) : ''}
-                        {detail?.detail?.website  ? (
+                        {detail?.detail?.website && detail?.detail?.website !== '' && detail?.detail?.website !== 'http://' &&  detail?.detail?.website !== 'https://' ? (
                             <Pressable
                                 onPress={async () => {
                                     const url: any = `${detail?.detail?.website}`;

@@ -63,8 +63,15 @@ const Index = React.memo(() => {
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" w="100%">
-                       {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && <Button onPress={() => setTab('name')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.box' : 'primary.darkbox'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>NAME</Button>}
-                       {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') &&<Button onPress={() => setTab('category')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.box' : 'primary.darkbox'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
+                       {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && <Button onPress={() => {
+                            setTab('name')
+                            FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
+                        }} 
+                        borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.box' : 'primary.darkbox'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>NAME</Button>}
+                       {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button onPress={() => {
+                            setTab('category')
+                            FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
+                        }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.box' : 'primary.darkbox'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
                     </HStack>
                     {tab === 'name' && <>
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
@@ -109,6 +116,11 @@ const Index = React.memo(() => {
                                 </ScrollView>
                             </Box>
                         }
+                        {sponsors.length <= 0 &&
+                            <Box w="100%">
+                                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                            </Box>
+                        }
                     </>}
                     {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
@@ -119,7 +131,7 @@ const Index = React.memo(() => {
                             </HStack>
                         </ScrollView>
                     </Box>}
-                    <BannerView url={''} />
+                    {/* <BannerView url={''} /> */}
                 </Container>
             )}
         </>
