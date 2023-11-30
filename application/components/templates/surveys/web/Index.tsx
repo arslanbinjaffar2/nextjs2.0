@@ -37,7 +37,7 @@ const Index = () => {
     useEffect(() => {
         
         if(surveys.length == 1 && completed_surveys.length == 0){
-            push(`/${event.url}/polls/detail/${surveys[0]?.id}`);
+            push(`/${event.url}/survey/detail/${surveys[0]?.id}`);
         }
 
         if(surveys && surveys.length > 0) {
@@ -80,7 +80,7 @@ const Index = () => {
                 ):(
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text textTransform="uppercase" fontSize="2xl">Surveys</Text>
+                            <Text textTransform="uppercase" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'survey'))?.name ?? 'Surveys'}</Text>
                             <Spacer />
                             <Input rounded="10" w="60%" bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>

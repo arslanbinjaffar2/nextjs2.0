@@ -64,7 +64,7 @@ const Detail = () => {
     if(newFormData[question_id] === undefined){
       newFormData[question_id] = {
         answer:null,
-        comment:null
+        comment:""
       };
     }
     if(type === 'multiple'){
@@ -120,18 +120,18 @@ const Detail = () => {
         const activeQuestion = detail?.questions[steps];
         if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!] !== undefined &&  formData[activeQuestion?.id!].answer !== null)){
           if(activeQuestion?.question_type === 'multiple'){
-              if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+              if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || (Number(activeQuestion?.required_question) === 1 && formData[activeQuestion?.id!].answer.length <= 0)){
                 setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
                 return;
               }
-              else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
+              else if(activeQuestion.min_options > 0 && (formData[activeQuestion?.id!].answer.length < activeQuestion.min_options) && formData[activeQuestion?.id!].answer.length != 0){
                 setActiveQuestionError(survey_labels.POLL_SURVEY_MIN_SELECTION_ERROR
                   .replace(/%q/g, activeQuestion.value)
                   .replace(/%s/g, activeQuestion.min_options.toString())
                 );
                 return;
               }
-              else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
+              else if(activeQuestion.max_options > 0 && (formData[activeQuestion?.id!].answer.length > activeQuestion.max_options) && formData[activeQuestion?.id!].answer.length != 0){
                 setActiveQuestionError(survey_labels.POLL_SURVEY_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString()));
                 return;
               }
@@ -265,6 +265,11 @@ const Detail = () => {
                     {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} key={detail?.questions[steps].id}  />}
                   </>
                 )}
+                {detail?.questions.length! <= 0 &&
+                  <Box padding={5}>
+                      <Text>{survey_labels?.NO_SURVEY_AVAILABL}</Text>
+                  </Box>
+                }
                 <Box py="0" px="4" w="100%">
                   <Divider mb="15" opacity={0.27} bg="primary.text" />
                   <HStack mb="3" space="3" alignItems="center">

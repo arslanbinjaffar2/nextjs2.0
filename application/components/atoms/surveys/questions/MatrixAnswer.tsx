@@ -30,7 +30,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
           </HStack>
           <VStack  w="100%" space="3">
             {question?.answer.map((answer, k) =>
-            <Radio.Group w="100%" display={'flex'} key={k} name={`group-${k}`} aria-label={answer?.answer}  defaultValue={formData[question.id]?.answer !== null && formData[question.id]?.answer.length > 0 ? `${formData[question.id]?.answer[k] ?? ''}` : ``}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
+            <Radio.Group w="100%" display={'flex'} key={k} name={`group-${k}`} aria-label={answer?.answer}  value={formData[question.id]?.answer !== null ? `${formData[question.id]?.answer[answer.id] ?? ''}` : ``}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
               <HStack w="100%" key={k} space="1" alignItems="center">
                 <Center  zIndex={9} position={Platform.OS === 'web' ? `sticky`: 'absolute'} alignItems="flex-start" left={0} minW="150px" maxW="150px"  flex="1">
                   <Text fontSize="lg">
@@ -39,8 +39,8 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
                 </Center>
                 
                 {question.matrix.map((matrix, i) =>
-                  <Center minW="100px" flex="1" key={i}>
-                   <Radio key={i} value={`${matrix.id}`}  />
+                  <Center minW="100px" flex="1" key={matrix.id}>
+                   <Radio key={i} value={`${matrix.id}`} aria-label={matrix.name}  />
                   </Center>
                 )}
               </HStack>
