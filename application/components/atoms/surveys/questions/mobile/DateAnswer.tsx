@@ -9,6 +9,8 @@ type PropTypes = {
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
   error:string|null
+  labels:any,
+  forceRender:number,
 }
 const DateAnswer = ({ question, formData, updateFormData }: PropTypes) => {
   const [date, setDate] = React.useState();
