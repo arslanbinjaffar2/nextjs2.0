@@ -40,6 +40,7 @@ const NumberAnswer = ({ question, formData, updateFormData, error, labels }: Pro
             focusOutlineColor="transparent"
             _focus={{ bg: 'transparent' }}
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}
+            defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
             borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
             <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
         </Box>

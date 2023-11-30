@@ -32,6 +32,8 @@ const DateAnswer = ({ question, formData, updateFormData, labels }: PropTypes) =
           overflow="auto"
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
+          defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
+          onChangeText={(text) => updateFormData(question.id, 'comment', text)}
           borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
         <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
       </Box>

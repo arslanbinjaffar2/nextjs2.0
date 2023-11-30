@@ -15,7 +15,7 @@ type PropTypes = {
 const DateAnswer = ({ question, formData, updateFormData, labels }: PropTypes) => {
   const [date, setDate] = React.useState();
   const [show, setShow] = React.useState(false);
-  const [commentText, setCommentText] = React.useState(formData[question.id]?.comment ?? '')
+  
 
   const onChange = (event:any, selectedDate:any) => {
     const currentDate = selectedDate;
@@ -50,8 +50,8 @@ const DateAnswer = ({ question, formData, updateFormData, labels }: PropTypes) =
           h="30px"
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
-          value={commentText}
-          onChangeText={(text) => {updateFormData(question.id, 'comment', text); setCommentText(text);}}
+          defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
+          onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}
           borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
           <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
       </Box>

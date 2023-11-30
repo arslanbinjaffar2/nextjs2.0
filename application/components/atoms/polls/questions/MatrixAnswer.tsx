@@ -12,7 +12,7 @@ type PropTypes = {
   forceRender:number,
 }
 const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
-  const [commentText, setCommentText] = React.useState(formData[question.id]?.comment ?? '')
+  
 
   return (
     <Center maxW="100%" w="100%" mb="0">
@@ -31,7 +31,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
           </HStack>
           <VStack  w="100%" space="3">
             {question?.answer.map((answer, k) =>
-            <Radio.Group w="100%" key={answer.id} display={'flex'} name={`group-${k}`} aria-label={answer?.answer}  defaultValue={`${formData[question.id]?.answer[answer.id] ?? ''}`}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
+            <Radio.Group w="100%" key={answer.id} display={'flex'} name={`group-${k}`} aria-label={answer?.answer}  defaultValue={formData[question.id]?.answer !== null && formData[question.id]?.answer.length > 0 ? `${formData[question.id]?.answer[answer.id] ?? ''}` : ``}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
               <HStack w="100%" key={k} space="1" alignItems="center">
                 <Center  zIndex={9} alignItems="flex-start" position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1">
                   <Text fontSize="lg">
@@ -67,8 +67,8 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
           h="30px"
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
-          value={commentText}
-          onChangeText={(text) => {updateFormData(question.id, 'comment', text); setCommentText(text);}}
+          defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
+          onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}
           borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
           <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
       </Box>

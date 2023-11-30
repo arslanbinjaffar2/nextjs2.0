@@ -13,7 +13,7 @@ type PropTypes = {
 }
 
 const MultipleAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
-  const [commentText, setCommentText] = React.useState(formData[question.id]?.comment ?? '')
+  
 
   return (
     <Center maxW="100%" w="100%" mb="0">
@@ -21,7 +21,7 @@ const MultipleAnswer = ({ question, formData, updateFormData, error, labels }: P
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.question} {Number(question?.required_question) === 1 && <Text color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <VStack space="4">
-        <Checkbox.Group value={formData[question.id]?.answer} onChange={(answers) => { updateFormData(question.id, question.question_type, answers)}} aria-label={question?.info?.question}>
+        <Checkbox.Group value={formData[question.id]?.answer !== null && formData[question.id]?.answer.length > 0 ? formData[question.id]?.answer : []} onChange={(answers) => { updateFormData(question.id, question.question_type, answers)}} aria-label={question?.info?.question}>
           {question?.answer.map((answer, k) =>
             <Checkbox key={k} size="md"    value={`${answer.id}`}>{answer.answer}</Checkbox>
           )}
@@ -43,9 +43,9 @@ const MultipleAnswer = ({ question, formData, updateFormData, error, labels }: P
             h="30px"
             focusOutlineColor="transparent"
             _focus={{ bg: 'transparent' }}
-            value={commentText}
+            defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
             onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
-            onChangeText={(text) => {updateFormData(question.id, 'comment', text); setCommentText(text);}}
+            onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}
             borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
             <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
         </Box>
