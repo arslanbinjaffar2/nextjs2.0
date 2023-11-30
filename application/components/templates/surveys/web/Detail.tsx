@@ -96,6 +96,7 @@ const Detail = () => {
     }
     console.log(newFormData)
     setFormData(newFormData);
+    setForceUpdate(forceUpdate + 1);
   }
 
 
@@ -276,6 +277,7 @@ const Detail = () => {
                       leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
                       colorScheme="primary"
                       onPress={() => {
+                        setActiveQuestionError(null);
                         setsteps(steps - 1);
                       }}
                     >
