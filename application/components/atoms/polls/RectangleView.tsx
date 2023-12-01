@@ -21,7 +21,7 @@ const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean
           push(`/${event.url}/polls/detail/${poll.agenda_id}`)
         }
         if(completed && settings){
-          push(`/${event.url}/settings/myPollResults/${poll.agenda_id}`)
+          push(`/${event.url}/settings/myPollResults/detail/${poll.agenda_id}`)
         }
        }}>
       <Box w="100%" borderBottomWidth='1' borderColor="primary.text" py="3">

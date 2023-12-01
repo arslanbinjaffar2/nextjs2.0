@@ -1,11 +1,12 @@
 import { useCallback } from 'react'
 
-import { SelectPolls, SelectCompletedPolls, PollActions, SelectPollDetail, SelectPollLabelDetail, SelectPollSubmitSuccess, SelectPollsCount, SelectMyPollResult } from 'application/store/slices/Poll.Slice'
+import { SelectPolls, SelectCompletedPolls, PollActions, SelectPollDetail, SelectPollLabelDetail, SelectPollSubmitSuccess, SelectPollsCount, SelectMyPollResult, SelectMyPollResultDetail } from 'application/store/slices/Poll.Slice'
 
 import { PollLabels, PollSubmitData, Polls } from 'application/models/poll/Poll'
 import { PollDetail } from 'application/models/poll/Detail'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
+import { MyPollResultDetail } from 'application/models/poll/ResultDetail'
 
 export type PollServiceOperators = {
     polls: Polls,
@@ -15,10 +16,12 @@ export type PollServiceOperators = {
     detail:PollDetail | null,
     poll_labels:PollLabels,
     submitSuccess:boolean,
+    myPollResultDetail:MyPollResultDetail | null,
     FetchPolls: () => void,
     FetchPollDetail: (payload:{id:number}) => void,
     SubmitPoll: (payload:PollSubmitData) => void,
     FetchMyPollResults: () => void,
+    FetchMyPollResultDetail: (payload:{id:number}) => void,
 }
 
 /**
@@ -38,6 +41,7 @@ export const UsePollService = (): Readonly<PollServiceOperators> => {
         poll_labels: useAppSelector(SelectPollLabelDetail),
         submitSuccess: useAppSelector(SelectPollSubmitSuccess),
         myPollResult: useAppSelector(SelectMyPollResult),
+        myPollResultDetail: useAppSelector(SelectMyPollResultDetail),
         FetchPolls: useCallback(
             () => {
                 dispatch(PollActions.FetchPolls())
@@ -54,11 +58,17 @@ export const UsePollService = (): Readonly<PollServiceOperators> => {
             (payload: PollSubmitData) => {
                 dispatch(PollActions.SubmitPoll(payload))
             },
-            [dispatch],
+        [dispatch],
         ),
         FetchMyPollResults: useCallback(
             () => {
                 dispatch(PollActions.FetchMyPollResults())
+            },
+        [dispatch],
+        ),
+        FetchMyPollResultDetail: useCallback(
+            (payload: { id: number }) => {
+                dispatch(PollActions.FetchMyPollResultDetail(payload))
             },
             [dispatch],
         ),

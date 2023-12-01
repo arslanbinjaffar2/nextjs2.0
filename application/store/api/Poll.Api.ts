@@ -19,3 +19,7 @@ export const submitPollApi = (payload: any, state: any): Promise<HttpResponse> =
 export const getMyPollResultApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/settings/my-poll-results`);
 }
+
+export const getMyPollResultDetailApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/settings/my-poll-result-detail/${payload.id}`, {...payload});
+}

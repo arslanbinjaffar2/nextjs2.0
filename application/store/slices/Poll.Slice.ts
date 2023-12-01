@@ -8,6 +8,7 @@ import { RootState } from 'application/store/Index'
 import {
     current
 } from '@reduxjs/toolkit';
+import { MyPollResultDetail } from 'application/models/poll/ResultDetail';
 
 export interface PollState {
     polls: Polls,
@@ -18,6 +19,8 @@ export interface PollState {
     poll_labels:PollLabels
     submitSuccess:boolean,
     myPollResult: Polls,
+    myPollResultDetail: MyPollResultDetail | null,
+
 }
 
 const initialState: PollState = {
@@ -29,6 +32,7 @@ const initialState: PollState = {
     poll_labels:{},
     submitSuccess:false,
     myPollResult: {},
+    myPollResultDetail:null,
 }
 
 // Slice
@@ -62,7 +66,12 @@ export const PollSlice = createSlice({
             state.poll_settings = action.payload.poll_settings;
             state.poll_labels = action.payload.poll_labels;
         },
-
+        FetchMyPollResultDetail(state, action: PayloadAction<{ id: number }>) { },
+        updateMyPollResultDetail(state, action: PayloadAction<{ detail: MyPollResultDetail, poll_labels:PollLabels, poll_settings:PollSetting, }>) {
+            state.myPollResultDetail = action.payload.detail;
+            state.poll_settings = action.payload.poll_settings;
+            state.poll_labels = action.payload.poll_labels;
+        },
     },
 })
 
@@ -76,6 +85,8 @@ export const PollActions = {
     PollSubmitSuccess:PollSlice.actions.PollSubmitSuccess,
     FetchMyPollResults:PollSlice.actions.FetchMyPollResults,
     updateMyPollResults:PollSlice.actions.updateMyPollResults,
+    FetchMyPollResultDetail:PollSlice.actions.FetchMyPollResultDetail,
+    updateMyPollResultDetail:PollSlice.actions.updateMyPollResultDetail,
 }
 
 export const SelectPolls = (state: RootState) => state.polls.polls
@@ -91,6 +102,8 @@ export const SelectPollSubmitSuccess = (state: RootState) => state.polls.submitS
 export const SelectPollsCount = (state: RootState) => state.polls.polls_count
 
 export const SelectMyPollResult = (state: RootState) => state.polls.myPollResult
+
+export const SelectMyPollResultDetail = (state: RootState) => state.polls.myPollResultDetail
 
 
 // Reducer

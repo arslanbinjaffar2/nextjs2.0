@@ -102,7 +102,7 @@ const Master = ({ children, section }: Props) => {
                       )}
                     </>
                   )}
-                  <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={nextRouter.asPath.includes('settings') ? '100%' : (width > 750 ? '600px' : '100%')}>
+                  <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={nextRouter.asPath.includes('settings') ? (width >= 1201 ? '900px' : '850px') : (width > 750 ? '600px' : '100%')}>
                     {children}
                   </Center>
                   {width >= 970 && !nextRouter.asPath.includes('settings') && <Center position="sticky" top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
