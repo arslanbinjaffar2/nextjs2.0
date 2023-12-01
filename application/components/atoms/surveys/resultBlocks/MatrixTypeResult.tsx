@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, ScrollView, Text, TextArea, VStack } from 'native-base';
 import Icodocument from 'application/assets/icons/small/Icodocument';
-import { Question } from 'application/models/poll/ResultDetail';
+import { Question } from 'application/models/survey/ResultDetail';
 import { Platform } from 'react-native';
 type PropTypes = {
   question: Question,
