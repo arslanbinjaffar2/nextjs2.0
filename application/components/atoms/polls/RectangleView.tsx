@@ -7,7 +7,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 import moment from 'moment';
 
-const RectangleView = ({poll, completed}:{poll:Poll, completed:boolean}) => {
+const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean, settings?:boolean}) => {
   const { event } = UseEventService();
   const { push } = useRouter()
   console.log(`${poll.program.start_date} ${poll.program.start_time}`)
@@ -20,6 +20,9 @@ const RectangleView = ({poll, completed}:{poll:Poll, completed:boolean}) => {
         if(!completed){
           push(`/${event.url}/polls/detail/${poll.agenda_id}`)
         }
+        if(completed && settings){
+          push(`/${event.url}/settings/myPollResults/${poll.agenda_id}`)
+        }
        }}>
       <Box w="100%" borderBottomWidth='1' borderColor="primary.text" py="3">
         <HStack px="3" w="100%" space="0" alignItems="center" justifyContent="space-between">
@@ -31,7 +34,7 @@ const RectangleView = ({poll, completed}:{poll:Poll, completed:boolean}) => {
             <Text fontSize="sm">{moment(`${poll.program.start_date} ${poll.program.start_time}`).format('HH:mm')} - {moment(`${poll.program.start_date} ${poll.end_time}`).format('HH:mm')} </Text>
           </VStack>
           <Spacer />
-          {!completed && <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+          {(!completed || settings) && <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
         </HStack>
       </Box>
     </Pressable>

@@ -17,6 +17,7 @@ export interface PollState {
     poll_settings:PollSetting | {},
     poll_labels:PollLabels
     submitSuccess:boolean,
+    myPollResult: Polls,
 }
 
 const initialState: PollState = {
@@ -27,6 +28,7 @@ const initialState: PollState = {
     detail: null,
     poll_labels:{},
     submitSuccess:false,
+    myPollResult: {},
 }
 
 // Slice
@@ -54,6 +56,12 @@ export const PollSlice = createSlice({
         PollSubmitSuccess(state){
             state.submitSuccess = true
         },
+        FetchMyPollResults() {},
+        updateMyPollResults(state, action: PayloadAction<{ myPollResult: Polls, poll_settings:PollSetting, poll_labels:PollLabels, }>) {
+            state.myPollResult = action.payload.myPollResult;
+            state.poll_settings = action.payload.poll_settings;
+            state.poll_labels = action.payload.poll_labels;
+        },
 
     },
 })
@@ -66,6 +74,8 @@ export const PollActions = {
     updateDetail:PollSlice.actions.updateDetail,
     SubmitPoll:PollSlice.actions.SubmitPoll,
     PollSubmitSuccess:PollSlice.actions.PollSubmitSuccess,
+    FetchMyPollResults:PollSlice.actions.FetchMyPollResults,
+    updateMyPollResults:PollSlice.actions.updateMyPollResults,
 }
 
 export const SelectPolls = (state: RootState) => state.polls.polls
@@ -79,6 +89,8 @@ export const SelectPollLabelDetail = (state: RootState) => state.polls.poll_labe
 export const SelectPollSubmitSuccess = (state: RootState) => state.polls.submitSuccess
 
 export const SelectPollsCount = (state: RootState) => state.polls.polls_count
+
+export const SelectMyPollResult = (state: RootState) => state.polls.myPollResult
 
 
 // Reducer
