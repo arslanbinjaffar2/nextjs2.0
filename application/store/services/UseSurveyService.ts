@@ -1,11 +1,12 @@
 import { useCallback } from 'react'
 
-import { SelectSurveys, SelectCompletedSurveys, SurveyActions, SelectSurveyLabelDetail, SelectSurveySubmitSuccess, SelectSurveyDetail } from 'application/store/slices/Survey.Slice'
+import { SelectSurveys, SelectCompletedSurveys, SurveyActions, SelectSurveyLabelDetail, SelectSurveySubmitSuccess, SelectSurveyDetail, SelectMySurveyResult, SelectMySurveyResultDetail } from 'application/store/slices/Survey.Slice'
 
 import { SurveyLabels, SurveySubmitData, Surveys } from 'application/models/survey/Survey'
 import { SurveyDetail } from 'application/models/survey/Detail'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
+import { MySurveyResult } from 'application/models/survey/ResultDetail'
 
 export type SurveyServiceOperators = {
     surveys: Surveys,
@@ -13,9 +14,13 @@ export type SurveyServiceOperators = {
     detail:SurveyDetail | null,
     survey_labels:SurveyLabels,
     submitSuccess:boolean,
+    mySurveyResult: Surveys,
+    mySurveyResultDetail:MySurveyResult | null,
     FetchSurveys: () => void,
     FetchSurveyDetail: (payload:{id:number}) => void,
     SubmitSurvey: (payload:SurveySubmitData) => void,
+    FetchMySurveyResults: () => void,
+    FetchMySurveyResultDetail: (payload:{id:number}) => void,
 }
 
 /**
@@ -33,6 +38,8 @@ export const UseSurveyService = (): Readonly<SurveyServiceOperators> => {
         detail: useAppSelector(SelectSurveyDetail),
         survey_labels: useAppSelector(SelectSurveyLabelDetail),
         submitSuccess: useAppSelector(SelectSurveySubmitSuccess),
+        mySurveyResult: useAppSelector(SelectMySurveyResult),
+        mySurveyResultDetail: useAppSelector(SelectMySurveyResultDetail),
         FetchSurveys: useCallback(
             () => {
                 dispatch(SurveyActions.FetchSurveys())
@@ -48,6 +55,18 @@ export const UseSurveyService = (): Readonly<SurveyServiceOperators> => {
         SubmitSurvey: useCallback(
             (payload: SurveySubmitData) => {
                 dispatch(SurveyActions.SubmitSurvey(payload))
+            },
+            [dispatch],
+        ),
+        FetchMySurveyResults: useCallback(
+            () => {
+                dispatch(SurveyActions.FetchMySurveyResults())
+            },
+        [dispatch],
+        ),
+        FetchMySurveyResultDetail: useCallback(
+            (payload: { id: number }) => {
+                dispatch(SurveyActions.FetchMySurveyResultDetail(payload))
             },
             [dispatch],
         ),

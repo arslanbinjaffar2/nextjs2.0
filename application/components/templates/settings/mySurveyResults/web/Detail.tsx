@@ -7,18 +7,18 @@ import { useState } from 'react';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { createParam } from 'solito';
 import UseLoadingService from 'application/store/services/UseLoadingService';
-import UsePollService from 'application/store/services/UsePollService';
-import { FormData } from 'application/models/poll/Detail';
+import UseSurveyService from 'application/store/services/UseSurveyService';
+import { FormData } from 'application/models/survey/Detail';
 import WebLoading from 'application/components/atoms/WebLoading';
-import InputTypeResult from 'application/components/atoms/polls/resultBlocks/InputTypeResult';
-import SingleOptionTypeResult from 'application/components/atoms/polls/resultBlocks/SingleOptionTypeResult';
-import MultiOptionTypeResult from 'application/components/atoms/polls/resultBlocks/MultipleOptionTypeResult';
-import WordCloudOptionTypeResult from 'application/components/atoms/polls/resultBlocks/WordCloudOptionTypeResult';
-import MatrixTypeResult from 'application/components/atoms/polls/resultBlocks/MatrixTypeResult';
+import InputTypeResult from 'application/components/atoms/surveys/resultBlocks/InputTypeResult';
+import SingleOptionTypeResult from 'application/components/atoms/surveys/resultBlocks/SingleOptionTypeResult';
+import MultiOptionTypeResult from 'application/components/atoms/surveys/resultBlocks/MultipleOptionTypeResult';
+import WordCloudOptionTypeResult from 'application/components/atoms/surveys/resultBlocks/WordCloudOptionTypeResult';
+import MatrixTypeResult from 'application/components/atoms/surveys/resultBlocks/MatrixTypeResult';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
-import { SubmittedQuestion } from 'application/models/poll/Poll';
+import { SubmittedQuestion } from 'application/models/survey/Survey';
 import { useRouter } from 'solito/router'
 
 
@@ -36,7 +36,7 @@ const Detail = () => {
 
   const [completed, setcompleted] = useState<boolean>(false);
 
-  const [submittingPoll, setSubmittingPoll] = useState(false);
+  const [submittingSurvey, setSubmittingSurvey] = useState(false);
 
   const { loading, scroll } = UseLoadingService();
 
@@ -48,19 +48,19 @@ const Detail = () => {
 
   const { push } = useRouter()
 
-  const { FetchMyPollResultDetail, myPollResultDetail } = UsePollService();
+  const { FetchMySurveyResultDetail, mySurveyResultDetail } = UseSurveyService();
 
   const [id] = useParam('id');
 
   React.useEffect(() => {
     if (id) {
-        FetchMyPollResultDetail({ id: Number(id) });
+        FetchMySurveyResultDetail({ id: Number(id) });
     }
   }, [id]);
 
 
 
-  console.log(myPollResultDetail);
+  console.log(mySurveyResultDetail);
 
 
   return (
@@ -70,10 +70,10 @@ const Detail = () => {
             ) : (
             <Container mb="3" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text isTruncated pr="6" fontSize="2xl">{myPollResultDetail?.program?.info?.topic}</Text>
+                <Text isTruncated pr="6" fontSize="2xl">{mySurveyResultDetail?.info?.name}</Text>
               </HStack>
               <Box w="100%" >
-                {myPollResultDetail && myPollResultDetail?.question.length > 0 && myPollResultDetail.question.map((question, i) => (
+                {mySurveyResultDetail && mySurveyResultDetail?.question.length > 0 && mySurveyResultDetail.question.map((question, i) => (
                         <>
                         {(question.question_type == 'open' 
                         || question.question_type == 'number'

@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getSurveyApi, getSurveyDetailApi, submitSurveyApi } from 'application/store/api/Survey.Api'
+import { getMySurveyResultApi, getMySurveyResultDetailApi, getSurveyApi, getSurveyDetailApi, submitSurveyApi } from 'application/store/api/Survey.Api'
 
 import { SurveyActions } from 'application/store/slices/Survey.Slice'
 
@@ -53,6 +53,30 @@ function* OnSurveySubmit({
     }
 }
 
+function* OnFetchMySurveyResults({
+}: {
+    type: typeof SurveyActions.FetchMySurveyResults
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getMySurveyResultApi, {}, state)
+    yield put(SurveyActions.updateMySurveyResults({ mySurveyResult: response.data.data.surveys, survey_labels: response.data.data.survey_labels, survey_settings: response.data.data.surveySettings }))
+    yield put(LoadingActions.set(false))
+
+}
+
+function* OnFetchMySurveyResultDetail({
+    payload,
+}: {
+    type: typeof SurveyActions.FetchMySurveyResultDetail
+    payload: { id: number }
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getMySurveyResultDetailApi, payload, state)
+    yield put(SurveyActions.updateMySurveyResultDetail({ detail: response.data.data.survey_detail.survery!, survey_labels: response.data.data.survey_labels, survey_settings: response.data.data.surveySettings }))
+    yield put(LoadingActions.set(false));
+}
 
 
 // Watcher Saga
@@ -60,6 +84,8 @@ export function* SurveyWatcherSaga(): SagaIterator {
     yield takeEvery(SurveyActions.FetchSurveys.type, OnFetchSurveys)
     yield takeEvery(SurveyActions.FetchSurveyDetail.type, OnFetchSurveyDetail)
     yield takeEvery(SurveyActions.SubmitSurvey.type, OnSurveySubmit)
+    yield takeEvery(SurveyActions.FetchMySurveyResults.type, OnFetchMySurveyResults)
+    yield takeEvery(SurveyActions.FetchMySurveyResultDetail.type, OnFetchMySurveyResultDetail)
 }
 
 export default SurveyWatcherSaga

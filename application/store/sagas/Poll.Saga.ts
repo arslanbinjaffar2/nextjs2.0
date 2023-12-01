@@ -55,7 +55,7 @@ function* OnPollSubmit({
 
 function* OnFetchMyPollResults({
 }: {
-    type: typeof PollActions.FetchPolls
+    type: typeof PollActions.FetchMyPollResults
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
@@ -68,7 +68,7 @@ function* OnFetchMyPollResults({
 function* OnFetchMyPollResultDetail({
     payload,
 }: {
-    type: typeof PollActions.FetchPollDetail
+    type: typeof PollActions.FetchMyPollResultDetail
     payload: { id: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
