@@ -22,7 +22,7 @@ const InputTypeResult = ({ question, questionNumber  }: PropTypes) => {
 
         </Box>
         
-        {Number(question.enable_comments) === 1 && question.results[0]?.comments !== '' &&
+        {Number(question.enable_comments) === 1 && question.results[0]?.comment !== '' &&
             <>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
             <Icodocument width="15px" height="18px" />
@@ -35,7 +35,7 @@ const InputTypeResult = ({ question, questionNumber  }: PropTypes) => {
                 isReadOnly
                 focusOutlineColor="transparent"
                 _focus={{ bg: 'transparent' }}
-                defaultValue={question.results[0]?.comments}
+                defaultValue={question.results[0]?.comment}
                 borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
             </Box>
             </>
