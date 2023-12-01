@@ -11,6 +11,10 @@ import UsePollService from 'application/store/services/UsePollService';
 import { FormData } from 'application/models/poll/Detail';
 import WebLoading from 'application/components/atoms/WebLoading';
 import InputTypeResult from 'application/components/atoms/polls/resultBlocks/InputTypeResult';
+import SingleOptionTypeResult from 'application/components/atoms/polls/resultBlocks/SingleOptionTypeResult';
+import MultiOptionTypeResult from 'application/components/atoms/polls/resultBlocks/MultipleOptionTypeResult';
+import WordCloudOptionTypeResult from 'application/components/atoms/polls/resultBlocks/WordCloudOptionTypeResult';
+import MatrixTypeResult from 'application/components/atoms/polls/resultBlocks/MatrixTypeResult';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -146,6 +150,19 @@ const Detail = () => {
                         || question.question_type == 'date'
                         || question.question_type == 'date_time') &&
                             <InputTypeResult question={question} key={i} questionNumber={i} />
+                        }
+                        {(question.question_type == 'single' 
+                        || question.question_type == 'dropdown') &&
+                            <SingleOptionTypeResult question={question} key={i} questionNumber={i} />
+                        }
+                        {(question.question_type == 'multiple') &&
+                            <MultiOptionTypeResult question={question} key={i} questionNumber={i} />
+                        }
+                        {(question.question_type == 'world_cloud') &&
+                            <WordCloudOptionTypeResult question={question} key={i} questionNumber={i} />
+                        }
+                        {(question.question_type == 'matrix') &&
+                            <MatrixTypeResult question={question} key={i} questionNumber={i} />
                         }
                         </>
                 ))}

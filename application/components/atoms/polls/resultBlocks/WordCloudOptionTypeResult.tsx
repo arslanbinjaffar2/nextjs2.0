@@ -8,7 +8,7 @@ type PropTypes = {
   question: Question
   questionNumber:number
 }
-const InputTypeResult = ({ question, questionNumber  }: PropTypes) => {
+const WordCloudOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
   
   return (
     <>
@@ -18,8 +18,11 @@ const InputTypeResult = ({ question, questionNumber  }: PropTypes) => {
                 <Text fontWeight="600" maxW="80%" fontSize="lg">Q-{questionNumber + 1} {". "} {question?.info.question} {question?.required_question == '1' && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>}</Text>
             </HStack>
             <Divider mb="5" opacity={0.27} bg="primary.text" />
-            <Text px='3' fontSize="lg">{question.results[0]?.answer}</Text>
-
+            <VStack>
+                    {question.results.map((answer)=>(
+                        <Text px='3' fontSize="lg"  >{answer?.answer}</Text>
+                    ))}
+            </VStack>
         </Box>
         
         {Number(question.enable_comments) === 1 && question.results[0]?.comments !== '' &&
@@ -45,4 +48,4 @@ const InputTypeResult = ({ question, questionNumber  }: PropTypes) => {
   )
 }
 
-export default InputTypeResult
+export default WordCloudOptionTypeResult
