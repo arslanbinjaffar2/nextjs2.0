@@ -68,7 +68,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                           <Text lineHeight="22px" fontSize="lg">{attendee?.info?.title}&nbsp;{attendee?.info?.company_name &&
                             attendee?.info?.title &&
                             ", "}
-                            { attendee?.field_settings?.department.is_private == 0 && attendee?.info?.department && `${attendee?.info?.department} `}
+                            { attendee?.field_settings?.department.is_private == 0 && attendee?.info?.department && `${attendee?.info?.department} ${attendee?.info?.company_name && ', '}`}
                             {attendee?.info?.company_name && attendee?.info?.company_name}
                             </Text>
                         
@@ -78,11 +78,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               )}
               {
                 <Text pt="1" lineHeight="22px" fontSize="md"> 
-                 { attendee?.field_settings?.pa_street.is_private == 0 && attendee?.info?.private_street && attendee?.info?.private_street}
-                 {attendee?.field_settings?.pa_house_no.is_private == 0 && attendee?.info?.private_house_number && ` ${attendee?.info?.private_house_number}`}
-                 {attendee?.field_settings?.pa_post_code.is_private == 0 && attendee?.info?.private_post_code&& ` ${attendee?.info?.private_post_code}`}
-                 {attendee?.field_settings?.pa_city.is_private == 0 && attendee?.info?.private_city &&  ` ${attendee?.info?.private_city}`}
-                 {attendee?.field_settings?.pa_country.is_private == 0 && attendee?.private_country_display_name && ` ${attendee?.private_country_display_name}`}
+                  {getPrivateFields(attendee)}
                  </Text>
               }
               
@@ -107,3 +103,26 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 }
 
 export default RectangleView
+
+
+const getPrivateFields = (attendee:any) => {
+  let fields = '';
+
+  if(attendee?.field_settings?.pa_street.is_private == 0 && attendee?.info?.private_street){
+    fields += fields !== '' ? `, ${attendee?.info?.private_street}` : attendee?.info?.private_street;
+  }
+  if(attendee?.field_settings?.pa_house_no.is_private == 0 && attendee?.info?.private_house_number){
+    fields += fields !== '' ? `, ${attendee?.info?.private_house_number}` : attendee?.info?.private_house_number;
+  }
+  if(attendee?.field_settings?.pa_post_code.is_private == 0 && attendee?.info?.private_post_code){
+    fields += fields !== '' ? `, ${attendee?.info?.private_post_code}` : attendee?.info?.private_post_code;
+  }
+  if(attendee?.field_settings?.pa_city.is_private == 0 && attendee?.info?.private_city){
+    fields += fields !== '' ? `, ${attendee?.info?.private_city}` : attendee?.info?.private_city;
+  }
+  if(attendee?.field_settings?.pa_country.is_private == 0 && attendee?.private_country_display_name){
+    fields += fields !== '' ? `, ${attendee?.private_country_display_name}` : attendee?.private_country_display_name;
+  }
+
+  return fields;
+}

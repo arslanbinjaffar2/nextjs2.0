@@ -32,7 +32,7 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
                 onPress={() => {
                     if (category.parent_id > 0) {
                         if (updateTab) updateTab('attendee');
-                        UpdateCategory({ category_id: category.id, category_name: category.name });
+                        UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
                         if (screen === "detail") {
                             if (Platform.OS === "web") {
                                 push(`/${event.url}/speakers`);

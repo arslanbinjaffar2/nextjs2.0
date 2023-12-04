@@ -45,7 +45,7 @@ const Index = ({ speaker, screen }: Props) => {
 
     const alphabet = alpha.map((x) => String.fromCharCode(x));
 
-    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name } = UseAttendeeService();
+    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory } = UseAttendeeService();
 
     
     const [searchQuery, setSearch] = React.useState('')
@@ -69,7 +69,7 @@ const Index = ({ speaker, screen }: Props) => {
             } else if (in_array(tab, ['attendee', 'my-attendee'])) {
                 FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             } else if (in_array(tab, ['category'])) {
-                FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+                FetchCategories({ parent_id: categories.length > 0  ? categories[0].parent_id : 0, query: query, page: 1, cat_type: 'speakers' })
             }
         }
     }, [tab, category_id]);
@@ -148,7 +148,10 @@ const Index = ({ speaker, screen }: Props) => {
                     </HStack>}
                     {speaker ===  1 && <HStack mb="3" space={1} justifyContent="center" w="100%">
                         {((event?.speaker_settings?.default_display === 'name' || event?.speaker_settings?.tab == 1)) &&  
-                            <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} _text={{ fontWeight: '600' }}>ALL</Button>}
+                            <Button onPress={() => {
+                                setTab('attendee') 
+                                UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
+                            }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} _text={{ fontWeight: '600' }}>ALL</Button>}
                         {(event?.speaker_settings?.default_display !== 'name' || event?.speaker_settings?.tab == 1) &&
                             <Button onPress={() => setTab('category')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display !== 'name' && event?.speaker_settings?.tab == 0)) ? '100%' : '50%'} _text={{ fontWeight: '600' }}>CATEGORIES</Button>
                         }
@@ -175,10 +178,10 @@ const Index = ({ speaker, screen }: Props) => {
                             <Text flex="1" textTransform="uppercase" fontSize="xs">{category_name}</Text>
                             <Pressable
                                 onPress={async () => {
-                                    if (in_array(tab, ['attendee', 'my-attendee'])) {
-                                        FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: 0, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
-                                    } else {
-                                        FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+                                    if(tab == 'attendee'){
+                                        setTab('category');
+                                    }else{
+                                         FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
                                     }
                                 }}>
                                 <Text textTransform="uppercase" fontSize="xs">Go back</Text>
