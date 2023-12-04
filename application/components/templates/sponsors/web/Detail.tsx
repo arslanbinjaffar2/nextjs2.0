@@ -30,7 +30,7 @@ const Detail = React.memo(() => {
 
     const [id] = useParam('id');
     
-    const { clearState } = UseDocumentService();
+    const { clearState, documents } = UseDocumentService();
 
     const { event } = UseEventService()
 
@@ -77,7 +77,7 @@ const Detail = React.memo(() => {
                                         )}
                                 </Box>
                             )}
-                            {event?.sponsor_settings?.document == 1 && <Box p="0" w="100%">
+                            {event?.sponsor_settings?.document == 1 && documents.length > 0 && <Box p="0" w="100%">
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                     <Icodocument width="15px" height="18px" />
                                     <Text fontSize="lg">Documents</Text>
