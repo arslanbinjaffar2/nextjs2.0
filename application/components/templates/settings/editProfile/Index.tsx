@@ -97,7 +97,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
     const { _env } = UseEnvService()
 
-    
+    const [gender, setGender] = React.useState(attendee?.info?.gender ?? ''); 
+
     const [attendeeData, setAttendeeData] = React.useState({
         ...attendee,
         phone: attendee?.phone && attendee?.phone?.split("-")[1],
@@ -207,6 +208,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         let infoObj:any = {
             ...attendeeData?.info,
             phone: `${attendeeData?.callingCode}-${attendeeData?.phone}`,
+            gender: gender,
         }
 
         infoObj[`custom_field_id${event.id}`] = custom_field_id;
@@ -681,7 +683,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     placeholder="Please Select"
                                     minWidth="64"
                                     h="50px"
-                                    isDisabled={setting?.is_editable === 1 ? false : true}
+                                    isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                     selectedValue={attendeeData?.info?.private_country}
                                     onValueChange={answer => updateInfoSelect({ answer, name: "private_country" })}
                                 >
@@ -713,10 +715,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.gender}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
-                                <Radio.Group space="5" defaultValue={attendeeData?.info?.gender} name="MyRadioGroup" onChange={gender => { updateAttendeeInfoFeild('gender', gender); }}>
+                                    
+                                <Radio.Group space="5"   value={gender} name="MyRadioGroup" onChange={(gender) => { setGender(gender); }}>
                                     <HStack space="3" alignItems="center">
-                                        <Radio value={'male'}> Male </Radio>
-                                        <Radio value={'female'}> Female </Radio>
+                                        <Radio isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'male'}> Male </Radio>
+                                        <Radio isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'female'}> Female </Radio>
                                     </HStack>
 
                                 </Radio.Group>
@@ -804,7 +807,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     minWidth="64"
                                     w="100%"
                                     h="50px"
-                                    isDisabled={setting?.is_editable === 1 ? false : true}
+                                    isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                     selectedValue={attendeeData?.info?.country}
                                     onValueChange={answer => updateInfoSelect({ answer, name: "country" })}
                                 >
@@ -823,7 +826,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 label={labels?.SPOKEN_LANGUAGE}
                                 listitems={languages}
                                 required={false}
-                                isDisabled={setting?.is_editable === 1 ? false : true}
+                                isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                 isMulti={true}
                                 selected={
                                     attendeeData.SPOKEN_LANGUAGE &&
@@ -848,7 +851,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                             <ReactSelect
                                 styles={Selectstyles2}
-                                isDisabled={setting?.is_editable === 1 ? false : true}
+                                isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                 placeholder={question.name}
                                 components={{ IndicatorSeparator: null }}
                                 options={question.children_recursive.map((item:any, index:number) => {
@@ -918,7 +921,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                         <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="200px" />
                                                         : <LoadImage path={`https://via.placeholder.com/155.png`} w="200px" />}
                                                     </Center>
-                                                    <Button w={100} onPress={()=>{
+                                                    <Button w={100} isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
                                                             if(inputFileRef.current){
                                                                 inputFileRef.current.click();
                                                             }
@@ -979,6 +982,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                 </Center>
 
                                                 <Button
+                                                    isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                     onPress={()=>{
                                                         if(inputresumeFileRef.current){
                                                             inputresumeFileRef.current.click();
@@ -1080,7 +1084,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             </HStack>}
             {<HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
                 <Center alignItems="flex-start" w="225px">
-                    <Checkbox defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
+                    <Checkbox isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
                         updateAttendeeFeild('gdpr', isSelected);
                     }} size="md"   >GDPR</Checkbox>
                 </Center>

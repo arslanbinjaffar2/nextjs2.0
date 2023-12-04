@@ -103,7 +103,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     {(showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 ? '1' : '0'} alignItems="flex-start">
                         <Pressable
                             onPress={async () => {
-                                const url: any = `${_env.eventcenter_base_url}/event/${event.url}/settings/downloadResume/${detail?.detail?.attendee_cv}`;
+                                const url: any = `${_env.eventcenter_base_url}/assets/attendees/cv/${detail?.detail?.attendee_cv}`;
                                 const supported = await Linking.canOpenURL(url);
                                 if (supported) {
                                     await Linking.openURL(url);
