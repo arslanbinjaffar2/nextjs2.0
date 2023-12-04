@@ -49,7 +49,7 @@ function rgb2hsv(r: number, g: number, b: number) {
   return [Math.floor(h * 360), Math.floor(s * 100), Math.floor(l * 100)];
 }
 
-export function getColorScheme(primaryColor:string){
+export function getColorScheme(primaryColor:string, textMode:string|undefined){
   const background = hex2rgb(primaryColor);
   const hsb = rgb2hsv(background[0], background[1], background[2]);
   const box = hsbTorgb(hsb[0], hsb[1] / 2, hsb[2] + 30);
@@ -59,7 +59,7 @@ export function getColorScheme(primaryColor:string){
   const white20 = 'rgba(255, 255, 255, 0.2)';
   const dark = '#EAEAEA';
   const light = '#1e1e1e';
-  const text = getColorByBgColor(primaryColor);
+  const text = textMode == 'dark' ? light : dark;
 
   return {
     black: '#000000',

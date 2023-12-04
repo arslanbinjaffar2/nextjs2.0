@@ -108,7 +108,9 @@ interface Setting {
     third_party_body_script?: string;
     third_party_footer_script?: string;
     third_party_header_script?: string;
-    third_party_order_success?: string;
+    app_background_color ?: string;
+    app_text_mode?: string;
+    app_background_image?: string;
 }
 interface AttendeeSetting {
     id?: number;

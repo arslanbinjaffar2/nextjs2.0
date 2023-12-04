@@ -3,6 +3,7 @@ import { ImageBackground, View } from 'react-native';
 import { gStyle, images } from 'application/styles';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 type Props = {
     children:
@@ -13,13 +14,15 @@ type Props = {
 };
 
 const BackgroundLayout = ({ children }: Props) => {
-    const { FetchEvent, event } = UseEventService()
+    const { event } = UseEventService()
+    const { updateEnv, _env } = UseEnvService()
 
-    const colors = getColorScheme('#343d50');
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
     const gStyles = gStyle(colors);
+
     return (
             <>
-                <ImageBackground blurRadius={8} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode='cover' source={{ uri: images.SplashImage }}>
+                <ImageBackground blurRadius={8} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode='cover' source={{ uri:`${_env.eventcenter_base_url}/assets/event/app_background/${event.settings?.app_background_image}`  }}>
                     <View style={{ ...gStyles.flex1, ...gStyles.bgContainer }} />
                 </ImageBackground>
                 {children}
