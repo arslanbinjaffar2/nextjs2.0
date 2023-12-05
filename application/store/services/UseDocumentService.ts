@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { DocumentActions, SelectDocuments, SelectData, SelectQuery, SelectSpeakerID, SelectExhibitor, SelectSponsorID, SelectAgendaID } from 'application/store/slices/Document.Slice'
+import { DocumentActions, SelectDocuments, SelectData, SelectQuery, SelectSpeakerID, SelectExhibitor, SelectSponsorID, SelectAgendaID, SelectDocumentID } from 'application/store/slices/Document.Slice'
 
 import { Document } from 'application/models/document/Document'
 
@@ -12,6 +12,7 @@ export type DocumentServiceOperators = {
     sponsor_id: number,
     exhibitor_id: number,
     agenda_id: number,
+    document_id:number,
     data: Document[]
     documents: Document[]
     FetchDocuments: (payload: { speaker_id: number, sponsor_id: number, exhibitor_id: number, agenda_id: number }) => void
@@ -34,6 +35,7 @@ export const UseDocumentService = (): Readonly<DocumentServiceOperators> => {
         exhibitor_id: useAppSelector(SelectSponsorID),
         agenda_id: useAppSelector(SelectAgendaID),
         documents: useAppSelector(SelectDocuments),
+        document_id: useAppSelector(SelectDocumentID),
         data: useAppSelector(SelectData),
         FetchDocuments: useCallback(
             (payload: { speaker_id: number, sponsor_id: number, exhibitor_id: number, agenda_id: number }) => {

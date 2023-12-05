@@ -19,6 +19,7 @@ export interface DocumentState {
     sponsor_id: number,
     exhibitor_id: number,
     agenda_id: number,
+    document_id: number,
 }
 
 const initialState: DocumentState = {
@@ -29,6 +30,7 @@ const initialState: DocumentState = {
     sponsor_id: 0,
     exhibitor_id: 0,
     agenda_id: 0,
+    document_id: 0,
 }
 
 // Slice
@@ -53,6 +55,8 @@ export const DocumentSlice = createSlice({
             console.log(action.payload.query, 'doc_id');
 
             console.log(ReadDocumentFilter(current(state.data), action.payload.document_id), 'filteredDocuments');
+
+            state.document_id = action.payload.document_id;
             
             const records = action.payload.query !== '' ? KeywordFilter(ReadDocumentFilter(current(state.data), action.payload.document_id), 'name', action.payload.query) : ReadDocumentFilter(current(state.data), action.payload.document_id);
             
@@ -95,6 +99,8 @@ export const SelectSponsorID = (state: RootState) => state.documents.sponsor_id
 export const SelectExhibitor = (state: RootState) => state.documents.exhibitor_id
 
 export const SelectAgendaID = (state: RootState) => state.documents.agenda_id
+
+export const SelectDocumentID = (state: RootState) => state.documents.document_id
 
 // Reducer
 export default DocumentSlice.reducer

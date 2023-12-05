@@ -8,7 +8,7 @@ import { Keyboard } from 'react-native';
 
 const Search = () => {
 
-    const { FilterDocuments, query, documents } = UseDocumentService();
+    const { FilterDocuments, query, documents, document_id } = UseDocumentService();
 
     const searchInputRef = React.useRef<any>(null);
 
@@ -34,7 +34,7 @@ const Search = () => {
 
     return (
         <Input rounded="10" ref={searchInputRef} bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} onChangeText={(text: string) => {
-            search(text, (documents.length > 0 ? (documents[0]?.directory_id !== undefined ? documents[0]?.directory_id : documents[0]?.parent_id) : 0));
+            search(text, (documents.length > 0 ? (documents[0]?.directory_id !== undefined ? documents[0]?.directory_id : documents[0]?.parent_id) : document_id));
         }} />
     )
 
