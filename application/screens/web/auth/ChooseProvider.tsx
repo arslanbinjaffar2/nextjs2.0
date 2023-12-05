@@ -54,7 +54,8 @@ const ChooseProvider = ({ props }: any) => {
                     {Object.keys(response).length > 0 ? (
                         <VStack w={'100%'} alignItems={'center'} space='4'>
                             <VStack space="20px" width={'100%'}>
-                                <Text w={'100%'} fontSize='lg' lineHeight='sm' >{event.labels.DESKTOP_CHOOSE_SERVICE_PROVIDER_HEADING}</Text>
+                                <Text w={'100%'} fontSize='lg' lineHeight='sm' textAlign={'center'} >{event.labels.EVENTSITE_TWO_FACTOR_AUTHENTICATION}</Text>
+                                <Text w={'100%'} fontSize='lg' lineHeight='sm' >{event.labels.EVENTSITE_AUTHENTICATION_CONTACT_METHOD}</Text>
                                 <FormControl isRequired isInvalid={'provider' in errors || error !== ''}>
                                     <Controller
                                         control={control}

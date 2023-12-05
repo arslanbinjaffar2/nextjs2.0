@@ -65,7 +65,7 @@ const Login = ({ props }: any) => {
                             )}
                         </>
                     )}
-                    {event.attendee_settings?.email_enable && (
+                    {event.attendee_settings?.email_enable === 1 && (
                         <>
                             {event.attendee_settings?.hide_password === 0 && event.attendee_settings?.registration_password === 0 && event.attendee_settings?.authentication === 0 ? (
                                 <VStack space="20px" w={'100%'}>

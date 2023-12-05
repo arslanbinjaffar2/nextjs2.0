@@ -62,7 +62,8 @@ const Verification = ({ props }: any) => {
                 {Object.keys(response).length > 0 ? (
                     <VStack w={'100%'} space='4'>
                         <VStack space="20px" width={'100%'}>
-                            <Text w={'100%'} fontSize='lg' lineHeight='sm' >{event.labels.DESKTOP_VERIFICATION_SCREEN_HEADING}</Text>
+                            <Text w={'100%'} fontSize='lg' lineHeight='sm' textAlign={'center'} >{event.labels.EVENTSITE_AUTHENTICATION_CODE_REQUIRED}</Text>
+                            <Text w={'100%'} fontSize='lg' lineHeight='sm' >{event.labels.EVENTSITE_AUTHENTICATION_EMAIL_CODE_SEND_MSG}</Text>
                             <FormControl isRequired isInvalid={'code' in errors || error !== ''}>
                                 <Controller
                                     control={control}
