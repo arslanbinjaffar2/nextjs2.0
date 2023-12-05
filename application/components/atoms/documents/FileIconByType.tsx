@@ -19,9 +19,9 @@ const FileIconByType = ({type}:{type:string}) => {
     } else if (type == "jpg" || type == "jpeg") {
         return <Icon size="xl" as={AntDesign} name="jpgfile1" color="primary.text" />
     } else if (type == "png") {
-        return <Icon size="xl" as={MaterialCommunityIcons} name="file-png-box" color="primary.text" />
+        return <Icon size="xl" as={FontAwesome} name="file-image-o" color="primary.text" />
     } else if (type == "gif") {
-        return <Icon size="xl" as={MaterialCommunityIcons} name="file-gif-box" color="primary.text" />
+        return <Icon size="xl" as={FontAwesome} name="file-image-o" color="primary.text" />
     } else if (type == "zip") {
         return <Icon size="xl" as={FontAwesome} name="file-zip-o" color="primary.text" />
     } else {
