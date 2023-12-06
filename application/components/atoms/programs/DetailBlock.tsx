@@ -4,7 +4,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseProgramService from 'application/store/services/UseProgramService';
 import UseEnvService from 'application/store/services/UseEnvService';
-
+import UseEventService from 'application/store/services/UseEventService';
+import moment from 'moment'
 type AppProps = {
     children:
     | JSX.Element
@@ -16,6 +17,8 @@ type AppProps = {
 const DetailBlock = ({ children }: AppProps) => {
 
     const { detail } = UseProgramService();
+    
+    const { event } = UseEventService();
 
     const { _env } = UseEnvService()
 
@@ -36,8 +39,8 @@ const DetailBlock = ({ children }: AppProps) => {
                 <DynamicIcon iconType="checkIn" iconProps={{ width: 25, height: 24 }} />
             </HStack>
             <HStack w="100%" mb="3" space="10" alignItems="center">
-                {detail?.program?.start_time && detail?.program?.end_time && (
-                    <Text fontSize="md">{detail?.program?.start_time} - {detail?.program?.end_time}</Text>
+                {detail?.program?.start_time && detail?.program?.end_time  && event.agenda_settings?.agenda_display_time == 1 && (
+                    <Text fontSize="md">{moment(`${detail?.program?.date} ${detail?.program?.start_time}`).format('HH:mm')} - {moment(`${detail?.program?.date} ${detail?.program?.start_time}`).format('HH:mm')}</Text>
                 )}
                 {detail?.program?.location && (
                     <HStack space="3" alignItems="center">

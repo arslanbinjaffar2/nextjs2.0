@@ -7,7 +7,7 @@ import { Program } from 'application/models/program/Program';
 import UseProgramService from 'application/store/services/UseProgramService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-
+import moment from 'moment'
 type AppProps = {
   program: Program,
   k: number,
@@ -48,8 +48,8 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                   </Box>
                   <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
                     {event.agenda_settings?.agenda_display_time == 1 && <VStack w="60px" space="0">
-                      <Text lineHeight="22px">{program.start_time}</Text>
-                      <Text lineHeight="22px">{program.end_time}</Text>
+                      <Text lineHeight="22px">{moment(`${program.date} ${program.start_time}`).format('HH:mm')}</Text>
+                      <Text lineHeight="22px">{moment(`${program.date} ${program.end_time}`).format('HH:mm')}</Text>
                     </VStack>}
                     <Center maxW={['62%', '70%', '42%']} alignSelf="flex-start" p="0">
                       <Text alignSelf="flex-start" lineHeight="22px"> {program.topic}</Text>
@@ -60,7 +60,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                         onPress={() => {
                           MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
                         }}>
-                        <Icon size="xl" as={AntDesign} name={program?.program_attendees_attached?.length ? "heart" : "hearto"} color={program?.program_attendees_attached?.length ? "primary.secondary" : "primary.text"} />
+                        <Icon size="xl" as={AntDesign} name={program?.program_attendees_attached?.length ? "heart" : "hearto"} color={program?.program_attendees_attached?.length ? "primary.text" : "primary.text"} />
                       </Pressable>
                       {program?.videos?.length ? (
                         <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />

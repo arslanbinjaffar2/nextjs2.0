@@ -75,7 +75,7 @@ const DetailBox = ({ detail }: AppProps) => {
                     </HStack>
                     <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
-                        <div dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>
+                        <div style={{overflow:'hidden'}} dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>
                     </Box>
                 </Box>
             </Box>
