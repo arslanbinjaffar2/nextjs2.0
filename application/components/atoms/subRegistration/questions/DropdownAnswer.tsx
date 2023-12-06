@@ -3,6 +3,7 @@ import { Box, Center, Checkbox, Divider, HStack, Select, Text, TextArea, VStack 
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData, Answer } from 'application/models/subRegistration/SubRegistration';
 import { Platform } from 'react-native';
+import UseEventService from 'application/store/services/UseEventService';
 
 type PropTypes = {
   question: Question,
@@ -13,7 +14,7 @@ type PropTypes = {
   canChangeAnswer?:number
 }
 const DropdownAnswer = ({ question, formData, updateFormData, error, canChangeAnswer }: PropTypes) => {
-  
+  const { event } = UseEventService()
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="5" py="3" px="4" w="100%">
@@ -27,7 +28,7 @@ const DropdownAnswer = ({ question, formData, updateFormData, error, canChangeAn
           defaultValue={formData[question.id]?.answer[0] !== undefined ? formData[question.id]?.answer[0] : '0'}
           onValueChange={answer => updateFormData(question.id, question.question_type, answer)}
         >
-          <Select.Item label={"Please select"} value={"0"} />
+          <Select.Item label={event?.labels?.GENERAL_SELECT_DROPDOWN_VALUE} value={"0"} />
           {question?.answer.map((answer, key)=>(<Select.Item  isDisabled={checkIfdisabled(answer, question.result)} key={key} label={answer?.info[0]?.value} value={`${answer.id}`} />))}
         </Select>
       </Box>
@@ -38,7 +39,7 @@ const DropdownAnswer = ({ question, formData, updateFormData, error, canChangeAn
         <>
           <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
             <Icodocument width="15px" height="18px" />
-            <Text fontSize="lg">Write comment</Text>
+            <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
           </HStack>
           <Box py="3" px="4" w="100%">
             <TextArea
@@ -48,7 +49,7 @@ const DropdownAnswer = ({ question, formData, updateFormData, error, canChangeAn
               _focus={{ bg: 'transparent' }}
               isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
               onChangeText={(text) => updateFormData(question.id, 'comment', text)}
-              borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+              borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
           </Box>
         </>
       }

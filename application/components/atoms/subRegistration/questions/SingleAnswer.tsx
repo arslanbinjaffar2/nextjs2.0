@@ -3,6 +3,7 @@ import { Box, Center, Checkbox, Divider, HStack, Radio, Text, TextArea, VStack }
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData, Answer } from 'application/models/subRegistration/SubRegistration';
 import { Platform } from 'react-native';
+import UseEventService from 'application/store/services/UseEventService';
 
 type PropTypes = {
   question: Question,
@@ -13,6 +14,7 @@ type PropTypes = {
   canChangeAnswer?:number
 }
 const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnswer }: PropTypes) => {
+  const { event } = UseEventService()
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
@@ -31,7 +33,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
         <>
           <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
             <Icodocument width="15px" height="18px" />
-            <Text fontSize="lg">Write comment</Text>
+            <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
           </HStack>
           <Box py="3" px="4" w="100%">
             <TextArea
@@ -42,7 +44,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
               isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
               onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
               onChangeText={(text) => updateFormData(question.id, 'comment', text)}
-              borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+              borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
           </Box>
         </>
       }

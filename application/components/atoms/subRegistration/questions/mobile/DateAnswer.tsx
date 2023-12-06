@@ -40,7 +40,7 @@ const DateAnswer = ({ question, formData, updateFormData }: PropTypes) => {
       </Box>
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
         <Icodocument width="15px" height="18px" />
-        <Text fontSize="lg">Write comment</Text>
+        <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
       </HStack>
       <Box py="3" px="4" w="100%">
         <TextArea
@@ -48,7 +48,7 @@ const DateAnswer = ({ question, formData, updateFormData }: PropTypes) => {
           h="30px"
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
-          borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+          borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_YOUR_COMMENT} autoCompleteType={undefined} />
       </Box>
     </Center>
   )

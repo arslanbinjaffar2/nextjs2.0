@@ -4,6 +4,7 @@ import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
 import DateTimePicker from '../../DateTimePicker';
 import { Platform } from 'react-native';
+import UseEventService from 'application/store/services/UseEventService';
 
 
 type PropTypes = {
@@ -16,6 +17,7 @@ type PropTypes = {
   canChangeAnswer?:number
 }
 const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer }: PropTypes) => {
+  const { event } = UseEventService()
   const [show, setshow] = React.useState(false)
   const handleChange = ({}) => {
     console.log('handleChange')
@@ -29,7 +31,7 @@ const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer }: Pro
       </Box>
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
         <Icodocument width="15px" height="18px" />
-        <Text fontSize="lg">Write comment</Text>
+        <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
       </HStack>
       <Box py="3" px="4" w="100%">
         <TextArea
@@ -38,7 +40,7 @@ const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer }: Pro
           isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
-          borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+          borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
       </Box>
     </Center>
   )
