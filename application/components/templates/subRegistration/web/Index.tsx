@@ -203,7 +203,7 @@ const Detail = () => {
          const answers = afterLogin?.questions?.question
          .reduce(
            (ack:any, item:any) => {
-           if(item.question_type === "multiple" &&  formData[item.id]?.answer.length > 0){
+           if(item.question_type === "multiple" && formData[item.id] !== undefined && formData[item.id].answer !== undefined &&  formData[item.id]?.answer.length > 0){
              let newObj ={ [`answer${item.id}`]: formData[item.id]?.answer.map((item:any) =>(item)), [`comments${item.id}`]:formData[item.id]?.comment }
              let agendas = item?.answer?.filter((filterItem:any)=>(filterItem.link_to > 0))?.reduce((ack:any, ritem:any) => {
                if(formData[item.id]?.answer.map((item:any)=>(item)).indexOf(ritem) !== -1){
@@ -217,7 +217,7 @@ const Detail = () => {
              }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "single" && formData[item.id]?.answer.length > 0){
+           else if(item.question_type === "single" && formData[item.id] !== undefined && formData[item.id].answer !== undefined && formData[item.id]?.answer.length > 0){
              let newObj ={ [`answer${item.id}`]: formData[item.id]?.answer, [`comments${item.id}`]:formData[item.id]?.comment }
              
              if((item.answer.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0) > 0){
@@ -225,11 +225,11 @@ const Detail = () => {
              }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "dropdown" && formData[item.id]?.answer.length > 0 && formData[item.id]?.answer[0] !== '0'){
+           else if(item.question_type === "dropdown" && formData[item.id] !== undefined && formData[item.id].answer !== undefined && formData[item.id]?.answer.length > 0 && formData[item.id]?.answer[0] !== '0'){
              let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id]?.answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "matrix" && Object.keys(formData[item.id]?.answer).length > 0){
+           else if(item.question_type === "matrix" && formData[item.id] !== undefined && formData[item.id].answer !== undefined && Object.keys(formData[item.id]?.answer).length > 0){
              let newObj ={ [`answer${item.id}`]: Object.keys(formData[item.id]?.answer), [`comments${item.id}`]: formData[item.id]?.comment }
              let matrix = Object.keys(formData[item.id]?.answer).reduce((ack, ritem) => {
                 return Object.assign(ack, { [`answer_matrix${item.id}_${ritem}`] : [`${ritem}-${formData[item.id]?.answer[ritem]}`] })},
@@ -238,7 +238,7 @@ const Detail = () => {
              return Object.assign(ack, {...newObj, ...matrix} );
            }
            else{
-             if(formData[item.id] !== undefined && formData[item.id]?.answer.length > 0){
+             if(formData[item.id] !== undefined && formData[item.id] !== undefined && formData[item.id].answer !== undefined && formData[item.id]?.answer.length > 0){
                return Object.assign(ack, { [`answer_${item.question_type}${item.id}`]: [formData[item.id]?.answer], [`comments${item.id}`]:formData[item.id]?.comment} );
              }else{
                return ack;
