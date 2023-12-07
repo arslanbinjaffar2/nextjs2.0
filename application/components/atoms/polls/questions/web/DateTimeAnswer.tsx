@@ -14,7 +14,7 @@ type PropTypes = {
   labels:any,
   forceRender:number,
 }
-const DateAnswer = ({ question, formData, updateFormData, labels }: PropTypes) => {
+const DateAnswer = ({ question, formData, updateFormData, labels, error }: PropTypes) => {
   
 
   return (
@@ -24,6 +24,9 @@ const DateAnswer = ({ question, formData, updateFormData, labels }: PropTypes) =
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <DateTimePicker showtime={`HH:mm:ss`} showdate={'DD-MM-YYYY'} value={formData[question.id]?.answer ?? ''} onChange={(currentDate:any)=>{updateFormData(question.id, question.question_type, currentDate._isAMomentObject !== undefined && currentDate._isAMomentObject === true ? moment(currentDate).format("DD-MM-YYYY HH:mm:ss") : '')}} />
       </Box>
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.300" w="100%">
+              <Text color="red.900"> {error} </Text>
+      </Box>}
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
         <Icodocument width="15px" height="18px" />
         <Text fontSize="lg">Write comment</Text>

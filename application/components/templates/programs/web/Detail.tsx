@@ -145,10 +145,10 @@ const Detail = () => {
                             <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
                                 {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && (
                                     <>
-                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                        {detail?.program?.program_speakers!?.length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="speakers" iconProps={{ width: 12, height: 18 }} />
                                             <Text fontSize="md">Speaker</Text>
-                                        </HStack>
+                                        </HStack>}
                                         {detail?.program?.program_speakers?.map((attendee: Attendee, k: number) =>
                                             <SpeakerRectangleView attendee={attendee} k={k} total={detail?.program?.program_speakers!?.length} />
                                         )}
@@ -156,11 +156,11 @@ const Detail = () => {
                                 )}
                                 {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
                                     <>
-                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
                                             <Text fontSize="md">Polls</Text>
-                                        </HStack>
-                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "no").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 ? (
+                                        </HStack>}
+                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 ? (
                                             <Pressable onPress={() => {
                                                 if (detail?.authority_recieved) {
 
@@ -171,7 +171,7 @@ const Detail = () => {
                                                 <Box w="100%" py="4">
                                                     <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
                                                         <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                                            <Text fontSize="md">Live polls</Text>
+                                                            <Text fontSize="md">{event?.labels?.PROGRAM_LIVE_POLLS}</Text>
                                                         </VStack>
                                                     </HStack>
                                                 </Box>
