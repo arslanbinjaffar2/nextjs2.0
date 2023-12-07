@@ -174,7 +174,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
     let error = false;
     let newFormData = errors;
       for(const activeQuestion of mySubReg?.questions?.question!){
-      if(Number(activeQuestion?.required_question) === 1){
+      if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!]?.answer !== undefined && formData[activeQuestion?.id!]?.answer !== null)){
         if(activeQuestion?.question_type === 'multiple'){
           if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
             newFormData[activeQuestion.id!] = {
@@ -184,13 +184,15 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
           }
           else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
             newFormData[activeQuestion.id!] = {
-                error: `min option ${activeQuestion.min_options}`
+                error: mySubReg?.labels?.SUB_REGISTRATION_MIN_SELECTION_ERROR
+                .replace(/%q/g, activeQuestion?.info[0]?.value)
+                .replace(/%s/g, activeQuestion?.min_options?.toString())
               };
               error  = true;
           }
           else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
             newFormData[activeQuestion.id!] = {
-                error:`max option ${activeQuestion.max_options}`
+                error:mySubReg?.labels?.SUB_REGISTRATION_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString())
               };
               error  = true;
           }
@@ -222,7 +224,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
           } 
         }
         else{
-          if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === ''){
+          if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === '')){
               newFormData[activeQuestion.id!] = {
                 error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
               };
@@ -259,13 +261,13 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
          }
          else if(item.question_type === "single" && formData[item.id] !== undefined && formData[item.id].answer !== undefined && formData[item.id].answer.length > 0){
            let newObj ={ [`answer${item.id}`]: formData[item.id].answer, [`comments${item.id}`]:formData[item.id].comment }
-           if((item.answer.find((answer:any)=>(formData[item.id].answer[0] === answer.id))?.link_to ?? 0) > 0){
-             newObj ={...newObj,[`answer_agenda_${formData[item.id].answer[0]}`] : item.answer.find((answer:any)=>(formData[item.id].answer[0] === answer.id))?.link_to ?? 0};
+           if((item.answer.find((answer:any)=>(formData[item.id].answer[0] == answer.id))?.link_to ?? 0) > 0){
+             newObj ={...newObj,[`answer_agenda_${formData[item.id].answer[0]}`] : item.answer.find((answer:any)=>(formData[item.id].answer[0] == answer.id))?.link_to ?? 0};
            }
            return Object.assign(ack, {...newObj} );
          }
          else if(item.question_type === "dropdown" && formData[item.id] !== undefined && formData[item.id].answer !== undefined &&  formData[item.id].answer.length > 0 && formData[item.id]?.answer[0] !== '0'){
-           let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id].answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id].answer[0] === answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
+           let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id].answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
            return Object.assign(ack, {...newObj} );
          }
          else if(item.question_type === "matrix" && formData[item.id] !== undefined && formData[item.id].answer !== undefined && Object.keys(formData[item.id].answer).length > 0){

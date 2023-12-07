@@ -141,13 +141,15 @@ const Detail = () => {
             }
             else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!]?.answer.length < activeQuestion.min_options){
               newFormData[activeQuestion.id!] = {
-                  error: `min option ${activeQuestion.min_options}`
+                  error: afterLogin?.labels?.SUB_REGISTRATION_MIN_SELECTION_ERROR
+                  .replace(/%q/g, activeQuestion?.info[0]?.value)
+                  .replace(/%s/g, activeQuestion?.min_options?.toString())
                 };
                 error  = true;
             }
             else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!]?.answer.length > activeQuestion.max_options){
               newFormData[activeQuestion.id!] = {
-                  error:`max option ${activeQuestion.max_options}`
+                  error:afterLogin?.labels?.SUB_REGISTRATION_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString())
                 };
                 error  = true;
             }
