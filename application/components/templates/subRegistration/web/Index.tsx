@@ -205,11 +205,11 @@ const Detail = () => {
            (ack:any, item:any) => {
            if(item.question_type === "multiple" && formData[item.id] !== undefined && formData[item.id].answer !== undefined &&  formData[item.id]?.answer.length > 0){
              let newObj ={ [`answer${item.id}`]: formData[item.id]?.answer.map((item:any) =>(item)), [`comments${item.id}`]:formData[item.id]?.comment }
-             let agendas = item?.answer?.filter((filterItem:any)=>(filterItem.link_to > 0))?.reduce((ack:any, ritem:any) => {
-               if(formData[item.id]?.answer.map((item:any)=>(item)).indexOf(ritem) !== -1){
-                return Object.assign(ack, { [`answer_agenda_${ritem.id}`] : ritem.link_to })
+             let agendas = item?.answer?.filter((filterItem:any)=>(filterItem.link_to > 0))?.reduce((acc:any, ritem:any) => {
+               if(formData[item.id]?.answer.map((item:any)=>(item)).includes(`${ritem.id}`)){
+                return Object.assign(acc, { [`answer_agenda_${ritem.id}`] : ritem.link_to })
                }
-               return ack;          
+               return acc;          
                },
              {})
              if(Object.keys(agendas).length > 0){
@@ -245,7 +245,6 @@ const Detail = () => {
              }
            }
          },{})
-
          SaveSubRegistration({
           first_time:"yes",
           sub_reg_id: afterLogin?.questions?.id,
