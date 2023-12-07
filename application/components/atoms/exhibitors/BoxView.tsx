@@ -72,7 +72,6 @@ const BoxView = ({ k, exhibitor, w }: AppProps) => {
                                         </Box>
                                     ))}
                                 </ZStack>
-                                
                             </Center>}
                             <Center pr="6" alignItems="flex-end" w="50%">
                                 {exhibitor.booth && <HStack space="3" alignItems="center">

@@ -58,7 +58,7 @@ const RectangleView = ({ k, exhibitor }: AppProps) => {
                              ))}
                             { exhibitor.categories.length > 1 && 
                                 <Box p={2} bg={'primary.darkbox'} rounded={'full'}>
-                                             <Text fontSize="md">{`+${ exhibitor.categories.length - 1}`}</Text>
+                                             <Text fontSize="md">{`+${ exhibitor.categories.length}`}</Text>
                                 </Box>
                             } 
                         </HStack>
