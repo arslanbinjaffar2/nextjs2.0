@@ -12,6 +12,7 @@ import { Link } from 'solito/link'
 import { createParam } from 'solito';
 import ReactCodeInput from 'react-verification-code-input';
 import Countdown from "react-countdown";
+import UseEnvService from 'application/store/services/UseEnvService';
 
 type Inputs = {
     code: string,
@@ -24,6 +25,8 @@ const { useParam } = createParam<ScreenParams>()
 const Verification = ({ props }: any) => {
 
     const { event } = UseEventService();
+
+    const { _env } = UseEnvService();
 
     const { processing, verification, loadProvider, error, response } = UseAuthService();
 
@@ -58,7 +61,7 @@ const Verification = ({ props }: any) => {
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
-                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
+                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: ((event.settings?.header_logo !== undefined && event.settings?.header_logo !== '') ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` : images.Logo) }} w="180px" h="39px" alignSelf={'center'} />
                 {Object.keys(response).length > 0 ? (
                     <VStack w={'100%'} space='4'>
                         <VStack space="20px" width={'100%'}>

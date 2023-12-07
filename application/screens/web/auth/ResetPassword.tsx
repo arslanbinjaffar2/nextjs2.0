@@ -13,6 +13,7 @@ import { Link } from 'solito/link'
 import { createParam } from 'solito';
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import UseEnvService from 'application/store/services/UseEnvService';
 
 type Inputs = {
     password: string,
@@ -26,6 +27,8 @@ const { useParam } = createParam<ScreenParams>()
 const ResetPassword = ({ props }: any) => {
 
     const { event } = UseEventService();
+    
+    const { _env } = UseEnvService();
 
     const { isLoggedIn, processing, reset, error, response } = UseAuthService();
 
@@ -61,7 +64,7 @@ const ResetPassword = ({ props }: any) => {
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
-                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: images.Logo }} w="180px" h="39px" alignSelf={'center'} />
+                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: ((event.settings?.header_logo !== undefined && event.settings?.header_logo !== '') ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` : images.Logo) }} w="180px" h="39px" alignSelf={'center'} />
                 <VStack w={'100%'} alignItems={'center'} space='4'>
                     <Text w={'100%'} fontSize='lg' lineHeight='sm'>{event?.labels?.CHANGE_PASSWORD}</Text>
                     <FormControl isRequired isInvalid={'password' in errors || error !== ''}>
