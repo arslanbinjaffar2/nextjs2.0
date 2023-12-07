@@ -34,7 +34,7 @@ const Detail = React.memo(() => {
 
     const { event } = UseEventService()
 
-    const { push } = useRouter()
+    const { back } = useRouter()
 
     React.useEffect(() => {
         if (id) {
@@ -52,7 +52,7 @@ const Detail = React.memo(() => {
             ) : (
                 <>
                      <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
-                            <Pressable onPress={()=> push(`/${event.url}/sponsors`)}>
+                            <Pressable onPress={()=> back() }>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                                     <Text fontSize="2xl">BACK</Text>
