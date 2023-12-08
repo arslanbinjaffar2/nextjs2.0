@@ -20,8 +20,11 @@ const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean
         if(!completed){
           push(`/${event.url}/polls/detail/${poll.agenda_id}`)
         }
-        if(completed && settings){
+        else if(completed && settings){
           push(`/${event.url}/settings/myPollResults/detail/${poll.agenda_id}`)
+        }
+        else if(completed){
+          push(`/${event.url}/polls/result/${poll.agenda_id}`)
         }
        }}>
       <Box w="100%" borderBottomWidth='1' borderColor="primary.text" py="3">
@@ -34,7 +37,7 @@ const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean
             <Text fontSize="sm">{moment(`${poll.program.start_date} ${poll.program.start_time}`).format('HH:mm')} - {moment(`${poll.program.start_date} ${poll.end_time}`).format('HH:mm')} </Text>
           </VStack>
           <Spacer />
-          {(!completed || settings === true) && <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+           <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
         </HStack>
       </Box>
     </Pressable>
