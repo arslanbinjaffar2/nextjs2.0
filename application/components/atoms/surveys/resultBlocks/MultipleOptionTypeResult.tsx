@@ -18,8 +18,8 @@ const MultiOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" alignItems="center" justifyContent={'space-between'} roundedTop={10}>
                 <Text fontWeight="600" maxW="80%" fontSize="lg">Question {`#${questionNumber + 1}`} </Text>
                 <Box width={'50%'} >
-                  {question.answer.find((a)=>(a.correct == 1)) && question.score[0] !== undefined && (
-                     question?.score[0]?.score > 0 ? 
+                  {question.answer.find((a)=>(a.correct == 1)) && question?.result_score !== undefined && question?.result_score[0] !== undefined && (
+                     question?.result_score[0]?.score > 0 ? 
                      <Text fontWeight="600" fontSize="lg" textAlign={'right'}><CorrectAnswer  /> {`Correct Answer | Point : 1`} </Text> : 
                      <Text fontWeight="600" fontSize="lg" textAlign={'right'}><WrongAnswer/> {`Wrong Answer | Point : 0`} </Text> 
                   )}
@@ -45,7 +45,7 @@ const MultiOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
             </HStack>
             <VStack>
                     {question.answer.filter((a)=>( question?.results.find((r)=>(r.answer_id == a.id)) )).map((answer, i)=>(
-                      <HStack px='4' py={2} space={1} alignItems={'center'} >
+                      <HStack px='4' space={1} alignItems={'center'} >
                         <Box width="20px" height="20px" >
                           {question.answer.find((a)=>(a.correct == 1)) &&  (answer?.correct == 1 ? <CorrectAnswer  /> : <WrongAnswer/>)}
                         </Box>

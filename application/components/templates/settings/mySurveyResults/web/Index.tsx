@@ -59,7 +59,7 @@ const Index = () => {
                                                 <RectangleView key={survey.id} survey={survey} completed={true} settings={true} />
                                             )) : (
                                         <Box padding={5}>
-                                            <Text>{survey_labels?.NO_POLL_AVAILABLE}</Text>
+                                            <Text>{survey_labels?.NO_SURVEY_AVAILABL}</Text>
                                         </Box>
                                     )}
                                     <Divider h="20px" bg="transparent" />

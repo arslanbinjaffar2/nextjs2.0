@@ -38,7 +38,8 @@ export interface Question {
   answer: Answer[];
   matrix: Matrix[];
   results: Result[];
-  score: Score[];
+  score?: Score[];
+  result_score?: Score[];
 }
 
 export interface Score {
