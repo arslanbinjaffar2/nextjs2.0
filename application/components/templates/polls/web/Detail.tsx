@@ -164,7 +164,7 @@ const Detail = () => {
             } 
           }
           else{
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === ''){
+            if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === '')){
               setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
               return;
             }
@@ -249,11 +249,11 @@ const Detail = () => {
                 <Spacer />
                 <Text isTruncated pr="6" fontSize="lg">{detail?.topic}</Text>
               </HStack>
-              <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
-                {detail?.questions.length! > 0 && detail?.questions.map((item, key)=>(
+              {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
+                { detail?.questions.map((item, key)=>(
                     <Box key={key} bg={steps >= key ? 'primary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />
                 ))}
-              </HStack>
+              </HStack>}
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                 {detail?.questions.length! > 0 &&  detail?.questions[steps] !== undefined && (
                   <>

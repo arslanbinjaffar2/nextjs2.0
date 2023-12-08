@@ -34,7 +34,7 @@ const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean
             <Text fontSize="sm">{moment(`${poll.program.start_date} ${poll.program.start_time}`).format('HH:mm')} - {moment(`${poll.program.start_date} ${poll.end_time}`).format('HH:mm')} </Text>
           </VStack>
           <Spacer />
-          {(!completed || settings) && <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+          {(!completed || settings === true) && <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
         </HStack>
       </Box>
     </Pressable>

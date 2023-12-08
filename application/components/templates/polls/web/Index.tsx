@@ -141,7 +141,7 @@ const Index = () => {
                                                 <Text fontSize="lg">{completed_polls[key][0]?.agenda_start_date_formatted}</Text>
                                             </HStack>
                                             {completed_polls[key].map((poll)=>(
-                                                <RectangleView key={poll.id} poll={poll} completed={false} />
+                                                <RectangleView key={poll.id} poll={poll} completed={true} />
                                             ))}
                                         </React.Fragment>
                                     )) : 
