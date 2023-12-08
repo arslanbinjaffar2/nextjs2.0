@@ -55,7 +55,7 @@ const Index = () => {
                         </HStack>
                         
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                                    {(myPollResult && typeof myPollResult === 'object' && Object.keys(myPollResult).length > 0) && (polls.length > 0 ? polls.map((key:string)=>(
+                                    {(myPollResult && typeof myPollResult === 'object' && Object.keys(myPollResult).length > 0 && polls.length > 0 ? polls.map((key:string)=>(
                                         <React.Fragment key={key}>
                                             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                                 <Text fontSize="lg">{myPollResult[key][0]?.agenda_start_date_formatted}</Text>
