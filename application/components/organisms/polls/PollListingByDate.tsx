@@ -8,7 +8,7 @@ import { useRouter } from 'solito/router';
 
 const PollListingByDate = ({polls}:{polls:Polls}) => {
   
-  const { event  } = UseEventService();
+  const { event, modules  } = UseEventService();
 
   const [pollDateIndex, setPollDateIndex] = React.useState(0);
   
@@ -16,7 +16,7 @@ const PollListingByDate = ({polls}:{polls:Polls}) => {
     
   return (
     <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-    <Heading py="1" fontSize="2xl" w="100%" textAlign="center">POLLS</Heading>
+    <Heading py="1" fontSize="2xl" w="100%" textAlign="center">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Heading>
     <HStack py="1" w="100%" bg="primary.darkbox" space="0" alignItems="center">
       <Center alignItems="flex-start" w="10%">
         {pollDateIndex > 0 && <IconButton
