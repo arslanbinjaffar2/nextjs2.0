@@ -18,8 +18,11 @@ const RectangleView = ({survey, completed, settings}:{survey:Survey, completed:b
         if(!completed){
           push(`/${event.url}/survey/detail/${survey.id}`)
         }
-        if(completed && settings){
+        else if(completed && settings){
           push(`/${event.url}/settings/mySurveyResults/detail/${survey.id}`)
+        }
+        else if(completed){
+          push(`/${event.url}/survey/result/${survey.id}`)
         }
        }}>
       <Box w="100%" borderBottomWidth='1' borderColor="primary.text" py="3">
@@ -28,7 +31,7 @@ const RectangleView = ({survey, completed, settings}:{survey:Survey, completed:b
             <Text fontSize="md">{survey.info.name}</Text>
           </VStack>
           <Spacer />
-          {(!completed || settings) && <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+           <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
         </HStack>
       </Box>
     </Pressable>

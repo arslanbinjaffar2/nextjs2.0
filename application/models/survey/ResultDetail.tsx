@@ -43,7 +43,7 @@ export interface Question {
 
 export interface Resultscore {
   id: number;
-  score: string;
+  score: number;
   survey_id: number;
   attendee_id: number;
   event_id: number;
@@ -84,7 +84,7 @@ export interface Matrix {
 export interface Answer {
   id: number;
   sort_order: number;
-  correct: string;
+  correct: number;
   question_id: number;
   status: number;
   created_at: string;

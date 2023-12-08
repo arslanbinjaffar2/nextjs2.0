@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import Icodocument from 'application/assets/icons/small/Icodocument';
-import { Question } from 'application/models/poll/ResultDetail';
+import { Question } from 'application/models/survey/ResultDetail';
 import { Platform } from 'react-native';
 
 type PropTypes = {
@@ -33,7 +33,7 @@ const WordCloudOptionTypeResult = ({ question, questionNumber  }: PropTypes) => 
             </VStack>
         </Box>
         
-        {Number(question.enable_comments) === 1 && question.results[0]?.comments !== '' &&
+        {Number(question.enable_comments) === 1 && question.results[0]?.comment !== '' &&
             <>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
             <Icodocument width="15px" height="18px" />
@@ -46,7 +46,7 @@ const WordCloudOptionTypeResult = ({ question, questionNumber  }: PropTypes) => 
                 isReadOnly
                 focusOutlineColor="transparent"
                 _focus={{ bg: 'transparent' }}
-                defaultValue={question.results[0]?.comments}
+                defaultValue={question.results[0]?.comment}
                 borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
             </Box>
             </>
