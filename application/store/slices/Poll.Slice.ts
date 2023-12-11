@@ -15,7 +15,7 @@ export interface PollState {
     polls_count:number
     completed_polls: Polls,
     detail: PollDetail | null,
-    poll_settings:PollSetting | {},
+    poll_settings:PollSetting | null,
     poll_labels:PollLabels
     submitSuccess:boolean,
     myPollResult: Polls,
@@ -26,7 +26,7 @@ export interface PollState {
 const initialState: PollState = {
     polls: {},
     completed_polls: {},
-    poll_settings:{},
+    poll_settings:null,
     polls_count:0,
     detail: null,
     poll_labels:{},
@@ -104,6 +104,9 @@ export const SelectPollsCount = (state: RootState) => state.polls.polls_count
 export const SelectMyPollResult = (state: RootState) => state.polls.myPollResult
 
 export const SelectMyPollResultDetail = (state: RootState) => state.polls.myPollResultDetail
+
+export const SelectPollSettings = (state: RootState) => state.polls.poll_settings
+
 
 
 // Reducer

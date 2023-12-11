@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 
-import { SelectPolls, SelectCompletedPolls, PollActions, SelectPollDetail, SelectPollLabelDetail, SelectPollSubmitSuccess, SelectPollsCount, SelectMyPollResult, SelectMyPollResultDetail } from 'application/store/slices/Poll.Slice'
+import { SelectPolls, SelectCompletedPolls, PollActions, SelectPollDetail, SelectPollLabelDetail, SelectPollSubmitSuccess, SelectPollsCount, SelectMyPollResult, SelectMyPollResultDetail, SelectPollSettings } from 'application/store/slices/Poll.Slice'
 
-import { PollLabels, PollSubmitData, Polls } from 'application/models/poll/Poll'
+import { PollLabels, PollSetting, PollSubmitData, Polls } from 'application/models/poll/Poll'
 import { PollDetail } from 'application/models/poll/Detail'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
@@ -17,6 +17,7 @@ export type PollServiceOperators = {
     poll_labels:PollLabels,
     submitSuccess:boolean,
     myPollResultDetail:MyPollResultDetail | null,
+    pollSettings:PollSetting | null
     FetchPolls: () => void,
     FetchPollDetail: (payload:{id:number}) => void,
     SubmitPoll: (payload:PollSubmitData) => void,
@@ -42,6 +43,7 @@ export const UsePollService = (): Readonly<PollServiceOperators> => {
         submitSuccess: useAppSelector(SelectPollSubmitSuccess),
         myPollResult: useAppSelector(SelectMyPollResult),
         myPollResultDetail: useAppSelector(SelectMyPollResultDetail),
+        pollSettings: useAppSelector(SelectPollSettings),
         FetchPolls: useCallback(
             () => {
                 dispatch(PollActions.FetchPolls())

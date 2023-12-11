@@ -9,7 +9,9 @@ import ChatClient from 'application/components/organisms/chat/ChatClient';
 import Master from 'application/screens/web/layouts/Master';
 import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack } from 'native-base'
 import PollListingByDate from 'application/components/organisms/polls/PollListingByDate'
+import SurveyListing from 'application/components/organisms/survey/SurveyListing'
 import UsePollService from 'application/store/services/UsePollService';
+import UseSurveyService from 'application/store/services/UseSurveyService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseBannerService from 'application/store/services/UseBannerService';
 import BannerSlider from 'application/components/organisms/banner/BannerSlider';
@@ -34,7 +36,9 @@ const Index = ({ navigation }: indexProps) => {
 
   const [tab, setTab] = useState('qa');
 
-  const { polls, FetchPolls } = UsePollService();
+  const { polls, pollSettings, FetchPolls } = UsePollService();
+
+  const { surveys, FetchSurveys } = UseSurveyService();
 
   const { event, modules } = UseEventService();
 
@@ -52,6 +56,7 @@ const Index = ({ navigation }: indexProps) => {
 
   React.useEffect(() => {
     FetchPolls();
+    FetchSurveys();
     FetchBanners();
     if (modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0) {
       FetchPrograms({ query: '', page: 1, screen: 'dashboard', id: 0, track_id: 0 });
@@ -97,7 +102,9 @@ const Index = ({ navigation }: indexProps) => {
 
           {banners && <BannerSlider banners={banners} />}
 
-          {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) &&  <PollListingByDate polls={polls} />}
+          {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
+
+          {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) &&  (pollSettings?.display_survey == 1) && <SurveyListing surveys={surveys} />}
 
           <HStack mb="3" space={1} justifyContent="center" w="100%">
             <Button onPress={() => setTab('qa')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w={event?.speaker_settings?.display_speaker_dashboard == 1 ? "50%" : "100%"} _text={{ fontWeight: '600' }}>Q & A</Button>
