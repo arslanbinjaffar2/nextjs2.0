@@ -121,7 +121,7 @@ const Detail = () => {
                             {event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && (
                                 <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} w="24%" _text={{ fontWeight: '600' }}>GROUPS</Button>
                             )}
-                            {event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && (
+                            {event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 && (
                                 <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'attendee' ? 'primary.darkbox' : 'primary.box'} w="24%" _text={{ fontWeight: '600' }}>ATTENDEES</Button>
                             )}
                             {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && (
@@ -160,7 +160,7 @@ const Detail = () => {
                                             <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
                                             <Text fontSize="md">Polls</Text>
                                         </HStack>}
-                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 ? (
+                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
                                             <Pressable onPress={() => {
                                                 if (detail?.authority_recieved) {
 
@@ -176,15 +176,17 @@ const Detail = () => {
                                                     </HStack>
                                                 </Box>
                                             </Pressable>
-                                        ) : (
-                                            <Box w="100%" py="4">
-                                                <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
-                                                    <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                                        <Text fontSize="md">No poll found</Text>
-                                                    </VStack>
-                                                </HStack>
-                                            </Box>
-                                        )}
+                                        ) 
+                                        // : (
+                                        //     <Box w="100%" py="4">
+                                        //         <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                                        //             <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
+                                        //                 <Text fontSize="md">No poll found</Text>
+                                        //             </VStack>
+                                        //         </HStack>
+                                        //     </Box>
+                                        // )
+                                        }
                                     </>
                                 )}
                                 {event?.agenda_settings?.enable_notes === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && (
