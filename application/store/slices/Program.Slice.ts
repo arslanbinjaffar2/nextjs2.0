@@ -104,7 +104,13 @@ export const ProgramSlice = createSlice({
         },
         SetFavouriteProgramError(state, action : PayloadAction<string>){
             state.favouriteProgramError = action.payload;
-        }
+        },
+        ResetTracks(state) {
+            state.track_id = 0;
+            state.tracks = [];
+            state.track = {};
+            state.parent_track = {};
+        },
     },
 })
 
@@ -118,6 +124,7 @@ export const ProgramActions = {
     FetchProgramDetail: ProgramSlice.actions.FetchProgramDetail,
     UpdateDetail: ProgramSlice.actions.UpdateDetail,
     SetFavouriteProgramError: ProgramSlice.actions.SetFavouriteProgramError,
+    ResetTracks: ProgramSlice.actions.ResetTracks,
 }
 
 export const SelectMyPrograms = (state: RootState) => state.programs.programs

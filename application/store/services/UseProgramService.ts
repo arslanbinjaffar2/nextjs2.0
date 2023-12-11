@@ -26,6 +26,7 @@ export type ProgramServiceOperators = {
     FetchTracks: (payload: { query: string, page: number, screen: string, track_id: number }) => void
     FetchProgramDetail: (payload: { id: number }) => void
     SetFavouriteProgramError: (payload: string) => void
+    ResetTracks: () => void
 }
 
 /**
@@ -74,6 +75,12 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         SetFavouriteProgramError: useCallback(
             (payload: string) => {
                 dispatch(ProgramActions.SetFavouriteProgramError(payload))
+            },
+            [dispatch],
+        ),
+        ResetTracks: useCallback(
+            () => {
+                dispatch(ProgramActions.ResetTracks())
             },
             [dispatch],
         ),

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Box, Button, Container, HStack, Pressable, Text, VStack } from 'native-base';
+import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack } from 'native-base';
 
 import DetailBlock from 'application/components/atoms/programs/DetailBlock';
 
@@ -46,6 +46,8 @@ import UseDocumentService from 'application/store/services/UseDocumentService';
 
 import { Group } from 'application/models/attendee/Group';
 
+import AntDesign from '@expo/vector-icons/AntDesign';
+
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import WebLoading from 'application/components/atoms/WebLoading';
 
@@ -69,7 +71,7 @@ const Detail = () => {
 
     const { response } = UseAuthService();
 
-    const { push } = useRouter()
+    const { push, back } = useRouter()
 
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name } = UseAttendeeService();
 
@@ -112,6 +114,16 @@ const Detail = () => {
                 <WebLoading />
             ) : (
                 <>
+                    <HStack pt="2" w="100%" space="3" alignItems="center">
+                        <Pressable onPress={()=> back() }>
+                        <HStack space="3" alignItems="center">
+                                <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                                <Text fontSize="2xl">BACK</Text>
+                        </HStack>
+                        </Pressable>
+                        <Spacer />
+                        {/* <Text isTruncated pr="6" fontSize="lg">{detail?.topic}</Text> */}
+                    </HStack>
                     {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'description' && tab?.status === 1)?.length > 0 && (
                         <DetailBlock><div dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div></DetailBlock>
                     )}
