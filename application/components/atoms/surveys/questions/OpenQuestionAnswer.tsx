@@ -3,6 +3,7 @@ import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, V
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData } from 'application/models/survey/Detail';
 import { Platform } from 'react-native';
+import UseSurveyService from '../../../../store/services/UseSurveyService';
 
 type PropTypes = {
   question: Question,
@@ -14,13 +15,15 @@ type PropTypes = {
 }
 const OpenQuestionAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
   const [inputText, setInputText] = React.useState(formData[question.id]?.answer ?? '')
+  const { survey_labels} = UseSurveyService();
+
 
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.value} {question?.required_question == '1' && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
-        <TextArea w="100%" bg="primary.darkbox" borderColor={'primary.darkbox'} fontSize={'lg'} placeholder="Please write here..." autoCompleteType={undefined} 
+        <TextArea w="100%" bg="primary.darkbox" borderColor={'primary.darkbox'} fontSize={'lg'} placeholder={survey_labels?.POLL_SURVEY_ANSWER} autoCompleteType={undefined} 
           value={inputText}
           onChangeText={(answer)=>{ 
             updateFormData(question.id, question.question_type, answer)

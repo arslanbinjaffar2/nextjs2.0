@@ -33,7 +33,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error, labels }: Pro
         <>
           <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
             <Icodocument width="15px" height="18px" />
-            <Text fontSize="lg">Write comment</Text>
+            <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
           </HStack>
           <Box py="3" px="4" w="100%">
             <TextArea
@@ -44,7 +44,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error, labels }: Pro
               defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
               onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
               onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}
-              borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+              borderWidth="0" fontSize="md" placeholder={labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
               <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
           </Box>
         </>
