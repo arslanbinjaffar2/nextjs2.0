@@ -36,7 +36,7 @@ const DetailBlock = ({ children }: AppProps) => {
             <HStack w="100%" mb="3" space="3" alignItems="flex-start">
                 <Text maxW="80%" fontSize="xl">{detail?.program?.topic}</Text>
                 <Spacer />
-                <DynamicIcon iconType="checkIn" iconProps={{ width: 25, height: 24 }} />
+                {/* <DynamicIcon iconType="checkIn" iconProps={{ width: 25, height: 24 }} /> */}
             </HStack>
             <HStack w="100%" mb="3" space="10" alignItems="center">
                 {detail?.program?.start_time && detail?.program?.end_time  && event.agenda_settings?.agenda_display_time == 1 && (
