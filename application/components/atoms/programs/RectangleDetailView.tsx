@@ -39,15 +39,15 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
               }}>
 
                 <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-                  <Box position="absolute" left="0" top="0" w="15px">
+                  {event?.agenda_settings?.show_tracks == 1 && <Box position="absolute" left="0" top="0" w="15px">
                     <ZStack>
                       {program?.program_tracks?.length > 0 && program.program_tracks.map((track: any, i: number) =>
                         <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
                       )}
                     </ZStack>
-                  </Box>
+                  </Box>}
                   <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                    {event.agenda_settings?.agenda_display_time == 1 && <VStack w="60px" space="0">
+                    {(event.agenda_settings?.agenda_display_time == 1 && program?.hide_time == 0)  && <VStack w="60px" space="0">
                       <Text lineHeight="22px">{moment(`${program.date} ${program.start_time}`).format('HH:mm')}</Text>
                       <Text lineHeight="22px">{moment(`${program.date} ${program.end_time}`).format('HH:mm')}</Text>
                     </VStack>}
@@ -56,12 +56,12 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                     </Center>
                     <Spacer />
                     <HStack pr="3" space="5" alignItems="center">
-                      <Pressable
+                      {event?.agenda_settings?.admin_fav_attendee == 1 && <Pressable
                         onPress={() => {
                           MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
                         }}>
                         <Icon size="xl" as={AntDesign} name={program?.program_attendees_attached?.length ? "heart" : "hearto"} color={program?.program_attendees_attached?.length ? "primary.text" : "primary.text"} />
-                      </Pressable>
+                      </Pressable>}
                       {program?.videos?.length ? (
                         <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
                       ) : ''}

@@ -7,6 +7,7 @@ import { Program } from 'application/models/program/Program'
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { Platform } from 'react-native';
 import in_array from "in_array";
+import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
     programs: Program[],
@@ -18,6 +19,8 @@ type AppProps = {
 const SlideView = ({ programs, section, my, speaker }: AppProps) => {
 
     const { setScrollCounter, scroll } = UseLoadingService();
+    
+    const { event, modules  } = UseEventService();
 
     const [dates, setDates] = React.useState<any>([]);
     const [currentIndex, setCurrentIndex] = React.useState<number>();
@@ -110,6 +113,13 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
                             )} */}
                             
                              {programs.length > 0 && <RenderPrograms programs={programs} dates={dates} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
+                             {programs.length <= 0 && 
+                                <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
+                                    <Box padding={5}>
+                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                        </Box>
+                                </Box>
+                             }
 
                         </>
                     ) : (
