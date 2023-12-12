@@ -59,7 +59,7 @@ const DetailBlock = ({ children }: AppProps) => {
                     </HStack>
                 )}
             </HStack>
-            <Box mb="4" w="100%">
+            {event?.agenda_settings?.show_tracks == 1 && <Box mb="4" w="100%">
                 <Box position="absolute" left="0" top="0" w="15px" marginLeft={'-20px'}>
                     <ZStack>
                       {detail?.program?.program_tracks!?.length > 0 && detail?.program?.program_tracks!.map((track: any, i: number) =>
@@ -78,7 +78,7 @@ const DetailBlock = ({ children }: AppProps) => {
                     </>
                 )}
                 {children}
-            </Box>
+            </Box>}
         </Box>
     </Container>;
 };
