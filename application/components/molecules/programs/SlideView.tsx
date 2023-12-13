@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box } from 'native-base';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
+import WorkshopCollapsableView from 'application/components/atoms/programs/WorkshopCollapsableView';
 import WorkshopRectangleDetailView from 'application/components/atoms/programs/workshops/RectangleDetailView';
 import { Program } from 'application/models/program/Program'
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -77,13 +78,7 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
                     {dates?.map((program: Program, key: number) =>
                         <React.Fragment key={key}>
                             {program.workshop_programs?.length > 0 ? (
-                                <React.Fragment>
-                                    <Text w="100%" pl="30px" bg="primary.darkbox">{program.program_workshop}</Text>
-                                    {program.workshop_programs?.map((workshop_program: Program, i: number) =>
-                                        <RectangleDetailView section={section} speaker={speaker} program={workshop_program} k={i} border={program.workshop_programs?.length !== (i + 1)} />
-                                        )}
-                                    <Box w={"100%"} height={2} bg="primary.darkbox"></Box>
-                                </React.Fragment>
+                                <WorkshopCollapsableView section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
                             ) : (
                                 <RectangleDetailView section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
                             )}

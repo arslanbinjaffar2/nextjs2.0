@@ -74,6 +74,7 @@ export interface Event {
     speaker_settings?: SpeakerSettings
     sponsor_settings?: SponsorSettings
     exhibitor_settings?: ExhibitorSettings
+    eventsite_settings?: EventSiteSettings
 }
 interface Setting {
     poll_setting?: string;
@@ -519,4 +520,85 @@ interface ExhibitorSettings {
   allow_company_name: number;
   allow_booth_number: number;
   api_key_access: string;
+}
+
+export interface EventSiteSettings {
+  id: number;
+  event_id: number;
+  ticket_left: string;
+  registration_end_date: string;
+  registration_end_time: string;
+  cancellation_date: string;
+  cancellation_end_time: string;
+  cancellation_policy: string;
+  registration_code: string;
+  mobile_phone: string;
+  eventsite_public: number;
+  eventsite_signup_linkedin: number;
+  eventsite_signup_fb: number;
+  eventsite_tickets_left: number;
+  eventsite_time_left: number;
+  eventsite_language_menu: number;
+  eventsite_menu: number;
+  eventsite_banners: number;
+  eventsite_location: number;
+  eventsite_date: number;
+  eventsite_footer: number;
+  pass_changeable: number;
+  phone_mandatory: number;
+  attendee_registration_invite_email: number;
+  attach_attendee_ticket: number;
+  attendee_my_profile: number;
+  attendee_my_program: number;
+  attendee_my_billing: number;
+  attendee_my_billing_history: number;
+  attendee_my_reg_cancel: number;
+  attendee_go_to_mbl_app: number;
+  payment_type: number;
+  use_waitinglist: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  goto_eventsite: number;
+  eventsite_add_calender: number;
+  registration_after_login: number;
+  send_invoice_email: number;
+  attach_invoice_email: number;
+  attach_calendar_to_email: number;
+  auto_complete: number;
+  new_message_temp: number;
+  go_to_account: number;
+  go_to_home_page: number;
+  attendee_my_sub_registration: number;
+  third_party_redirect: number;
+  agenda_search_filter: number;
+  third_party_redirect_url: string;
+  attach_my_program: number;
+  quick_register: number;
+  prefill_reg_form: number;
+  search_engine_visibility: number;
+  attach_invoice_email_online_payment: number;
+  network_interest: number;
+  show_subscriber: number;
+  show_survey: number;
+  event_info_background_color: string;
+  event_info_heading_color: string;
+  expire_attendee_date: string;
+  expire_attendee_time: string;
+  not_attending_expiry_date: string;
+  not_attending_expiry_time: string;
+  registration_form_id: number;
+  invoice_modification_end_date: string;
+  invoice_modification_end_time: string;
+  use_reg_form_footer: number;
+  reg_site_footer_image: string;
+  show_eventsite_breadcrumbs: number;
+  send_email_to_organizer: number;
+  manage_package: number;
+  registration_type: string;
+  portal_access: string;
+  display_left_tickets: number;
+  skip_items_step: number;
+  edit_order_options: number;
+  calender_show: number;
 }

@@ -70,7 +70,7 @@ const Index = () => {
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text fontSize="2xl">PROGRAMS</Text>
                 <Spacer />
-                <Search tab={tab} />
+                {event?.eventsite_settings?.agenda_search_filter == 1 && <Search tab={tab} />}
             </HStack>
             <HStack mb="3" space={1} justifyContent="center" w="100%">
                 {(event?.agenda_settings?.agenda_list == 0 || event?.agenda_settings?.agenda_tab == 1) && <Button onPress={() => {
