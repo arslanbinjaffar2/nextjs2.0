@@ -3,7 +3,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { useRouter } from 'next/router';
 import React from 'react'
 
-const index = () => {
+const Index = () => {
   const { response,  } = UseAuthService();
   const { event } = UseEventService();
   const { push } = useRouter();
@@ -19,4 +19,4 @@ const index = () => {
   return null;
 }
 
-export default index
+export default Index
