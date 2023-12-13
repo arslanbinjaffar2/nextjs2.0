@@ -247,12 +247,10 @@ const Detail = () => {
                                     )}
                                 </Container>}
                                 {tab === 'group' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                                    {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
+                                    {groups.map((map: any, k: number) =>
                                         <React.Fragment key={`item-box-group-${k}`}>
-                                            {map?.letter && (
-                                                <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
-                                            )}
-                                            {map?.records?.map((group: Group, k: number) =>
+                                                <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
+                                            {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
                                                     <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
                                                 </React.Fragment>
