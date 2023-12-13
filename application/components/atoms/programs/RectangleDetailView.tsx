@@ -8,6 +8,7 @@ import UseProgramService from 'application/store/services/UseProgramService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import moment from 'moment'
+import in_array from 'in_array';
 type AppProps = {
   program: Program,
   k: number,
@@ -18,7 +19,7 @@ type AppProps = {
 
 const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps) => {
 
-  const { MakeFavourite, SetFavouriteProgramError, favouriteProgramError } = UseProgramService();
+  const { MakeFavourite, SetFavouriteProgramError, favouriteProgramError, agendas_attached_via_group } = UseProgramService();
 
   const { event } = UseEventService();
   
@@ -56,7 +57,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                     </Center>
                     <Spacer />
                     <HStack pr="3" space="5" alignItems="center">
-                      {event?.agenda_settings?.admin_fav_attendee == 1 && <Pressable
+                      {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && <Pressable
                         onPress={() => {
                           MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
                         }}>
