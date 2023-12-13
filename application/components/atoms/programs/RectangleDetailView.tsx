@@ -39,14 +39,14 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
               }}>
 
                 <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-                  {event?.agenda_settings?.show_tracks == 1 && <Box position="absolute" left="0" top="0" w="15px">
-                    <ZStack>
+                  <HStack pt="2" w="100%" space="5" minH={'55px'} alignItems="center" justifyContent="space-between">
+                  {event?.agenda_settings?.show_tracks == 1 && <Box width={`${(program?.program_tracks.length * 10) + 15}px`} h={'55px'} ml="-30px">
+                    <ZStack reversed>
                       {program?.program_tracks?.length > 0 && program.program_tracks.map((track: any, i: number) =>
-                        <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
+                        <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" h={'55px'}   w={`${15 + (i * 10)}px`} borderRightRadius="10" shadow={2} />
                       )}
                     </ZStack>
                   </Box>}
-                  <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
                     {(event.agenda_settings?.agenda_display_time == 1 && program?.hide_time == 0)  && <VStack w="60px" space="0">
                       <Text lineHeight="22px">{moment(`${program.date} ${program.start_time}`).format('HH:mm')}</Text>
                       <Text lineHeight="22px">{moment(`${program.date} ${program.end_time}`).format('HH:mm')}</Text>
