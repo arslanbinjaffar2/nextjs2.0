@@ -71,16 +71,17 @@ const DetailBlock = ({ children }: AppProps) => {
                     {detail?.program?.program_tracks!?.length > 0 && (
                         <>
                             <Text mb="3" fontSize="md">Track:
-                                {detail?.program?.program_tracks?.map((track: any, key: number) =>
-                                    <>{`${track?.name}, `}</>
-                                )}
+                                {detail?.program?.program_tracks?.map((track: any, key: number) =>(
+                                        <React.Fragment key={key}>{`${track?.name}, `}</React.Fragment>
+                                    
+                                ))}
                             </Text>
                             <Divider mb="4" bg="primary.text" />
                         </>
                     )}
                 </>}
                 {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'description' && tab?.status === 1)?.length > 0 && (
-                    {children}
+                    children
                 )}
             </Box>
         </Box>

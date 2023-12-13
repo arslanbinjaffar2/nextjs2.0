@@ -162,7 +162,7 @@ const Detail = () => {
                                             <Text fontSize="md">Speaker</Text>
                                         </HStack>}
                                         {detail?.program?.program_speakers?.map((attendee: Attendee, k: number) =>
-                                            <SpeakerRectangleView attendee={attendee} k={k} total={detail?.program?.program_speakers!?.length} />
+                                            <SpeakerRectangleView key={k} attendee={attendee} k={k} total={detail?.program?.program_speakers!?.length} />
                                         )}
                                     </>
                                 )}
