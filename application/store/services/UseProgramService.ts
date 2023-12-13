@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail, SelectFavouriteProgramError, SelectParentTrackDetail } from 'application/store/slices/Program.Slice'
+import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail, SelectFavouriteProgramError, SelectParentTrackDetail, SelectAgendasAttachedViaGroup } from 'application/store/slices/Program.Slice'
 
 import { Program } from 'application/models/program/Program'
 
@@ -21,6 +21,7 @@ export type ProgramServiceOperators = {
     parent_track: Track
     detail: Detail
     favouriteProgramError:string
+    agendas_attached_via_group:number[]
     FetchPrograms: (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => void
     MakeFavourite: (payload: { program_id: number, screen: string }) => void
     FetchTracks: (payload: { query: string, page: number, screen: string, track_id: number }) => void
@@ -48,6 +49,7 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         detail: useAppSelector(SelectProgramDetail),
         favouriteProgramError: useAppSelector(SelectFavouriteProgramError),
         parent_track: useAppSelector(SelectParentTrackDetail),
+        agendas_attached_via_group: useAppSelector(SelectAgendasAttachedViaGroup),
         FetchPrograms: useCallback(
             (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => {
                 dispatch(ProgramActions.FetchPrograms(payload))

@@ -23,7 +23,8 @@ export interface ProgramState {
     page: number,
     id: number,
     track_id: number,
-    favouriteProgramError:string;
+    favouriteProgramError:string,
+    agendas_attached_via_group:number[],
 }
 
 const initialState: ProgramState = {
@@ -38,6 +39,7 @@ const initialState: ProgramState = {
     id: 0,
     track_id: 0,
     favouriteProgramError:'',
+    agendas_attached_via_group:[],
 }
 
 // Slices
@@ -56,7 +58,7 @@ export const ProgramSlice = createSlice({
                 state.track = {};
             }
         },
-        update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track }>) {
+        update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track , agendas_attached_via_group:number[]}>) {
             const existed: any = current(state.programs);
             console.log(action.payload.programs.reduce((ack, item:any)=>{
                 let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
@@ -78,6 +80,7 @@ export const ProgramSlice = createSlice({
                 return ack;
             }, [...existed]);
             state.track = action.payload.track;
+            state.agendas_attached_via_group = action.payload.agendas_attached_via_group;
         },
         FetchTracks(state, action: PayloadAction<{ query: string, page: number, screen: string, track_id: number }>) {
             state.query = action.payload.query;
@@ -146,6 +149,8 @@ export const SelectParentTrackDetail = (state: RootState) => state.programs.pare
 export const SelectProgramDetail = (state: RootState) => state.programs.detail
 
 export const SelectFavouriteProgramError = (state: RootState) => state.programs.favouriteProgramError
+
+export const SelectAgendasAttachedViaGroup = (state: RootState) => state.programs.agendas_attached_via_group
 
 // Reducer
 export default ProgramSlice.reducer
