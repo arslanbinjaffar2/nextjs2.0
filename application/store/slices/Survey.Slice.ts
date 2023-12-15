@@ -9,7 +9,7 @@ import {
     current
 } from '@reduxjs/toolkit';
 import { SurveyDetail } from 'application/models/survey/Detail';
-import { MySurveyResult } from 'application/models/survey/ResultDetail';
+import { MySurveyResult, MySurveyResultSurvey } from 'application/models/survey/ResultDetail';
 
 export interface SurveyState {
     surveys: Surveys,
@@ -19,7 +19,8 @@ export interface SurveyState {
     survey_labels:SurveyLabels
     submitSuccess:boolean,
     mySurveyResult: Surveys,
-    mySurveyResultDetail: MySurveyResult | null,
+    mySurveyResultDetail: MySurveyResultSurvey | null,
+    mySurveyResultScore:number,
 }
 
 const initialState: SurveyState = {
@@ -31,6 +32,7 @@ const initialState: SurveyState = {
     submitSuccess:false,
     mySurveyResult: [],
     mySurveyResultDetail:null,
+    mySurveyResultScore:0
 }
 
 // Slice
@@ -65,8 +67,8 @@ export const SurveySlice = createSlice({
         },
         FetchMySurveyResultDetail(state, action: PayloadAction<{ id: number }>) { },
         updateMySurveyResultDetail(state, action: PayloadAction<{ detail: MySurveyResult, survey_labels:SurveyLabels, survey_settings:SurveySetting, }>) {
-           console.log(action.payload.detail, 'ddldld');
-            state.mySurveyResultDetail = action.payload.detail;
+            state.mySurveyResultDetail = action.payload.detail.survery;
+            state.mySurveyResultScore = action.payload.detail.total_score.reduce((ack, s)=>(Number(s.score) == 1 ? (ack +1) : ack),0);
             state.survey_settings = action.payload.survey_settings;
             state.survey_labels = action.payload.survey_labels;
         },
@@ -101,6 +103,8 @@ export const SelectSurveySubmitSuccess = (state: RootState) => state.surveys.sub
 export const SelectMySurveyResult = (state: RootState) => state.surveys.mySurveyResult
 
 export const SelectMySurveyResultDetail = (state: RootState) => state.surveys.mySurveyResultDetail
+
+export const SelectMySurveyResultScore = (state: RootState) => state.surveys.mySurveyResultScore
 
 
 // Reducer

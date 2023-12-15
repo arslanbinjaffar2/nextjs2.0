@@ -203,7 +203,7 @@ const Detail = () => {
             }
             else{
               if(q.question_type === 'world_cloud'){
-                answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, i)=>([...ack, {value: formData[q.id].answer[i]}]), []) : [];
+                answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, v, i)=>([...ack, {value: formData[q.id].answer[Object.keys(formData[q.id].answer).length - (i + 1)]}]), []) : [];
               }
               else{
                 answeredQuestion['answers'] = [{value:(formData[q.id] !== undefined && formData[q.id].answer !== null) ? formData[q.id].answer : ''}]
@@ -212,8 +212,6 @@ const Detail = () => {
             return answeredQuestion;
 
         });
-
-        console.log();
 
         const postData = {
           survey_id: parseInt(id!),

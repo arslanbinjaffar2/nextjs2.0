@@ -1,4 +1,8 @@
 export interface MySurveyResult {
+  survery: MySurveyResultSurvey;
+  total_score: TotalScore[];
+}
+export interface MySurveyResultSurvey {
   id: number;
   start_date: string;
   end_date: string;
@@ -103,4 +107,17 @@ export interface Info2 {
 
 export interface Info {
   name: string;
+}
+
+interface TotalScore {
+  id: number;
+  score: string;
+  survey_id: number;
+  attendee_id: number;
+  event_id: number;
+  question_id: number;
+  status: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
 }

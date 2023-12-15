@@ -74,7 +74,7 @@ function* OnFetchMySurveyResultDetail({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getMySurveyResultDetailApi, payload, state)
-    yield put(SurveyActions.updateMySurveyResultDetail({ detail: response.data.data.survey_detail.survery!, survey_labels: response.data.data.survey_labels, survey_settings: response.data.data.surveySettings }))
+    yield put(SurveyActions.updateMySurveyResultDetail({ detail: response.data.data.survey_detail!, survey_labels: response.data.data.survey_labels, survey_settings: response.data.data.surveySettings }))
     yield put(LoadingActions.set(false));
 }
 

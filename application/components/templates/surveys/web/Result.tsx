@@ -48,7 +48,7 @@ const Detail = () => {
 
   const { back } = useRouter()
 
-  const { FetchMySurveyResultDetail, mySurveyResultDetail, survey_labels } = UseSurveyService();
+  const { FetchMySurveyResultDetail, mySurveyResultDetail, survey_labels, mySurveyResultScore } = UseSurveyService();
 
   const [id] = useParam('id');
 
@@ -73,8 +73,9 @@ const Detail = () => {
                 </Pressable>
                 <Spacer />
               </HStack>
-              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
                 <Text isTruncated pr="6" fontSize="2xl">{mySurveyResultDetail?.info?.name}</Text>
+                <Text isTruncated pr="6" fontSize="2xl">{`${mySurveyResultScore}/${mySurveyResultDetail?.question.length} Points(s)`}</Text>
               </HStack>
               <Box w="100%" >
                 {mySurveyResultDetail && mySurveyResultDetail?.question.length > 0 && mySurveyResultDetail.question.map((question, i) => (
