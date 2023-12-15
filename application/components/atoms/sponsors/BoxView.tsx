@@ -43,6 +43,7 @@ const BoxView = ({ k, sponsor, w }: AppProps) => {
                 }}
                     >
                     <Box mb="3" w="100%" bg="primary.boxTransparent" p="0" borderWidth="1" borderColor="primary.bdBox" rounded="10">
+                        <Text fontSize="md" textAlign={'center'} my={2}>{sponsor?.name}</Text>
                         {settings?.mark_favorite === 1 && (
                             <IconButton
                                 bg="transparent"
@@ -57,15 +58,15 @@ const BoxView = ({ k, sponsor, w }: AppProps) => {
                                 right={'0'}
                             />
                         )}
-                        <Center pt="5" pb="3" px="1" alignItems="center" w="100%">
+                        <Center px="1" alignItems="center" w="100%">
                             {sponsor.logo ? (
                                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${sponsor.logo}` }} alt="Alternate Text" w="210px" h="72px" />
                             ) : (
                                 <Image source={ExhibitorDefaultImage} alt="Alternate Text" w="210px" h="72px" />
                             )}
                         </Center>
-                        <HStack pb="3" space="3" alignItems="center" position={'relative'}>
-                            {sponsor?.categories.length > 0 && <Center alignItems="flex-start" minH={'20px'} w="100%" position={'relative'} mb={3}>
+                        <HStack pb={settings?.catTab !== 1 ? "6" : "3"} space="3" alignItems="center" position={'relative'}>
+                            {settings?.catTab == 1 && sponsor?.categories.length > 0 && <Center alignItems="flex-start" minH={'20px'} w="100%" position={'relative'} mb={3}>
                                 <ZStack reversed>
                                     {sponsor?.categories.length > 0 && sponsor?.categories.map((cat, i)=>(
                                         <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${measureText(sponsor?.categories[0]?.info.name, 14) + 16 + (i * 10)}px`} px="2">

@@ -51,12 +51,12 @@ const RectangleView = ({ k, exhibitor }: AppProps) => {
                             </Text>
                         </VStack>
                         <HStack space={1}>
-                            {event?.exhibitor_settings?.catTab == 1 &&  exhibitor.categories.length > 0 && exhibitor.categories.slice(0, 3).map((category: Category, i: number) =>(
+                            {settings?.catTab == 1 &&  exhibitor.categories.length > 0 && exhibitor.categories.slice(0, 3).map((category: Category, i: number) =>(
                                         <Box key={i} p={2} bg={category?.color} rounded={'full'}>
                                              <Text fontSize="md">{`${category.info.name}`}</Text>
                                         </Box>
                              ))}
-                            { exhibitor.categories.length > 1 && 
+                            {settings?.catTab == 1 && exhibitor.categories.length > 1 && 
                                 <Box p={2} bg={'primary.darkbox'} rounded={'full'}>
                                              <Text fontSize="md">{`+${ exhibitor.categories.length}`}</Text>
                                 </Box>
