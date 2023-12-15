@@ -8,7 +8,7 @@ import { RootState } from 'application/store/Index'
 import {
     current
 } from '@reduxjs/toolkit';
-import { MyPollResultDetail } from 'application/models/poll/ResultDetail';
+import { MyPollResultDetail, MyPollResultDetailPoll } from 'application/models/poll/ResultDetail';
 
 export interface PollState {
     polls: Polls,
@@ -19,7 +19,8 @@ export interface PollState {
     poll_labels:PollLabels
     submitSuccess:boolean,
     myPollResult: Polls,
-    myPollResultDetail: MyPollResultDetail | null,
+    myPollResultDetail: MyPollResultDetailPoll | null,
+    myPollResultScore: number,
 
 }
 
@@ -33,6 +34,7 @@ const initialState: PollState = {
     submitSuccess:false,
     myPollResult: {},
     myPollResultDetail:null,
+    myPollResultScore:0,
 }
 
 // Slice
@@ -68,7 +70,8 @@ export const PollSlice = createSlice({
         },
         FetchMyPollResultDetail(state, action: PayloadAction<{ id: number }>) { },
         updateMyPollResultDetail(state, action: PayloadAction<{ detail: MyPollResultDetail, poll_labels:PollLabels, poll_settings:PollSetting, }>) {
-            state.myPollResultDetail = action.payload.detail;
+            state.myPollResultDetail = action.payload.detail.poll;
+            state.myPollResultScore = action.payload.detail.total_score.reduce((ack, s)=>(s.score == 1 ? (ack +1) : ack),0);
             state.poll_settings = action.payload.poll_settings;
             state.poll_labels = action.payload.poll_labels;
         },
@@ -106,6 +109,8 @@ export const SelectMyPollResult = (state: RootState) => state.polls.myPollResult
 export const SelectMyPollResultDetail = (state: RootState) => state.polls.myPollResultDetail
 
 export const SelectPollSettings = (state: RootState) => state.polls.poll_settings
+
+export const SelectMyPollResultScore = (state: RootState) => state.polls.myPollResultScore
 
 
 

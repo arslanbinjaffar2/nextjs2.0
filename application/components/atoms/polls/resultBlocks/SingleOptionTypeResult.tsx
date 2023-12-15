@@ -35,7 +35,7 @@ const SingleOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
                         <Box width="20px" height="20px" >
                           {answer?.correct == 1 && <CorrectAnswer  />}
                         </Box>
-                        <Text  fontSize="lg" color={'primary.text'} >{`${i + 1}.`}{answer?.info.answer}</Text>
+                        <Text  fontSize="lg" color={'primary.text'} >{`${i + 1}-  `}{answer?.info.answer}</Text>
                       </HStack>
                     ))}
             </VStack>
@@ -50,7 +50,7 @@ const SingleOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
                         <Box width="20px" height="20px" >
                           {question.answer.find((a)=>(a.correct == 1)) &&  (answer?.correct == 1 ? <CorrectAnswer  /> : <WrongAnswer/>)}
                         </Box>
-                        <Text  fontSize="lg" color={'primary.text'} >{`${i + 1}.`}{answer?.info.answer}</Text>
+                        <Text  fontSize="lg" color={'primary.text'} >{`${i + 1}-  `}{answer?.info.answer}</Text>
                       </HStack>
                     ))}
             </VStack>

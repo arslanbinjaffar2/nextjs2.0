@@ -46,9 +46,9 @@ const Detail = () => {
 
   const { response  } = UseAuthService();
 
-  const { push } = useRouter()
+  const { back } = useRouter()
 
-  const { FetchMyPollResultDetail, myPollResultDetail } = UsePollService();
+  const { FetchMyPollResultDetail, myPollResultDetail, myPollResultScore, poll_labels } = UsePollService();
 
   const [id] = useParam('id');
 
@@ -70,7 +70,17 @@ const Detail = () => {
             ) : (
             <Container mb="3" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                <Pressable onPress={()=> back()}>
+                  <HStack space="3" alignItems="center">
+                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                        <Text fontSize="2xl">BACK</Text>
+                  </HStack>
+                </Pressable>
+                <Spacer />
+              </HStack>
+              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
                 <Text isTruncated pr="6" fontSize="2xl">{myPollResultDetail?.program?.info?.topic}</Text>
+                <Text isTruncated pr="6" fontSize="2xl">{`${myPollResultScore}/${myPollResultDetail?.question.length} Points(s)`}</Text>
               </HStack>
               <Box w="100%" >
                 {myPollResultDetail && myPollResultDetail?.question.length > 0 && myPollResultDetail.question.map((question, i) => (
@@ -96,6 +106,10 @@ const Detail = () => {
                         }
                         </>
                 ))}
+
+                {myPollResultDetail &&( myPollResultDetail?.question.length <= 0 || myPollResultDetail?.question.filter((q)=>( q?.results && q?.results?.length > 0)).length <= 0) && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
+                    <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
+                </Box>}
               </Box>
               
             </Container>

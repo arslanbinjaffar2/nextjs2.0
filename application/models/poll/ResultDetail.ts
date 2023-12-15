@@ -1,4 +1,8 @@
 export interface MyPollResultDetail {
+  poll:MyPollResultDetailPoll
+  total_score:TotalScore[]
+}
+export interface MyPollResultDetailPoll {
   id: number;
   event_id: number;
   sort_order: number;
@@ -136,4 +140,16 @@ export interface Info {
   start_time: string;
   end_time: string;
   location: string;
+}
+
+interface TotalScore {
+  id: number;
+  score: number;
+  event_id: number;
+  question_id: number;
+  attendee_id: number;
+  status: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
 }
