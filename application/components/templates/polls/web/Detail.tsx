@@ -179,7 +179,9 @@ const Detail = () => {
     }
 
     const onSubmit = ( ) => {
+      
       setSubmittingPoll(true)
+
         const submitedData:SubmittedQuestion[] | undefined = detail?.questions.map((q)=>{
             let answeredQuestion:any = {
               id:q.id,
@@ -205,7 +207,7 @@ const Detail = () => {
             }
             else{
               if(q.question_type === 'world_cloud'){
-                answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, i)=>([...ack, {value: formData[q.id].answer[i]}]), []) : [];
+                answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, v, i)=>([...ack, {value: formData[q.id].answer[Object.keys(formData[q.id].answer).length - (i + 1)]}]), []) : [];
               }
               else{
                 answeredQuestion['answers'] = (formData[q.id] !== undefined && formData[q.id].answer !== null) ? [{value: formData[q.id].answer }] : [];
@@ -215,7 +217,7 @@ const Detail = () => {
 
         });
 
-        console.log();
+       
 
         const postData = {
           poll_id: detail?.questions[0]?.poll_id,
@@ -228,7 +230,7 @@ const Detail = () => {
           env: _env.app_server_enviornment,
           submitted_questions:submitedData!
         };
-        
+
         SubmitPoll(postData);
 
     }

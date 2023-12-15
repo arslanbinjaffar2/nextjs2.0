@@ -46,9 +46,9 @@ const Detail = () => {
 
   const { response  } = UseAuthService();
 
-  const { push } = useRouter()
+  const { back } = useRouter()
 
-  const { FetchMySurveyResultDetail, mySurveyResultDetail } = UseSurveyService();
+  const { FetchMySurveyResultDetail, mySurveyResultDetail, survey_labels } = UseSurveyService();
 
   const [id] = useParam('id');
 
@@ -58,17 +58,21 @@ const Detail = () => {
     }
   }, [id]);
 
-
-
-  console.log(mySurveyResultDetail);
-
-
   return (
     <>
       {loading ? (
                 <WebLoading />
             ) : (
             <Container mb="3" maxW="100%" w="100%">
+              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                <Pressable onPress={()=> back()}>
+                  <HStack space="3" alignItems="center">
+                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                        <Text fontSize="2xl">BACK</Text>
+                  </HStack>
+                </Pressable>
+                <Spacer />
+              </HStack>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text isTruncated pr="6" fontSize="2xl">{mySurveyResultDetail?.info?.name}</Text>
               </HStack>
@@ -96,6 +100,9 @@ const Detail = () => {
                         }
                         </>
                 ))}
+                {mySurveyResultDetail &&( mySurveyResultDetail?.question.length <= 0 || mySurveyResultDetail?.question.filter((q)=>( q?.results && q?.results?.length > 0)).length <= 0) && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
+                    <Text>{survey_labels?.NO_POLL_AVAILABLE}</Text>
+                </Box>}
               </Box>
               
             </Container>
