@@ -9,6 +9,7 @@ export interface EnvState {
     msw_enabled: string,
     api_gateway_url: string,
     app_server_enviornment: string,
+    socket_connection_server: string,
 }
 
 const initialState: EnvState = {
@@ -18,6 +19,7 @@ const initialState: EnvState = {
     msw_enabled: '',
     api_gateway_url: '',
     app_server_enviornment:'',
+    socket_connection_server:'',
 }
 
 // Slice
@@ -32,6 +34,7 @@ export const EnvSlice = createSlice({
             state.msw_enabled = action.payload.msw_enabled
             state.api_gateway_url = action.payload.api_gateway_url
             state.app_server_enviornment = action.payload.app_server_enviornment
+            state.socket_connection_server = action.payload.socket_connection_server
         },
     },
 })

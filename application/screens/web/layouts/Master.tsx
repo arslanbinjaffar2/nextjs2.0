@@ -14,6 +14,7 @@ import ScrollCloseToBottom from 'application/utils/ScrollCloseToBottom';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 import { useRouter as UseNextRouter } from 'next/router';
+import SocketHandler from 'application/provider/Socket/SocketHandler';
 
 type Props = {
   children:
@@ -78,41 +79,44 @@ const Master = ({ children, section }: Props) => {
       {modules.length === 0 ? (
         <WebLoading />
       ) : (
-        <Flex w="100%" h="100%" direction="column">
-          <ScrollView nativeID="body-scroll"
-            onScroll={({ nativeEvent }) => {
-              if (ScrollCloseToBottom(nativeEvent) && !loading) {
-                setScrollCounter(scroll + 1);
-              }
-            }}
-            scrollEventThrottle={400}
-          >
-            <Flex mx="auto" maxW={width <= 1200 && width >= 970 ? '970px' : width <= 970 ? '725px' : '1200px'} w="100%" py="40px" px="15px">
-              {width > 725 ? <Header width={width} /> : (
-                <Header />
-              )}
-              <Container position="relative" maxW="100%" w="100%">
-                <HStack w="100%" pt="3" space="5" alignItems="flex-start">
-                  {width > 750 && (
-                    <>
-                      {nextRouter.asPath.includes('settings') ? (
-                        <LeftBarProfile />
-                      ) : (
-                        <LeftBar />
-                      )}
-                    </>
-                  )}
-                  <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={nextRouter.asPath.includes('settings') ? (width >= 1201 ? '900px' : '850px') : (width > 750 ? '600px' : '100%')}>
-                    {children}
-                  </Center>
-                  {width >= 970 && !nextRouter.asPath.includes('settings') && <Center position="sticky" top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
-                    <RightBar />
-                  </Center>}
-                </HStack>
-              </Container>
-            </Flex>
-          </ScrollView>
-        </Flex>
+        <>
+          <Flex w="100%" h="100%" direction="column">
+            <ScrollView nativeID="body-scroll"
+              onScroll={({ nativeEvent }) => {
+                if (ScrollCloseToBottom(nativeEvent) && !loading) {
+                  setScrollCounter(scroll + 1);
+                }
+              }}
+              scrollEventThrottle={400}
+            >
+              <Flex mx="auto" maxW={width <= 1200 && width >= 970 ? '970px' : width <= 970 ? '725px' : '1200px'} w="100%" py="40px" px="15px">
+                {width > 725 ? <Header width={width} /> : (
+                  <Header />
+                )}
+                <Container position="relative" maxW="100%" w="100%">
+                  <HStack w="100%" pt="3" space="5" alignItems="flex-start">
+                    {width > 750 && (
+                      <>
+                        {nextRouter.asPath.includes('settings') ? (
+                          <LeftBarProfile />
+                        ) : (
+                          <LeftBar />
+                        )}
+                      </>
+                    )}
+                    <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={nextRouter.asPath.includes('settings') ? (width >= 1201 ? '900px' : '850px') : (width > 750 ? '600px' : '100%')}>
+                      {children}
+                    </Center>
+                    {width >= 970 && !nextRouter.asPath.includes('settings') && <Center position="sticky" top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
+                      <RightBar />
+                    </Center>}
+                  </HStack>
+                </Container>
+              </Flex>
+            </ScrollView>
+          </Flex>
+          <SocketHandler/>
+        </>
       )}
 
     </BackgroundLayout>
