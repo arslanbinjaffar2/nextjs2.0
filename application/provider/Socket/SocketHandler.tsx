@@ -1,16 +1,14 @@
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import React from 'react'
-import SocketIOClient, {SocketOptions, Socket, ManagerOptions} from "socket.io-client"
+import SocketIOClient from "socket.io-client"
 const SocketHandler = () => {
     
     const { _env } = UseEnvService()
 
     const { event } = UseEventService()
 
-    const [socketConnection, setSocketConnection] = React.useState<Socket | null>(null);
-
-    const options: Partial<ManagerOptions & SocketOptions> = React.useMemo(() => ({
+    const options: any = React.useMemo(() => ({
         transports: ["websocket", "polling"]
     }), []);
   
@@ -23,7 +21,7 @@ const SocketHandler = () => {
       });
 
       return () =>{
-        socketConnect.disconnet();
+        socketConnect.disconnect();
       }
     }, [options, _env?.socket_connection_server]);
     
