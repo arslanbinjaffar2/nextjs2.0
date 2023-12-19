@@ -13,6 +13,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import ScrollCloseToBottom from 'application/utils/ScrollCloseToBottom';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
+import UseNotificationService from 'application/store/services/UseNotificationService';
 import { useRouter as UseNextRouter } from 'next/router';
 import SocketHandler from 'application/provider/Socket/SocketHandler';
 
@@ -34,6 +35,8 @@ const Master = ({ children, section }: Props) => {
   const { getUser, response, isLoggedIn } = UseAuthService();
 
   const { scroll, setScrollCounter, loading } = UseLoadingService();
+
+  const { FetchNotifications } = UseNotificationService();
 
   const { skip } = UseSubRegistrationService();
 
@@ -71,6 +74,7 @@ const Master = ({ children, section }: Props) => {
     if (modules.length === 0 && isLoggedIn && event.id) {
       loadModules();
       loadSettingsModules();
+      FetchNotifications();
     }
   }, [modules, event, isLoggedIn])
 

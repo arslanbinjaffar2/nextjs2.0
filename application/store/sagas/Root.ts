@@ -41,11 +41,32 @@ import {SubRegistrationWatcherSaga} from 'application/store/sagas/SubRegistratio
 import {NetworkInterestWatcherSaga} from 'application/store/sagas/NetworkInterest.Saga'
 
 import {NoteWatcherSaga} from 'application/store/sagas/Notes.Saga'
+import {NotificationWatcherSaga} from 'application/store/sagas/Notification.Saga'
 
 export function* RootSaga() {
-    yield all([fork(EventWatcherSaga), fork(AuthWatcherSaga), fork(MapWatcherSaga), fork(InfoWatcherSaga), fork(SponsorWatcherSaga), fork(ExhibitorWatcherSaga), fork(DocumentWatcherSaga), fork(AttendeeWatcherSaga), fork(ProgramWatcherSaga), fork(PollWatcherSaga), fork(SurveyWatcherSaga), fork(AlertWatcherSaga), fork(FloorPlanWatcherSaga), fork(BannerWatcherSaga), fork(EditProfileWatcherSaga), fork(QaWatcherSaga), fork(SocialMediaWatcherSaga), fork(CheckInOutWatcherSaga), fork(SubRegistrationWatcherSaga),
+    yield all([
+                fork(EventWatcherSaga), 
+                fork(AuthWatcherSaga), 
+                fork(MapWatcherSaga), 
+                fork(InfoWatcherSaga), 
+                fork(SponsorWatcherSaga), 
+                fork(ExhibitorWatcherSaga), 
+                fork(DocumentWatcherSaga), 
+                fork(AttendeeWatcherSaga), 
+                fork(ProgramWatcherSaga), 
+                fork(PollWatcherSaga), 
+                fork(SurveyWatcherSaga), 
+                fork(AlertWatcherSaga), 
+                fork(FloorPlanWatcherSaga), 
+                fork(BannerWatcherSaga), 
+                fork(EditProfileWatcherSaga), 
+                fork(QaWatcherSaga), 
+                fork(SocialMediaWatcherSaga), 
+                fork(CheckInOutWatcherSaga), 
+                fork(SubRegistrationWatcherSaga),
                 fork(NetworkInterestWatcherSaga),
                 fork(NoteWatcherSaga),
+                fork(NotificationWatcherSaga),
             ])
 }
 

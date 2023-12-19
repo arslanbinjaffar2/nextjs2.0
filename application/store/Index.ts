@@ -26,6 +26,7 @@ import CheckInOutSlice from './slices/CheckInOut.Slice'
 import SubRegistrationSlice from './slices/SubRegistration.Slice'
 import NetworkInterestSlice from './slices/NetworkInterest.Slice'
 import NotesSlice from './slices/Notes.Slice'
+import NotificationSlice from './slices/Notification.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 
 const makeStore = () => {
@@ -59,6 +60,7 @@ const makeStore = () => {
             subRegistration:SubRegistrationSlice,
             networkInterest:NetworkInterestSlice,
             notes:NotesSlice,
+            notifications:NotificationSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
@@ -69,7 +71,7 @@ const makeStore = () => {
               },
              })
             .concat(sagaMiddleware)
-            // .concat(logger),
+            .concat(logger),
     })
 
     sagaMiddleware.run(RootSaga)
