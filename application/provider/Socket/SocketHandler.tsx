@@ -10,24 +10,24 @@ const SocketHandler = () => {
 
     const [socketConnection, setSocketConnection] = React.useState<Socket | null>(null);
 
-    const options: Partial<ManagerOptions & SocketOptions> = React.useMemo(() => ({}), []);
+    const options: Partial<ManagerOptions & SocketOptions> = React.useMemo(() => ({
+        transports: ["websocket", "polling"]
+    }), []);
   
     React.useEffect(() => {
-      try {
-        const socketConnect = SocketIOClient('https://stagesocket.eventbuizz.com::3000' , options);
-        setSocketConnection(socketConnect);
-      } catch (err) {
-        console.log(err);
+      
+      const socketConnect = SocketIOClient(_env.socket_connection_server , options);
+      
+      socketConnect.on(`event-buizz:poll_question_active_inactive${event.id}`, function (data:any):any {
+          console.log(data, 'data');
+      });
+
+      return () =>{
+        socketConnect.disconnet();
       }
     }, [options, _env?.socket_connection_server]);
     
-    React.useEffect(() => {
-     if(socketConnection !== null){
-        socketConnection.on(`event-buizz:poll_question_active_inactive${event.id}`, function (data) {
-            console.log(data);
-        });
-     }
-    }, [socketConnection]);
+    
 
 
   return null;

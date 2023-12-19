@@ -154,9 +154,6 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
         return null;
     }
 
-    console.log(event.settings, 'event....')
-
-
     return (
         <NavigationProvider>
             <NativeBaseProvider config={config} theme={nativebaseTheme}>{children}</NativeBaseProvider>
