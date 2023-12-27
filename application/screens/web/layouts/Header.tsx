@@ -8,11 +8,19 @@ import { Event } from 'application/models/Event'
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
+import AlertPopup from 'application/components/atoms/AlertPopup';
 
 const Header = ({ width }: any) => {
   const { _env } = UseEnvService();
   const { event } = UseEventService();
   const router = useRouter()
+
+  
+  const [isOpen, setIsOpen] = React.useState(false);
+  
+  const onClose = () => setIsOpen(false);
+
+  const cancelRef = React.useRef(null);
 
   return (
     <>
@@ -40,6 +48,17 @@ const Header = ({ width }: any) => {
           </Center>
         </HStack>
       </Container>
+      <AlertPopup
+        isOpen={isOpen}
+        onClose={()=>{
+          onClose();
+        }}
+        cancelRef ={cancelRef}
+        title={"hello"}
+        text={"hello"}
+        btnLeftText={'Ok'}
+        btnRightText={'Detail'}
+      />
     </>
   );
 }

@@ -75,6 +75,7 @@ export const PollSlice = createSlice({
             state.poll_settings = action.payload.poll_settings;
             state.poll_labels = action.payload.poll_labels;
         },
+        checkVotingPermission(state, action: PayloadAction<{ data:any }>) { },
     },
 })
 
@@ -90,6 +91,7 @@ export const PollActions = {
     updateMyPollResults:PollSlice.actions.updateMyPollResults,
     FetchMyPollResultDetail:PollSlice.actions.FetchMyPollResultDetail,
     updateMyPollResultDetail:PollSlice.actions.updateMyPollResultDetail,
+    checkVotingPermission:PollSlice.actions.checkVotingPermission,
 }
 
 export const SelectPolls = (state: RootState) => state.polls.polls

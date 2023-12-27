@@ -11,6 +11,7 @@ const Notification = () => {
   const { event} = UseEventService();
   const { push } = useRouter();
 
+
   return (
     <Menu
       w={['350px', '400px']}
@@ -33,26 +34,53 @@ const Notification = () => {
         </Button>
       }}
     >
-      {notifications.length > 0 && notifications?.map((alert:any)=>(
-        <Menu.Item p="0">
-          <Pressable
-          w="100%"
-          onPress={() => {
-            push(`/${event.url}/alerts`)
-          }}>
-          <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="6" py="3" w="100%" space="1" alignItems="center">
-            <Box w="50px">
-              <DynamicIcon iconType="chat" iconProps={{ width: 30, height: 26 }} />
-            </Box>
-            <VStack w="80%" space="0">
-              <Text fontSize="md">{alert?.title}</Text>
-              <Text color="black" fontSize="sm">{moment(`${alert?.alert_date} ${alert?.alert_time}`).fromNow()}</Text>
-            </VStack>
-            <Badge bg="black" shadow="1" w="4" h="4" p="0" rounded="100%" />
-          </HStack>
-          </Pressable>
-        </Menu.Item>
-      ))}
+      {notifications.length > 0 && notifications?.map((alert:any)=>{
+        if(alert.type == 'poll'){
+          return (
+            <Menu.Item p="0">
+              <Pressable
+              w="100%"
+              onPress={() => {
+                push(`/${event.url}/${alert.url}`)
+              }}>
+                <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="6" py="3" w="100%" space="1" alignItems="center">
+                  <Box w="50px">
+                    <DynamicIcon iconType="chat" iconProps={{ width: 30, height: 26 }} />
+                  </Box>
+                  <VStack w="80%" space="0">
+                    <Text fontSize="md">{alert?.title}</Text>
+                    <Text fontSize="sm">{alert?.text}</Text>
+                    <Text color="black" fontSize="sm">{moment(`${alert?.date} ${alert?.time}`).fromNow()}</Text>
+                  </VStack>
+                  <Badge bg="black" shadow="1" w="4" h="4" p="0" rounded="100%" />
+                </HStack>
+              </Pressable>
+            </Menu.Item>
+          )
+        } else{
+          return (
+              <Menu.Item p="0">
+                <Pressable
+                w="100%"
+                onPress={() => {
+                  push(`/${event.url}/alerts`)
+                }}>
+                  <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="6" py="3" w="100%" space="1" alignItems="center">
+                    <Box w="50px">
+                      <DynamicIcon iconType="chat" iconProps={{ width: 30, height: 26 }} />
+                    </Box>
+                    <VStack w="80%" space="0">
+                      <Text fontSize="md">{alert?.title}</Text>
+                      <Text color="black" fontSize="sm">{moment(`${alert?.alert_date} ${alert?.alert_time}`).fromNow()}</Text>
+                    </VStack>
+                    <Badge bg="black" shadow="1" w="4" h="4" p="0" rounded="100%" />
+                  </HStack>
+                </Pressable>
+              </Menu.Item>
+          )
+        }
+        
+        })}
         {/* <Menu.Item p="0">
         <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="6" py="3" w="100%" space="1" alignItems="center">
           <Box w="50px">

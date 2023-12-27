@@ -24,6 +24,7 @@ export type PollServiceOperators = {
     SubmitPoll: (payload:PollSubmitData) => void,
     FetchMyPollResults: () => void,
     FetchMyPollResultDetail: (payload:{id:number}) => void,
+    checkPollVotingPermission: (payload:{ data:any}) => void,
 }
 
 /**
@@ -73,6 +74,12 @@ export const UsePollService = (): Readonly<PollServiceOperators> => {
         FetchMyPollResultDetail: useCallback(
             (payload: { id: number }) => {
                 dispatch(PollActions.FetchMyPollResultDetail(payload))
+            },
+            [dispatch],
+        ),
+        checkPollVotingPermission: useCallback(
+            (payload: { data:any }) => {
+                dispatch(PollActions.checkVotingPermission(payload))
             },
             [dispatch],
         ),

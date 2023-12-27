@@ -24,6 +24,11 @@ export const NotificationSlice = createSlice({
         FetchNotifications() {},
         update(state, action: PayloadAction<{ notifications: any }>) {
             state.notifications = action.payload.notifications.alerts;
+        },
+        addNotification(state, action: PayloadAction<{ notification: any }>) {
+            console.log(action?.payload?.notification);
+            console.log('hello notifs');
+            state.notifications = [...state.notifications, action.payload.notification];
         }
 
     },
@@ -33,6 +38,7 @@ export const NotificationSlice = createSlice({
 export const NotificationActions = {
     FetchNotifications:NotificationSlice.actions.FetchNotifications,
     update:NotificationSlice.actions.update,
+    addNotification:NotificationSlice.actions.addNotification,
 }
 
 export const SelectNotifications = (state: RootState) => state.notifications.notifications
