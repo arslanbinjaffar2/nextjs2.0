@@ -1,4 +1,4 @@
-const readDocument = (notification:any, type: string): any => {
+const ConvertToPopupObject = (notification:any, type: string): any => {
     
     if(type == 'alert'){
         return  {
@@ -20,4 +20,4 @@ const readDocument = (notification:any, type: string): any => {
     }
 }
 
-export default readDocument
+export default ConvertToPopupObject
