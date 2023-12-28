@@ -22,6 +22,7 @@ export type SurveyServiceOperators = {
     SubmitSurvey: (payload:SurveySubmitData) => void,
     FetchMySurveyResults: () => void,
     FetchMySurveyResultDetail: (payload:{id:number}) => void,
+    checkSurveyVotingPermission: (payload:{data:any}) => void,
 }
 
 /**
@@ -69,6 +70,12 @@ export const UseSurveyService = (): Readonly<SurveyServiceOperators> => {
         FetchMySurveyResultDetail: useCallback(
             (payload: { id: number }) => {
                 dispatch(SurveyActions.FetchMySurveyResultDetail(payload))
+            },
+            [dispatch],
+        ),
+        checkSurveyVotingPermission: useCallback(
+            (payload: { data:any }) => {
+                dispatch(SurveyActions.checkVotingPermission(payload))
             },
             [dispatch],
         ),

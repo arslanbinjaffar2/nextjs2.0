@@ -11,6 +11,7 @@ export type NotificationServiceOperators = {
     popupCount:number,
     currentPopup:any
     FetchNotifications: () => void,
+    AddNotification: (payload:{notification:any}) => void,
     clearCurrentPopup: () => void,
     setCurrentPopup: () => void,
 }
@@ -32,6 +33,12 @@ export const UseNotificationService = (): Readonly<NotificationServiceOperators>
         FetchNotifications: useCallback(
             () => {
                 dispatch(NotificationActions.FetchNotifications())
+            },
+            [dispatch],
+        ),
+        AddNotification: useCallback(
+            (payload:{notification:any}) => {
+                dispatch(NotificationActions.addNotification(payload))
             },
             [dispatch],
         ),

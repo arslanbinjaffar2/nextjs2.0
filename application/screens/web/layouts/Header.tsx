@@ -27,7 +27,7 @@ const Header = ({ width }: any) => {
   const cancelRef = React.useRef(null);
 
   React.useEffect(() => {
-    if(popupCount > 0){
+    if(popupCount > 0 && currentPopup == null){
       setCurrentPopup();
     }
   }, [popupCount])

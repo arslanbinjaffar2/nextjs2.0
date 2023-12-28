@@ -23,3 +23,6 @@ export const getMySurveyResultApi = (payload: any, state: any): Promise<HttpResp
 export const getMySurveyResultDetailApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/settings/my-survey-result-detail/${payload.id}`, {...payload});
 }
+export const getCheckVotingPermissionApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/survey/voting-permission`, {...payload});
+}

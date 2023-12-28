@@ -72,6 +72,8 @@ export const SurveySlice = createSlice({
             state.survey_settings = action.payload.survey_settings;
             state.survey_labels = action.payload.survey_labels;
         },
+        checkVotingPermission(state, action: PayloadAction<{ data:any }>) { },
+
 
     },
 })
@@ -88,6 +90,7 @@ export const SurveyActions = {
     updateMySurveyResults:SurveySlice.actions.updateMySurveyResults,
     FetchMySurveyResultDetail:SurveySlice.actions.FetchMySurveyResultDetail,
     updateMySurveyResultDetail:SurveySlice.actions.updateMySurveyResultDetail,
+    checkVotingPermission:SurveySlice.actions.checkVotingPermission,
 }
 
 export const SelectSurveys = (state: RootState) => state.surveys.surveys

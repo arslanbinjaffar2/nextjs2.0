@@ -5,6 +5,9 @@ import React from 'react'
 import SocketIOClient from "socket.io-client"
 import in_array from 'in_array'
 import UsePollService from 'application/store/services/UsePollService';
+import UseSurveyService from 'application/store/services/UseSurveyService';
+import UseNotificationService from 'application/store/services/UseNotificationService';
+import moment from 'moment';
 const SocketHandler = () => {
   
   
@@ -16,6 +19,10 @@ const SocketHandler = () => {
     const { response } = UseAuthService();
 
     const { checkPollVotingPermission } = UsePollService();
+
+    const { checkSurveyVotingPermission } = UseSurveyService();
+
+    const { AddNotification } = UseNotificationService();
 
     const options: any = React.useMemo(() => ({
         transports: ["websocket", "polling"]
@@ -36,10 +43,20 @@ const SocketHandler = () => {
       
       socketConnect.on(`event-buizz:survey_question_active_inactive${event.id}`, function (data:any):any {
           console.log(data, 'data');
+          if(data.attendees == undefined || in_array(response?.attendee_detail?.id, data.attendees)){
+            checkSurveyVotingPermission({data:data});
+          }
       });
 
       socketConnect.on(`event-buizz:attendee_score_${event.id}_${response.attendee_detail.id}`, function (data:any):any {
           console.log(data, 'data');
+          AddNotification({
+              notification:{
+                type:'score',
+                title:'Alert',
+                text:data,
+              }
+          })
       });
 
       
@@ -56,3 +73,4 @@ const SocketHandler = () => {
 }
 
 export default SocketHandler
+
