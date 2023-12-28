@@ -9,18 +9,36 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
 import AlertPopup from 'application/components/atoms/AlertPopup';
+import UseNotificationService from 'application/store/services/UseNotificationService';
 
 const Header = ({ width }: any) => {
   const { _env } = UseEnvService();
   const { event } = UseEventService();
-  const router = useRouter()
-
+  const { popupCount, setCurrentPopup, currentPopup, clearCurrentPopup } = UseNotificationService();
+  
+  const router = useRouter();
   
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const [alertData, setAlertData] = React.useState<any>(null);
   
   const onClose = () => setIsOpen(false);
 
   const cancelRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if(popupCount > 0){
+      setCurrentPopup();
+    }
+  }, [popupCount])
+  
+  React.useEffect(() => {
+    if(currentPopup !== null){
+      setAlertData(currentPopup);
+      setIsOpen(true);
+    }
+  }, [currentPopup])
+  
 
   return (
     <>
@@ -48,17 +66,18 @@ const Header = ({ width }: any) => {
           </Center>
         </HStack>
       </Container>
-      <AlertPopup
+      {alertData !== null && <AlertPopup
         isOpen={isOpen}
         onClose={()=>{
+          clearCurrentPopup();
           onClose();
         }}
         cancelRef ={cancelRef}
-        title={"hello"}
-        text={"hello"}
-        btnLeftText={'Ok'}
-        btnRightText={'Detail'}
-      />
+        title={alertData?.title}
+        text={alertData?.text}
+        btnLeftText={alertData?.btnLeftText ? alertData?.btnLeftText : 'OK'}
+        btnRightText={alertData?.btnRightText ? alertData?.btnRightText : 'Detail'}
+      />}
     </>
   );
 }
