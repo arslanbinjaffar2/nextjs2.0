@@ -10,19 +10,46 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
 import AlertPopup from 'application/components/atoms/AlertPopup';
 import UseNotificationService from 'application/store/services/UseNotificationService';
+import UseAlertService from 'application/store/services/UseAlertService';
 
 const Header = ({ width }: any) => {
   const { _env } = UseEnvService();
+
   const { event } = UseEventService();
+
   const { popupCount, setCurrentPopup, currentPopup, clearCurrentPopup } = UseNotificationService();
+
+  const { markAlertRead } = UseAlertService();
   
   const router = useRouter();
   
+  const [alertCount, setAlertCount] = React.useState(0);
+
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [alertData, setAlertData] = React.useState<any>(null);
   
   const onClose = () => setIsOpen(false);
+
+  const onBtnLeftClick = () => {
+    console.log(alertData);
+    if(alertData.type == 'alert'){
+      markAlertRead({alertIds:`${alertData.id};`})
+    }
+    clearCurrentPopup();
+    onClose();
+  };
+
+  const onBtnRightClick = () =>{
+    if(alertData.type == 'alert'){
+      markAlertRead({alertIds:`${alertData.id};`})
+    }
+    if(alertData.url !== undefined){
+      router.push(`/${event.url}${alertData.url}`)
+    }
+    clearCurrentPopup();
+    onClose();
+  };
 
   const cancelRef = React.useRef(null);
 
@@ -35,7 +62,10 @@ const Header = ({ width }: any) => {
   React.useEffect(() => {
     if(currentPopup !== null){
       setAlertData(currentPopup);
+      setAlertCount(alertCount+1);
       setIsOpen(true);
+    }else{
+      setAlertData(null);
     }
   }, [currentPopup])
   
@@ -67,11 +97,14 @@ const Header = ({ width }: any) => {
         </HStack>
       </Container>
       {alertData !== null && <AlertPopup
+        key={alertCount}
         isOpen={isOpen}
         onClose={()=>{
           clearCurrentPopup();
           onClose();
         }}
+        btnLeftFunc={onBtnLeftClick}
+        btnRightFunc={onBtnRightClick}
         cancelRef ={cancelRef}
         title={alertData?.title}
         text={alertData?.text}

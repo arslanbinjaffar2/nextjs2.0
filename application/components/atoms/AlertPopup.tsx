@@ -1,7 +1,7 @@
 import { AlertDialog, Button, Center } from "native-base";
 import React from 'react';
 
-const AlertPopup = ({ isOpen, onClose, cancelRef, title, text, btnLeftText, btnRightText}:any) => {
+const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, title, text, btnLeftText, btnRightText}:any) => {
 
     return <AlertDialog leastDestructiveRef={cancelRef} isOpen={isOpen} onClose={onClose}>
           <AlertDialog.Content>
@@ -12,12 +12,12 @@ const AlertPopup = ({ isOpen, onClose, cancelRef, title, text, btnLeftText, btnR
             </AlertDialog.Body>
             <AlertDialog.Footer>
               <Button.Group space={2}>
-                <Button variant="unstyled" colorScheme="coolGray" onPress={onClose} ref={cancelRef}>
+              {btnLeftText  && <Button variant="unstyled" colorScheme="coolGray" onPress={btnLeftFunc} ref={cancelRef}>
                   {btnLeftText}
-                </Button>
-                <Button colorScheme="danger" onPress={onClose}>
+                </Button>}
+              {btnRightText && <Button colorScheme="danger" onPress={btnRightFunc}>
                   {btnRightText}
-                </Button>
+                </Button>}
               </Button.Group>
             </AlertDialog.Footer>
           </AlertDialog.Content>

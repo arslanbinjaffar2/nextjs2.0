@@ -2,6 +2,8 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
     
     if(type == 'alert'){
         return  {
+            id:notification.id,
+            type:'alert',
             title:notification?.title,
             text:notification?.detail,
             btnLeftText:'OK',
@@ -11,6 +13,7 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
     }
     if(type == 'poll'){
         return  {
+            type:'poll',
             title:notification?.title,
             text:notification?.text,
             btnLeftText:'OK',
@@ -20,6 +23,7 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
     }
     if(type == 'survey'){
         return  {
+            type:'survey',
             title:notification?.title,
             text:notification?.text,
             btnLeftText:'OK',
@@ -29,6 +33,7 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
     }
     if(type == 'score'){
         return  {
+            type:'score',
             title:notification?.title,
             text:notification?.text,
             btnLeftText:'OK',
