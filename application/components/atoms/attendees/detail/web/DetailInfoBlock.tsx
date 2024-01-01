@@ -291,7 +291,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                             </Box>
                                         </HStack>
                                     )}
-                                    {console.log(detail?.custom_fields)}
+                                    
                                     {setting.name === 'show_custom_field' && (showPrivate == 1 || setting.is_private == 0 ) &&
                                      detail?.custom_fields &&
                                      detail?.custom_fields.length > 0 && 
