@@ -36,7 +36,8 @@ export const NotificationSlice = createSlice({
         },
         addNotification(state, action: PayloadAction<{ notification: any }>) {
             state.notifications = [...state.notifications, action.payload.notification];
-            const popups = [...state.popups, ConvertToPopupObject(action?.payload?.notification, action?.payload?.notification.type)];
+            const newPopup = ConvertToPopupObject(action?.payload?.notification, action?.payload?.notification.type);
+            const popups = [...state.popups, newPopup];
             state.popups = popups;
             state.popupCount = popups.length;
         },
