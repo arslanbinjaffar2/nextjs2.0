@@ -53,6 +53,7 @@ export const NotificationSlice = createSlice({
                 state.popups = popups;
             }else{
                 state.currentPopup= null;
+                state.popupCount = popups.length;
             }
         }
 
