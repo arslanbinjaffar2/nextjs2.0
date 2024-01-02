@@ -96,7 +96,7 @@ function* OnCheckVotingPermission({
                 type:'poll',
                 title:response?.data?.data?.poll_labels?.POLL_SURVEY_MESSAGE,
                 text:response?.data?.data?.poll_labels?.POLL_SURVEY_NEW_POLL_AVAILABLE,
-                url:`polls/detail/${payload?.data?.agenda_id}`,
+                url:`/polls/detail/${payload?.data?.agenda_id}`,
                 agenda_id:payload?.data?.agenda_id,
                 date:moment().format('L'),
                 time:moment().format('HH:mm')

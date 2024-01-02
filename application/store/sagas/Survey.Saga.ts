@@ -95,7 +95,7 @@ function* OnCheckVotingPermission({
                 type:'survey',
                 title:response?.data?.data?.survey_labels?.POLL_SURVEY_MESSAGE,
                 text:response?.data?.data?.survey_labels?.POLL_SURVEY_NEW_SURVEY_AVAILABLE,
-                url:`survey/detail/${payload?.data?.survey_id}`,
+                url:`/survey/detail/${payload?.data?.survey_id}`,
                 survey_id:payload?.data?.survey_id,
                 date:moment().format('L'),
                 time:moment().format('HH:mm')
