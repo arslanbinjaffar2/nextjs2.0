@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Pressable,  Image, Divider, Avatar, TextArea, Button, IconButton, ZStack, Select, Checkbox, Center, Input } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Pressable,  Image, Divider, Avatar, TextArea, Button, IconButton, ZStack, Select, Checkbox, Center, Input, Spinner } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import IcoHistory from 'application/assets/icons/IcoHistory';
@@ -34,7 +34,7 @@ const Detail = () => {
     const { response  } = UseAuthService();
 
     
-    const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails,  SubmitQa} = UseQaService();
+    const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails,  SubmitQa, SubmitQaLike} = UseQaService();
     
     const { push } = useRouter()
 
@@ -221,7 +221,8 @@ const Detail = () => {
                     <Spacer />
                     <IconButton
                         variant="transparent"
-                        icon={<Icon size="lg" as={Feather} name="send" color="white" />}
+                        disabled={in_array('qa-submitting', processing)}
+                        icon={in_array('qa-submitting', processing) ?  <Spinner accessibilityLabel="Submitting Question" size={'sm'} /> : <Icon size="lg" as={Feather} name="send" color="white" />}
                         onPress={() => { onSubmit(); }}
 
                     />
@@ -260,11 +261,18 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start">
-                                        <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                        <Center w="calc(100% - 60px)" pt="1" alignItems="flex-start">
-                                            <div style={{color:'#fff'}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                        </Center>
+                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
+                                        <Text lineHeight="sm" textAlign="center" w="48px" fontSize="3xl">Q:</Text>
+                                        <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
+                                                <IconButton
+                                                    variant="transparent"
+                                                    disabled={in_array(`qa-like-${question.id}`, processing)}
+                                                    icon={in_array(`qa-like-${question.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question.likes.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
+                                                    onPress={() => { console.log('hello'); SubmitQaLike({question_id:question.id, agenda_id:question.agenda_id}); }}
+                                                /> 
+                                                <Text>{question.likes.length}</Text>
+                                            </HStack>}
                                     </HStack>        
                                     </>
                                   ))  

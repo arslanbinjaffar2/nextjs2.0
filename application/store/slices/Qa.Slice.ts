@@ -72,6 +72,7 @@ export const QaSlice = createSlice({
             state.qaDetails.my_questions = action.payload.my_questions;
         },
         SubmitQa(state, action: PayloadAction<any>) {},
+        SubmitQaLike(state, action: PayloadAction<{question_id:number, agenda_id:number}>) {},
         
     },
 })
@@ -85,6 +86,7 @@ export const QaActions = {
     updateDetail:QaSlice.actions.updateDetail,
     updateTabDetail:QaSlice.actions.updateTabDetail,
     SubmitQa:QaSlice.actions.SubmitQa,
+    SubmitQaLike:QaSlice.actions.SubmitQaLike,
 }
 
 export const SelectPrograms = (state: RootState) => state.qa.programs
