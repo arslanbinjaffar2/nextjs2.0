@@ -13,6 +13,7 @@ import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
 import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
+import { QaSettings } from 'application/models/qa/Qa';
 
 type ScreenParams = { id: string }
 
@@ -53,6 +54,20 @@ const Detail = () => {
     const [question, setQuestion] = React.useState<any>('');
     const [anonymously, setAnonymously] = React.useState<any>(false);
     const [error, setError] = React.useState<any>(null);
+
+    const enabledTabs = qaSettings ? Object.keys(qaSettings).reduce((ack:any, item:any)=>{
+        if(in_array(item, ['popular','recent', 'archive',  'my_question']) && qaSettings[item] == 1){
+            ack.push(item);
+        }
+        return ack;
+    }, []) : [];
+
+    const TabHeadings:any = {
+        popular:'Popular',
+        recent:'Recent',
+        archive:'Archive',  
+        my_question:'My Questions'
+    };
     
     const onSubmit = ( ) => {
         setError(null);
@@ -135,21 +150,21 @@ const Detail = () => {
                 </HStack>
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" borderBottomWidth={1} borderColor="primary.bdBox">
                 <Box w="100%"  py="3">
-                    <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
-                    <Box position="absolute" left="0" top="0" w="15px">
-                        <ZStack>
-                        {qaDetials?.program_detail && qaDetials?.program_detail?.tracks?.length > 0 && qaDetials?.program_detail?.tracks.map((track: any, i: number) =>
-                        <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
-                      )}
-                        </ZStack>
-                    </Box>
-                    <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                        <VStack space="1">
-                        <Text fontSize="md" lineHeight="22px">
-                           {qaDetials?.program_detail?.info?.topic}
-                        </Text>
-                        </VStack>
-                    </HStack>
+                    <HStack width={"100%"} pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
+                        <Box position="absolute" left="0" top="0" w="15px">
+                            <ZStack>
+                            {qaDetials?.program_detail && qaDetials?.program_detail?.tracks?.length > 0 && qaDetials?.program_detail?.tracks.map((track: any, i: number) =>
+                            <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
+                        )}
+                            </ZStack>
+                        </Box>
+                        <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
+                            <VStack space="1" width={'100%'}>
+                            <Text fontSize="md" lineHeight="22px" textBreakStrategy='simple' >
+                            {qaDetials?.program_detail?.info?.topic}
+                            </Text>
+                            </VStack>
+                        </HStack>
                     </HStack>
                 </Box>
                 <Box w="100%">
@@ -202,7 +217,7 @@ const Detail = () => {
                     </HStack>}
                     <TextArea focusOutlineColor="transparent" _focus={{ bg: 'transparent' }} value={question} onChangeText={(value)=>setQuestion(value)}  px="4" py="0" fontSize="lg" w="100%" borderWidth="0" rounded="0" minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
                     <HStack px="3" py="2" space="3" alignItems="center">
-                    <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">Send anonymously</Checkbox>
+                    {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">Send anonymously</Checkbox>}
                     <Spacer />
                     <IconButton
                         variant="transparent"
@@ -212,7 +227,7 @@ const Detail = () => {
                     />
                     </HStack>
                 </Box>
-                <Box w="100%">
+                {qaSettings?.qa_tabs == 1 && <Box w="100%">
                     <HStack px="3" space="0" alignItems="center" bg="primary.darkbox" mb="3">
                     <HStack space="2" alignItems="center">
                         <IcoHistory  />
@@ -222,10 +237,9 @@ const Detail = () => {
                     {/* <Text opacity={0.58} fontSize="md">1 Questions</Text> */}
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
-                        <Button onPress={() => { setTab('popular') }} bg={tab === 'popular' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Popular</Button>
-                        <Button onPress={() => { setTab('recent')}} bg={tab === 'recent' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Recent</Button>
-                        <Button onPress={() => { setTab('archive')}} bg={tab === 'archive' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Archive</Button>
-                        <Button onPress={() => { setTab('my_question')}} bg={tab === 'my_question' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>My Questions</Button>
+                        {enabledTabs?.map((item:any, index:number)=>(
+                            <Button onPress={() => { setTab(item) }} bg={tab === item ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
+                        ))}
                     </HStack>
                     <Box mb="10" px="5" w="100%" position="relative">
                         {loading && <WebLoading />}
@@ -330,7 +344,7 @@ const Detail = () => {
                     
                     </Box>
                     
-                </Box>
+                </Box>}
                 
                 </Box>
                 

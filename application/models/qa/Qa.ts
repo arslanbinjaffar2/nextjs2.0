@@ -99,6 +99,7 @@ export interface QaSettings {
   my_question: number;
   enable_projectors: number;
   enable_ask_question: number;
+  [key:string]:any;
 }
 
 export interface ProgramSettings {
