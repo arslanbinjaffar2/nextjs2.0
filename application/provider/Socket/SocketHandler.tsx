@@ -7,11 +7,10 @@ import in_array from 'in_array'
 import UsePollService from 'application/store/services/UsePollService';
 import UseSurveyService from 'application/store/services/UseSurveyService';
 import UseNotificationService from 'application/store/services/UseNotificationService';
+import UseSocketService from 'application/store/services/UseSocketService';
 import moment from 'moment';
 const SocketHandler = () => {
   
-  
-
     const { _env } = UseEnvService()
 
     const { event } = UseEventService()
@@ -24,6 +23,8 @@ const SocketHandler = () => {
 
     const { AddNotification } = UseNotificationService();
 
+    const { SetSocket } = UseSocketService();
+
     const options: any = React.useMemo(() => ({
         transports: ["websocket", "polling"]
     }), []);
@@ -31,7 +32,7 @@ const SocketHandler = () => {
     React.useEffect(() => {
       
       const socketConnect = SocketIOClient(_env.socket_connection_server , options);
-      
+      SetSocket(socketConnect);
 
       // Polls & Survey
       socketConnect.on(`event-buizz:poll_question_active_inactive${event.id}`, function (data:any):any {
@@ -74,6 +75,7 @@ const SocketHandler = () => {
 
       return () =>{
         socketConnect.disconnect();
+        SetSocket(null);
       }
     }, [options, _env?.socket_connection_server]);
     

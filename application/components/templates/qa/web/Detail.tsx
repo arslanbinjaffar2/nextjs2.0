@@ -14,6 +14,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { QaSettings } from 'application/models/qa/Qa';
+import UseSocketService from 'application/store/services/UseSocketService';
 
 type ScreenParams = { id: string }
 
@@ -38,6 +39,8 @@ const Detail = () => {
     
     const { push } = useRouter()
 
+    const { socket } = UseSocketService();
+
 
     const [id] = useParam('id');
 
@@ -47,6 +50,15 @@ const Detail = () => {
             FetchTabDetails({ id: Number(id) });
         }
     }, [id]);
+
+    React.useEffect(() => {
+        if(socket !== null){
+            console.log('sockect connection');
+            socket.on(`event-buizz:qa_admin_block_listing_${event.id}_${id}`, function (data:any):any {
+                console.log(data, 'data');
+            });
+        }
+    }, []);
 
     const [speaker, setSpeaker] = React.useState<any>(null);
     const [paragraph, setParagraph] = React.useState<any>(null);
@@ -267,9 +279,9 @@ const Detail = () => {
                                             {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
-                                                    disabled={in_array(`qa-like-${question.id}`, processing)}
-                                                    icon={in_array(`qa-like-${question.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question.likes.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
-                                                    onPress={() => { console.log('hello'); SubmitQaLike({question_id:question.id, agenda_id:question.agenda_id}); }}
+                                                    disabled={in_array(`qa-like-${question?.id}`, processing)}
+                                                    icon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question.likes.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
+                                                    onPress={() => { SubmitQaLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
                                                 /> 
                                                 <Text>{question.likes.length}</Text>
                                             </HStack>}
