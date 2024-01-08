@@ -132,13 +132,13 @@ export interface Question {
 }
 
 export interface Like {
-  id: number;
-  event_id: number;
-  attendee_id: number;
-  qa_id: number;
-  created_at: string;
-  updated_at: string;
-  deleted_at: string;
+  id?: number;
+  event_id?: number;
+  attendee_id?: number;
+  qa_id?: number;
+  created_at?: string;
+  updated_at?: string;
+  deleted_at?: string;
 }
 
 export interface Attendee2 {
