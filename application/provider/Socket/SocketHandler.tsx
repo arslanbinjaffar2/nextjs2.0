@@ -71,8 +71,6 @@ const SocketHandler = () => {
           })
       });
 
-      
-
       return () =>{
         socketConnect.disconnect();
         SetSocket(null);
