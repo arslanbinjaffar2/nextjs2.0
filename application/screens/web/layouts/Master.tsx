@@ -6,6 +6,7 @@ import LeftBarProfile from 'application/screens/web/layouts/LeftBarProfile';
 import RightBar from 'application/screens/web/layouts/RightBar';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import Header from 'application/screens/web/layouts/Header';
+import HeaderMobile from 'application/screens/web/layouts/HeaderMobile';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
@@ -95,7 +96,7 @@ const Master = ({ children, section }: Props) => {
             >
               <Flex mx="auto" maxW={width <= 1200 && width >= 970 ? '970px' : width <= 970 ? '725px' : '1200px'} w="100%" py="40px" px="15px">
                 {width > 725 ? <Header width={width} /> : (
-                  <Header />
+                  <HeaderMobile />
                 )}
                 <Container position="relative" maxW="100%" w="100%">
                   <HStack w="100%" pt="3" space="5" alignItems="flex-start">

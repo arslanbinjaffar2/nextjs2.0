@@ -27,6 +27,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import in_array from "in_array";
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
+import { useWindowDimensions } from 'react-native';
 
 type indexProps = {
   navigation: unknown
@@ -53,6 +54,8 @@ const Index = ({ navigation }: indexProps) => {
   const { response } = UseAuthService();
 
   const { push } = useRouter()
+   const { width } = useWindowDimensions();
+ 
 
   React.useEffect(() => {
     FetchPolls();
@@ -87,11 +90,11 @@ const Index = ({ navigation }: indexProps) => {
           ) : <></>}
 
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
-            <Container mb="3" w="100%" maxW="100%">
+            <Container overflow={'hidden'} mb="3" w="100%" maxW="100%">
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
-              <ScrollView horizontal={true} maxWidth={'100%'}>
+              <ScrollView w={width - 35} horizontal={true}>
                 <HStack pt="1" w="100%" space="2" alignItems="center" justifyContent="space-between">
-                  {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} alignItems="center" w={'100'}>
+                  {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} alignItems="center" w={['95','50','90']}>
                     <RoundedView attendee={attendee} />
                     <Text isTruncated pt="2" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
                   </VStack>)}
