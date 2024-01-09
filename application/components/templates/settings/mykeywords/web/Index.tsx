@@ -202,13 +202,13 @@ type checkboxProps = {
 const CheckboxWrapp = ({ title, checked, addMyKeyword}: checkboxProps) => {
     return (
       <Button
-        bg={checked ? 'primary.secondary' : 'primary.darkbox'}
+        bg={checked ? 'primary.500' : 'primary.darkbox'}
         px="3"
         py="1"
         mx="1"
         mb="3"
-        _hover={{ bg: checked ? 'primary.secondary' : 'primary.darkbox' }}
-        _pressed={{ bg: checked ? 'primary.secondary' : 'primary.darkbox' }}
+        _hover={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
+        _pressed={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
         _text={{ fontSize: 'lg' }}
         rounded="20px"
         leftIcon={<Icon as={AntDesign} name={checked ? 'check' : 'plus'} />}

@@ -1083,7 +1083,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 </Center>
             </HStack>}
             {<HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
-                <Center alignItems="flex-start" w="225px">
+							 <Center alignItems="flex-start" w="225px">
+                </Center>
+                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
                     <Checkbox isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
                         updateAttendeeFeild('gdpr', isSelected);
                     }} size="md"   >GDPR</Checkbox>

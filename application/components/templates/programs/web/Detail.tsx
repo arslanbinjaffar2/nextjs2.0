@@ -125,7 +125,10 @@ const Detail = () => {
                         {/* <Text isTruncated pr="6" fontSize="lg">{detail?.topic}</Text> */}
                     </HStack>
                         <DetailBlock>
-                                <div dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
+                                <Text>
+                                    <div dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
+                                </Text>
+                                
                         </DetailBlock>
                     <Container mb="3" maxW="100%" w="100%">
                         <HStack mb="3" space={1} justifyContent="center" w="100%">

@@ -80,7 +80,6 @@ const Index = ({ speaker, screen }: Props) => {
     }, []);
 
     useEffect(() => {
-        console.log(slug);
         if (slug !== undefined && slug.length === 1) { // Group attendees by slug
             setTab('group-attendee');
             FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
@@ -190,7 +189,7 @@ const Index = ({ speaker, screen }: Props) => {
                     )}
                 </>
             )}
-            {speaker === 0 && <VStack w="20px" position="absolute" right="-20px" top="0" space="1">
+            {speaker === 0 && <VStack w="20px" position="absolute" right="-20px" top="60px" space="1">
                 {alphabet && alphabet.map((item, k) =>
                     <React.Fragment key={k}>
                         {item && (
