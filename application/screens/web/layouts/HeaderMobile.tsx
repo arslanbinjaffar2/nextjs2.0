@@ -68,19 +68,19 @@ const [open, setOpen] = React.useState(false)
       </Container>
       
       <Drawer isOpen={open} placement='left'>
-        <Container  alignItems={'flex-start'} w="375px" h={'100%'} bg={'primary.darkbox'}>
+        <Container  alignItems={'flex-start'} w="375px" h={'100%'} bg={'primary.bdBox'}>
             <Center w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
-                    <Pressable
-                      alignItems={'flex-end'}
-                      p="0"
-                      borderWidth="0"
-                      onPress={()=>{
-                        setOpen(false)
-                      }}
-                    
-                    >
-                      <Icon size={'3xl'} as={Ionicons} name="close-outline" color={'primary.text'}  />
-                    </Pressable>
+              <Pressable
+                alignItems={'flex-end'}
+                p="0"
+                borderWidth="0"
+                onPress={()=>{
+                  setOpen(false)
+                }}
+              
+              >
+                <Icon size={'3xl'} as={Ionicons} name="close-outline" color={'primary.text'}  />
+              </Pressable>
             </Center>
             
           
