@@ -24,7 +24,7 @@ const DateAnswer = ({ question, formData, updateFormData, labels, error }: PropT
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <DateTimePicker showdate={'DD-MM-YYYY'} value={formData[question.id]?.answer ?? ''} onChange={(currentDate:any)=>{updateFormData(question.id, question.question_type, currentDate._isAMomentObject !== undefined && currentDate._isAMomentObject === true ? moment(currentDate).format("DD-MM-YYYY") : '')}} />
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.300" w="100%">
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
       </Box>}
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">

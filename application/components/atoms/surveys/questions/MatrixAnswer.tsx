@@ -52,8 +52,8 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
         </ScrollView>
        
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
-              <Text color="red.400"> {error} </Text>
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
+              <Text color="red.900"> {error} </Text>
       </Box>}
       
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">

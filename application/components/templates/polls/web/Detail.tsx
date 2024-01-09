@@ -312,6 +312,7 @@ const Detail = () => {
                   {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
                     <Box m="auto" w="230px" bg="primary.darkbox" p="0" rounded="sm" overflow="hidden">
                       <Button
+                      id='test'
                         w="48px"
                         py="3"
                         px="1"
