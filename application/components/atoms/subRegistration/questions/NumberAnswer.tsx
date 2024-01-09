@@ -26,8 +26,8 @@ const NumberAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
             setInputText(answer.replace(/[^0-9]/g, ''));
         }}  />
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
-              <Text color="red.400"> {error} </Text>
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
+              <Text color="red.900"> {error} </Text>
       </Box>}
       {Number(question.enable_comments) === 1 &&
         <>
@@ -37,11 +37,11 @@ const NumberAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
         </HStack>
         <Box py="3" px="4" w="100%">
           <TextArea
-            p="0"
-            h="30px"
-            focusOutlineColor="transparent"
+            p="3"
+            mb={1}
+            h="100px"
+            bg={'primary.darkbox'}
             isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
-            _focus={{ bg: 'transparent' }}
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}
             borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
         </Box>

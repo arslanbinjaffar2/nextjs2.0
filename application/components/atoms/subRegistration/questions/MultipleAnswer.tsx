@@ -23,16 +23,16 @@ const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, 
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.[0]?.value} {Number(question?.required_question) === 1 && <Text color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
-        <VStack space="4">
+        <VStack space="3">
         <Checkbox.Group defaultValue={formData[question.id]?.answer} onChange={(answers) => { updateFormData(question.id, question.question_type, answers)}} aria-label={question?.info?.[0]?.value}>
           {question?.answer.map((answer, k) =>
-            <Checkbox key={k} size="md" isDisabled={(canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : checkIfProgramdisabled(answer, question.result, settings, programs, (formData[question.id]?.answer ?? []), question.answer)}   value={`${answer.id}`}>{answer?.info[0]?.value} </Checkbox>
+            <Checkbox colorScheme={'secondary'} mb={4} key={k} size="md" isDisabled={(canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : checkIfProgramdisabled(answer, question.result, settings, programs, (formData[question.id]?.answer ?? []), question.answer)}   value={`${answer.id}`}>{answer?.info[0]?.value} </Checkbox>
           )}
         </Checkbox.Group>
         </VStack>
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
-              <Text color="red.400"> {error} </Text>
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
+              <Text color="red.900"> {error} </Text>
       </Box>}
       {Number(question.enable_comments) === 1 &&
         <>
@@ -42,10 +42,10 @@ const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, 
         </HStack>
         <Box py="3" px="4" w="100%">
           <TextArea
-            p="0"
-            h="30px"
-            focusOutlineColor="transparent"
-            _focus={{ bg: 'transparent' }}
+            p="3"
+            mb={1}
+            h="100px"
+            bg={'primary.darkbox'}
             isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
             onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}

@@ -22,12 +22,12 @@ const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <Radio.Group space="5"   defaultValue={`${formData[question.id]?.answer[0]}`} name="MyRadioGroup"  onChange={answer_id => {updateFormData(question.id, question.question_type, answer_id);}}>
           {question.answer.map((answer, k) =>
-            <Radio key={k} isDisabled={(canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : checkIfdisabled(answer, question.result)}  value={`${answer.id}`}> {answer?.info[0]?.value} </Radio>
+            <Radio colorScheme={'secondary'} key={k} isDisabled={(canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : checkIfdisabled(answer, question.result)}  value={`${answer.id}`}> {answer?.info[0]?.value} </Radio>
           )}
         </Radio.Group>
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
-              <Text color="red.400"> {error} </Text>
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
+              <Text color="red.900"> {error} </Text>
       </Box>}
       {Number(question.enable_comments) === 1 &&
         <>
@@ -37,10 +37,10 @@ const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
           </HStack>
           <Box py="3" px="4" w="100%">
             <TextArea
-              p="0"
-              h="30px"
-              focusOutlineColor="transparent"
-              _focus={{ bg: 'transparent' }}
+              p="3"
+              mb={1}
+              h="100px"
+              bg={'primary.darkbox'}
               isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
               onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
               onChangeText={(text) => updateFormData(question.id, 'comment', text)}

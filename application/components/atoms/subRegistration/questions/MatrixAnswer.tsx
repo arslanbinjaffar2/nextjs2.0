@@ -54,8 +54,8 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
         </ScrollView>
        
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
-              <Text color="red.400"> {error} </Text>
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
+              <Text color="red.900"> {error} </Text>
       </Box>}
       
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
@@ -64,11 +64,10 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
       </HStack>
       <Box py="3" px="4" w="100%">
         <TextArea
-          p="0"
-          h="30px"
-          isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
-          focusOutlineColor="transparent"
-          _focus={{ bg: 'transparent' }}
+          p="3"
+          mb={1}
+          h="100px"
+          bg={'primary.darkbox'}
           onChangeText={(text) => updateFormData(question.id, 'comment', text)}
           borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
       </Box>
