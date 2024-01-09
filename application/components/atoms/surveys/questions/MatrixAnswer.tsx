@@ -1,8 +1,9 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { Box, Center, Checkbox, Divider, HStack, Input, Radio, ScrollView, Text, TextArea, VStack } from 'native-base';
+import { Box, Center, Checkbox, Divider, HStack, Icon, Input, Radio, ScrollView, Text, TextArea, VStack } from 'native-base';
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData } from 'application/models/survey/Detail';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 type PropTypes = {
   question: Question,
@@ -40,7 +41,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
                 
                 {question.matrix.map((matrix, i) =>
                   <Center minW="100px" flex="1" key={matrix.id}>
-                   <Radio key={i} value={`${matrix.id}`} aria-label={matrix.name}  />
+                   <Radio colorScheme="secondary" icon={<Icon as={<Ionicons  name="checkmark" />} />} key={i} value={`${matrix.id}`} aria-label={matrix.name}  />
                   </Center>
                 )}
               </HStack>

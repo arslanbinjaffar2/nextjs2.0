@@ -9,19 +9,20 @@ import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
     attendee: ExhibitorsAttendee,
+    total: number,
     k: number
 }
 
-const RectangleView = ({ k, attendee }: AppProps) => {
+const RectangleView = ({ k, attendee, total }: AppProps) => {
     
     const { push } = useRouter()
 
     const { _env } = UseEnvService()
     
     const { event } = UseEventService()
-
+    console.log(total)
     return (
-        <HStack key={`item-${k}`} py="3" px="2" space="4" alignItems="center" borderBottomWidth={k === 2 ? 0 : 1} borderColor="primary.text">
+        <HStack key={`item-${k}`} py="3" px="2" space="4" alignItems="center" borderBottomWidth={k === (total-1) ? 0 : 1} borderColor="primary.text">
             {attendee.image ? (
                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="Alternate Text" w="50px" h="50px" rounded={30} />
             ) : (

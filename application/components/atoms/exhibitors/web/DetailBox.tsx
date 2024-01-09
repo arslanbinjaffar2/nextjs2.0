@@ -25,11 +25,11 @@ const DetailBox = ({ detail }: AppProps) => {
 
     return (
         <>
-            <Box w="100%" bg="primary.500" p="0" rounded="10">
+            <Box w="100%" bg="primary.500" p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
-                    <Image mb="5" rounded="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="Alternate Text" w="100%" h="160px" />
+                    <Image mb="5" roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="Alternate Text" w="100%" h="160px" />
                 ) : (
-                    <Image mb="5" rounded="10" size="full" source={ExhibitorDefaultImage} alt="Alternate Text" w="100%" h="160px" />
+                    <Image mb="5" roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="Alternate Text" w="100%" h="160px" />
                 )}
                 <Box w="100%" px="5" position={'relative'}>
                     <HStack w="100%" mb="1" space="3" alignItems="flex-start">
@@ -75,7 +75,10 @@ const DetailBox = ({ detail }: AppProps) => {
                     </HStack>
                     <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
-                        <div style={{overflow:'hidden'}} dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>
+                        <Text lineHeight={0} fontSize="lg">
+                            <div className='ebs-iframe-content' style={{overflow:'hidden'}} dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>
+                        </Text>
+                        
                     </Box>
                 </Box>
             </Box>

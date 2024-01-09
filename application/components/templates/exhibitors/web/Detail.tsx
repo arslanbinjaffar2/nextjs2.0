@@ -63,7 +63,7 @@ const Detail = React.memo(() => {
                         <Spacer />
                     </HStack>
                     <Container maxW="100%" h={'93%'} w="100%">
-                        <Container mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" rounded="10">
+                        <Container mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" roundedTop="10">
                             <DetailBox detail={detail} />
                             {detail?.detail?.exhibitors_attendee!?.length > 0 && (
                                 <Box w="100%" p="0">
@@ -74,7 +74,7 @@ const Detail = React.memo(() => {
                                     
                                         {detail?.detail?.exhibitors_attendee?.map((attendee: ExhibitorsAttendee, key: number) =>
                                             <React.Fragment key={key}>
-                                                <RectangleView attendee={attendee} k={key} />
+                                                <RectangleView total={detail?.detail?.exhibitors_attendee?.length} attendee={attendee} k={key} />
                                             </React.Fragment>
                                         )}
                                 </Box>

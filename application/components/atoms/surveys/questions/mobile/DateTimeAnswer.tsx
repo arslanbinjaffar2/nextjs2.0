@@ -30,7 +30,7 @@ const DateTimeAnswer = ({ question, formData, updateFormData }: PropTypes) => {
   };
 
   return (
-    <Center maxW="100%" w="100%" mb="0">
+    <Center  maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.value} {question?.required_question == '1' && <Text display="inline" color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
