@@ -6,7 +6,7 @@ const MobileLoading = () => {
         <Center flex={1} w={'100%'}>
             <HStack alignItems="center">
                 <Spinner accessibilityLabel="Loading posts" />
-                <Heading color="primary.500" fontSize="md">
+                <Heading color="primary.text" fontSize="md">
                     Loading
                 </Heading>
             </HStack>

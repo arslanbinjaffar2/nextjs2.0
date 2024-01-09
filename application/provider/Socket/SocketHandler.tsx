@@ -35,21 +35,21 @@ const SocketHandler = () => {
       SetSocket(socketConnect);
 
       // Polls & Survey
-      socketConnect.on(`event-buizz:poll_question_active_inactive${event.id}`, function (data:any):any {
+      socketConnect.on(`event-buizz:poll_question_active_inactive${event?.id}`, function (data:any):any {
           console.log(data, 'data');
           if(data.attendees == undefined || in_array(response?.attendee_detail?.id, data.attendees)){
             checkPollVotingPermission({data:data});
           }
       });
       
-      socketConnect.on(`event-buizz:survey_question_active_inactive${event.id}`, function (data:any):any {
+      socketConnect.on(`event-buizz:survey_question_active_inactive${event?.id}`, function (data:any):any {
           console.log(data, 'data');
           if(data.attendees == undefined || in_array(response?.attendee_detail?.id, data.attendees)){
             checkSurveyVotingPermission({data:data});
           }
       });
 
-      socketConnect.on(`event-buizz:attendee_score_${event.id}_${response.attendee_detail.id}`, function (data:any):any {
+      socketConnect.on(`event-buizz:attendee_score_${event?.id}_${response?.attendee_detail?.id}`, function (data:any):any {
           console.log(data, 'data');
           AddNotification({
               notification:{
@@ -60,7 +60,7 @@ const SocketHandler = () => {
           })
       });
       
-      socketConnect.on(`event-buizz:news_and_updates_alert_${event.id}`, function (data:any):any {
+      socketConnect.on(`event-buizz:news_and_updates_alert_${event?.id}`, function (data:any):any {
           console.log(data, 'data');
           AddNotification({
               notification:{
