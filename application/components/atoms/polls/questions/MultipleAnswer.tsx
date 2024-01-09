@@ -38,11 +38,11 @@ const MultipleAnswer = ({ question, formData, updateFormData, error, labels }: P
           <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
         </HStack>
         <Box py="3" px="4" w="100%">
-          <TextArea
-            p="0"
-            h="30px"
-            focusOutlineColor="transparent"
-            _focus={{ bg: 'transparent' }}
+           <TextArea
+            p="3"
+            mb={1}
+            h="100px"
+            bg={'primary.darkbox'}
             defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
             onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
             onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}

@@ -37,11 +37,11 @@ const NumberAnswer = ({ question, formData, updateFormData, error, labels }: Pro
           <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
         </HStack>
         <Box py="3" px="4" w="100%">
-          <TextArea
-            p="0"
-            h="30px"
-            focusOutlineColor="transparent"
-            _focus={{ bg: 'transparent' }}
+           <TextArea
+            p="3"
+            mb={1}
+            h="100px"
+            bg={'primary.darkbox'}
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}
             defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
             borderWidth="0" fontSize="md" placeholder={labels?.GENERAL_COMMENT} autoCompleteType={undefined} />

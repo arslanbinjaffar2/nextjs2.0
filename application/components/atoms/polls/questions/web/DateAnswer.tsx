@@ -18,7 +18,7 @@ const DateAnswer = ({ question, formData, updateFormData, labels, error }: PropT
   
 
   return (
-    <Center maxW="100%" w="100%" mb="0">
+    <Center zIndex={9999} position={'relative'} maxW="100%" w="100%" mb="0">
       <Box zIndex={9999} position={'relative'} mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.question} {question?.required_question == '1' && <Text display={Platform.OS === 'web' ? "inline" : 'flex'}  color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
@@ -33,11 +33,10 @@ const DateAnswer = ({ question, formData, updateFormData, labels, error }: PropT
       </HStack>
       <Box py="3" px="4" w="100%">
         <TextArea
-          p="0"
-          h="30px"
-          overflow="auto"
-          focusOutlineColor="transparent"
-          _focus={{ bg: 'transparent' }}
+          p="3"
+          mb={1}
+          h="100px"
+          bg={'primary.darkbox'}
           defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
           onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}
           borderWidth="0" fontSize="md" placeholder={labels?.GENERAL_COMMENT} autoCompleteType={undefined} />

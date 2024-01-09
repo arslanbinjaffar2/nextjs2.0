@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Center, Checkbox, Divider, HStack, Radio, Text, TextArea, VStack } from 'native-base';
+import { Box, Center, Checkbox, Divider, HStack, Icon, Radio, Text, TextArea, VStack } from 'native-base';
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData } from 'application/models/poll/Detail';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Platform } from 'react-native';
 
 type PropTypes = {
@@ -22,7 +23,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error, labels }: Pro
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <Radio.Group space="5" defaultValue={formData[question.id]?.answer !== null && formData[question.id]?.answer.length > 0 ? `${formData[question.id]?.answer[0]}` : ``} name="MyRadioGroup"  onChange={answer_id => {updateFormData(question.id, question.question_type, answer_id);}}>
           {question.answer.map((answer, k) =>
-            <Radio key={k}  value={`${answer.id}`}> {answer.answer} </Radio>
+            <Radio colorScheme="secondary" icon={<Icon as={<Ionicons  name="checkmark" />} />}  key={k}  value={`${answer.id}`}> {answer.answer} </Radio>
           )}
         </Radio.Group>
       </Box>
@@ -36,11 +37,11 @@ const SingleAnswer = ({ question, formData, updateFormData, error, labels }: Pro
             <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
           </HStack>
           <Box py="3" px="4" w="100%">
-            <TextArea
-              p="0"
-              h="30px"
-              focusOutlineColor="transparent"
-              _focus={{ bg: 'transparent' }}
+             <TextArea
+              p="3"
+              mb={1}
+              h="100px"
+              bg={'primary.darkbox'}
               defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
               onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
               onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}

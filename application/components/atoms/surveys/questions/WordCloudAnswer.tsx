@@ -42,12 +42,12 @@ const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: 
           <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
         </HStack>
         <Box py="3" px="4" w="100%">
-          <TextArea
-            p="0"
-            h="30px"
-            focusOutlineColor="transparent"
+           <TextArea
+            p="3"
+            mb={1}
+            h="100px"
+            bg={'primary.darkbox'}
             defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
-            _focus={{ bg: 'transparent' }}
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}
             borderWidth="0" fontSize="md" placeholder={labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
             <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
