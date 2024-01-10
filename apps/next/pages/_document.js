@@ -157,6 +157,9 @@ body {
 .ebs-iframe-content img {
   max-width: 100%;
 }
+.r-zIndex-1ufr4wv + .r-zIndex-1ufr4wv{
+  z-index: 8 !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {

@@ -56,16 +56,16 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                       <Text alignSelf="flex-start" lineHeight="22px"> {program.topic}</Text>
                     </Center>
                     <Spacer />
-                    <HStack pr="3" space="5" alignItems="center">
-                      {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && <Pressable
-                        onPress={() => {
-                          MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
-                        }}>
-                        <Icon size="xl" as={AntDesign} name={program?.program_attendees_attached?.length ? "heart" : "hearto"} color={program?.program_attendees_attached?.length ? "primary.text" : "primary.text"} />
-                      </Pressable>}
+                    <HStack pr="3" space="5" alignItems="flex-end">
                       {program?.videos?.length ? (
                         <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
                       ) : ''}
+                       {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && <Pressable
+                        onPress={() => {
+                          MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
+                        }}>
+                        <Icon size="xl" as={AntDesign} name={program?.program_attendees_attached?.length ? "heart" : "hearto"} color={'primary.text'} />
+                      </Pressable>}
                       {program?.session?.length && program?.enable_speakerlist ? (
                         <IconButton
                           mr="2"
