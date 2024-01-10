@@ -48,13 +48,14 @@ const BoxView = ({ k, exhibitor, w }: AppProps) => {
                                 bg="transparent"
                                 p="1"
                                 _hover={{ bg: 'primary.500' }}
-                                icon={<Icon size="xl" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color="primary.darkbox" />}
+                                icon={<Icon size="md" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
                                 onPress={() => {
                                     MakeFavourite({ exhibitor_id: exhibitor.id, screen: 'listing' });
                                 }}
                                 position={'absolute'}
                                 zIndex={'999999'}
-                                right={'0'}
+                                right={'3px'}
+                                top={'3px'}
                             />
                         )}
                         <Center  px="1" alignItems="center" w="100%">
