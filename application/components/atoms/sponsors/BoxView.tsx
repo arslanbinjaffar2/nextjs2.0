@@ -1,6 +1,6 @@
 import React from 'react'
-import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Pressable, ZStack } from 'native-base'
-import { Sponsor } from 'application/models/sponsor/Sponsor'
+import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Pressable, ZStack, Popover, Button } from 'native-base'
+import { Sponsor, Category } from 'application/models/sponsor/Sponsor'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseSponsorService from 'application/store/services/UseSponsorService';
@@ -66,16 +66,51 @@ const BoxView = ({ k, sponsor, w }: AppProps) => {
                                 <Image source={ExhibitorDefaultImage} alt="Alternate Text" w="210px" h="72px" />
                             )}
                         </Center>
-                        <HStack pb={settings?.catTab !== 1 ? "6" : "3"} space="3" alignItems="center" position={'relative'}>
-                            {settings?.catTab == 1 && sponsor?.categories.length > 0 && <Center alignItems="flex-start" minH={'20px'} w="100%" position={'relative'} mb={3}>
-                                <ZStack reversed>
-                                    {sponsor?.categories.length > 0 && sponsor?.categories.map((cat, i)=>(
-                                        <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${measureText(sponsor?.categories[0]?.info.name, 14) + 16 + (i * 10)}px`} px="2">
-                                            {i== 0 && <Text fontSize="sm">{cat?.info?.name}</Text>}
-                                        </Box>
-                                    ))}
-                                </ZStack>
-                            </Center>}
+                        <HStack pb={6} space="3" alignItems="center" position={'relative'}>
+                            {settings?.catTab == 1 && sponsor?.categories.length > 0 && 
+                            <HStack alignItems="flex-start" minH={'25px'} w="100%" position={'relative'} mt={4}>
+                                <Center alignItems="flex-start" w='120px' p="0">
+                                    <ZStack reversed>
+                                        {sponsor?.categories.length > 0 && sponsor?.categories.slice(0,3).map((cat, i)=>(
+                                            <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${measureText(sponsor?.categories[0]?.info.name, 14) + 16 + (i * 10)}px`} px="2">
+                                                {i== 0 && <Text isTruncated lineHeight={25} fontSize="sm">{cat?.info?.name}</Text>}
+                                            </Box>
+                                        ))}
+                                    </ZStack>
+                                </Center>
+																	{settings?.catTab == 1 &&  sponsor.categories.length > 3 &&
+																		<>
+																		<Spacer />
+																			<Popover
+																				trigger={(triggerProps) => {
+																				return <Button
+																								bg={'transparent'}
+																								px={1}
+																								py={0}
+																								mr={2}
+																								rounded={'full'}
+																								{...triggerProps}
+																							>
+																								<Text lineHeight={24} fontSize="sm">{`+${ sponsor.categories.length - 3}`}</Text>
+																							</Button>
+																						}}>
+																				<Popover.Content bgColor={'primary.500'}>
+																					<Popover.Arrow bgColor={'primary.500'} />
+																					<Popover.Body borderTopWidth="0" bgColor={'primary.500'}>
+																					<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
+																						{sponsor.categories.length > 3 && sponsor.categories.slice(3).map((category: Category, i: number) =>(
+																								<Box mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
+																										<Text fontSize="sm">{`${category.info.name}`}</Text>
+																								</Box>
+																						))}
+																					</HStack>
+																					</Popover.Body>
+																				</Popover.Content>
+																			</Popover>
+																			
+																			</>
+															}
+                            </HStack>}
                             <Center pr="6" alignItems="flex-end" w="50%">
                                 {sponsor.booth && <HStack space="3" alignItems="center">
                                     <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />

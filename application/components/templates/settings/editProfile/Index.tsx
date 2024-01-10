@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon } from 'native-base';
 
 import {default  as ReactSelect} from "react-select";
 
@@ -21,6 +21,8 @@ import { Event } from 'application/models/Event';
 
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
 
+
+
 import moment from 'moment';
 
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
@@ -28,17 +30,47 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import LoadImage from 'application/components/atoms/LoadImage';
 import { Pressable } from 'react-native';
 import { Linking } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
+
 
 const Selectstyles2 = {
-    control: (base:any) => ({
+    control: (base:any, state:any) => ({
       ...base,
-      height: 50,
       minHeight: 50,
       width: '100%',
       maxWidth: '100%',
+			minWidth: '256px',
       marginBottom: 10,
-  
-    })
+			background: `rgb(79,79,79)`,
+			color: '#eaeaea',
+			fontFamily: 'Avenir',
+			boxShadow: 'none',
+			borderWidth: 2,
+			borderColor: state.isFocused ? "#000" : "transparent",
+			"&:hover": {
+				// Overwrittes the different states of border
+				borderColor: state.isFocused ? "#000" : "transparent"
+			}
+    }),placeholder: (defaultStyles: any) => {
+        return {
+            ...defaultStyles,
+            color: '#eaeaea',
+        }
+    },
+		option: (provided:any, state:any) => ({
+				...provided,
+				fontFamily: 'Avenir',
+				backgroundColor: state.isSelected ? "rgb(79,79,79)" : "",
+				"&:hover": {
+					backgroundColor: 'rgb(79,79,79)',
+					color: '#fff'
+				}
+		}),
+		singleValue: (provided:any) => ({
+    ...provided,
+    color: '#eaeaea'
+  })
 };
 
 const index = () => {
@@ -266,7 +298,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             {settings?.map((setting: Setting, index: number) => (
                 <VStack alignItems={"center"} w="100%" key={index}>
                     {setting?.name === 'initial' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.initial}</Text>
                             </Center>
@@ -283,7 +315,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'password' && setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1  && event?.attendee_settings?.create_profile == 1 && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.password}</Text>
                             </Center>
@@ -300,7 +332,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'first_name' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.first_name}</Text>
                             </Center>
@@ -317,7 +349,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'last_name' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.last_name}</Text>
                             </Center>
@@ -334,7 +366,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'bio_info' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.about}</Text>
                             </Center>
@@ -351,7 +383,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'age' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.age}</Text>
                             </Center>
@@ -368,7 +400,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'first_name_passport' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.FIRST_NAME_PASSPORT}</Text>
                             </Center>
@@ -385,7 +417,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'last_name_passport' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.LAST_NAME_PASSPORT}</Text>
                             </Center>
@@ -402,7 +434,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'place_of_birth' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.place_of_birth}</Text>
                             </Center>
@@ -419,7 +451,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'passport_no' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.passport_no}</Text>
                             </Center>
@@ -436,7 +468,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'company_name' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.company_name}</Text>
                             </Center>
@@ -453,7 +485,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'title' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.title}</Text>
                             </Center>
@@ -470,7 +502,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'organization' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.organization}</Text>
                             </Center>
@@ -487,7 +519,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'department' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.department}</Text>
                             </Center>
@@ -504,7 +536,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'show_industry' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.industry}</Text>
                             </Center>
@@ -521,7 +553,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'show_job_tasks' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.jobs}</Text>
                             </Center>
@@ -538,7 +570,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'interest' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.interests}</Text>
                             </Center>
@@ -555,7 +587,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'network_group' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.network_group}</Text>
                             </Center>
@@ -572,7 +604,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'delegate_number' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.delegate}</Text>
                             </Center>
@@ -589,7 +621,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'table_number' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.table_number}</Text>
                             </Center>
@@ -606,7 +638,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'pa_street' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_street}</Text>
                             </Center>
@@ -623,7 +655,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'pa_house_no' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_house_number}</Text>
                             </Center>
@@ -640,7 +672,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'pa_post_code' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_post_code}</Text>
                             </Center>
@@ -657,7 +689,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'pa_city' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_city}</Text>
                             </Center>
@@ -674,7 +706,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'pa_country' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_country}</Text>
                             </Center>
@@ -693,7 +725,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'email' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.email}</Text>
                             </Center>
@@ -710,7 +742,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'gender' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.gender}</Text>
                             </Center>
@@ -718,8 +750,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     
                                 <Radio.Group space="5"   value={gender} name="MyRadioGroup" onChange={(gender) => { setGender(gender); }}>
                                     <HStack space="3" alignItems="center">
-                                        <Radio isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'male'}> Male </Radio>
-                                        <Radio isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'female'}> Female </Radio>
+                                        <Radio colorScheme="secondary" icon={<Icon as={<Ionicons  name="checkmark" />} />}isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'male'}> Male </Radio>
+                                        <Radio colorScheme="secondary" icon={<Icon as={<Ionicons  name="checkmark" />} />}isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'female'}> Female </Radio>
                                     </HStack>
 
                                 </Radio.Group>
@@ -727,7 +759,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'birth_date' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.BIRTHDAY_YEAR}</Text>
                             </Center>
@@ -745,7 +777,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'date_of_issue_passport' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.date_of_issue_passport}</Text>
                             </Center>
@@ -763,7 +795,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'date_of_expiry_passport' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.date_of_expiry_passport}</Text>
                             </Center>
@@ -780,7 +812,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'employment_date' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.EMPLOYMENT_DATE}</Text>
                             </Center>
@@ -797,7 +829,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'country' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.country}</Text>
                             </Center>
@@ -817,7 +849,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'spoken_languages' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.SPOKEN_LANGUAGE}</Text>
                             </Center>
@@ -844,7 +876,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
                     {setting?.name === 'show_custom_field' && (
                       customFields.map((question, i)=>(
-                        <HStack mb="3" key={i} alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" key={i} alignItems="center" px="3" zIndex={100 - i} w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{question?.name}</Text>
                             </Center>
@@ -873,7 +905,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                       ))
                     )}
                     {setting?.name === 'phone' && (
-                        <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+                        <HStack mb="3" alignItems="center" px="3"  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.phone}</Text>
                             </Center>
@@ -886,8 +918,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             h="50px"
                                             isDisabled={setting?.is_editable === 1 ? false : true}
                                             selectedValue={attendeeData?.callingCode}
-                                            onValueChange={answer => updateInfoSelect({ answer, name: "phone" })}
-                                        >
+                                            onValueChange={answer => updateInfoSelect({ answer, name: "phone" })}>
                                             {callingCodes.map((answer, key) => (<Select.Item key={key} label={answer.name} value={`${answer.id}`} />))}
                                         </Select>
                                     </Center>
@@ -907,26 +938,26 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'profile_picture' && (
-                            <HStack mb="3" alignItems="start" px="3" zIndex="auto" w="100%" >
+                            <HStack mb="3" alignItems="start" px="3"  w="100%" >
                                 
-                                    <HStack mb="3" alignItems="center" zIndex="auto" w="100%" >
+                                    <HStack mb="3" alignItems="center"  w="100%" >
                                         <Center alignItems="flex-start" w="225px">
                                             <Text isTruncated fontWeight="500" fontSize="lg">Profile picture</Text>
                                         </Center>
                                         <Center alignItems="flex-start" w="calc(100% - 225px)">
                                             <HStack w="100%">
                                                 <VStack w={'100%'} space={2}>
-                                                    <Center w="100px">
+                                                    <Center w="150px">
                                                         {((attendeeData && attendeeData?.image && attendeeData?.image !== "") || attendeeData?.blob_image !== undefined) ? 
-                                                        <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="200px" />
-                                                        : <LoadImage path={`https://via.placeholder.com/155.png`} w="200px" />}
+                                                        <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
+                                                        : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
                                                     </Center>
-                                                    <Button w={100} isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
+                                                    <Button w={180} px={4} py={3} leftIcon={<Icon as={Ionicons} name="cloud-upload-outline" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
                                                             if(inputFileRef.current){
                                                                 inputFileRef.current.click();
                                                             }
                                                         }} 
-                                                        size={'xs'}
+                                                        size={'lg'}
                                                      >
                                                     Browse
                                                     </Button>
@@ -957,16 +988,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             </HStack>
                     )}
                     {setting?.name === 'resume' && (
-                            <HStack mb="3" alignItems="start" px="3" zIndex="auto" w="100%" >
+                            <HStack mb="3" alignItems="start" px="3"  w="100%" >
                             
-                                <HStack mb="3" alignItems="start"  zIndex="auto" w="100%" >
+                                <HStack mb="3" alignItems="start"   w="100%" >
                                     <Center alignItems="flex-start" width={'225px'} maxW="225px">
                                         <Text isTruncated fontWeight="500" fontSize="lg">Resume</Text>
                                     </Center>
                                     <Center alignItems="flex-start" w="calc(100% - 225px)">
                                         <HStack w="100%">
-                                            <VStack>
-                                                <Center mb={3} w="100px">
+                                            <VStack w={'100%'} space={2}>
+                                                <Center mb={3} w="150px">
                                                     {(typeof attendeeData.attendee_cv === 'string') ? 
                                                     <Pressable 
                                                     onPress={async () => {
@@ -976,26 +1007,26 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                             await Linking.openURL(url);
                                                         }
                                                     }}>
-                                                        <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="200px" />
+                                                        <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
                                                     </Pressable>
-                                                    : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="200px" />}
+                                                    : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />}
                                                 </Center>
 
-                                                <Button
+                                                <Button w={180} px={4} py={3}leftIcon={<Icon as={Ionicons} name="cloud-upload-outline" size="lg" />}
                                                     isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                     onPress={()=>{
                                                         if(inputresumeFileRef.current){
                                                             inputresumeFileRef.current.click();
                                                         }
                                                     }}
-                                                    size={'xs'}
+                                                    size={'lg'}
                                                      >
                                                     Browse
                                                     </Button>
                                             </VStack>
                                             {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
                                                 <input 
-                                                width="100%"
+                                                		width="100%"
                                                     height="50px"
                                                     type='file'
                                                     style={{display:'none'}}
@@ -1022,14 +1053,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             <Box mb="4" w="100%" bg="primary.darkbox" px="3" py="1" >
                 <Text fontSize="lg">Contact information</Text>
             </Box>
-            {attendee_feild_settings?.website === 1 && <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
-                <Center alignItems="flex-start" w="225px">
-                    <Text isTruncated fontWeight="500" fontSize="lg">Website</Text>
+            {attendee_feild_settings?.website === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.text'} mb="3" alignItems="center" px="3"  w="100%">
+                <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
+                   <Icon as={AntDesign} name="link" size={'lg'}  />
                 </Center>
-                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
                         placeholder={"Website"}
                         isReadOnly={true}
+												bg={'transparent'}
+												borderWidth={0}
                         onChangeText={(answer) => {
                             updateAttendeeInfoFeild('website', answer);
                         }}
@@ -1037,14 +1070,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.facebook === 1 && <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
-                <Center alignItems="flex-start" w="225px">
-                    <Text isTruncated fontWeight="500" fontSize="lg">Facebook</Text>
+            {attendee_feild_settings?.facebook === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.text'} mb="3" alignItems="center" px="3"  w="100%">
+                <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
+                   <Icon as={Ionicons} name="logo-facebook" size={'lg'}  />
                 </Center>
-                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
                         placeholder={"Facebook"}
                         isReadOnly={true}
+												bg={'transparent'}
+												borderWidth={0}
                         onChangeText={(answer) => {
                             updateAttendeeInfoFeild('facebook', answer);
                         }}
@@ -1052,14 +1087,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.twitter === 1 && <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
-                <Center alignItems="flex-start" w="225px">
-                    <Text isTruncated fontWeight="500" fontSize="lg">Twitter</Text>
+            {attendee_feild_settings?.twitter === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.text'} mb="3" alignItems="center" px="3"  w="100%">
+                <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
+                   <Icon as={Ionicons} name="logo-twitter" size={'lg'}  />
                 </Center>
-                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
                         placeholder={"Twitter"}
                         isReadOnly={true}
+												bg={'transparent'}
+												borderWidth={0}
                         onChangeText={(answer) => {
                             updateAttendeeInfoFeild('twitter', answer);
                         }}
@@ -1067,14 +1104,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.linkedin === 1 && <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
-                <Center alignItems="flex-start" w="225px">
-                    <Text isTruncated fontWeight="500" fontSize="lg">LinkedIn</Text>
+            {attendee_feild_settings?.linkedin === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.text'} mb="3" alignItems="center" px="3"  w="100%">
+                <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
+                   <Icon as={Ionicons} name="logo-linkedin" size={'lg'}  />
                 </Center>
-                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
                         placeholder={"LinkedIn"}
                         isReadOnly={true}
+												bg={'transparent'}
+												borderWidth={0}
                         onChangeText={(answer) => {
                             updateAttendeeInfoFeild('linkedin', answer);
                         }}
@@ -1082,16 +1121,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     />
                 </Center>
             </HStack>}
-            {<HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+            {<HStack mb="3" alignItems="center" px="3"  w="100%">
 							 <Center alignItems="flex-start" w="225px">
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
-                    <Checkbox isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
+                    <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
                         updateAttendeeFeild('gdpr', isSelected);
                     }} size="md"   >GDPR</Checkbox>
                 </Center>
             </HStack>}
-            <HStack mb="3" alignItems="center" px="3" zIndex="auto" w="100%">
+            <HStack mb="3" alignItems="center" px="3"  w="100%">
                 <Button
                     minW={225}
                     py="5"

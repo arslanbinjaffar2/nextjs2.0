@@ -68,7 +68,7 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
 																				rounded={'full'}
 																				{...triggerProps}
 																			>
-																				<Text fontSize="sm">{`+${ sponsor.categories.length - 3}`}</Text>
+																				<Text  fontSize="sm">{`+${ sponsor.categories.length - 3}`}</Text>
 																			</Button>
 																		}}>
 																<Popover.Content bgColor={'primary.500'}>
