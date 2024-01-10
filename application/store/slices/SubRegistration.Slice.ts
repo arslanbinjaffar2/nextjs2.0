@@ -57,14 +57,15 @@ export const SubRegistrationSlice = createSlice({
     reducers: {
         FetchSubRegistrationAfterLogin() {},
         update(state, action: PayloadAction<AfterLogin>) {
-            state.afterLogin = {...action.payload, show_skip_button : action.payload.questions.question.find((question)=>(question.required_question === '1')) ? false : true };
-            if (action.payload.questions == undefined || action.payload.questions.question.length <= 0 || action.payload.settings['show_sub_registration_on_web_app'] === 0) {
-                state.skip=true;
+            if (action.payload.displaySubregistration === 'no' || action.payload.questions == undefined || action.payload.questions.question.length <= 0 || action.payload.settings['show_sub_registration_on_web_app'] === 0) {
+                    state.skip=true;
                     if (Platform.OS === 'web') {
                         localStorage.setItem('skip_sub_reg', 'true');
                     } else {
                         AsyncStorageClass.setItem('skip_sub_reg', 'true');
                     }
+            }else{
+                state.afterLogin = {...action.payload, show_skip_button : action.payload.questions.question.find((question)=>(question.required_question === '1')) ? false : true };
             }
         },
         FetchMySubRegistration() {},
@@ -89,6 +90,30 @@ export const SubRegistrationSlice = createSlice({
             } else {
                 AsyncStorageClass.setItem('skip_sub_reg', 'true');
             }
+        },
+        clearState(state){
+            state.afterLogin= {
+                labels: [],
+                settings: null,
+                questions: null,
+                skip_msg: 0,
+                alert_label: '',
+                error_msg: '',
+                first_time: '',
+                min_alert_label: '',
+                displaySubregistration: '',
+                all_programs: [],
+                show_skip_button:false,
+            };
+            state.submitting=false;
+            state.redirect='';
+            state.skip=false;
+            state.mySubReg=null;
+            if (Platform.OS === 'web') {
+                localStorage.removeItem('skip_sub_reg');
+            } else {
+                AsyncStorageClass.removeItem('skip_sub_reg');
+            }
         }
     },
 })
@@ -102,6 +127,7 @@ export const SubRegistrationActions = {
     SaveSubRegistration:SubRegistrationSlice.actions.SaveSubRegistration,
     SubmitSuccess:SubRegistrationSlice.actions.SubmitSuccess,
     setSkip:SubRegistrationSlice.actions.setSkip,
+    clearState:SubRegistrationSlice.actions.clearState,
 }
 export const SelectSubRegistrationAfterLogin = (state: RootState) => state.subRegistration.afterLogin
 export const SelectSubRegistrationMySubreg = (state: RootState) => state.subRegistration.mySubReg

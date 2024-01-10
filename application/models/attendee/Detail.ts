@@ -8,10 +8,15 @@ export interface Detail {
     speaker_setting: SpeakerSetting;
     setting: Setting;
     field_setting: FieldSetting;
+    sort_field_setting: any;
+    sort_field_labels: any;
     sub_registration: SubRegistration;
     sub_registration_module_status?: number;
     is_favourite?: number;
     is_speaker?: number;
+    custom_fields?:any;
+    show_hotel_management?:number;
+    show_hotels?:number;
 }
 
 interface Setting {
@@ -234,6 +239,7 @@ interface AttendeeDetail {
     gdpr?: number;
     current_event_attendee?: CurrentEventAttendee;
     categories: Category[];
+    attendee_type_name?:string;
 }
 
 interface CurrentEventAttendee {
@@ -306,11 +312,13 @@ interface Info {
     country?: string;
     organization?: string;
     department?: string;
-    custom_field_id2793?: string;
     billing_ref_attendee?: string;
     billing_password?: string;
     place_of_birth?: string;
     passport_no?: string;
     date_of_issue_passport?: string;
     date_of_expiry_passport?: string;
+    private_country_display_name?: string;
+    country_display_name?: string;
+    [prop: string]: any;
 }

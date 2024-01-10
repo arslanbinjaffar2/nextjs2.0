@@ -2,6 +2,8 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Master from 'application/screens/web/layouts/Master';
 
+import IndexTemplate from 'application/components/templates/business/web/Index';
+
 type indexProps = {
     navigation: unknown
 }
@@ -9,9 +11,7 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
 
     return (
-        <Master>
-
-        </Master>
+            <IndexTemplate/>
     );
 };
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Container, HStack, Icon, Spacer, Text, Pressable } from 'native-base';
+import { Container, HStack, Icon, Spacer, Text, Pressable, Box } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Master from 'application/screens/web/layouts/Master';
 import Detail from 'application/components/templates/event_info/Detail';
@@ -8,6 +8,8 @@ import UseInfoService from 'application/store/services/UseInfoService';
 import { useRouter } from 'solito/router'
 import { createParam } from 'solito';
 import UseEventService from 'application/store/services/UseEventService';
+import SectionLoading from 'application/components/atoms/SectionLoading';
+import UseLoadingService from 'application/store/services/UseLoadingService';
 
 type ScreenParams = { id: any, cms: any }
 
@@ -15,7 +17,9 @@ const { useParam } = createParam<ScreenParams>()
 
 const PageDetail = (props: any) => {
 
-  const { page, FetchPage, parent_folder } = UseInfoService();
+  const { loading } = UseLoadingService();
+
+  const { page, FetchPage, parent_folder, ClearState } = UseInfoService();
 
   const { push } = useRouter()
 
@@ -29,28 +33,41 @@ const PageDetail = (props: any) => {
     if (id && cms) {
       FetchPage({ id: Number(id), type: cms });
     }
+    return () => {
+        ClearState();
+    }
   }, [id, cms]);
 
   return (
-    <Master>
+    <>
+      {(loading || !page) ? (
+        <SectionLoading />
+      ) : (
       <Container pt="2" maxW="100%" w="100%">
-        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
           <HStack space="3" alignItems="center">
             <Pressable
               onPress={() => {
-                push(`/${event.url}/${cms}/event-info/${parent_folder}`)
+                if(cms !== 'information-pages'){
+                  push(`/${event.url}/${cms}/event-info/${parent_folder}`)
+                }else{
+                  push(`/${event.url}/${cms}/${parent_folder}`)
+                }
               }}
             >
-              <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-              <Text fontSize="2xl">BACK</Text>
+              <HStack>
+                <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                <Text fontSize="2xl">BACK</Text>
+              </HStack>
             </Pressable>
           </HStack>
-          <Spacer />
           <Text fontSize="xl">{page.name}</Text>
+          <Box minWidth={70}> </Box>
         </HStack>
         <Detail />
       </Container>
-    </Master>
+      ) }
+    </>
   );
 };
 

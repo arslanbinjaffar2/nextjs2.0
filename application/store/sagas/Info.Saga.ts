@@ -1,6 +1,6 @@
 import { SagaIterator } from '@redux-saga/core'
 
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import { getInfoApi, getPageApi } from 'application/store/api/Info.api';
 
@@ -21,8 +21,8 @@ function* OnGetInfo({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getInfoApi, payload, state)
-    yield put(InfoActions.update(response.data.data.records!))
-    yield put(InfoActions.updateParentFolder(response.data.data.parent?.parent_id!))
+    yield put(InfoActions.update(response?.data?.data?.records!))
+    yield put(InfoActions.updateParentFolder(response?.data?.data?.parent?.parent_id!))
     yield put(LoadingActions.set(false));
 }
 
@@ -42,8 +42,8 @@ function* OnGetPage({
 
 // Watcher Saga
 export function* InfoWatcherSaga(): SagaIterator {
-    yield takeEvery(InfoActions.FetchInfo.type, OnGetInfo)
-    yield takeEvery(InfoActions.FetchPage.type, OnGetPage)
+    yield takeLatest(InfoActions.FetchInfo.type, OnGetInfo)
+    yield takeLatest(InfoActions.FetchPage.type, OnGetPage)
 }
 
 export default InfoWatcherSaga

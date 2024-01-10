@@ -8,9 +8,13 @@ type PropTypes = {
   question: Question,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
-  error:string|null
+  error:string|null,
+  labels:any,
+  forceRender:number,
 }
-const DropdownAnswer = ({ question, formData, updateFormData, error }: PropTypes) => {
+const DropdownAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
+  
+
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="5" py="3" px="4" w="100%">
@@ -20,29 +24,31 @@ const DropdownAnswer = ({ question, formData, updateFormData, error }: PropTypes
           placeholder="Please Select"
           minWidth="64"
           h="50px"
-          selectedValue={formData[question.id]?.answer[0]}
+          selectedValue={formData[question.id]?.answer !== null && formData[question.id]?.answer.length > 0 ? formData[question.id]?.answer[0] : ``}
           onValueChange={answer => updateFormData(question.id, question.question_type, answer)}
         >
           {question?.answer.map((answer, key)=>(<Select.Item  key={key} label={answer.answer} value={`${answer.id}`} />))}
         </Select>
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
-              <Text color="red.400"> {error} </Text>
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
+              <Text color="red.900"> {error} </Text>
       </Box>}
       {Number(question.enable_comments) === 1 &&
         <>
           <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
             <Icodocument width="15px" height="18px" />
-            <Text fontSize="lg">Write comment</Text>
+            <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
           </HStack>
           <Box py="3" px="4" w="100%">
-            <TextArea
-              p="0"
-              h="30px"
-              focusOutlineColor="transparent"
-              _focus={{ bg: 'transparent' }}
-              onChangeText={(text) => updateFormData(question.id, 'comment', text)}
-              borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+             <TextArea
+              p="3"
+              mb={1}
+              h="100px"
+              bg={'primary.darkbox'}
+              defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
+              onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}
+              borderWidth="0" fontSize="md" placeholder={labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
+              <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
           </Box>
         </>
       }

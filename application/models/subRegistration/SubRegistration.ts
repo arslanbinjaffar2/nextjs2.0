@@ -73,6 +73,7 @@ export interface Answer {
   updated_at: string;
   deleted_at: string;
   sub_registration_limit: string;
+  total_answer_submissions: number|string;
   info: Info2[];
   tickets?: string;
 }

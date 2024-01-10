@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getQaProgramDetailApi, getQaProgramListingApi, getQaTabListingsApi, submitQaApi } from 'application/store/api/Qa.Api'
+import { getQaProgramDetailApi, getQaProgramListingApi, getQaTabListingsApi, submitQaApi, submitQaLikeApi } from 'application/store/api/Qa.Api'
 
 import { QaActions } from 'application/store/slices/Qa.Slice'
 
@@ -26,7 +26,7 @@ function* OnFetchPrograms({
 function* OnFetchProgramDetail({
     payload
 }: {
-    type: typeof QaActions.OnFetchPrograms
+    type: typeof QaActions.OnFetchProgramDetail
     payload: { id: number }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({process:'qa-detail'}))
@@ -47,7 +47,7 @@ function* OnFetchProgramDetail({
 function* OnFetchTabDetails({
     payload
 }: {
-    type: typeof QaActions.OnFetchPrograms
+    type: typeof QaActions.OnFetchTabDetails
     payload: { id: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
@@ -65,12 +65,27 @@ function* OnFetchTabDetails({
 function* SubmitQa({
     payload
 }: {
-    type: typeof QaActions.OnFetchPrograms
+    type: typeof QaActions.SubmitQa
     payload: any
 }): SagaIterator {
+    yield put(LoadingActions.addProcess({process:'qa-submitting'}))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(submitQaApi, payload, state)
     yield put(QaActions.OnFetchTabDetails({id:payload.agenda_id}))
+    yield put(LoadingActions.removeProcess({process:'qa-submitting'}))
+}
+
+function* SubmitQaLike({
+    payload
+}: {
+    type: typeof QaActions.SubmitQaLike
+    payload: any
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:`qa-like-${payload.question_id}`}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(submitQaLikeApi, payload, state)
+    yield put(QaActions.OnFetchTabDetails({id:payload.agenda_id}))
+    yield put(LoadingActions.removeProcess({process:`qa-like-${payload.question_id}`}))
 }
 
 
@@ -83,6 +98,7 @@ export function* QaWatcherSaga(): SagaIterator {
     yield takeEvery(QaActions.OnFetchProgramDetail.type, OnFetchProgramDetail)
     yield takeEvery(QaActions.OnFetchTabDetails.type, OnFetchTabDetails)
     yield takeEvery(QaActions.SubmitQa.type, SubmitQa)
+    yield takeEvery(QaActions.SubmitQaLike.type, SubmitQaLike)
 }
 
 export default QaWatcherSaga

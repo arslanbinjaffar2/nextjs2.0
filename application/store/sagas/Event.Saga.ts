@@ -15,6 +15,7 @@ import { ErrorActions } from 'application/store/slices/Error.slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
+import { NetworkInterestActions } from '../slices/NetworkInterest.Slice';
 
 function* OnGetEvent({
     payload,
@@ -26,6 +27,9 @@ function* OnGetEvent({
     const env = yield select(state => state);
     const response: HttpResponse = yield call(getEventApi, payload, env)
     yield put(EventActions.update(response.data.data.event!))
+    if(response.data.data.event.keyword_settings.show_after_login == 0){
+        yield put(NetworkInterestActions.setSkip());
+    }
     yield put(LoadingActions.set(false));
 }
 

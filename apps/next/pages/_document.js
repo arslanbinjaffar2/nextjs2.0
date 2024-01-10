@@ -151,6 +151,15 @@ body {
 .rdtTime .rdtSwitch,.rdtTimeToggle {
   display: none !important;
 }
+.ebs-iframe-content * {
+  line-height: 1.2;
+}
+.ebs-iframe-content img {
+  max-width: 100%;
+}
+.r-zIndex-1ufr4wv + .r-zIndex-1ufr4wv{
+  z-index: 8 !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {

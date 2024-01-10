@@ -10,23 +10,28 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import TrackRectangleDetailView from 'application/components/atoms/programs/tracks/RectangleDetailView';
 import LoadMore from 'application/components/atoms/LoadMore';
+import UseEventService from 'application/store/services/UseEventService';
 
 const Index = () => {
 
-    const [tab, setTab] = useState<string>('program');
-
+    
     const mounted = React.useRef(false);
-
-    const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track } = UseProgramService();
-
+    
+    const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track, parent_track, ResetTracks } = UseProgramService();
+    
     const { loading, scroll, processing } = UseLoadingService();
-
+    
     const { response } = UseAuthService();
+    
+    const { event, modules  } = UseEventService();
 
+    const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
+    
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['program', 'my-program'])) {
-                FetchPrograms({ page: 1, query: '', screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: track_id });
+                FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
+                FetchPrograms({ page: 1, query: '', screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: track_id });                
             } else if (tab === "track") {
                 FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
             }
@@ -53,7 +58,11 @@ const Index = () => {
     }
 
     React.useEffect(() => {
-        FetchPrograms({ query: '', page: 1, screen: tab, id: 0, track_id: 0 });
+        if(event?.agenda_settings?.agenda_list == 1){
+            FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
+        }else{
+            FetchPrograms({ query: '', page: 1, screen: tab, id: 0, track_id: 0 });
+        }
     }, []);
 
     return (
@@ -61,20 +70,29 @@ const Index = () => {
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text fontSize="2xl">PROGRAMS</Text>
                 <Spacer />
-                <Search tab={tab} />
+                {event?.eventsite_settings?.agenda_search_filter == 1 && <Search tab={tab} />}
             </HStack>
             <HStack mb="3" space={1} justifyContent="center" w="100%">
-                <Button onPress={() => setTab('program')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.darkbox' : 'primary.box'} w={'33%'} _text={{ fontWeight: '600' }}>PROGRAMS</Button>
-                <Button onPress={() => setTab('my-program')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.darkbox' : 'primary.box'} w={'33%'} _text={{ fontWeight: '600' }}>MY PROGRAMS</Button>
-                <Button onPress={() => setTab('track')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'track' ? 'primary.darkbox' : 'primary.box'} w={'33%'} _text={{ fontWeight: '600' }}>TRACKS</Button>
+                {(event?.agenda_settings?.agenda_list == 0 || event?.agenda_settings?.agenda_tab == 1) && <Button onPress={() => {
+                    ResetTracks();
+                    setTab('program')
+                }} borderWidth="1px" py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.box' : 'primary.darkbox'} w={event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}>PROGRAMS</Button>}
+                {(modules?.find((m)=>(m.alias == 'myprograms'))) &&<Button onPress={() => {
+                    ResetTracks();
+                    setTab('my-program');
+                }} borderWidth="1px" borderRightRadius={(event?.agenda_settings?.agenda_tab == 0 && event?.agenda_settings?.agenda_list == 0) ? 8 : 0} borderLeftRadius={(event?.agenda_settings?.agenda_tab == 0 && event?.agenda_settings?.agenda_list == 1) ? 8 : 0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.box' : 'primary.darkbox'} w={event?.agenda_settings?.agenda_tab == 1 ? '33%': '50%'} _text={{ fontWeight: '600' }}>MY PROGRAMS</Button>}
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button onPress={() => setTab('track')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'track' ? 'primary.box' : 'primary.darkbox'} w={ event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}>TRACKS</Button>}
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack mb="3" pt="2" w="100%" space="3">
-                    <Text flex="1" textTransform="uppercase" fontSize="xs">{track?.name}</Text>
+                    <Text flex="1" textTransform="uppercase" fontSize="xs">{track.parent_id !== 0 ?  `${parent_track.name}   >   ${track?.name}` : track?.name}</Text>
                     <Pressable
                         onPress={async () => {
-                            if (tab === 'track') {
-                                FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
+                            if (in_array(tab, ['track', 'track-program', 'sub-track'])) {
+                                FetchTracks({ page: 1, query: '', screen: tab, track_id: (track?.parent_id !== undefined ? track?.parent_id : 0) });
+                                if(tab === 'track-program'){
+                                    setTab('sub-track');
+                                }
                             } else {
                                 FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                             }
@@ -88,9 +106,9 @@ const Index = () => {
             ) : (
                 <>
                     {in_array(tab, ['program', 'my-program', 'track-program']) && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                        <SlideView section="program" programs={programs} />
+                        <SlideView section={tab} programs={programs} />
                     </Container>}
-                    {in_array(tab, ['track']) && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                    {in_array(tab, ['track', 'sub-track']) && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                         {tracks?.map((track: any, key: any) =>
                             <TrackRectangleDetailView key={key} track={track} border={tracks.length != (key + 1)} updateTab={updateTab} />
                         )}

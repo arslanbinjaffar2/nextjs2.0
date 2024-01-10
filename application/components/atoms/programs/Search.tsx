@@ -4,6 +4,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import debounce from 'lodash.debounce';
 import UseProgramService from 'application/store/services/UseProgramService';
 import in_array from "in_array";
+import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
     tab: string,
@@ -13,6 +14,8 @@ type AppProps = {
 const Search = ({ tab, w }: AppProps) => {
 
     const { FetchPrograms, query, id, track_id } = UseProgramService();
+
+    const { event } = UseEventService();
 
     const [searchQuery, setSearch] = React.useState('')
 
@@ -35,7 +38,7 @@ const Search = ({ tab, w }: AppProps) => {
     }, [query]);
 
     return (
-        <Input rounded="10" w={w ? w : '60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+        <Input rounded="10" w={w ? w : '60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels.GENERAL_SEARCH} onChangeText={(text: string) => {
             search(text);
             setSearch(text);
         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />

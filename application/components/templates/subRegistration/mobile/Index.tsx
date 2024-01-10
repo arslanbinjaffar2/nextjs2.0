@@ -24,6 +24,9 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
+import { error } from 'application/store/slices/Auth.Slice';
+import MobileLoading from 'application/components/atoms/MobileLoading';
+import { useFocusEffect } from '@react-navigation/native'
 
 
 type ScreenParams = { id: string }
@@ -74,7 +77,9 @@ const Detail = () => {
       };
     }
     if(type === 'multiple'){
-          newFormData[question_id].answer = answer      
+          newFormData[question_id].answer = answer 
+          setUpdates(updates + 1);
+
     }
     else if(type === 'single'){
       newFormData[question_id].answer = [answer]
@@ -106,16 +111,16 @@ const Detail = () => {
     setFormData(newFormData);
   }
 
-
-    React.useEffect(() => {
-            FetchSubRegistrationAfterLogin();
-    }, []);
-
-    React.useEffect(() => {
+    useFocusEffect(React.useCallback(() => {
+      FetchSubRegistrationAfterLogin();
+    }, [])
+  );
+    useFocusEffect(React.useCallback(() => {
       if(skip === true){
-          push(`/${event.url}/dashboard`)
+        push(`/${event.url}/dashboard`)
       }
-    }, [skip]);
+    }, [skip])
+  );
 
     const validate = async () => {
       let error = false;
@@ -123,19 +128,19 @@ const Detail = () => {
         for(const activeQuestion of afterLogin?.questions?.question!){
         if(Number(activeQuestion?.required_question) === 1){
           if(activeQuestion?.question_type === 'multiple'){
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer.length <= 0){
               newFormData[activeQuestion.id!] = {
                   error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
                 };
               error  = true;
             }
-            else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
+            else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!]?.answer.length < activeQuestion.min_options){
               newFormData[activeQuestion.id!] = {
                   error: `min option ${activeQuestion.min_options}`
                 };
                 error  = true;
             }
-            else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
+            else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!]?.answer.length > activeQuestion.max_options){
               newFormData[activeQuestion.id!] = {
                   error:`max option ${activeQuestion.max_options}`
                 };
@@ -143,7 +148,7 @@ const Detail = () => {
             }
           }
           else if(activeQuestion?.question_type === 'single') {
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer.length <= 0){
                 console.log('single', activeQuestion.id)
                 newFormData[activeQuestion.id!] = {
                   error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED,
@@ -152,7 +157,7 @@ const Detail = () => {
             }
           }
           else if(activeQuestion?.question_type === 'dropdown') {
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer.length <= 0){
               newFormData[activeQuestion.id!] = {
                   error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
                 };
@@ -161,7 +166,7 @@ const Detail = () => {
           }
          
           else if(activeQuestion?.question_type === 'matrix') {
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || Object.keys(formData[activeQuestion?.id!].answer).length < activeQuestion.answer.length){
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || Object.keys(formData[activeQuestion?.id!]?.answer).length < activeQuestion.answer.length){
               newFormData[activeQuestion.id!] = {
                   error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
                 };
@@ -169,7 +174,7 @@ const Detail = () => {
             } 
           }
           else{
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === ''){
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer === ''){
                 newFormData[activeQuestion.id!] = {
                   error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
                 };
@@ -185,15 +190,18 @@ const Detail = () => {
 
     const onSubmit = async ( ) => {
       const isError = await validate();
+
+      console.log(isError);
+      console.log(errors);
       
       if(!isError){
          const answers = afterLogin?.questions?.question
          .reduce(
            (ack:any, item:any) => {
-           if(item.question_type === "multiple" &&  formData[item.id].answer.length > 0){
-             let newObj ={ [`answer${item.id}`]: formData[item.id].answer.map((item:any) =>(item)), [`comments${item.id}`]:formData[item.id].comment }
+           if(item.question_type === "multiple" &&  formData[item.id]?.answer.length > 0){
+             let newObj ={ [`answer${item.id}`]: formData[item.id]?.answer.map((item:any) =>(item)), [`comments${item.id}`]:formData[item.id]?.comment }
              let agendas = item?.answer?.filter((filterItem:any)=>(filterItem.link_to > 0))?.reduce((ack:any, ritem:any) => {
-               if(formData[item.id].answer.map((item:any)=>(item)).indexOf(ritem) !== -1){
+               if(formData[item.id]?.answer.map((item:any)=>(item)).indexOf(ritem) !== -1){
                 return Object.assign(ack, { [`answer_agenda_${ritem.id}`] : ritem.link_to })
                }
                return ack;          
@@ -204,28 +212,29 @@ const Detail = () => {
              }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "single" && formData[item.id].answer.length > 0){
-             let newObj ={ [`answer${item.id}`]: formData[item.id].answer, [`comments${item.id}`]:formData[item.id].comment }
-             if((item.answer.find((answer:any)=>(formData[item.id].answer[0] === answer.id))?.link_to ?? 0) > 0){
-               newObj ={...newObj,[`answer_agenda_${formData[item.id].answer[0]}`] : item.answer.find((answer:any)=>(formData[item.id].answer[0] === answer.id))?.link_to ?? 0};
+           else if(item.question_type === "single" && formData[item.id]?.answer.length > 0){
+             let newObj ={ [`answer${item.id}`]: formData[item.id]?.answer, [`comments${item.id}`]:formData[item.id]?.comment }
+             
+             if((item.answer.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0) > 0){
+               newObj ={...newObj,[`answer_agenda_${formData[item.id]?.answer[0]}`] : item.answer.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0};
              }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "dropdown" && formData[item.id].answer.length > 0){
-             let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id].answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id].answer[0] === answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
+           else if(item.question_type === "dropdown" && formData[item.id]?.answer.length > 0){
+             let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id]?.answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "matrix" && Object.keys(formData[item.id].answer).length > 0){
-             let newObj ={ [`answer${item.id}`]: Object.keys(formData[item.id].answer), [`comments${item.id}`]: formData[item.id].comment }
-             let matrix = Object.keys(formData[item.id].answer).reduce((ack, ritem) => {
-                return Object.assign(ack, { [`answer_matrix${item.id}_${ritem}`] : [`${ritem}-${formData[item.id].answer[ritem]}`] })},
+           else if(item.question_type === "matrix" && Object.keys(formData[item.id]?.answer).length > 0){
+             let newObj ={ [`answer${item.id}`]: Object.keys(formData[item.id]?.answer), [`comments${item.id}`]: formData[item.id]?.comment }
+             let matrix = Object.keys(formData[item.id]?.answer).reduce((ack, ritem) => {
+                return Object.assign(ack, { [`answer_matrix${item.id}_${ritem}`] : [`${ritem}-${formData[item.id]?.answer[ritem]}`] })},
                
              {})
              return Object.assign(ack, {...newObj, ...matrix} );
            }
            else{
-             if(formData[item.id] !== undefined && formData[item.id].answer.length > 0){
-               return Object.assign(ack, { [`answer_${item.question_type}${item.id}`]: [formData[item.id].answer], [`comments${item.id}`]:formData[item.id].comment} );
+             if(formData[item.id] !== undefined && formData[item.id]?.answer.length > 0){
+               return Object.assign(ack, { [`answer_${item.question_type}${item.id}`]: [formData[item.id]?.answer], [`comments${item.id}`]:formData[item.id]?.comment} );
              }else{
                return ack;
              }
@@ -249,9 +258,9 @@ const Detail = () => {
     }
 
   return (
-    <>
+    <Container mb="3" maxW="100%" w="100%">
       {loading ? (
-                <WebLoading />
+                <MobileLoading />
             ) : (
             <Container mb="3" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
@@ -261,10 +270,10 @@ const Detail = () => {
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                 {afterLogin?.questions?.question.length! > 0 &&  afterLogin?.questions?.question.map((item, index)=>(
                     <React.Fragment key={item.id}>
-                    {item.question_type === 'matrix' && <MatrixAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
-                    {item.question_type === 'multiple' && <MultipleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'single' && <SingleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'dropdown' && <DropdownAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
+                    {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer settings={afterLogin.settings!} programs={afterLogin.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'single' && item.display_question === "yes" && <SingleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'dropdown' && item.display_question === "yes" && <DropdownAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
                     {item.question_type === 'open' && <OpenQuestionAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
                     {item.question_type === 'number' && <NumberAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
                     {item.question_type === 'date' && <DateAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
@@ -274,7 +283,8 @@ const Detail = () => {
                 <Box py="0" px="4" w="100%">
                   <Divider mb="15" opacity={0.27} bg="primary.text" />
                   <HStack mb="3" space="3" alignItems="center">
-                     <Button
+                     {afterLogin.show_skip_button &&
+                      <Button
                       bg="transparent"
                       p="2"
                       textTransform={'uppercase'}
@@ -285,7 +295,7 @@ const Detail = () => {
                       }}
                     >
                       Skip
-                    </Button>
+                    </Button>}
                     <Spacer />
                     
                       <Button
@@ -304,7 +314,7 @@ const Detail = () => {
               </Box>}
             </Container>
       )}
-    </>
+    </Container>
   );
 };
 

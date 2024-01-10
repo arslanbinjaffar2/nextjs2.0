@@ -44,6 +44,7 @@ module.exports = withNativebase({
       APP_EVENTCENTER_BASE_URL: process.env.APP_EVENTCENTER_BASE_URL,
       APP_API_GATEWAY_URL: process.env.APP_API_GATEWAY_URL,
       APP_SERVER_ENVIRONMENT: process.env.APP_SERVER_ENVIRONMENT,
+      APP_SOCKET_SERVER: process.env.APP_SOCKET_SERVER,
     },
   },
 })

@@ -3,13 +3,13 @@ import { Platform } from 'react-native';
 import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 
 
-export default function makeApi(baseURL: string) {
+export default function makeApi(baseURL: string, multiPartFormData = false) {
 
     const api = axios.create({
         baseURL,
     })
 
-    api.defaults.headers.post['Content-Type'] = "application/json";
+    api.defaults.headers.post['Content-Type'] = multiPartFormData ? "multipart/form-data" : "application/json";
 
     api.defaults.headers.put['Content-Type'] = "application/json";
 

@@ -17,11 +17,14 @@ export interface ProgramState {
     detail: Detail,
     tracks: Track[],
     track: Track,
+    parent_track: Track,
     query: string,
     screen: string,
     page: number,
     id: number,
     track_id: number,
+    favouriteProgramError:string,
+    agendas_attached_via_group:number[],
 }
 
 const initialState: ProgramState = {
@@ -29,11 +32,14 @@ const initialState: ProgramState = {
     detail:{},
     tracks: [],
     track: {},
+    parent_track: {},
     query: '',
     screen: '',
     page: 1,
     id: 0,
     track_id: 0,
+    favouriteProgramError:'',
+    agendas_attached_via_group:[],
 }
 
 // Slices
@@ -52,10 +58,29 @@ export const ProgramSlice = createSlice({
                 state.track = {};
             }
         },
-        update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track }>) {
+        update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track , agendas_attached_via_group:number[]}>) {
             const existed: any = current(state.programs);
-            state.programs = action.payload.page === 1 ? action.payload.programs : [...existed, ...action.payload.programs];
+            console.log(action.payload.programs.reduce((ack, item:any)=>{
+                let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
+                if(existingDate > -1){
+                    ack[existingDate] = [ ...ack[existingDate], ...item];
+                }else{
+                    ack.push(item);
+                }
+                return ack;
+            }, [...existed]));
+
+            state.programs = action.payload.page === 1 ? action.payload.programs : action.payload.programs.reduce((ack, item:any)=>{
+                let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
+                if(existingDate > -1){
+                    ack[existingDate] = [ ...ack[existingDate], ...item];
+                }else{
+                    ack.push(item);
+                }
+                return ack;
+            }, [...existed]);
             state.track = action.payload.track;
+            state.agendas_attached_via_group = action.payload.agendas_attached_via_group;
         },
         FetchTracks(state, action: PayloadAction<{ query: string, page: number, screen: string, track_id: number }>) {
             state.query = action.payload.query;
@@ -70,12 +95,24 @@ export const ProgramSlice = createSlice({
         UpdateTracks(state, action: PayloadAction<{ tracks: Track[], query: string, page: number, track: Track }>) {
             const existed: any = current(state.programs);
             state.tracks = action.payload.page === 1 ? action.payload.tracks : [...existed, ...action.payload.tracks];
+            if(action.payload.track.parent_id == 0){
+                state.parent_track = action.payload.track;
+            }
             state.track = action.payload.track;
         },
         MakeFavourite(state, action: PayloadAction<{ program_id: number, screen: string }>) { },
         FetchProgramDetail(state, action: PayloadAction<{ id: number }>) { },
         UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
+        },
+        SetFavouriteProgramError(state, action : PayloadAction<string>){
+            state.favouriteProgramError = action.payload;
+        },
+        ResetTracks(state) {
+            state.track_id = 0;
+            state.tracks = [];
+            state.track = {};
+            state.parent_track = {};
         },
     },
 })
@@ -89,6 +126,8 @@ export const ProgramActions = {
     UpdateTracks: ProgramSlice.actions.UpdateTracks,
     FetchProgramDetail: ProgramSlice.actions.FetchProgramDetail,
     UpdateDetail: ProgramSlice.actions.UpdateDetail,
+    SetFavouriteProgramError: ProgramSlice.actions.SetFavouriteProgramError,
+    ResetTracks: ProgramSlice.actions.ResetTracks,
 }
 
 export const SelectMyPrograms = (state: RootState) => state.programs.programs
@@ -105,7 +144,13 @@ export const SelectTracks = (state: RootState) => state.programs.tracks
 
 export const SelectTrackDetail = (state: RootState) => state.programs.track
 
+export const SelectParentTrackDetail = (state: RootState) => state.programs.parent_track
+
 export const SelectProgramDetail = (state: RootState) => state.programs.detail
+
+export const SelectFavouriteProgramError = (state: RootState) => state.programs.favouriteProgramError
+
+export const SelectAgendasAttachedViaGroup = (state: RootState) => state.programs.agendas_attached_via_group
 
 // Reducer
 export default ProgramSlice.reducer

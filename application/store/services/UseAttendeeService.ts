@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName, SelectAttendeeDetail, SelectAttendeeCategory, SelectCategories, SelectCategoryName, SelectMyAttendees, SelectSelectTotal } from 'application/store/slices/Attendee.Slice'
+import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName, SelectAttendeeDetail, SelectAttendeeCategory, SelectCategories, SelectCategoryName, SelectMyAttendees, SelectSelectTotal, SelectHotels, SelectCategoryParendId } from 'application/store/slices/Attendee.Slice'
 
 import { Attendee } from 'application/models/attendee/Attendee'
 
@@ -24,12 +24,15 @@ export type AttendeeServiceOperators = {
     groups: Group[]
     categories: Category[]
     total: Number
+    hotels:any
+    parent_id:number
     FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }) => void
     FetchGroups: (payload: { query: string, page: number, group_id: number, attendee_id: number, program_id: number }) => void
     MakeFavourite: (payload: { attendee_id: number, screen: string }) => void
     FetchAttendeeDetail: (payload: { id: number, speaker: number }) => void
-    UpdateCategory: (payload: { category_id: number, category_name: string }) => void
+    UpdateCategory: (payload: { category_id: number, category_name: string, parent_id:number }) => void
     FetchCategories: (payload: { parent_id: number, query: string, page: number, cat_type: string }) => void
+    FetchHotels: () => void
 }
 
 /**
@@ -47,12 +50,14 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         category_id: useAppSelector(SelectAttendeeCategory),
         group_name: useAppSelector(SelectGroupName),
         category_name: useAppSelector(SelectCategoryName),
+        parent_id: useAppSelector(SelectCategoryParendId),
         attendees: useAppSelector(SelectAttendees),
         my_attendees: useAppSelector(SelectMyAttendees),
         groups: useAppSelector(SelectGroups),
         detail: useAppSelector(SelectAttendeeDetail),
         categories: useAppSelector(SelectCategories),
         total: useAppSelector(SelectSelectTotal),
+        hotels: useAppSelector(SelectHotels),
         FetchAttendees: useCallback(
             (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }) => {
                 dispatch(AttendeeActions.FetchAttendees(payload))
@@ -78,7 +83,7 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
             [dispatch],
         ),
         UpdateCategory: useCallback(
-            (payload: { category_id: number, category_name: string }) => {
+            (payload: { category_id: number, category_name: string, parent_id:number }) => {
                 dispatch(AttendeeActions.UpdateCategory(payload))
             },
             [dispatch],
@@ -86,6 +91,12 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         FetchCategories: useCallback(
             (payload: { parent_id: number, query: string, page: number, cat_type: string }) => {
                 dispatch(AttendeeActions.FetchCategories(payload))
+            },
+            [dispatch],
+        ),
+        FetchHotels: useCallback(
+            () => {
+                dispatch(AttendeeActions.FetchHotels())
             },
             [dispatch],
         ),

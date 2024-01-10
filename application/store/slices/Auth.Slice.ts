@@ -90,8 +90,11 @@ const AuthSlice = createSlice({
                 } else {
                     AsyncStorageClass.setItem('access_token', action.payload.data.access_token);
                 }
+                state.isLoggedIn = true;
             }
-            state.isLoggedIn = true;
+            else if(action?.payload?.data?.user !== undefined){
+                state.isLoggedIn = true;
+            }
         },
         failed(state, action: PayloadAction<string>) {
             state.processing = false;
@@ -103,10 +106,8 @@ const AuthSlice = createSlice({
             state.response = { redirect: 'login' };
             if (Platform.OS === 'web') {
                 localStorage.removeItem('access_token');
-                localStorage.removeItem('skip_sub_reg');
             } else {
                 AsyncStorageClass.removeItem('access_token');
-                AsyncStorageClass.removeItem('skip_sub_reg');
             }
         },
         loadToken(state, action: PayloadAction<boolean>) {

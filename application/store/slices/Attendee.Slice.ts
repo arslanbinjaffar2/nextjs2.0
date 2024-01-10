@@ -30,6 +30,7 @@ export interface AttendeeState {
     category_name: string,
     total: number,
     program_id: number,
+    hotels:any
 }
 
 const initialState: AttendeeState = {
@@ -43,6 +44,11 @@ const initialState: AttendeeState = {
         sub_registration: {},
         setting: {},
         field_setting: {},
+        sort_field_labels:{},
+        sort_field_setting:[],
+        show_hotel_management:0,
+        show_hotels:0,
+        sub_registration_module_status:0,
     },
     groups: [],
     query: '',
@@ -55,6 +61,7 @@ const initialState: AttendeeState = {
     category_name: '',
     total: 0,
     program_id: 0,
+    hotels:null
 }
 
 // Slice
@@ -73,8 +80,10 @@ export const AttendeeSlice = createSlice({
                 state.category_name = '';
             }
             if (action.payload.page === 1) {
-                state.attendees = []
-                state.my_attendees = []
+                if(action.payload.screen !== 'dashboard-speakers'){
+                    state.my_attendees = []
+                }
+                state.attendees =  []
             }
         },
         FetchGroups(state, action: PayloadAction<{ query: string, page: number, group_id: number, attendee_id: number, program_id: number }>) {
@@ -105,9 +114,10 @@ export const AttendeeSlice = createSlice({
         UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
         },
-        UpdateCategory(state, action: PayloadAction<{ category_id: number, category_name: string }>) {
+        UpdateCategory(state, action: PayloadAction<{ category_id: number, category_name: string, parent_id:number }>) {
             state.category_id = action.payload.category_id;
             state.category_name = action.payload.category_name;
+            state.parent_id = action.payload.parent_id;
         },
         FetchCategories(state, action: PayloadAction<{ parent_id: number, query: string, page: number, cat_type: string }>) {
             state.query = action.payload.query;
@@ -122,7 +132,11 @@ export const AttendeeSlice = createSlice({
             const existed: any = current(state.categories);
             state.categories = action.payload.page === 1 ? action.payload.categories : [...existed, ...action.payload.categories];
             state.category_name = action.payload.category_name;
-        }
+        },
+        FetchHotels(){},
+        updateHotels(state, action: PayloadAction<any>){
+            state.hotels = action.payload
+        },
     },
 });
 
@@ -138,6 +152,8 @@ export const AttendeeActions = {
     UpdateCategory: AttendeeSlice.actions.UpdateCategory,
     FetchCategories: AttendeeSlice.actions.FetchCategories,
     UpdateCategories: AttendeeSlice.actions.UpdateCategories,
+    FetchHotels: AttendeeSlice.actions.FetchHotels,
+    updateHotels: AttendeeSlice.actions.updateHotels,
 }
 
 export const SelectAttendees = (state: RootState) => state.attendees.attendees
@@ -160,9 +176,13 @@ export const SelectAttendeeDetail = (state: RootState) => state.attendees.detail
 
 export const SelectAttendeeCategory = (state: RootState) => state.attendees.category_id
 
+export const SelectCategoryParendId = (state: RootState) => state.attendees.parent_id
+
 export const SelectCategories = (state: RootState) => state.attendees.categories
 
 export const SelectCategoryName = (state: RootState) => state.attendees.category_name
+
+export const SelectHotels = (state: RootState) => state.attendees.hotels
 
 // Reducer
 export default AttendeeSlice.reducer

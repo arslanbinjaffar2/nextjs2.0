@@ -11,6 +11,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
+import { DocumentActions } from '../slices/Document.Slice';
 
 function* OnGetExhibitors({
     payload,
@@ -58,6 +59,7 @@ function* OnGetExhibitorDetail({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getExhibitorDetailApi, payload, state)
     yield put(ExhibitorActions.updateExhibitorDetail(response.data.data!))
+    yield put(DocumentActions.update(response.data.data.documents!))
     yield put(LoadingActions.set(false));
 }
 

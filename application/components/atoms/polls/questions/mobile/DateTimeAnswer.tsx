@@ -8,12 +8,16 @@ type PropTypes = {
   question: Question,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
-  error:string|null
+  error:string|null,
+  labels:any,
+  forceRender:number,
 }
-const DateTimeAnswer = ({ question, formData, updateFormData }: PropTypes) => {
+const DateTimeAnswer = ({ question, formData, updateFormData, labels }: PropTypes) => {
   const [date, setDate] = React.useState();
   const [mode, setMode] = React.useState('date');
   const [show, setShow] = React.useState(false);
+  
+
   
   const onChange = (event:any, selectedDate:any) => {
     const currentDate = selectedDate;
@@ -49,7 +53,7 @@ const DateTimeAnswer = ({ question, formData, updateFormData }: PropTypes) => {
       </Box>
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
         <Icodocument width="15px" height="18px" />
-        <Text fontSize="lg">Write comment</Text>
+        <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
       </HStack>
       <Box py="3" px="4" w="100%">
         <TextArea
@@ -57,7 +61,10 @@ const DateTimeAnswer = ({ question, formData, updateFormData }: PropTypes) => {
           h="30px"
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
-          borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+          defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
+          onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}
+          borderWidth="0" fontSize="md" placeholder={labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
+          <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
       </Box>
     </Center>
   )

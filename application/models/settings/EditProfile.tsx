@@ -76,6 +76,7 @@ export interface Labels {
   private_state: string;
   company_street_2: string;
   company_state: string;
+  ATTENDEE_PROFILE_PICTURE?:string;
 }
 
 export interface Setting {
@@ -184,7 +185,7 @@ export interface Attendee {
   LAST_NAME_PASSPORT: string;
   BIRTHDAY_YEAR: string;
   EMPLOYMENT_DATE: string;
-  SPOKEN_LANGUAGE: string;
+  SPOKEN_LANGUAGE: any;
   image: string;
   status: number;
   show_home: string;
@@ -200,14 +201,17 @@ export interface Attendee {
   created_at: string;
   updated_at: string;
   deleted_at: string;
-  attendee_cv: string;
   cv: string;
   encrypted_cpr_number: string;
   info: Info;
   current_event_attendee: Currenteventattendee;
   countryName: string;
   callingCode?:string
-  gdpr?:boolean
+  gdpr?:boolean;
+  password?:string;
+  file?:any;
+  blob_image?:any;
+  attendee_cv?:any;
 }
 
 export interface Currenteventattendee {
@@ -303,4 +307,5 @@ export interface Info {
   private_country_name: string;
   custom_field_id3201: string;
   custom_field_id3224: string;
+  [prop:string]: string;
 }

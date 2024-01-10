@@ -35,6 +35,8 @@ const Detail = () => {
 
   const [tabs, settabs] = useState<string | null>('ABOUT');
 
+  const [forceUpdate, setForceUpdate] = useState<number>(0);
+
   const [steps, setsteps] = useState<number>(0);
 
   const [completed, setcompleted] = useState<boolean>(false);
@@ -72,7 +74,7 @@ const Detail = () => {
     if(newFormData[question_id] === undefined){
       newFormData[question_id] = {
         answer:null,
-        comment:null
+        comment:""
       };
     }
     if(type === 'multiple'){
@@ -103,6 +105,7 @@ const Detail = () => {
       newFormData[question_id].answer = answer
     }
     setFormData(newFormData);
+    setForceUpdate(forceUpdate + 1);
   }
 
     React.useEffect(() => {
@@ -186,10 +189,10 @@ const Detail = () => {
             if(q.question_type === 'single' || q.question_type === 'multiple' || q.question_type === 'dropdown' || q.question_type === 'matrix'){
               answeredQuestion['original_answers']= q.answer.map((answer)=>({id:answer.id, correct:answer.correct}));
               if(q.question_type === 'single'){
-                answeredQuestion['answers'] = [{id:(formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer[0] : ''}]
+                answeredQuestion['answers'] = formData[q.id] !== undefined && formData[q.id].answer.length > 0 ? [{id: formData[q.id].answer[0]}] : [];
               }
               else if(q.question_type === 'dropdown'){
-                answeredQuestion['answers'] = [{id:(formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer[0] : ''}]
+                answeredQuestion['answers'] = formData[q.id] !== undefined && formData[q.id].answer.length > 0 ? [{id: formData[q.id].answer[0]}] : [];
               }
               else if(q.question_type === 'multiple'){
                 answeredQuestion['answers'] = (formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer.map((i:number)=>({id:i})) : [];
@@ -203,7 +206,7 @@ const Detail = () => {
                 answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, i)=>([...ack, {value: formData[q.id].answer[i]}]), []) : [];
               }
               else{
-                answeredQuestion['answers'] = [{value:(formData[q.id] !== undefined && formData[q.id].answer !== null) ? formData[q.id].answer : ''}]
+                answeredQuestion['answers'] = (formData[q.id] !== undefined && formData[q.id].answer !== null) ? [{value: formData[q.id].answer }] : [];
               }
             }
             return answeredQuestion;
@@ -252,15 +255,15 @@ const Detail = () => {
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                 {detail?.questions.length! > 0 &&  detail?.questions[steps] !== undefined && (
                   <>
-                    {detail?.questions[steps].question_type === 'matrix' && <MatrixAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
-                    {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
-                    {detail?.questions[steps].question_type === 'single' && <SingleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
-                    {detail?.questions[steps].question_type === 'dropdown' && <DropdownAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
-                    {detail?.questions[steps].question_type === 'open' && <OpenQuestionAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}  />}
-                    {detail?.questions[steps].question_type === 'number' && <NumberAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
-                    {detail?.questions[steps].question_type === 'date' && <DateAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
-                    {detail?.questions[steps].question_type === 'date_time' && <DateTimeAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
-                    {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} />}
+                    {detail?.questions[steps].question_type === 'matrix' && <MatrixAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels}  forceRender={forceUpdate}/>}
+                    {detail?.questions[steps].question_type === 'single' && <SingleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'dropdown' && <DropdownAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'open' && <OpenQuestionAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels}  forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'number' && <NumberAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'date' && <DateAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'date_time' && <DateTimeAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
                   </>
                 )}
                 <Box py="0" px="4" w="100%">
@@ -319,7 +322,7 @@ const Detail = () => {
                   <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.text" rounded="full" alignItems="center" justifyContent="center">
                     <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
                   </Box>
-                  <Text fontSize="lg">Thanks for submitting.</Text>
+                  <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
                 </VStack>
               </Box>}
             </Container>

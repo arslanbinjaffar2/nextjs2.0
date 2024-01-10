@@ -17,12 +17,15 @@ import { useFocusEffect } from '@react-navigation/native'
 import PollListingByDate from 'application/components/organisms/polls/PollListingByDate';
 import UseBannerService from 'application/store/services/UseBannerService';
 import BannerSlider from 'application/components/organisms/banner/BannerSlider';
+import UseAuthService from 'application/store/services/UseAuthService';
 
 const Index = ({ navigation }: any) => {
 
   const [scroll, setScroll] = useState(false);
   const { polls, FetchPolls } = UsePollService();
   const { banners, FetchBanners } = UseBannerService();
+
+  const { response } = UseAuthService();
 
   useFocusEffect(React.useCallback(() => {
     FetchPolls();
@@ -56,7 +59,7 @@ const Index = ({ navigation }: any) => {
           <ProgramListing />
           <SpeakerRoundedList />
           <OurExhibitors />
-          {Object.keys(polls).length > 0 && <PollListingByDate polls={polls} />}
+          {Object.keys(polls).length > 0 && response?.attendee_detail?.event_attendee?.allow_vote === 1 && <PollListingByDate polls={polls} />}
           {banners.length > 0 && <BannerSlider banners={banners} />}
         </ScrollView>
       </Center>

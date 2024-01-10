@@ -19,12 +19,16 @@ import SurveySlice from './slices/Survey.Slice'
 import AlertSlice from './slices/Alert.Slice'
 import FloorPlanSlice from './slices/FloorPlan.Slice'
 import BannerSlice from './slices/Banner.Slice'
-import EditProfileSlice from './slices/EditProfile.Slice'
+import EditProfileSlice, { EditProfileActions } from './slices/EditProfile.Slice'
 import QaSlice from './slices/Qa.Slice'
 import SocialMediaSlice from './slices/SocialMedia.Slice'
 import CheckInOutSlice from './slices/CheckInOut.Slice'
-import { RootSaga } from 'application/store/sagas/Root'
 import SubRegistrationSlice from './slices/SubRegistration.Slice'
+import NetworkInterestSlice from './slices/NetworkInterest.Slice'
+import NotesSlice from './slices/Notes.Slice'
+import NotificationSlice from './slices/Notification.Slice'
+import SocketSlice, { SocketActions } from './slices/Socket.Slice'
+import { RootSaga } from 'application/store/sagas/Root'
 
 const makeStore = () => {
 
@@ -55,12 +59,26 @@ const makeStore = () => {
             socialMedia:SocialMediaSlice,
             checkInOut:CheckInOutSlice,
             subRegistration:SubRegistrationSlice,
+            networkInterest:NetworkInterestSlice,
+            notes:NotesSlice,
+            notifications:NotificationSlice,
+            socket:SocketSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
-            getDefaultMiddleware({ thunk: false })
-                .concat(sagaMiddleware)
-                .concat(logger),
+            getDefaultMiddleware({ thunk: false, 
+                serializableCheck: {
+                    // Ignore these action types
+                    ignoredActions: [
+                        EditProfileActions.UpdateAttendee.type, 
+                        SocketActions.SetSocket.type
+                    ],
+                    ignoredPaths: ['socket.socket']
+                    
+              },
+             })
+            .concat(sagaMiddleware)
+            .concat(logger),
     })
 
     sagaMiddleware.run(RootSaga)

@@ -26,6 +26,9 @@ export type QaServiceOperators = {
     FetchProgramDetail: (payload:{id:number}) => void,
     FetchTabDetails: (payload:{id:number}) => void,
     SubmitQa: (payload:any) => void,
+    SubmitQaLike: (payload:{question_id:number, agenda_id:number}) => void,
+    QaRecentPopularSocketUpdate: (payload:any) => void,
+    QaSort: (payload:any) => void,
 }
 
 /**
@@ -63,6 +66,24 @@ export const UseQaService = (): Readonly<QaServiceOperators> => {
         SubmitQa: useCallback(
             (payload: any) => {
                 dispatch(QaActions.SubmitQa(payload))
+            },
+            [dispatch],
+        ),
+        SubmitQaLike: useCallback(
+            (payload: {question_id:number, agenda_id:number}) => {
+                dispatch(QaActions.SubmitQaLike(payload))
+            },
+            [dispatch],
+        ),
+        QaRecentPopularSocketUpdate: useCallback(
+            (payload:any) => {
+                dispatch(QaActions.QaRecentPopularSocketUpdate(payload))
+            },
+            [dispatch],
+        ),
+        QaSort: useCallback(
+            (payload:any) => {
+                dispatch(QaActions.QaSort(payload))
             },
             [dispatch],
         ),
