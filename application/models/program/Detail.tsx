@@ -8,6 +8,8 @@ export interface Detail {
     authority_given?: number;
     authority_recieved?: number;
     document_id?: string;
+    group_count?:number;
+    has_documents?:number;
 }
 
 interface TabSetting {
@@ -36,6 +38,9 @@ export interface Program {
     start_date_time?: string;
     program_speakers?: any[];
     program_tracks?: any[];
+    qa?: number;
+    enable_checkin?: number;
+    hide_time?: number;
 }
 
 interface PollQuestion {

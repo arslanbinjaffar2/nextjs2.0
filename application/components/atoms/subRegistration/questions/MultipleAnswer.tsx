@@ -3,49 +3,53 @@ import { Box, Center, Checkbox, Divider, HStack, Heading, Text, TextArea, VStack
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData, Answer, Settings, Allprogram } from 'application/models/subRegistration/SubRegistration';
 import moment from 'moment';
+import UseEventService from 'application/store/services/UseEventService';
 
 type PropTypes = {
   updates:number,
   question: Question,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void
-  error:string|null
+  error:string|null,
+  canChangeAnswer?:number
   settings:Settings
   programs:Allprogram[]
 }
 
-const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, programs}: PropTypes) => {
+const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, programs, canChangeAnswer}: PropTypes) => {
+  const { event } = UseEventService()
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.[0]?.value} {Number(question?.required_question) === 1 && <Text color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
-        <VStack space="4">
+        <VStack space="3">
         <Checkbox.Group defaultValue={formData[question.id]?.answer} onChange={(answers) => { updateFormData(question.id, question.question_type, answers)}} aria-label={question?.info?.[0]?.value}>
           {question?.answer.map((answer, k) =>
-            <Checkbox key={k} size="md" isDisabled={checkIfProgramdisabled(answer, question.result, settings, programs, (formData[question.id]?.answer ?? []), question.answer)}   value={`${answer.id}`}>{answer?.info[0]?.value} </Checkbox>
+            <Checkbox colorScheme={'secondary'} mb={4} key={k} size="md" isDisabled={(canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : checkIfProgramdisabled(answer, question.result, settings, programs, (formData[question.id]?.answer ?? []), question.answer)}   value={`${answer.id}`}>{answer?.info[0]?.value} </Checkbox>
           )}
         </Checkbox.Group>
         </VStack>
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
-              <Text color="red.400"> {error} </Text>
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
+              <Text color="red.900"> {error} </Text>
       </Box>}
       {Number(question.enable_comments) === 1 &&
         <>
         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
           <Icodocument width="15px" height="18px" />
-          <Text fontSize="lg">Write comment</Text>
+          <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
         </HStack>
         <Box py="3" px="4" w="100%">
           <TextArea
-            p="0"
-            h="30px"
-            focusOutlineColor="transparent"
-            _focus={{ bg: 'transparent' }}
+            p="3"
+            mb={1}
+            h="100px"
+            bg={'primary.darkbox'}
+            isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
             onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}
-            borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+            borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
         </Box>
         </>
       }

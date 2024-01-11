@@ -18,7 +18,7 @@ export interface ExhibitorState {
     category_id: number,
     query: string,
     screen: string,
-    detail: ExhibitorDetail,
+    detail: ExhibitorDetail|null,
 }
 
 const initialState: ExhibitorState = {
@@ -29,7 +29,7 @@ const initialState: ExhibitorState = {
     category_id: 0,
     query: '',
     screen: 'exhibitors',
-    detail: {},
+    detail: null,
 }
 
 // Slice

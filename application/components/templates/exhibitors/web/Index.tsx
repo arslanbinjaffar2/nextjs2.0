@@ -12,12 +12,15 @@ import debounce from 'lodash.debounce';
 import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { ExhibitorCategory } from 'application/models/exhibitor/ExhibitorCategory';
+import UseEventService from 'application/store/services/UseEventService';
 
 const Index = React.memo(() => {
 
+    const { event } = UseEventService()
+
     const { loading } = UseLoadingService();
 
-    const [tab, setTab] = React.useState('name')
+    const [tab, setTab] = React.useState(event?.exhibitor_settings?.exhibitor_list);
 
     const [mode, setMode] = React.useState('grid')
 
@@ -60,8 +63,14 @@ const Index = React.memo(() => {
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        <Button onPress={() => setTab('name')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>NAME</Button>
-                        <Button onPress={() => setTab('category')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>CATEGORY</Button>
+                        {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') && <Button onPress={() => {
+                            setTab('name')
+                            FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
+                        }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={8} borderRightRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? 0 : 8} h="42px" bg={tab === 'name' ? 'primary.box' : 'primary.darkbox'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? "50%": "100%"} _text={{ fontWeight: '600' }}>NAME</Button>}
+                        {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') && <Button onPress={() => {
+                            setTab('category')
+                            FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
+                        }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.box' : 'primary.darkbox'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
                     </HStack>
                     {tab === 'name' && <>
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
@@ -106,6 +115,11 @@ const Index = React.memo(() => {
                                 </ScrollView>
                             </Box>
                         }
+                         {exhibitors.length <= 0 &&
+                            <Box w="100%">
+                                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                            </Box>
+                        }
                     </>}
                     {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
@@ -116,7 +130,7 @@ const Index = React.memo(() => {
                             </HStack>
                         </ScrollView>
                     </Box>}
-                    <BannerView url={''} />
+                    {/* <BannerView url={''} /> */}
                 </Container>
             )}
         </>

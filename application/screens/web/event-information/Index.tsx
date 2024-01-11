@@ -38,7 +38,7 @@ const Index = ({ navigation }: indexProps) => {
 
 
   return (
-    <Master>
+    <>
       {loading ? (
         <SectionLoading />
       ) : (
@@ -65,7 +65,7 @@ const Index = ({ navigation }: indexProps) => {
         </Container>
       )}
 
-    </Master>
+    </>
   );
 };
 

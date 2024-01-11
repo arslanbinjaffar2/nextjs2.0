@@ -142,7 +142,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
           setUpdates(updates + 1);
     }
     else if(type === 'single'){
-      newFormData[question_id].answer = [answer]
+      newFormData[question_id].answer = answer == '0' ? [] :  [answer]
     }
     else if(type === 'dropdown'){
       newFormData[question_id].answer = [answer]
@@ -174,7 +174,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
     let error = false;
     let newFormData = errors;
       for(const activeQuestion of mySubReg?.questions?.question!){
-      if(Number(activeQuestion?.required_question) === 1){
+      if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!]?.answer !== undefined && formData[activeQuestion?.id!]?.answer !== null)){
         if(activeQuestion?.question_type === 'multiple'){
           if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
             newFormData[activeQuestion.id!] = {
@@ -184,13 +184,15 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
           }
           else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
             newFormData[activeQuestion.id!] = {
-                error: `min option ${activeQuestion.min_options}`
+                error: mySubReg?.labels?.SUB_REGISTRATION_MIN_SELECTION_ERROR
+                .replace(/%q/g, activeQuestion?.info[0]?.value)
+                .replace(/%s/g, activeQuestion?.min_options?.toString())
               };
               error  = true;
           }
           else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
             newFormData[activeQuestion.id!] = {
-                error:`max option ${activeQuestion.max_options}`
+                error:mySubReg?.labels?.SUB_REGISTRATION_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString())
               };
               error  = true;
           }
@@ -222,7 +224,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
           } 
         }
         else{
-          if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === ''){
+          if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === '')){
               newFormData[activeQuestion.id!] = {
                 error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
               };
@@ -243,10 +245,10 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
        const answers = mySubReg?.questions?.question
        .reduce(
          (ack:any, item:any) => {
-         if(item.question_type === "multiple" &&  formData[item.id].answer.length > 0){
+         if(item.question_type === "multiple" && formData[item.id] !== undefined && formData[item.id].answer !== undefined &&  formData[item.id].answer.length > 0){
            let newObj ={ [`answer${item.id}`]: formData[item.id].answer.map((item:any) =>(item)), [`comments${item.id}`]:formData[item.id].comment }
            let agendas = item?.answer?.filter((filterItem:any)=>(filterItem.link_to > 0))?.reduce((ack:any, ritem:any) => {
-             if(formData[item.id].answer.map((item:any)=>(item)).indexOf(ritem) !== -1){
+             if(formData[item.id]?.answer.map((item:any)=>(item)).includes(`${ritem.id}`)){
               return Object.assign(ack, { [`answer_agenda_${ritem.id}`] : ritem.link_to })
              }
              return ack;          
@@ -257,18 +259,18 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
            }
            return Object.assign(ack, {...newObj} );
          }
-         else if(item.question_type === "single" && formData[item.id].answer.length > 0){
+         else if(item.question_type === "single" && formData[item.id] !== undefined && formData[item.id].answer !== undefined && formData[item.id].answer.length > 0){
            let newObj ={ [`answer${item.id}`]: formData[item.id].answer, [`comments${item.id}`]:formData[item.id].comment }
-           if((item.answer.find((answer:any)=>(formData[item.id].answer[0] === answer.id))?.link_to ?? 0) > 0){
-             newObj ={...newObj,[`answer_agenda_${formData[item.id].answer[0]}`] : item.answer.find((answer:any)=>(formData[item.id].answer[0] === answer.id))?.link_to ?? 0};
+           if((item.answer.find((answer:any)=>(formData[item.id].answer[0] == answer.id))?.link_to ?? 0) > 0){
+             newObj ={...newObj,[`answer_agenda_${formData[item.id].answer[0]}`] : item.answer.find((answer:any)=>(formData[item.id].answer[0] == answer.id))?.link_to ?? 0};
            }
            return Object.assign(ack, {...newObj} );
          }
-         else if(item.question_type === "dropdown" && formData[item.id].answer.length > 0){
-           let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id].answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id].answer[0] === answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
+         else if(item.question_type === "dropdown" && formData[item.id] !== undefined && formData[item.id].answer !== undefined &&  formData[item.id].answer.length > 0 && formData[item.id]?.answer[0] !== '0'){
+           let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id].answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
            return Object.assign(ack, {...newObj} );
          }
-         else if(item.question_type === "matrix" && Object.keys(formData[item.id].answer).length > 0){
+         else if(item.question_type === "matrix" && formData[item.id] !== undefined && formData[item.id].answer !== undefined && Object.keys(formData[item.id].answer).length > 0){
            let newObj ={ [`answer${item.id}`]: Object.keys(formData[item.id].answer), [`comments${item.id}`]: formData[item.id].comment }
            let matrix = Object.keys(formData[item.id].answer).reduce((ack, ritem) => {
               return Object.assign(ack, { [`answer_matrix${item.id}_${ritem}`] : [`${ritem}-${formData[item.id].answer[ritem]}`] })},
@@ -277,7 +279,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
            return Object.assign(ack, {...newObj, ...matrix} );
          }
          else{
-           if(formData[item.id] !== undefined && formData[item.id].answer.length > 0){
+           if(formData[item.id] !== undefined && formData[item.id] !== undefined && formData[item.id].answer !== undefined &&  formData[item.id].answer.length > 0){
              return Object.assign(ack, { [`answer_${item.question_type}${item.id}`]: [formData[item.id].answer], [`comments${item.id}`]:formData[item.id].comment} );
            }else{
              return ack;
@@ -286,7 +288,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
        },{})
 
        SaveSubRegistration({
-        first_time:"yes",
+        first_time:"no",
         sub_reg_id: mySubReg?.questions?.id,
         optionals:mySubReg?.questions?.question
         .filter((item:any) => item.required_question !== "1")
@@ -309,14 +311,14 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
      <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
       {mySubReg?.questions?.question.length! > 0 &&  mySubReg?.questions?.question.map((item:any, index:any)=>(
           <React.Fragment key={item.id}>
-          {item.question_type === 'matrix' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MatrixAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
-          {item.question_type === 'multiple' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MultipleAnswer settings={mySubReg.settings!} programs={mySubReg.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-          {item.question_type === 'single' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <SingleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-          {item.question_type === 'dropdown' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DropdownAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-          {item.question_type === 'open' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <OpenQuestionAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-          {item.question_type === 'number' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <NumberAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-          {item.question_type === 'date' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DateAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-          {item.question_type === 'date_time' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DateTimeAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'matrix' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MatrixAnswer canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
+          {item.question_type === 'multiple' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MultipleAnswer canChangeAnswer={mySubReg?.show_save} settings={mySubReg.settings!} programs={mySubReg.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+          {item.question_type === 'single' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <SingleAnswer canChangeAnswer={mySubReg?.show_save}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+          {item.question_type === 'dropdown' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DropdownAnswer canChangeAnswer={mySubReg?.show_save}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'open' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <OpenQuestionAnswer canChangeAnswer={mySubReg?.show_save}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+          {item.question_type === 'number' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <NumberAnswer  canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'date' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DateAnswer canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'date_time' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DateTimeAnswer canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
         </React.Fragment>
       )) }
       <Box py="0" px="4" w="100%">

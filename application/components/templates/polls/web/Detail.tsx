@@ -64,7 +64,7 @@ const Detail = () => {
     if(newFormData[question_id] === undefined){
       newFormData[question_id] = {
         answer:null,
-        comment:null
+        comment:""
       };
     }
     if(type === 'multiple'){
@@ -111,6 +111,10 @@ const Detail = () => {
       console.log(submitSuccess, 'useEffect');
         setcompleted(submitSuccess);
     }, [submitSuccess]);
+    
+    React.useEffect(() => {
+      setForceUpdate(forceUpdate + 1);
+    }, [steps]);
 
     const stepIndicatorWidth = detail !== null ? 100/(detail.questions.length) : 10;
 
@@ -119,18 +123,18 @@ const Detail = () => {
         const activeQuestion = detail?.questions[steps];
         if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!] !== undefined &&  formData[activeQuestion?.id!].answer !== null)){
           if(activeQuestion?.question_type === 'multiple'){
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || (Number(activeQuestion?.required_question) === 1 && formData[activeQuestion?.id!].answer.length <= 0)){
               setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
               return;
             }
-            else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
+            else if(activeQuestion.min_options > 0 && ((formData[activeQuestion?.id!].answer.length < activeQuestion.min_options) && formData[activeQuestion?.id!].answer.length != 0)){
               setActiveQuestionError(poll_labels.POLL_SURVEY_MIN_SELECTION_ERROR
                 .replace(/%q/g, activeQuestion.info.question)
                 .replace(/%s/g, activeQuestion.min_options.toString())
               );
               return;
             }
-            else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
+            else if(activeQuestion.max_options > 0 && ((formData[activeQuestion?.id!].answer.length > activeQuestion.max_options) && formData[activeQuestion?.id!].answer.length != 0)){
               setActiveQuestionError(poll_labels.POLL_SURVEY_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString()));
               return;
             }
@@ -160,7 +164,7 @@ const Detail = () => {
             } 
           }
           else{
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === ''){
+            if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === '')){
               setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
               return;
             }
@@ -171,12 +175,13 @@ const Detail = () => {
           onSubmit()
         }else{
           setsteps(steps + 1);
-        }
-        
+        }    
     }
 
     const onSubmit = ( ) => {
+      
       setSubmittingPoll(true)
+
         const submitedData:SubmittedQuestion[] | undefined = detail?.questions.map((q)=>{
             let answeredQuestion:any = {
               id:q.id,
@@ -202,7 +207,7 @@ const Detail = () => {
             }
             else{
               if(q.question_type === 'world_cloud'){
-                answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, i)=>([...ack, {value: formData[q.id].answer[i]}]), []) : [];
+                answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, v, i)=>([...ack, {value: formData[q.id].answer[Object.keys(formData[q.id].answer).length - (i + 1)]}]), []) : [];
               }
               else{
                 answeredQuestion['answers'] = (formData[q.id] !== undefined && formData[q.id].answer !== null) ? [{value: formData[q.id].answer }] : [];
@@ -212,7 +217,7 @@ const Detail = () => {
 
         });
 
-        console.log();
+       
 
         const postData = {
           poll_id: detail?.questions[0]?.poll_id,
@@ -225,7 +230,7 @@ const Detail = () => {
           env: _env.app_server_enviornment,
           submitted_questions:submitedData!
         };
-        
+
         SubmitPoll(postData);
 
     }
@@ -246,25 +251,30 @@ const Detail = () => {
                 <Spacer />
                 <Text isTruncated pr="6" fontSize="lg">{detail?.topic}</Text>
               </HStack>
-              <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
-                {detail?.questions.length! > 0 && detail?.questions.map((item, key)=>(
+              {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
+                { detail?.questions.map((item, key)=>(
                     <Box key={key} bg={steps >= key ? 'primary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />
                 ))}
-              </HStack>
+              </HStack>}
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                 {detail?.questions.length! > 0 &&  detail?.questions[steps] !== undefined && (
                   <>
-                    {detail?.questions[steps].question_type === 'matrix' && <MatrixAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate}/>}
-                    {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
-                    {detail?.questions[steps].question_type === 'single' && <SingleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
-                    {detail?.questions[steps].question_type === 'dropdown' && <DropdownAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
-                    {detail?.questions[steps].question_type === 'open' && <OpenQuestionAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
-                    {detail?.questions[steps].question_type === 'number' && <NumberAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
-                    {detail?.questions[steps].question_type === 'date' && <DateAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
-                    {detail?.questions[steps].question_type === 'date_time' && <DateTimeAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
-                    {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'matrix' && <MatrixAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate}/>}
+                    {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'single' && <SingleAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'dropdown' && <DropdownAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'open' && <OpenQuestionAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'number' && <NumberAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'date' && <DateAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'date_time' && <DateTimeAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
+                    {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
                   </>
                 )}
+                {detail?.questions.length! <= 0 &&
+                  <Box padding={5}>
+                      <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
+                  </Box>
+                }
                 <Box py="0" px="4" w="100%">
                   <Divider mb="15" opacity={0.27} bg="primary.text" />
                   <HStack mb="3" space="3" alignItems="center">
@@ -302,6 +312,7 @@ const Detail = () => {
                   {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
                     <Box m="auto" w="230px" bg="primary.darkbox" p="0" rounded="sm" overflow="hidden">
                       <Button
+                      id='test'
                         w="48px"
                         py="3"
                         px="1"

@@ -10,7 +10,8 @@ export type LoadingServiceOperators = {
     loading: boolean,
     processing: Array<string>,
     scroll: number,
-    setScrollCounter: (counter: number) => void
+    setScrollCounter: (counter: number) => void,
+    setLoading: (counter: boolean) => void
 }
 
 /**
@@ -28,6 +29,12 @@ export const UseLoadingService = (): Readonly<LoadingServiceOperators> => {
         setScrollCounter: useCallback(
             (counter: number) => {
                 dispatch(LoadingActions.setScrollCounter(counter))
+            },
+            [dispatch],
+        ),
+        setLoading: useCallback(
+            (counter: boolean) => {
+                dispatch(LoadingActions.set(counter))
             },
             [dispatch],
         ),

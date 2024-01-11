@@ -25,6 +25,9 @@ import SocialMediaSlice from './slices/SocialMedia.Slice'
 import CheckInOutSlice from './slices/CheckInOut.Slice'
 import SubRegistrationSlice from './slices/SubRegistration.Slice'
 import NetworkInterestSlice from './slices/NetworkInterest.Slice'
+import NotesSlice from './slices/Notes.Slice'
+import NotificationSlice from './slices/Notification.Slice'
+import SocketSlice, { SocketActions } from './slices/Socket.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 
 const makeStore = () => {
@@ -57,13 +60,21 @@ const makeStore = () => {
             checkInOut:CheckInOutSlice,
             subRegistration:SubRegistrationSlice,
             networkInterest:NetworkInterestSlice,
+            notes:NotesSlice,
+            notifications:NotificationSlice,
+            socket:SocketSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
             getDefaultMiddleware({ thunk: false, 
                 serializableCheck: {
                     // Ignore these action types
-                    ignoredActions: [EditProfileActions.UpdateAttendee.type],
+                    ignoredActions: [
+                        EditProfileActions.UpdateAttendee.type, 
+                        SocketActions.SetSocket.type
+                    ],
+                    ignoredPaths: ['socket.socket']
+                    
               },
              })
             .concat(sagaMiddleware)

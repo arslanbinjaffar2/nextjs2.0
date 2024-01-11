@@ -18,7 +18,7 @@ export interface SponsorState {
     category_id: number,
     query: string,
     screen: string,
-    detail: SponsorDetail,
+    detail: SponsorDetail | null,
 }
 
 const initialState: SponsorState = {
@@ -29,7 +29,7 @@ const initialState: SponsorState = {
     category_id: 0,
     query: '',
     screen: 'sponsors',
-    detail: {},
+    detail: null,
 }
 
 // Slice

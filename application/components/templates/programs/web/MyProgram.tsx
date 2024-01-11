@@ -8,10 +8,13 @@ import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import LoadMore from 'application/components/atoms/LoadMore';
+import UseEventService from 'application/store/services/UseEventService';
 
 const MyProgram = () => {
 
     const mounted = React.useRef(false);
+    
+    const { event, modules } = UseEventService();
 
     const { FetchPrograms, programs, page, query } = UseProgramService();
 
@@ -37,7 +40,7 @@ const MyProgram = () => {
     return (
         <>
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text fontSize="2xl">PROGRAMS</Text>
+                <Text fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'myprograms'))?.name ?? 'My programs'}</Text>
                 <Spacer />
                 <Search tab={'my-program'} />
             </HStack>

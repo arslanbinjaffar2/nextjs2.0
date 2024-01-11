@@ -1,4 +1,6 @@
 import ChooseProviderScreen from 'application/screens/web/auth/ChooseProvider'
+import AuthLayout from 'application/screens/web/layouts/AuthLayout'
+import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout'
 
 const ChooseProvider = () => {
     return (
@@ -14,4 +16,12 @@ export async function getServerSideProps() {
     }
 }
 
+ChooseProvider.getLayout = function getLayout(page:any) {
+    return (
+        <AuthLayout>
+            <BackgroundLayout>{page}</BackgroundLayout>
+        </AuthLayout>
+      
+    )
+}
 export default ChooseProvider

@@ -17,9 +17,7 @@ const Index = ({ navigation }: indexProps) => {
   }, [])
 
   return (
-    <Master>
       <IndexTemplate />
-    </Master>
   );
 };
 

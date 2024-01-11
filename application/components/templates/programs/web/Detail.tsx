@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Box, Button, Container, HStack, Pressable, Text, VStack } from 'native-base';
+import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack } from 'native-base';
 
 import DetailBlock from 'application/components/atoms/programs/DetailBlock';
 
@@ -46,6 +46,8 @@ import UseDocumentService from 'application/store/services/UseDocumentService';
 
 import { Group } from 'application/models/attendee/Group';
 
+import AntDesign from '@expo/vector-icons/AntDesign';
+
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import WebLoading from 'application/components/atoms/WebLoading';
 
@@ -69,7 +71,7 @@ const Detail = () => {
 
     const { response } = UseAuthService();
 
-    const { push } = useRouter()
+    const { push, back } = useRouter()
 
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name } = UseAttendeeService();
 
@@ -112,19 +114,32 @@ const Detail = () => {
                 <WebLoading />
             ) : (
                 <>
-                    {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'description' && tab?.status === 1)?.length > 0 && (
-                        <DetailBlock><div dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div></DetailBlock>
-                    )}
+                    <HStack pt="2" w="100%" space="3" alignItems="center">
+                        <Pressable onPress={()=> back() }>
+                        <HStack space="3" alignItems="center">
+                                <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                                <Text fontSize="2xl">BACK</Text>
+                        </HStack>
+                        </Pressable>
+                        <Spacer />
+                        {/* <Text isTruncated pr="6" fontSize="lg">{detail?.topic}</Text> */}
+                    </HStack>
+                        <DetailBlock>
+                                <Text>
+                                    <div dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
+                                </Text>
+                                
+                        </DetailBlock>
                     <Container mb="3" maxW="100%" w="100%">
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
-                            <Button onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.darkbox' : 'primary.box'} w="24%" _text={{ fontWeight: '600' }}>ABOUT</Button>
-                            {event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && (
+                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 &&<Button onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.darkbox' : 'primary.box'} w="24%" _text={{ fontWeight: '600' }}>ABOUT</Button>}
+                            {event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0 && (
                                 <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} w="24%" _text={{ fontWeight: '600' }}>GROUPS</Button>
                             )}
-                            {event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && (
+                            {modules?.find((polls)=>(polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 && (
                                 <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'attendee' ? 'primary.darkbox' : 'primary.box'} w="24%" _text={{ fontWeight: '600' }}>ATTENDEES</Button>
                             )}
-                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && (
+                            {modules?.find((polls)=>(polls.alias == 'documents')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 && (
                                 <Button onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'documents' ? 'primary.darkbox' : 'primary.box'} w="24%" _text={{ fontWeight: '600' }}>DOCUMENTS</Button>
                             )}
                         </HStack>
@@ -143,24 +158,24 @@ const Detail = () => {
                         )}
                         {in_array(tab, ['about']) && (
                             <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
-                                {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && (
+                                {modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && (
                                     <>
-                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                        {detail?.program?.program_speakers!?.length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="speakers" iconProps={{ width: 12, height: 18 }} />
                                             <Text fontSize="md">Speaker</Text>
-                                        </HStack>
+                                        </HStack>}
                                         {detail?.program?.program_speakers?.map((attendee: Attendee, k: number) =>
-                                            <SpeakerRectangleView attendee={attendee} k={k} total={detail?.program?.program_speakers!?.length} />
+                                            <SpeakerRectangleView key={k} attendee={attendee} k={k} total={detail?.program?.program_speakers!?.length} />
                                         )}
                                     </>
                                 )}
-                                {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
+                                {modules?.find((polls)=>(polls.alias == 'polls')) && detail?.polls_count! > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
                                     <>
-                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
                                             <Text fontSize="md">Polls</Text>
-                                        </HStack>
-                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "no").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 ? (
+                                        </HStack>}
+                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
                                             <Pressable onPress={() => {
                                                 if (detail?.authority_recieved) {
 
@@ -171,23 +186,25 @@ const Detail = () => {
                                                 <Box w="100%" py="4">
                                                     <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
                                                         <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                                            <Text fontSize="md">Live polls</Text>
+                                                            <Text fontSize="md">{event?.labels?.PROGRAM_LIVE_POLLS}</Text>
                                                         </VStack>
                                                     </HStack>
                                                 </Box>
                                             </Pressable>
-                                        ) : (
-                                            <Box w="100%" py="4">
-                                                <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
-                                                    <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                                        <Text fontSize="md">No poll found</Text>
-                                                    </VStack>
-                                                </HStack>
-                                            </Box>
-                                        )}
+                                        ) 
+                                        // : (
+                                        //     <Box w="100%" py="4">
+                                        //         <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                                        //             <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
+                                        //                 <Text fontSize="md">No poll found</Text>
+                                        //             </VStack>
+                                        //         </HStack>
+                                        //     </Box>
+                                        // )
+                                        }
                                     </>
                                 )}
-                                {event?.agenda_settings?.enable_notes === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && (
+                                {/* {event?.agenda_settings?.enable_notes === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="my_notes" iconProps={{ width: 17, height: 17 }} />
@@ -201,9 +218,9 @@ const Detail = () => {
                                             </HStack>
                                         </Box>
                                     </>
-                                )}
+                                )} */}
                                 {/* <PollRectangleView /> */}
-                                {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && modules.filter((module: any, key: number) => module.alias === 'myturnlist').length > 0 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) && (
+                                {/* {modules?.find((polls)=>(polls.alias == 'myturnlist')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && modules.filter((module: any, key: number) => module.alias === 'myturnlist').length > 0 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <IcoRaiseHand width="14" height="17" />
@@ -211,7 +228,7 @@ const Detail = () => {
                                         </HStack>
                                         <RequestToSpeakRectangleView program={detail?.program} />
                                     </>
-                                )}
+                                )} */}
                             </Box>
                         )}
                         {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('documents', processing)) && page === 1 ? (
@@ -233,12 +250,10 @@ const Detail = () => {
                                     )}
                                 </Container>}
                                 {tab === 'group' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                                    {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
+                                    {groups.map((map: any, k: number) =>
                                         <React.Fragment key={`item-box-group-${k}`}>
-                                            {map?.letter && (
-                                                <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
-                                            )}
-                                            {map?.records?.map((group: Group, k: number) =>
+                                                <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
+                                            {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
                                                     <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
                                                 </React.Fragment>

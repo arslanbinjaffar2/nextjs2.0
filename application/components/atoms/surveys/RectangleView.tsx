@@ -5,7 +5,7 @@ import { Survey } from 'application/models/survey/Survey';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 
-const RectangleView = ({survey, completed}:{survey:Survey, completed:boolean}) => {
+const RectangleView = ({survey, completed, settings}:{survey:Survey, completed:boolean, settings?:boolean}) => {
   const { event } = UseEventService();
   const { push } = useRouter()
 
@@ -18,6 +18,12 @@ const RectangleView = ({survey, completed}:{survey:Survey, completed:boolean}) =
         if(!completed){
           push(`/${event.url}/survey/detail/${survey.id}`)
         }
+        else if(completed && settings){
+          push(`/${event.url}/settings/mySurveyResults/detail/${survey.id}`)
+        }
+        else if(completed){
+          push(`/${event.url}/survey/result/${survey.id}`)
+        }
        }}>
       <Box w="100%" borderBottomWidth='1' borderColor="primary.text" py="3">
         <HStack px="3" w="100%" space="0" alignItems="center" justifyContent="space-between">
@@ -25,7 +31,7 @@ const RectangleView = ({survey, completed}:{survey:Survey, completed:boolean}) =
             <Text fontSize="md">{survey.info.name}</Text>
           </VStack>
           <Spacer />
-          {!completed && <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+           <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
         </HStack>
       </Box>
     </Pressable>

@@ -24,6 +24,7 @@ export interface Program {
   only_for_poll: number;
   registration_form_ids: string;
   info: Info;
+  tracks:any;
 }
 
 export interface Info {
@@ -98,6 +99,7 @@ export interface QaSettings {
   my_question: number;
   enable_projectors: number;
   enable_ask_question: number;
+  [key:string]:any;
 }
 
 export interface ProgramSettings {

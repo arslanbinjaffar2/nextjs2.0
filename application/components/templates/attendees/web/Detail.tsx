@@ -103,7 +103,7 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
+                            <Pressable onPress={()=> push(`/${event.url}/${speaker ? 'speakers' : 'attendees'}`)}>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                                     <Text fontSize="2xl">BACK</Text>
@@ -112,7 +112,7 @@ const Detail = ({ speaker }: Props) => {
                         <Spacer />
                         <Search tab={tab} />
                     </HStack>
-                    <BasicInfoBlock detail={detail} showPrivate={response.data.user.id == _id ? 1 : 0} speaker={speaker} />
+                    <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
                             {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0 && (
@@ -146,7 +146,7 @@ const Detail = ({ speaker }: Props) => {
                                                             return (
                                                                 <Button onPress={() => setTab('groups')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={detail?.attendee_tabs_settings[0]?.tab_name === 'groups' ? 8 : 0} borderRightRadius={detail?.attendee_tabs_settings[detail?.attendee_tabs_settings?.length - 1]?.tab_name === 'groups' ? 8 : 0} h="42px" bg={tab === 'groups' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>GROUPS</Button>
                                                             )
-                                                        } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration) {
+                                                        } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id)) {
                                                             return (
                                                                 <Button onPress={() => setTab('sub_registration')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={detail?.attendee_tabs_settings[0]?.tab_name === 'sub_registration' ? 8 : 0} borderRightRadius={detail?.attendee_tabs_settings[detail?.attendee_tabs_settings?.length - 1]?.tab_name === 'sub_registration' ? 8 : 0} h="42px" bg={tab === 'sub_registration' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>SUB REGISTRATION</Button>
                                                             )
@@ -158,24 +158,23 @@ const Detail = ({ speaker }: Props) => {
                                     </HStack>
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<div dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div>} />}
                                     {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
-                                    {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && <SubRegistration detail={detail} />}
+                                    {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) && <SubRegistration detail={detail} />}
                                     {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                                         {in_array('groups', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
                                             <>
-                                                {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
-                                                    <React.Fragment key={`item-box-group-${k}`}>
-                                                        {map?.letter && (
-                                                            <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
-                                                        )}
-                                                        {map?.records?.map((group: Group, k: number) =>
-                                                            <React.Fragment key={`${k}`}>
-                                                                <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
-                                                            </React.Fragment>
-                                                        )}
+                                                {groups?.map((group: Group, k: number) =>
+                                                    <React.Fragment key={`${k}`}>
+                                                        <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
                                                     </React.Fragment>
                                                 )}
+                                                        
+                                                {
+                                                    groups?.length <= 0 && (
+                                                        <Text w="100%" pl="18px" bg="primary.darkbox">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                                    )
+                                                }
                                             </>
                                         )}
 
@@ -184,7 +183,9 @@ const Detail = ({ speaker }: Props) => {
                                         {in_array('programs', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
-                                            <SlideView section="program" programs={programs} />
+                                            programs.length > 0 ? 
+                                            <SlideView  speaker={speaker} section="program" programs={programs} /> :
+                                            <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
                                         )}
                                     </Container>}
                                     {tab === 'category' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
@@ -200,6 +201,8 @@ const Detail = ({ speaker }: Props) => {
                                                 )}
                                             </React.Fragment>
                                         )}
+                                        {detail?.detail?.categories.length <=0 && 
+                                        <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>}
                                     </Container>}
                                     {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
                                         {in_array('documents', processing) && page === 1 ? (

@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 export type SubRegistrationServiceOperators = {
     afterLogin: {
         settings: Settings | null;
-        labels: any[];
+        labels: any;
         questions: Questions | null;
         skip_msg: number;
         alert_label: string;

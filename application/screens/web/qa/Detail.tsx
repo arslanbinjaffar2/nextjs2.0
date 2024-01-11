@@ -13,10 +13,7 @@ type indexProps = {
 const Detail = ({ navigation }: indexProps) => {
   const [tabs, settabs] = useState<string | null>('ABOUT');
   return (
-    <Master>
       <DetailTemplate/>
-    </Master>
-
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { HStack, Text, Box, VStack, Icon, ScrollView, View } from 'native-base';
 import UseInfoService from 'application/store/services/UseInfoService';
 import { WebView } from 'react-native-webview'
@@ -31,6 +31,9 @@ const Detail = (props: any) => {
 
     const [cms] = useParam('cms');
 
+    const [iframeHeight, setIframeHeight] = useState(0);
+    const iframe = useRef<any>();
+
     const onWebViewMessage = (event: any) => {
         setweb_height(parseInt(event.nativeEvent.data) + 15);
     }
@@ -51,7 +54,19 @@ const Detail = (props: any) => {
                                 <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%" h={(10 / 100) * height} />
                             </HStack>}
                             {page?.description != "" && (Platform.OS === 'web' ? (
-                                <iframe style={{ borderWidth: 0, height: (100 / 100) * height, color:'#fff' }} srcDoc={page?.description} />
+                                <iframe 
+                                    style={{ borderWidth: 0, color:'#fff' }} 
+                                    ref={iframe}
+                                    onLoad={() => {
+                                        const obj = iframe.current;
+                                        obj.contentWindow.document.body.style.fontFamily = '"Open Sans", sans-serif';
+                                        setIframeHeight(
+                                            obj.contentWindow.document.body.scrollHeight + 50 
+                                        );
+                                    }}
+                                    height={iframeHeight}
+                                    srcDoc={page?.description} 
+                                />
                             ) : (
                                 <WebView
                                     onMessage={onWebViewMessage}
@@ -65,12 +80,12 @@ const Detail = (props: any) => {
                             {page.pdf && (
                                 <Box mb="3" w="100%" bg="primary.box" py="4" borderBottomRadius="10">
                                     <HStack mb="3" bg="primary.darkbox" py="1" px="4" space="2" alignItems="center">
-                                        <Icon as={AntDesign} name="file1" size="md" />
+                                        <Icon color={'primary.text'} as={AntDesign} name="file1" size="md" />
                                         <Text fontSize="lg">Documents</Text>
                                     </HStack>
                                     <VStack px="6" w="100%" space="1">
                                         <HStack w="100%" space="2" alignItems="center">
-                                            <Icon as={AntDesign} name="pdffile1" size="md" onPress={async () => {
+                                            <Icon color={'primary.text'} as={AntDesign} name="pdffile1" size="md" onPress={async () => {
                                                 const url = `${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.pdf}`;
                                                 const supported = await Linking.canOpenURL(url);
                                                 if (supported) {
@@ -82,8 +97,8 @@ const Detail = (props: any) => {
                                     </VStack>
                                 </Box>
                             )}
-                            {page.image !== '' && page.image_position !== 'top' && <HStack w="90%" ml={5}>
-                                <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%" h={(10 / 100) * height} />
+                            {page.image !== '' && page.image_position !== 'top' && <HStack w="100%" px={5}>
+                                <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%"  />
                             </HStack>}
                         </Box>
                     </HStack>

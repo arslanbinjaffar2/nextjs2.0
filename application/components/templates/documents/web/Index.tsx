@@ -4,14 +4,16 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import Search from 'application/components/atoms/documents/Search';
+import in_array from "in_array";
 
 const Index = React.memo(() => {
 
-    const { loading } = UseLoadingService();
+    const { processing } = UseLoadingService();
+
 
     return (
         <>
-            {loading ? (
+            {in_array('documents', processing) ? (
                 <WebLoading />
             ) : (
                 <Container pt="2" maxW="100%" w="100%">

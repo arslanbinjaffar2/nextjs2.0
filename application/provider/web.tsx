@@ -2,7 +2,7 @@ import { NavigationProvider } from './navigation'
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useState, useEffect } from 'react';
-import colors from 'application/styles/colors'
+import { getColorScheme } from 'application/styles/colors'
 import { LinearGradient } from 'expo-linear-gradient';
 import { func } from 'application/styles';
 import * as Font from 'expo-font';
@@ -17,6 +17,8 @@ const { useParam } = createParam<ScreenParams>()
 export function Provider({ children, env }: { children: React.ReactNode, env: any }) {
 
     const [appIsReady, setAppIsReady] = useState(false);
+
+    const [nativebaseTheme, setNativebaseTheme] = useState<any>(null);
 
     const [event_url] = useParam('event')
 
@@ -40,73 +42,83 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
         }
     };
 
-    const theme = extendTheme({
-        colors: {
-            primary: {
-                50: '#E3F2F9',
-                100: '#C5E4F3',
-                200: '#A2D4EC',
-                300: '#7AC1E4',
-                400: '#47A9DA',
-                500: colors.primary,
-                600: '#007AB8',
-                700: '#006BA1',
-                800: '#005885',
-                900: '#003F5E',
-                box: `rgba(${colors.box},0.8)`,
-                darkbox: `rgba(${colors.darkbox},0.8)`,
-                text: `${colors.text}`,
-                secondary: colors.secondary,
-                bdColor: 'rgba(148,160,183,0.64)',
-                bdBox: `rgba(${colors.darkbox},1)`,
+    useEffect(() => {
+      if(Object.keys(event).length > 0){
+          const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+    
+          const theme = extendTheme({
+            colors: {
+                primary: {
+                    50: '#E3F2F9',
+                    100: '#C5E4F3',
+                    200: '#A2D4EC',
+                    300: '#7AC1E4',
+                    400: '#47A9DA',
+                    500: colors.primary,
+                    600: '#007AB8',
+                    700: '#006BA1',
+                    800: '#005885',
+                    900: '#003F5E',
+                    box: `rgba(${colors.box},0.5)`,
+                    darkbox: `rgba(${colors.box},1)`,
+                    boxTransparent: `rgba(${colors.box},0.5)`,
+                    text: `${colors.text}`,
+                    secondary: colors.secondary,
+                    bdColor: 'rgba(148,160,183,0.64)',
+                    bdBox: `rgba(${colors.darkbox},1)`,
+                },
+                amber: {
+                    400: '#d97706',
+                },
             },
-            amber: {
-                400: '#d97706',
+            fonts: {
+                heading: 'Avenir',
+                body: 'Avenir',
+                mono: 'Avenir',
             },
-        },
-        fonts: {
-            heading: 'Avenir',
-            body: 'Avenir',
-            mono: 'Avenir',
-        },
-        components: {
-            Heading: {
-                defaultProps: { fontSize: '2xl', fontWeight: '600', color: 'primary.text' },
-            },
-            Text: {
-                defaultProps: { fontSize: 'md', fontWeight: '400', color: 'primary.text' },
-            },
-            Button: {
-                defaultProps: {
-                    size: 'lg', bg: 'primary.500',
-                    _hover: { bg: colors.primary },
-                    _text: { color: 'primary.text' },
-                    _pressed: { bg: `${colors.secondary}` }
+            components: {
+                Heading: {
+                    defaultProps: { fontSize: '2xl', fontWeight: '600', color: 'primary.text' },
+                },
+                Text: {
+                    defaultProps: { fontSize: 'md', fontWeight: '400', color: 'primary.text' },
+                },
+                Button: {
+                    defaultProps: {
+                        size: 'lg', bg: 'primary.500',
+                        _hover: { bg: colors.primary },
+                        _text: { color: 'primary.text' },
+                        _pressed: { bg: `${colors.secondary}` }
+                    }
+                },
+                Input: {
+                    defaultProps: {
+                        fontSize: 'md',
+                        bg: 'primary.darkbox',
+                        borderColor: 'primary.darkbox',
+                        _focus: {
+                            borderColor: `rgb(${colors.darkbox})`,
+                        },
+                    },
+                    baseStyle: {
+                        _light: {
+                            placeholderTextColor: colors.text,
+                        },
+                        _dark: {
+                            placeholderTextColor: colors.text
+                        },
+                    },
                 }
             },
-            Input: {
-                defaultProps: {
-                    fontSize: 'md',
-                    bg: 'primary.darkbox',
-                    borderColor: 'primary.darkbox',
-                    _focus: {
-                        borderColor: `rgb(${colors.darkbox})`,
-                    },
-                },
-                baseStyle: {
-                    _light: {
-                        placeholderTextColor: colors.text,
-                    },
-                    _dark: {
-                        placeholderTextColor: colors.text
-                    },
-                },
-            }
-        },
-        config: {
-            initialColorMode: 'dark',
-        },
-    });
+            config: {
+                initialColorMode: 'dark',
+            },
+            });
+    
+            setNativebaseTheme(theme);
+      }
+    }, [event]);
+    
 
     useEffect(() => {
         async function prepare() {
@@ -138,13 +150,13 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
         void prepare();
     }, []);
 
-    if (!appIsReady || Object.keys(event).length === 0 || !_env.api_base_url) {
+    if (!appIsReady || Object.keys(event).length === 0 || !_env.api_base_url || nativebaseTheme == null) {
         return null;
     }
 
     return (
         <NavigationProvider>
-            <NativeBaseProvider config={config} theme={theme}>{children}</NativeBaseProvider>
+            <NativeBaseProvider config={config} theme={nativebaseTheme}>{children}</NativeBaseProvider>
         </NavigationProvider>
     )
 }

@@ -9,6 +9,8 @@ import { LoginPayload, AuthActions, ChooseProviderPayload, PasswordResetPayload,
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
+import { NetworkInterestActions } from '../slices/NetworkInterest.Slice';
+import { SubRegistrationActions } from '../slices/SubRegistration.Slice';
 
 // Worker Sagas handlers
 function* OnLogin({
@@ -148,6 +150,8 @@ function* OnLogout({
     payload: Event
 }): SagaIterator {
     yield put(AuthActions.clearToken());
+    yield put(NetworkInterestActions.clearState());
+    yield put(SubRegistrationActions.clearState());
 }
 
 // Watcher Saga

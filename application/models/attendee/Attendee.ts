@@ -17,6 +17,8 @@ export interface Attendee {
     info?: Info;
     favourite?: number;
     event_attendee?: Eventattendee;
+    field_settings?: any;
+    private_country_display_name?: string;
 }
 
 interface Eventattendee {

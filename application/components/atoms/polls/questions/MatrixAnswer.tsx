@@ -12,7 +12,7 @@ type PropTypes = {
   forceRender:number,
 }
 const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
-  const [commentText, setCommentText] = React.useState(formData[question.id]?.comment ?? '')
+  
 
   return (
     <Center maxW="100%" w="100%" mb="0">
@@ -25,16 +25,16 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
             <Center zIndex={9} position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1" height="20px"></Center>
             {question?.matrix.map((matrix, k) =>
              <React.Fragment key={k}>
-                <Center minW="100px" flex="1"><Text fontSize="lg">{matrix.name}</Text></Center>
+                <Center minW="100px" flex="1"><Text isTruncated fontSize="lg">{matrix.name}</Text></Center>
               </React.Fragment>
             )}
           </HStack>
           <VStack  w="100%" space="3">
             {question?.answer.map((answer, k) =>
-            <Radio.Group w="100%" key={answer.id} display={'flex'} name={`group-${k}`} aria-label={answer?.answer}  defaultValue={`${formData[question.id]?.answer[k] ?? ''}`}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
+            <Radio.Group w="100%" key={answer.id} display={'flex'} name={`group-${k}`} aria-label={answer?.answer}  defaultValue={formData[question.id]?.answer !== null ? `${formData[question.id]?.answer[answer.id] ?? ''}` : ``}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
               <HStack w="100%" key={k} space="1" alignItems="center">
                 <Center  zIndex={9} alignItems="flex-start" position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1">
-                  <Text fontSize="lg">
+                  <Text isTruncated fontSize="lg">
                     {answer?.answer}
                   </Text>
                 </Center>
@@ -53,23 +53,23 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
         </ScrollView>
        
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.300" w="100%">
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
       </Box>}
       
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
         <Icodocument width="15px" height="18px" />
-        <Text fontSize="lg">Write comment</Text>
+        <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
       </HStack>
       <Box py="3" px="4" w="100%">
         <TextArea
-          p="0"
-          h="30px"
-          focusOutlineColor="transparent"
-          _focus={{ bg: 'transparent' }}
-          value={commentText}
-          onChangeText={(text) => {updateFormData(question.id, 'comment', text); setCommentText(text);}}
-          borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+          p="3"
+          mb={1}
+          h="100px"
+          bg={'primary.darkbox'}
+          defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
+          onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}
+          borderWidth="0" fontSize="md" placeholder={labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
           <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
       </Box>
     </Center>

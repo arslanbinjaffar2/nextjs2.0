@@ -5,7 +5,7 @@ import type { SolitoAppProps } from 'solito'
 import 'raf/polyfill'
 import { Provider as ReduxProvider } from 'react-redux'
 import { store } from 'application/store/Index'
-
+import Master from 'application/screens/web/layouts/Master'
 function MyApp({ Component, pageProps }: SolitoAppProps) {
 
   const env = {
@@ -15,7 +15,10 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
     eventcenter_base_url: process.env.APP_EVENTCENTER_BASE_URL,
     api_gateway_url: process.env.APP_API_GATEWAY_URL,
     app_server_enviornment: process.env.APP_SERVER_ENVIRONMENT,
+    socket_connection_server: process.env.APP_SOCKET_SERVER,
   }
+
+  const getLayout = Component.getLayout || ((page:any) => <Master>{page}</Master>)
 
   return (
     <>
@@ -30,7 +33,7 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
       {typeof window !== "undefined" && (
         <ReduxProvider store={store}>
           <Provider env={env}>
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
           </Provider>
         </ReduxProvider>
       )}

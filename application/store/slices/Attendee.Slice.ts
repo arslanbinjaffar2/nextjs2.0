@@ -80,8 +80,10 @@ export const AttendeeSlice = createSlice({
                 state.category_name = '';
             }
             if (action.payload.page === 1) {
-                state.attendees = []
-                state.my_attendees = []
+                if(action.payload.screen !== 'dashboard-speakers'){
+                    state.my_attendees = []
+                }
+                state.attendees =  []
             }
         },
         FetchGroups(state, action: PayloadAction<{ query: string, page: number, group_id: number, attendee_id: number, program_id: number }>) {
@@ -112,9 +114,10 @@ export const AttendeeSlice = createSlice({
         UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
         },
-        UpdateCategory(state, action: PayloadAction<{ category_id: number, category_name: string }>) {
+        UpdateCategory(state, action: PayloadAction<{ category_id: number, category_name: string, parent_id:number }>) {
             state.category_id = action.payload.category_id;
             state.category_name = action.payload.category_name;
+            state.parent_id = action.payload.parent_id;
         },
         FetchCategories(state, action: PayloadAction<{ parent_id: number, query: string, page: number, cat_type: string }>) {
             state.query = action.payload.query;
@@ -172,6 +175,8 @@ export const SelectGroupName = (state: RootState) => state.attendees.group_name
 export const SelectAttendeeDetail = (state: RootState) => state.attendees.detail
 
 export const SelectAttendeeCategory = (state: RootState) => state.attendees.category_id
+
+export const SelectCategoryParendId = (state: RootState) => state.attendees.parent_id
 
 export const SelectCategories = (state: RootState) => state.attendees.categories
 
