@@ -74,7 +74,7 @@ const Detail = React.memo(() => {
                                     
                                         {detail?.detail?.exhibitors_attendee?.map((attendee: ExhibitorsAttendee, key: number) =>
                                             <React.Fragment key={key}>
-                                                <RectangleView total={detail?.detail?.exhibitors_attendee?.length} attendee={attendee} k={key} />
+                                                <RectangleView total={detail?.detail?.exhibitors_attendee?.length as number} attendee={attendee} k={key} />
                                             </React.Fragment>
                                         )}
                                 </Box>
