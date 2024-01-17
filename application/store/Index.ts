@@ -28,6 +28,7 @@ import NetworkInterestSlice from './slices/NetworkInterest.Slice'
 import NotesSlice from './slices/Notes.Slice'
 import NotificationSlice from './slices/Notification.Slice'
 import SocketSlice, { SocketActions } from './slices/Socket.Slice'
+import HdSlice from './slices/Hd.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 
 const makeStore = () => {
@@ -63,6 +64,7 @@ const makeStore = () => {
             notes:NotesSlice,
             notifications:NotificationSlice,
             socket:SocketSlice,
+            hd:HdSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
