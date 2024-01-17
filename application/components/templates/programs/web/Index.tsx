@@ -76,7 +76,7 @@ const Index = () => {
                 {(event?.agenda_settings?.agenda_list == 0 || event?.agenda_settings?.agenda_tab == 1) && <Button onPress={() => {
                     ResetTracks();
                     setTab('program')
-                }} borderWidth="1px" py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.box' : 'primary.darkbox'} w={event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}>PROGRAMS</Button>}
+                }} borderWidth="1px" borderRightRadius="0" py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.box' : 'primary.darkbox'} w={event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}>PROGRAMS</Button>}
                 {(modules?.find((m)=>(m.alias == 'myprograms'))) &&<Button onPress={() => {
                     ResetTracks();
                     setTab('my-program');
