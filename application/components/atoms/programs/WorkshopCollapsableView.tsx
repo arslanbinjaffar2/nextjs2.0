@@ -23,7 +23,7 @@ const WorkshopCollapsableView = ({ program, k, border, speaker, section }: AppPr
 
   return (
     <>
-      <Box w={"100%"} px={'50px'} bg="primary.darkbox" display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+      <Box w={"100%"} pl={'50px'} pr={3} py={1} bg="primary.darkbox" display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
         <Text  >{program.program_workshop}</Text>
         <Pressable
           onPress={() => {

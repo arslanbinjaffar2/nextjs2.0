@@ -81,9 +81,9 @@ const Header = ({ width }: any) => {
           </Center>
           <Center w="100%" maxW={width! > 1200 ? '600px' : '40%'}>
             <VStack pb="0" space={0} w="100%">
-              <Heading isTruncated fontSize="3xl">{event.name}</Heading>
-              <Heading isTruncated pb="1" fontSize="xl">{event.detail?.location_name} {" "} {event?.calendar_date}</Heading>
-              <Heading isTruncated fontSize="lg" bold>{event.detail?.location_address}</Heading>
+              <Heading fontWeight={300} isTruncated fontSize="3xl">{event.name}</Heading>
+              <Heading fontWeight={300} isTruncated pb="1" fontSize="xl">{event.detail?.location_name} {" "} {event?.calendar_date}</Heading>
+              <Heading fontWeight={600} isTruncated fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
           </Center>
           <Spacer />

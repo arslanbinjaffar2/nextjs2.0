@@ -7,6 +7,7 @@ import { Program } from 'application/models/program/Program';
 import UseProgramService from 'application/store/services/UseProgramService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
+import { Platform } from 'react-native';
 import moment from 'moment'
 import in_array from 'in_array';
 type AppProps = {
@@ -22,7 +23,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
   const { MakeFavourite, SetFavouriteProgramError, favouriteProgramError, agendas_attached_via_group } = UseProgramService();
 
   const { event } = UseEventService();
-  
+
   const { push } = useRouter()
 
   if(favouriteProgramError !== ''){
@@ -30,7 +31,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
     SetFavouriteProgramError('');
     alert(message);
   }  
-
+  const _condtion = (program?.session?.length && program?.enable_speakerlist) || (program?.videos?.length) || (event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) )
   return (
     <>
     <Box w="100%" key={k} borderBottomWidth={border ? 1 : 0} borderColor="primary.text" py="3">
@@ -41,9 +42,9 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
 
                 <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
                   <HStack pt="2" w="100%" space="5" minH={'55px'} alignItems="center" justifyContent="space-between">
-                  {event?.agenda_settings?.show_tracks == 1 && <Box width={`${(program?.program_tracks.length * 10) + 15}px`} h={'55px'} ml="-30px">
+                  {Platform.OS === 'web' && event?.agenda_settings?.show_tracks == 1 && <Box width={'45px'} h={'55px'} ml="-30px">
                     <ZStack reversed>
-                      {program?.program_tracks?.length > 0 && program.program_tracks.map((track: any, i: number) =>
+                      {program?.program_tracks?.length > 0 && program.program_tracks.slice(0,3).map((track: any, i: number) =>
                         <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" h={'55px'}   w={`${15 + (i * 10)}px`} borderRightRadius="10" shadow={2} />
                       )}
                     </ZStack>
@@ -52,11 +53,23 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                       <Text lineHeight="22px">{moment(`${program.date} ${program.start_time}`).format('HH:mm')}</Text>
                       <Text lineHeight="22px">{moment(`${program.date} ${program.end_time}`).format('HH:mm')}</Text>
                     </VStack>}
-                    <Center maxW={['62%', '70%', '42%']} alignSelf="flex-start" p="0">
+                    <Center maxW={[_condtion ? '20%' : '75%', '70%', '50%']} alignSelf="flex-start" p="0">
                       <Text alignSelf="flex-start" lineHeight="22px"> {program.topic}</Text>
                     </Center>
                     <Spacer />
-                    <HStack pr="3" space="5" alignItems="flex-end">
+                    
+                    {_condtion && <HStack pr="3" space="4" alignItems="flex-end">
+                      {program?.session?.length && program?.enable_speakerlist ? (
+                        <IconButton
+                          p={0}
+                          mr="0"
+                          variant="transparent"
+                          icon={<IcoRaiseHand width={21} height={26} />}
+                          onPress={() => {
+                            console.log('hello')
+                          }}
+                        />
+                      ): ''}
                       {program?.videos?.length ? (
                         <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
                       ) : ''}
@@ -66,17 +79,8 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                         }}>
                         <Icon size="xl" as={AntDesign} name={program?.program_attendees_attached?.length ? "heart" : "hearto"} color={'primary.text'} />
                       </Pressable>}
-                      {program?.session?.length && program?.enable_speakerlist ? (
-                        <IconButton
-                          mr="2"
-                          variant="transparent"
-                          icon={<IcoRaiseHand width={21} height={26} />}
-                          onPress={() => {
-                            console.log('hello')
-                          }}
-                        />
-                      ) : ''}
-                    </HStack>
+                      
+                    </HStack>}
                   </HStack>
                 </HStack>
       </Pressable>
