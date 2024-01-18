@@ -17,7 +17,7 @@ export const getHdTabListingsApi = (payload: any, state: any): Promise<HttpRespo
 }
 
 export const submitHdApi = (payload: any, state: any): Promise<HttpResponse> => {
-    return makeApi(`${state?.env?.api_gateway_url}`).post(`/v2/save-hd`, { ...payload });
+    return makeApi(`${state?.env?.api_gateway_url}`).post(`/v2/save-help-desk`, { ...payload });
 }
 export const submitHdLikeApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/hd/likeQuestion/${payload.question_id}/${payload.group_id}`, { ...payload });
