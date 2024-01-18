@@ -72,18 +72,18 @@ function* SubmitHd({
     yield put(LoadingActions.removeProcess({process:'hd-submitting'}))
 }
 
-// function* SubmitHdLike({
-//     payload
-// }: {
-//     type: typeof HdActions.SubmitHdLike
-//     payload: any
-// }): SagaIterator {
-//     yield put(LoadingActions.addProcess({process:`hd-like-${payload.question_id}`}))
-//     const state = yield select(state => state);
-//     const response: HttpResponse = yield call(submitHdLikeApi, payload, state)
-//     yield put(HdActions.OnFetchTabDetails({id:payload.agenda_id}))
-//     yield put(LoadingActions.removeProcess({process:`hd-like-${payload.question_id}`}))
-// }
+function* SubmitHdLike({
+    payload
+}: {
+    type: typeof HdActions.SubmitHdLike
+    payload: any
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:`hd-like-${payload.question_id}`}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(submitHdLikeApi, payload, state)
+    yield put(HdActions.OnFetchTabDetails({id:payload.agenda_id}))
+    yield put(LoadingActions.removeProcess({process:`hd-like-${payload.question_id}`}))
+}
 
 
 
@@ -95,7 +95,7 @@ export function* HdWatcherSaga(): SagaIterator {
     yield takeEvery(HdActions.OnFetchGroupDetail.type, OnFetchGroupDetail)
     yield takeEvery(HdActions.OnFetchTabDetails.type, OnFetchTabDetails)
     yield takeEvery(HdActions.SubmitHd.type, SubmitHd)
-    // yield takeEvery(HdActions.SubmitHdLike.type, SubmitHdLike)
+    yield takeEvery(HdActions.SubmitHdLike.type, SubmitHdLike)
 }
 
 export default HdWatcherSaga

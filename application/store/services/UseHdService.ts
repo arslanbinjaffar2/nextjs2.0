@@ -23,7 +23,7 @@ export type HdServiceOperators = {
     FetchGroupDetail: (payload:{id:number}) => void,
     FetchTabDetails: (payload:{id:number}) => void,
     SubmitHd: (payload:any) => void,
-    // SubmitHdLike: (payload:{question_id:number, agenda_id:number}) => void,
+    SubmitHdLike: (payload:{question_id:number, group_id:number}) => void,
     // HdRecentPopularSocketUpdate: (payload:any) => void,
     // HdSort: (payload:any) => void,
 }
@@ -66,12 +66,12 @@ export const UseHdService = (): Readonly<HdServiceOperators> => {
             },
             [dispatch],
         ),
-        // SubmitHdLike: useCallback(
-        //     (payload: {question_id:number, agenda_id:number}) => {
-        //         dispatch(HdActions.SubmitHdLike(payload))
-        //     },
-        //     [dispatch],
-        // ),
+        SubmitHdLike: useCallback(
+            (payload: {question_id:number, group_id:number}) => {
+                dispatch(HdActions.SubmitHdLike(payload))
+            },
+            [dispatch],
+        ),
         // HdRecentPopularSocketUpdate: useCallback(
         //     (payload:any) => {
         //         dispatch(HdActions.HdRecentPopularSocketUpdate(payload))

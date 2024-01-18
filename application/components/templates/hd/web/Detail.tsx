@@ -35,7 +35,7 @@ const Detail = () => {
     const { response  } = UseAuthService();
 
     
-    const {hdSettings, FetchGroupDetail, hdDetails, FetchTabDetails, SubmitHd } = UseHdService();
+    const {hdSettings, FetchGroupDetail, hdDetails, FetchTabDetails, SubmitHd, SubmitHdLike } = UseHdService();
     
     const { push } = useRouter()
 
@@ -224,7 +224,7 @@ const Detail = () => {
                                                     variant="transparent"
                                                     disabled={in_array(`hd-like-${question?.id}`, processing)}
                                                     icon={in_array(`hd-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
-                                                    onPress={() => { SubmitHdLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
+                                                    onPress={() => { SubmitHdLike({question_id:question?.id, group_id:question?.group_id}); }}
                                                 /> 
                                                 <Text>{question?.likes?.length}</Text>
                                             </HStack>}
@@ -254,7 +254,7 @@ const Detail = () => {
                                                     variant="transparent"
                                                     disabled={in_array(`hd-like-${question?.id}`, processing)}
                                                     icon={in_array(`hd-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
-                                                    onPress={() => { SubmitHdLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
+                                                    onPress={() => { SubmitHdLike({question_id:question?.id, group_id:question?.group_id}); }}
                                                 /> 
                                                 <Text>{question?.likes?.length}</Text>
                                             </HStack>}
@@ -284,37 +284,7 @@ const Detail = () => {
                                                     variant="transparent"
                                                     disabled={in_array(`hd-like-${question?.id}`, processing)}
                                                     icon={in_array(`hd-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
-                                                    onPress={() => { SubmitHdLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
-                                                /> 
-                                                <Text>{question?.likes?.length}</Text>
-                                            </HStack>}
-                                    </HStack>        
-                                    </>
-                                  ))  
-                                }
-                                {tab === 'my_question' &&
-                                  hdDetails?.my_questions?.map((question,i)=>(
-                                    <>
-                                    <HStack w="100%" space="3" alignItems="center">
-                                    <Avatar
-                                        size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
-                                    >
-                                    {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
-                                    </Avatar>
-                                    <Text fontWeight="600" fontSize="lg">
-                                    {question?.attendee?.first_name + question?.attendee?.last_name}
-                                    </Text>
-                                    </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
-                                            <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                            {hdSettings.up_vote == 1 && <HStack alignItems={'center'}> 
-                                                <IconButton
-                                                    variant="transparent"
-                                                    disabled={in_array(`hd-like-${question?.id}`, processing)}
-                                                    icon={in_array(`hd-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
-                                                    onPress={() => { SubmitHdLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
+                                                    onPress={() => { SubmitHdLike({question_id:question?.id, group_id:question?.group_id}); }}
                                                 /> 
                                                 <Text>{question?.likes?.length}</Text>
                                             </HStack>}
