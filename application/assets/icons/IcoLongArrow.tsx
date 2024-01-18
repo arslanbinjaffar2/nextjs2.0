@@ -1,9 +1,15 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Svg, { G, Path } from 'react-native-svg';
+import { getColorScheme } from 'application/styles/colors';
+import UseEventService from 'application/store/services/UseEventService';
 
 const IcoLongArrow = () => {
-  const fill = '#ffffff';
+
+  const { event } = UseEventService()
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+
+  const fill = colors.text ? colors.text : '#ffffff';
 
   return (
     <Svg

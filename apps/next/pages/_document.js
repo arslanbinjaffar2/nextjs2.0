@@ -145,8 +145,8 @@ export const style = `
 body {
   display: flex;
 }
-.rdtDays, .ebs-date-wrapper,.rdtCount {
-  font-family: 'Avenir', sans-serif;
+.rdtDays, .ebs-date-wrapper,.rdtCount,.styles_react-code-input__CRulA > input {
+  font-family: 'Avenir', sans-serif !important;
 }
 .rdtTime .rdtSwitch,.rdtTimeToggle {
   display: none !important;
