@@ -5,6 +5,7 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseHdService from 'application/store/services/UseHdService';
 import WebLoading from 'application/components/atoms/WebLoading';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 import in_array from "in_array";
 import moment from 'moment';
 import { useRouter } from 'solito/router';
@@ -36,21 +37,21 @@ const Index = () => {
     <>
     {
         in_array('hd-listing', processing) ? (
-            <WebLoading />
+            <SectionLoading />
         ):(
         <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text textTransform="uppercase" fontSize="2xl">Ask a question</Text>
         </HStack>
         <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
-          {groups?.length > 0 && groups?.map((program, k) =>
-            <Box w="100%" key={k} borderBottomWidth={k === 3 ? 0 : 1} borderColor="primary.text" py="3">
+          {groups?.length > 0 && groups?.map((group, k) =>
+            <Box w="100%" key={k} borderBottomWidth={k === (groups.length - 1) ? 0 : 1} borderColor="primary.text" py="3">
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                 
                 <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
                   <VStack maxW={['62%', '70%', '40%']} space="1">
                     <Text fontSize="md" lineHeight="22px">
-                      {program?.info.name}
+                      {group?.info.name}
                     </Text>
                   </VStack>
                   <Spacer />
@@ -61,7 +62,7 @@ const Index = () => {
                       _hover={{ bg: 'transparent' }}
                       icon={<Icon size="lg" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       onPress={() => {
-                        push(`/${event.url}/hd/detail/${program.id}`)
+                        push(`/${event.url}/hd/detail/${group.id}`)
                       }}
                     />
                   </HStack>
