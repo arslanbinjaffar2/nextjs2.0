@@ -352,6 +352,7 @@ export interface Setting {
   qa_answers_view: number;
   qa_listing: number;
   qa_tabs: number;
+  [key:string]:any;
 }
 
 export interface Group {

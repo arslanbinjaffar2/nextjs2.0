@@ -353,3 +353,258 @@ export interface Setting {
   qa_listing: number;
   qa_tabs: number;
 }
+
+
+
+
+export interface Archivedquestion {
+  id: number;
+  answered: string;
+  show_projector: number;
+  rejected: number;
+  q_startTime: string;
+  isStart: number;
+  displayed: number;
+  sort_order: number;
+  attendee_id: number;
+  event_id: number;
+  group_id: number;
+  anonymous_user: number;
+  like_count: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  info: Info;
+  attendee: Attendee2;
+  likes: any[];
+}
+
+export interface Attendee2 {
+  id: number;
+  email: string;
+  ss_number: string;
+  first_name: string;
+  last_name: string;
+  organizer_id: number;
+  FIRST_NAME_PASSPORT: string;
+  LAST_NAME_PASSPORT: string;
+  BIRTHDAY_YEAR: string;
+  EMPLOYMENT_DATE: string;
+  SPOKEN_LANGUAGE: string;
+  image: string;
+  status: number;
+  show_home: string;
+  allow_vote: number;
+  billing_ref_attendee: number;
+  billing_password: string;
+  change_password: number;
+  phone: string;
+  is_updated: number;
+  is_deleted: number;
+  pid: string;
+  pid_date: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  attendee_cv: string;
+  cv: string;
+  encrypted_cpr_number: string;
+  info: Info3;
+}
+
+export interface Info3 {
+  delegate_number: string;
+  table_number: string;
+  age: string;
+  gender: string;
+  company_name: string;
+  company_key: string;
+  title: string;
+  industry: string;
+  about: string;
+  phone: string;
+  website: string;
+  website_protocol: string;
+  facebook: string;
+  facebook_protocol: string;
+  twitter: string;
+  twitter_protocol: string;
+  linkedin: string;
+  linkedin_protocol: string;
+  linkedin_profile_id: string;
+  registration_type: string;
+  country: string;
+  organization: string;
+  jobs: string;
+  interests: string;
+  initial: string;
+  department: string;
+  custom_field_id2794: string;
+  network_group: string;
+  billing_ref_attendee: string;
+  billing_password: string;
+  place_of_birth: string;
+  passport_no: string;
+  date_of_issue_passport: string;
+  date_of_expiry_passport: string;
+  private_house_number: string;
+  private_street: string;
+  private_post_code: string;
+  private_city: string;
+  private_country: string;
+  custom_field_id3078?: string;
+  custom_field_id2793?: string;
+  custom_field_id3258?: string;
+  custom_field_id2798?: string;
+}
+
+export interface Popularquestion {
+  id: number;
+  answered: string;
+  show_projector: number;
+  rejected: number;
+  q_startTime: string;
+  isStart: number;
+  displayed: number;
+  sort_order: number;
+  attendee_id: number;
+  event_id: number;
+  group_id: number;
+  anonymous_user: number;
+  like_count: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  info: Info;
+  attendee: Attendee;
+  likes: any[];
+}
+
+export interface Attendee {
+  id: number;
+  email: string;
+  ss_number: string;
+  first_name: string;
+  last_name: string;
+  organizer_id: number;
+  FIRST_NAME_PASSPORT: string;
+  LAST_NAME_PASSPORT: string;
+  BIRTHDAY_YEAR: string;
+  EMPLOYMENT_DATE: string;
+  SPOKEN_LANGUAGE: string;
+  image: string;
+  status: number;
+  show_home: string;
+  allow_vote: number;
+  billing_ref_attendee: number;
+  billing_password: string;
+  change_password: number;
+  phone: string;
+  is_updated: number;
+  is_deleted: number;
+  pid: string;
+  pid_date: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  attendee_cv: string;
+  cv: string;
+  encrypted_cpr_number: string;
+  info: Info2;
+}
+
+export interface Info2 {
+  delegate_number: string;
+  table_number: string;
+  age: string;
+  gender: string;
+  company_name: string;
+  company_key: string;
+  title: string;
+  industry: string;
+  about: string;
+  phone: string;
+  website: string;
+  website_protocol: string;
+  facebook: string;
+  facebook_protocol: string;
+  twitter: string;
+  twitter_protocol: string;
+  linkedin: string;
+  linkedin_protocol: string;
+  linkedin_profile_id: string;
+  registration_type: string;
+  country: string;
+  organization: string;
+  jobs: string;
+  interests: string;
+  initial: string;
+  department: string;
+  custom_field_id2911: string;
+  network_group: string;
+  billing_ref_attendee: string;
+  billing_password: string;
+  place_of_birth: string;
+  passport_no: string;
+  date_of_issue_passport: string;
+  date_of_expiry_passport: string;
+  private_house_number: string;
+  private_street: string;
+  private_post_code: string;
+  private_city: string;
+  private_country: string;
+  custom_field_id2794: string;
+  custom_field_id2824: string;
+  custom_field_id2793: string;
+  custom_field_id3034: string;
+  custom_field_id2796: string;
+  custom_field_id3073: string;
+  custom_field_id2809: string;
+  custom_field_id3038: string;
+  custom_field_id2983: string;
+  custom_field_id2795: string;
+  custom_field_id2807: string;
+  custom_field_id3110: string;
+  custom_field_id3126: string;
+  custom_field_id3115: string;
+  private_street_2: string;
+  private_state: string;
+  custom_field_id3004: string;
+  custom_field_id3155: string;
+  allow_vote: string;
+  allow_gallery: string;
+  custom_field_id3189: string;
+  custom_field_id2798: string;
+  custom_field_id3184: string;
+  custom_field_id3216: string;
+  ask_to_apeak: string;
+  custom_field_id3079: string;
+  custom_field_id3256: string;
+  custom_field_id3257: string;
+  custom_field_id3258: string;
+  custom_field_id3262: string;
+  custom_field_id3135: string;
+  custom_field_id3075: string;
+  custom_field_id2839: string;
+  custom_field_id2811: string;
+  custom_field_id3342: string;
+  custom_field_id3576: string;
+  custom_field_id3603: string;
+  custom_field_id3393: string;
+  type_resource: string;
+  custom_field_id3351: string;
+  custom_field_id3655: string;
+  private_country_name: string;
+  custom_field_id3134: string;
+  custom_field_id3224: string;
+  custom_field_id3815: string;
+}
+
+export interface Info {
+  question: string;
+  question_time: string;
+  answer: string;
+  answer_time: string;
+}
+
+

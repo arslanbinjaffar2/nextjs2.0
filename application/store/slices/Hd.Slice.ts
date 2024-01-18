@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Group, Setting, Labels } from 'application/models/hd/Hd'
 
+import { Archivedquestion, Popularquestion } from 'application/models/hd/Detail'
+
 import { RootState } from 'application/store/Index'
 
 import {
@@ -14,6 +16,11 @@ export interface HdState {
     labels:Labels|null,
     hdDetails:{
         group:Group|null,
+        popular_questions:Popularquestion[],
+        archived_questions:Archivedquestion[],
+        recent_questions:Popularquestion[],
+        clientIp:string,
+        all_languages:number[]
     },
 }
 
@@ -23,6 +30,11 @@ const initialState: HdState = {
     labels:null,
     hdDetails:{
         group:null,
+        popular_questions:[],
+        archived_questions:[],
+        recent_questions:[],
+        clientIp:'',
+        all_languages:[]
     },
 }
 
@@ -37,24 +49,21 @@ export const HdSlice = createSlice({
             state.hdSettings = action.payload.settings;
             state.labels = action.payload.labels;
         },
-        // OnFetchGroupDetail(state, action: PayloadAction<{ id: number }>) {},
-        // updateDetail(state, action: PayloadAction<{ program_detail:AgendaDetail, speakers:Speaker[], paragraph:Paragraph[], hd_settings:HdSettings, program_settings:GroupSettings, client_ip:string, all_languages:number[] }>) {
-        //     state.hdDetails.program_detail = action.payload.program_detail;
-        //     state.hdDetails.speakers = action.payload.speakers;
-        //     state.hdDetails.paragraph = action.payload.paragraph;
-        //     state.hdSettings = action.payload.hd_settings;
-        //     state.programSettings = action.payload.program_settings;
-        //     state.hdDetails.clientIp = action.payload.client_ip;
-        //     state.hdDetails.all_languages = action.payload.all_languages;
-        // },
-        // OnFetchTabDetails(state, action: PayloadAction<{ id: number }>) {},
-        // updateTabDetail(state, action: PayloadAction<{ popular_questions:Question[], recent_questions:Question[], archived_questions:Question[], my_questions:Question[] }>) {
-        //     state.hdDetails.popular_questions = action.payload.popular_questions;
-        //     state.hdDetails.recent_questions = action.payload.recent_questions;
-        //     state.hdDetails.archived_questions = action.payload.archived_questions;
-        //     state.hdDetails.my_questions = action.payload.my_questions;
-        // },
-        // SubmitHd(state, action: PayloadAction<any>) {},
+        OnFetchGroupDetail(state, action: PayloadAction<{ id: number }>) {},
+        updateDetail(state, action: PayloadAction<{ hd_group:Group, settings:Setting, labels:Labels, all_languages:number[], clientIp:string }>) {
+            state.hdDetails.group = action.payload.hd_group;
+            state.hdSettings = action.payload.settings;
+            state.labels = action.payload.labels;
+            state.hdDetails.clientIp = action.payload.clientIp;
+            state.hdDetails.all_languages = action.payload.all_languages;
+        },
+        OnFetchTabDetails(state, action: PayloadAction<{ id: number }>) {},
+        updateTabDetail(state, action: PayloadAction<{ popular_questions:Popularquestion[], recent_questions:Popularquestion[], archived_questions:Archivedquestion[] }>) {
+            state.hdDetails.popular_questions = action.payload.popular_questions;
+            state.hdDetails.recent_questions = action.payload.recent_questions;
+            state.hdDetails.archived_questions = action.payload.archived_questions;
+        },
+        SubmitHd(state, action: PayloadAction<any>) {},
         // SubmitHdLike(state, action: PayloadAction<{question_id:number, agenda_id:number}>) {},
         // HdRecentPopularSocketUpdate(state, action: PayloadAction<any>) {
         //     if(action.payload.hd == undefined){
@@ -120,12 +129,12 @@ export const HdSlice = createSlice({
 // Actions
 export const HdActions = {
     OnFetchGroups:HdSlice.actions.OnFetchGroups,
-    // OnFetchGroupDetail:HdSlice.actions.OnFetchGroupDetail,
-    // OnFetchTabDetails:HdSlice.actions.OnFetchTabDetails,
+    OnFetchGroupDetail:HdSlice.actions.OnFetchGroupDetail,
+    OnFetchTabDetails:HdSlice.actions.OnFetchTabDetails,
     update:HdSlice.actions.update,
-    // updateDetail:HdSlice.actions.updateDetail,
-    // updateTabDetail:HdSlice.actions.updateTabDetail,
-    // SubmitHd:HdSlice.actions.SubmitHd,
+    updateDetail:HdSlice.actions.updateDetail,
+    updateTabDetail:HdSlice.actions.updateTabDetail,
+    SubmitHd:HdSlice.actions.SubmitHd,
     // SubmitHdLike:HdSlice.actions.SubmitHdLike,
     // HdRecentPopularSocketUpdate:HdSlice.actions.HdRecentPopularSocketUpdate,
     // HdSort:HdSlice.actions.HdSort,

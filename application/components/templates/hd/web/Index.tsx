@@ -62,7 +62,7 @@ const Index = () => {
                       _hover={{ bg: 'transparent' }}
                       icon={<Icon size="lg" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       onPress={() => {
-                        push(`/${event.url}/hd/detail/${group.id}`)
+                        push(`/${event.url}/help_desk/detail/${group.id}`)
                       }}
                     />
                   </HStack>
