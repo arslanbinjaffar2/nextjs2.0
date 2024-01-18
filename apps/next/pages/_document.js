@@ -166,6 +166,9 @@ body {
 .css-12a83d4-MultiValueRemove {
   background-color: #000;
 }
+.r-backgroundColor-16it7h5 {
+  backdrop-filter: blur(5px);
+}
 `;
 
 export async function getInitialProps({ renderPage }) {
