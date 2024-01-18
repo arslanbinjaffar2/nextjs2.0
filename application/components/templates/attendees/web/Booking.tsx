@@ -89,12 +89,16 @@ type AppProps = {
 				>
 					<Modal.Content  bg={'primary.box'}>
 						
-						<Modal.Header pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'} fontWeight={600}>Book a meeting</Modal.Header>
+						<Modal.Header pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
+							<Text fontSize="lg" fontWeight={600}>Book a meeting</Text>
+						</Modal.Header>
 						<Modal.Body bg="primary.box" px={0}>
-							<Text px={4} fontSize="md">Are you sure you want to send meeting request to this attendee “aha@eventbuizz.com”</Text>
-							<HStack px={4} w={'100%'} space="3" alignItems="flex-start" bg="primary.darktext">
-								<Text  fontSize="md">Are you sure you want to send meeting request to this attendee “aha@eventbuizz.com”</Text>
-							</HStack>
+							<Text mb={2} px={4} fontSize="md">Are you sure you want to send meeting request to this attendee “aha@eventbuizz.com”</Text>
+							<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start" bg="primary.darkbox">
+								<Text  fontSize="sm">Meeting space : 514-A Conference Room</Text>
+								<Text  fontSize="sm">Meeting date : 12-12-2023</Text>
+								<Text  fontSize="sm">Meeting time : 01:00 - 02:30 (1hr 30min)</Text>
+							</VStack>
 							
 						</Modal.Body>
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
