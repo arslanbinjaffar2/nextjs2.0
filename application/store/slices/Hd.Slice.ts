@@ -64,7 +64,7 @@ export const HdSlice = createSlice({
             state.hdDetails.archived_questions = action.payload.archived_questions;
         },
         SubmitHd(state, action: PayloadAction<any>) {},
-        // SubmitHdLike(state, action: PayloadAction<{question_id:number, agenda_id:number}>) {},
+        SubmitHdLike(state, action: PayloadAction<{question_id:number, group_id:number}>) {},
         // HdRecentPopularSocketUpdate(state, action: PayloadAction<any>) {
         //     if(action.payload.hd == undefined){
         //         let hd_data = action.payload
@@ -135,7 +135,7 @@ export const HdActions = {
     updateDetail:HdSlice.actions.updateDetail,
     updateTabDetail:HdSlice.actions.updateTabDetail,
     SubmitHd:HdSlice.actions.SubmitHd,
-    // SubmitHdLike:HdSlice.actions.SubmitHdLike,
+    SubmitHdLike:HdSlice.actions.SubmitHdLike,
     // HdRecentPopularSocketUpdate:HdSlice.actions.HdRecentPopularSocketUpdate,
     // HdSort:HdSlice.actions.HdSort,
 }
