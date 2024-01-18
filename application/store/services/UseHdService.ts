@@ -24,8 +24,8 @@ export type HdServiceOperators = {
     FetchTabDetails: (payload:{id:number}) => void,
     SubmitHd: (payload:any) => void,
     SubmitHdLike: (payload:{question_id:number, group_id:number}) => void,
-    // HdRecentPopularSocketUpdate: (payload:any) => void,
-    // HdSort: (payload:any) => void,
+    HdRecentPopularSocketUpdate: (payload:any) => void,
+    HdSort: (payload:any) => void,
 }
 
 /**
@@ -72,18 +72,18 @@ export const UseHdService = (): Readonly<HdServiceOperators> => {
             },
             [dispatch],
         ),
-        // HdRecentPopularSocketUpdate: useCallback(
-        //     (payload:any) => {
-        //         dispatch(HdActions.HdRecentPopularSocketUpdate(payload))
-        //     },
-        //     [dispatch],
-        // ),
-        // HdSort: useCallback(
-        //     (payload:any) => {
-        //         dispatch(HdActions.HdSort(payload))
-        //     },
-        //     [dispatch],
-        // ),
+        HdRecentPopularSocketUpdate: useCallback(
+            (payload:any) => {
+                dispatch(HdActions.HdRecentPopularSocketUpdate(payload))
+            },
+            [dispatch],
+        ),
+        HdSort: useCallback(
+            (payload:any) => {
+                dispatch(HdActions.HdSort(payload))
+            },
+            [dispatch],
+        ),
     }
 }
 

@@ -35,7 +35,7 @@ const Detail = () => {
     const { response  } = UseAuthService();
 
     
-    const {hdSettings, FetchGroupDetail, hdDetails, FetchTabDetails, SubmitHd, SubmitHdLike } = UseHdService();
+    const {hdSettings, FetchGroupDetail, hdDetails, FetchTabDetails, SubmitHd, SubmitHdLike, HdRecentPopularSocketUpdate, HdSort } = UseHdService();
     
     const { push } = useRouter()
 
@@ -51,24 +51,24 @@ const Detail = () => {
         }
     }, [id]);
 
-    // React.useEffect(() => {
-    //     if(socket !== null){
-    //         socket?.on(`event-buizz:hd_admin_block_listing_${event.id}_${id}`, function (data:any):any {
-    //             console.log(data, 'data');
-    //             HdRecentPopularSocketUpdate(data.data_raw);
-    //         });
-    //         socket?.on(`event-buizz:hd_block_sort_${event.id}_${id}`, function (data:any):any {
-    //             console.log(data, 'data');
-    //             HdSort(data);
-    //         });
-    //     }
-    //     return () =>{
-    //         if(socket !== null){
-    //             socket?.off(`event-buizz:hd_admin_block_listing_${event.id}_${id}`);
-    //             socket?.off(`event-buizz:hd_block_sort_${event.id}_${id}`);
-    //         }
-    //     }
-    // }, [socket]);
+    React.useEffect(() => {
+        if(socket !== null){
+            socket?.on(`event-buizz:hd_admin_block_listing_${event.id}_${id}`, function (data:any):any {
+                console.log(data, 'data1');
+                // HdRecentPopularSocketUpdate(data.data_raw);
+            });
+            socket?.on(`event-buizz:hd_block_sort_${event.id}_${id}`, function (data:any):any {
+                console.log(data, 'data2');
+                HdSort(data);
+            });
+        }
+        return () =>{
+            if(socket !== null){
+                socket?.off(`event-buizz:hd_admin_block_listing_${event.id}_${id}`);
+                socket?.off(`event-buizz:hd_block_sort_${event.id}_${id}`);
+            }
+        }
+    }, [socket]);
 
     const [speaker, setSpeaker] = React.useState<any>(null);
     const [paragraph, setParagraph] = React.useState<any>(null);
@@ -195,7 +195,7 @@ const Detail = () => {
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
-                            <Button onPress={() => { setTab(item) }} bg={tab === item ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
+                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
                         ))}
                     </HStack>
                     <Box mb="10" px="5" w="100%" position="relative">
@@ -226,7 +226,7 @@ const Detail = () => {
                                                     icon={in_array(`hd-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
                                                     onPress={() => { SubmitHdLike({question_id:question?.id, group_id:question?.group_id}); }}
                                                 /> 
-                                                <Text>{question?.likes?.length}</Text>
+                                                <Text>{question?.like_count}</Text>
                                             </HStack>}
                                     </HStack>        
                                     </>
@@ -256,7 +256,7 @@ const Detail = () => {
                                                     icon={in_array(`hd-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
                                                     onPress={() => { SubmitHdLike({question_id:question?.id, group_id:question?.group_id}); }}
                                                 /> 
-                                                <Text>{question?.likes?.length}</Text>
+                                                <Text>{question?.like_count}</Text>
                                             </HStack>}
                                     </HStack>        
                                     </>
@@ -286,7 +286,7 @@ const Detail = () => {
                                                     icon={in_array(`hd-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
                                                     onPress={() => { SubmitHdLike({question_id:question?.id, group_id:question?.group_id}); }}
                                                 /> 
-                                                <Text>{question?.likes?.length}</Text>
+                                                <Text>{question?.like_count}</Text>
                                             </HStack>}
                                     </HStack>        
                                     </>

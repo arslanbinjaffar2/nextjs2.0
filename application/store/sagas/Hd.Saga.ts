@@ -81,7 +81,7 @@ function* SubmitHdLike({
     yield put(LoadingActions.addProcess({process:`hd-like-${payload.question_id}`}))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(submitHdLikeApi, payload, state)
-    yield put(HdActions.OnFetchTabDetails({id:payload.agenda_id}))
+    yield put(HdActions.OnFetchTabDetails({id:payload.group_id}))
     yield put(LoadingActions.removeProcess({process:`hd-like-${payload.question_id}`}))
 }
 

@@ -65,63 +65,67 @@ export const HdSlice = createSlice({
         },
         SubmitHd(state, action: PayloadAction<any>) {},
         SubmitHdLike(state, action: PayloadAction<{question_id:number, group_id:number}>) {},
-        // HdRecentPopularSocketUpdate(state, action: PayloadAction<any>) {
-        //     if(action.payload.hd == undefined){
-        //         let hd_data = action.payload
-        //         delete hd_data.info;
-        //         hd_data.info = hd_data.hd_detail;
-        //         delete hd_data.detail;
-        //         hd_data.attendee = hd_data.attendee_info;
-        //         delete hd_data.attendee_info;
-        //         hd_data.attendee.info = hd_data.attendee_detail;
-        //         delete hd_data.attendee_detail
-        //         state.hdDetails.popular_questions = [...state.hdDetails?.popular_questions, hd_data];
-        //         state.hdDetails.recent_questions = [...state.hdDetails?.recent_questions, hd_data ];
-        //     }
-        //     else{
-        //         let hd_data = action.payload.hd;
-        //         hd_data.attendee = action.payload.hd_attendee;
-        //         hd_data.info = action.payload.hd_info;
-        //         state.hdDetails.popular_questions = [...state.hdDetails?.popular_questions, hd_data];
-        //         state.hdDetails.recent_questions = [...state.hdDetails?.recent_questions, hd_data ];
-        //     }
-        // },
-        // HdSort(state, action: PayloadAction<any>) {
-        //     let popularHd = action.payload.data_info?.reduce((ack:any, item:any)=>{
-        //         let q = state.hdDetails.popular_questions.find(q=>(q.id == item));
-        //         if(q){
-        //             ack.push(q);
-        //         }
-        //         return ack;
-        //     }, []); 
-        //     let recentHd = action.payload.data_info?.reduce((ack:any, item:any)=>{
-        //         let q = state.hdDetails.recent_questions.find(q=>(q.id == item));
-        //         if(q){
-        //             ack.push(q);
-        //         }
-        //         return ack;
-        //     }, []); 
+        HdRecentPopularSocketUpdate(state, action: PayloadAction<any>) {
+            if(action.payload.hd == undefined){
+                let hd_data = action.payload
+                delete hd_data.info;
+                hd_data.info = hd_data.hd_detail;
+                delete hd_data.detail;
+                hd_data.attendee = hd_data.attendee_info;
+                delete hd_data.attendee_info;
+                hd_data.attendee.info = hd_data.attendee_detail;
+                delete hd_data.attendee_detail
+                state.hdDetails.popular_questions = [...state.hdDetails?.popular_questions, hd_data];
+                state.hdDetails.recent_questions = [...state.hdDetails?.recent_questions, hd_data ];
+            }
+            else{
+                let hd_data = action.payload.hd;
+                hd_data.attendee = action.payload.hd_attendee;
+                hd_data.info = action.payload.hd_info;
+                state.hdDetails.popular_questions = [...state.hdDetails?.popular_questions, hd_data];
+                state.hdDetails.recent_questions = [...state.hdDetails?.recent_questions, hd_data ];
+            }
+        },
+        HdSort(state, action: PayloadAction<any>) {
+            let popularHd = action.payload.data_info?.reduce((ack:any, item:any)=>{
+                let q = state.hdDetails.popular_questions.find(q=>(q.id == item));
+                if(q){
+                    ack.push(q);
+                }
+                return ack;
+            }, []); 
+            let recentHd = action.payload.data_info?.reduce((ack:any, item:any)=>{
+                let q = state.hdDetails.recent_questions.find(q=>(q.id == item));
+                if(q){
+                    ack.push(q);
+                }
+                return ack;
+            }, []); 
 
-        //     let archiveHd = state.hdDetails.archived_questions;
+            let archiveHd = state.hdDetails.archived_questions;
             
-        //     let myQA = state.hdDetails.my_questions;
+            if(action.payload.updated_like_count > 0){
+                popularHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.like_count + action.payload.updated_like_count;
+                
+                recentHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.like_count + action.payload.updated_like_count;
+                
+                archiveHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.like_count+ action.payload.updated_like_count;
+            }
+            else if(action.payload.updated_like_count == 0){
+                popularHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.like_count - 1;
+                
+                recentHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.like_count - 1;
+                
+                archiveHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.like_count! - 1;
+            }
 
-        //     popularHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.likes?.push({attendee_id:'',hd_id:action.payload.update_like_hd_id});
+            state.hdDetails.popular_questions = popularHd;
             
-        //     recentHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.likes?.push({attendee_id:'',hd_id:action.payload.update_like_hd_id});
-            
-        //     myQA?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.likes?.push({attendee_id:0,hd_id:action.payload.update_like_hd_id});
-            
-        //     archiveHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.likes?.push({attendee_id:0,hd_id:action.payload.update_like_hd_id});
+            state.hdDetails.recent_questions = recentHd;
 
-        //     state.hdDetails.popular_questions = popularHd;
-            
-        //     state.hdDetails.recent_questions = recentHd;
+            state.hdDetails.archived_questions = archiveHd;
 
-        //     state.hdDetails.archived_questions = archiveHd;
-
-        //     state.hdDetails.my_questions = myQA;
-        // },
+        },
         
     },
 })
@@ -136,8 +140,8 @@ export const HdActions = {
     updateTabDetail:HdSlice.actions.updateTabDetail,
     SubmitHd:HdSlice.actions.SubmitHd,
     SubmitHdLike:HdSlice.actions.SubmitHdLike,
-    // HdRecentPopularSocketUpdate:HdSlice.actions.HdRecentPopularSocketUpdate,
-    // HdSort:HdSlice.actions.HdSort,
+    HdRecentPopularSocketUpdate:HdSlice.actions.HdRecentPopularSocketUpdate,
+    HdSort:HdSlice.actions.HdSort,
 }
 
 export const SelectGroups = (state: RootState) => state.hd.groups
