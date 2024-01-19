@@ -14,6 +14,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEnvService from 'application/store/services/UseEnvService';
 import LoadImage from 'application/components/atoms/LoadImage';
 import moment from 'moment';
+import { useWindowDimensions } from 'react-native';
 
 type ScreenParams = { id: string }
 
@@ -31,6 +32,7 @@ const RectangleView = () => {
     const [_id] = useParam('id');
     const { response } = UseAuthService();
     const { _env } = UseEnvService()
+     const { width } = useWindowDimensions();
 
     React.useEffect(() => {
         if (_id != response?.data?.user?.id) {
@@ -93,41 +95,41 @@ const RectangleView = () => {
                         ) :
                         (<Box w="100%" py="4" borderBottomWidth={(i === (hotels?.hotels?.length - 1)) ? 0 : 1} borderBottomColor={'primary.text'}>
                             <HStack px="4" w="100%" space="3" alignItems="center">
-                                <Center w="110px">
-                                    <LoadImage path={`${_env.eventcenter_base_url}/${h?.internal_booking_hotel?.image !== '' ? 'assets/hotel/'+ h?.internal_booking_hotel?.image : '_mobile_assets/images/placeholder.png' }`} w="110px" style={{borderRadius: '8px'}}  />
+                                <Center w={["80px","110px"]}>
+                                    <LoadImage path={`${_env.eventcenter_base_url}/${h?.internal_booking_hotel?.image !== '' ? 'assets/hotel/'+ h?.internal_booking_hotel?.image : '_mobile_assets/images/placeholder.png' }`} w={"100%"} style={{borderRadius: '8px'}}  />
                                 </Center>
 
-                                <Center w={'calc(100% - 125px)'} justifyContent={'flex-start'} alignItems={'flex-start'}>
+                                <Center w={['calc(100% - 100px)','calc(100% - 125px)']} justifyContent={'flex-start'} alignItems={'flex-start'}>
                                     <HStack w={'100%'} space="1" alignItems="center">
-                                        <Center w={'calc(100% - 95px)'} alignItems="flex-start">
+                                        <Center w={['100%','calc(100% - 95px)']} alignItems="flex-start">
                                             <Text mb={2} fontSize="lg">{h?.name}</Text>
                                             {hotels?.settings.enable_checkin_checkout === 1 && 
                                                 <HStack space={3}>
                                                     <HStack justifyContent={'flex-start'} alignItems={'center'} space="1">
-                                                        <HStack p={1} rounded={4} bg={'green.500'} space="3" alignItems="center">
+                                                        <HStack p={1} rounded={4} bg={'green.500'} space="0" alignItems="center">
                                                             <Icon size={'xsm'} color={'white'} as={SimpleLineIcons} name="login"  />
                                                         </HStack>
                                                         
                                                         <Text fontSize="md" textAlign={'center'}>{moment(h?.checkin).format('DD/MM/YYYY')}</Text>
                                                     </HStack>
                                                     <HStack justifyContent={'flex-start'} alignItems={'center'} space="1">
-                                                        <HStack p={1} rounded={4} bg={'red.500'} space="3" alignItems="center">
+                                                        <HStack p={1} rounded={4} bg={'red.500'} space="0" alignItems="center">
                                                             <Icon size={'xsm'}  color={'white'} as={SimpleLineIcons} name="logout"  />
                                                         </HStack>
-                                                        <Text fontSize="md" textAlign={'center'}>{moment(h?.checkout).format('DD/MM/YYYY')}</Text>
+                                                        <Text fontSize="sm" textAlign={'center'}>{moment(h?.checkout).format('DD/MM/YYYY')}</Text>
                                                     </HStack>
                                                 </HStack>
                                             }
                                         </Center>
                                         <Spacer />
-                                        <Center w={'90px'} alignItems="flex-end">
+                                        {width > 550 && <Center w={'90px'} alignItems="flex-end">
                                             {hotels?.settings.enable_show_summary === 1 && <VStack bg="red" space="0">
-                                                <Text fontSize="md">Rooms:{h?.rooms}</Text>
+                                                <Text fontSize="sm">Rooms:{h?.rooms}</Text>
                                             </VStack>}
                                             {hotels?.settings.enable_hotel_price === 1 && <VStack bg="red"  space="0">
-                                                <Text fontSize="md" textAlign={'center'}>Price: {h?.price}{hotels?.currency}</Text>
+                                                <Text fontSize="sm">Price: {h?.price}{hotels?.currency}</Text>
                                             </VStack>}
-                                        </Center>
+                                        </Center>}
                                     </HStack>
                                     
                                     
