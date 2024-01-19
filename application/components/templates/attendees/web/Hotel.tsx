@@ -124,7 +124,7 @@ const RectangleView = () => {
                                                         <HStack p={1} rounded={4} bg={'red.500'} space="0" alignItems="center">
                                                             <Icon size={'xsm'}  color={'white'} as={SimpleLineIcons} name="logout"  />
                                                         </HStack>
-                                                        <Text fontSize="sm" textAlign={'center'}>{moment(h?.checkout).format('DD/MM/YYYY')}</Text>
+                                                        <Text fontSize="md" textAlign={'center'}>{moment(h?.checkout).format('DD/MM/YYYY')}</Text>
                                                     </HStack>
                                                 </HStack>
                                             }
