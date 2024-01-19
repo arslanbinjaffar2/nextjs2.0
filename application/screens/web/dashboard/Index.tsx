@@ -78,7 +78,7 @@ const Index = ({ navigation }: indexProps) => {
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
             <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
               <Heading pt="2" fontSize="2xl" w="100%" textAlign="center">PROGRAMS</Heading>
-              <SlideView section="program" programs={programs} my={0} />
+              <SlideView section="program" programs={programs} my={0} dashboard={true} />
               <Center py="3" px="2" w="100%" alignItems="flex-end">
                 <Button onPress={() => {
                   push(`/${event.url}/agendas`)
