@@ -102,7 +102,15 @@ const RectangleView = () => {
                                 <Center w={['calc(100% - 100px)','calc(100% - 125px)']} justifyContent={'flex-start'} alignItems={'flex-start'}>
                                     <HStack w={'100%'} space="1" alignItems="center">
                                         <Center w={['100%','calc(100% - 95px)']} alignItems="flex-start">
-                                            <Text mb={2} fontSize="lg">{h?.name}</Text>
+                                            <Text lineHeight={'sm'} mb={[1,2]} fontSize="lg">{h?.name}</Text>
+                                            {width < 550 && <HStack w={'100%'} mb={2} space={3} alignItems="flex-start">
+                                                {hotels?.settings.enable_show_summary === 1 && <VStack bg="red" space="0">
+                                                    <Text fontSize="md">Rooms:{h?.rooms}</Text>
+                                                </VStack>}
+                                                    {hotels?.settings.enable_hotel_price === 1 && <VStack bg="red"  space="0">
+                                                        <Text fontSize="md">Price: {h?.price}{hotels?.currency}</Text>
+                                                    </VStack>}
+                                                </HStack>}
                                             {hotels?.settings.enable_checkin_checkout === 1 && 
                                                 <HStack space={3}>
                                                     <HStack justifyContent={'flex-start'} alignItems={'center'} space="1">
