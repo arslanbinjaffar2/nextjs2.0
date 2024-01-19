@@ -42,7 +42,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
         
         return (
             <>
-                {dates.length > 0 && currentIndex !== undefined && <>
+                {dates?.length > 0 && currentIndex !== undefined && <>
                     <HStack my={my !== undefined ? my : 3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
                         <Center alignItems="flex-start" w="10%">
                             {currentIndex > 0 && 
