@@ -46,7 +46,7 @@ const ResetPassword = ({ navigation, route }: any) => {
         <Master navigation={navigation}>
             <Center w={'100%'} pt={20} px={15}>
                 <Flex w="100%" rounded="10">
-                    <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
+                    <Image alt='logo' mb={8} source={images.Logo} w="180px" h="61px" alignSelf={'center'} />
                     <VStack opacity="0.7" space='4' bg='primary.box' py='5' px='4' borderRadius='lg'>
                         <Text w={'100%'} fontSize='lg' lineHeight='sm'>Enter the new password & confirm password.</Text>
                         <FormControl isRequired isInvalid={'password' in errors || error !== ''}>

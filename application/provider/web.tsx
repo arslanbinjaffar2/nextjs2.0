@@ -88,7 +88,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                         size: 'lg', bg: 'primary.500',
                         _hover: { bg: colors.primary },
                         _text: { color: 'primary.text' },
-                        _pressed: { bg: `${colors.secondary}` }
+                        _pressed: { bg: `${colors.secondary}`, color: '#fff' }
                     }
                 },
                 Input: {

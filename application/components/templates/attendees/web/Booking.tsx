@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Center, Container, Flex, Heading, HStack, Icon, IconButton, Modal, Pressable, ScrollView, Spacer, Text, View, VStack } from 'native-base';
+import { Box, Button, Center, Container, Flex, Heading, HStack, Icon, IconButton, Modal, Pressable, ScrollView, Spacer, Text, TextArea, View, VStack } from 'native-base';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { Detail } from 'application/models/attendee/Detail';
@@ -99,15 +99,20 @@ type AppProps = {
 								<Text  fontSize="sm">Meeting date : 12-12-2023</Text>
 								<Text  fontSize="sm">Meeting time : 01:00 - 02:30 (1hr 30min)</Text>
 							</VStack>
+							<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
+								<Text  fontSize="md">Message</Text>
+								<TextArea autoCompleteType={false} w="100%" h={120} placeholder="Please write your message here …" bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+								
+							</VStack>
 							
 						</Modal.Body>
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
 							<Button.Group variant={'unstyled'} space={0}>
 								<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setshowpopup(false)}>LEARN MORE</Button>
+									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setshowpopup(false)} textTransform={'uppercase'}>Close</Button>
 								</Container>
-								<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled">Accept</Button>
+								<Container borderRightWidth={0}  w="50%">
+									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}>Send</Button>
 								</Container>
 							</Button.Group>
 						</Modal.Footer>
