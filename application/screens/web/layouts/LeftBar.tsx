@@ -42,13 +42,13 @@ const LeftBar = () => {
               router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
             }}>
 
-            <Flex alignItems="center" flexDirection={'row'}>
+            <Flex w={width > 1200 ? '265px' : '70px'} alignItems="center" flexDirection={'row'}>
               <Avatar w="70px" h="70px" bg="green.500" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
                 {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
               </Avatar>
-              {width > 1200 && <VStack px="5" space="0">
-                <Text fontSize="lg" textTransform={'uppercase'} bold>{response?.data?.user?.name}</Text>
-                <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
+              {width > 1200 && <VStack w={'calc(100% - 100px)'} px="5" space="0">
+                <Text fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
+                <Text p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
               </VStack>}
             </Flex>
         </Pressable>
