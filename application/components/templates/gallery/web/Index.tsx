@@ -7,7 +7,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import { GalleryImage } from 'application/models/gallery/GalleryImage';
 import LoadMore from 'application/components/atoms/LoadMore';
-import SectionLoading from 'application/components/atoms/SectionLoading';
+import LoadImage from 'application/components/atoms/LoadImage';
 import in_array from "in_array";
 const Index = () => {
   const { loading,scroll, processing } = UseLoadingService();
@@ -32,19 +32,27 @@ const Index = () => {
   return (
     <>
       {
-          loading ? (
+          (in_array('gallery', processing)) && page === 1 ? (
               <WebLoading />
           ):(
               <Container pt="2" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text textTransform="uppercase" fontSize="2xl">Gallery</Text>
                  <Spacer />
-                 <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0}  placeholder="Search" onChangeText={(text: string) => {}} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                 <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0}  placeholder="Search" value={query} onChangeText={setQuery} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
               </HStack>
               <Box w="100%"  overflow="hidden"  p="4">
                 <VStack mb="10" w="100%" space="0">
                 <Stack mx={'-4%'} direction="row"  flexWrap="wrap" alignItems={'flex-start'} justifyContent={'flex-start'} mb="2" space={0}>
-                    {gallery_images.map((gallery_image:GalleryImage)=>(
+                {gallery_images.filter((gallery_image)=>{
+                      if(query !== ''){
+                          if(gallery_image.info.find(info => info.name == 'image_title')?.value?.toLowerCase()?.indexOf(query.toLowerCase()) > -1){
+                              return gallery_image;
+                          }
+                      }else{
+                          return gallery_image;
+                      }
+                    }).map((gallery_image:GalleryImage)=>(
                       <Box bg="primary.box" mb={4} mx={'1%'} rounded={'8'} overflow={'hidden'} width={'48%'} key={gallery_image.id}>
                         <Pressable
                           p="0"
@@ -69,7 +77,6 @@ const Index = () => {
                 size={'full'}
                 isOpen={activepopup}
                 onClose={()=>{}}
-                
               >
                 <Modal.Content maxW={'780px'} >
                   <Modal.Body p={0} justifyContent="flex-end">
@@ -81,6 +88,9 @@ const Index = () => {
               </Modal>
               
               </Container>
+      )}
+      {(in_array('gallery', processing)) && page > 1 && (
+          <LoadMore />
       )}
     </>
   )
