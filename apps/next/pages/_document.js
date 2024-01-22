@@ -28,6 +28,17 @@ class Document extends NativebaseDocument {
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </Head>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            charset="UTF-8"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+          />
         <body style={{ height: "100%", overflow: "hidden" }}>
           <Main />
           <NextScript />

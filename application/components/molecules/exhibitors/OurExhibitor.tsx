@@ -6,9 +6,25 @@ import UseExhibitorService from 'application/store/services/UseExhibitorService'
 import UseEventService from 'application/store/services/UseEventService';
 import BoxView from 'application/components/atoms/exhibitors/BoxView';
 import { Exhibitor } from 'application/models/exhibitor/Exhibitor';
+import Slider from "react-slick";
 
 const OurExhibitor = () => {
-
+ const settings = {
+      dots: false,
+      infinite: true,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      autoplay: true,
+      arrows: false,
+      vertical: true,
+      verticalSwiping: false,
+      beforeChange: function(currentSlide: any, nextSlide: any) {
+        console.log("before change", currentSlide, nextSlide);
+      },
+      afterChange: function(currentSlide: any) {
+        console.log("after change", currentSlide);
+      }
+    };
   const { our_exhibitors, categories, FetchExhibitors, category_id, query } = UseExhibitorService();
 
   const { modules } = UseEventService();
@@ -22,9 +38,15 @@ const OurExhibitor = () => {
       {modules.filter((module: any, key: number) => module.alias === 'exhibitors').length > 0 && our_exhibitors?.length > 0 && (
         <>
           <IconWithLeftHeading icon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 22, height: 24 }} />} title="OUR EXHIBITORS" />
-          {our_exhibitors.length > 0 && our_exhibitors.map((exhibitor: Exhibitor, key: number) =>
-            <BoxView exhibitor={exhibitor} k={key} key={key} w='100%' />
-          )}
+         <div style={{width: '265px'}}>
+           <Slider {...settings}>
+           {our_exhibitors.length > 0 && our_exhibitors.map((exhibitor: Exhibitor, key: number) =>
+             <div key={key} style={{width: '265px'}}>
+               <BoxView exhibitor={exhibitor} k={key} w='100%' />
+             </div>
+           )}
+           </Slider>
+         </div>
         </>
       )}
     </Container>
