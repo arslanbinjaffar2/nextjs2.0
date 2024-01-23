@@ -30,6 +30,7 @@ import NotificationSlice from './slices/Notification.Slice'
 import SocketSlice, { SocketActions } from './slices/Socket.Slice'
 import HdSlice from './slices/Hd.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
+import GallerySlice from './slices/Gallery.Slice'
 
 const makeStore = () => {
 
@@ -54,6 +55,7 @@ const makeStore = () => {
             surveys:SurveySlice,
             alerts:AlertSlice,
             floorPlans:FloorPlanSlice,
+            galleryImages:GallerySlice,
             banners:BannerSlice,
             editProfiles:EditProfileSlice,
             qa:QaSlice,
