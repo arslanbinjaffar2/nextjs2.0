@@ -59,16 +59,16 @@ const BoxView = ({ k, sponsor, w }: AppProps) => {
                                 top={'3px'}
                             />
                         )}
-                        <Center px="1" alignItems="center" w="100%">
+                        <Center mb={3} px="1" alignItems="center" w="100%">
                             {sponsor.logo ? (
                                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${sponsor.logo}` }} alt="Alternate Text" w="210px" h="72px" />
                             ) : (
                                 <Image source={ExhibitorDefaultImage} alt="Alternate Text" w="210px" h="72px" />
                             )}
                         </Center>
-                        <HStack pb={6} space="3" alignItems="center" position={'relative'}>
+                        <HStack pb={3} space="3" alignItems="center" position={'relative'}>
                             {settings?.catTab == 1 && sponsor?.categories.length > 0 && 
-                            <HStack alignItems="flex-start" minH={'25px'} w="100%" position={'relative'} mt={4}>
+                            <HStack alignItems="flex-start" minH={'25px'} w="100%" position={'relative'}>
                                 <Center alignItems="flex-start" w='120px' p="0">
                                     <ZStack reversed>
                                         {sponsor?.categories.length > 0 && sponsor?.categories.slice(0,3).map((cat, i)=>(
