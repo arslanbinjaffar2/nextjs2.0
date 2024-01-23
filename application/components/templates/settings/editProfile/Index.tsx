@@ -750,8 +750,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     
                                 <Radio.Group space="5"   value={gender} name="MyRadioGroup" onChange={(gender) => { setGender(gender); }}>
                                     <HStack space="3" alignItems="center">
-                                        <Radio colorScheme="secondary" icon={<Icon as={<Ionicons  name="checkmark" />} />}isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'male'}> Male </Radio>
-                                        <Radio colorScheme="secondary" icon={<Icon as={<Ionicons  name="checkmark" />} />}isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'female'}> Female </Radio>
+                                        <Radio  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'male'}> Male </Radio>
+                                        <Radio  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'female'}> Female </Radio>
                                     </HStack>
 
                                 </Radio.Group>

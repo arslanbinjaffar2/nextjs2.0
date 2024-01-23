@@ -41,7 +41,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
                 
                 {question.matrix.map((matrix, i) =>
                   <Center minW="100px" flex="1" key={matrix.id}>
-                   <Radio colorScheme="secondary" icon={<Icon as={<Ionicons  name="checkmark" />} />} key={i} value={`${matrix.id}`} aria-label={matrix.name}  />
+                   <Radio  key={i} value={`${matrix.id}`} aria-label={matrix.name}  />
                   </Center>
                 )}
               </HStack>

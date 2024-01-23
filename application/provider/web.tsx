@@ -1,5 +1,5 @@
 import { NavigationProvider } from './navigation'
-import { NativeBaseProvider, extendTheme } from 'native-base';
+import { Icon, NativeBaseProvider, extendTheme } from 'native-base';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useState, useEffect } from 'react';
 import { getColorScheme } from 'application/styles/colors'
@@ -9,7 +9,8 @@ import * as Font from 'expo-font';
 import { createParam } from 'solito';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
-import Head from 'next/head'
+import Head from 'next/head';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 type ScreenParams = { event: string }
 
@@ -90,6 +91,18 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                         _hover: { bg: colors.primary },
                         _text: { color: 'primary.text' },
                         _pressed: { bg: `${colors.secondary}`, color: '#fff' }
+                    }
+                },
+                Checkbox: {
+                    defaultProps: {
+                        colorScheme: 'secondary',
+                        bg: 'white',
+                    },
+                },
+                Radio: {
+                    defaultProps: {
+                        colorScheme: 'secondary',
+                        bg: 'white'
                     }
                 },
                 Input: {
