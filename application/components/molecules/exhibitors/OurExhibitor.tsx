@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from 'native-base'
+import { Box, Container } from 'native-base'
 import IconWithLeftHeading from 'application/components/atoms/headings/IconWithLeftHeading'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
@@ -12,12 +12,14 @@ const OurExhibitor = () => {
  const settings = {
       dots: false,
       infinite: true,
+      speed: 500,
       slidesToShow: 4,
       slidesToScroll: 1,
       autoplay: true,
       arrows: false,
+      centerMode: false,
       vertical: true,
-      verticalSwiping: false,
+      verticalSwiping: true,
       beforeChange: function(currentSlide: any, nextSlide: any) {
         console.log("before change", currentSlide, nextSlide);
       },
@@ -41,9 +43,9 @@ const OurExhibitor = () => {
          <div style={{width: '265px'}}>
            <Slider {...settings}>
            {our_exhibitors.length > 0 && our_exhibitors.map((exhibitor: Exhibitor, key: number) =>
-             <div key={key} style={{width: '265px'}}>
-               <BoxView exhibitor={exhibitor} k={key} w='100%' />
-             </div>
+           <Box key={key}  w={265} height={170} p="0" rounded="lg">
+            <BoxView exhibitor={exhibitor} k={key} w='100%' />
+           </Box>
            )}
            </Slider>
          </div>

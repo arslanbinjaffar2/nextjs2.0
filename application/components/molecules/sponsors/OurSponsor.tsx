@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from 'native-base'
+import { Box, Container } from 'native-base'
 import IconWithLeftHeading from 'application/components/atoms/headings/IconWithLeftHeading'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseSponsorService from 'application/store/services/UseSponsorService';
@@ -12,12 +12,14 @@ const OurSponsor = () => {
      const settings = {
       dots: false,
       infinite: true,
+      speed: 500,
       slidesToShow: 4,
       slidesToScroll: 1,
       autoplay: true,
       arrows: false,
+      centerMode: false,
       vertical: true,
-      verticalSwiping: false,
+      verticalSwiping: true,
       beforeChange: function(currentSlide: any, nextSlide: any) {
         console.log("before change", currentSlide, nextSlide);
       },
@@ -42,9 +44,9 @@ const OurSponsor = () => {
                     <div style={{width: '265px'}}>
                         <Slider {...settings}>
                             {our_sponsors.length > 0 && our_sponsors.map((sponsor: Sponsor, key: number) =>
-                            <div key={key} style={{width: '265px'}}>
+                            <Box key={key}  w={265} height={170} p="0" rounded="lg">
                                 <BoxView sponsor={sponsor} k={key}  w='100%' />
-                            </div>
+                            </Box>
                             )}
                          </Slider>
                     </div>
