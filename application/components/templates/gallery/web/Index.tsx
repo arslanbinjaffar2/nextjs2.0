@@ -14,7 +14,7 @@ const Index = () => {
 
   const [query, setQuery] = React.useState("");
   const [activepopup, setactivepopup] = React.useState(false);
-  const [popupdata, setpopupdata] = React.useState(null);
+  const [popupdata, setpopupdata] = React.useState<any>(null);
 
   const { FetchGalleryImages, gallery_images, page, last_page } = UseGalleryService();
   const { _env } = UseEnvService();
@@ -46,7 +46,8 @@ const Index = () => {
                 <Stack mx={'-4%'} direction="row"  flexWrap="wrap" alignItems={'flex-start'} justifyContent={'flex-start'} mb="2" space={0}>
                 {gallery_images.filter((gallery_image)=>{
                       if(query !== ''){
-                          if(gallery_image.info.find(info => info.name == 'image_title')?.value?.toLowerCase()?.indexOf(query.toLowerCase()) > -1){
+                         let name = gallery_image.info.find(info => info.name == 'image_title')?.value ?? '';
+                          if(name?.toLowerCase()?.indexOf(query.toLowerCase()) > -1){
                               return gallery_image;
                           }
                       }else{
@@ -82,7 +83,7 @@ const Index = () => {
                   <Modal.Body p={0} justifyContent="flex-end">
                   <Modal.CloseButton borderWidth={1} borderColor={'white'} rounded={'50%'} zIndex={999} onPress={() => {setactivepopup(false);setpopupdata(null)}}/>
                     <LoadImage width={'100%'} path={`${_env.eventcenter_base_url}/assets/imagegallery/${popupdata?.image}` } alt="Alternate Text" />
-                    <Text p="3" textAlign={'center'} fontSize={'md'}>{popupdata?.info.find(info => info.name == 'image_title')?.value || ''}</Text>
+                    <Text p="3" textAlign={'center'} fontSize={'md'}>{popupdata?.info.find((info:any) => info.name == 'image_title')?.value || ''}</Text>
                   </Modal.Body>
                 </Modal.Content>
               </Modal>
