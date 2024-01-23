@@ -6,8 +6,25 @@ import UseSponsorService from 'application/store/services/UseSponsorService';
 import UseEventService from 'application/store/services/UseEventService';
 import BoxView from 'application/components/atoms/sponsors/BoxView';
 import { Sponsor } from 'application/models/sponsor/Sponsor';
+import Slider from "react-slick";
 
 const OurSponsor = () => {
+     const settings = {
+      dots: false,
+      infinite: true,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      autoplay: true,
+      arrows: false,
+      vertical: true,
+      verticalSwiping: false,
+      beforeChange: function(currentSlide: any, nextSlide: any) {
+        console.log("before change", currentSlide, nextSlide);
+      },
+      afterChange: function(currentSlide: any) {
+        console.log("after change", currentSlide);
+      }
+    };
 
     const { our_sponsors, categories, FetchSponsors, category_id, query } = UseSponsorService();
 
@@ -22,9 +39,15 @@ const OurSponsor = () => {
             {modules.filter((module: any, key: number) => module.alias === 'sponsors').length > 0 && our_sponsors?.length > 0 && (
                 <>
                     <IconWithLeftHeading icon={<DynamicIcon iconType="sponsors" iconProps={{ width: 22, height: 24 }} />} title="OUR SPONSORS" />
-                    {our_sponsors.length > 0 && our_sponsors.map((sponsor: Sponsor, key: number) =>
-                        <BoxView sponsor={sponsor} k={key} key={key} w='100%' />
-                    )}
+                    <div style={{width: '265px'}}>
+                        <Slider {...settings}>
+                            {our_sponsors.length > 0 && our_sponsors.map((sponsor: Sponsor, key: number) =>
+                            <div key={key} style={{width: '265px'}}>
+                                <BoxView sponsor={sponsor} k={key}  w='100%' />
+                            </div>
+                            )}
+                         </Slider>
+                    </div>
                 </>
             )}
         </Container>
