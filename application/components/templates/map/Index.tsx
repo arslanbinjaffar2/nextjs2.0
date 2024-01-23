@@ -18,7 +18,9 @@ const Index = () => {
     },[])
   return (
     <>
-        {loading || !map ? <SectionLoading/>:
+        {loading ? 
+            <SectionLoading/>
+        :
             <Container pt="2" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text textTransform="uppercase" fontSize="2xl">{event?.labels?.EVENTSITE_MAP}</Text>
@@ -45,6 +47,9 @@ const Index = () => {
                         />
                     </Box>
                 }
+                {!map && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
+                    <Text>{event.labels?.EVENT_NORECORD_FOUND}</Text>
+                </Box>}
             </Container>
         }
     </>

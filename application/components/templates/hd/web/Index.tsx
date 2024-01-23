@@ -69,6 +69,9 @@ const Index = () => {
                 </HStack>
               </HStack>
             </Box>)}
+            {groups?.length <= 0 && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
+                    <Text>{event.labels?.EVENT_NORECORD_FOUND}</Text>
+                </Box>}
         </Box>
       </Container>)
     }
