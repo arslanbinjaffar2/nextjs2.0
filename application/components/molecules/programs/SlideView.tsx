@@ -80,7 +80,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
                         if(program.workshop_programs?.length > 0){
                             let newProgram ={ ...program};
                             if(dashboard == true){
-                                newProgram.workshop_programs = dates.length < 5 ? program.workshop_programs.slice(0, (5 - (dates.length - 1))) : program.workshop_programs;
+                                newProgram.workshop_programs = dates.length <= 5 ? program.workshop_programs.slice(0, (5 - (dates.length - 1))) : (dates.length > 5 ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
                             }
                            return <WorkshopCollapsableView section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
                         }

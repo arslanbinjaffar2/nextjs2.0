@@ -277,7 +277,11 @@ return (
 			{
 				active && 
 				<Center py="3" px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
-					<Text mb={2} fontSize="sm">{eventday} {moment().month(month).format("MMMM")}</Text>
+					<Text mb={2} fontSize="sm">
+						<>
+							{eventday} {moment().month(month).format("MMMM")}
+						</>
+					</Text>
 					<ScrollView w={'100%'} maxHeight={320}>
 						{[...Array(12)].map(item =>
 							
