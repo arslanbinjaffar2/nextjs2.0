@@ -9,6 +9,7 @@ import * as Font from 'expo-font';
 import { createParam } from 'solito';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
+import Head from 'next/head'
 
 type ScreenParams = { event: string }
 
@@ -88,7 +89,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                         size: 'lg', bg: 'primary.500',
                         _hover: { bg: colors.primary },
                         _text: { color: 'primary.text' },
-                        _pressed: { bg: `${colors.secondary}` }
+                        _pressed: { bg: `${colors.secondary}`, color: '#fff' }
                     }
                 },
                 Input: {
@@ -156,7 +157,17 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
 
     return (
         <NavigationProvider>
-            <NativeBaseProvider config={config} theme={nativebaseTheme}>{children}</NativeBaseProvider>
+            <>
+                <Head>
+                    <title>{event.name}</title>
+                    <meta
+                    name="description"
+                    content={event.name}
+                    />
+                    {event?.settings?.fav_icon !== "" && <link rel="icon" type="image/x-icon"  href={`${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.fav_icon}`} />}
+                </Head>
+                <NativeBaseProvider config={config} theme={nativebaseTheme}>{children}</NativeBaseProvider>
+            </>
         </NavigationProvider>
     )
 }

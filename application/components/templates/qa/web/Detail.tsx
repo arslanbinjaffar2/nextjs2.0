@@ -37,7 +37,7 @@ const Detail = () => {
     
     const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails,  SubmitQa, SubmitQaLike, QaRecentPopularSocketUpdate, QaSort} = UseQaService();
     
-    const { push } = useRouter()
+    const { push, back } = useRouter()
 
     const { socket } = UseSocketService();
 
@@ -162,7 +162,7 @@ const Detail = () => {
             <Container overflow="hidden" mb="4" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                     <Pressable onPress={()=>{
-                        push(`/${event.url}/qa`)
+                        back();
                     }}>
                         <HStack  space="3" alignItems="center">
                             <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text"  />
@@ -261,7 +261,7 @@ const Detail = () => {
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
-                            <Button onPress={() => { setTab(item) }} bg={tab === item ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
+                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
                         ))}
                     </HStack>
                     <Box mb="10" px="5" w="100%" position="relative">

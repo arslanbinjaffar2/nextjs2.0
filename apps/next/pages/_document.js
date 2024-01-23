@@ -156,8 +156,8 @@ export const style = `
 body {
   display: flex;
 }
-.rdtDays, .ebs-date-wrapper,.rdtCount {
-  font-family: 'Avenir', sans-serif;
+.rdtDays, .ebs-date-wrapper,.rdtCount,.styles_react-code-input__CRulA > input {
+  font-family: 'Avenir', sans-serif !important;
 }
 .rdtTime .rdtSwitch,.rdtTimeToggle {
   display: none !important;
@@ -176,6 +176,9 @@ body {
 }
 .css-12a83d4-MultiValueRemove {
   background-color: #000;
+}
+.r-backgroundColor-16it7h5 {
+  backdrop-filter: blur(5px);
 }
 `;
 

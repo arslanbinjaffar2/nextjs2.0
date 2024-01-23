@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Heading, HStack, Icon, Pressable, Spacer, Text, View, VStack } from 'native-base';
+import { Box, Center, Heading, HStack, Icon, Pressable, Spacer, Text, View, VStack } from 'native-base';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { Detail } from 'application/models/attendee/Detail';
@@ -14,6 +14,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEnvService from 'application/store/services/UseEnvService';
 import LoadImage from 'application/components/atoms/LoadImage';
 import moment from 'moment';
+import { useWindowDimensions } from 'react-native';
 
 type ScreenParams = { id: string }
 
@@ -31,6 +32,7 @@ const RectangleView = () => {
     const [_id] = useParam('id');
     const { response } = UseAuthService();
     const { _env } = UseEnvService()
+     const { width } = useWindowDimensions();
 
     React.useEffect(() => {
         if (_id != response?.data?.user?.id) {
@@ -52,7 +54,7 @@ const RectangleView = () => {
                             <Text fontSize="2xl">BACK</Text>
                         </HStack>
                     </Pressable>
-                    <Text fontSize="2xl">Hotel</Text>
+                    <Text fontSize="2xl" textTransform={'uppercase'}>Hotel</Text>
                     <Box minWidth={70}> </Box>
                 </HStack>
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
@@ -60,65 +62,89 @@ const RectangleView = () => {
                         h?.orderhotel !== undefined ? (
                             <Box w="100%" py="4" borderBottomWidth={(i === (hotels?.hotels?.length - 1)) ? 0 : 1} borderBottomColor={'primary.text'}>
                             <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
-                                <LoadImage path={`${_env.eventcenter_base_url}/${h?.image !== undefined && h?.image !== ''  ? 'assets/hotel/'+ h?.image : '_mobile_assets/images/placeholder.png' }`} w="80px"  />
+                                <LoadImage path={`${_env.eventcenter_base_url}/${h?.image !== undefined && h?.image !== ''  ? 'assets/hotel/'+ h?.image : '_mobile_assets/images/placeholder.png' }`} w="110px" style={{borderRadius: '8px'}}  />
 
-                                <VStack bg="red" w="20%" minW={['20%']} space="0">
-                                    <Text fontSize="lg" textAlign={'center'}>{h?.orderhotel?.name}</Text>
-                                </VStack>
-                                {hotels?.settings.enable_checkin_checkout === 1 && 
-                                    <>
-                                        <VStack bg="red" w="20%" minW={['20%']} space="0">
-                                            <Text fontSize="lg" textAlign={'center'}>Check in</Text>
-                                            <Text fontSize="sm" textAlign={'center'}>{moment(h?.orderhotel?.checkin).format('dddd DD, MMMM YYYY')}</Text>
-                                        </VStack>
-                                        <VStack bg="red" w="20%" minW={['20%']} space="0">
-                                            <Text fontSize="lg"textAlign={'center'} >Check out</Text>
-                                            <Text fontSize="sm" textAlign={'center'}>{moment(h?.orderhotel?.checkout).format('dddd DD, MMMM YYYY')}</Text>
-                                        </VStack>
-                                    </>
-                                }
-                                
-                                {hotels?.settings.enable_show_summary === 1 && <VStack bg="red" w="10%" minW={['20%']} space="0">
-                                    <Text fontSize="lg" textAlign={'center'}>{h?.orderhotel?.rooms}</Text>
-                                </VStack>}
-                                
-                                {hotels?.settings.enable_hotel_price === 1 && <VStack bg="red" w="10%" minW={['10%']} space="0">
-                                    <Text fontSize="lg" textAlign={'center'}>Price</Text>
-                                    <Text fontSize="sm" textAlign={'center'}>{h?.orderhotel?.price}{hotels?.currency}</Text>
-                                </VStack>}
+                                <Center>
+                                    <VStack bg="red" w="20%" minW={['20%']} space="0">
+                                        <Text fontSize="lg" textAlign={'center'}>{h?.orderhotel?.name}</Text>
+                                    </VStack>
+                                    {hotels?.settings.enable_checkin_checkout === 1 && 
+                                        <>
+                                            <VStack bg="red" w="20%" minW={['20%']} space="0">
+                                                <Text fontSize="lg" textAlign={'center'}>Check in</Text>
+                                                <Text fontSize="sm" textAlign={'center'}>{moment(h?.orderhotel?.checkin).format('dddd DD, MMMM YYYY')}</Text>
+                                            </VStack>
+                                            <VStack bg="red" w="20%" minW={['20%']} space="0">
+                                                <Text fontSize="lg"textAlign={'center'} >Check out</Text>
+                                                <Text fontSize="sm" textAlign={'center'}>{moment(h?.orderhotel?.checkout).format('dddd DD, MMMM YYYY')}</Text>
+                                            </VStack>
+                                        </>
+                                    }
+                                    
+                                    {hotels?.settings.enable_show_summary === 1 && <VStack bg="red" w="10%" minW={['20%']} space="0">
+                                        <Text fontSize="lg" textAlign={'center'}>{h?.orderhotel?.rooms}</Text>
+                                    </VStack>}
+                                    
+                                    {hotels?.settings.enable_hotel_price === 1 && <VStack bg="red" w="10%" minW={['10%']} space="0">
+                                        <Text fontSize="lg" textAlign={'center'}>Price</Text>
+                                        <Text fontSize="sm" textAlign={'center'}>{h?.orderhotel?.price}{hotels?.currency}</Text>
+                                    </VStack>}
+                                </Center>
                             </HStack>
                         </Box>
                         ) :
                         (<Box w="100%" py="4" borderBottomWidth={(i === (hotels?.hotels?.length - 1)) ? 0 : 1} borderBottomColor={'primary.text'}>
-                            <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
-                                <LoadImage path={`${_env.eventcenter_base_url}/${h?.internal_booking_hotel?.image !== '' ? 'assets/hotel/'+ h?.internal_booking_hotel?.image : '_mobile_assets/images/placeholder.png' }`} w="80px"  />
+                            <HStack px="4" w="100%" space="3" alignItems="center">
+                                <Center w={["80px","110px"]}>
+                                    <LoadImage path={`${_env.eventcenter_base_url}/${h?.internal_booking_hotel?.image !== '' ? 'assets/hotel/'+ h?.internal_booking_hotel?.image : '_mobile_assets/images/placeholder.png' }`} w={"100%"} style={{borderRadius: '8px'}}  />
+                                </Center>
 
-                                <VStack bg="red" w="20%" minW={['20%']} space="0">
-                                    <Text fontSize="lg" textAlign={'center'}>{h?.name}</Text>
-                                    <Text fontSize="sm" textAlign={'center'}>{h?.internal_booking_hotel?.info[0]?.value}</Text>
-                                </VStack>
-                                {hotels?.settings.enable_checkin_checkout === 1 && 
-                                    <>
-                                        <VStack bg="red" w="20%" minW={['20%']} space="0">
-                                            <Text fontSize="lg" textAlign={'center'}>Check in</Text>
-                                            <Text fontSize="sm" textAlign={'center'}>{moment(h?.checkin).format('dddd DD, MMMM YYYY')}</Text>
-                                        </VStack>
-                                        <VStack bg="red" w="20%" minW={['20%']} space="0">
-                                            <Text fontSize="lg"textAlign={'center'} >Check out</Text>
-                                            <Text fontSize="sm" textAlign={'center'}>{moment(h?.checkout).format('dddd DD, MMMM YYYY')}</Text>
-                                        </VStack>
-                                    </>
-                                }
-                                
-                                {hotels?.settings.enable_show_summary === 1 && <VStack bg="red" w="10%" minW={['20%']} space="0">
-                                    <Text fontSize="lg" textAlign={'center'}>{h?.rooms}</Text>
-                                    <Text fontSize="sm" textAlign={'center'}>{h?.internal_booking_hotel?.info[1]?.value}</Text>
-                                </VStack>}
-                                
-                                {hotels?.settings.enable_hotel_price === 1 && <VStack bg="red" w="10%" minW={['10%']} space="0">
-                                    <Text fontSize="lg" textAlign={'center'}>Price</Text>
-                                    <Text fontSize="sm" textAlign={'center'}>{h?.price}{hotels?.currency}</Text>
-                                </VStack>}
+                                <Center w={['calc(100% - 100px)','calc(100% - 125px)']} justifyContent={'flex-start'} alignItems={'flex-start'}>
+                                    <HStack w={'100%'} space="1" alignItems="center">
+                                        <Center w={['100%','calc(100% - 95px)']} alignItems="flex-start">
+                                            <Text lineHeight={'sm'} mb={[1,2]} fontSize="lg">{h?.name}</Text>
+                                            {width < 550 && <HStack w={'100%'} mb={2} space={3} alignItems="flex-start">
+                                                {hotels?.settings.enable_show_summary === 1 && <VStack bg="red" space="0">
+                                                    <Text fontSize="md">Rooms:{h?.rooms}</Text>
+                                                </VStack>}
+                                                    {hotels?.settings.enable_hotel_price === 1 && <VStack bg="red"  space="0">
+                                                        <Text fontSize="md">Price: {h?.price}{hotels?.currency}</Text>
+                                                    </VStack>}
+                                                </HStack>}
+                                            {hotels?.settings.enable_checkin_checkout === 1 && 
+                                                <HStack space={3}>
+                                                    <HStack justifyContent={'flex-start'} alignItems={'center'} space="1">
+                                                        <HStack p={1} rounded={4} bg={'green.500'} space="0" alignItems="center">
+                                                            <Icon size={'xsm'} color={'white'} as={SimpleLineIcons} name="login"  />
+                                                        </HStack>
+                                                        
+                                                        <Text fontSize="md" textAlign={'center'}>{moment(h?.checkin).format('DD/MM/YYYY')}</Text>
+                                                    </HStack>
+                                                    <HStack justifyContent={'flex-start'} alignItems={'center'} space="1">
+                                                        <HStack p={1} rounded={4} bg={'red.500'} space="0" alignItems="center">
+                                                            <Icon size={'xsm'}  color={'white'} as={SimpleLineIcons} name="logout"  />
+                                                        </HStack>
+                                                        <Text fontSize="md" textAlign={'center'}>{moment(h?.checkout).format('DD/MM/YYYY')}</Text>
+                                                    </HStack>
+                                                </HStack>
+                                            }
+                                        </Center>
+                                        <Spacer />
+                                        {width > 550 && <Center w={'90px'} alignItems="flex-end">
+                                            {hotels?.settings.enable_show_summary === 1 && <VStack bg="red" space="0">
+                                                <Text fontSize="sm">Rooms:{h?.rooms}</Text>
+                                            </VStack>}
+                                            {hotels?.settings.enable_hotel_price === 1 && <VStack bg="red"  space="0">
+                                                <Text fontSize="sm">Price: {h?.price}{hotels?.currency}</Text>
+                                            </VStack>}
+                                        </Center>}
+                                    </HStack>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                </Center>
                             </HStack>
                         </Box>)
                     ))}

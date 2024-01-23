@@ -150,9 +150,9 @@ const Index = ({ speaker, screen }: Props) => {
                             <Button onPress={() => {
                                 setTab('attendee') 
                                 UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
-                            }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} _text={{ fontWeight: '600' }}>ALL</Button>}
+                            }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} _text={{ fontWeight: '600' }}>ALL</Button>}
                         {(event?.speaker_settings?.default_display !== 'name' || event?.speaker_settings?.tab == 1) &&
-                            <Button onPress={() => setTab('category')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display !== 'name' && event?.speaker_settings?.tab == 0)) ? '100%' : '50%'} _text={{ fontWeight: '600' }}>CATEGORIES</Button>
+                            <Button onPress={() => setTab('category')} borderRightRadius={8} borderLeftRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display !== 'name' && event?.speaker_settings?.tab == 0)) ? '100%' : '50%'} _text={{ fontWeight: '600' }}>CATEGORIES</Button>
                         }
                     </HStack>}
                     {group_id > 0 && (
