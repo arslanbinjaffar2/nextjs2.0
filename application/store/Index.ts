@@ -80,7 +80,7 @@ const makeStore = () => {
               },
              })
             .concat(sagaMiddleware)
-            .concat(logger),
+            // .concat(logger),
     })
 
     sagaMiddleware.run(RootSaga)

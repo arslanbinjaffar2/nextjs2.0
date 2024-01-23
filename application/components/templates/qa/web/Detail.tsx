@@ -37,7 +37,7 @@ const Detail = () => {
     
     const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails,  SubmitQa, SubmitQaLike, QaRecentPopularSocketUpdate, QaSort} = UseQaService();
     
-    const { push } = useRouter()
+    const { push, back } = useRouter()
 
     const { socket } = UseSocketService();
 
@@ -162,7 +162,7 @@ const Detail = () => {
             <Container overflow="hidden" mb="4" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                     <Pressable onPress={()=>{
-                        push(`/${event.url}/qa`)
+                        back();
                     }}>
                         <HStack  space="3" alignItems="center">
                             <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text"  />
