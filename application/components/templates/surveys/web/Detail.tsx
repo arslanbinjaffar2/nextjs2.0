@@ -50,7 +50,7 @@ const Detail = () => {
 
   const { response  } = UseAuthService();
 
-  const { push } = useRouter()
+  const { push, back } = useRouter()
 
   const { FetchSurveyDetail, detail, survey_labels, submitSuccess, SubmitSurvey } = UseSurveyService();
 
@@ -235,7 +235,7 @@ const Detail = () => {
             ) : (
             <Container mb="3" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Pressable onPress={()=> push(`/${event.url}/survey`)}>
+                <Pressable onPress={()=> back() }>
                   <HStack space="3" alignItems="center">
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                         <Text fontSize="2xl">BACK</Text>
