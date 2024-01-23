@@ -232,12 +232,14 @@ const Detail = () => {
                     </Select>
                     
                     </HStack>}
-                    {qaSettings?.line_number == 1 && <HStack pl="6" pr={"6"}  w="100%" height={'40px'} bg="primary.box" mb="3" alignItems="center">
-                        <Text fontSize="lg">Line number</Text>
-                        <Spacer />
-                        <Input w="30%" height={'28px'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
+                    {qaSettings?.line_number == 1 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.text'} pb={'3'} mb="3" alignItems="center">
+                        <Text w="30%" fontSize="lg">Line number</Text>
+                        <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
-                    <TextArea focusOutlineColor="transparent" _focus={{ bg: 'transparent' }} value={question} onChangeText={(value)=>setQuestion(value)}  px="4" py="0" fontSize="lg" w="100%" borderWidth="0" rounded="0" minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
+                    <Box w="100%" px="3">
+                        <TextArea rounded={8} bg="primary.box" value={question} onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%" borderColor={'transparent'} minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
+                    </Box>
+                    
                     <HStack px="3" py="2" space="3" alignItems="center">
                     {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">Send anonymously</Checkbox>}
                     <Spacer />
@@ -284,11 +286,13 @@ const Detail = () => {
                                     </Text>
                                     </HStack>
                                     <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
-                                        <Text lineHeight="sm" textAlign="center" w="48px" fontSize="3xl">Q:</Text>
-                                        <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                        <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                        <Text flex={1} textAlign={'left'}><div className='no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
                                             {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
+                                                    p={0}
+                                                    mr={2}
                                                     disabled={in_array(`qa-like-${question?.id}`, processing)}
                                                     icon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
                                                     onPress={() => { SubmitQaLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}

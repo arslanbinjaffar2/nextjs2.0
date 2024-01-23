@@ -180,6 +180,7 @@ body {
 .r-backgroundColor-16it7h5 {
   backdrop-filter: blur(5px);
 }
+.no-margin * {margin: 0}
 `;
 
 export async function getInitialProps({ renderPage }) {
