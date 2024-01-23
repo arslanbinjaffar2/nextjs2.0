@@ -80,8 +80,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'age' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.age! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.age}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -90,8 +90,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'email' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.email! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.email}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -100,8 +100,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'phone' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.phone! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.phone}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -110,8 +110,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'gender' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.gender! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.gender}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -120,8 +120,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'first_name_passport' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.FIRST_NAME_PASSPORT! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.FIRST_NAME_PASSPORT}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -130,8 +130,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'last_name_passport' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.LAST_NAME_PASSPORT! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.LAST_NAME_PASSPORT}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -140,8 +140,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'passport_no' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.passport_no! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.passport_no}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -150,8 +150,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'place_of_birth' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.place_of_birth! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.place_of_birth}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -160,8 +160,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'date_of_issue_passport' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.date_of_issue_passport! && detail?.detail?.info?.date_of_issue_passport != '0000-00-00 00:00:00' && detail?.detail?.info?.date_of_issue_passport != '0000-00-00'  && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.date_of_issue_passport}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -170,8 +170,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'date_of_expiry_passport' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.date_of_expiry_passport! && detail?.detail?.info?.date_of_expiry_passport != '0000-00-00 00:00:00' && detail?.detail?.info?.date_of_expiry_passport != '0000-00-00'  && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.date_of_expiry_passport}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -180,8 +180,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'birth_date' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.BIRTHDAY_YEAR! && detail?.detail?.BIRTHDAY_YEAR != '0000-00-00 00:00:00' && detail?.detail?.BIRTHDAY_YEAR != '0000-00-00'  && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.BIRTHDAY_YEAR}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -190,8 +190,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'employment_date' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.EMPLOYMENT_DATE! && detail?.detail?.EMPLOYMENT_DATE != '0000-00-00 00:00:00' && detail?.detail?.EMPLOYMENT_DATE != '0000-00-00'  && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.EMPLOYMENT_DATE}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -200,8 +200,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'spoken_languages' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.SPOKEN_LANGUAGE! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.SPOKEN_LANGUAGE}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -210,8 +210,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'organization' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.organization! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.organization}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -220,8 +220,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'country' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.country! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.country}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -231,8 +231,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                     )}
                                     
                                     {setting.name === 'pa_country' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.country! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.country}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -242,8 +242,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                     )}
                                     
                                     {setting.name === 'pa_street' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_street! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.private_street}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -252,8 +252,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'pa_house_no' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_house_number! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.private_house_number}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -262,8 +262,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'pa_post_code' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_post_code! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.private_post_code}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -272,8 +272,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'pa_city' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_city! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.private_city}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -282,8 +282,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'type' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.attendee_type_name! && (
-                                        <HStack w="50%" space="0" mt={2} >
-                                            <Box w="144px">
+                                        <HStack w="100%" space="0" mt={2} >
+                                            <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.attendee_type}:</Heading>
                                             </Box>
                                             <Box pl="1">
@@ -340,7 +340,7 @@ const CustomFeildRow = ({question, custom_field_id}:any) => {
     }
   return (
     <HStack w="50%" space="0" mt={2}  >
-    <Box w="144px">
+    <Box w="150px">
         <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{question?.name}:</Heading>
     </Box>
     <Box pl="1">
