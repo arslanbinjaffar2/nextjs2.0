@@ -196,14 +196,14 @@ const Detail = () => {
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
                             <Text color="red.400"> {error} </Text>
                     </Box>}
-                    {qaDetials?.speakers?.length > 0 && <HStack pl="6"  w="100%" bg="primary.box" mb="3" alignItems="center">
-                    <Text fontSize="lg">Select speaker</Text>
-                    <Spacer />
+                    {qaDetials?.speakers?.length > 0 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.text'} pb={'3'} mb="3" alignItems="center">
+                    <Text w={'30%'} fontSize="lg">Select speaker</Text>
+                    <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                       <Select
                         placeholder="Please Select Attendee"
-                        w="195px"
-                        rounded="0"
-                        h="30px"
+                        w="100%"
+                        rounded="4"
+                        h="42px"
                         borderWidth="1"
                         selectedValue={speaker ?? ''}
                         onValueChange={(item)=>setSpeaker(item)}
@@ -212,24 +212,29 @@ const Detail = () => {
                             <Select.Item label={`${speaker?.attendee?.first_name} ${speaker?.attendee?.last_name}`} value={`${speaker?.id}`} />
                         ))}
                     </Select>
+                    </Center>
                     
                     </HStack>}
-                    {qaDetials?.paragraph?.length > 0 && <HStack pl="6"  w="100%" bg="primary.box" mb="3" alignItems="center">
-                    <Text fontSize="lg">Select Paragraph</Text>
-                    <Spacer />
-                     <Select
+                    {qaDetials?.paragraph?.length > 0 && <HStack px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.text'} pb={'3'} mb="3"  alignItems="center">
+                    <Text  w="30%"  fontSize="lg">Select Paragraph</Text>
+                    <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
+                    <Select
                         placeholder="Please Select Attendee"
-                        w="195px"
-                        rounded="0"
-                        h="30px"
+                        w="100%"
+                        minW={'100%'}
+                        flex={1}
+                        rounded="4"
+                        h="42px"
                         borderWidth="1"
                         selectedValue={paragraph ?? ''}
                         onValueChange={(item)=>setParagraph(item)}
                     >
                         {qaDetials?.paragraph?.map((pg, i)=>(
-                            <Select.Item label={`${pg?.heading}`} value={`${pg.id}`} />
+                            <Select.Item  label={`${pg?.heading}`} value={`${pg.id}`} />
                         ))}
                     </Select>
+                    </Center>
+                    
                     
                     </HStack>}
                     {qaSettings?.line_number == 1 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.text'} pb={'3'} mb="3" alignItems="center">
