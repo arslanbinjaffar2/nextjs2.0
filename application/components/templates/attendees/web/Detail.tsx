@@ -54,7 +54,7 @@ const Detail = ({ speaker }: Props) => {
 
     const [_id] = useParam('id');
     
-    const { push } = useRouter()
+    const { push, back } = useRouter()
 
 
     React.useEffect(() => {
@@ -103,7 +103,7 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Pressable onPress={()=> push(`/${event.url}/${speaker ? 'speakers' : 'attendees'}`)}>
+                            <Pressable onPress={()=> back() }>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                                     <Text fontSize="2xl">BACK</Text>
