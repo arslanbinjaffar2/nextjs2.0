@@ -47,6 +47,7 @@ import {NotificationWatcherSaga} from 'application/store/sagas/Notification.Saga
 import {GalleryWatcherSaga} from 'application/store/sagas/Gallery.Saga'
 
 import {HdWatcherSaga} from 'application/store/sagas/Hd.Saga'
+import {SocialWallWatcherSaga} from 'application/store/sagas/SocialWall.Saga'
 
 export function* RootSaga() {
     yield all([
@@ -74,6 +75,7 @@ export function* RootSaga() {
                 fork(NotificationWatcherSaga),
                 fork(GalleryWatcherSaga),
                 fork(HdWatcherSaga),
+                fork(SocialWallWatcherSaga)
             ])
 }
 
