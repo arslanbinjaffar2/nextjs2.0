@@ -117,7 +117,7 @@ const Detail = ({ speaker }: Props) => {
                         <>
                             {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0 && (
                                 <Container mb="3" maxW="100%" w="100%">
-                                            <HStack mb="3" rounded={8} w={'100%'} flexGrow={1} flexWrap={'wrap'}  space={0} justifyContent="flex-start" >
+                                            <HStack mb="3" rounded={8} w={'100%'} overflow={'hidden'} flexGrow={1} flexWrap={'wrap'}  space={0} justifyContent="flex-start" >
                                                 {detail?.attendee_tabs_settings?.map((row: any, key: number) =>
                                                         
                                                     <React.Fragment key={key}>
