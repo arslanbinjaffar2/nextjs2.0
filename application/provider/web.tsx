@@ -46,7 +46,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
 
     useEffect(() => {
       if(Object.keys(event).length > 0){
-          const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode,event?.settings?.primary_color ?? '#343d50');
+          const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
     
           const theme = extendTheme({
             colors: {
@@ -133,10 +133,10 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     },
                     baseStyle: {
                         _light: {
-                            placeholderTextColor: colors.text,
+                            placeholderTextColor: 'rgba(0,0,0,.5)'
                         },
                         _dark: {
-                            placeholderTextColor: colors.text
+                            placeholderTextColor: 'rgba(255,255,255,.5)'
                         },
                     },
                 }
