@@ -38,7 +38,7 @@ const Index = () => {
               <WebLoading />
           ):(
             <>
-              <Box w="100%">
+              <Box w="100%" key='post-lising'>
                   {posts.map((post:Post)=>{
                       return <SquareBox key={post.id} post={post} />
                       })}
@@ -46,7 +46,7 @@ const Index = () => {
               { posts.length === 0 ? (
                 <Text>No Posts Found</Text>
               ): page === last_page && !(in_array('social_wall_posts', processing)) ? (
-                <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
+                <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" key='no-posts'>
                     <Box padding={5}>
                             <Text>There are no more posts</Text>
                         </Box>

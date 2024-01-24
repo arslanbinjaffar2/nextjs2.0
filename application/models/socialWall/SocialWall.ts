@@ -3,6 +3,13 @@ export interface RootObject {
   filters: any[];
 }
 
+export interface NewPost {
+  file: File | null,
+  content: string,
+  type: 'image' | 'video'| null,
+  file_url: string,
+}
+
 export interface Post {
   id: number;
   content : string;

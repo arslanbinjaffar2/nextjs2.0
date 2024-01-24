@@ -31,7 +31,7 @@ import SocketSlice, { SocketActions } from './slices/Socket.Slice'
 import HdSlice from './slices/Hd.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 import GallerySlice from './slices/Gallery.Slice'
-import SocialWallSlice from './slices/SocialWall.Slice'
+import SocialWallSlice, { SocialWallActions } from './slices/SocialWall.Slice'
 
 const makeStore = () => {
 
@@ -77,7 +77,8 @@ const makeStore = () => {
                     // Ignore these action types
                     ignoredActions: [
                         EditProfileActions.UpdateAttendee.type, 
-                        SocketActions.SetSocket.type
+                        SocketActions.SetSocket.type,
+                        SocialWallActions.AddSocialWallPost.type
                     ],
                     ignoredPaths: ['socket.socket']
                     

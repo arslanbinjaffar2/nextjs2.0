@@ -19,10 +19,10 @@ const SquareBox = ({ post }: AppProps) => {
   const { response } = UseAuthService();
 
   function likePost() {
-    var liked=post.likes.some(like => like.attendee_id === response?.data?.user?.id)
-    if(liked){
+    var liked = post.likes.some(like => like.attendee_id === response?.data?.user?.id)
+    if (liked) {
       alert('unlike post')
-    }else{
+    } else {
       alert('like post')
     }
   }
@@ -30,7 +30,7 @@ const SquareBox = ({ post }: AppProps) => {
   return (
     <Box mb="3" borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="4" rounded="10px" overflow="hidden">
       <VStack space="3">
-        <HStack space="3" alignItems="center">
+        <HStack space="3" alignItems="center" key="rd90">
           <Avatar
             borderWidth={1}
             borderColor="primary.text"
@@ -42,23 +42,27 @@ const SquareBox = ({ post }: AppProps) => {
             SS
           </Avatar>
           <VStack space="0" >
-            <Text fontSize="lg" fontWeight="600">{post.attendee.full_name}</Text>
-            <Text fontSize="sm">{post.created_at_formatted}</Text>
+            <Text fontSize="lg" key="full_name_att" fontWeight="600">{post.attendee.full_name}</Text>
+            <Text fontSize="sm" key="time_attendee_post">{post.created_at_formatted}</Text>
           </VStack>
         </HStack>
-        <Text mb="3" fontSize="md">{post.content}</Text>
-        <Image
-          source={{
-            uri: 'https://wallpaperaccess.com/full/3175001.jpg'
-          }}
-          alt="Alternate Text"
-          w="100%"
-          h="295px"
-          rounded="10"
-          mb="2"
-        />
-        <HStack pb={post.comments.length !== 0 ? "3" : undefined} borderBottomWidth={post.comments.length !== 0 ? "1" : undefined} borderBottomColor="primary.text" space="3" alignItems="center">
-          <HStack space="2" alignItems="center">
+        <Text key="p-content" fontSize="md">{post.content}</Text>
+        {(post.type === 'image' || post.type === 'text') && post.image !== '' &&(
+          <Image
+            source={{
+              uri: `${_env.eventcenter_base_url}/assets/social_wall/${post.image}`
+            }}
+            alt="Alternate Text"
+            w="100%"
+            h="295px"
+            rounded="10"
+            mb="2"
+            mt="3"
+          />
+        )}
+
+        <HStack key="rd99" pb={post.comments.length !== 0 ? "3" : undefined} borderBottomWidth={post.comments.length !== 0 ? "1" : undefined} borderBottomColor="primary.text" space="3" alignItems="center">
+          <HStack space="2" alignItems="center" key="likebtn">
             <IconButton
               icon={<IcoLike width="18px" height="18px" />}
               onPress={() => {
@@ -82,7 +86,7 @@ const SquareBox = ({ post }: AppProps) => {
             />
           </HStack>
           <Spacer />
-          <HStack space="3" alignItems="center">
+          <HStack space="3" alignItems="center" key="commentbtn">
             <HStack space="1" alignItems="center">
               <Text fontSize="sm">{post.likes_count}</Text>
               <Icolikealt />
@@ -94,49 +98,49 @@ const SquareBox = ({ post }: AppProps) => {
             </HStack>
           </HStack>
         </HStack>
-        {post.comments.map((comment:Comment) => {
-          return <>
-                <Box key={comment.id}>
-                <HStack space="3" alignItems="center" key={comment.id}>
-                    <Avatar
-                      borderWidth={1}
-                      borderColor="primary.text"
-                      size="sm"
-                      source={{
-                        uri: `${_env.eventcenter_base_url}/assets/attendees/${comment.attendee.image}`
-                      }}
-                    >
-                      SS
-                    </Avatar>
-                    <VStack space="0" >
-                      <Text fontSize="md" fontWeight="600">{post.attendee.full_name} {comment.id}</Text>
-                      <Text fontSize="sm" fontWeight="300">{comment.comment}</Text>
-                      <Text fontSize="xs">{comment.created_at_formatted}</Text>
-                    </VStack>
+        {post.comments.map((comment: Comment) => {
+          return <React.Fragment key={comment.id}>
+            <Box >
+              <HStack space="3" alignItems="center" key={'m-'+comment.id}>
+                <Avatar
+                  borderWidth={1}
+                  borderColor="primary.text"
+                  size="sm"
+                  source={{
+                    uri: `${_env.eventcenter_base_url}/assets/attendees/${comment.attendee.image}`
+                  }}
+                >
+                  SS
+                </Avatar>
+                <VStack space="0" >
+                  <Text key="cmntfn" fontSize="md" fontWeight="600">{post.attendee.full_name}</Text>
+                  <Text key="cmntcn" fontSize="sm" fontWeight="300">{comment.comment}</Text>
+                  <Text key="cmntdt" fontSize="xs">{comment.created_at_formatted}</Text>
+                </VStack>
+              </HStack>
+              {comment.replies.map((comment: Comment) => {
+                return <HStack space="3" ml="7" alignItems="center" key={"reply-" + comment.id}>
+                  <Avatar
+                    borderWidth={1}
+                    borderColor="primary.text"
+                    size="sm"
+                    source={{
+                      uri: `${_env.eventcenter_base_url}/assets/attendees/${comment.attendee.image}`
+                    }}
+                  >
+                    SS
+                  </Avatar>
+                  <VStack space="0" >
+                    <Text fontSize="md" fontWeight="600">{comment.attendee.full_name}</Text>
+                    <Text fontSize="sm" fontWeight="300">{comment.comment}</Text>
+                    <Text fontSize="xs">{comment.created_at_formatted}</Text>
+                  </VStack>
                 </HStack>
-                {comment.replies.map((comment:Comment) => {
-                  return <HStack space="3" ml="7" alignItems="center" key={"reply-"+comment.id}>
-                    <Avatar
-                      borderWidth={1}
-                      borderColor="primary.text"
-                      size="sm"
-                      source={{
-                        uri: `${_env.eventcenter_base_url}/assets/attendees/${comment.attendee.image}`
-                      }}
-                    >
-                      SS
-                    </Avatar>
-                    <VStack space="0" >
-                      <Text fontSize="md" fontWeight="600">{comment.attendee.full_name} {comment.id}</Text>
-                      <Text fontSize="sm" fontWeight="300">{comment.comment}</Text>
-                      <Text fontSize="xs">{comment.created_at_formatted}</Text>
-                    </VStack>
-                  </HStack>
-                })}
-                </Box>
-               
-                  
-              </>
+              })}
+            </Box>
+
+
+          </React.Fragment>
         })}
       </VStack>
     </Box>

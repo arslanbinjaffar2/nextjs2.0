@@ -6,7 +6,7 @@ import { RootState } from 'application/store/Index'
 import {
     current
 } from '@reduxjs/toolkit';
-import { Post } from 'application/models/socialWall/SocialWall';
+import { NewPost, Post } from 'application/models/socialWall/SocialWall';
 
 export interface SocialWallState {
     page: number;
@@ -37,6 +37,13 @@ export const socialWallSlice = createSlice({
             const existed: any = current(state.posts);
             state.last_page=action.payload.last_page;
             state.posts = action.payload.page === 1 ? action.payload.posts : [...existed, ...action.payload.posts];
+        },
+        AddSocialWallPost(state, action: PayloadAction<any>){
+            
+        },
+        socialWallPostAdded(state, action: PayloadAction<{ post: Post}>) {
+            const existed: any = current(state.posts);
+            state.posts = [...[action.payload.post], ...existed];
         }
 
     },
@@ -46,6 +53,8 @@ export const socialWallSlice = createSlice({
 export const SocialWallActions = {
     FetchSocialWallPosts:socialWallSlice.actions.FetchSocialWallPosts,
     update:socialWallSlice.actions.update,
+    AddSocialWallPost:socialWallSlice.actions.AddSocialWallPost,
+    socialWallPostAdded:socialWallSlice.actions.socialWallPostAdded,
 }
 
 export const SelectSocialWallPosts = (state: RootState) => state.socialWall.posts

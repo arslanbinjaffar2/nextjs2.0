@@ -7,3 +7,7 @@ const baseUrl = `/event`
 export const getSocialWallApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/social-wall/posts`,{ ...payload, limit: 40 });
 }
+
+export const saveSocialWallPostApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`, true).post(`${baseUrl}/${state?.event?.event.url}/social-wall/posts/save`,payload);
+}
