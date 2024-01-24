@@ -1053,7 +1053,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             <Box mb="4" w="100%" bg="primary.darkbox" px="3" py="1" >
                 <Text fontSize="lg">Contact information</Text>
             </Box>
-            {attendee_feild_settings?.website === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.text'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.website === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={AntDesign} name="link" size={'lg'}  />
                 </Center>
@@ -1070,7 +1070,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.facebook === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.text'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.facebook === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} name="logo-facebook" size={'lg'}  />
                 </Center>
@@ -1087,7 +1087,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.twitter === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.text'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.twitter === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} name="logo-twitter" size={'lg'}  />
                 </Center>
@@ -1104,7 +1104,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.linkedin === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.text'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.linkedin === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} name="logo-linkedin" size={'lg'}  />
                 </Center>

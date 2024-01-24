@@ -249,8 +249,8 @@ const Detail = () => {
                   </HStack>
                 </Pressable>
                 <Spacer />
-                <Text isTruncated pr="6" fontSize="lg">{detail?.topic}</Text>
               </HStack>
+                <Text mb={2} pr="6" fontSize="lg">{detail?.topic}</Text>
               {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
                 { detail?.questions.map((item, key)=>(
                     <Box key={key} bg={steps >= key ? 'primary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />
@@ -329,7 +329,7 @@ const Detail = () => {
               </Box>}
               {completed === true && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
-                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.text" rounded="100%" alignItems="center" justifyContent="center">
+                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.box" rounded="100%" alignItems="center" justifyContent="center">
                     <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
                   </Box>
                   <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>

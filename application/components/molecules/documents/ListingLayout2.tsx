@@ -28,7 +28,7 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                         FilterDocuments({ document_id: 0, query: '' });
                         setBreadCrumbs([]);
                     }}>
-                    <Text textTransform="uppercase" fontSize="xs">Documents</Text>
+                    <Text textTransform="uppercase" fontSize="lg">Documents</Text>
                 </Pressable>}
                 {breadcrumbs.length > 0 && breadcrumbs.map((breadcrumb: Document, key: number) =>
                     <React.Fragment key={key}>
@@ -38,7 +38,7 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                                 FilterDocuments({ document_id: breadcrumb.id, query: '' });
                                 setBreadCrumbs(FindPath(data, breadcrumb.id));
                             }}>
-                            <Text textTransform="uppercase" fontSize="xs">{breadcrumb.name}</Text>
+                            <Text textTransform="uppercase" fontSize="md">{breadcrumb.name}</Text>
                         </Pressable>
                     </React.Fragment>
                 )}

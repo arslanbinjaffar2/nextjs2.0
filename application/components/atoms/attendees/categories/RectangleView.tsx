@@ -27,7 +27,7 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
     const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
     return (
-        <Box w="100%" key={k} borderBottomWidth={border ? 1 : 0} borderColor="primary.text" py="3">
+        <Box w="100%" key={k} borderBottomWidth={border ? 1 : 0} borderColor="primary.box" py="3">
             <Pressable
                 onPress={() => {
                     if (category.parent_id > 0) {

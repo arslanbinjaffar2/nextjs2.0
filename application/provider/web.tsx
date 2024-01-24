@@ -142,7 +142,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                 }
             },
             config: {
-                initialColorMode: 'dark',
+                initialColorMode: event?.settings?.app_text_mode == 'dark' ? 'light' : 'dark',
             },
             });
     

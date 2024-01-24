@@ -73,7 +73,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                 </HStack>
                 <HStack w="100%" space="0">
                     {(showPrivate == 1 || isPrivate?.initial == 0) && detail?.detail?.info?.initial && (
-                        <Center borderRightWidth="1" borderColor="primary.text" alignItems="flex-start" pl="0" w="33.33%">
+                        <Center borderRightWidth="1" borderColor="primary.box" alignItems="flex-start" pl="0" w="33.33%">
                             <VStack space="0">
                                 <Text lineHeight="sm" fontSize="md">Initials</Text>
                                 <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.initial}</Text>
@@ -81,7 +81,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </Center>
                     )}
                     {(showPrivate == 1 || isPrivate?.delegate_number == 0) && detail?.detail?.info?.delegate_number && (
-                        <Center borderRightWidth="1" borderColor="primary.text" alignItems="flex-start" pl={['3','8']} w="33.33%">
+                        <Center borderRightWidth="1" borderColor="primary.box" alignItems="flex-start" pl={['3','8']} w="33.33%">
                             <VStack space="0">
                                 <Text lineHeight="sm" fontSize="md">Delegate nr:</Text>
                                 <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.delegate_number}</Text>
@@ -89,7 +89,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </Center>
                     )}
                     {(showPrivate == 1 || isPrivate?.table_number == 0) && detail?.detail?.info?.table_number && (
-                        <Center borderColor="primary.text" alignItems="flex-start" pl={['3','8']} w="33.33%">
+                        <Center borderColor="primary.box" alignItems="flex-start" pl={['3','8']} w="33.33%">
                             <VStack space="0">
                                 <Text lineHeight="sm" fontSize="md">Table nr:</Text>
                                 <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.table_number}</Text>
@@ -112,7 +112,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             <Icoresume width="22" height="25" />
                         </Pressable>
                     </Center>}
-                    {showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && <Center w="20%"  borderColor="primary.text" alignItems="center">
+                    {showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && <Center w="20%"  borderColor="primary.box" alignItems="center">
                         <Pressable
                                 onPress={async () => {
                                     push(`/${event.url}/attendees/hotel/${detail?.detail?.id}`)

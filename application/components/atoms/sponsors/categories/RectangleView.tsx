@@ -15,7 +15,7 @@ const RectangleView = ({ k, category, updateTab }: AppProps) => {
     const { FetchSponsors } = UseSponsorService();
 
     return (
-        <Box w="100%" key={k} borderBottomWidth={1} borderColor="primary.text" py="3">
+        <Box w="100%" key={k} borderBottomWidth={1} borderColor="primary.box" py="3">
             <Pressable
                 onPress={() => {
                     if(category.sponsors.length > 0){

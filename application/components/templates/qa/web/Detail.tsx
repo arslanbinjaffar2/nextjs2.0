@@ -196,7 +196,7 @@ const Detail = () => {
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
                             <Text color="red.400"> {error} </Text>
                     </Box>}
-                    {qaDetials?.speakers?.length > 0 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.text'} pb={'3'} mb="3" alignItems="center">
+                    {qaDetials?.speakers?.length > 0 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.box'} pb={'3'} mb="3" alignItems="center">
                     <Text w={'30%'} fontSize="lg">Select speaker</Text>
                     <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                       <Select
@@ -215,7 +215,7 @@ const Detail = () => {
                     </Center>
                     
                     </HStack>}
-                    {qaDetials?.paragraph?.length > 0 && <HStack px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.text'} pb={'3'} mb="3"  alignItems="center">
+                    {qaDetials?.paragraph?.length > 0 && <HStack px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.box'} pb={'3'} mb="3"  alignItems="center">
                     <Text  w="30%"  fontSize="lg">Select Paragraph</Text>
                     <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                     <Select
@@ -237,7 +237,7 @@ const Detail = () => {
                     
                     
                     </HStack>}
-                    {qaSettings?.line_number == 1 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.text'} pb={'3'} mb="3" alignItems="center">
+                    {qaSettings?.line_number == 1 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.box'} pb={'3'} mb="3" alignItems="center">
                         <Text w="30%" fontSize="lg">Line number</Text>
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}

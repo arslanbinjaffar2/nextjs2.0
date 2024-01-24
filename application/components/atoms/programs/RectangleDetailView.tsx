@@ -34,7 +34,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
   const _condtion = (program?.session?.length && program?.enable_speakerlist) || (program?.videos?.length) || (event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) )
   return (
     <>
-    <Box w="100%" key={k} borderBottomWidth={border ? 1 : 0} borderColor="primary.text" py="3">
+    <Box w="100%" key={k} borderBottomWidth={border ? 1 : 0} borderColor="primary.box" py="3">
       <Pressable
               onPress={() => {
                 push(`/${event.url}/agendas/detail/${program.id}`)

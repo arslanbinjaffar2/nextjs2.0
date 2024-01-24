@@ -60,7 +60,7 @@ const RectangleView = () => {
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
                     {hotels?.hotels?.map((h:any, i:any)=>(
                         h?.orderhotel !== undefined ? (
-                            <Box w="100%" py="4" borderBottomWidth={(i === (hotels?.hotels?.length - 1)) ? 0 : 1} borderBottomColor={'primary.text'}>
+                            <Box w="100%" py="4" borderBottomWidth={(i === (hotels?.hotels?.length - 1)) ? 0 : 1} borderBottomColor={'primary.box'}>
                             <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
                                 <LoadImage path={`${_env.eventcenter_base_url}/${h?.image !== undefined && h?.image !== ''  ? 'assets/hotel/'+ h?.image : '_mobile_assets/images/placeholder.png' }`} w="110px" style={{borderRadius: '8px'}}  />
 
@@ -93,7 +93,7 @@ const RectangleView = () => {
                             </HStack>
                         </Box>
                         ) :
-                        (<Box w="100%" py="4" borderBottomWidth={(i === (hotels?.hotels?.length - 1)) ? 0 : 1} borderBottomColor={'primary.text'}>
+                        (<Box w="100%" py="4" borderBottomWidth={(i === (hotels?.hotels?.length - 1)) ? 0 : 1} borderBottomColor={'primary.box'}>
                             <HStack px="4" w="100%" space="3" alignItems="center">
                                 <Center w={["80px","110px"]}>
                                     <LoadImage path={`${_env.eventcenter_base_url}/${h?.internal_booking_hotel?.image !== '' ? 'assets/hotel/'+ h?.internal_booking_hotel?.image : '_mobile_assets/images/placeholder.png' }`} w={"100%"} style={{borderRadius: '8px'}}  />
