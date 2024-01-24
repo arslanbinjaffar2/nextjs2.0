@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Container, HStack, Icon, Pressable, Spacer, Text } from 'native-base';
+import { Button, Container, HStack, Icon, Pressable, ScrollView, Spacer, Text } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Search from 'application/components/atoms/programs/Search';
 import BasicInfoBlock from 'application/components/atoms/attendees/detail/BasicInfoBlock';
@@ -117,45 +117,46 @@ const Detail = ({ speaker }: Props) => {
                         <>
                             {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0 && (
                                 <Container mb="3" maxW="100%" w="100%">
-                                    <HStack mb="3" rounded={8} overflow={'hidden'}  space={1} justifyContent="center" w="100%">
-                                        {detail?.attendee_tabs_settings?.map((row: any, key: number) =>
-                                            <React.Fragment key={key}>
-                                                {
-                                                    (() => {
-                                                        if (row?.tab_name === 'program' && row?.status == 1) {
-                                                            return (
-                                                                <Button fontSize={['sm','md']} flex={1} onPress={() => setTab('program')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'program' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{speaker ? 'PROGRAMS' : 'MY PROGRAMS'}</Button>
-                                                            )
-                                                        } else if (row?.tab_name === 'category' && row?.status == 1) {
-                                                            return (
-                                                                <Button fontSize={['sm','md']} flex={1} onPress={() => setTab('category')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>CATEGORIES</Button>
-                                                            )
-                                                        } else if (row?.tab_name === 'documents' && row?.status == 1) {
-                                                            return (
-                                                                <Button fontSize={['sm','md']} flex={1} onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'documents' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>DOCUMENTS</Button>
-                                                            )
-                                                        } else if (row?.tab_name === 'contact_info' && row?.status == 1 && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website))) {
-                                                            return (
-                                                                <Button fontSize={['sm','md']} flex={1} onPress={() => setTab('contact_info')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'contact_info' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>CONTACT INFO</Button>
-                                                            )
-                                                        } else if (row?.tab_name === 'about' && row?.status == 1) {
-                                                            return (
-                                                                <Button fontSize={['sm','md']} flex={1} onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'about' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>ABOUT</Button>
-                                                            )
-                                                        } else if (row?.tab_name === 'groups' && row?.status == 1 && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group)))) {
-                                                            return (
-                                                                <Button fontSize={['sm','md']} flex={1} onPress={() => setTab('groups')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'groups' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>GROUPS</Button>
-                                                            )
-                                                        } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id)) {
-                                                            return (
-                                                                <Button fontSize={['sm','md']} flex={1} onPress={() => setTab('sub_registration')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'sub_registration' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>SUB REGISTRATION</Button>
-                                                            )
+                                            <HStack mb="3" rounded={8} w={'100%'} flexGrow={1} flexWrap={'wrap'}  space={0} justifyContent="flex-start" >
+                                                {detail?.attendee_tabs_settings?.map((row: any, key: number) =>
+                                                        
+                                                    <React.Fragment key={key}>
+                                                        {
+                                                            (() => {
+                                                                if (row?.tab_name === 'program' && row?.status == 1) {
+                                                                    return (
+                                                                        <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('program')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'program' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{speaker ? 'PROGRAMS' : 'MY PROGRAMS'}</Button>
+                                                                    )
+                                                                } else if (row?.tab_name === 'category' && row?.status == 1) {
+                                                                    return (
+                                                                        <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('category')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>CATEGORIES</Button>
+                                                                    )
+                                                                } else if (row?.tab_name === 'documents' && row?.status == 1) {
+                                                                    return (
+                                                                        <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'documents' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>DOCUMENTS</Button>
+                                                                    )
+                                                                } else if (row?.tab_name === 'contact_info' && row?.status == 1 && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website))) {
+                                                                    return (
+                                                                        <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('contact_info')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'contact_info' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>CONTACT INFO</Button>
+                                                                    )
+                                                                } else if (row?.tab_name === 'about' && row?.status == 1) {
+                                                                    return (
+                                                                        <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'about' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>ABOUT</Button>
+                                                                    )
+                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group)))) {
+                                                                    return (
+                                                                        <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('groups')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'groups' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>GROUPS</Button>
+                                                                    )
+                                                                } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id)) {
+                                                                    return (
+                                                                        <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('sub_registration')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'sub_registration' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>SUB REGISTRATION</Button>
+                                                                    )
+                                                                }
+                                                            })()
                                                         }
-                                                    })()
-                                                }
-                                            </React.Fragment>
-                                        )}
-                                    </HStack>
+                                                    </React.Fragment>
+                                                )}
+                                            </HStack>
                                               
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<Text textAlign={'left'}><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div></Text>} />}
                                     {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
