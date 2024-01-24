@@ -48,7 +48,7 @@ const RectangleView = (info: Info) => {
                             )
                         } else if (info.type === 'link') {
                             return (
-                                <Icon as={Octicons} name="link" size="lg" color="primary.text" />
+                                <Icon  as={FontAwesome} name="link" size="lg" color="primary.text" />
                             )
                         }
                     })()

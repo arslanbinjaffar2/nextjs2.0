@@ -21,6 +21,7 @@ import { Event } from 'application/models/Event';
 
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
 
+import { getColorScheme } from 'application/styles/colors';
 
 
 import moment from 'moment';
@@ -34,44 +35,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 
-const Selectstyles2 = {
-    control: (base:any, state:any) => ({
-      ...base,
-      minHeight: 50,
-      width: '100%',
-      maxWidth: '100%',
-			minWidth: '256px',
-      marginBottom: 10,
-			background: `rgb(79,79,79)`,
-			color: '#eaeaea',
-			fontFamily: 'Avenir',
-			boxShadow: 'none',
-			borderWidth: 2,
-			borderColor: state.isFocused ? "#000" : "transparent",
-			"&:hover": {
-				// Overwrittes the different states of border
-				borderColor: state.isFocused ? "#000" : "transparent"
-			}
-    }),placeholder: (defaultStyles: any) => {
-        return {
-            ...defaultStyles,
-            color: '#eaeaea',
-        }
-    },
-		option: (provided:any, state:any) => ({
-				...provided,
-				fontFamily: 'Avenir',
-				backgroundColor: state.isSelected ? "rgb(79,79,79)" : "",
-				"&:hover": {
-					backgroundColor: 'rgb(79,79,79)',
-					color: '#fff'
-				}
-		}),
-		singleValue: (provided:any) => ({
-    ...provided,
-    color: '#eaeaea'
-  })
-};
+
+
 
 const index = () => {
 
@@ -79,7 +44,8 @@ const index = () => {
 
     const { loading, scroll } = UseLoadingService();
 
-    const { event } = UseEventService();
+		const { event } = UseEventService();
+
 
     React.useEffect(() => {
         FetchEditProfiles();
@@ -126,7 +92,45 @@ type formProps = {
 
 
 const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee }: formProps) => {
-
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+const Selectstyles2 = {
+    control: (base:any, state:any) => ({
+      ...base,
+      minHeight: 50,
+      width: '100%',
+      maxWidth: '100%',
+			minWidth: '256px',
+      marginBottom: 10,
+			background: `rgba(${colors.box},1)`,
+			color: '#eaeaea',
+			fontFamily: 'Avenir',
+			boxShadow: 'none',
+			borderWidth: 2,
+			borderColor: state.isFocused ? event?.settings?.primary_color : "transparent",
+			"&:hover": {
+				// Overwrittes the different states of border
+				borderColor: state.isFocused ? event?.settings?.primary_color : "transparent"
+			}
+    }),placeholder: (defaultStyles: any) => {
+        return {
+            ...defaultStyles,
+            color: '#eaeaea',
+        }
+    },
+		option: (provided:any, state:any) => ({
+				...provided,
+				fontFamily: 'Avenir',
+				backgroundColor: state.isSelected ? event?.settings?.primary_color : "",
+				"&:hover": {
+					backgroundColor: event?.settings?.primary_color,
+					color: '#fff'
+				}
+		}),
+		singleValue: (provided:any) => ({
+    ...provided,
+    color: '#eaeaea'
+  })
+}
     const { _env } = UseEnvService()
 
     const [gender, setGender] = React.useState(attendee?.info?.gender ?? ''); 
@@ -298,11 +302,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             {settings?.map((setting: Setting, index: number) => (
                 <VStack alignItems={"center"} w="100%" key={index}>
                     {setting?.name === 'initial' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.initial}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.initial}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -315,11 +319,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'password' && setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1  && event?.attendee_settings?.create_profile == 1 && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.password}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={'********'}
                                     type='password'
@@ -332,11 +336,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'first_name' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.first_name}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.first_name}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -349,11 +353,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'last_name' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.last_name}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.last_name}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -366,11 +370,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'bio_info' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.about}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.about}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -383,11 +387,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'age' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.age}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.age}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -400,11 +404,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'first_name_passport' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.FIRST_NAME_PASSPORT}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.FIRST_NAME_PASSPORT}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -417,11 +421,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'last_name_passport' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.LAST_NAME_PASSPORT}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.LAST_NAME_PASSPORT}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -434,11 +438,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'place_of_birth' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.place_of_birth}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.place_of_birth}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -451,11 +455,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'passport_no' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.passport_no}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.passport_no}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -468,11 +472,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'company_name' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.company_name}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.company_name}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -485,11 +489,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'title' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.title}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.title}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -502,11 +506,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'organization' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.organization}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.organization}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -519,11 +523,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'department' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.department}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.department}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -536,11 +540,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'show_industry' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.industry}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.industry}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -553,11 +557,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'show_job_tasks' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.jobs}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.jobs}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -570,11 +574,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'interest' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.interests}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.interests}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -587,11 +591,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'network_group' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.network_group}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.network_group}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -604,11 +608,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'delegate_number' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.delegate}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.delegate}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -621,11 +625,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'table_number' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.table_number}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.table_number}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -638,11 +642,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'pa_street' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_street}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.private_street}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -655,11 +659,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'pa_house_no' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_house_number}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.private_house_number}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -672,11 +676,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'pa_post_code' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_post_code}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.private_post_code}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -689,11 +693,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'pa_city' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_city}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.private_city}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -706,11 +710,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'pa_country' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_country}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Select
                                     placeholder="Please Select"
                                     minWidth="64"
@@ -725,11 +729,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'email' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.email}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     placeholder={labels?.email}
                                     isReadOnly={true}
@@ -742,11 +746,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'gender' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.gender}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                     
                                 <Radio.Group space="5"   value={gender} name="MyRadioGroup" onChange={(gender) => { setGender(gender); }}>
                                     <HStack space="3" alignItems="center">
@@ -759,11 +763,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'birth_date' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.BIRTHDAY_YEAR}</Text>
                             </Center>
-                            <Center alignItems="flex-start" w="calc(100% - 225px)">
+                            <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                 <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
@@ -777,11 +781,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'date_of_issue_passport' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.date_of_issue_passport}</Text>
                             </Center>
-                            <Center alignItems="flex-start" w="calc(100% - 225px)">
+                            <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                 <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
@@ -795,11 +799,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'date_of_expiry_passport' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.date_of_expiry_passport}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
@@ -812,11 +816,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'employment_date' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.EMPLOYMENT_DATE}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
@@ -829,11 +833,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'country' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.country}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Select
                                     placeholder="Please Select"
                                     minWidth="64"
@@ -849,11 +853,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'spoken_languages' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.SPOKEN_LANGUAGE}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                             <DropDown
                                 label={labels?.SPOKEN_LANGUAGE}
                                 listitems={languages}
@@ -876,11 +880,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
                     {setting?.name === 'show_custom_field' && (
                       customFields.map((question, i)=>(
-                        <HStack mb="3" key={i} alignItems="center" px="3" zIndex={100 - i} w="100%">
+                        <HStack mb="3" key={i} alignItems="flex-start" px="3" flexDirection={['column', 'row']} zIndex={100 - i} w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{question?.name}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                             <ReactSelect
                                 styles={Selectstyles2}
                                 isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
@@ -905,11 +909,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                       ))
                     )}
                     {setting?.name === 'phone' && (
-                        <HStack mb="3" alignItems="center" px="3"  w="100%">
+                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="lg">{labels?.phone}</Text>
                             </Center>
-                            <Center alignItems="flex-start" w="calc(100% - 225px)">
+                            <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                 <HStack w="100%">
                                     <Center w="100px">
                                         <Select
@@ -938,13 +942,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'profile_picture' && (
-                            <HStack mb="3" alignItems="start" px="3"  w="100%" >
+                            <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} px="3"  w="100%" >
                                 
-                                    <HStack mb="3" alignItems="center"  w="100%" >
+                                    <HStack mb="0" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
                                         <Center alignItems="flex-start" w="225px">
                                             <Text isTruncated fontWeight="500" fontSize="lg">Profile picture</Text>
                                         </Center>
-                                        <Center alignItems="flex-start" w="calc(100% - 225px)">
+                                        <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                             <HStack w="100%">
                                                 <VStack w={'100%'} space={2}>
                                                     <Center w="150px">
@@ -952,7 +956,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                         <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
                                                         : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
                                                     </Center>
-                                                    <Button w={180} px={4} py={3} leftIcon={<Icon as={Ionicons} name="cloud-upload-outline" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
+                                                    <Button w={180} px={4} py={3} leftIcon={<Icon as={Ionicons} color={'primary.text'} name="cloud-upload-outline" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
                                                             if(inputFileRef.current){
                                                                 inputFileRef.current.click();
                                                             }
@@ -990,11 +994,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     {setting?.name === 'resume' && (
                             <HStack mb="3" alignItems="start" px="3"  w="100%" >
                             
-                                <HStack mb="3" alignItems="start"   w="100%" >
+                                <HStack mb="3" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
                                     <Center alignItems="flex-start" width={'225px'} maxW="225px">
                                         <Text isTruncated fontWeight="500" fontSize="lg">Resume</Text>
                                     </Center>
-                                    <Center alignItems="flex-start" w="calc(100% - 225px)">
+                                    <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                         <HStack w="100%">
                                             <VStack w={'100%'} space={2}>
                                                 <Center mb={3} w="150px">
@@ -1012,7 +1016,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />}
                                                 </Center>
 
-                                                <Button w={180} px={4} py={3}leftIcon={<Icon as={Ionicons} name="cloud-upload-outline" size="lg" />}
+                                                <Button w={180} px={4} py={3}leftIcon={<Icon as={Ionicons} color={'primary.text'} name="cloud-upload-outline" size="lg" />}
                                                     isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                     onPress={()=>{
                                                         if(inputresumeFileRef.current){
@@ -1055,7 +1059,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             </Box>
             {attendee_feild_settings?.website === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
-                   <Icon as={AntDesign} name="link" size={'lg'}  />
+                   <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
@@ -1072,7 +1076,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             </HStack>}
             {attendee_feild_settings?.facebook === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
-                   <Icon as={Ionicons} name="logo-facebook" size={'lg'}  />
+                   <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
@@ -1089,7 +1093,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             </HStack>}
             {attendee_feild_settings?.twitter === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
-                   <Icon as={Ionicons} name="logo-twitter" size={'lg'}  />
+                   <Icon as={Ionicons} color={'primary.text'} name="logo-twitter" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
@@ -1106,7 +1110,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             </HStack>}
             {attendee_feild_settings?.linkedin === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
-                   <Icon as={Ionicons} name="logo-linkedin" size={'lg'}  />
+                   <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
@@ -1121,16 +1125,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     />
                 </Center>
             </HStack>}
-            {<HStack mb="3" alignItems="center" px="3"  w="100%">
+            {<HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
 							 <Center alignItems="flex-start" w="225px">
                 </Center>
-                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 225px)">
+                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                     <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
                         updateAttendeeFeild('gdpr', isSelected);
                     }} size="md"   >GDPR</Checkbox>
                 </Center>
             </HStack>}
-            <HStack mb="3" alignItems="center" px="3"  w="100%">
+            <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                 <Button
                     minW={225}
                     py="5"

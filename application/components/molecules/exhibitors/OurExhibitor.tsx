@@ -21,12 +21,8 @@ const OurExhibitor = () => {
       centerMode: false,
       vertical: true,
       verticalSwiping: true,
-      beforeChange: function(currentSlide: any, nextSlide: any) {
-        console.log("before change", currentSlide, nextSlide);
-      },
-      afterChange: function(currentSlide: any) {
-        console.log("after change", currentSlide);
-      }
+      beforeChange: function(currentSlide: any, nextSlide: any) {},
+      afterChange: function(currentSlide: any) {}
     };
 
   const { modules } = UseEventService();

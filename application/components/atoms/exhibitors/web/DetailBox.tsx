@@ -51,13 +51,13 @@ const DetailBox = ({ detail }: AppProps) => {
                         />}
                     </HStack>
                     <HStack w="100%" mb="3" space="0" alignItems="center">
-                        {detail?.detail?.categories!?.length > 0 && <Box position="absolute" left="-20px" top="0">
+                        {detail?.detail?.categories!?.length > 0 && <Box position="absolute" left="-20px" top="-28px">
                             <ZStack>
-                                <Box bg={detail?.detail?.categories[0].color} borderWidth="1" borderColor="primary.darkbox" w="16px" mt='0px' h={`32px`} borderRightRadius="10" shadow={2} />
+                                <Box bg={detail?.detail?.categories[0].color} borderWidth="1" borderColor="primary.darkbox" w="16px" mt='0px' h={`52px`} borderRightRadius="10" shadow={2} />
                             </ZStack>
                         </Box>}
                         {detail?.detail?.categories!?.length > 0 && (
-                            <Text fontSize="md">
+                            <Text fontSize="sm">
                                 {detail?.detail?.categories!?.map((category: Category, i: number) =>
                                     <React.Fragment key={i}>
                                         {`${category.info.name}${(i + 1) < detail?.detail?.categories!?.length ? ', ' : ''}`}
