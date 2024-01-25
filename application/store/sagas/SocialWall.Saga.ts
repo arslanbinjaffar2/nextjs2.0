@@ -16,7 +16,7 @@ function* OnFetchSocialWallPosts({
     payload,
 }: {
     type: typeof SocialWallActions.FetchSocialWallPosts
-    payload: { page: number}
+    payload: { page: number, sort_by:string}
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'social_wall_posts' }))
     const state = yield select(state => state);

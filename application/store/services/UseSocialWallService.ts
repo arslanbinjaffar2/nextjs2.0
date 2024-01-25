@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectSocialWallPosts, SocialWallActions, SelectPage, SelectLastPage } from 'application/store/slices/SocialWall.Slice'
+import { SelectSocialWallPosts, SocialWallActions, SelectPage, SelectLastPage, SelectSortBy } from 'application/store/slices/SocialWall.Slice'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 import { Post } from 'application/models/socialWall/SocialWall'
@@ -8,8 +8,9 @@ import { Post } from 'application/models/socialWall/SocialWall'
 export type SocialWallServiceOperators = {
     page: number,
     last_page: number,
+    sort_by: string,
     posts: Post[],
-    FetchSocialWallPosts:  (payload: { page: number}) => void,
+    FetchSocialWallPosts:  (payload: { page: number, sort_by:string}) => void,
     AddSocialWallPost:  (data:any) => void;
     LikeSocialWallPost:  (payload: { id: number}) => void;
     SaveSocialWallComment:  (data:any) => void;
@@ -28,8 +29,9 @@ export const useSocialWallService = (): Readonly<SocialWallServiceOperators> => 
         last_page: useAppSelector(SelectLastPage),
         page: useAppSelector(SelectPage),
         posts: useAppSelector(SelectSocialWallPosts),
+        sort_by: useAppSelector(SelectSortBy),
         FetchSocialWallPosts: useCallback(
-            (payload: { page: number}) => {
+            (payload: { page: number, sort_by:string}) => {
                 dispatch(SocialWallActions.FetchSocialWallPosts(payload))
             },
             [dispatch],

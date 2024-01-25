@@ -13,6 +13,7 @@ export interface SocialWallState {
     last_page: number;
     posts: Post[];
     filters: any[];
+    sort_by: string;
 }
 
 const initialState: SocialWallState = {
@@ -20,6 +21,7 @@ const initialState: SocialWallState = {
     filters: [],
     page: 1,
     last_page: 1,
+    sort_by: 'id',
 }
 
 // Slice
@@ -27,7 +29,7 @@ export const socialWallSlice = createSlice({
     name: 'socialWall',
     initialState,
     reducers: {
-        FetchSocialWallPosts(state, action: PayloadAction<{ page: number}>) {
+        FetchSocialWallPosts(state, action: PayloadAction<{ page: number, sort_by:string}>) {
             state.page = action.payload.page;
             if (action.payload.page === 1) {
                 state.posts = [];
@@ -82,7 +84,7 @@ export const SelectSocialWallFilters = (state: RootState) => state.socialWall.fi
 
 export const SelectPage = (state: RootState) => state.socialWall.page
 export const SelectLastPage = (state: RootState) => state.socialWall.last_page
-
+export const SelectSortBy = (state: RootState) => state.socialWall.sort_by
 
 // Reducer
 export default socialWallSlice.reducer
