@@ -41,24 +41,24 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
               }}>
 
                 <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-                  <HStack pt="2" w="100%" space="5" minH={'55px'} alignItems="center" justifyContent="space-between">
-                  {Platform.OS === 'web' && event?.agenda_settings?.show_tracks == 1 && <Box width={'45px'} h={'55px'} ml="-30px">
+                  <HStack pt="2" w="100%" space="0" minH={'55px'} alignItems="flex-start" justifyContent="space-between">
+                  {Platform.OS === 'web' && event?.agenda_settings?.show_tracks == 1 && <Box width={['38px','45px']} h={'55px'} ml="-30px">
                     <ZStack reversed>
                       {program?.program_tracks?.length > 0 && program.program_tracks.slice(0,3).map((track: any, i: number) =>
                         <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" h={'55px'}   w={`${15 + (i * 10)}px`} borderRightRadius="10" shadow={2} />
                       )}
                     </ZStack>
                   </Box>}
-                    {(event.agenda_settings?.agenda_display_time == 1 && program?.hide_time == 0)  && <VStack w="60px" space="0">
+                    {(event.agenda_settings?.agenda_display_time == 1 && program?.hide_time == 0)  && <VStack w={["45px","60px"]} space="0">
                       <Text lineHeight="22px">{moment(`${program.date} ${program.start_time}`).format('HH:mm')}</Text>
                       <Text lineHeight="22px">{moment(`${program.date} ${program.end_time}`).format('HH:mm')}</Text>
                     </VStack>}
-                    <Center maxW={[_condtion ? '20%' : '75%', '70%', '50%']} alignSelf="flex-start" p="0">
+                    <Center maxW={[_condtion ? '55%' : '75%', _condtion ? '70%' : '80%']} alignSelf="flex-start" p="0">
                       <Text alignSelf="flex-start" lineHeight="22px"> {program.topic}</Text>
                     </Center>
                     <Spacer />
                     
-                    {_condtion && <HStack pr="3" space="4" alignItems="flex-end">
+                    {_condtion && <HStack pr="3" space={['2','3']} alignItems="flex-end">
                       {program?.session?.length && program?.enable_speakerlist ? (
                         <IconButton
                           p={0}

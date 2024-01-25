@@ -38,7 +38,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                 }}>
                                 <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.box" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
                                     <Icon size="xl" as={MaterialIcons} name="folder" color="primary.text" />
-                                    <VStack space="0" w={'80%'}>
+                                    <VStack space="0" w={'calc(100% - 100px)'}>
                                         <Text fontSize="md" textBreakStrategy='simple'>{document?.name}</Text>
                                     </VStack>
                                     <Spacer />
@@ -59,7 +59,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
 
                                 <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.box" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
                                     <FileIconByType type={document?.path.split('.')[1]} />
-                                    <VStack space="0" w={'80%'}>
+                                    <VStack space="0" w={'calc(100% - 100px)'}>
                                         <Text fontSize="md">{document?.name}</Text>
                                         <HStack space="3" alignItems="center">
                                             <Text fontSize="xs">{HumanFileSize(document?.file_size)}</Text>

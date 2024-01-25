@@ -1,5 +1,5 @@
 import React from 'react'
-import { HStack, Text, Icon, Box, Pressable, ScrollView, Container, View } from 'native-base'
+import { HStack, Text, Icon, Box, Pressable, ScrollView, Container, View, Center } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import { Document } from 'application/models/document/Document'
@@ -38,7 +38,10 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                                 FilterDocuments({ document_id: breadcrumb.id, query: '' });
                                 setBreadCrumbs(FindPath(data, breadcrumb.id));
                             }}>
-                            <Text textTransform="uppercase" fontSize="md">{breadcrumb.name}</Text>
+                            <Center maxW="250px">
+															<Text textTransform="uppercase" fontSize="md" isTruncated>{breadcrumb.name}</Text>
+														</Center>
+														
                         </Pressable>
                     </React.Fragment>
                 )}
