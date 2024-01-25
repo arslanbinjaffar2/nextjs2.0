@@ -156,10 +156,8 @@ const Index = ({ speaker, screen }: Props) => {
                         }
                     </HStack>}
                     {group_id > 0 && (
-                        <HStack mb="3" pt="2" w="100%" space="3">
-                            {group_name && (
-                                <Text flex="1" textTransform="uppercase" fontSize="xs">{group_name}</Text>
-                            )}
+                        <>
+                        <HStack mb="1" pt="2" w="100%" space="3">
                             <Pressable
                                 onPress={async () => {
                                     if (slug !== undefined || slug?.length > 0) {
@@ -168,13 +166,19 @@ const Index = ({ speaker, screen }: Props) => {
                                         FetchGroups({ query: query, page: 1, group_id: 0, attendee_id: 0, program_id: 0 });
                                     }
                                 }}>
-                                <Text textTransform="uppercase" fontSize="xs">Go back</Text>
+                                    <HStack alignItems={'center'} space={3}>
+                                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                                        <Text fontSize="2xl">BACK</Text>
+                                    </HStack>
                             </Pressable>
                         </HStack>
+                        {group_name && (
+                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
+                        )}
+                        </>
                     )}
                     {category_name && (
-                        <HStack mb="3" pt="2" w="100%" space="3">
-                            <Text flex="1" textTransform="uppercase" fontSize="xs">{category_name}</Text>
+                        <HStack mb="1" pt="2" w="100%" space="3">
                             <Pressable
                                 onPress={async () => {
                                     if(tab == 'attendee'){
@@ -182,9 +186,13 @@ const Index = ({ speaker, screen }: Props) => {
                                     }else{
                                          FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
                                     }
+                                    <HStack alignItems={'center'} space={3}>
+                                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                                        <Text fontSize="2xl">BACK</Text>
+                                    </HStack>
                                 }}>
-                                <Text textTransform="uppercase" fontSize="xs">Go back</Text>
                             </Pressable>
+                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{category_name}</Text>
                         </HStack>
                     )}
                 </>
