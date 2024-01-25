@@ -45,7 +45,7 @@ const Index = () => {
         </HStack>
         <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
           {groups?.length > 0 && groups?.map((group, k) =>
-            <Box w="100%" key={k} borderBottomWidth={k === (groups.length - 1) ? 0 : 1} borderColor="primary.text" py="3">
+            <Box w="100%" key={k} borderBottomWidth={k === (groups.length - 1) ? 0 : 1} borderColor="primary.box" py="3">
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                 
                 <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">

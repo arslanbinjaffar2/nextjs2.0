@@ -58,15 +58,15 @@ const BoxView = ({ k, exhibitor, w }: AppProps) => {
                                 top={'3px'}
                             />
                         )}
-                        <Center  px="1" alignItems="center" w="100%">
+                        <Center mb={1} px="1" alignItems="center" w="100%">
                             {exhibitor.logo ? (
                                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${exhibitor.logo}` }} alt="Alternate Text" w="210px" h="72px" />
                             ) : (
                                 <Image source={ExhibitorDefaultImage} alt="Alternate Text" w="210px" h="72px" />
                             )}
                         </Center>
-                        <HStack pb={settings?.catTab !== 1 ? "6" : "3"} space="3" alignItems="center" position={'relative'}>
-                            {settings?.catTab == 1 && exhibitor?.categories.length > 0 && <Center alignItems="flex-start" minH={'20px'} w="100%" position={'relative'} mb={3}>
+                        <HStack pb={6} space="3" alignItems="center" position={'relative'}>
+                            {settings?.catTab == 1 && exhibitor?.categories.length > 0 && <Center alignItems="flex-start" minH={'25px'} w="100%" position={'relative'}>
                                 <ZStack reversed>
                                     {exhibitor?.categories.length > 0 && exhibitor?.categories.map((cat, i)=>(
                                         <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${measureText(exhibitor?.categories[0]?.info.name, 14) + 16 + (i * 10)}px`} px="2">

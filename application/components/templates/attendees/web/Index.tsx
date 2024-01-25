@@ -271,7 +271,7 @@ const Index = ({ speaker, screen }: Props) => {
                     )}
                 </>
             )}
-            {speaker === 0 && <VStack w="20px" position="absolute" right="-20px" top="60px" space="1">
+            {speaker === 0 && <VStack w="20px" position="absolute" right="-20px" top="112px" space="1">
                 {alphabet && alphabet.map((item, k) =>
                     <React.Fragment key={k}>
                         {item && (

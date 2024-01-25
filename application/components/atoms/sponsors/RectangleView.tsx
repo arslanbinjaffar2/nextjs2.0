@@ -22,7 +22,7 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
     const { event } = UseEventService()
 
     return (
-        <Box w="100%" borderBottomWidth={1} borderColor="primary.text" py="3">
+        <Box w="100%" borderBottomWidth={1} borderColor="primary.box" py="3">
             <Pressable
                 onPress={async () => {
                     if(sponsor?.url && sponsor?.url !== '' && sponsor.url !== 'http://' && sponsor.url !== 'https://'){

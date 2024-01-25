@@ -37,7 +37,7 @@ type AppProps = {
 					px={2}
 					py={2}
 					borderWidth={1}
-					borderColor={'primary.text'}
+					borderColor={'primary.box'}
 					onPress={()=>{
 						setactive(false)
 					}}

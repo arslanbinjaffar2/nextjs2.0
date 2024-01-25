@@ -9,25 +9,21 @@ import { Exhibitor } from 'application/models/exhibitor/Exhibitor';
 import Slider from "react-slick";
 
 const OurExhibitor = () => {
+  const { our_exhibitors, categories, FetchExhibitors, category_id, query } = UseExhibitorService();
  const settings = {
       dots: false,
       infinite: true,
       speed: 500,
-      slidesToShow: 4,
+      slidesToShow:our_exhibitors.length >= 4 ? 4 : our_exhibitors.length,
       slidesToScroll: 1,
       autoplay: true,
       arrows: false,
       centerMode: false,
       vertical: true,
       verticalSwiping: true,
-      beforeChange: function(currentSlide: any, nextSlide: any) {
-        console.log("before change", currentSlide, nextSlide);
-      },
-      afterChange: function(currentSlide: any) {
-        console.log("after change", currentSlide);
-      }
+      beforeChange: function(currentSlide: any, nextSlide: any) {},
+      afterChange: function(currentSlide: any) {}
     };
-  const { our_exhibitors, categories, FetchExhibitors, category_id, query } = UseExhibitorService();
 
   const { modules } = UseEventService();
 
@@ -43,7 +39,7 @@ const OurExhibitor = () => {
          <div style={{width: '265px'}}>
            <Slider {...settings}>
            {our_exhibitors.length > 0 && our_exhibitors.map((exhibitor: Exhibitor, key: number) =>
-           <Box key={key}  w={265} height={170} p="0" rounded="lg">
+           <Box key={key}  w={265} height={180} p="0" rounded="lg">
             <BoxView exhibitor={exhibitor} k={key} w='100%' />
            </Box>
            )}
