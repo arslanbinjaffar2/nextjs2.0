@@ -30,7 +30,7 @@ const RectangleView = ({ k, category, updateTab }: AppProps) => {
                         </ZStack>
                     </Box>
                     <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                        <VStack maxW={['62%', '70%', '40%']} space="1">
+                        <VStack maxW={['calc(100% - 80px)']} space="1">
                             <Text fontSize="lg" lineHeight="22px">
                                 {category.name}
                             </Text>
