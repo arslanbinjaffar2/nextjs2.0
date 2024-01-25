@@ -41,10 +41,26 @@ export const socialWallSlice = createSlice({
         AddSocialWallPost(state, action: PayloadAction<any>){
             
         },
-        socialWallPostAdded(state, action: PayloadAction<{ post: Post}>) {
+        socialWallPostsUpdated(state, action: PayloadAction<{ post: Post}>) {
             const existed: any = current(state.posts);
-            state.posts = [...[action.payload.post], ...existed];
-        }
+            // Find the index of the post with the same id
+                const index = existed.findIndex((post: Post) => post.id === action.payload.post.id);
+
+                if (index > -1) {
+                    // Replace the existing post
+                    state.posts = [
+                        ...existed.slice(0, index),
+                        action.payload.post,
+                        ...existed.slice(index + 1)
+                    ];
+                } else {
+                    // Add the new post at the beginning
+                    state.posts = [action.payload.post, ...existed];
+                }
+        },
+        LikeSocialWallPost(state, action: PayloadAction<{id:number}>){},
+        SaveSocialWallComment(state, action: PayloadAction<any>){},
+        LikeSocialWallComment(state, action: PayloadAction<{id:number}>){},
 
     },
 })
@@ -54,7 +70,10 @@ export const SocialWallActions = {
     FetchSocialWallPosts:socialWallSlice.actions.FetchSocialWallPosts,
     update:socialWallSlice.actions.update,
     AddSocialWallPost:socialWallSlice.actions.AddSocialWallPost,
-    socialWallPostAdded:socialWallSlice.actions.socialWallPostAdded,
+    socialWallPostsUpdated:socialWallSlice.actions.socialWallPostsUpdated,
+    LikeSocialWallPost:socialWallSlice.actions.LikeSocialWallPost,
+    SaveSocialWallComment:socialWallSlice.actions.SaveSocialWallComment,
+    LikeSocialWallComment:socialWallSlice.actions.LikeSocialWallComment,
 }
 
 export const SelectSocialWallPosts = (state: RootState) => state.socialWall.posts

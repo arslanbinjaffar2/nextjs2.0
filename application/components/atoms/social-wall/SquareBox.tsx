@@ -1,13 +1,16 @@
-import React from 'react'
-import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider } from 'native-base'
+import React, { useState } from 'react'
+import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
 import IcoSharePost from 'application/assets/icons/IcoSharePost'
 import IcoMessagealt from 'application/assets/icons/IcoMessagealt'
 import Icolikealt from 'application/assets/icons/Icolikealt'
-import { Comment, Post } from 'application/models/socialWall/SocialWall'
+import { Comment, NewComment, Post } from 'application/models/socialWall/SocialWall'
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
+import useSocialWallService from 'application/store/services/UseSocialWallService'
+import NewCommentBox from 'application/components/atoms/social-wall/NewCommentBox';
+import CommentBox from 'application/components/atoms/social-wall/CommentBox';
 
 type AppProps = {
   post: Post,
@@ -17,14 +20,26 @@ const SquareBox = ({ post }: AppProps) => {
 
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
+  const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment } =useSocialWallService();
+  const [isLiked, setIsLiked] = useState<boolean>(
+    post.likes.some(like => like.attendee_id === response?.data?.user?.id)
+  );
+  const [likesCount, setlikesCount] = useState<number>(
+    post.likes_count
+  );
 
   function likePost() {
-    var liked = post.likes.some(like => like.attendee_id === response?.data?.user?.id)
-    if (liked) {
-      alert('unlike post')
-    } else {
-      alert('like post')
-    }
+    setIsLiked(!isLiked);
+    setlikesCount(isLiked ? likesCount - 1 : likesCount + 1);
+    LikeSocialWallPost({id:post.id})
+  }
+
+  function saveComment(newComment:NewComment) {
+    SaveSocialWallComment({...newComment})
+  }
+
+  function likeComment(id:number) {
+    LikeSocialWallComment({id:id})
   }
 
   return (
@@ -61,14 +76,26 @@ const SquareBox = ({ post }: AppProps) => {
           />
         )}
 
-        <HStack key="rd99" pb={post.comments.length !== 0 ? "3" : undefined} borderBottomWidth={post.comments.length !== 0 ? "1" : undefined} borderBottomColor="primary.text" space="3" alignItems="center">
+        {post.type === 'video' && post.image !== '' &&(
+          <video
+            w="100%"
+            h="295px"
+            rounded="10"
+            mb="2"
+            mt="3"
+            controls
+            src={`${_env.eventcenter_base_url}/assets/social_wall/${post.image}`}
+          />
+        )}
+
+        <HStack key="rd99" pb="3" borderBottomWidth="1" borderBottomColor="primary.text" space="3" alignItems="center">
           <HStack space="2" alignItems="center" key="likebtn">
             <IconButton
               icon={<IcoLike width="18px" height="18px" />}
               onPress={() => {
                 likePost()
               }}
-              {...(post.likes.some(like => like.attendee_id === response?.data?.user?.id) ? { variant: 'solid' } : { variant: 'unstyled' })}
+              {...(isLiked ? { variant: 'solid' } : { variant: 'unstyled' })}
             />
             <IconButton
               variant="unstyled"
@@ -88,7 +115,7 @@ const SquareBox = ({ post }: AppProps) => {
           <Spacer />
           <HStack space="3" alignItems="center" key="commentbtn">
             <HStack space="1" alignItems="center">
-              <Text fontSize="sm">{post.likes_count}</Text>
+              <Text fontSize="sm">{likesCount}</Text>
               <Icolikealt />
             </HStack>
             <Divider w="1px" h="10px" bg="primary.text" />
@@ -98,48 +125,33 @@ const SquareBox = ({ post }: AppProps) => {
             </HStack>
           </HStack>
         </HStack>
+        {/* new comment section */}
+        <HStack>
+          <Avatar
+            borderWidth={1}
+            borderColor="primary.text"
+            size="sm"
+            source={{
+              uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
+            }}
+          >
+            SS
+          </Avatar>
+          <VStack space="0" >
+            <Text fontSize="md" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text>
+            {/* add a input with button */}
+            <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} />
+          </VStack>
+        </HStack>
         {post.comments.map((comment: Comment) => {
           return <React.Fragment key={comment.id}>
             <Box >
-              <HStack space="3" alignItems="center" key={'m-'+comment.id}>
-                <Avatar
-                  borderWidth={1}
-                  borderColor="primary.text"
-                  size="sm"
-                  source={{
-                    uri: `${_env.eventcenter_base_url}/assets/attendees/${comment.attendee.image}`
-                  }}
-                >
-                  SS
-                </Avatar>
-                <VStack space="0" >
-                  <Text key="cmntfn" fontSize="md" fontWeight="600">{post.attendee.full_name}</Text>
-                  <Text key="cmntcn" fontSize="sm" fontWeight="300">{comment.comment}</Text>
-                  <Text key="cmntdt" fontSize="xs">{comment.created_at_formatted}</Text>
-                </VStack>
-              </HStack>
-              {comment.replies.map((comment: Comment) => {
-                return <HStack space="3" ml="7" alignItems="center" key={"reply-" + comment.id}>
-                  <Avatar
-                    borderWidth={1}
-                    borderColor="primary.text"
-                    size="sm"
-                    source={{
-                      uri: `${_env.eventcenter_base_url}/assets/attendees/${comment.attendee.image}`
-                    }}
-                  >
-                    SS
-                  </Avatar>
-                  <VStack space="0" >
-                    <Text fontSize="md" fontWeight="600">{comment.attendee.full_name}</Text>
-                    <Text fontSize="sm" fontWeight="300">{comment.comment}</Text>
-                    <Text fontSize="xs">{comment.created_at_formatted}</Text>
-                  </VStack>
-                </HStack>
+              <CommentBox comment={comment} key={comment.id} />
+              {comment.replies.map((reply: Comment) => {
+                <CommentBox comment={reply} key={reply.id} />
               })}
             </Box>
-
-
+            <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} />
           </React.Fragment>
         })}
       </VStack>

@@ -26,13 +26,24 @@ const AddPost = () => {
             alert('Please write something or select image/video to post');
             return false;
         }
-        // var formData = new FormData();
-        // formData.append('content', JSON.stringify(postData.content));
-        // formData.append('file', postData.file!);
-        // formData.append('type', JSON.stringify(postData.type));
-        // AddSocialWallPost({formData});
-        // return
         AddSocialWallPost({...postData});
+
+        setpostData({
+            file: null,
+            content: '',
+            type: null,
+            file_url: '',
+        });
+
+        if(inputImageRef.current){
+            inputImageRef.current.value = '';
+        }
+        if(inputVideoRef.current){
+            inputVideoRef.current.value = '';
+        }
+        if(inputContentRef.current){
+            inputContentRef.current.value = '';
+        }
 
     }
 
@@ -48,7 +59,7 @@ const AddPost = () => {
                 file: e.target.files[0],
                 file_url: URL.createObjectURL(e.target.files[0]),
                 type: 'image'
-            });
+            }); 
         }
 
     }
@@ -89,6 +100,7 @@ const AddPost = () => {
 
     const inputImageRef = React.useRef<HTMLInputElement | null>(null);
     const inputVideoRef = React.useRef<HTMLInputElement | null>(null);
+    const inputContentRef = React.useRef<HTMLInputElement | null>(null);
 
     return (
         <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
@@ -123,6 +135,7 @@ const AddPost = () => {
                             content: e.nativeEvent.text,
                         });
                     }}
+                    ref={inputContentRef}
                     p="0"
                     pt="1"
                     h="80px"
@@ -130,7 +143,7 @@ const AddPost = () => {
                     overflow="auto"
                     focusOutlineColor="transparent"
                     _focus={{ bg: 'transparent' }}
-                    borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+                    borderWidth="0" fontSize="md" placeholder="What's on your mind?" autoCompleteType={undefined} />
             </HStack>
             {/* show only if file is image */}
             {postData.type === 'image' && postData.file_url !== '' && (
@@ -253,7 +266,7 @@ const AddPost = () => {
                 </Center>
             </HStack>
             {(in_array('social_wall_save_post', processing)) && (
-                <Text>Loadingg</Text>
+                <Text>Posting....</Text>
             )}
         </Box>
     )

@@ -10,6 +10,12 @@ export interface NewPost {
   file_url: string,
 }
 
+export interface NewComment {
+  post_id: number,
+  parent_id: number,
+  comment: string,
+}
+
 export interface Post {
   id: number;
   content : string;
