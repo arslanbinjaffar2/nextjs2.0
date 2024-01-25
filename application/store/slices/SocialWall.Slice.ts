@@ -43,7 +43,7 @@ export const socialWallSlice = createSlice({
         AddSocialWallPost(state, action: PayloadAction<any>){
             
         },
-        socialWallPostsUpdated(state, action: PayloadAction<{ post: Post}>) {
+        SocialWallPostsUpdated(state, action: PayloadAction<{ post: Post}>) {
             const existed: any = current(state.posts);
             // Find the index of the post with the same id
                 const index = existed.findIndex((post: Post) => post.id === action.payload.post.id);
@@ -72,7 +72,7 @@ export const SocialWallActions = {
     FetchSocialWallPosts:socialWallSlice.actions.FetchSocialWallPosts,
     update:socialWallSlice.actions.update,
     AddSocialWallPost:socialWallSlice.actions.AddSocialWallPost,
-    socialWallPostsUpdated:socialWallSlice.actions.socialWallPostsUpdated,
+    SocialWallPostsUpdated:socialWallSlice.actions.SocialWallPostsUpdated,
     LikeSocialWallPost:socialWallSlice.actions.LikeSocialWallPost,
     SaveSocialWallComment:socialWallSlice.actions.SaveSocialWallComment,
     LikeSocialWallComment:socialWallSlice.actions.LikeSocialWallComment,

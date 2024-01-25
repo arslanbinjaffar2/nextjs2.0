@@ -34,9 +34,9 @@ function* OnAddSocialWallPost({
     yield put(LoadingActions.addProcess({ process: 'social_wall_save_post' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveSocialWallPostApi, payload, state)
-    if (response?.status === 200) {
-        yield put(SocialWallActions.socialWallPostsUpdated({ post:response.data.data.post}))
-    }
+    // if (response?.status === 200) {
+    //     yield put(SocialWallActions.SocialWallPostsUpdated({ post:response.data.data.post}))
+    // }
     yield put(LoadingActions.removeProcess({ process: 'social_wall_save_post' }))
 }
 
@@ -49,9 +49,9 @@ function* OnLikeSocialWallPost({
     yield put(LoadingActions.addProcess({ process: `social_wall_like_post_${payload.id}` }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(likeSocialWallPostApi, payload, state)
-    if (response?.status === 200) {
-        yield put(SocialWallActions.socialWallPostsUpdated({ post:response.data.data.post}))
-    }
+    // if (response?.status === 200) {
+    //     yield put(SocialWallActions.SocialWallPostsUpdated({ post:response.data.data.post}))
+    // }
     yield put(LoadingActions.removeProcess({ process: `social_wall_like_post_${payload.id}` }))
 }
 
@@ -64,9 +64,9 @@ function* OnSaveSocialWallComment({
     yield put(LoadingActions.addProcess({ process: 'social_wall_save_comment' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveSocialWallComment, payload, state)
-    if (response?.status === 200) {
-        yield put(SocialWallActions.socialWallPostsUpdated({ post:response.data.data.post}))
-    }
+    // if (response?.status === 200) {
+    //     yield put(SocialWallActions.SocialWallPostsUpdated({ post:response.data.data.post}))
+    // }
     yield put(LoadingActions.removeProcess({ process: 'social_wall_save_comment' }))
 }
 
@@ -79,9 +79,9 @@ function* OnLikeSocialWallComment({
     yield put(LoadingActions.addProcess({ process: `social_wall_like_comment_${payload.id}` }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(likeSocialWallComment, payload, state)
-    if (response?.status === 200) {
-        yield put(SocialWallActions.socialWallPostsUpdated({ post:response.data.data.post}))
-    }
+    // if (response?.status === 200) {
+    //     yield put(SocialWallActions.SocialWallPostsUpdated({ post:response.data.data.post}))
+    // }
     yield put(LoadingActions.removeProcess({ process: `social_wall_like_comment_${payload.id}` }))
 }
 

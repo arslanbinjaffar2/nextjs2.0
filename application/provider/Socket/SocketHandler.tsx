@@ -8,6 +8,7 @@ import UsePollService from 'application/store/services/UsePollService';
 import UseSurveyService from 'application/store/services/UseSurveyService';
 import UseNotificationService from 'application/store/services/UseNotificationService';
 import UseSocketService from 'application/store/services/UseSocketService';
+import UseSocialWallService from 'application/store/services/UseSocialWallService';
 import moment from 'moment';
 const SocketHandler = () => {
   
@@ -24,6 +25,9 @@ const SocketHandler = () => {
     const { AddNotification } = UseNotificationService();
 
     const { SetSocket } = UseSocketService();
+
+    const { SocialWallPostsUpdated } = UseSocialWallService();
+
 
     const options: any = React.useMemo(() => ({
         transports: ["websocket", "polling"]
@@ -70,6 +74,11 @@ const SocketHandler = () => {
               }
           })
       });
+
+      socketConnect.on(`event-buizz:social_wall_post_updated_${event?.id}`, function (data:any):any {
+        console.log(data, 'data');
+        SocialWallPostsUpdated({post:data.post});
+    });
 
       return () =>{
         socketConnect.disconnect();
