@@ -117,7 +117,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                       {searchMatchAttendees && searchMatchAttendees.map((attendee: any, k: number) =>
                           <React.Fragment key={`item-box-${k}`}>
                                   <React.Fragment key={`${k}`}>
-                                    <Box w="100%" borderBottomWidth={(searchMatchAttendees.length - 1) == k ? 0 : 1} borderColor="primary.text" py="3">
+                                    <Box w="100%" borderBottomWidth={(searchMatchAttendees.length - 1) == k ? 0 : 1} borderColor="primary.box" py="3">
                                       <Pressable
                                         onPress={() => {
                                           if (Platform.OS === "web") {

@@ -35,7 +35,7 @@ const RectangleView = (info: Info) => {
                     }
                 }
             }}>
-            <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="4" py="5" space="4" alignItems="center">
+            <HStack borderBottomWidth="1px" borderBottomColor="primary.box" px="4" py="5" space="4" alignItems="center">
                 {
                     (() => {
                         if (info.type === 'folder') {
@@ -48,7 +48,7 @@ const RectangleView = (info: Info) => {
                             )
                         } else if (info.type === 'link') {
                             return (
-                                <Icon as={Octicons} name="link" size="lg" color="primary.text" />
+                                <Icon  as={FontAwesome} name="link" size="lg" color="primary.text" />
                             )
                         }
                     })()

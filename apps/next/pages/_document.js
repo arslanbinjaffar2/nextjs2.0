@@ -28,6 +28,17 @@ class Document extends NativebaseDocument {
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </Head>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            charSet="UTF-8"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+          />
         <body style={{ height: "100%", overflow: "hidden" }}>
           <Main />
           <NextScript />
@@ -166,6 +177,10 @@ body {
 .css-12a83d4-MultiValueRemove {
   background-color: #000;
 }
+.r-backgroundColor-16it7h5 {
+  backdrop-filter: blur(5px);
+}
+.no-margin * {margin: 0}
 `;
 
 export async function getInitialProps({ renderPage }) {

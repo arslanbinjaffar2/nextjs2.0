@@ -23,7 +23,7 @@ const MultipleAnswer = ({ question, formData, updateFormData, error, labels }: P
         <VStack space="4">
         <Checkbox.Group defaultValue={formData[question.id]?.answer !== null && formData[question.id]?.answer.length > 0 ? formData[question.id]?.answer : []} onChange={(answers) => { updateFormData(question.id, question.question_type, answers)}} aria-label={question?.info?.question}>
           {question?.answer.map((answer, k) =>
-            <Checkbox key={k} size="md"    value={`${answer.id}`}>{answer.answer}</Checkbox>
+            <Checkbox key={k} size="md"  mb={3}  value={`${answer.id}`}>{answer.answer}</Checkbox>
           )}
         </Checkbox.Group>
         </VStack>

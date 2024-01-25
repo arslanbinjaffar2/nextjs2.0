@@ -50,7 +50,7 @@ const Detail = () => {
 
   const { response  } = UseAuthService();
 
-  const { push } = useRouter()
+  const { push, back } = useRouter()
 
   const { FetchSurveyDetail, detail, survey_labels, submitSuccess, SubmitSurvey } = UseSurveyService();
 
@@ -235,7 +235,7 @@ const Detail = () => {
             ) : (
             <Container mb="3" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Pressable onPress={()=> push(`/${event.url}/survey`)}>
+                <Pressable onPress={()=> back() }>
                   <HStack space="3" alignItems="center">
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                         <Text fontSize="2xl">BACK</Text>
@@ -321,7 +321,7 @@ const Detail = () => {
               </Box>}
               {completed === true && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
-                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.text" rounded="100%" alignItems="center" justifyContent="center">
+                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.box" rounded="100%" alignItems="center" justifyContent="center">
                     <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
                   </Box>
                   <Text fontSize="lg">{survey_labels?.SURVEY_ANSWER_SUBMITTED_SUCCESFULLY}</Text>

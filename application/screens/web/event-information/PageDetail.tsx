@@ -21,7 +21,7 @@ const PageDetail = (props: any) => {
 
   const { page, FetchPage, parent_folder, ClearState } = UseInfoService();
 
-  const { push } = useRouter()
+  const { push, back } = useRouter()
 
   const [cms] = useParam('cms');
 
@@ -48,11 +48,7 @@ const PageDetail = (props: any) => {
           <HStack space="3" alignItems="center">
             <Pressable
               onPress={() => {
-                if(cms !== 'information-pages'){
-                  push(`/${event.url}/${cms}/event-info/${parent_folder}`)
-                }else{
-                  push(`/${event.url}/${cms}/${parent_folder}`)
-                }
+                back();
               }}
             >
               <HStack>
