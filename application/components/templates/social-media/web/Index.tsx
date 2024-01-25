@@ -44,8 +44,8 @@ const index = () => {
                         }
                     }}>
                     
-                    <Box w="90px" h="90px" shadow="1" bg={SocialStyleOptions[link.name].color} rounded="100%" alignItems="center" justifyContent="center">
-                      <Icon textAlign="center" color="#fff" size="5xl" as={FontAwesome} name={SocialStyleOptions[link.name].icon} />
+                    <Box w={["50px","90px"]} h={["50px","90px"]} shadow="1" bg={SocialStyleOptions[link.name].color} rounded="100%" alignItems="center" justifyContent="center">
+                      <Icon textAlign="center" color="#fff" size={["2xl","5xl"]} as={FontAwesome} name={SocialStyleOptions[link.name].icon} />
                     </Box>
                   </Pressable>
                   </Center>
