@@ -10,6 +10,7 @@ import { Post } from 'application/models/socialWall/SocialWall';
 
 export interface SocialWallState {
     page: number;
+    post_detail: Post;
     last_page: number;
     posts: Post[];
     filters: any[];
@@ -17,6 +18,7 @@ export interface SocialWallState {
 }
 
 const initialState: SocialWallState = {
+    post_detail: {} as Post,
     posts: [],
     filters: [],
     page: 1,
@@ -68,7 +70,10 @@ export const socialWallSlice = createSlice({
         },
         SaveSocialWallComment(state, action: PayloadAction<any>){},
         LikeSocialWallComment(state, action: PayloadAction<{id:number}>){},
-
+        DetailSocialWallPost(state, action: PayloadAction<{id:number}>){},
+        socialWallPostDetailFetched(state, action: PayloadAction<{ post: Post}>) {
+           state.post_detail = action.payload.post;
+        },
     },
 })
 
@@ -83,9 +88,12 @@ export const SocialWallActions = {
     LikeSocialWallComment:socialWallSlice.actions.LikeSocialWallComment,
     SocialWallPostDeleted:socialWallSlice.actions.SocialWallPostDeleted,
     DeleteSocialWallPost:socialWallSlice.actions.DeleteSocialWallPost,
+    DetailSocialWallPost:socialWallSlice.actions.DetailSocialWallPost,
+    socialWallPostDetailFetched:socialWallSlice.actions.socialWallPostDetailFetched,
 }
 
 export const SelectSocialWallPosts = (state: RootState) => state.socialWall.posts
+export const SelectSocialWallPostDetail = (state: RootState) => state.socialWall.post_detail
 
 export const SelectSocialWallFilters = (state: RootState) => state.socialWall.filters
 

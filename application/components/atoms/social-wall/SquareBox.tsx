@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input } from 'native-base'
+import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input, Link } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
 import IcoSharePost from 'application/assets/icons/IcoSharePost'
@@ -11,6 +11,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import useSocialWallService from 'application/store/services/UseSocialWallService'
 import NewCommentBox from 'application/components/atoms/social-wall/NewCommentBox';
 import CommentBox from 'application/components/atoms/social-wall/CommentBox';
+import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
   post: Post,
@@ -20,6 +21,7 @@ const SquareBox = ({ post }: AppProps) => {
 
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
+  const { event } = UseEventService();
   const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment, DeleteSocialWallPost } =useSocialWallService();
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some(like => like.attendee_id === response?.data?.user?.id)
@@ -51,11 +53,16 @@ const SquareBox = ({ post }: AppProps) => {
       <VStack space="3">
         {/* button to delete post */}
         {post.attendee.id === response?.data?.user?.id && (
+          <>
           <Button onPress={() => {
             deletePost()
           }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
             <Text fontSize="xs" color="primary.text">Delete</Text>
           </Button>
+          <Link href={`/${event.url}/social_wall/edit/${post.id}`}>
+            <Text w={'100%'} fontSize='md' lineHeight='sm'>Edit</Text>
+          </Link>
+      </>
         )}
         <HStack space="3" alignItems="center" key="rd90">
           <Avatar

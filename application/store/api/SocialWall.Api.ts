@@ -27,3 +27,7 @@ export const saveSocialWallComment = (payload: any, state: any): Promise<HttpRes
 export const likeSocialWallComment = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/social-wall/posts/comments/like/${payload.id}`);
 }
+
+export const getSocialWallPostDetailApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/social-wall/posts/detail/${payload.id}`);
+}

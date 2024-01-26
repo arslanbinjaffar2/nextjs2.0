@@ -6,7 +6,7 @@ export interface RootObject {
 export interface NewPost {
   file: File | null,
   content: string,
-  type: 'image' | 'video'| null,
+  type: 'image' | 'video'| 'text'| null,
   file_url: string,
 }
 
@@ -22,7 +22,7 @@ export interface Post {
   image : string;
   image_height : number;
   image_width : number;
-  type : string;
+  type : 'image' | 'video'| 'text'| null;
   likes_count : number;
   comments_count : number;
   creatd_at : string;
