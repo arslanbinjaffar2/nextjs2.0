@@ -29,7 +29,7 @@ export const socialWallSlice = createSlice({
     name: 'socialWall',
     initialState,
     reducers: {
-        FetchSocialWallPosts(state, action: PayloadAction<{ page: number, sort_by:string}>) {
+        FetchSocialWallPosts(state, action: PayloadAction<{ page: number, sort_by:string, attendee_id:number}>) {
             state.page = action.payload.page;
             if (action.payload.page === 1) {
                 state.posts = [];

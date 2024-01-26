@@ -7,19 +7,25 @@ import { NewPost } from 'application/models/socialWall/SocialWall'
 import LoadImage from 'application/components/atoms/LoadImage';
 import UseSocialWallService from 'application/store/services/UseSocialWallService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import UseAuthService from 'application/store/services/UseAuthService';
+import UseEnvService from 'application/store/services/UseEnvService';
+
+
 import in_array from "in_array";
 
 
 const AddPost = () => {
 
+    const { _env } = UseEnvService();
     const { AddSocialWallPost } = UseSocialWallService();
     const { processing } = UseLoadingService();
+    const { response } = UseAuthService();
     const [postData, setpostData] = React.useState<NewPost>({
-        file: null,
-        content: '',
-        type: null,
-        file_url: '',
-    });
+            file: null,
+            content: '',
+            type: null,
+            file_url: '',
+        });
 
     function createPost() {
         if(postData.content === '' && postData.file === null){
@@ -123,7 +129,7 @@ const AddPost = () => {
                 <Avatar
                     size="sm"
                     source={{
-                        uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
+                        uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
                     }}
                 >
                     SS

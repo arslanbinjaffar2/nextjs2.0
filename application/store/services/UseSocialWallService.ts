@@ -10,7 +10,7 @@ export type SocialWallServiceOperators = {
     last_page: number,
     sort_by: string,
     posts: Post[],
-    FetchSocialWallPosts:  (payload: { page: number, sort_by:string}) => void,
+    FetchSocialWallPosts:  (payload: { page: number, sort_by:string , attendee_id:number}) => void,
     AddSocialWallPost:  (data:any) => void;
     LikeSocialWallPost:  (payload: { id: number}) => void;
     SaveSocialWallComment:  (data:any) => void;
@@ -32,7 +32,7 @@ export const useSocialWallService = (): Readonly<SocialWallServiceOperators> => 
         posts: useAppSelector(SelectSocialWallPosts),
         sort_by: useAppSelector(SelectSortBy),
         FetchSocialWallPosts: useCallback(
-            (payload: { page: number, sort_by:string}) => {
+            (payload: { page: number, sort_by:string, attendee_id:number}) => {
                 dispatch(SocialWallActions.FetchSocialWallPosts(payload))
             },
             [dispatch],
