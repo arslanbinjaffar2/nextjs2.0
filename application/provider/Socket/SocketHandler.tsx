@@ -26,7 +26,7 @@ const SocketHandler = () => {
 
     const { SetSocket } = UseSocketService();
 
-    const { SocialWallPostsUpdated } = UseSocialWallService();
+    const { SocialWallPostsUpdated, SocialWallPostDeleted } = UseSocialWallService();
 
 
     const options: any = React.useMemo(() => ({
@@ -78,7 +78,12 @@ const SocketHandler = () => {
       socketConnect.on(`event-buizz:social_wall_post_updated_${event?.id}`, function (data:any):any {
         console.log(data, 'data');
         SocialWallPostsUpdated({post:data.post});
-    });
+      });
+
+      socketConnect.on(`event-buizz:social_wall_post_deleted_${event?.id}`, function (data:any):any {
+        console.log(data, 'data');
+        SocialWallPostDeleted({post_id:data.post_id});
+      });
 
       return () =>{
         socketConnect.disconnect();

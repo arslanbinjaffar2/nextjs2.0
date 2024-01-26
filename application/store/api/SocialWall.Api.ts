@@ -16,6 +16,10 @@ export const likeSocialWallPostApi = (payload: any, state: any): Promise<HttpRes
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/social-wall/posts/like/${payload.id}`);
 }
 
+export const deleteSocialWallPostApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/social-wall/posts/delete/${payload.id}`);
+}
+
 export const saveSocialWallComment = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/social-wall/posts/comments/save`,payload);
 }

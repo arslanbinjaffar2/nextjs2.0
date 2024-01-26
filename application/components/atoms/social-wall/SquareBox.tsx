@@ -20,7 +20,7 @@ const SquareBox = ({ post }: AppProps) => {
 
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
-  const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment } =useSocialWallService();
+  const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment, DeleteSocialWallPost } =useSocialWallService();
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some(like => like.attendee_id === response?.data?.user?.id)
   );
@@ -34,6 +34,10 @@ const SquareBox = ({ post }: AppProps) => {
     LikeSocialWallPost({id:post.id})
   }
 
+  function deletePost() {
+    DeleteSocialWallPost({id:post.id})
+  }
+
   function saveComment(newComment:NewComment) {
     SaveSocialWallComment({...newComment})
   }
@@ -45,6 +49,14 @@ const SquareBox = ({ post }: AppProps) => {
   return (
     <Box mb="3"  w="100%">
       <VStack space="3">
+        {/* button to delete post */}
+        {post.attendee.id === response?.data?.user?.id && (
+          <Button onPress={() => {
+            deletePost()
+          }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
+            <Text fontSize="xs" color="primary.text">Delete</Text>
+          </Button>
+        )}
         <HStack space="3" alignItems="center" key="rd90">
           <Avatar
             borderWidth={1}

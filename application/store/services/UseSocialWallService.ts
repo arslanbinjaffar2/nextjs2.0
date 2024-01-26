@@ -15,7 +15,9 @@ export type SocialWallServiceOperators = {
     LikeSocialWallPost:  (payload: { id: number}) => void;
     SaveSocialWallComment:  (data:any) => void;
     LikeSocialWallComment:  (payload: { id: number}) => void;
+    DeleteSocialWallPost:  (payload: { id: number}) => void;
     SocialWallPostsUpdated:  (payload: { post: Post}) => void;
+    SocialWallPostDeleted:  (payload: { post_id: number}) => void;
 }
 
 /**
@@ -64,6 +66,18 @@ export const useSocialWallService = (): Readonly<SocialWallServiceOperators> => 
         SocialWallPostsUpdated: useCallback(
             (payload: { post: Post}) => {
                 dispatch(SocialWallActions.SocialWallPostsUpdated(payload))
+            },
+            [dispatch],
+        ),
+        DeleteSocialWallPost: useCallback(
+            (payload: { id: number}) => {
+                dispatch(SocialWallActions.DeleteSocialWallPost(payload))
+            },
+            [dispatch],
+        ),
+        SocialWallPostDeleted: useCallback(
+            (payload: { post_id: number}) => {
+                dispatch(SocialWallActions.SocialWallPostDeleted(payload))
             },
             [dispatch],
         ),

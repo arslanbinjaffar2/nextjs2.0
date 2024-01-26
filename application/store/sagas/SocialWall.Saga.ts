@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getSocialWallApi, likeSocialWallComment, likeSocialWallPostApi, saveSocialWallComment, saveSocialWallPostApi } from 'application/store/api/SocialWall.Api'
+import { deleteSocialWallPostApi, getSocialWallApi, likeSocialWallComment, likeSocialWallPostApi, saveSocialWallComment, saveSocialWallPostApi } from 'application/store/api/SocialWall.Api'
 
 import { SocialWallActions } from 'application/store/slices/SocialWall.Slice'
 
@@ -85,6 +85,17 @@ function* OnLikeSocialWallComment({
     yield put(LoadingActions.removeProcess({ process: `social_wall_like_comment_${payload.id}` }))
 }
 
+function* OnDeleteSocialWallPost({
+    payload,
+}: {
+    type: typeof SocialWallActions.DeleteSocialWallPost
+    payload: {id:number}
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: `social_wall_delete_post${payload.id}` }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(deleteSocialWallPostApi, payload, state)
+    yield put(LoadingActions.removeProcess({ process: `social_wall_delete_post_${payload.id}` }))
+}
 
 
 
@@ -96,6 +107,7 @@ export function* SocialWallWatcherSaga(): SagaIterator {
     yield takeEvery(SocialWallActions.LikeSocialWallPost.type, OnLikeSocialWallPost)
     yield takeEvery(SocialWallActions.SaveSocialWallComment.type, OnSaveSocialWallComment)
     yield takeEvery(SocialWallActions.LikeSocialWallComment.type, OnLikeSocialWallComment)
+    yield takeEvery(SocialWallActions.DeleteSocialWallPost.type, OnDeleteSocialWallPost)
 }
 
 export default SocialWallWatcherSaga

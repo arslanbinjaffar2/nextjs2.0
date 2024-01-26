@@ -6,7 +6,7 @@ import { RootState } from 'application/store/Index'
 import {
     current
 } from '@reduxjs/toolkit';
-import { NewPost, Post } from 'application/models/socialWall/SocialWall';
+import { Post } from 'application/models/socialWall/SocialWall';
 
 export interface SocialWallState {
     page: number;
@@ -44,7 +44,7 @@ export const socialWallSlice = createSlice({
             
         },
         SocialWallPostsUpdated(state, action: PayloadAction<{ post: Post}>) {
-            const existed: any = current(state.posts);
+            const existed: Post[] = state.posts;
             // Find the index of the post with the same id
                 const index = existed.findIndex((post: Post) => post.id === action.payload.post.id);
 
@@ -61,6 +61,11 @@ export const socialWallSlice = createSlice({
                 }
         },
         LikeSocialWallPost(state, action: PayloadAction<{id:number}>){},
+        DeleteSocialWallPost(state, action: PayloadAction<{id:number}>){},
+        SocialWallPostDeleted(state, action: PayloadAction<{ post_id: number}>) {
+            const existed: Post[] = state.posts;
+            state.posts = existed.filter((post: Post) => post.id != action.payload.post_id);
+        },
         SaveSocialWallComment(state, action: PayloadAction<any>){},
         LikeSocialWallComment(state, action: PayloadAction<{id:number}>){},
 
@@ -76,6 +81,8 @@ export const SocialWallActions = {
     LikeSocialWallPost:socialWallSlice.actions.LikeSocialWallPost,
     SaveSocialWallComment:socialWallSlice.actions.SaveSocialWallComment,
     LikeSocialWallComment:socialWallSlice.actions.LikeSocialWallComment,
+    SocialWallPostDeleted:socialWallSlice.actions.SocialWallPostDeleted,
+    DeleteSocialWallPost:socialWallSlice.actions.DeleteSocialWallPost,
 }
 
 export const SelectSocialWallPosts = (state: RootState) => state.socialWall.posts
