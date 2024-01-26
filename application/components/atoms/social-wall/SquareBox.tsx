@@ -43,7 +43,7 @@ const SquareBox = ({ post }: AppProps) => {
   }
 
   return (
-    <Box mb="3" borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="4" rounded="10px" overflow="hidden">
+    <Box mb="3"  w="100%">
       <VStack space="3">
         <HStack space="3" alignItems="center" key="rd90">
           <Avatar
