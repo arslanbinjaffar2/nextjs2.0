@@ -25,6 +25,7 @@ import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 import { error } from 'application/store/slices/Auth.Slice';
+import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 
 
 type ScreenParams = { id: string }
@@ -50,6 +51,9 @@ const Detail = () => {
 
   const { afterLogin, FetchSubRegistrationAfterLogin, SaveSubRegistration, submitting, skip, setSkip } = UseSubRegistrationService();
 
+  const { netWorkskip } = UseNetworkInterestService();
+
+
   const [formData, setFormData] = useState<FormData>({});
   const [errors, setErrors] = useState<FormData>({});
   const [updates, setUpdates] = useState(0);
@@ -62,6 +66,7 @@ const Detail = () => {
     
     let newErrors = errors;
     console.log(newErrors[question_id])
+    console.log(answer)
     if(newErrors[question_id] !== undefined && newErrors[question_id].error !== undefined && newErrors[question_id].error !== null){
       newErrors[question_id].error = null;
       setUpdates(updates + 1);
@@ -74,6 +79,8 @@ const Detail = () => {
         comment:null
       };
     }
+    console.log(newFormData[question_id])
+
     if(type === 'multiple'){
           newFormData[question_id].answer = answer 
           setUpdates(updates + 1);
@@ -83,7 +90,7 @@ const Detail = () => {
       newFormData[question_id].answer = [answer]
     }
     else if(type === 'dropdown'){
-      newFormData[question_id].answer = [answer]
+      newFormData[question_id].answer = answer == '0' ? [] : [answer]
     }
     else if(type === 'world_cloud'){
       if(newFormData[question_id].answer === null){
@@ -116,7 +123,7 @@ const Detail = () => {
 
     React.useEffect(() => {
       if(skip === true){
-          push(`/${event.url}/dashboard`)
+          push(`/${event.url}/${netWorkskip !== true ? 'network-interest' : 'dashboard'}`)
       }
     }, [skip]);
 
@@ -124,7 +131,7 @@ const Detail = () => {
       let error = false;
       let newFormData = errors;
         for(const activeQuestion of afterLogin?.questions?.question!){
-        if(Number(activeQuestion?.required_question) === 1){
+        if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!]?.answer !== undefined && formData[activeQuestion?.id!]?.answer !== null)){
           if(activeQuestion?.question_type === 'multiple'){
             if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer.length <= 0){
               newFormData[activeQuestion.id!] = {
@@ -134,13 +141,15 @@ const Detail = () => {
             }
             else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!]?.answer.length < activeQuestion.min_options){
               newFormData[activeQuestion.id!] = {
-                  error: `min option ${activeQuestion.min_options}`
+                  error: afterLogin?.labels?.SUB_REGISTRATION_MIN_SELECTION_ERROR
+                  .replace(/%q/g, activeQuestion?.info[0]?.value)
+                  .replace(/%s/g, activeQuestion?.min_options?.toString())
                 };
                 error  = true;
             }
             else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!]?.answer.length > activeQuestion.max_options){
               newFormData[activeQuestion.id!] = {
-                  error:`max option ${activeQuestion.max_options}`
+                  error:afterLogin?.labels?.SUB_REGISTRATION_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString())
                 };
                 error  = true;
             }
@@ -172,7 +181,7 @@ const Detail = () => {
             } 
           }
           else{
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer === ''){
+            if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer === '')){
                 newFormData[activeQuestion.id!] = {
                   error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
                 };
@@ -196,13 +205,13 @@ const Detail = () => {
          const answers = afterLogin?.questions?.question
          .reduce(
            (ack:any, item:any) => {
-           if(item.question_type === "multiple" &&  formData[item.id]?.answer.length > 0){
+           if(item.question_type === "multiple" && formData[item.id] !== undefined && formData[item.id].answer !== undefined &&  formData[item.id]?.answer.length > 0){
              let newObj ={ [`answer${item.id}`]: formData[item.id]?.answer.map((item:any) =>(item)), [`comments${item.id}`]:formData[item.id]?.comment }
-             let agendas = item?.answer?.filter((filterItem:any)=>(filterItem.link_to > 0))?.reduce((ack:any, ritem:any) => {
-               if(formData[item.id]?.answer.map((item:any)=>(item)).indexOf(ritem) !== -1){
-                return Object.assign(ack, { [`answer_agenda_${ritem.id}`] : ritem.link_to })
+             let agendas = item?.answer?.filter((filterItem:any)=>(filterItem.link_to > 0))?.reduce((acc:any, ritem:any) => {
+               if(formData[item.id]?.answer.map((item:any)=>(item)).includes(`${ritem.id}`)){
+                return Object.assign(acc, { [`answer_agenda_${ritem.id}`] : ritem.link_to })
                }
-               return ack;          
+               return acc;          
                },
              {})
              if(Object.keys(agendas).length > 0){
@@ -210,7 +219,7 @@ const Detail = () => {
              }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "single" && formData[item.id]?.answer.length > 0){
+           else if(item.question_type === "single" && formData[item.id] !== undefined && formData[item.id].answer !== undefined && formData[item.id]?.answer.length > 0){
              let newObj ={ [`answer${item.id}`]: formData[item.id]?.answer, [`comments${item.id}`]:formData[item.id]?.comment }
              
              if((item.answer.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0) > 0){
@@ -218,11 +227,11 @@ const Detail = () => {
              }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "dropdown" && formData[item.id]?.answer.length > 0){
+           else if(item.question_type === "dropdown" && formData[item.id] !== undefined && formData[item.id].answer !== undefined && formData[item.id]?.answer.length > 0 && formData[item.id]?.answer[0] !== '0'){
              let newObj ={ [`answer_dropdown${item.id}`]: [`${formData[item.id]?.answer[0]}-${item?.answer?.find((answer:any)=>(formData[item.id]?.answer[0] == answer.id))?.link_to ?? 0}`], [`comments${item.id}`]:formData[item.id]?.comment }
              return Object.assign(ack, {...newObj} );
            }
-           else if(item.question_type === "matrix" && Object.keys(formData[item.id]?.answer).length > 0){
+           else if(item.question_type === "matrix" && formData[item.id] !== undefined && formData[item.id].answer !== undefined && Object.keys(formData[item.id]?.answer).length > 0){
              let newObj ={ [`answer${item.id}`]: Object.keys(formData[item.id]?.answer), [`comments${item.id}`]: formData[item.id]?.comment }
              let matrix = Object.keys(formData[item.id]?.answer).reduce((ack, ritem) => {
                 return Object.assign(ack, { [`answer_matrix${item.id}_${ritem}`] : [`${ritem}-${formData[item.id]?.answer[ritem]}`] })},
@@ -231,14 +240,13 @@ const Detail = () => {
              return Object.assign(ack, {...newObj, ...matrix} );
            }
            else{
-             if(formData[item.id] !== undefined && formData[item.id]?.answer.length > 0){
+             if(formData[item.id] !== undefined && formData[item.id] !== undefined && formData[item.id].answer !== undefined && formData[item.id]?.answer.length > 0){
                return Object.assign(ack, { [`answer_${item.question_type}${item.id}`]: [formData[item.id]?.answer], [`comments${item.id}`]:formData[item.id]?.comment} );
              }else{
                return ack;
              }
            }
          },{})
-
          SaveSubRegistration({
           first_time:"yes",
           sub_reg_id: afterLogin?.questions?.id,

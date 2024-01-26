@@ -41,12 +41,43 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
   });
 
   const style = {
-    control: (base:any) => ({
+    control: (base:any, state:any) => ({
       ...base,
-      border: 0,
-      boxShadow: 'none'
-    })
-  };
+      minHeight: 50,
+      width: '100%',
+      maxWidth: '100%',
+			minWidth: '256px',
+      marginBottom: 10,
+			background: `rgb(79,79,79)`,
+			color: '#eaeaea',
+			fontFamily: 'Avenir',
+			boxShadow: 'none',
+			borderWidth: 2,
+			borderColor: state.isFocused ? "#000" : "transparent",
+			"&:hover": {
+				// Overwrittes the different states of border
+				borderColor: state.isFocused ? "#000" : "transparent"
+			}
+    }),placeholder: (defaultStyles: any) => {
+        return {
+            ...defaultStyles,
+            color: '#eaeaea',
+        }
+    },
+		option: (provided:any, state:any) => ({
+				...provided,
+				fontFamily: 'Avenir',
+				backgroundColor: state.isSelected ? "rgb(79,79,79)" : "",
+				"&:hover": {
+					backgroundColor: 'rgb(79,79,79)',
+					color: '#fff'
+				}
+		}),
+		singleValue: (provided:any) => ({
+    ...provided,
+    color: '#eaeaea'
+  })
+};
 
   const Blanket = (props:any) => (
     <div

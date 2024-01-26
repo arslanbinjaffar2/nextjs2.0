@@ -25,7 +25,13 @@ import SocialMediaSlice from './slices/SocialMedia.Slice'
 import CheckInOutSlice from './slices/CheckInOut.Slice'
 import SubRegistrationSlice from './slices/SubRegistration.Slice'
 import NetworkInterestSlice from './slices/NetworkInterest.Slice'
+import NotesSlice from './slices/Notes.Slice'
+import NotificationSlice from './slices/Notification.Slice'
+import SocketSlice, { SocketActions } from './slices/Socket.Slice'
+import HdSlice from './slices/Hd.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
+import GallerySlice from './slices/Gallery.Slice'
+import SocialWallSlice, { SocialWallActions } from './slices/SocialWall.Slice'
 
 const makeStore = () => {
 
@@ -50,6 +56,8 @@ const makeStore = () => {
             surveys:SurveySlice,
             alerts:AlertSlice,
             floorPlans:FloorPlanSlice,
+            galleryImages:GallerySlice,
+            socialWall:SocialWallSlice,
             banners:BannerSlice,
             editProfiles:EditProfileSlice,
             qa:QaSlice,
@@ -57,17 +65,27 @@ const makeStore = () => {
             checkInOut:CheckInOutSlice,
             subRegistration:SubRegistrationSlice,
             networkInterest:NetworkInterestSlice,
+            notes:NotesSlice,
+            notifications:NotificationSlice,
+            socket:SocketSlice,
+            hd:HdSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
             getDefaultMiddleware({ thunk: false, 
                 serializableCheck: {
                     // Ignore these action types
-                    ignoredActions: [EditProfileActions.UpdateAttendee.type],
+                    ignoredActions: [
+                        EditProfileActions.UpdateAttendee.type, 
+                        SocketActions.SetSocket.type,
+                        SocialWallActions.AddSocialWallPost.type
+                    ],
+                    ignoredPaths: ['socket.socket']
+                    
               },
              })
             .concat(sagaMiddleware)
-            .concat(logger),
+            // .concat(logger),
     })
 
     sagaMiddleware.run(RootSaga)

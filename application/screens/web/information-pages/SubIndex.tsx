@@ -36,7 +36,7 @@ const Index = ({ navigation }: indexProps) => {
   const [searchText, setSearchText] = React.useState<string>("")
 
   return (
-    <Master>
+    <>
       {loading ? (
         <SectionLoading />
       ) : (
@@ -53,7 +53,7 @@ const Index = ({ navigation }: indexProps) => {
         </Container>
       )}
 
-    </Master>
+    </>
   );
 };
 

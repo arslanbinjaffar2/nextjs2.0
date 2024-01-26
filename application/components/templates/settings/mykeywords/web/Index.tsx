@@ -69,9 +69,21 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
     console.log(filters, 'filters');
   }
   const setSearch = (value:any)=>{
-    setSearchTerm(value);
-    setFilters([ ...interestkeywords?.filter((kword)=> (kword?.name?.toLowerCase().indexOf(value?.toLowerCase()) !== -1))?.map((kword)=>(kword?.id)) ])
+    // setSearchTerm(value);
+    const filterIds = interestkeywords?.filter((kword)=> {
+      if(kword?.name?.toLowerCase().indexOf(searchTerm?.toLowerCase()) > -1){
+          return true;
+        }
+      else if(kword?.children?.filter((subkey)=>( subkey?.name?.toLowerCase().indexOf(searchTerm?.toLowerCase()) > -1))?.length! > 0){
+        return true;
+      }
+      else{
+        return false;
+      }
+    })?.map((kword)=>(kword?.id));
+    setFilters([ ...filterIds ]);
   }
+
   useEffect(() => {
     if(filters?.length > 0)
     {
@@ -134,7 +146,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                     ))}
                     </HStack>
                     <Box w="100%" mb="3">
-                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </Box>
                     <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
                     {filteredkeywords?.length > 0 ? filteredkeywords?.map((keyword:Keyword)=>(
@@ -190,13 +202,13 @@ type checkboxProps = {
 const CheckboxWrapp = ({ title, checked, addMyKeyword}: checkboxProps) => {
     return (
       <Button
-        bg={checked ? 'primary.secondary' : 'primary.darkbox'}
+        bg={checked ? 'primary.500' : 'primary.darkbox'}
         px="3"
         py="1"
         mx="1"
         mb="3"
-        _hover={{ bg: checked ? 'primary.secondary' : 'primary.darkbox' }}
-        _pressed={{ bg: checked ? 'primary.secondary' : 'primary.darkbox' }}
+        _hover={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
+        _pressed={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
         _text={{ fontSize: 'lg' }}
         rounded="20px"
         leftIcon={<Icon as={AntDesign} name={checked ? 'check' : 'plus'} />}

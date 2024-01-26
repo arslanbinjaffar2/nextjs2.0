@@ -90,6 +90,30 @@ export const SubRegistrationSlice = createSlice({
             } else {
                 AsyncStorageClass.setItem('skip_sub_reg', 'true');
             }
+        },
+        clearState(state){
+            state.afterLogin= {
+                labels: [],
+                settings: null,
+                questions: null,
+                skip_msg: 0,
+                alert_label: '',
+                error_msg: '',
+                first_time: '',
+                min_alert_label: '',
+                displaySubregistration: '',
+                all_programs: [],
+                show_skip_button:false,
+            };
+            state.submitting=false;
+            state.redirect='';
+            state.skip=false;
+            state.mySubReg=null;
+            if (Platform.OS === 'web') {
+                localStorage.removeItem('skip_sub_reg');
+            } else {
+                AsyncStorageClass.removeItem('skip_sub_reg');
+            }
         }
     },
 })
@@ -103,6 +127,7 @@ export const SubRegistrationActions = {
     SaveSubRegistration:SubRegistrationSlice.actions.SaveSubRegistration,
     SubmitSuccess:SubRegistrationSlice.actions.SubmitSuccess,
     setSkip:SubRegistrationSlice.actions.setSkip,
+    clearState:SubRegistrationSlice.actions.clearState,
 }
 export const SelectSubRegistrationAfterLogin = (state: RootState) => state.subRegistration.afterLogin
 export const SelectSubRegistrationMySubreg = (state: RootState) => state.subRegistration.mySubReg

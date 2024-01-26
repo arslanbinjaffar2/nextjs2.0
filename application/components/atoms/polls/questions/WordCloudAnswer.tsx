@@ -14,7 +14,7 @@ type PropTypes = {
 }
 const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
   const [inputTextArray, setInputTextArray] = React.useState(formData[question.id]?.answer ?? {})
-  const [commentText, setCommentText] = React.useState(formData[question.id]?.comment ?? '')
+  
 
   return (
     <Center maxW="100%" w="100%" mb="0">
@@ -34,24 +34,24 @@ const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: 
           )}
         </VStack>
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.300" w="100%">
+      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
       </Box>}
       {Number(question.enable_comments) === 1 &&
         <>
         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
           <Icodocument width="15px" height="18px" />
-          <Text fontSize="lg">Write comment</Text>
+          <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
         </HStack>
         <Box py="3" px="4" w="100%">
-          <TextArea
-            p="0"
-            h="30px"
-            focusOutlineColor="transparent"
-            _focus={{ bg: 'transparent' }}
-            value={commentText}
-            onChangeText={(text) => {updateFormData(question.id, 'comment', text); setCommentText(text);}}
-            borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+           <TextArea
+            p="3"
+            mb={1}
+            h="100px"
+            bg={'primary.darkbox'}
+            defaultValue={formData[question.id]?.comment !== null ? formData[question.id]?.comment : ``}
+            onChangeText={(text) => {updateFormData(question.id, 'comment', text); }}
+            borderWidth="0" fontSize="md" placeholder={labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
             <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
         </Box>
         </>

@@ -28,6 +28,17 @@ class Document extends NativebaseDocument {
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </Head>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            charSet="UTF-8"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+          />
         <body style={{ height: "100%", overflow: "hidden" }}>
           <Main />
           <NextScript />
@@ -145,12 +156,31 @@ export const style = `
 body {
   display: flex;
 }
-.rdtDays, .ebs-date-wrapper,.rdtCount {
-  font-family: 'Avenir', sans-serif;
+.rdtDays, .ebs-date-wrapper,.rdtCount,.styles_react-code-input__CRulA > input {
+  font-family: 'Avenir', sans-serif !important;
 }
 .rdtTime .rdtSwitch,.rdtTimeToggle {
   display: none !important;
 }
+.ebs-iframe-content * {
+  line-height: 1.2;
+}
+.ebs-iframe-content img {
+  max-width: 100%;
+}
+.r-zIndex-1ufr4wv + .r-zIndex-1ufr4wv{
+  z-index: 8 !important;
+}
+.css-view-1dbjc4n {
+  z-index: unset !important;
+}
+.css-12a83d4-MultiValueRemove {
+  background-color: #000;
+}
+.r-backgroundColor-16it7h5 {
+  backdrop-filter: blur(5px);
+}
+.no-margin * {margin: 0}
 `;
 
 export async function getInitialProps({ renderPage }) {

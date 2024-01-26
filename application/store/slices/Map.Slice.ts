@@ -5,11 +5,11 @@ import { Map } from 'application/models/Map'
 import type { RootState } from 'application/store/Index'
 
 export interface MapState {
-    map: Map,
+    map: Map | null,
 }
 
 const initialState: MapState = {
-    map: {},
+    map: null,
 }
 
 // Slice

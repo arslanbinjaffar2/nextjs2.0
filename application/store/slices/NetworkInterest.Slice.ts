@@ -65,6 +65,19 @@ export const NetworkInterestSlice = createSlice({
             state.searchingAttendees = false;
 
         },
+        clearState(state){
+            state.keywords= [];
+            state.updatingMykeywords=false;
+            state.skip=false;
+            state.searchMatchAttendees=null;
+            state.searchingAttendees=false;
+
+            if (Platform.OS === 'web') {
+                localStorage.removeItem('keyword_skip');
+            } else {
+                AsyncStorageClass.removeItem('keyword_skip');
+            }
+        }
     },
 })
 
@@ -77,6 +90,7 @@ export const NetworkInterestActions = {
     setSkip:NetworkInterestSlice.actions.setSkip,
     FetchSearchMatchAttendees:NetworkInterestSlice.actions.FetchSearchMatchAttendees,
     updateSearchMatchAttendees:NetworkInterestSlice.actions.updateSearchMatchAttendees,
+    clearState:NetworkInterestSlice.actions.clearState,
 }
 
 export const SelectNetworkInterests = (state: RootState) => state.networkInterest.keywords

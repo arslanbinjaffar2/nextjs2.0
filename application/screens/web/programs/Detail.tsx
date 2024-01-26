@@ -9,9 +9,7 @@ type indexProps = {
 
 const Detail = ({ navigation }: indexProps) => {
   return (
-    <Master>
       <ProgramDetail />
-    </Master>
   );
 };
 

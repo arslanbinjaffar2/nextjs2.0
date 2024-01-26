@@ -1,15 +1,19 @@
 import React from 'react'
-import { Box, Container, HStack, Pressable, Icon } from 'native-base';
+import { Box, Container, HStack, Pressable, Icon, Text } from 'native-base';
 import { Detail } from 'application/models/attendee/Detail';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Linking } from 'react-native';
+import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
     detail: Detail,
 }
 
 const ContactInfo = ({ detail }: AppProps) => {
+
+    const { event  } = UseEventService();
+
 
     return (
         <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
@@ -63,6 +67,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                             <Icon ml={5} size="md" as={FontAwesome} name="tv" color={'primary.secondary'} />
                         </Pressable>
                     ) : ''}
+
                 </HStack>
             </Box>
         </Container>

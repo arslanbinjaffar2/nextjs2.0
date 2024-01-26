@@ -15,9 +15,10 @@ type boxItemProps = {
   attendee: Attendee
   border: number
   speaker: number
+  disableMarkFavroute?: boolean
 }
 
-const RectangleView = ({ border, attendee, speaker }: boxItemProps) => {
+const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxItemProps) => {
 
   const { MakeFavourite } = UseAttendeeService();
 
@@ -63,32 +64,37 @@ const RectangleView = ({ border, attendee, speaker }: boxItemProps) => {
                     (attendee?.info.company_name ||
                       attendee?.info.title) && (
                       <>
-                        {attendee?.info.title && (
+                        
                           <Text lineHeight="22px" fontSize="lg">{attendee?.info?.title}&nbsp;{attendee?.info?.company_name &&
                             attendee?.info?.title &&
                             ", "}
-                            {attendee?.info?.company_name && attendee?.info?.company_name}</Text>
-                        )}
+                            { attendee?.field_settings?.department.is_private == 0 && attendee?.info?.department && `${attendee?.info?.department} ${attendee?.info?.company_name && ', '}`}
+                            {attendee?.info?.company_name && attendee?.info?.company_name}
+                            </Text>
+                        
                       </>
                     )}
                 </>
               )}
-              {attendee?.info?.private_street && (
-                <Text pt="1" lineHeight="22px" fontSize="md">Private address: {attendee?.info?.private_street}</Text>
-              )}
+              {
+                <Text pt="1" lineHeight="22px" fontSize="md"> 
+                  {getPrivateFields(attendee)}
+                 </Text>
+              }
+              
             </VStack>
             <Spacer />
-            {!speaker && (
               <HStack space="4" alignItems="center">
+              {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
                   onPress={() => {
                     MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
                   }}>
                   <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.primary_color : ''} />
                 </Pressable>
+                )}
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
               </HStack>
-            )}
           </HStack>
         </HStack>
       </Pressable>
@@ -97,3 +103,26 @@ const RectangleView = ({ border, attendee, speaker }: boxItemProps) => {
 }
 
 export default RectangleView
+
+
+const getPrivateFields = (attendee:any) => {
+  let fields = '';
+
+  if(attendee?.field_settings?.pa_street.is_private == 0 && attendee?.info?.private_street){
+    fields += fields !== '' ? `, ${attendee?.info?.private_street}` : attendee?.info?.private_street;
+  }
+  if(attendee?.field_settings?.pa_house_no.is_private == 0 && attendee?.info?.private_house_number){
+    fields += fields !== '' ? `, ${attendee?.info?.private_house_number}` : attendee?.info?.private_house_number;
+  }
+  if(attendee?.field_settings?.pa_post_code.is_private == 0 && attendee?.info?.private_post_code){
+    fields += fields !== '' ? `, ${attendee?.info?.private_post_code}` : attendee?.info?.private_post_code;
+  }
+  if(attendee?.field_settings?.pa_city.is_private == 0 && attendee?.info?.private_city){
+    fields += fields !== '' ? `, ${attendee?.info?.private_city}` : attendee?.info?.private_city;
+  }
+  if(attendee?.field_settings?.pa_country.is_private == 0 && attendee?.private_country_display_name){
+    fields += fields !== '' ? `, ${attendee?.private_country_display_name}` : attendee?.private_country_display_name;
+  }
+
+  return fields;
+}

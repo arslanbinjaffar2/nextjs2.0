@@ -17,7 +17,7 @@ export type SponsorServiceOperators = {
     our_sponsors: Sponsor[]
     categories: SponsorCategory[]
     settings: SponsorSetting
-    detail: SponsorDetail
+    detail: SponsorDetail | null
     category_id: number
     query: string
     FetchSponsors: (payload: { category_id: number, query: string, screen: string }) => void

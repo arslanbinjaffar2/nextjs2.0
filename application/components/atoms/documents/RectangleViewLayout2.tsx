@@ -9,6 +9,8 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import HumanFileSize from 'application/utils/HumanFileSize';
 import { Linking } from 'react-native';
 import UseEnvService from 'application/store/services/UseEnvService';
+import FileIconByType from 'application/components/atoms/documents/FileIconByType';
+import moment from 'moment';
 
 type AppProps = {
     document: Document,
@@ -19,7 +21,7 @@ type AppProps = {
 
 const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppProps) => {
 
-    const { data, FilterDocuments } = UseDocumentService();
+    const {data, FilterDocuments } = UseDocumentService();
 
     const { _env } = UseEnvService()
 
@@ -36,8 +38,8 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                 }}>
                                 <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.text" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
                                     <Icon size="xl" as={MaterialIcons} name="folder" color="primary.text" />
-                                    <VStack space="0">
-                                        <Text fontSize="md">{document?.name}</Text>
+                                    <VStack space="0" w={'80%'}>
+                                        <Text fontSize="md" textBreakStrategy='simple'>{document?.name}</Text>
                                     </VStack>
                                     <Spacer />
                                     <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
@@ -56,13 +58,13 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                 }}>
 
                                 <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.text" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
-                                    <Icon size="xl" as={AntDesign} name="pdffile1" color="primary.text" />
-                                    <VStack space="0">
+                                    <FileIconByType type={document?.path.split('.')[1]} />
+                                    <VStack space="0" w={'80%'}>
                                         <Text fontSize="md">{document?.name}</Text>
                                         <HStack space="3" alignItems="center">
                                             <Text fontSize="xs">{HumanFileSize(document?.file_size)}</Text>
-                                            <Text fontSize="xs">{document?.start_date}</Text>
-                                            <Text fontSize="xs">{document?.start_time}</Text>
+                                            <Text fontSize="xs">{moment(document?.start_date).format('DD-MM-YYYY')}</Text>
+                                            {/* <Text fontSize="xs">{document?.start_time}</Text> */}
                                         </HStack>
                                     </VStack>
                                     <Spacer />
@@ -78,3 +80,4 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
 }
 
 export default RectangleViewLayout2
+

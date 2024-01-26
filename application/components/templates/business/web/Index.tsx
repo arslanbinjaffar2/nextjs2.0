@@ -13,6 +13,7 @@ import RectangleAttendeeView from 'application/components/atoms/attendees/Rectan
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
+import RectangleView from 'application/components/atoms/attendees/RectangleView';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -64,9 +65,9 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
   const [filters, setFilters] = useState<any[]>([]);
 
   const setFilter= (kid:any)=>{
-      setSearchTerm("");
+    setSearchTerm("");
     if(kid !== 0){
-      if(filters.indexOf(kid) === -1) {
+      if(!filters.includes(kid)) {
         setFilters([...filters, kid])
       }else{
         setFilters([...filters.filter((item:any)=>( item !== kid))])
@@ -74,12 +75,22 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
     }else{
       setFilters([]);
     }
-    console.log(filters, 'filters');
   }
 
   const setSearch = (value:any)=>{
-    setSearchTerm(value);
-    setFilters([ ...interestkeywords?.filter((kword)=> (kword?.name?.toLowerCase().indexOf(value?.toLowerCase()) !== -1))?.map((kword)=>(kword?.id)) ])
+    // setSearchTerm(value);
+    const filterIds = interestkeywords?.filter((kword)=> {
+      if(kword?.name?.toLowerCase().indexOf(searchTerm?.toLowerCase()) > -1){
+          return true;
+        }
+      else if(kword?.children?.filter((subkey)=>( subkey?.name?.toLowerCase().indexOf(searchTerm?.toLowerCase()) > -1))?.length! > 0){
+        return true;
+      }
+      else{
+        return false;
+      }
+    })?.map((kword)=>(kword?.id));
+    setFilters([ ...filterIds ]);
   }
 
   useEffect(() => {
@@ -91,6 +102,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
       setFilteredKeywords([])
     }
   }, [filters])
+ 
   
   const addMyKeyword = (kid:any) =>{
     if(mykeywords?.indexOf(kid) === -1) {
@@ -112,53 +124,12 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                       <Text textTransform="uppercase" fontSize="2xl">Attendees</Text>
                     </HStack>
                     {searchingAttendees && <SectionLoading/>}
-                    <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
-                      {searchMatchAttendees && searchMatchAttendees.map((attendee: any, k: number) =>
-                          <React.Fragment key={`item-box-${k}`}>
-                                  <React.Fragment key={`${k}`}>
-                                    <Box w="100%" borderBottomWidth={(searchMatchAttendees.length - 1) == k ? 0 : 1} borderColor="primary.text" py="3">
-                                      <Pressable
-                                        onPress={() => {
-                                          if (Platform.OS === "web") {
-                                              push(`/${event.url}/attendees/detail/${attendee.id}`)
-                                            
-                                          } else {
-                                            navigation.replace('app', {
-                                              screen: 'attendee-detail',
-                                              params: {
-                                                id: attendee.id
-                                              }
-                                            })
-                                          }
-                                        }}>
-                                        <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-                                          <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                                            {attendee?.image ? (
-                                              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="Alternate Text" w="50px" h="50px" />
-                                            ) : (
-                                              <Image rounded="25" size="5" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="50px" h="50px" />
-                                            )}
-                                            <VStack maxW={['62%', '70%', '40%']} space="0">
-                                              {(attendee?.first_name || attendee?.last_name) && (
-                                                <>
-                                                  <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
-                                                
-                                                </>
-                                              )}
-                                              
-                                            </VStack>
-                                            <Spacer />
-                                            <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
-                                            
-                                          </HStack>
-                                        </HStack>
-                                      </Pressable>
-                                  </Box>
-                                  </React.Fragment>
-                          </React.Fragment>
+                    {searchMatchAttendees && <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
+                      {searchMatchAttendees.map((attendee: any, k: number) =>
+                          <RectangleView attendee={attendee} border={searchMatchAttendees.length - 1 == k ? 0 : 1 } speaker={0} disableMarkFavroute/>
                       )}
-                      {!searchingAttendees && !searchMatchAttendees && <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>} 
-                    </Box>
+                    </Box>}
+                    {!searchingAttendees && !searchMatchAttendees && <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>} 
                     {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
                       <Button
                           size="lg"
@@ -221,7 +192,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                     ))}
                     </HStack>
                     <Box w="100%" mb="3">
-                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </Box>
                     <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
                     {filteredkeywords?.length > 0 ? filteredkeywords?.map((keyword:Keyword)=>(
@@ -279,13 +250,13 @@ type checkboxProps = {
 const CheckboxWrapp = ({ title, checked, addMyKeyword}: checkboxProps) => {
     return (
       <Button
-        bg={checked ? 'primary.secondary' : 'primary.darkbox'}
+        bg={checked ? 'primary.500' : 'primary.darkbox'}
         px="3"
         py="1"
         mx="1"
         mb="3"
-        _hover={{ bg: checked ? 'primary.secondary' : 'primary.darkbox' }}
-        _pressed={{ bg: checked ? 'primary.secondary' : 'primary.darkbox' }}
+        _hover={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
+        _pressed={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
         _text={{ fontSize: 'lg' }}
         rounded="20px"
         leftIcon={<Icon as={AntDesign} name={checked ? 'check' : 'plus'} />}

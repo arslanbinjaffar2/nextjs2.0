@@ -16,12 +16,19 @@ const Index = () => {
 
     const { loading } = UseLoadingService();
     
-    const { FetchAlerts, alerts} = UseAlertService();
+    const { FetchAlerts, alerts, markAlertRead} = UseAlertService();
 
 
     useEffect(() => {
             FetchAlerts();
     }, []);
+    
+    useEffect(() => {
+        if(alerts.length > 0){
+
+            markAlertRead({ alertIds:alerts.reduce((ack,item)=>(`${ack}${item.id};`), '') });
+        }
+    }, [alerts]);
 
     return (
         <>
