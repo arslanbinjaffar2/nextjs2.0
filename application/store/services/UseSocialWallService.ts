@@ -13,6 +13,7 @@ export type SocialWallServiceOperators = {
     posts: Post[],
     FetchSocialWallPosts:  (payload: { page: number, sort_by:string , attendee_id:number}) => void,
     AddSocialWallPost:  (data:any) => void;
+    UpdateSocialWallPost:  (data:any) => void;
     LikeSocialWallPost:  (payload: { id: number}) => void;
     DetailSocialWallPost:  (payload: { id: number}) => void;
     SaveSocialWallComment:  (data:any) => void;
@@ -45,6 +46,12 @@ export const useSocialWallService = (): Readonly<SocialWallServiceOperators> => 
         AddSocialWallPost: useCallback(
             (payload: any) => {
                 dispatch(SocialWallActions.AddSocialWallPost(payload))
+            },
+            [dispatch],
+        ),
+        UpdateSocialWallPost: useCallback(
+            (payload: any) => {
+                dispatch(SocialWallActions.UpdateSocialWallPost(payload))
             },
             [dispatch],
         ),

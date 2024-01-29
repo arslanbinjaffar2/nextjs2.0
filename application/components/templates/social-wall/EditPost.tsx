@@ -21,7 +21,7 @@ const { useParam } = createParam<ScreenParams>()
 const EditPost = () => {
 
     const { _env } = UseEnvService();
-    const { AddSocialWallPost, DetailSocialWallPost, post_detail } = UseSocialWallService();
+    const { UpdateSocialWallPost,DetailSocialWallPost, post_detail } = UseSocialWallService();
     const { processing } = UseLoadingService();
     const { response } = UseAuthService();
     const [postData, setpostData] = React.useState<NewPost>({
@@ -57,15 +57,12 @@ const EditPost = () => {
             alert('Please write something or select image/video to post');
             return false;
         }
-        alert('Post update pending');
-        // AddSocialWallPost({...postData});
+        UpdateSocialWallPost({ ...{id: Number(id)}, ...postData });
 
-        // setpostData({
-        //     file: null,
-        //     content: '',
-        //     type: null,
-        //     file_url: '',
-        // });
+        setpostData({
+            ...postData,
+            file: null,
+        });
 
         if(inputImageRef.current){
             inputImageRef.current.value = '';
@@ -73,10 +70,6 @@ const EditPost = () => {
         if(inputVideoRef.current){
             inputVideoRef.current.value = '';
         }
-        if(inputContentRef.current){
-            inputContentRef.current.value = '';
-        }
-
     }
 
     function handleImageSelected(e: any) {
@@ -135,6 +128,10 @@ const EditPost = () => {
     const inputContentRef = React.useRef<HTMLInputElement | null>(null);
 
     return (
+        <>
+        <Box p="3" borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
+            <Text>Edit Post</Text>
+        </Box>
         <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
             <IconButton
                 w="30px"
@@ -300,7 +297,11 @@ const EditPost = () => {
             {(in_array(`social_wall_fetching_post_detail${id}`, processing)) && (
                 <Text>fetching Details....</Text>
             )}
+            {(in_array(`social_wall_update_post`, processing)) && (
+                <Text>Updating...</Text>
+            )}
         </Box>
+        </>
     )
 
 }

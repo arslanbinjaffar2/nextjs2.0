@@ -78,7 +78,8 @@ const makeStore = () => {
                     ignoredActions: [
                         EditProfileActions.UpdateAttendee.type, 
                         SocketActions.SetSocket.type,
-                        SocialWallActions.AddSocialWallPost.type
+                        SocialWallActions.AddSocialWallPost.type,
+                        SocialWallActions.UpdateSocialWallPost.type
                     ],
                     ignoredPaths: ['socket.socket']
                     

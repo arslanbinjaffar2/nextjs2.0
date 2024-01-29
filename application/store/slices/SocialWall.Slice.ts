@@ -45,6 +45,7 @@ export const socialWallSlice = createSlice({
         AddSocialWallPost(state, action: PayloadAction<any>){
             
         },
+        UpdateSocialWallPost(state, action: PayloadAction<any>){},
         SocialWallPostsUpdated(state, action: PayloadAction<{ post: Post}>) {
             const existed: Post[] = state.posts;
             // Find the index of the post with the same id
@@ -90,6 +91,8 @@ export const SocialWallActions = {
     DeleteSocialWallPost:socialWallSlice.actions.DeleteSocialWallPost,
     DetailSocialWallPost:socialWallSlice.actions.DetailSocialWallPost,
     socialWallPostDetailFetched:socialWallSlice.actions.socialWallPostDetailFetched,
+    UpdateSocialWallPost:socialWallSlice.actions.UpdateSocialWallPost,
+    
 }
 
 export const SelectSocialWallPosts = (state: RootState) => state.socialWall.posts
