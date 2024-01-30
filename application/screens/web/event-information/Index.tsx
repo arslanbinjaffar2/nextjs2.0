@@ -26,7 +26,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const id: any = router.query['id'];
 
-  const { event  } = UseEventService();
+  const { event, modules  } = UseEventService();
 
   const [searchText, setSearchText] = React.useState<string>("")
 
@@ -52,11 +52,11 @@ const Index = ({ navigation }: indexProps) => {
               {
                 (() => {
                   if (cms === 'practical-info') {
-                    return 'Practical information'
+                    return modules?.find((module)=>(module.alias == 'practical-info'))?.name ?? 'Practical information'
                   } else if (cms === 'additional-info') {
-                    return 'Additional information'
+                    return modules?.find((module)=>(module.alias == 'additional-info'))?.name ?? 'Additional information'
                   } else if (cms === 'general-info') {
-                    return 'General information'
+                    return modules?.find((module)=>(module.alias == 'general-info'))?.name ?? 'General information'
                   }
                 })()
               }
