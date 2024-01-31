@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack } from 'native-base';
+import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack, Image } from 'native-base';
 
 import DetailBlock from 'application/components/atoms/programs/DetailBlock';
 
@@ -51,6 +51,10 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import WebLoading from 'application/components/atoms/WebLoading';
 
+import UseBannerService from 'application/store/services/UseBannerService';
+import { Banner } from 'application/models/Banner'
+import UseEnvService from 'application/store/services/UseEnvService';
+
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
@@ -76,6 +80,12 @@ const Detail = () => {
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name } = UseAttendeeService();
 
     const { FetchDocuments } = UseDocumentService();
+
+    const { _env } = UseEnvService();
+
+    const { banners, FetchBanners } = UseBannerService();
+
+    const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
         if (mounted.current) {
@@ -107,6 +117,14 @@ const Detail = () => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
+
+    React.useEffect(() => {
+
+        const filteredBanner = banners.filter((banner: any) => {
+            return _id == banner.agenda_id;
+        });
+        setFilteredBanner(filteredBanner);
+    }, [banners]);
 
     return (
         <>
@@ -156,6 +174,11 @@ const Detail = () => {
                                 </Pressable>
                             </HStack>
                         )}
+
+                            {filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>
+
+                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />
+                            )}
                         {in_array(tab, ['about']) && (
                             <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
                                 {modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && (

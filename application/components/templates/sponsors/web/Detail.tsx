@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Image } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icouser from 'application/assets/icons/small/Icouser';
@@ -18,6 +18,10 @@ import in_array from 'in_array'
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
+import UseBannerService from 'application/store/services/UseBannerService';
+import { Banner } from 'application/models/Banner'
+import UseEnvService from 'application/store/services/UseEnvService';
+
 type ScreenParams = { id: string, cms: string | undefined }
 
 const { useParam } = createParam<ScreenParams>()
@@ -32,18 +36,33 @@ const Detail = React.memo(() => {
     
     const { clearState, documents } = UseDocumentService();
 
-    const { event } = UseEventService()
+    const { event } = UseEventService();
 
-    const { back } = useRouter()
+    const { back } = useRouter();
+
+    const { _env } = UseEnvService();
+
+    const { banners, FetchBanners } = UseBannerService();
+
+    const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
         if (id) {
             FetchSponsorDetail({ id: Number(id) });
+            FetchBanners();
         }
         return () => {
             clearState();
         }
     }, [id]);
+
+    React.useEffect(() => {
+
+        const filteredBanner = banners.filter((banner: any) => {
+            return id == banner.sponsor_id;
+        });
+        setFilteredBanner(filteredBanner);
+    }, [banners]);
 
     return (
         <>
@@ -91,6 +110,11 @@ const Detail = React.memo(() => {
                                 </Box>
                             </Box>}
                         </Container>
+
+                            {filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>
+
+                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />
+                            )}
                         {/* <Container mb="3" maxW="100%" w="100%">
                             <Text mb="3" fontSize="lg" textTransform="uppercase">Available Survey</Text>
                             <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
