@@ -63,7 +63,7 @@ const RectangleView = ({ group, border, k, updateTab, navigation }: boxItemProps
                             source={{
                                 uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
                             }}>{group?.info?.initial}</Avatar>
-                        <VStack maxW={['62%', '70%', '40%']} space="0">
+                        <VStack maxW={['62%', '70%', '70%']} space="0">
                             <Text lineHeight="22px" fontSize="lg">{group?.info?.name}</Text>
                         </VStack>
                         <Spacer />

@@ -234,16 +234,15 @@ const Detail = () => {
                 <WebLoading />
             ) : (
             <Container mb="3" maxW="100%" w="100%">
-              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+              <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
                 <Pressable onPress={()=> back() }>
                   <HStack space="3" alignItems="center">
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                         <Text fontSize="2xl">BACK</Text>
                   </HStack>
                 </Pressable>
-                <Spacer />
-                <Text isTruncated pr="6" fontSize="lg">{detail?.info.name}</Text>
               </HStack>
+               <Text mb={1} textBreakStrategy='simple' w={'100%'} textAlign={'center'} fontSize="2xl">{detail?.info.name}</Text>
               {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
                 { detail?.questions.map((item, key)=>(
                     <Box key={key} bg={steps >= key ? 'primary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />

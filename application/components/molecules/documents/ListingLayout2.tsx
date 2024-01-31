@@ -57,7 +57,9 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                         }
                     )}
                     { documents.length <= 0 &&
-                        <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                        <Box p="5">
+                            <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                        </Box>
                     }
                 </Box>
             ) : (
