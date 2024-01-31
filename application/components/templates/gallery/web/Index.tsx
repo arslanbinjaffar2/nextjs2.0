@@ -16,7 +16,7 @@ const Index = () => {
 
   const [query, setQuery] = React.useState("");
   const [activepopup, setactivepopup] = React.useState(false);
-  const [popupdata, setpopupdata] = React.useState(null);
+  const [popupdata, setpopupdata] = React.useState<GalleryImage|null>();
   const { event, modules  } = UseEventService();
   const [filteredGalleryImages, setFilteredGalleryImages] = React.useState<GalleryImage[]>([]);
 
@@ -33,19 +33,20 @@ const Index = () => {
     }
   }, [scroll]);
 
-  useEffect(()=>{
-    const filteredImages=gallery_images.filter((gallery_image)=>{
-      if(query !== ''){
-          if(gallery_image.info.find(info => info.name == 'image_title')?.value?.toLowerCase()?.indexOf(query.toLowerCase()) > -1){
-              return gallery_image;
-          }
-      }else{
-          return gallery_image;
+  useEffect(() => {
+    const filteredImages = gallery_images.filter((gallery_image) => {
+      if (query !== '') {
+        const imageTitleInfo = gallery_image.info?.find(info => info.name === 'image_title');
+        if (imageTitleInfo && imageTitleInfo.value?.toLowerCase()?.includes(query.toLowerCase())) {
+          return true;
+        }
+      } else {
+        return true;
       }
-    })
-
+      return false;
+    });
     setFilteredGalleryImages(filteredImages);
-  },[query,gallery_images]);
+  }, [gallery_images, query]);
 
   return (
     <>
