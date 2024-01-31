@@ -49,6 +49,11 @@ const Detail = (props: any) => {
                 <ScrollView h={'68%'}>
                     <HStack borderTopRadius="7" space={0} alignItems="center" w="100%" bg="primary.box" >
                         <Box w="100%" bg="primary.box" py="4" borderTopRadius="10">
+                            {(page.image == '' && page.description == '' && page.pdf == '') &&(
+                                <>
+                                <Text px={4}>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                </>
+                            )}
                             {page.image !== '' && page.image_position === 'top' && <HStack w="90%" ml={5} mb={5}>
                                 <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%" h={(10 / 100) * height} />
                             </HStack>}
