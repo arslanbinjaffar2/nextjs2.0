@@ -13,26 +13,32 @@ const Listing = (props: any) => {
 
     const [filteredInfo, setFilteredInfo] = React.useState<Info[]>([]);
 
+    const filteredData = React.useMemo(() => {
+        if(info == null) return [];
+        var infos=info
+        var filteredInfos = infos.filter((i) => {
+            if (i?.type === "page" || (i?.type === "folder" && (i?.subItems.length > 0 || i?.subMenuItems.length > 0))) {
+                return true;
+            }
+        });
+        if(props.searchText == '' || props.searchText == undefined) return filteredInfos;
+        return filteredInfos.filter((i) => i?.detail?.name?.toLowerCase().includes(props.searchText.toLowerCase()));
+    }, [info, props.searchText]);
+
     React.useEffect(() => {
-       if(props.searchText !== ''){
-            const filteredData = info ? info?.filter((i)=>(i?.detail?.name?.toLowerCase().includes(props.searchText.toLowerCase()))) : [];
-            setFilteredInfo(filteredData);
-       }else{
-         setFilteredInfo([]);
-       }
-    
-    }, [props.searchText])
+        setFilteredInfo(filteredData);
+    }, [props.searchText,info])
     
 
     return (
         <>
             <Box mb="3" bg="primary.box" p="0" w="100%" rounded={props.rounded} overflow="hidden">
-                {((info && props?.searchText == '') || (info && props?.searchText == undefined) ) && (info.length > 0  ? info.map((row: any, key: number) =>
+                {/* {((info && props?.searchText == '') || (info && props?.searchText == undefined) ) && (info.length > 0  ? info.map((row: any, key: number) =>
                     <RectangleView key={key} {...row} cms={props.cms} />
                 ): <Box padding={5}>
                 <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
-            </Box> )}
-                {(info && props?.searchText !== '') && (filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
+            </Box> )} */}
+                {(filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
                     <RectangleView key={key} {...row} cms={props.cms} />
                 ) : <Box padding={5}>
                 <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>

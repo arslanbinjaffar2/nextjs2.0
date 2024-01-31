@@ -24,6 +24,10 @@ export interface Info {
     name?: string,
     description?: any,
     pdf_title?: string
+
+    // for file check
+    subItems: Info[]
+    subMenuItems: Info[]
 }
 
 export interface Info {
