@@ -26,8 +26,8 @@ export interface Info {
     pdf_title?: string
 
     // for file check
-    subItems: Info[]
-    subMenuItems: Info[]
+    subItems?: Info[]
+    subMenuItems?: Info[]
 }
 
 export interface Info {
