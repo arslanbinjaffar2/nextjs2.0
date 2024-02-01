@@ -45,8 +45,19 @@ export const DocumentSlice = createSlice({
             state.agenda_id = action.payload.agenda_id;
         },
         update(state, action: PayloadAction<Document[]>) {
-            state.data = action.payload;
-            state.documents = action.payload;
+            const nonEmptyDocuments = action.payload.filter((document) => document.children_files.length > 0);
+            const parentsWithAtleastOneChild= nonEmptyDocuments.filter((document) => {
+                var keep=false;
+                document.children_files.forEach(function(subDocument) {
+                    if(subDocument.children_files.length > 0){
+                        keep=true;
+                        return;
+                    }
+                  });
+                return keep;
+            });
+            state.data = parentsWithAtleastOneChild;
+            state.documents = parentsWithAtleastOneChild;
         },
         FilterDocuments(state, action: PayloadAction<{ document_id: number, query: string }>) {
             
