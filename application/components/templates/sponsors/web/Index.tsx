@@ -29,7 +29,6 @@ const Index = React.memo(() => {
 
     const categoryIdQueryParam = searchParams.get('category_id')
 
-
     const createQueryString = React.useCallback(
         (name: string, value: string) => {
           const params = new URLSearchParams(searchParams.toString())
@@ -52,6 +51,12 @@ const Index = React.memo(() => {
 
     const { sponsors, categories, FetchSponsors, category_id, query } = UseSponsorService();
 
+    React.useEffect(() => {
+        FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tabQueryParam == 'category-sponsor') ? categoryIdQueryParam : 0), query: '', screen: 'sponsors' });
+        setTab(tabQueryParam !== null ? tabQueryParam : event?.sponsor_settings?.sponsor_list)
+    }, [tabQueryParam]);
+    
+
     const updateTab = (tab: string) => {
         setTab(tab);
     }
@@ -64,7 +69,7 @@ const Index = React.memo(() => {
 
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
-            FetchSponsors({ category_id: Number(categoryIdQueryParam !== null ? categoryIdQueryParam : category_id), query: query, screen: 'sponsors' });
+            FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tab == 'category-sponsor') ? categoryIdQueryParam : 0), query: query, screen: 'sponsors' });
         }, 1000);
     }, []);
 

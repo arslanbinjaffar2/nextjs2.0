@@ -51,6 +51,11 @@ const Index = React.memo(() => {
 
     const { exhibitors, categories, FetchExhibitors, category_id, query } = UseExhibitorService();
 
+    React.useEffect(() => {
+        FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: '', screen: 'exhibitors' });
+        setTab(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list)
+    }, [tabQueryParam])
+
     const updateTab = (tab: string) => {
         setTab(tab);
     }
@@ -63,7 +68,7 @@ const Index = React.memo(() => {
 
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
-            FetchExhibitors({ category_id: Number(categoryIdQueryParam !== null ? categoryIdQueryParam : category_id), query: query, screen: 'exhibitors' });
+            FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: query, screen: 'exhibitors' });
         }, 1000);
     }, []);
 
