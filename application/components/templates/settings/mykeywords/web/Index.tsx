@@ -7,9 +7,11 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import { Keyword } from 'application/models/networkInterest/NetworkInterest';
+import in_array from "in_array";
+
 
 const Index = () => {
-    const { loading, scroll } = UseLoadingService();
+    const { loading, scroll, processing } = UseLoadingService();
 
     const { _env } = UseEnvService();
   
@@ -24,9 +26,9 @@ const Index = () => {
 
   return (
     <>
-        {loading && <WebLoading />}
-        {(!loading  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
-        {(!loading  && keywords.length > 0 ) && <ManageKeywords keywords={keywords} SaveMykerwords={SaveMykeywords} UpdatingMyKeywords={UpdatingMyKeywords} />}
+        {in_array('keywords', processing) && <WebLoading />}
+        {((!in_array('keywords', processing))  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
+        {((!in_array('keywords', processing))  && keywords.length > 0 ) && <ManageKeywords keywords={keywords} SaveMykerwords={SaveMykeywords} UpdatingMyKeywords={UpdatingMyKeywords} />}
     </>
   )
 }
