@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import BannerView from 'application/components/atoms/banners/RectangleView';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import UseEventService from 'application/store/services/UseEventService';
 
 type indexProps = {
   navigation: unknown
@@ -17,6 +18,9 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
 
   const { loading } = UseLoadingService();
+
+  const { modules  } = UseEventService();
+
 
   const router = useRouter();
 
@@ -43,7 +47,7 @@ const Index = ({ navigation }: indexProps) => {
         <Container pt="2" maxW="100%" w="100%">
           <HStack mb="3" w="100%" space="3" alignItems="center">
             <Text fontSize="2xl">
-               Information Pages
+              {modules?.find((module)=>(module.id == id))?.name ?? 'Information Pages'}
             </Text>
             <Spacer />
             <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />

@@ -51,7 +51,7 @@ const Detail = () => {
 
   const { afterLogin, FetchSubRegistrationAfterLogin, SaveSubRegistration, submitting, skip, setSkip } = UseSubRegistrationService();
 
-  const { netWorkskip } = UseNetworkInterestService();
+  const { netWorkskip,setNetworkSkip  } = UseNetworkInterestService();
 
 
   const [formData, setFormData] = useState<FormData>({});
@@ -123,7 +123,12 @@ const Detail = () => {
 
     React.useEffect(() => {
       if(skip === true){
-          push(`/${event.url}/${netWorkskip !== true ? 'network-interest' : 'dashboard'}`)
+          if(netWorkskip !== true  && event?.keyword_settings?.show_after_login !== 0){
+            push(`/${event.url}/network-interest`)
+          }else{
+            setNetworkSkip();
+            push(`/${event.url}/dashboard`)
+          }
       }
     }, [skip]);
 
