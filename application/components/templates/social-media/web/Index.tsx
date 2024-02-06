@@ -29,11 +29,11 @@ const index = () => {
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
               <Text textTransform="uppercase" fontSize="2xl">Social media</Text>
             </HStack>
-            <Box w="100%" mb="3" bg="primary.box" p="8" pb="1" rounded="10px">
+            <Box w="100%" mb="3" bg="primary.box" p={["4","8"]} pb="1" rounded="10px">
               <Flex direction="row" flexWrap="wrap">
                 {socialMedia.length > 0 && socialMedia.map((link)=>{
                   if(link.value !== ''){
-                    return <Center mb="8" w="25%" alignItems="center" justifyContent="center">
+                    return <Center mb="8" w={["33%","25%"]} alignItems="center" justifyContent="center">
                     <Pressable
                     onPress={async () => {
                       
@@ -44,8 +44,8 @@ const index = () => {
                         }
                     }}>
                     
-                    <Box w={["50px","90px"]} h={["50px","90px"]} shadow="1" bg={SocialStyleOptions[link.name].color} rounded="100%" alignItems="center" justifyContent="center">
-                      <Icon textAlign="center" color="#fff" size={["2xl","5xl"]} as={FontAwesome} name={SocialStyleOptions[link.name].icon} />
+                    <Box w={["75px","90px"]} h={["75px","90px"]} shadow="1" bg={SocialStyleOptions[link.name].color} rounded="100%" alignItems="center" justifyContent="center">
+                      <Icon textAlign="center" color="#fff" size={["3xl","5xl"]} as={FontAwesome} name={SocialStyleOptions[link.name].icon} />
                     </Box>
                   </Pressable>
                   </Center>
