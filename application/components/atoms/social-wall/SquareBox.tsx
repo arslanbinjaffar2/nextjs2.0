@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input, Center } from 'native-base'
+import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input, Center, Link } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
 import IcoSharePost from 'application/assets/icons/IcoSharePost'
@@ -11,6 +11,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import useSocialWallService from 'application/store/services/UseSocialWallService'
 import NewCommentBox from 'application/components/atoms/social-wall/NewCommentBox';
 import CommentBox from 'application/components/atoms/social-wall/CommentBox';
+import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
   post: Post,
@@ -21,7 +22,8 @@ const SquareBox = ({ post, index }: AppProps) => {
 
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
-  const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment } =useSocialWallService();
+  const { event } = UseEventService();
+  const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment, DeleteSocialWallPost } =useSocialWallService();
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some(like => like.attendee_id === response?.data?.user?.id)
   );
@@ -35,6 +37,10 @@ const SquareBox = ({ post, index }: AppProps) => {
     LikeSocialWallPost({id:post.id})
   }
 
+  function deletePost() {
+    DeleteSocialWallPost({id:post.id})
+  }
+
   function saveComment(newComment:NewComment) {
     SaveSocialWallComment({...newComment})
   }
@@ -46,7 +52,20 @@ const SquareBox = ({ post, index }: AppProps) => {
   return (
     <Box mb="3"  w="100%" py={3}  bg={'primary.box'} roundedTop={ index === 0 ? 0 : 10 } roundedBottom={10} borderWidth="1" borderColor="primary.box">
       <VStack space="3">
-        <HStack space="3" px={3} alignItems="center" key="rd90">
+        {/* button to delete post */}
+        {post.attendee.id === response?.data?.user?.id && (
+          <>
+          <Button onPress={() => {
+            deletePost()
+          }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
+            <Text fontSize="xs" color="primary.text">Delete</Text>
+          </Button>
+          <Link href={`/${event.url}/social_wall/edit/${post.id}`}>
+            <Text w={'100%'} fontSize='md' lineHeight='sm'>Edit</Text>
+          </Link>
+      </>
+        )}
+        <HStack space="3" alignItems="center" key="rd90">
           <Avatar
             borderWidth={1}
             borderColor="primary.text"
