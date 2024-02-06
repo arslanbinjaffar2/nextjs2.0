@@ -64,7 +64,7 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                         }
                     )}
                     { filteredDocuments.length <= 0 &&
-                        <Box p="5">
+                        <Box p="3">
                             <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
                         </Box>
                     }
