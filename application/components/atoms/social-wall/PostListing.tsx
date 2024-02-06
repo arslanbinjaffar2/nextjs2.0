@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, Text, Button, Select, CheckIcon, HStack, Center, Menu, Spacer} from 'native-base'
+import { Box, Text, Button, Select, CheckIcon, HStack, Center, Menu, Spacer, Icon} from 'native-base'
 import SquareBox from 'application/components/atoms/social-wall/SquareBox';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseSocialWallService from 'application/store/services/UseSocialWallService';
@@ -8,6 +8,7 @@ import LoadMore from 'application/components/atoms/LoadMore';
 import in_array from "in_array";
 import { Post } from 'application/models/socialWall/SocialWall';
 import { Pressable } from 'react-native';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 type AppProps = {
   attendee_id: number,
@@ -39,16 +40,9 @@ const PostListing = ({ attendee_id }: AppProps) => {
   
     return (
         <>
-        <Box w={'100%'} bg={'primary.box'} rounded="10px" borderWidth="1" borderColor="primary.box">
-            <HStack bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
-              <Select mb={2} selectedValue={sortBy} minWidth="200" accessibilityLabel="" placeholder="" _selectedItem={{
-                  bg: "teal.600",
-                  endIcon: <CheckIcon size="5" />
-                }} mt={1} onValueChange={itemValue => setSortBy(itemValue)}>
-                <Select.Item label="Latest Posts" value="id" />
-                <Select.Item label="Most Discussed Posts" value="comments_count" />
-                <Select.Item label="Most Liked Posts" value="likes_count" />
-              </Select>
+        <Box w={'100%'}>
+            <HStack px={3} py={1} bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
+              <Text fontSize="md" textTransform={'uppercase'}>Post</Text>
               <Spacer />
               <Box>
                 <Menu
@@ -58,26 +52,33 @@ const PostListing = ({ attendee_id }: AppProps) => {
                   borderColor="#707070"
                   shouldFlip={true}
                   w={180}
+                  crossOffset={0}
                   trigger={triggerProps => {
                 return <Pressable accessibilityLabel="More options menu" {...triggerProps}>
-                       <Text fontSize="lg"> {sortBy === 'id' ? 'Latest Posts' : sortBy === 'comments_count' ? 'Most Discussed Posts' : 'Most Liked Posts'}</Text>
+                          <HStack  space="2" alignItems="center">
+                            <Text fontSize="md"> {sortBy === 'id' ? 'Latest Posts' : sortBy === 'comments_count' ? 'Most Discussed Posts' : 'Most Liked Posts'}</Text>
+                            <Icon as={AntDesign} name="caretdown" color={'primary.text'}  />
+                          </HStack>
                       </Pressable>;
               }}>
-                  <Menu.Item onPress={() => setSortBy("id")}>Latest Posts</Menu.Item>
-                  <Menu.Item onPress={() => setSortBy("comments_count")}>Most Discussed Posts</Menu.Item>
-                  <Menu.Item onPress={() => setSortBy("likes_count")}>Most Liked Posts</Menu.Item>
+                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>Latest Posts</Menu.Item>
+                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>Most Discussed Posts</Menu.Item>
+                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>Most Liked Posts</Menu.Item>
                 </Menu>
               </Box>
             </HStack>
             
             
             {(in_array('social_wall_posts', processing)) && page === 1 ? (
-                <WebLoading />
+                <Box  w={'100%'} p="4" rounded="lg">
+                  <WebLoading />
+                </Box>
+                
             ):(
               <>
                 <Box w="100%" key='post-lising'>
-                    {posts.map((post:Post)=>{
-                        return <SquareBox key={post.id} post={post} />
+                    {posts.map((post:Post, i: number)=>{
+                        return <SquareBox index={i} key={post.id} post={post} />
                         })}
                 </Box>
                 { posts.length === 0 ? (
