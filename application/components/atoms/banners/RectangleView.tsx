@@ -8,10 +8,10 @@ const RectangleView = ({url}:{url:string}) => {
                 uri: url ?? 'https://wallpaperaccess.com/full/316101.jpg'
             }}
             alt="Alternate Text"
+            resizeMode="cover"
             w="100%"
-            h="100px"
+            h={["100px","144px"]}
             rounded="10"
-            mt={3}
         />
     )
 }
