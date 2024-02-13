@@ -43,7 +43,7 @@ const Detail = () => {
 
   const { _env } = UseEnvService();
 
-  const { event  } = UseEventService();
+  const { event, modules  } = UseEventService();
 
   const { response  } = UseAuthService();
 
@@ -275,8 +275,11 @@ const Detail = () => {
             ) : (
             <Container mb="3" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                <Text isTruncated pr="6" fontSize="lg">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
+              </HStack>
+              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Spacer />
-                <Text isTruncated pr="6" fontSize="lg">Subregistration</Text>
+                <Text isTruncated pr="6" fontSize="lg">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
               </HStack>
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                 {afterLogin?.questions?.question.length! > 0 &&  afterLogin?.questions?.question.map((item, index)=>(
@@ -305,7 +308,7 @@ const Detail = () => {
                         setSkip();
                       }}
                     >
-                      Skip
+                      {event?.labels?.GENERAL_SKIP}
                     </Button>}
                     <Spacer />
                     
