@@ -35,6 +35,7 @@ export interface Program {
     end_time?: string;
     location?: string;
     enable_speakerlist?: number;
+    image?: string;
     start_date_time?: string;
     program_speakers?: any[];
     program_tracks?: any[];
