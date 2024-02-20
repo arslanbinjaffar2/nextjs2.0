@@ -10,6 +10,8 @@ import LoadMore from 'application/components/atoms/LoadMore';
 import LoadImage from 'application/components/atoms/LoadImage';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
 
 const Index = () => {
   const { loading,scroll, processing } = UseLoadingService();
@@ -19,9 +21,11 @@ const Index = () => {
   const [popupdata, setpopupdata] = React.useState<any>(null);
   const { event, modules  } = UseEventService();
   const [filteredGalleryImages, setFilteredGalleryImages] = React.useState<GalleryImage[]>([]);
+  const { banners, FetchBanners} = UseBannerService();
 
   const { FetchGalleryImages, gallery_images, page, last_page } = UseGalleryService();
   const { _env } = UseEnvService();
+  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
   useEffect(()=>{
     FetchGalleryImages({page:1});
@@ -32,7 +36,13 @@ const Index = () => {
       FetchGalleryImages({page:page+1});
     }
   }, [scroll]);
+  useEffect(()=>{
+    const filteredBanner=banners.filter((banner  : Banner)=>{
+      return banner.module_name == 'gallery' && banner.module_type == 'listing'
+    })
 
+    setFilteredBanners(filteredBanner);
+  },[query,banners]);
   useEffect(()=>{
     const filteredImages=gallery_images.filter((gallery_image)=>{
       if(query !== ''){
@@ -46,7 +56,9 @@ const Index = () => {
 
     setFilteredGalleryImages(filteredImages);
   },[query,gallery_images]);
-
+  React.useEffect(() => {
+    FetchBanners();
+  }, []);
   return (
     <>
       {
@@ -103,6 +115,17 @@ const Index = () => {
               
               </Container>
       )}
+      <Box width={"100%"} height={"5%"}>
+        {filteredBanners.map((banner, k) =>
+          <Image
+            key={k}
+            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+            alt="Image"
+            width="100%"
+            height="100%"
+          />
+        )}
+      </Box>
       {(in_array('gallery', processing)) && page > 1 && (
           <LoadMore />
       )}

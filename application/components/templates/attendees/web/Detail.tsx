@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Button, Container, HStack, Icon, Pressable, ScrollView, Spacer, Text } from 'native-base';
+import React, { useEffect, useState } from 'react'
+import { Box, Button, Container, HStack, Icon, Image, Pressable, ScrollView, Spacer, Text } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Search from 'application/components/atoms/programs/Search';
 import BasicInfoBlock from 'application/components/atoms/attendees/detail/BasicInfoBlock';
@@ -25,6 +25,9 @@ import UseDocumentService from 'application/store/services/UseDocumentService';
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
+import UseEnvService from 'application/store/services/UseEnvService'
 
 type ScreenParams = { id: string }
 
@@ -53,9 +56,10 @@ const Detail = ({ speaker }: Props) => {
     const { loading, scroll, processing } = UseLoadingService();
 
     const [_id] = useParam('id');
-    
+    const { banners, FetchBanners} = UseBannerService();
+    const { _env } = UseEnvService()
     const { push, back } = useRouter()
-
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
         if (_id) {
@@ -68,7 +72,16 @@ const Detail = ({ speaker }: Props) => {
             setTab(detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1)[0]?.tab_name!)
         }
     }, [detail]);
+    useEffect(()=>{
+        const filteredBanner=banners.filter((banner  : Banner)=>{
+            return banner.module_name == 'attendees' && banner.module_type == 'detail'
+        })
 
+        setFilteredBanners(filteredBanner);
+    },[banners]);
+    React.useEffect(() => {
+        FetchBanners();
+    }, []);
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
@@ -218,6 +231,17 @@ const Detail = ({ speaker }: Props) => {
                                     )}
                                 </Container>
                             )}
+                            <Box width={"100%"} height={"5%"}>
+                                {filteredBanners.map((banner, k) =>
+                                  <Image
+                                    key={k}
+                                    source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+                                    alt="Image"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                )}
+                            </Box>
                         </>
                     )}
                 </>

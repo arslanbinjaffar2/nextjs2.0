@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack, Image } from 'native-base';
 
@@ -86,6 +86,7 @@ const Detail = () => {
     const { banners, FetchBanners } = UseBannerService();
 
     const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
         if (mounted.current) {
@@ -125,7 +126,16 @@ const Detail = () => {
         });
         setFilteredBanner(filteredBanner);
     }, [banners]);
-
+    useEffect(()=>{
+        const filteredBanner=banners.filter((banner  : Banner)=>{
+            return banner.module_name == 'agendas' && banner.module_type == 'detail'
+        })
+        console.log('hamza hre',filteredBanner)
+        setFilteredBanners(filteredBanner);
+    },[query,banners]);
+    React.useEffect(() => {
+        FetchBanners();
+    }, []);
     return (
         <>
             {in_array('program-detail', processing) ? (
@@ -290,6 +300,17 @@ const Detail = () => {
                             </>
                         )}
                     </Container>
+                    <Box width={"100%"} height={"5%"}>
+                        {filteredBanners.map((banner, k) =>
+                          <Image
+                            key={k}
+                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+                            alt="Image"
+                            width="100%"
+                            height="100%"
+                          />
+                        )}
+                    </Box>
                     {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />
                     )}

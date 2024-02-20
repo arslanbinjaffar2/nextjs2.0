@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Button, Container, HStack, Icon, IconButton, Image, Spacer, Text, VStack } from 'native-base';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import UseCheckInOutService from 'application/store/services/UseCheckInOutService';
@@ -6,18 +6,32 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import moment from 'moment';
 import in_array from "in_array";
+import UseBannerService from 'application/store/services/UseBannerService'
+import { Banner } from 'application/models/Banner'
+import UseEnvService from 'application/store/services/UseEnvService'
 
 const Index = () => {
     const { loading, processing } = UseLoadingService();
-    
+  const { _env } = UseEnvService()
+
   const { FetchCheckInOut, checkInOut, SendQRCode }  = UseCheckInOutService();
   React.useEffect(() => {  
     FetchCheckInOut();
   }, [])
-
+  const { banners, FetchBanners} = UseBannerService();
+  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
   const [tab, setTab] = React.useState<'event'| 'program' | 'group' | 'ticket'>('event');
 
-  
+  useEffect(()=>{
+    const filteredBanner=banners.filter((banner  : Banner)=>{
+      return banner.module_name == 'checkIn' && banner.module_type == 'listing'
+    })
+
+    setFilteredBanners(filteredBanner);
+  },[banners]);
+  React.useEffect(() => {
+    FetchBanners();
+  }, []);
   return (
     <>
       {
@@ -93,6 +107,17 @@ const Index = () => {
             </Container>
         )
       }
+      <Box width={"100%"} height={"5%"}>
+        {filteredBanners.map((banner, k) =>
+          <Image
+            key={k}
+            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+            alt="Image"
+            width="100%"
+            height="100%"
+          />
+        )}
+      </Box>
     </>
   )
 }
