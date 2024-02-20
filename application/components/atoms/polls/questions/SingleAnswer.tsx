@@ -23,7 +23,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error, labels }: Pro
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <Radio.Group space="5" defaultValue={formData[question.id]?.answer !== null && formData[question.id]?.answer.length > 0 ? `${formData[question.id]?.answer[0]}` : ``} name="MyRadioGroup"  onChange={answer_id => {updateFormData(question.id, question.question_type, answer_id);}}>
           {question.answer.map((answer, k) =>
-            <Radio colorScheme="secondary" icon={<Icon as={<Ionicons  name="checkmark" />} />}  key={k}  value={`${answer.id}`}> {answer.answer} </Radio>
+            <Radio  key={k}  value={`${answer.id}`}> {answer.answer} </Radio>
           )}
         </Radio.Group>
       </Box>

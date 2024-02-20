@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
 const LoadImage = (props: any) => {
     return (
         Platform.OS === 'web' ? (
-            <img src={props.path} width={props.w} height={props.h} />
+            <img style={{borderRadius: '4px', maxWidth: '100%'}} src={props.path} width={props.w} height={props.h} />
         ) : (
             <Image
                 source={{

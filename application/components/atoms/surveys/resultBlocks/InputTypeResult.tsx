@@ -38,14 +38,7 @@ const InputTypeResult = ({ question, questionNumber  }: PropTypes) => {
             <Text fontSize="lg">Comments</Text>
             </HStack>
             <Box py="3" px="4" w="100%">
-                <TextArea
-                p="0"
-                h="30px"
-                isReadOnly
-                focusOutlineColor="transparent"
-                _focus={{ bg: 'transparent' }}
-                defaultValue={question.results[0]?.comment}
-                borderWidth="0" fontSize="md" placeholder="Please write your comment here …" autoCompleteType={undefined} />
+                 <Text fontSize="md">{question.results[0]?.comment}</Text>
             </Box>
             </>
         }

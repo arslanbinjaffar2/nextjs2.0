@@ -22,7 +22,12 @@ function* OnGetInfo({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getInfoApi, payload, state)
     yield put(InfoActions.update(response?.data?.data?.records!))
-    yield put(InfoActions.updateParentFolder(response?.data?.data?.parent?.parent_id!))
+    interface Info {
+        name: string;
+        value: string;
+    }
+    const parentName: string = response?.data?.data?.parent?.info?.find((info: Info) => info.name === 'name')?.value ?? '';
+    yield put(InfoActions.updateParentFolder({id:response?.data?.data?.parent?.parent_id!,name:parentName}))
     yield put(LoadingActions.set(false));
 }
 
@@ -36,7 +41,7 @@ function* OnGetPage({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getPageApi, payload, state)
     yield put(InfoActions.updatePage(response.data.data.record!))
-    yield put(InfoActions.updateParentFolder(response.data.data.record?.menu_id!))
+    yield put(InfoActions.updateParentFolder({id:response.data.data.record?.menu_id!,name:''}))
     yield put(LoadingActions.set(false));
 }
 

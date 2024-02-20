@@ -75,6 +75,7 @@ export interface Event {
     sponsor_settings?: SponsorSettings
     exhibitor_settings?: ExhibitorSettings
     eventsite_settings?: EventSiteSettings
+    keyword_settings?: KeywordSettings
 }
 interface Setting {
     poll_setting?: string;
@@ -112,6 +113,7 @@ interface Setting {
     app_background_color ?: string;
     app_text_mode?: string;
     app_background_image?: string;
+    fav_icon?: string;
 }
 interface AttendeeSetting {
     id?: number;
@@ -601,4 +603,8 @@ export interface EventSiteSettings {
   skip_items_step: number;
   edit_order_options: number;
   calender_show: number;
+}
+
+export interface KeywordSettings{
+  show_after_login: number;
 }

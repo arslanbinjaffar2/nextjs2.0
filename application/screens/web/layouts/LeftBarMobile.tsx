@@ -31,13 +31,13 @@ const LeftBarMobile = () => {
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
-      <Box borderBottomWidth={1} mb="3" w="100%" borderBottomColor={'primary.text'} pb="3" px="3">
+      <Box borderBottomWidth={1} mb="3" w="100%" borderBottomColor={'primary.box'} pb="3" px="3">
         <Flex alignItems="center" flexDirection={'row'}>
           <Avatar w="50px" h="50px" bg="green.500" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
             {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
           </Avatar>
-          <VStack px="3" space="0">
-            <Text fontSize="lg" textTransform={'uppercase'} bold>{response?.data?.user?.name}</Text>
+          <VStack w={'70%'} px="3" space="0">
+            <Text fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.jobs}</Text>
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.company_name}</Text>
           </VStack>

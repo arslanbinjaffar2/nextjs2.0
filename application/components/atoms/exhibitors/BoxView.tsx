@@ -48,24 +48,25 @@ const BoxView = ({ k, exhibitor, w }: AppProps) => {
                                 bg="transparent"
                                 p="1"
                                 _hover={{ bg: 'primary.500' }}
-                                icon={<Icon size="xl" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color="primary.darkbox" />}
+                                icon={<Icon size="md" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
                                 onPress={() => {
                                     MakeFavourite({ exhibitor_id: exhibitor.id, screen: 'listing' });
                                 }}
                                 position={'absolute'}
                                 zIndex={'999999'}
-                                right={'0'}
+                                right={'3px'}
+                                top={'3px'}
                             />
                         )}
-                        <Center  px="1" alignItems="center" w="100%">
+                        <Center mb={1} px="1" alignItems="center" w="100%">
                             {exhibitor.logo ? (
                                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${exhibitor.logo}` }} alt="Alternate Text" w="210px" h="72px" />
                             ) : (
                                 <Image source={ExhibitorDefaultImage} alt="Alternate Text" w="210px" h="72px" />
                             )}
                         </Center>
-                        <HStack pb={settings?.catTab !== 1 ? "6" : "3"} space="3" alignItems="center" position={'relative'}>
-                            {settings?.catTab == 1 && exhibitor?.categories.length > 0 && <Center alignItems="flex-start" minH={'20px'} w="100%" position={'relative'} mb={3}>
+                        <HStack pb={6} space="3" alignItems="center" position={'relative'}>
+                            {settings?.catTab == 1 && exhibitor?.categories.length > 0 && <Center alignItems="flex-start" minH={'25px'} w="100%" position={'relative'}>
                                 <ZStack reversed>
                                     {exhibitor?.categories.length > 0 && exhibitor?.categories.map((cat, i)=>(
                                         <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${measureText(exhibitor?.categories[0]?.info.name, 14) + 16 + (i * 10)}px`} px="2">

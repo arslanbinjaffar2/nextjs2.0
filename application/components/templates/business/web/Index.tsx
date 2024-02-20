@@ -79,6 +79,10 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
 
   const setSearch = (value:any)=>{
     // setSearchTerm(value);
+    if(value.length < 1){
+      setFilters([]);
+      return;
+    }
     const filterIds = interestkeywords?.filter((kword)=> {
       if(kword?.name?.toLowerCase().indexOf(searchTerm?.toLowerCase()) > -1){
           return true;
@@ -128,8 +132,8 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                       {searchMatchAttendees.map((attendee: any, k: number) =>
                           <RectangleView attendee={attendee} border={searchMatchAttendees.length - 1 == k ? 0 : 1 } speaker={0} disableMarkFavroute/>
                       )}
-                    </Box>}
-                    {!searchingAttendees && !searchMatchAttendees && <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>} 
+                    </Box>}              
+                    {!searchingAttendees && !searchMatchAttendees && <Box overflow="hidden" mb={3} bg="primary.box" w="100%" rounded="lg" padding={5}><Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text></Box>} 
                     {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
                       <Button
                           size="lg"
@@ -204,7 +208,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                                 ))}
                             </Flex>
                         </React.Fragment>
-                    )) : interestkeywords?.map((keyword:Keyword)=>(
+                    )) : (searchTerm.length < 1) ? interestkeywords?.map((keyword:Keyword)=>(
                         <React.Fragment key={keyword?.id}>
                             <Text mb="2" fontSize="lg">{keyword?.name}</Text>
                             <Flex mx="-2" mb="1" direction="row" flexWrap="wrap">
@@ -213,7 +217,10 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                                 ))}
                             </Flex>
                         </React.Fragment>
-                    ))}
+                    )):(
+                      <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                    )
+                  }
                     </Box>
                     <Box w="100%" mb="3" alignItems="center">
                     <Button

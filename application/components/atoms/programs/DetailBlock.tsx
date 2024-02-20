@@ -31,7 +31,7 @@ const DetailBlock = ({ children }: AppProps) => {
             size="full"
             w="100%"
             h="160px"
-            rounded="10"
+            roundedTop="10"
             mb="5"
             source={{ uri: `https://wallpaperaccess.com/full/31751.jpg` }}
         />
@@ -72,7 +72,7 @@ const DetailBlock = ({ children }: AppProps) => {
                         <>
                             <Text mb="3" fontSize="md">Track:
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
-                                        <React.Fragment key={key}>{`${track?.name}, `}</React.Fragment>
+                                        <Box rounded={'full'} mx={2} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
                                     
                                 ))}
                             </Text>

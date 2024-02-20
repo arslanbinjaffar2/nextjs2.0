@@ -21,7 +21,7 @@ const PageDetail = (props: any) => {
 
   const { page, FetchPage, parent_folder, ClearState } = UseInfoService();
 
-  const { push } = useRouter()
+  const { push, back } = useRouter()
 
   const [cms] = useParam('cms');
 
@@ -44,26 +44,21 @@ const PageDetail = (props: any) => {
         <SectionLoading />
       ) : (
       <Container pt="2" maxW="100%" w="100%">
-        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
+        <HStack mb="1" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
           <HStack space="3" alignItems="center">
             <Pressable
               onPress={() => {
-                if(cms !== 'information-pages'){
-                  push(`/${event.url}/${cms}/event-info/${parent_folder}`)
-                }else{
-                  push(`/${event.url}/${cms}/${parent_folder}`)
-                }
+                back();
               }}
             >
-              <HStack>
+              <HStack alignItems={'center'} space={3}>
                 <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                 <Text fontSize="2xl">BACK</Text>
               </HStack>
             </Pressable>
           </HStack>
-          <Text fontSize="xl">{page.name}</Text>
-          <Box minWidth={70}> </Box>
         </HStack>
+         <Text w={'100%'} mb={2} fontSize="2xl" textAlign={'center'} textBreakStrategy='simple'>{page.name}</Text>
         <Detail />
       </Container>
       ) }

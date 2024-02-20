@@ -30,7 +30,7 @@ const PollListingByDate = ({polls}:{polls:Polls}) => {
         />}
       </Center>
       <Center w="80%">
-        <Heading fontSize="lg">{polls[Object.keys(polls)[pollDateIndex]]?.length > 0 && polls[Object.keys(polls)[pollDateIndex]][0].agenda_start_date_formatted}</Heading>
+        <Heading fontSize="lg" fontWeight={500}>{polls[Object.keys(polls)[pollDateIndex]]?.length > 0 && polls[Object.keys(polls)[pollDateIndex]][0].agenda_start_date_formatted}</Heading>
       </Center>
       <Center alignItems="flex-end" w="10%">
         {((Object.keys(polls)?.length - 1) > pollDateIndex)&& <IconButton

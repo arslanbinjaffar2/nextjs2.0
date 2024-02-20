@@ -41,7 +41,12 @@ import {SubRegistrationWatcherSaga} from 'application/store/sagas/SubRegistratio
 import {NetworkInterestWatcherSaga} from 'application/store/sagas/NetworkInterest.Saga'
 
 import {NoteWatcherSaga} from 'application/store/sagas/Notes.Saga'
+
 import {NotificationWatcherSaga} from 'application/store/sagas/Notification.Saga'
+
+import {GalleryWatcherSaga} from 'application/store/sagas/Gallery.Saga'
+
+import {HdWatcherSaga} from 'application/store/sagas/Hd.Saga'
 
 export function* RootSaga() {
     yield all([
@@ -67,6 +72,8 @@ export function* RootSaga() {
                 fork(NetworkInterestWatcherSaga),
                 fork(NoteWatcherSaga),
                 fork(NotificationWatcherSaga),
+                fork(GalleryWatcherSaga),
+                fork(HdWatcherSaga),
             ])
 }
 

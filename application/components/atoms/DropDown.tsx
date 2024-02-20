@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Select from 'react-select';
+
+import UseEventService from 'application/store/services/UseEventService';
 import { defaultTheme } from 'react-select';
 const { colors } = defaultTheme;
 
+import { getColorScheme } from 'application/styles/colors';
+
 const DropDown = ({ label, listitems, required, className, onChange, isSearchable, isDisabled, isMulti, selected, selectedlabel }:any) => {
+
+  const { event } = UseEventService();
+
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 
   const [open, setOpen] = useState(false);
 
@@ -40,13 +48,44 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
     }
   });
 
-  const style = {
-    control: (base:any) => ({
+const Selectstyles2 = {
+    control: (base:any, state:any) => ({
       ...base,
-      border: 0,
-      boxShadow: 'none'
-    })
-  };
+      minHeight: 50,
+      width: '100%',
+      maxWidth: '100%',
+			minWidth: '256px',
+      marginBottom: 10,
+			background: `rgba(${colors.box},1)`,
+			color: '#eaeaea',
+			fontFamily: 'Avenir',
+			boxShadow: 'none',
+			borderWidth: 2,
+			borderColor: state.isFocused ? event?.settings?.primary_color : "transparent",
+			"&:hover": {
+				// Overwrittes the different states of border
+				borderColor: state.isFocused ? event?.settings?.primary_color : "transparent"
+			}
+    }),placeholder: (defaultStyles: any) => {
+        return {
+            ...defaultStyles,
+            color: '#eaeaea',
+        }
+    },
+		option: (provided:any, state:any) => ({
+				...provided,
+				fontFamily: 'Avenir',
+				backgroundColor: state.isSelected ? event?.settings?.primary_color : "",
+				"&:hover": {
+					backgroundColor: event?.settings?.primary_color,
+					color: '#fff'
+				}
+		}),
+		singleValue: (provided:any) => ({
+    ...provided,
+    color: '#eaeaea'
+  })
+}
 
   const Blanket = (props:any) => (
     <div
@@ -56,7 +95,7 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
   );
 
   const DropdownIndicator = () => (
-    <div style={{ color: colors.neutral20, height: 24, width: 32 }}>
+    <div style={{ color: '#666', height: 24, width: 32 }}>
       <Svg>
         <path
           d="M16.436 15.085l3.94 4.01a1 1 0 0 1-1.425 1.402l-3.938-4.006a7.5 7.5 0 1 1 1.423-1.406zM10.5 16a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11z"
@@ -109,7 +148,7 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
               options={options}
               // promptTextCreator={false}
               placeholder='search'
-              styles={style}
+              styles={Selectstyles2}
               controlShouldRenderValue={is_isMulti ? true : false}
               hideSelectedOptions={false}
               isClearable={false}
@@ -133,7 +172,7 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
             options={options}
             // promptTextCreator={false}
             placeholder={label ? label : 'Search'}
-            styles={style}
+            styles={Selectstyles2}
             controlShouldRenderValue={is_isMulti ? true : false}
             hideSelectedOptions={false}
             isClearable={false}

@@ -37,7 +37,7 @@ const ChooseProvider = ({ navigation, route }: any) => {
         <Master navigation={navigation}>
             <Center w={'100%'} pt={20} px={15}>
                 <Flex w="100%" rounded="10">
-                    <Image alt='logo' mb={8} source={images.Logo} w="180px" h="39px" alignSelf={'center'} />
+                    <Image alt='logo' mb={8} source={images.Logo} w="180px" h="61px" alignSelf={'center'} />
                     {Object.keys(response).length > 0 ? (
                         <VStack w={'100%'} alignItems={'center'} space='4'>
                             <VStack space="20px" width={'100%'}>

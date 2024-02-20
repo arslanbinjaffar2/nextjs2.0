@@ -15,9 +15,10 @@ type AppProps = {
     section: string,
     my?: number,
     speaker?:number
+    dashboard?:boolean
 }
 
-const SlideView = ({ programs, section, my, speaker }: AppProps) => {
+const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 
     const { setScrollCounter, scroll } = UseLoadingService();
     
@@ -37,11 +38,11 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
         }
       }, [programs])
 
-    const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex }: any) => {
+    const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard }: any) => {
         
         return (
             <>
-                {dates.length > 0 && currentIndex !== undefined && <>
+                {dates?.length > 0 && currentIndex !== undefined && <>
                     <HStack my={my !== undefined ? my : 3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
                         <Center alignItems="flex-start" w="10%">
                             {currentIndex > 0 && 
@@ -58,7 +59,7 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
                             }
                         </Center>
                         <Center w="80%">
-                            <Heading fontSize="lg">{dates[0]?.heading_date}</Heading>
+                            <Heading fontWeight={500} fontSize="lg">{dates[0]?.heading_date}</Heading>
                         </Center>
                         <Center alignItems="flex-end" w="10%">
                             {(currentIndex < (programs.length - 1)) &&  programs.length > 1 && 
@@ -75,14 +76,18 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
                             }
                         </Center>
                     </HStack>
-                    {dates?.map((program: Program, key: number) =>
-                        <React.Fragment key={key}>
-                            {program.workshop_programs?.length > 0 ? (
-                                <WorkshopCollapsableView section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
-                            ) : (
-                                <RectangleDetailView section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
-                            )}
-                        </React.Fragment>
+                    {dates?.map((program: Program, key: number) => {
+                        if(program.workshop_programs?.length > 0){
+                            let newProgram ={ ...program};
+                            if(dashboard == true){
+                                newProgram.workshop_programs = dates.length <= 5 ? program.workshop_programs.slice(0, (5 - (dates.length - 1))) : (dates.length > 5 ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
+                            }
+                           return <WorkshopCollapsableView section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+                        }
+                        else{
+                           return <RectangleDetailView section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+                        }
+                    }
                     )}
                 </>}
             </>
@@ -107,7 +112,7 @@ const SlideView = ({ programs, section, my, speaker }: AppProps) => {
                                 </React.Fragment>
                             )} */}
                             
-                             {programs.length > 0 && <RenderPrograms programs={programs} dates={dates} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
+                             {programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
                              {programs.length <= 0 && 
                                 <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                                     <Box padding={5}>

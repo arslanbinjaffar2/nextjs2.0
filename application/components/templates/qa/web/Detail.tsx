@@ -37,7 +37,7 @@ const Detail = () => {
     
     const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails,  SubmitQa, SubmitQaLike, QaRecentPopularSocketUpdate, QaSort} = UseQaService();
     
-    const { push } = useRouter()
+    const { push, back } = useRouter()
 
     const { socket } = UseSocketService();
 
@@ -162,7 +162,7 @@ const Detail = () => {
             <Container overflow="hidden" mb="4" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                     <Pressable onPress={()=>{
-                        push(`/${event.url}/qa`)
+                        back();
                     }}>
                         <HStack  space="3" alignItems="center">
                             <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text"  />
@@ -196,14 +196,14 @@ const Detail = () => {
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
                             <Text color="red.400"> {error} </Text>
                     </Box>}
-                    {qaDetials?.speakers?.length > 0 && <HStack pl="6"  w="100%" bg="primary.box" mb="3" alignItems="center">
-                    <Text fontSize="lg">Select speaker</Text>
-                    <Spacer />
+                    {qaDetials?.speakers?.length > 0 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.box'} pb={'3'} mb="3" alignItems="center">
+                    <Text w={'30%'} fontSize="lg">Select speaker</Text>
+                    <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                       <Select
                         placeholder="Please Select Attendee"
-                        w="195px"
-                        rounded="0"
-                        h="30px"
+                        w="100%"
+                        rounded="4"
+                        h="42px"
                         borderWidth="1"
                         selectedValue={speaker ?? ''}
                         onValueChange={(item)=>setSpeaker(item)}
@@ -212,32 +212,39 @@ const Detail = () => {
                             <Select.Item label={`${speaker?.attendee?.first_name} ${speaker?.attendee?.last_name}`} value={`${speaker?.id}`} />
                         ))}
                     </Select>
+                    </Center>
                     
                     </HStack>}
-                    {qaDetials?.paragraph?.length > 0 && <HStack pl="6"  w="100%" bg="primary.box" mb="3" alignItems="center">
-                    <Text fontSize="lg">Select Paragraph</Text>
-                    <Spacer />
-                     <Select
+                    {qaDetials?.paragraph?.length > 0 && <HStack px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.box'} pb={'3'} mb="3"  alignItems="center">
+                    <Text  w="30%"  fontSize="lg">Select Paragraph</Text>
+                    <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
+                    <Select
                         placeholder="Please Select Attendee"
-                        w="195px"
-                        rounded="0"
-                        h="30px"
+                        w="100%"
+                        minW={'100%'}
+                        flex={1}
+                        rounded="4"
+                        h="42px"
                         borderWidth="1"
                         selectedValue={paragraph ?? ''}
                         onValueChange={(item)=>setParagraph(item)}
                     >
                         {qaDetials?.paragraph?.map((pg, i)=>(
-                            <Select.Item label={`${pg?.heading}`} value={`${pg.id}`} />
+                            <Select.Item  label={`${pg?.heading}`} value={`${pg.id}`} />
                         ))}
                     </Select>
+                    </Center>
+                    
                     
                     </HStack>}
-                    {qaSettings?.line_number == 1 && <HStack pl="6" pr={"6"}  w="100%" height={'40px'} bg="primary.box" mb="3" alignItems="center">
-                        <Text fontSize="lg">Line number</Text>
-                        <Spacer />
-                        <Input w="30%" height={'28px'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
+                    {qaSettings?.line_number == 1 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.box'} pb={'3'} mb="3" alignItems="center">
+                        <Text w="30%" fontSize="lg">Line number</Text>
+                        <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
-                    <TextArea focusOutlineColor="transparent" _focus={{ bg: 'transparent' }} value={question} onChangeText={(value)=>setQuestion(value)}  px="4" py="0" fontSize="lg" w="100%" borderWidth="0" rounded="0" minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
+                    <Box w="100%" px="3">
+                        <TextArea rounded={8} bg="primary.box" value={question} onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%" borderColor={'transparent'} minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
+                    </Box>
+                    
                     <HStack px="3" py="2" space="3" alignItems="center">
                     {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">Send anonymously</Checkbox>}
                     <Spacer />
@@ -261,7 +268,7 @@ const Detail = () => {
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
-                            <Button onPress={() => { setTab(item) }} bg={tab === item ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
+                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
                         ))}
                     </HStack>
                     <Box mb="10" px="5" w="100%" position="relative">
@@ -283,12 +290,15 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
-                                        <Text lineHeight="sm" textAlign="center" w="48px" fontSize="3xl">Q:</Text>
-                                        <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
+                                        <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                        <Text w={'calc(100% - 80px)'} pt={1}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
+                                        <Spacer />
                                             {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
+                                                    p={0}
+                                                    mr={2}
                                                     disabled={in_array(`qa-like-${question?.id}`, processing)}
                                                     icon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
                                                     onPress={() => { SubmitQaLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
@@ -313,9 +323,12 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
+                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            <Text w={'calc(100% - 80px)'} pt={1}>
+                                                <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            </Text>
+                                            <Spacer />
                                             {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
@@ -343,9 +356,12 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
+                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            <Text w={'calc(100% - 80px)'} pt={1}>
+                                                <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            </Text>
+                                            <Spacer />
                                             {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
@@ -373,9 +389,12 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
+                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            <Text w={'calc(100% - 80px)'} pt={1}>
+                                                <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            </Text>
+                                            <Spacer />
                                             {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"

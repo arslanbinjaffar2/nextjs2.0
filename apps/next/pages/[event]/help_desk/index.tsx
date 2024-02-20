@@ -1,3 +1,3 @@
-import Index from 'application/screens/web/qa/Index';
+import Index from 'application/screens/web/hd/Index';
 
 export default Index

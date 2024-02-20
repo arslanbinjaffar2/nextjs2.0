@@ -113,6 +113,12 @@ const AuthSlice = createSlice({
         loadToken(state, action: PayloadAction<boolean>) {
             state.isLoggedIn = action.payload;
         },
+        reloadPage(state) {
+            // reload current page to refresh data
+            if (Platform.OS === 'web') {
+                window.location.reload();
+            }
+        },
     },
 });
 
@@ -130,6 +136,7 @@ export const AuthActions = {
     logout: AuthSlice.actions.logout,
     loadToken: AuthSlice.actions.loadToken,
     clearToken: AuthSlice.actions.clearToken,
+    reloadPage: AuthSlice.actions.reloadPage,
 }
 
 // Selectors

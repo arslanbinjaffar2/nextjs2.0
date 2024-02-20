@@ -19,7 +19,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info.question} {question?.required_question == '1' && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
-        <ScrollView w="100%" pb="5" showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
+        <ScrollView w={['300px','100%']} maxW={'100%'} pb="5" showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
           <Box position="relative" w="100%" rounded="lg">
           <HStack space="1" alignItems="center" pb="3">
             <Center zIndex={9} position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1" height="20px"></Center>
@@ -54,7 +54,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
        
       </Box>
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
-              <Text color="red.900"> {error} </Text>
+          <Text color="red.900"> {error} </Text>
       </Box>}
       
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
