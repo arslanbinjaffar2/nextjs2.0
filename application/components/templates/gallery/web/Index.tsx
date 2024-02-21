@@ -79,7 +79,7 @@ const Index = () => {
                      }}>
                     <LoadImage width={'100%'} path={`${_env.eventcenter_base_url}/assets/imagegallery/${gallery_image.image}` } alt={gallery_image?.info.find(info => info.name == 'image_title')?.value || ''} />
                     </AspectRatio>
-                    <Text p="3" fontSize={'md'}>{gallery_image.info.find(info => info.name == 'image_title')?.value || ''}</Text>
+                    <Text p="3" minH={'48px'} fontSize={'md'}>{gallery_image.info.find(info => info.name == 'image_title')?.value || ''}</Text>
                     </Pressable>
                   </Box>
                   ))}
