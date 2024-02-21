@@ -61,18 +61,11 @@ const DetailBlock = ({ children }: AppProps) => {
             </HStack>
              <Box mb="4" w="100%">
              {event?.agenda_settings?.show_tracks == 1 && <>
-                    <Box position="absolute" left="0" top="0" w="15px" marginLeft={'-20px'}>
-                        <ZStack>
-                        {detail?.program?.program_tracks!?.length > 0 && detail?.program?.program_tracks!.map((track: any, i: number) =>
-                            <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
-                        )}
-                        </ZStack>
-                    </Box>
                     {detail?.program?.program_tracks!?.length > 0 && (
                         <>
                             <Text mb="3" fontSize="md">Track:
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
-                                        <Box rounded={'full'} mx={2} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
+                                        <Box rounded={'full'} mx={2} my={1} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
                                     
                                 ))}
                             </Text>

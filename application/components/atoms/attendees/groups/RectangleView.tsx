@@ -38,7 +38,7 @@ const RectangleView = ({ group, border, k, updateTab, navigation }: boxItemProps
     const { query, FetchGroups, group_id } = UseAttendeeService();
 
     const { push } = useRouter()
-
+        console.log(group.info)
     return (
         <Pressable w={'100%'} onPress={() => {
             if (navigation) {
