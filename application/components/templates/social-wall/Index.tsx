@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Box, Text, Button, Select, CheckIcon, HStack} from 'native-base'
+import React, { useEffect, useState } from 'react'
+import { Box, Image, Text, Button, Select, CheckIcon, HStack} from 'native-base'
 import SquareBox from 'application/components/atoms/social-wall/SquareBox';
 import AddPost from 'application/components/atoms/social-wall/AddPost';
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -9,12 +9,26 @@ import LoadMore from 'application/components/atoms/LoadMore';
 import in_array from "in_array";
 import { Post } from 'application/models/socialWall/SocialWall';
 import { SelectSortBy } from 'application/store/slices/SocialWall.Slice';
+import UseBannerService from 'application/store/services/UseBannerService'
+import UseEnvService from 'application/store/services/UseEnvService'
+import { Banner } from 'application/models/Banner'
 
 const Index = () => {
     const { loading,scroll, processing } = UseLoadingService();
   
     const { FetchSocialWallPosts, posts, page, last_page, sort_by } = UseSocialWallService();
     const [sortBy, setSortBy] = React.useState<string>(sort_by);
+
+    const { banners, FetchBanners } = UseBannerService();
+    const { _env } = UseEnvService()
+    const [filteredBanners, setFilteredBanners] = useState<Banner[]>([]);
+
+    useEffect(() => {
+      const filteredBanner = banners.filter((banner: Banner) => {
+        return banner.module_name == 'social_wall' && banner.module_type == 'listing'
+      });
+      setFilteredBanners(filteredBanner);
+    }, [banners]);
 
     useEffect(()=>{
         FetchSocialWallPosts({page:1,sort_by:sortBy});
@@ -75,6 +89,31 @@ const Index = () => {
         </>
     )
 
+  useEffect(() => {
+    FetchBanners();
+  }, []);
+
+  return (
+    <>
+      <AddPost />
+      <Box w="100%">
+        <SquareBox />
+        <SquareBox />
+        <SquareBox />
+      </Box>
+      <Box width={"100%"} height={"5%"}>
+        {filteredBanners.map((banner, k) =>
+          <Image
+            key={k}
+            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+            alt="Image"
+            width="100%"
+            height="100%"
+          />
+        )}
+      </Box>
+    </>
+  );
 }
 
 export default Index
