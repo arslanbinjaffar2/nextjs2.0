@@ -108,7 +108,7 @@ const Index = React.memo(() => {
                     </HStack>
                     )}
                     
-                    {(tab === 'name' || tab === 'category-sponsors') && <>
+                    {(tab === 'name' || tab === 'category-sponsor') && <>
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
                             <IconButton
                                 opacity={mode === "list" ? 100 : 50}
