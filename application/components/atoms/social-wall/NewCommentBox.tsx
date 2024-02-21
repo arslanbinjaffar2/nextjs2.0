@@ -1,6 +1,7 @@
 import React from 'react'
-import { HStack, Button, Text, Input } from 'native-base'
+import { HStack, Button, Text, Input, Icon } from 'native-base'
 import { NewComment } from 'application/models/socialWall/SocialWall'
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 type AppProps = {
@@ -29,25 +30,32 @@ const NewCommentBox = ({ post_id,parent_id,saveComment }: AppProps) => {
 
 
     return (
-        <HStack space="2" alignItems="center">
+        <HStack w={'100%'} space="2" alignItems="center">
               <Input
+                w={'100%'}
                 onChange={(e) => {
                   setCommentData({
                         ...commentData,
                         comment: e.nativeEvent.text,
                     });
                 }}
+                rightElement={<Icon mr={2} as={Ionicons} name='send' color={'primary.text'} />}
+                  onKeyPress={(a:any) => {
+                    if (a.key === 'Enter') {
+                      postComment();
+                    }
+                  }}
                 ref={inputCommentRef}
                 placeholder={parent_id === 0 ? 'Add New comment' : 'Reply to this comment'}
               />
-              <Button
+              {/* <Button
                 variant="unstyled"
                 onPress={() => {
                   postComment();
                 }}
               >
                 <Text fontSize="sm" color="primary.text">Send</Text>
-              </Button>
+              </Button> */}
         </HStack>
     )
 

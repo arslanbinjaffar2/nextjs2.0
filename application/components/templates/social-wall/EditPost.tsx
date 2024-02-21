@@ -9,15 +9,19 @@ import UseSocialWallService from 'application/store/services/UseSocialWallServic
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEnvService from 'application/store/services/UseEnvService';
+import { createParam } from 'solito';
 
 
+type ScreenParams = { id: string }
 import in_array from "in_array";
+import { set } from 'lodash';
 
+const { useParam } = createParam<ScreenParams>()
 
-const AddPost = () => {
+const EditPost = () => {
 
     const { _env } = UseEnvService();
-    const { AddSocialWallPost } = UseSocialWallService();
+    const { UpdateSocialWallPost,DetailSocialWallPost, post_detail } = UseSocialWallService();
     const { processing } = UseLoadingService();
     const { response } = UseAuthService();
     const [postData, setpostData] = React.useState<NewPost>({
@@ -27,18 +31,37 @@ const AddPost = () => {
             file_url: '',
         });
 
-    function createPost() {
+        const [id] = useParam('id');
+
+    React.useEffect(() => {
+        if (id) {
+            DetailSocialWallPost({ id: Number(id) });
+        }
+    }, [id]);
+
+    React.useEffect(() => {
+        console.log(post_detail);
+        setpostData({
+            content: post_detail?.content,
+            file: null,
+            type: post_detail?.type,
+            file_url: `${_env.eventcenter_base_url}/assets/social_wall/${post_detail?.image}`,
+        });
+        if(inputContentRef.current){
+            inputContentRef.current.value = post_detail?.content;
+        }
+    }, [post_detail]);
+
+    function updatePost() {
         if(postData.content === '' && postData.file === null){
             alert('Please write something or select image/video to post');
             return false;
         }
-        AddSocialWallPost({...postData});
+        UpdateSocialWallPost({ ...{id: Number(id)}, ...postData });
 
         setpostData({
+            ...postData,
             file: null,
-            content: '',
-            type: null,
-            file_url: '',
         });
 
         if(inputImageRef.current){
@@ -47,10 +70,6 @@ const AddPost = () => {
         if(inputVideoRef.current){
             inputVideoRef.current.value = '';
         }
-        if(inputContentRef.current){
-            inputContentRef.current.value = '';
-        }
-
     }
 
     function handleImageSelected(e: any) {
@@ -109,6 +128,10 @@ const AddPost = () => {
     const inputContentRef = React.useRef<HTMLInputElement | null>(null);
 
     return (
+        <>
+        <Box p="3" borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
+            <Text>Edit Post</Text>
+        </Box>
         <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
             <IconButton
                 w="30px"
@@ -264,19 +287,23 @@ const AddPost = () => {
                         _text={{ fontWeight: 600 }}
                         colorScheme="primary"
                         onPress={() => {
-                           createPost();
+                           updatePost();
                         }}
                     >
-                        POST
+                        UPDATE
                     </Button>
                 </Center>
             </HStack>
-            {(in_array('social_wall_save_post', processing)) && (
-                <Text>Posting....</Text>
+            {(in_array(`social_wall_fetching_post_detail${id}`, processing)) && (
+                <Text>fetching Details....</Text>
+            )}
+            {(in_array(`social_wall_update_post`, processing)) && (
+                <Text>Updating...</Text>
             )}
         </Box>
+        </>
     )
 
 }
 
-export default AddPost
+export default EditPost

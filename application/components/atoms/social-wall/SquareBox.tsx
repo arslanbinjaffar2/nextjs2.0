@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input } from 'native-base'
+import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input, Center, Link } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
 import IcoSharePost from 'application/assets/icons/IcoSharePost'
@@ -11,16 +11,19 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import useSocialWallService from 'application/store/services/UseSocialWallService'
 import NewCommentBox from 'application/components/atoms/social-wall/NewCommentBox';
 import CommentBox from 'application/components/atoms/social-wall/CommentBox';
+import UseEventService from 'application/store/services/UseEventService';
 
 type AppProps = {
   post: Post,
+  index: number,
 }
 
-const SquareBox = ({ post }: AppProps) => {
+const SquareBox = ({ post, index }: AppProps) => {
 
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
-  const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment } =useSocialWallService();
+  const { event } = UseEventService();
+  const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment, DeleteSocialWallPost } =useSocialWallService();
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some(like => like.attendee_id === response?.data?.user?.id)
   );
@@ -34,6 +37,10 @@ const SquareBox = ({ post }: AppProps) => {
     LikeSocialWallPost({id:post.id})
   }
 
+  function deletePost() {
+    DeleteSocialWallPost({id:post.id})
+  }
+
   function saveComment(newComment:NewComment) {
     SaveSocialWallComment({...newComment})
   }
@@ -43,8 +50,21 @@ const SquareBox = ({ post }: AppProps) => {
   }
 
   return (
-    <Box mb="3" borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="4" rounded="10px" overflow="hidden">
+    <Box mb="3"  w="100%" py={3}  bg={'primary.box'} roundedTop={ index === 0 ? 0 : 10 } roundedBottom={10} borderWidth="1" borderColor="primary.box">
       <VStack space="3">
+        {/* button to delete post */}
+        {post.attendee.id === response?.data?.user?.id && (
+          <>
+          <Button onPress={() => {
+            deletePost()
+          }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
+            <Text fontSize="xs" color="primary.text">Delete</Text>
+          </Button>
+          <Link href={`/${event.url}/social_wall/edit/${post.id}`}>
+            <Text w={'100%'} fontSize='md' lineHeight='sm'>Edit</Text>
+          </Link>
+      </>
+        )}
         <HStack space="3" alignItems="center" key="rd90">
           <Avatar
             borderWidth={1}
@@ -61,68 +81,100 @@ const SquareBox = ({ post }: AppProps) => {
             <Text fontSize="sm" key="time_attendee_post">{post.created_at_formatted}</Text>
           </VStack>
         </HStack>
-        <Text key="p-content" fontSize="md">{post.content}</Text>
+        <Text px={3} key="p-content" fontSize="md">{post.content}</Text>
         {(post.type === 'image' || post.type === 'text') && post.image !== '' &&(
-          <Image
-            source={{
-              uri: `${_env.eventcenter_base_url}/assets/social_wall/${post.image}`
-            }}
-            alt="Alternate Text"
-            w="100%"
-            h="295px"
-            rounded="10"
-            mb="2"
-            mt="3"
-          />
+          <Center w={'100%'} px={3}>
+            <Image
+              source={{
+                uri: `${_env.eventcenter_base_url}/assets/social_wall/${post.image}`
+              }}
+              alt="Alternate Text"
+              w="100%"
+              h="295px"
+              rounded="10"
+            />
+          </Center>
+          
         )}
 
         {post.type === 'video' && post.image !== '' &&(
-          <video
-            w="100%"
-            h="295px"
-            rounded="10"
-            mb="2"
-            mt="3"
-            controls
-            src={`${_env.eventcenter_base_url}/assets/social_wall/${post.image}`}
-          />
+          <Center w={'100%'} px={3}>
+            <video
+              w="100%"
+              h="295px"
+              rounded="10"
+              mb="2"
+              mt="3"
+              controls
+              src={`${_env.eventcenter_base_url}/assets/social_wall/${post.image}`}
+            />
+          </Center>
         )}
-
-        <HStack key="rd99" pb="3" borderBottomWidth="1" borderBottomColor="primary.text" space="3" alignItems="center">
-          <HStack space="2" alignItems="center" key="likebtn">
-            <IconButton
-              icon={<IcoLike width="18px" height="18px" />}
-              onPress={() => {
-                likePost()
-              }}
-              {...(isLiked ? { variant: 'solid' } : { variant: 'unstyled' })}
-            />
-            <IconButton
-              variant="unstyled"
-              icon={<IcoMessage width="18px" height="18px" />}
-              onPress={() => {
-                console.log('hello')
-              }}
-            />
-            <IconButton
-              variant="unstyled"
-              icon={<IcoSharePost width="18px" height="15px" />}
-              onPress={() => {
-                console.log('hello')
-              }}
-            />
-          </HStack>
-          <Spacer />
+        <HStack  space="1" w={'100%'} px={3}>
+           <HStack space="1" alignItems="center">
+              <Icolikealt />
+              <Text fontSize="sm">{likesCount}</Text>
+            </HStack>
+            <Spacer />
           <HStack space="3" alignItems="center" key="commentbtn">
             <HStack space="1" alignItems="center">
-              <Text fontSize="sm">{likesCount}</Text>
-              <Icolikealt />
+              <Text fontSize="sm">{post.comments_count} Comments</Text>
             </HStack>
-            <Divider w="1px" h="10px" bg="primary.text" />
             <HStack space="1" alignItems="center">
-              <Text fontSize="sm">{post.comments_count}</Text>
-              <IcoMessagealt />
+              <Text fontSize="sm">{post.comments_count} Shares</Text>
             </HStack>
+          </HStack>
+        </HStack>
+        
+        <HStack key="rd99" px="3" space="0" alignItems="center">
+          <HStack  py={3} borderBottomWidth="1" w={'100%'} flexWrap={'wrap'} borderTopWidth="1" borderColor="primary.box" space="2" alignItems="center" key="likebtn">
+            <Center flex={1} alignItems={'flex-start'}>
+                <Button
+                  colorScheme="unstyled"
+                  bg={isLiked ? 'primary.500' : 'transparent'}
+                  px={1}
+                  py={0}
+                  leftIcon={<IcoLike width="18px" height="18px" />}
+                  onPress={()=>{
+                    likePost()
+                  }}
+                
+                >
+                  Like
+                </Button>
+            </Center>
+            <Center flex={1}>
+              <Button
+                  colorScheme="unstyled"
+                  bg={'transparent'}
+                  _hover={{bg: 'transparent'}}
+                  px={1}
+                  py={0}
+                  leftIcon={<IcoMessage width="18px" height="18px" />}
+                  onPress={()=>{
+                   console.log('hello')
+                  }}
+                
+                >
+                  Comments
+                </Button>
+            </Center>
+             <Center flex={1} alignItems={'flex-end'}>
+              <Button
+                  colorScheme="unstyled"
+                  bg={'transparent'}
+                  _hover={{bg: 'transparent'}}
+                  px={1}
+                  py={0}
+                  leftIcon={<IcoSharePost width="18px" height="18px" />}
+                  onPress={()=>{
+                   console.log('hello')
+                  }}
+                
+                >
+                  Share
+                </Button>
+            </Center>
           </HStack>
         </HStack>
         {/* new comment section */}
@@ -145,13 +197,31 @@ const SquareBox = ({ post }: AppProps) => {
         </HStack>
         {post.comments.map((comment: Comment) => {
           return <React.Fragment key={comment.id}>
-            <Box >
+            <Box>
               <CommentBox comment={comment} key={comment.id} />
               {comment.replies.map((reply: Comment) => {
                 <CommentBox comment={reply} key={reply.id} />
               })}
             </Box>
-            <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} />
+            <HStack w={'100%'} py={2} px={3} borderTopWidth={1} borderTopColor={'primary.box'} space="2" alignItems="center">
+              <Center>
+                <Avatar
+                  borderWidth={1}
+                  borderColor="primary.text"
+                  size="sm"
+                  source={{
+                    uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
+                  }}
+                >
+                  SS
+                </Avatar>
+              </Center>
+              <Center w={'calc(100% - 45px)'}>
+                <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} />
+              </Center>
+              
+            </HStack>
+            
           </React.Fragment>
         })}
       </VStack>
