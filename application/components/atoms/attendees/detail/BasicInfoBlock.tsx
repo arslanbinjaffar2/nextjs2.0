@@ -40,7 +40,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     ) : (
                         <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={UserPlaceholderImage} alt="Alternate Text" w="50px" h="50px" />
                     )}
-                    <VStack maxW="70%" space="0">
+                    <VStack w="calc(100% - 140px)" space="0">
                         <Text lineHeight="sm" fontSize="xl">
                             {`${detail?.detail?.first_name} ${detail?.detail?.last_name}`}
                         </Text>
@@ -98,6 +98,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     )}
                 </HStack>
             </Box>
+            {detail?.detail?.attendee_cv && (
             <Box w="100%" bg="primary.secondary" px="5" py="3" borderTopWidth="1" borderColor="primary.darkbox">
                 <HStack w="100%" space="0">
                     {(showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) ? '1' : '0'} borderColor={'primary.box'} alignItems="flex-start">
@@ -122,6 +123,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     </Center>}
                 </HStack>
             </Box>
+              )}
         </Container>
     )
 

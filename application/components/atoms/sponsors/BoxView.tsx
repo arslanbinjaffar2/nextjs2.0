@@ -14,9 +14,10 @@ type AppProps = {
     sponsor: Sponsor,
     k: number
     w?: string
+    screen?: string
 }
 
-const BoxView = ({ k, sponsor, w }: AppProps) => {
+const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 
     const { _env } = UseEnvService()
 
@@ -43,7 +44,7 @@ const BoxView = ({ k, sponsor, w }: AppProps) => {
                 }}
                     >
                     <Box mb="3" w="100%" bg="primary.boxTransparent" p="0" borderWidth="1" borderColor="primary.bdBox" rounded="10">
-                        <Text fontSize="md" textAlign={'center'} my={2}>{sponsor?.name}</Text>
+                        <Text fontSize="md" textAlign={'center'} my={2}>{event?.sponsor_settings?.sponsorName ? sponsor?.name : ''}</Text>
                         {settings?.mark_favorite === 1 && (
                             <IconButton
                                 bg="transparent"
@@ -51,7 +52,7 @@ const BoxView = ({ k, sponsor, w }: AppProps) => {
                                 _hover={{ bg: 'primary.500' }}
                                 icon={<Icon size="md" as={Ionicons} name={sponsor.attendee_sponsors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
                                 onPress={() => {
-                                    MakeFavourite({ sponsor_id: sponsor.id, screen: 'listing' });
+                                    MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
                                 }}
                                 position={'absolute'}
                                 zIndex={'999999'}
