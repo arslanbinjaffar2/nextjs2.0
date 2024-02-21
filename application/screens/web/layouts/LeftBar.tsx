@@ -28,7 +28,6 @@ const LeftBar = () => {
 
   const { setLoading } = UseLoadingService();
 
-
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Box pb="3">

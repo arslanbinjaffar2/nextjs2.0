@@ -46,7 +46,7 @@ const Detail = () => {
 
   const { response  } = UseAuthService();
 
-  const { push } = useRouter()
+  const { push, back } = useRouter()
 
   const { FetchMyPollResultDetail, myPollResultDetail, myPollResultScore } = UsePollService();
 
@@ -59,19 +59,24 @@ const Detail = () => {
   }, [id]);
 
 
-
-  console.log(myPollResultDetail);
-
-
   return (
     <>
       {loading ? (
                 <WebLoading />
             ) : (
             <Container mb="3" maxW="100%" w="100%">
-              <HStack mb="3" pt="2" w="100%" space="3" justifyContent={'space-between'} alignItems="center">
-                <Text isTruncated pr="6" fontSize="2xl">{myPollResultDetail?.program?.info?.topic}</Text>
-                <Text isTruncated pr="6" fontSize="xl">{`${myPollResultScore}/${myPollResultDetail?.question.length} Points(s)`}</Text>
+              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                <Pressable onPress={()=> back()}>
+                  <HStack space="3" alignItems="center">
+                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                        <Text fontSize="2xl">BACK</Text>
+                  </HStack>
+                </Pressable>
+                <Spacer />
+                <Text isTruncated  fontSize="xl">{`${myPollResultScore}/${myPollResultDetail?.question.length} Points(s)`}</Text>
+              </HStack>
+              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
+                <Text textAlign={'center'} fontSize="2xl">{myPollResultDetail?.program?.info?.topic}</Text>
               </HStack>
               <Box w="100%" >
                 {myPollResultDetail && myPollResultDetail?.question.length > 0 && myPollResultDetail.question.map((question, i) => (
