@@ -16,21 +16,49 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
+import { useSearchParams, usePathname } from 'next/navigation'
+import { useRouter } from 'solito/router'
 
 const Index = React.memo(() => {
+
+    const { push, back } = useRouter()
+
+    const searchParams = useSearchParams()
+
+    const tabQueryParam = searchParams.get('tab')
+
+    const modeQueryParam = searchParams.get('mode')
+
+    const categoryIdQueryParam = searchParams.get('category_id')
+
+
+    const createQueryString = React.useCallback(
+        (name: string, value: string) => {
+          const params = new URLSearchParams(searchParams.toString())
+          params.set(name, value)
+     
+          return params.toString()
+        },
+        [searchParams]
+    )
 
     const { event } = UseEventService()
     const { banners, FetchBanners} = UseBannerService();
     const { loading } = UseLoadingService();
     const { _env } = UseEnvService()
-    const [tab, setTab] = React.useState(event?.exhibitor_settings?.exhibitor_list);
+    const [tab, setTab] = React.useState(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list);
 
-    const [mode, setMode] = React.useState('grid')
+    const [mode, setMode] = React.useState(modeQueryParam ? modeQueryParam : 'grid')
 
     const [searchQuery, setSearch] = React.useState('')
 
     const { exhibitors, categories, FetchExhibitors, category_id, query } = UseExhibitorService();
     const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
+
+    React.useEffect(() => {
+        FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: '', screen: 'exhibitors' });
+        setTab(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list)
+    }, [tabQueryParam])
 
     const updateTab = (tab: string) => {
         setTab(tab);
@@ -44,7 +72,7 @@ const Index = React.memo(() => {
 
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
-            FetchExhibitors({ category_id: category_id, query: query, screen: 'exhibitors' });
+            FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: query, screen: 'exhibitors' });
         }, 1000);
     }, []);
     useEffect(()=>{
@@ -78,13 +106,16 @@ const Index = React.memo(() => {
                         {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') && <Button onPress={() => {
                             setTab('name')
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
+                            push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'name'))
+
                         }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={8} borderRightRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? 0 : 8} h="42px" bg={tab === 'name' ? 'primary.darkbox' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? "50%": "100%"} _text={{ fontWeight: '600' }}>NAME</Button>}
                         {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') && <Button onPress={() => {
                             setTab('category')
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
+                            push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'))
                         }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
                     </HStack>
-                    {tab === 'name' && <>
+                    {(tab === 'name' || tab === 'category-exhibitors') && <>
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
                             <IconButton
                                 opacity={mode === "list" ? 100 : 50}
@@ -93,6 +124,8 @@ const Index = React.memo(() => {
                                 icon={<Icon size="xl" as={Entypo} name="menu" color="primary.text" />}
                                 onPress={() => {
                                     setMode('list')
+                                    push(`/${event.url}/exhibitors` + '?' + createQueryString('mode', 'list'))
+
                                 }}
 
                             />
@@ -103,6 +136,7 @@ const Index = React.memo(() => {
                                 icon={<Icon size="xl" as={Entypo} name="grid" color="primary.text" />}
                                 onPress={() => {
                                     setMode('grid')
+                                    push(`/${event.url}/exhibitors` + '?' + createQueryString('mode', 'grid'))
                                 }}
 
                             />

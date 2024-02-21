@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
-import { Box, Button, Container, HStack, Icon, IconButton, Image, Spacer, Text, VStack } from 'native-base';
+import { Box, Button, Center, Container, HStack, Icon, IconButton, Image, Spacer, Text, VStack } from 'native-base';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import UseCheckInOutService from 'application/store/services/UseCheckInOutService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -9,6 +10,86 @@ import in_array from "in_array";
 import UseBannerService from 'application/store/services/UseBannerService'
 import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService'
+
+const CheckinList = (type:any) => {
+	const [toggle, settoggle] = React.useState(false)
+	return (
+		<Box borderBottomColor={'primary.box'} borderBottomWidth={1} p={3} alignItems="center">
+			<HStack w={'100%'} space="0">
+					<Center alignItems={'flex-start'} justifyContent={'flex-start'} w={'calc(100% - 130px)'}>
+						<Text  fontWeight={500} mb={1} fontSize="md">Forældrebegivenhed Lead 2.0</Text>
+						<VStack w={'100%'}  space="1">
+							<HStack  space="2" alignItems="center">
+								<Icon color={'primary.text'} as={SimpleLineIcons} name="calendar"  />
+								<Text  fontSize="sm">21 May 2021 - 24 Dec 2023</Text>
+							</HStack>
+							<HStack  space="2" alignItems="center">
+								<Icon color={'primary.text'} as={SimpleLineIcons} name="clock"  />
+								<Text  fontSize="sm">10:45 - 12:45</Text>
+							</HStack>
+						</VStack>
+						
+					</Center>
+					<Center pr={4}>
+						<HStack  space="2" alignItems="center" justifyContent={'flex-start'}>
+							<Box lineHeight={1} bg={ type?.type === 'checkin' ? 'success.500' : 'danger.500'} p="1" rounded={4}>
+								{type?.type === 'checkin' && <Icon size={'sm'} lineHeight={1} color={'white'} as={SimpleLineIcons} name="login"  />}
+								{type?.type === 'checkout' && <Icon size={'sm'} lineHeight={1} color={'white'} as={SimpleLineIcons} name="logout"  />}
+							</Box>
+							<Center justifyContent={'flex-start'} alignItems={'flex-start'}>
+								<Text fontSize="sm">21/08/2022</Text>
+								<Text fontSize="sm">12:45:28</Text>
+								
+							</Center>
+							
+						</HStack>
+						
+						
+					</Center>
+					<Spacer />
+						<IconButton
+							variant="unstyled"
+							p={0}
+							icon={<Icon size="md" as={SimpleLineIcons} name={toggle ? 'arrow-down' : 'arrow-right'} color="white" />}
+							onPress={()=>{
+								settoggle(!toggle)
+							}}
+							
+						/>
+			</HStack>
+			{toggle && <Box my={3}  w={'100%'} bg="primary.box"  rounded="lg">
+				{[...Array(3)].map(list =>  <HStack  py="2" px={3} borderBottomColor={'primary.box'} borderBottomWidth={1}  space="0" alignItems="flex-start">
+						<HStack  space="2" alignItems="center" justifyContent={'flex-start'}>
+							<Box lineHeight={1} bg={'success.500'} p="1" rounded={4}>
+								<Icon size={'sm'} lineHeight={1} color={'white'} as={SimpleLineIcons} name="login"  />
+							</Box>
+							<Center justifyContent={'flex-start'} alignItems={'flex-start'}>
+								<Text fontSize="sm">21/08/2022</Text>
+								<Text fontSize="sm">12:45:28</Text>
+								
+							</Center>
+							
+						</HStack>
+						<Spacer />
+						<HStack  space="2" alignItems="center" justifyContent={'flex-start'}>
+							<Box lineHeight={1} bg={'danger.500'} p="1" rounded={4}>
+								<Icon size={'sm'} lineHeight={1} color={'white'} as={SimpleLineIcons} name="logout"  />
+							</Box>
+							<Center justifyContent={'flex-start'} alignItems={'flex-start'}>
+								<Text fontSize="sm">21/08/2022</Text>
+								<Text fontSize="sm">12:45:28</Text>
+								
+							</Center>
+							
+						</HStack>
+				</HStack>)}
+				
+
+			</Box>}
+			
+		</Box>
+	)
+}
 
 const Index = () => {
     const { loading, processing } = UseLoadingService();
@@ -66,7 +147,22 @@ const Index = () => {
                         rounded="10"
                         />
                     </Box>
-                    <Text pt="1" textAlign="center" fontSize="xl">Scan to Checkin</Text>
+                    <HStack space="0" alignItems="center" justifyContent={'center'} pt={4}>
+                        <Button
+                            px={4} py={2}
+                            fontSize={'lg'}
+                            shadow={3}
+                            colorScheme="primary"
+                            minW={190}
+                            onPress={()=>{
+                                console.log('hello')
+                            }}
+                        
+                        >
+                            Scan to Checkin
+                        </Button>
+                    </HStack>
+                    
                 </>}
                 </Box>
                 <Image
@@ -85,24 +181,33 @@ const Index = () => {
                     <Button onPress={() => { setTab('group')}} bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Group</Button>
                     <Button onPress={() => { setTab('ticket')}} bg={tab === 'ticket' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Ticket</Button>
                 </HStack>
+                <Box  overflow="hidden" h="100%" w="100%" bg="primary.box" p="0" mb={3} rounded="10">
+									 {[...Array(3)].map(item => 
+											 <CheckinList type="checkin" key={item}  />
+										)}
+									 {[...Array(3)].map(item => 
+											 <CheckinList type="checkout" key={item}  />
+										)}
+                </Box>
+                
                  <HStack w="100%" space="0">
-                <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="10">
-                    <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK IN</Text>
-                    <VStack space="1">
-                    {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
-                        <Text fontSize="md">{getTypeEntityName(item)} {(item.checkin !== '' && item.checkin !== '0000-00-00 00:00:00') ? moment(item.checkin).format('DD/mm/yyyy HH:mm:ss') : '---'}</Text>
-                    </HStack>))}
-                    </VStack>
-                </Box>
-                <Spacer />
-                <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="10">
-                    <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK OUT</Text>
-                    <VStack space="1">
-                    {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
-                        <Text fontSize="md">{(item.checkout !== '' && item.checkout !== '0000-00-00 00:00:00') ? moment(item.checkout).format('DD/mm/yyyy HH:mm:ss') : " ---"}</Text>
-                    </HStack>))}
-                    </VStack>
-                </Box>
+                    <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="10">
+                        <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK IN</Text>
+                        <VStack space="1">
+                        {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
+                            <Text fontSize="md">{getTypeEntityName(item)} {(item.checkin !== '' && item.checkin !== '0000-00-00 00:00:00') ? moment(item.checkin).format('DD/mm/yyyy HH:mm:ss') : '---'}</Text>
+                        </HStack>))}
+                        </VStack>
+                    </Box>
+                    <Spacer />
+                    <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="10">
+                        <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK OUT</Text>
+                        <VStack space="1">
+                        {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
+                            <Text fontSize="md">{(item.checkout !== '' && item.checkout !== '0000-00-00 00:00:00') ? moment(item.checkout).format('DD/mm/yyyy HH:mm:ss') : " ---"}</Text>
+                        </HStack>))}
+                        </VStack>
+                    </Box>
                 </HStack>
             </Container>
         )

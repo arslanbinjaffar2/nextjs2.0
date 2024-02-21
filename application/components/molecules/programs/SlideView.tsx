@@ -59,7 +59,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
                             }
                         </Center>
                         <Center w="80%">
-                            <Heading fontSize="lg">{dates[0]?.heading_date}</Heading>
+                            <Heading fontWeight={500} fontSize="lg">{dates[0]?.heading_date}</Heading>
                         </Center>
                         <Center alignItems="flex-end" w="10%">
                             {(currentIndex < (programs.length - 1)) &&  programs.length > 1 && 

@@ -154,7 +154,7 @@ const Detail = () => {
                     </HStack>
                         <DetailBlock>
                                 <Text>
-                                    <div dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
+                                    <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
                                 </Text>
                                 
                         </DetailBlock>

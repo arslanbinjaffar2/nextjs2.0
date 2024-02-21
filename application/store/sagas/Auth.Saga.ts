@@ -152,6 +152,7 @@ function* OnLogout({
     yield put(AuthActions.clearToken());
     yield put(NetworkInterestActions.clearState());
     yield put(SubRegistrationActions.clearState());
+    yield put(AuthActions.reloadPage());
 }
 
 // Watcher Saga

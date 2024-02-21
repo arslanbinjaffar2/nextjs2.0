@@ -22,7 +22,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const id: any = router.query['id'];
 
-  const { FetchInfo, info, ClearState } = UseInfoService();
+  const { FetchInfo, info, ClearState, parent_folder_name } = UseInfoService();
 
   const cms = 'information-pages-sub';
 
@@ -43,7 +43,7 @@ const Index = ({ navigation }: indexProps) => {
         <Container pt="2" maxW="100%" w="100%">
           <HStack mb="3" w="100%" space="3" alignItems="center">
             <Text fontSize="2xl">
-               Information Pages
+               { parent_folder_name }
             </Text>
             <Spacer />
             <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
