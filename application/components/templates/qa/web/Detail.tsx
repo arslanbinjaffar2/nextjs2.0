@@ -290,9 +290,10 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
+                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                        <Text flex={1} textAlign={'left'}><div className='no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
+                                        <Text w={'calc(100% - 80px)'} pt={1}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
+                                        <Spacer />
                                             {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
@@ -322,9 +323,12 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
+                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            <Text w={'calc(100% - 80px)'} pt={1}>
+                                                <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            </Text>
+                                            <Spacer />
                                             {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
@@ -352,9 +356,12 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
+                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            <Text w={'calc(100% - 80px)'} pt={1}>
+                                                <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            </Text>
+                                            <Spacer />
                                             {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
@@ -382,9 +389,12 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
+                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            <Text w={'calc(100% - 80px)'} pt={1}>
+                                                <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            </Text>
+                                            <Spacer />
                                             {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"

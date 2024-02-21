@@ -34,7 +34,7 @@ const NotesBox = () => {
                             SaveNote({note:note, note_type:'exhibitors', note_type_id: detail.detail?.id});
                             setNote('');
                         }
-                     }}><Icon as={FontAwesome} name="save" fontSize={'20px'} /></Pressable>
+                     }}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
                 </Box>
             </Box>
         </Box>}

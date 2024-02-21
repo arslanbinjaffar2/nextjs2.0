@@ -84,7 +84,7 @@ const Login = ({ props }: any) => {
                                             }}
                                             defaultValue=""
                                         />
-                                        <FormControl.ErrorMessage>
+                                        <FormControl.ErrorMessage bg={'red.100'} color={'red.900'} _text={{fontSize: 'md'}} p={2} rounded={4}>
                                             {errors.email?.type === 'required'
                                                 ? 'Email is required'
                                                 : (error ? error : errors.email?.message)}
@@ -102,7 +102,7 @@ const Login = ({ props }: any) => {
                                             }}
                                             defaultValue=""
                                         />
-                                        <FormControl.ErrorMessage>
+                                        <FormControl.ErrorMessage bg={'red.100'} color={'red.900'} _text={{fontSize: 'md'}} p={2} rounded={4}>
                                             {errors.email?.type === 'required'
                                                 ? 'Password is required'
                                                 : errors.email?.message}
@@ -113,7 +113,7 @@ const Login = ({ props }: any) => {
                                     )}
                                     {event.attendee_settings?.hide_password === 0 && event.attendee_settings?.forgot_link === 0 && event.attendee_settings?.authentication === 0 && (
                                         <Link href={`/${event.url}/auth/reset-password-request`}>
-                                            <Text w={'100%'} fontSize='md' lineHeight='sm'>{event.labels.EVENTSITE_FORGOT_PASSWORD}</Text>
+                                            <Text textDecorationLine={'underline'}  w={'100%'} fontSize='md' lineHeight='sm'>{event.labels.EVENTSITE_FORGOT_PASSWORD}</Text>
                                         </Link>
                                     )}
                                     <Button
@@ -142,7 +142,7 @@ const Login = ({ props }: any) => {
                                             }}
                                             defaultValue=""
                                         />
-                                        <FormControl.ErrorMessage>
+                                        <FormControl.ErrorMessage bg={'red.100'} color={'red.900'} _text={{fontSize: 'md'}} p={2} rounded={4}>
                                             {errors.email?.type === 'required'
                                                 ? 'Email is required'
                                                 : (error ? error : errors.email?.message)}

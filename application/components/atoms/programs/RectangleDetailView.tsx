@@ -77,7 +77,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                         onPress={() => {
                           MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
                         }}>
-                        <Icon size="xl" as={AntDesign} name={program?.program_attendees_attached?.length ? "heart" : "hearto"} color={'primary.text'} />
+                        <Icon size="xl" as={AntDesign} name={program?.program_attendees_attached?.length ? "heart" : "hearto"} color={program?.program_attendees_attached?.length ? 'secondary.500' : 'primary.text'} />
                       </Pressable>}
                       
                     </HStack>}

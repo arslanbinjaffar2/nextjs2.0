@@ -18,6 +18,7 @@ export type NetworkInterestServiceOperators = {
     SaveMykeywords: (payload:any) => void,
     FetchSearchMatchAttendees: (payload:any) => void,
     setSkip: () => void,
+    setNetworkSkip: () => void,
 }
 
 /**
@@ -55,6 +56,12 @@ export const UseNetworkInterestService = (): Readonly<NetworkInterestServiceOper
             [dispatch],
         ),
         setSkip: useCallback(
+            () => {
+                dispatch(NetworkInterestActions.setSkip())
+            },
+            [dispatch],
+        ),
+        setNetworkSkip: useCallback(
             () => {
                 dispatch(NetworkInterestActions.setSkip())
             },

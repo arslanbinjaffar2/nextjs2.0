@@ -142,7 +142,7 @@ const Selectstyles2 = {
     })
 
     const [customFieldData, setCustomFieldData] = React.useState<any>(customFields.reduce((ack1, question, i)=>{
-        let answers = attendee.info[`custom_field_id${question.event_id}`].split(',').reduce((ack2:any, id, i)=>{ 
+        let answers = attendee.info[`custom_field_id${question.event_id}`]?.split(',').reduce((ack2:any, id, i)=>{ 
            let is_answer = question.children_recursive.find((answer:any)=>(answer.id == id));
            if(is_answer !== undefined){
              ack2.push({

@@ -38,7 +38,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             bg="transparent"
                             p="1"
                             _hover={{ bg: 'primary.500' }}
-                            icon={<Icon size="xl" as={Ionicons} name={detail?.detail?.attendee_sponsors!?.length > 0 ? 'heart' : 'heart-outline'} color="primary.darkbox" />}
+                            icon={<Icon size="xl" as={Ionicons} name={detail?.detail?.attendee_sponsors!?.length > 0 ? 'heart' : 'heart-outline'} color={detail?.detail?.attendee_sponsors!?.length > 0 ? 'secondary.500' : "primary.text"}/>}
                             onPress={() => {
                                 MakeFavourite({ sponsor_id: Number(detail?.detail?.id), screen: 'sponsor-detail' });
                             }}

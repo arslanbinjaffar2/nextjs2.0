@@ -13,20 +13,49 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { SponsorCategory } from 'application/models/sponsor/SponsorCategory';
 import UseEventService from 'application/store/services/UseEventService';
-
+import { useRouter } from 'solito/router'
+import { useSearchParams, usePathname } from 'next/navigation'
 const Index = React.memo(() => {
+
+    const { push, back } = useRouter()
+
+    const pathname = usePathname()
+    
+    const searchParams = useSearchParams()
+
+    const tabQueryParam = searchParams.get('tab')
+
+    const modeQueryParam = searchParams.get('mode')
+
+    const categoryIdQueryParam = searchParams.get('category_id')
+
+    const createQueryString = React.useCallback(
+        (name: string, value: string) => {
+          const params = new URLSearchParams(searchParams.toString())
+          params.set(name, value)
+     
+          return params.toString()
+        },
+        [searchParams]
+    )
 
     const { event } = UseEventService()
 
     const { loading } = UseLoadingService();
 
-    const [tab, setTab] = React.useState(event?.sponsor_settings?.sponsor_list);
+    const [tab, setTab] = React.useState(tabQueryParam !== null ? tabQueryParam : event?.sponsor_settings?.sponsor_list);
 
-    const [mode, setMode] = React.useState('grid')
+    const [mode, setMode] = React.useState(modeQueryParam ? modeQueryParam : 'grid')
 
     const [searchQuery, setSearch] = React.useState('')
 
     const { sponsors, categories, FetchSponsors, category_id, query } = UseSponsorService();
+
+    React.useEffect(() => {
+        FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tabQueryParam == 'category-sponsor') ? categoryIdQueryParam : 0), query: '', screen: 'sponsors' });
+        setTab(tabQueryParam !== null ? tabQueryParam : event?.sponsor_settings?.sponsor_list)
+    }, [tabQueryParam]);
+    
 
     const updateTab = (tab: string) => {
         setTab(tab);
@@ -40,7 +69,7 @@ const Index = React.memo(() => {
 
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
-            FetchSponsors({ category_id: category_id, query: query, screen: 'sponsors' });
+            FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tab == 'category-sponsor') ? categoryIdQueryParam : 0), query: query, screen: 'sponsors' });
         }, 1000);
     }, []);
 
@@ -66,14 +95,17 @@ const Index = React.memo(() => {
                        {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && <Button onPress={() => {
                             setTab('name')
                             FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
+                            push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'name'))
                         }} 
-                        borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.box' : 'primary.darkbox'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>NAME</Button>}
+                        borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.darkbox' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>NAME</Button>}
                        {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button onPress={() => {
                             setTab('category')
                             FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
-                        }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.box' : 'primary.darkbox'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
+                            push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'category'))
+
+                        }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
                     </HStack>
-                    {tab === 'name' && <>
+                    {(tab === 'name' || tab === 'category-sponsors') && <>
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
                             <IconButton
                                 opacity={mode === "list" ? 100 : 50}
@@ -82,6 +114,7 @@ const Index = React.memo(() => {
                                 icon={<Icon size="xl" as={Entypo} name="menu" color="primary.text" />}
                                 onPress={() => {
                                     setMode('list')
+                                    push(`/${event.url}/sponsors` + '?' + createQueryString('mode', 'list'))
                                 }}
 
                             />
@@ -92,6 +125,7 @@ const Index = React.memo(() => {
                                 icon={<Icon size="xl" as={Entypo} name="grid" color="primary.text" />}
                                 onPress={() => {
                                     setMode('grid')
+                                    push(`/${event.url}/sponsors` + '?' + createQueryString('mode', 'grid'))
                                 }}
 
                             />

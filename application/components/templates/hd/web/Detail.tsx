@@ -137,7 +137,7 @@ const Detail = () => {
             <WebLoading />
         ):(
             <Container overflow="hidden" mb="4" maxW="100%" w="100%">
-                <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
                     <Pressable onPress={()=>{
                         push(`/${event.url}/help_desk`)
                     }}>
@@ -147,19 +147,12 @@ const Detail = () => {
                         </HStack>
                     </Pressable>
                 </HStack>
+                <HStack width={"100%"}  alignItems="center" mb={1}  space={0} justifyContent="flex-start">
+                    <Text fontSize="2xl" w={'100%'} textAlign={'center'}  textBreakStrategy='simple' >
+                        {hdDetails?.group?.info?.name}
+                    </Text>
+                </HStack>
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" borderBottomWidth={1} borderColor="primary.bdBox">
-                <Box w="100%"  py="3">
-                    <HStack width={"100%"} pl="30px" alignItems="center" minH="30px" space={0} justifyContent="flex-start">
-                        
-                        <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                            <VStack space="1" width={'100%'}>
-                            <Text fontSize="md" lineHeight="22px" textBreakStrategy='simple' >
-                            {hdDetails?.group?.info?.name}
-                            </Text>
-                            </VStack>
-                        </HStack>
-                    </HStack>
-                </Box>
                 <Box w="100%">
                     <HStack pl="6"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
                         <Text fontSize="lg">Ask a question</Text>
@@ -216,9 +209,12 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
-                                        <Text lineHeight="sm" textAlign="center" w="48px" fontSize="3xl">Q:</Text>
-                                        <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                    <HStack space="3" alignItems="flex-start"  justifyContent={'flex-start'}>
+                                        <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                        <Text pt={1}>
+                                            <div className='ebs-iframe-content' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                        </Text>
+                                        <Spacer />
                                             {hdSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
@@ -248,7 +244,10 @@ const Detail = () => {
                                     </HStack>
                                     <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            <Text pt={1}>
+                                                <div className='ebs-iframe-content' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            </Text>
+                                            <Spacer />
                                             {hdSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
