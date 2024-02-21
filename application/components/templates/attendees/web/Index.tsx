@@ -17,6 +17,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import GroupAlphabatically from 'application/utils/GroupAlphabatically';
 import { createParam } from 'solito';
 import { useRouter } from 'solito/router'
+import { useSearchParams, usePathname } from 'next/navigation'
 import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';
 import { Category } from 'application/models/event/Category';
 
@@ -31,6 +32,25 @@ type Props = {
 
 const Index = ({ speaker, screen }: Props) => {
 
+    const { push, back } = useRouter()
+
+    const pathname = usePathname()
+    
+    const searchParams = useSearchParams()
+
+    const tabQueryParam = searchParams.get('tab')
+
+
+    const createQueryString = React.useCallback(
+        (name: string, value: string) => {
+          const params = new URLSearchParams(searchParams.toString())
+          params.set(name, value)
+     
+          return params.toString()
+        },
+        [searchParams]
+    )
+
     const mounted = React.useRef(false);
 
     const { scroll, processing } = UseLoadingService();
@@ -39,7 +59,7 @@ const Index = ({ speaker, screen }: Props) => {
 
     const { event } = UseEventService();
     
-    const [tab, setTab] = useState<string | null>(speaker === 1 ?  (event?.speaker_settings?.default_display !== 'name' ? 'category' : 'attendee') :  (event?.attendee_settings?.default_display !== 'name' ? 'group' : 'attendee'));
+    const [tab, setTab] = useState<string | null>(tabQueryParam !== null ? tabQueryParam : (speaker === 1 ?  (event?.speaker_settings?.default_display !== 'name' ? 'category' : 'attendee') :  (event?.attendee_settings?.default_display !== 'name' ? 'group' : 'attendee')));
 
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
 
@@ -47,12 +67,19 @@ const Index = ({ speaker, screen }: Props) => {
 
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory } = UseAttendeeService();
 
-    
     const [searchQuery, setSearch] = React.useState('')
 
     const [slug] = useParam('slug');
 
-    const { push } = useRouter()
+
+    useEffect(() => {
+        const newTabQueryParam = searchParams.get('tab')
+        if(tab !== newTabQueryParam){
+            setTab(newTabQueryParam);
+        }
+        
+    }, [searchParams]);
+    
 
     useEffect(() => {
         if (mounted.current) {
@@ -66,10 +93,14 @@ const Index = ({ speaker, screen }: Props) => {
         if (mounted.current) {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0, program_id: 0 });
-            } else if (in_array(tab, ['attendee', 'my-attendee'])) {
+            } else if (in_array(tab, ['attendee', 'my-attendee', 'category-attendee'])) {
                 FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             } else if (in_array(tab, ['category'])) {
-                FetchCategories({ parent_id: categories.length > 0  ? categories[0].parent_id : 0, query: query, page: 1, cat_type: 'speakers' })
+                FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+            } else if (in_array(tab, ['sub-category'])) {
+                FetchCategories({ parent_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), query: query, page: 1, cat_type: 'speakers' })
+            } else if (in_array(tab, ['sub-group'])) {
+                FetchGroups({ query: query, group_id: (Number((searchParams.get('group_id') !== null ? searchParams.get('group_id') : 0))), page: 1, attendee_id: 0, program_id: 0 });
             }
         }
     }, [tab, category_id]);
@@ -89,9 +120,15 @@ const Index = ({ speaker, screen }: Props) => {
         } else if ((slug === undefined || slug.length === 0) && tab === 'category') {
             setTab('category');
             FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+        } else if ((slug === undefined || slug.length === 0) && tab === 'sub-category') {
+            setTab('category');
+            FetchCategories({ parent_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), query: query, page: 1, cat_type: 'speakers' })
         } else if ((slug === undefined || slug.length === 0) && tab === 'group') {
             setTab('group');
             FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0, program_id: 0 });
+        } else if ((slug === undefined || slug.length === 0) && tab === 'sub-group') {
+            setTab('sub-group');
+            FetchGroups({ query: query, group_id: (Number((searchParams.get('group_id') !== null ? searchParams.get('group_id') : 0))), page: 1, attendee_id: 0, program_id: 0 });
         }
     }, [slug]);
 
@@ -139,57 +176,138 @@ const Index = ({ speaker, screen }: Props) => {
                 <>
                     {speaker === 0 && <HStack mb="3" space={1} justifyContent="center" w="100%">
                         {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  
-                            <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} _text={{ fontWeight: '600' }}>ALL</Button>}
-                            <Button onPress={() => setTab('my-attendee')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} bg={tab === 'my-attendee' ? 'primary.darkbox' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>MY ATTENDEES</Button>
+                            <Button 
+                                onPress={() => {
+                                    setTab('attendee'); 
+                                    push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'attendee'))
+                                }} 
+                                borderWidth="1px" 
+                                py={0} 
+                                borderColor="primary.darkbox" 
+                                borderRightRadius="0" 
+                                borderLeftRadius={8} 
+                                h="42px" 
+                                bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} 
+                                w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
+                                _text={{ fontWeight: '600' }}
+                            >
+                                    ALL
+                            </Button>}
+                            <Button 
+                                onPress={() => {
+                                    setTab('my-attendee')
+                                    push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
+
+                                }} 
+                                borderRadius="0" 
+                                borderWidth="1px" 
+                                py={0} 
+                                borderColor="primary.darkbox" 
+                                h="42px" 
+                                borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
+                                borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
+                                bg={tab === 'my-attendee' ? 'primary.darkbox' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
+                                _text={{ fontWeight: '600' }}
+                            >
+                                MY ATTENDEES
+                            </Button>
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
-                                <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} _text={{ fontWeight: '600' }}>GROUPS</Button>
+                                <Button 
+                                    onPress={() => {
+                                        setTab('group')
+                                        push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'group'))
+                                    }} 
+                                    borderWidth="1px" 
+                                    py={0} 
+                                    borderColor="primary.darkbox" 
+                                    borderLeftRadius="0" 
+                                    borderRightRadius={8} 
+                                    h="42px" 
+                                    bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} 
+                                    w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
+                                    _text={{ fontWeight: '600' }}
+                                >
+                                    GROUPS
+                                </Button>
                         }
                     </HStack>}
                     {speaker ===  1 && <HStack mb="3" space={1} justifyContent="center" w="100%">
                         {((event?.speaker_settings?.default_display === 'name' || event?.speaker_settings?.tab == 1)) &&  
-                            <Button onPress={() => {
-                                setTab('attendee') 
-                                UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
-                            }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} _text={{ fontWeight: '600' }}>ALL</Button>}
+                            <Button 
+                                onPress={() => {
+                                    setTab('attendee') 
+                                    push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'attendee'))
+                                    UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
+                                }} 
+                                borderWidth="1px" 
+                                py={0} 
+                                borderColor="primary.darkbox" 
+                                borderRightRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} 
+                                borderLeftRadius={8} 
+                                h="42px" 
+                                bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} 
+                                w={((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} 
+                                _text={{ fontWeight: '600' }}
+                            >
+                                ALL
+                            </Button>
+                        }
                         {(event?.speaker_settings?.default_display !== 'name' || event?.speaker_settings?.tab == 1) &&
-                            <Button onPress={() => setTab('category')} borderRightRadius={8} borderLeftRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={((event?.speaker_settings?.default_display !== 'name' && event?.speaker_settings?.tab == 0)) ? '100%' : '50%'} _text={{ fontWeight: '600' }}>CATEGORIES</Button>
+                            <Button 
+                                onPress={() => {
+                                    setTab('category')
+                                    push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
+                                }} 
+                                borderRightRadius={8} 
+                                borderLeftRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} 
+                                borderWidth="1px" 
+                                py={0} 
+                                borderColor="primary.darkbox" 
+                                h="42px" 
+                                bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} 
+                                w={((event?.speaker_settings?.default_display !== 'name' && event?.speaker_settings?.tab == 0)) ? '100%' : '50%'} 
+                                _text={{ fontWeight: '600' }}
+                            >
+                                CATEGORIES
+                            </Button>
                         }
                     </HStack>}
                     {group_id > 0 && (
-                        <HStack mb="3" pt="2" w="100%" space="3">
-                            {group_name && (
-                                <Text flex="1" textTransform="uppercase" fontSize="xs">{group_name}</Text>
-                            )}
+                        <>
+                        <HStack mb="1" pt="2" w="100%" space="3">
                             <Pressable
                                 onPress={async () => {
-                                    if (slug !== undefined || slug?.length > 0) {
-                                        push(`/${event.url}/attendees`)
-                                    } else {
-                                        FetchGroups({ query: query, page: 1, group_id: 0, attendee_id: 0, program_id: 0 });
-                                    }
+                                    back()
                                 }}>
-                                <Text textTransform="uppercase" fontSize="xs">Go back</Text>
+                                    <HStack alignItems={'center'} space={3}>
+                                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                                        <Text fontSize="2xl">BACK</Text>
+                                    </HStack>
                             </Pressable>
                         </HStack>
+                        {group_name && (
+                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
+                        )}
+                        </>
                     )}
                     {category_name && (
-                        <HStack mb="3" pt="2" w="100%" space="3">
-                            <Text flex="1" textTransform="uppercase" fontSize="xs">{category_name}</Text>
+                        <HStack mb="1" pt="2" w="100%" space="3">
                             <Pressable
-                                onPress={async () => {
-                                    if(tab == 'attendee'){
-                                        setTab('category');
-                                    }else{
-                                         FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
-                                    }
+                                onPress={() => {
+                                    // if(tab == 'attendee'){
+                                    //     setTab('category');
+                                    // }else{
+                                    //      FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+                                    // }
+                                    back()
                                 }}>
-                                <Text textTransform="uppercase" fontSize="xs">Go back</Text>
                             </Pressable>
+                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{category_name}</Text>
                         </HStack>
                     )}
                 </>
             )}
-            {speaker === 0 && <VStack w="20px" position="absolute" right="-20px" top="60px" space="1">
+            {speaker === 0 && <VStack w="20px" position="absolute" right="-20px" top="112px" space="1">
                 {alphabet && alphabet.map((item, k) =>
                     <React.Fragment key={k}>
                         {item && (
@@ -203,7 +321,7 @@ const Index = ({ speaker, screen }: Props) => {
                     <SectionLoading />
                 ) : (
                     <>
-                        {in_array(tab, ['attendee', 'my-attendee', 'group-attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {in_array(tab, ['attendee', 'my-attendee', 'group-attendee', 'category-attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {speaker === 0 && GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-${k}`}>
                                     {map?.letter && (
@@ -222,7 +340,7 @@ const Index = ({ speaker, screen }: Props) => {
                                         </React.Fragment>
                              )}
                         </Container>}
-                        {tab === 'group' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'group' || tab === 'sub-group') && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
@@ -236,7 +354,7 @@ const Index = ({ speaker, screen }: Props) => {
                                 </React.Fragment>
                             )}
                         </Container>}
-                        {tab === 'category' && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     <RectangleCategoryView category={category} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />

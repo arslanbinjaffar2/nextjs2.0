@@ -34,19 +34,18 @@ const LeftBar = () => {
       <Box pb="3">
         <Pressable
             w="100%"
-            px="4"
-            py="2"
+            p="1"
             _hover={{ bg: 'primary.500' }}
-            borderRadius="4"
+            borderRadius="8"
             onPress={() => {
               router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
             }}>
 
-            <Flex w={width > 1200 ? '265px' : '70px'} alignItems="center" flexDirection={'row'}>
-              <Avatar w="70px" h="70px" bg="green.500" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
+            <Flex w={width > 1200 ? '257px' : '62px'} alignItems="center" flexDirection={'row'}>
+              <Avatar w="62px" h="62px" bg="green.500" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
                 {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
               </Avatar>
-              {width > 1200 && <VStack w={'calc(100% - 100px)'} px="5" space="0">
+              {width > 1200 && <VStack w={'calc(100% - 100px)'} pl="3" space="0">
                 <Text fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
                 <Text p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
               </VStack>}
@@ -67,7 +66,7 @@ const LeftBar = () => {
             <Center w="30px">
               <IcoDashboard width="24" height="24" />
             </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Dashboard</Text>}
+            {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">Dashboard</Text>}
           </HStack>
         </Pressable>
         {modules.map((row: any, key: any) =>
@@ -96,7 +95,7 @@ const LeftBar = () => {
               <Center w="30px">
                 <DynamicIcon iconType={row?.alias.replace('-', '_')} iconProps={{ width: 24, height: 21 }} />
               </Center>
-              {width > 1200 && <Text fontSize={'lg'} color="primary.text">{row?.name}</Text>}
+              {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
             </HStack>
           </Pressable>
         )}

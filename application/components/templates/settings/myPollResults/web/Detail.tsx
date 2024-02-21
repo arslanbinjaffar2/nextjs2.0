@@ -71,7 +71,7 @@ const Detail = () => {
             <Container mb="3" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" justifyContent={'space-between'} alignItems="center">
                 <Text isTruncated pr="6" fontSize="2xl">{myPollResultDetail?.program?.info?.topic}</Text>
-                <Text isTruncated pr="6" fontSize="2xl">{`${myPollResultScore}/${myPollResultDetail?.question.length} Points(s)`}</Text>
+                <Text isTruncated pr="6" fontSize="xl">{`${myPollResultScore}/${myPollResultDetail?.question.length} Points(s)`}</Text>
               </HStack>
               <Box w="100%" >
                 {myPollResultDetail && myPollResultDetail?.question.length > 0 && myPollResultDetail.question.map((question, i) => (

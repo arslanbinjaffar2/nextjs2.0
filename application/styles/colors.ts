@@ -58,7 +58,7 @@ export function getColorScheme(primaryColor:string, textMode:string|undefined){
   const secondary = '#004884';
   const white20 = 'rgba(255, 255, 255, 0.2)';
   const dark = '#EAEAEA';
-  const light = '#1e1e1e';
+  const light = '#000000';
   const text = textMode == 'dark' ? light : dark;
 
   return {

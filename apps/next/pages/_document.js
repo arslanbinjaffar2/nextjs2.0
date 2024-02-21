@@ -162,11 +162,16 @@ body {
 .rdtTime .rdtSwitch,.rdtTimeToggle {
   display: none !important;
 }
+.ebs-iframe-content-no-margin * {
+  line-height: 1.2;
+  margin: 0;
+}
 .ebs-iframe-content * {
   line-height: 1.2;
 }
 .ebs-iframe-content img {
   max-width: 100%;
+  height: auto;
 }
 .r-zIndex-1ufr4wv + .r-zIndex-1ufr4wv{
   z-index: 8 !important;

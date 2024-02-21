@@ -45,11 +45,11 @@ const Index = () => {
         </HStack>
         <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
           {groups?.length > 0 && groups?.map((group, k) =>
-            <Box w="100%" key={k} borderBottomWidth={k === (groups.length - 1) ? 0 : 1} borderColor="primary.text" py="3">
+            <Box w="100%" key={k} borderBottomWidth={k === (groups.length - 1) ? 0 : 1} borderColor="primary.box" py="3">
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                 
                 <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                  <VStack maxW={['62%', '70%', '40%']} space="1">
+                  <VStack maxW={'calc(100% - 80px)'} space="1">
                     <Text fontSize="md" lineHeight="22px">
                       {group?.info.name}
                     </Text>
@@ -69,6 +69,9 @@ const Index = () => {
                 </HStack>
               </HStack>
             </Box>)}
+            {groups?.length <= 0 && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
+                    <Text>{event.labels?.EVENT_NORECORD_FOUND}</Text>
+                </Box>}
         </Box>
       </Container>)
     }

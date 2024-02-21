@@ -43,7 +43,7 @@ const Notification = () => {
               onPress={() => {
                 push(`/${event.url}/${alert.url}`)
               }}>
-                <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="6" py="3" w="100%" space="1" alignItems="center">
+                <HStack borderBottomWidth="1px" borderBottomColor="primary.box" px="6" py="3" w="100%" space="1" alignItems="center">
                   <Box w="50px">
                     <DynamicIcon iconType="chat" iconProps={{ width: 30, height: 26 }} />
                   </Box>
@@ -65,7 +65,7 @@ const Notification = () => {
                 onPress={() => {
                   push(`/${event.url}/alerts`)
                 }}>
-                  <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="6" py="3" w="100%" space="1" alignItems="center">
+                  <HStack borderBottomWidth="1px" borderBottomColor="primary.box" px="6" py="3" w="100%" space="1" alignItems="center">
                     <Box w="50px">
                       <DynamicIcon iconType="chat" iconProps={{ width: 30, height: 26 }} />
                     </Box>
@@ -82,7 +82,7 @@ const Notification = () => {
         
         })}
         {/* <Menu.Item p="0">
-        <HStack borderBottomWidth="1px" borderBottomColor="primary.text" px="6" py="3" w="100%" space="1" alignItems="center">
+        <HStack borderBottomWidth="1px" borderBottomColor="primary.box" px="6" py="3" w="100%" space="1" alignItems="center">
           <Box w="50px">
             <DynamicIcon iconType="chat" iconProps={{ width: 30, height: 26 }} />
           </Box>

@@ -21,7 +21,7 @@ const RoundedView = ({ attendee }: AppProps) => {
         <Pressable w='100%' onPress={() => {
             push(`/${event.url}/speakers/detail/${attendee.id}`)
         }}>
-            <Box w='100%' borderRadius={200} bg="primary.400" pb="100%" position="relative" marginLeft={15}>
+            <Box w='100%' borderRadius={200} bg="primary.400" pb="100%" position="relative">
                 {attendee?.image ? (
                     <Image
                         position="absolute"

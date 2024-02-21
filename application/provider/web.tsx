@@ -51,23 +51,35 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
           const theme = extendTheme({
             colors: {
                 primary: {
-                    50: '#E3F2F9',
-                    100: '#C5E4F3',
-                    200: '#A2D4EC',
-                    300: '#7AC1E4',
-                    400: '#47A9DA',
-                    500: colors.primary,
-                    600: '#007AB8',
-                    700: '#006BA1',
-                    800: '#005885',
-                    900: '#003F5E',
+                    50: event?.settings?.primary_color,
+                    100: event?.settings?.primary_color,
+                    200: event?.settings?.primary_color,
+                    300: event?.settings?.primary_color,
+                    400: event?.settings?.primary_color,
+                    500: event?.settings?.primary_color,
+                    600: event?.settings?.primary_color,
+                    700: event?.settings?.primary_color,
+                    800: event?.settings?.primary_color,
+                    900: event?.settings?.primary_color,
                     box: `rgba(${colors.box},0.5)`,
                     darkbox: `rgba(${colors.box},1)`,
                     boxTransparent: `rgba(${colors.box},0.5)`,
                     text: `${colors.text}`,
-                    secondary: colors.secondary,
+                    secondary: event?.settings?.secondary_color,
                     bdColor: 'rgba(148,160,183,0.64)',
                     bdBox: `rgba(${colors.darkbox},1)`,
+                },
+                secondary: {
+                    50: event?.settings?.secondary_color,
+                    100: event?.settings?.secondary_color,
+                    200: event?.settings?.secondary_color,
+                    300: event?.settings?.secondary_color,
+                    400: event?.settings?.secondary_color,
+                    500: event?.settings?.secondary_color, 
+                    600: event?.settings?.secondary_color ,
+                    700: event?.settings?.secondary_color ,
+                    800: event?.settings?.secondary_color ,
+                    900: event?.settings?.secondary_color ,
                 },
                 amber: {
                     400: '#d97706',
@@ -88,7 +100,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                 Button: {
                     defaultProps: {
                         size: 'lg', bg: 'primary.500',
-                        _hover: { bg: colors.primary },
+                        _hover: { bg: event?.settings?.primary_color },
                         _text: { color: 'primary.text' },
                         _pressed: { bg: `${colors.secondary}`, color: '#fff' }
                     }
@@ -97,6 +109,11 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     defaultProps: {
                         colorScheme: 'secondary',
                         bg: 'white',
+                        color: 'white',
+                        _checked: {
+                            _icon: {color: 'white'}
+                        }
+                      
                     },
                 },
                 Radio: {
@@ -116,16 +133,16 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     },
                     baseStyle: {
                         _light: {
-                            placeholderTextColor: colors.text,
+                            placeholderTextColor: 'rgba(0,0,0,.5)'
                         },
                         _dark: {
-                            placeholderTextColor: colors.text
+                            placeholderTextColor: 'rgba(255,255,255,.5)'
                         },
                     },
                 }
             },
             config: {
-                initialColorMode: 'dark',
+                initialColorMode: event?.settings?.app_text_mode == 'dark' ? 'light' : 'dark',
             },
             });
     
