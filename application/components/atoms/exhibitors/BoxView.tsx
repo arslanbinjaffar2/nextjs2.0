@@ -42,7 +42,7 @@ const BoxView = ({ k, exhibitor, w }: AppProps) => {
                         }
                     }}>
                     <Box mb="3" w="100%" bg="primary.boxTransparent" p="0" borderWidth="1" borderColor="primary.bdBox" rounded="10">
-                    <Text fontSize="md" textAlign={'center'} my={2}>{exhibitor?.name}</Text>
+                    <Text fontSize="md" textAlign={'center'} my={2}>{event?.exhibitor_settings?.exhibitorName ? exhibitor?.name :""}</Text>
                         {settings?.mark_favorite === 1 && (
                             <IconButton
                                 bg="transparent"
