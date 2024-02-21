@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SponsorActions, SelectSponsors, SelectSponsorCategories, SelectSponsorSettings, SelectSponsorCategoryID, SelectSponsorQuery, SelectSponsorDetail, SelectOurSponsors } from 'application/store/slices/Sponsor.Slice'
+import { SponsorActions, SelectSponsors, SelectSponsorCategories, SelectSponsorSettings, SelectSponsorCategoryID, SelectSponsorQuery, SelectSponsorDetail, SelectOurSponsors, SelectMySponsors } from 'application/store/slices/Sponsor.Slice'
 
 import { Sponsor } from 'application/models/sponsor/Sponsor'
 
@@ -15,12 +15,14 @@ import { SponsorDetail } from 'application/models/sponsor/SponsorDetail'
 export type SponsorServiceOperators = {
     sponsors: Sponsor[]
     our_sponsors: Sponsor[]
+    my_sponsors: Sponsor[]
     categories: SponsorCategory[]
     settings: SponsorSetting
     detail: SponsorDetail | null
     category_id: number
     query: string
     FetchSponsors: (payload: { category_id: number, query: string, screen: string }) => void
+    FetchMySponsors: (payload: { }) => void
     FetchSponsorDetail: (payload: { id: number }) => void
     MakeFavourite: (payload: { sponsor_id: number, screen: string }) => void
 }
@@ -36,6 +38,7 @@ export const UseSponsorService = (): Readonly<SponsorServiceOperators> => {
     return {
         sponsors: useAppSelector(SelectSponsors),
         our_sponsors: useAppSelector(SelectOurSponsors),
+        my_sponsors: useAppSelector(SelectMySponsors),
         categories: useAppSelector(SelectSponsorCategories),
         settings: useAppSelector(SelectSponsorSettings),
         category_id: useAppSelector(SelectSponsorCategoryID),
@@ -44,6 +47,12 @@ export const UseSponsorService = (): Readonly<SponsorServiceOperators> => {
         FetchSponsors: useCallback(
             (payload: { category_id: number, query: string, screen: string }) => {
                 dispatch(SponsorActions.FetchSponsors(payload))
+            },
+            [dispatch],
+        ),
+        FetchMySponsors: useCallback(
+            (payload: { }) => {
+                dispatch(SponsorActions.FetchMySponsors(payload))
             },
             [dispatch],
         ),
