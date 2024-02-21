@@ -1,18 +1,13 @@
 import React from 'react'
-import { Box } from 'native-base'
-import SquareBox from 'application/components/atoms/social-wall/SquareBox';
 import AddPost from 'application/components/atoms/social-wall/AddPost';
+import PostListing from 'application/components/atoms/social-wall/PostListing';
 
 const Index = () => {
 
     return (
         <>
-            <AddPost />
-            <Box w="100%">
-                <SquareBox />
-                <SquareBox />
-                <SquareBox />
-            </Box>
+          <AddPost />
+          <PostListing attendee_id={0} />  
         </>
     )
 
