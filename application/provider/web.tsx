@@ -11,6 +11,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import Head from 'next/head';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { usePathname } from 'next/navigation';
 
 type ScreenParams = { event: string }
 
@@ -27,6 +28,8 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
     const { FetchEvent, event } = UseEventService()
 
     const { updateEnv, _env } = UseEnvService()
+
+    const pathname = usePathname();
 
     useEffect(() => {
         if (event_url !== undefined && _env.api_base_url) {
@@ -181,6 +184,9 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
         void prepare();
     }, []);
 
+    useEffect(() => {
+     document?.getElementById('body-scroll')?.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }, [pathname])
     if (!appIsReady || Object.keys(event).length === 0 || !_env.api_base_url || nativebaseTheme == null) {
         return null;
     }

@@ -40,7 +40,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     ) : (
                         <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={UserPlaceholderImage} alt="Alternate Text" w="50px" h="50px" />
                     )}
-                    <VStack maxW="70%" space="0">
+                    <VStack w="calc(100% - 140px)" space="0">
                         <Text lineHeight="sm" fontSize="xl">
                             {`${detail?.detail?.first_name} ${detail?.detail?.last_name}`}
                         </Text>
