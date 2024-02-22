@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Container, HStack, Image, Text} from 'native-base';
 import UseMapService from 'application/store/services/UseMapService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
@@ -6,16 +6,30 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import LoadImage from 'application/components/atoms/LoadImage';
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
 
 const Index = () => {
     const { loading } = UseLoadingService();
     const { event  } = UseEventService();
     const { _env } = UseEnvService();
+    const { banners, FetchBanners} = UseBannerService();
 
     const { map, FetchMap} = UseMapService()
     React.useEffect(()=>{
             FetchMap();
     },[])
+  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
+  useEffect(()=>{
+    const filteredBanner=banners.filter((banner  : Banner)=>{
+      return banner.module_name == 'maps' && banner.module_type == 'listing'
+    })
+
+    setFilteredBanners(filteredBanner);
+  },[banners]);
+  React.useEffect(() => {
+    FetchBanners();
+  }, []);
   return (
     <>
         {loading ? 
@@ -52,6 +66,17 @@ const Index = () => {
                 </Box>}
             </Container>
         }
+      <Box width={"100%"} height={"5%"}>
+        {filteredBanners.map((banner, k) =>
+          <Image
+            key={k}
+            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+            alt="Image"
+            width="100%"
+            height="100%"
+          />
+        )}
+      </Box>
     </>
     
   )

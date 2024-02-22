@@ -49,16 +49,16 @@ const DetailBox = ({ detail }: AppProps) => {
 
     return (
         <>
-            <Box w="100%" bg="primary.500" p="0" roundedTop="10">
+            <Box w="100%" bg="primary.primarycolor" p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
                     <Image mb="5" roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="Alternate Text" w="100%" h="160px" />
                 ) : (
                     <Image mb="5" roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="Alternate Text" w="100%" h="160px" />
                 )}
-                <Box w="100%" px="5" position={'relative'}>
+                <Box w="100%" px="6" position={'relative'}>
                     <HStack w="100%" mb="1" space="3" alignItems="flex-start">
                         {detail?.detail?.name && (
-                            <Text maxW="80%" fontSize="xl">{detail?.detail?.name}</Text>
+                            <Text maxW="80%" fontWeight={500} fontSize="xl">{detail?.detail?.name}</Text>
                         )}
                         <Spacer />
                         {event?.exhibitor_settings?.mark_favorite == 1 &&  <IconButton
@@ -73,19 +73,19 @@ const DetailBox = ({ detail }: AppProps) => {
                         />}
                     </HStack>
                     <HStack w="100%" mb="3" space="0" alignItems="center">
-                        {detail?.detail?.categories!?.length > 0 && <Box position="absolute" left="-20px" top="-28px">
+                        {/* {detail?.detail?.categories!?.length > 0 && <Box position="absolute" left="-20px" top="-28px">
                             <ZStack>
                                 <Box bg={detail?.detail?.categories[0].color} borderWidth="1" borderColor="primary.darkbox" w="16px" mt='0px' h={`52px`} borderRightRadius="10" shadow={2} />
                             </ZStack>
-                        </Box>}
+                        </Box>} */}
                         {detail?.detail?.categories!?.length > 0 && (
-                            <Text fontSize="sm">
+                            <>
                                 {detail?.detail?.categories!?.map((category: Category, i: number) =>
-                                    <React.Fragment key={i}>
-                                        {`${category.info.name}${(i + 1) < detail?.detail?.categories!?.length ? ', ' : ''}`}
-                                    </React.Fragment>
+                                    <Box borderColor={'primary.box'} borderWidth={1} rounded={'full'} bg={category.color} px={4} py={1} my={1} mr={2}  key={i}>
+                                        <Text lineHeight={'sm'} fontSize="sm">{`${category.info.name}`}</Text>
+                                    </Box>
                                 )}
-                            </Text>
+                            </>
                         )}
                         <Spacer />
                         {detail?.detail?.booth && (
@@ -97,7 +97,7 @@ const DetailBox = ({ detail }: AppProps) => {
                     </HStack>
                     <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
-                        <Text lineHeight={0} fontSize="lg">
+                        <Text fontSize="lg">
                             <div className='ebs-iframe-content' style={{overflow:'hidden'}} dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>
                         </Text>
                         

@@ -36,7 +36,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                     FilterDocuments({ document_id: document.id, query: '' });
                                     updateBreadCrumbs(FindPath(data, document.id));
                                 }}>
-                                <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.box" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
+                                <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.bordercolor" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
                                     <Icon size="xl" as={MaterialIcons} name="folder" color="primary.text" />
                                     <VStack space="0" w={'calc(100% - 100px)'}>
                                         <Text fontSize="md" textBreakStrategy='simple'>{document?.name}</Text>
@@ -57,7 +57,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                     }
                                 }}>
 
-                                <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.box" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
+                                <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.bordercolor" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
                                     <FileIconByType type={document?.path.split('.')[1]} />
                                     <VStack space="0" w={'calc(100% - 100px)'}>
                                         <Text fontSize="md">{document?.name}</Text>

@@ -35,7 +35,7 @@ const DetailBlock = ({ children }: AppProps) => {
             mb="5"
             source={{ uri: `https://wallpaperaccess.com/full/31751.jpg` }}
         />
-        <Box w="100%" px="5">
+        <Box w="100%" px="7">
             <HStack w="100%" mb="3" space="3" alignItems="flex-start">
                 <Text maxW="80%" fontSize="xl">{detail?.program?.topic}</Text>
                 <Spacer />

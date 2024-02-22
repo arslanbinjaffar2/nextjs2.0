@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
-import { useState } from 'react';
+import { useEffect, useState } from 'react'
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { createParam } from 'solito';
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -24,6 +24,8 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
 
 
 type ScreenParams = { id: string }
@@ -97,7 +99,8 @@ const Detail = () => {
     setFormData(newFormData);
     setForceUpdate(forceUpdate + 1);
   }
-
+  const { banners, FetchBanners} = UseBannerService();
+  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     const [id] = useParam('id');
 
@@ -106,7 +109,16 @@ const Detail = () => {
           FetchPollDetail({ id: Number(id) });
         }
     }, [id]);
+  useEffect(()=>{
+    const filteredBanner=banners.filter((banner  : Banner)=>{
+      return banner.module_name == 'polls' && banner.module_type == 'detail'
+    })
 
+    setFilteredBanners(filteredBanner);
+  },[banners]);
+  React.useEffect(() => {
+    FetchBanners();
+  }, []);
     React.useEffect(() => {
       console.log(submitSuccess, 'useEffect');
         setcompleted(submitSuccess);
@@ -329,7 +341,7 @@ const Detail = () => {
               </Box>}
               {completed === true && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
-                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.box" rounded="100%" alignItems="center" justifyContent="center">
+                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
                     <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
                   </Box>
                   <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
@@ -337,6 +349,17 @@ const Detail = () => {
               </Box>}
             </Container>
       )}
+      <Box width={"100%"} height={"5%"}>
+        {filteredBanners.map((banner, k) =>
+          <Image
+            key={k}
+            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+            alt="Image"
+            width="100%"
+            height="100%"
+          />
+        )}
+      </Box>
     </>
   );
 };
