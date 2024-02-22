@@ -109,8 +109,8 @@ const Index = () => {
 							<Box flexDirection="row" w={'100%'} alignItems="center">
                 <Text mb="3" textTransform="uppercase" fontSize="2xl">Session check-in</Text>
 							<Spacer />
-							{!checkInOut?.setting?.self_checkin && <>
-								<Box  >
+							{!checkInOut?.setting?.self_checkin && checkInOut?.setting?.enable_email_ticket ? <>
+								<Box >
 									{in_array('checkin-send-qr-code', processing) ?
 										<WebLoading/>
 										:
@@ -122,13 +122,14 @@ const Index = () => {
 										/>
 									}
 								</Box>
-							</>}
+							</>:null}
 							</Box>
-							{checkInOut?.setting?.self_checkin && <>
+							{checkInOut?.setting?.self_checkin ? <>
                 <Box mb="3" w="100%" bg="primary.box" p="5" rounded="10">
                 <HStack space="3" alignItems="center">
                     <Text fontSize="lg">My ticket for </Text>
                     <Spacer />
+									{checkInOut?.setting?.enable_email_ticket ? <>
                     {in_array('checkin-send-qr-code', processing) ?  <WebLoading/> : <IconButton
                         variant="transparent"
                         p="1"
@@ -137,7 +138,7 @@ const Index = () => {
                             SendQRCode();
                         }}
                     />}
-                   
+									</>:null}
                 </HStack>
                         <Box mx="auto" w="190px" h="190px" bg="primary.darkbox" p="3" rounded="10">
                         <Image
@@ -166,7 +167,7 @@ const Index = () => {
                         </Button>
                     </HStack>
                 </Box>
-							</>}
+							</>:null}
                 <Image
                 mb="3"
                 rounded="10"
@@ -179,10 +180,16 @@ const Index = () => {
                 />
                 <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                     <Button onPress={() => { setTab('event') }} bg={tab === 'event' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Event</Button>
-                    <Button onPress={() => { setTab('program')}} bg={tab === 'program' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Program</Button>
-                    <Button onPress={() => { setTab('group')}} bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Group</Button>
+									{checkInOut?.setting?.show_programs_checkin_history ? <>
+									<Button onPress={() => { setTab('program')}} bg={tab === 'program' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Program</Button>
+									</>:null}
+									{checkInOut?.setting?.show_groups_checkin_history ? <>
+									<Button onPress={() => { setTab('group')}} bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Group</Button>
+									</>:null}
+									{checkInOut?.setting?.show_tickets_checkin_history ? <>
                     <Button onPress={() => { setTab('ticket')}} bg={tab === 'ticket' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Ticket</Button>
-                </HStack>
+									</>:null}
+									</HStack>
                 <Box  overflow="hidden" h="100%" w="100%" bg="primary.box" p="0" mb={3} rounded="10">
 									 {[...Array(3)].map(item => 
 											 <CheckinList type="checkin" key={item}  />
