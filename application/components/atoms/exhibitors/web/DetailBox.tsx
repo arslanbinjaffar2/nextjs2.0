@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Image, Spacer, Text, HStack, IconButton, Icon, Divider, ZStack } from 'native-base'
 import { Category, ExhibitorDetail } from 'application/models/exhibitor/ExhibitorDetail'
 import DynamicIcon from 'application/utils/DynamicIcon';
@@ -23,6 +23,30 @@ const DetailBox = ({ detail }: AppProps) => {
 
     const { event } = UseEventService()
 
+    
+    const [isFav,setIsFav] = useState(false)
+
+    useEffect(() => {
+        console.log("fav: ",isFav)
+    }, [isFav])
+
+    useEffect(() => {
+        if (detail?.detail?.attendee_exhibitors?.length && detail?.detail?.attendee_exhibitors?.length > 0) {
+            setIsFav(true)
+        } else {
+            setIsFav(false)
+        }
+    }, [detail?.detail?.attendee_exhibitors])
+
+    function toggleFav(){
+        if(isFav){
+            setIsFav(false)
+        }else{
+            setIsFav(true)
+        }
+        MakeFavourite({ exhibitor_id: detail?.detail?.id ? detail?.detail?.id : 0, screen: 'exhibitor-detail' });
+    }
+
     return (
         <>
             <Box w="100%" bg="primary.500" p="0" roundedTop="10">
@@ -41,10 +65,8 @@ const DetailBox = ({ detail }: AppProps) => {
                             bg="transparent"
                             p="1"
                             _hover={{ bg: 'primary.500' }}
-                            icon={<Icon size="xl" as={Ionicons} name={detail?.detail?.attendee_exhibitors!?.length > 0 ? 'heart' : 'heart-outline'} color={detail?.detail?.attendee_exhibitors!?.length > 0 ? 'secondary.500' : "primary.text"} />}
-                            onPress={() => {
-                                MakeFavourite({ exhibitor_id: Number(detail?.detail?.id), screen: 'exhibitor-detail' });
-                            }}
+                            icon={<Icon size="xl" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? 'secondary.500' : "primary.text"} />}
+                            onPress={() => toggleFav()}
                             position={'absolute'}
                             zIndex={'999999'}
                             right={'0'}

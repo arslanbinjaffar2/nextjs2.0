@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getSponsorApi, makeFavouriteApi, getSponsorDetailApi, getMySponsorsApi } from 'application/store/api/Sponsor.api';
+import { getSponsorApi, makeFavouriteApi, getSponsorDetailApi, getMySponsorsApi, getOurSponsorsApi } from 'application/store/api/Sponsor.api';
 
 import { SponsorActions } from 'application/store/slices/Sponsor.Slice'
 
@@ -51,6 +51,20 @@ function* OnGetMySponsors({
     yield put(LoadingActions.set(false));
 }
 
+function* OnGetOurSponsors({
+    payload,
+}: {
+    type: typeof SponsorActions.FetchOurSponsors
+    payload: { }
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getOurSponsorsApi,payload, state)
+    yield put(SponsorActions.updateOurSponsors(response.data.data.sponsors!))
+    yield put(SponsorActions.updateSettings(response.data.data.settings!))
+    yield put(LoadingActions.set(false));
+}
+
 function* OnMakeFavourite({
     payload,
 }: {
@@ -59,13 +73,8 @@ function* OnMakeFavourite({
 }): SagaIterator {
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
-    if (payload.screen === "listing") {
-        yield put(SponsorActions.FetchSponsors({ category_id: 0, query: '', screen: state.sponsors.screen }))
-    }else if(payload.screen === "my-sponsors") {
+    if(payload.screen === "my-sponsors") {
         yield put(SponsorActions.FetchMySponsors({ }))
-    }
-    else {
-        yield put(SponsorActions.FetchSponsorDetail({ id: payload.sponsor_id }))
     }
 }
 
@@ -89,6 +98,7 @@ export function* SponsorWatcherSaga(): SagaIterator {
     yield takeEvery(SponsorActions.FetchMySponsors.type, OnGetMySponsors)
     yield takeEvery(SponsorActions.FetchSponsorDetail.type, OnGetSponsorDetail)
     yield takeEvery(SponsorActions.MakeFavourite.type, OnMakeFavourite)
+    yield takeEvery(SponsorActions.FetchOurSponsors.type, OnGetOurSponsors)
 }
 
 export default SponsorWatcherSaga

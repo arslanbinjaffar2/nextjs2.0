@@ -9,7 +9,7 @@ import { Sponsor } from 'application/models/sponsor/Sponsor';
 import Slider from "react-slick";
 
 const OurSponsor = () => {
-    const { our_sponsors, categories, FetchSponsors, category_id, query } = UseSponsorService();
+    const { our_sponsors, categories, FetchOurSponsors, category_id, query } = UseSponsorService();
      const settings = {
       dots: false,
       infinite: true,
@@ -29,7 +29,7 @@ const OurSponsor = () => {
     const { modules } = UseEventService();
 
     React.useEffect(() => {
-        FetchSponsors({ category_id: category_id, query: query, screen: 'our-sponsors' });
+        FetchOurSponsors();
     }, []);
 
     return (
@@ -41,7 +41,7 @@ const OurSponsor = () => {
                         <Slider {...settings}>
                             {our_sponsors.length > 0 && our_sponsors.map((sponsor: Sponsor, key: number) =>
                             <Box key={key}  w={265} height={180} p="0" rounded="lg">
-                                <BoxView sponsor={sponsor} k={key}  w='100%' />
+                                <BoxView sponsor={sponsor} k={key} screen="our-sponsors"  w='100%' />
                             </Box>
                             )}
                          </Slider>

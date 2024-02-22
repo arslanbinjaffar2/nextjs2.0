@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Pressable, ZStack } from 'native-base'
 import { Exhibitor } from 'application/models/exhibitor/Exhibitor'
 import DynamicIcon from 'application/utils/DynamicIcon';
@@ -27,6 +27,25 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
 
     const { event } = UseEventService()
 
+    const [isFav,setIsFav] = useState(false)
+
+    useEffect(() => {
+        if (exhibitor.attendee_exhibitors.length > 0) {
+            setIsFav(true)
+        }else{
+            setIsFav(false)
+        }
+    }, [exhibitor.attendee_exhibitors])
+
+    function toggleFav(){
+        if(isFav){
+            setIsFav(false)
+        }else{
+            setIsFav(true)
+        }
+        MakeFavourite({ exhibitor_id: exhibitor.id, screen: screen ? screen : 'listing' });
+    }
+
     return (
         <>
             <Box  w={w ? w : "49%"}>
@@ -49,10 +68,8 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
                                 bg="transparent"
                                 p="1"
                                 _hover={{ bg: 'primary.500' }}
-                                icon={<Icon size="md" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
-                                onPress={() => {
-                                    MakeFavourite({ exhibitor_id: exhibitor.id, screen: screen ? screen : 'listing' });
-                                }}
+                                icon={<Icon size="md" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color="primary.text" />}
+                                onPress={() => toggleFav()}
                                 position={'absolute'}
                                 zIndex={'999999'}
                                 right={'3px'}
