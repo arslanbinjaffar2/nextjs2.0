@@ -14,7 +14,7 @@ const SquareBox = () => {
         <HStack space="3" alignItems="center">
           <Avatar
             borderWidth={1}
-            borderColor="primary.box"
+            borderColor="primary.bordercolor"
             size="md"
             source={{
               uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -38,7 +38,7 @@ const SquareBox = () => {
           rounded="10"
           mb="2"
         />
-        <HStack pb="3" borderBottomWidth="1" borderBottomColor="primary.box" space="3" alignItems="center">
+        <HStack pb="3" borderBottomWidth="1" borderBottomColor="primary.bordercolor" space="3" alignItems="center">
           <HStack space="2" alignItems="center">
             <IconButton
               variant="unstyled"
@@ -78,7 +78,7 @@ const SquareBox = () => {
         <HStack space="3" alignItems="center">
           <Avatar
             borderWidth={1}
-            borderColor="primary.box"
+            borderColor="primary.bordercolor"
             size="sm"
             source={{
               uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'

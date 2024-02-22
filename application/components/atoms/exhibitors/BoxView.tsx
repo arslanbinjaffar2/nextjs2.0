@@ -14,9 +14,10 @@ type AppProps = {
     exhibitor: Exhibitor,
     k: number
     w?: string
+    screen?: string
 }
 
-const BoxView = ({ k, exhibitor, w }: AppProps) => {
+const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
 
     const { _env } = UseEnvService()
 
@@ -41,8 +42,8 @@ const BoxView = ({ k, exhibitor, w }: AppProps) => {
                             push(`/${event.url}/exhibitors/detail/${exhibitor.id}`)
                         }
                     }}>
-                    <Box mb="3" w="100%" bg="primary.boxTransparent" p="0" borderWidth="1" borderColor="primary.bdBox" rounded="10">
-                    <Text fontSize="md" textAlign={'center'} my={2}>{exhibitor?.name}</Text>
+                    <Box mb="3" w="100%" bg="primary.box" p="0" borderWidth="1" borderColor="primary.box" rounded="10">
+                    <Text fontSize="md" textAlign={'center'} my={2}>{event?.exhibitor_settings?.exhibitorName ? exhibitor?.name :""}</Text>
                         {settings?.mark_favorite === 1 && (
                             <IconButton
                                 bg="transparent"
@@ -50,7 +51,7 @@ const BoxView = ({ k, exhibitor, w }: AppProps) => {
                                 _hover={{ bg: 'primary.500' }}
                                 icon={<Icon size="md" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
                                 onPress={() => {
-                                    MakeFavourite({ exhibitor_id: exhibitor.id, screen: 'listing' });
+                                    MakeFavourite({ exhibitor_id: exhibitor.id, screen: screen ? screen : 'listing' });
                                 }}
                                 position={'absolute'}
                                 zIndex={'999999'}
@@ -69,7 +70,7 @@ const BoxView = ({ k, exhibitor, w }: AppProps) => {
                             {settings?.catTab == 1 && exhibitor?.categories.length > 0 && <Center alignItems="flex-start" minH={'25px'} w="100%" position={'relative'}>
                                 <ZStack reversed>
                                     {exhibitor?.categories.length > 0 && exhibitor?.categories.map((cat, i)=>(
-                                        <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${measureText(exhibitor?.categories[0]?.info.name, 14) + 16 + (i * 10)}px`} px="2">
+                                        <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.box" borderRightRadius="10" h={'25px'} shadow="1"  w={`${measureText(exhibitor?.categories[0]?.info.name, 14) + 16 + (i * 10)}px`} px="2">
                                             {i== 0 && <Text fontSize="sm">{cat?.info?.name}</Text>}
                                         </Box>
                                     ))}

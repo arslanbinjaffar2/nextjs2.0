@@ -307,7 +307,7 @@ const Index = ({ speaker, screen }: Props) => {
                     )}
                 </>
             )}
-            {speaker === 0 && <VStack w="20px" position="absolute" right="-20px" top="112px" space="1">
+            {speaker === 0 && <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
                 {alphabet && alphabet.map((item, k) =>
                     <React.Fragment key={k}>
                         {item && (
@@ -321,7 +321,7 @@ const Index = ({ speaker, screen }: Props) => {
                     <SectionLoading />
                 ) : (
                     <>
-                        {in_array(tab, ['attendee', 'my-attendee', 'group-attendee', 'category-attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {in_array(tab, ['attendee', 'my-attendee', 'group-attendee', 'category-attendee']) && <Container position="relative" pt={3} mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {speaker === 0 && GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-${k}`}>
                                     {map?.letter && (
@@ -340,7 +340,7 @@ const Index = ({ speaker, screen }: Props) => {
                                         </React.Fragment>
                              )}
                         </Container>}
-                        {(tab === 'group' || tab === 'sub-group') && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'group' || tab === 'sub-group') && <Container mb="3" pt={3} rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
@@ -354,7 +354,7 @@ const Index = ({ speaker, screen }: Props) => {
                                 </React.Fragment>
                             )}
                         </Container>}
-                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container pt={3} mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     <RectangleCategoryView category={category} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />

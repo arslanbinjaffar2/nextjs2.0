@@ -13,6 +13,7 @@ import type { RootState } from 'application/store/Index'
 export interface ExhibitorState {
     exhibitors: Exhibitor[],
     our_exhibitors: Exhibitor[],
+    my_exhibitors: Exhibitor[],
     categories: ExhibitorCategory[],
     settings: ExhibitorSetting,
     category_id: number,
@@ -24,6 +25,7 @@ export interface ExhibitorState {
 const initialState: ExhibitorState = {
     exhibitors: [],
     our_exhibitors: [],
+    my_exhibitors: [],
     categories: [],
     settings: {},
     category_id: 0,
@@ -40,6 +42,7 @@ export const ExhibitorSlice = createSlice({
         FetchExhibitors(state, action: PayloadAction<{ category_id: number, query: string, screen: string }>) {
             state.screen = action.payload.screen;
         },
+        FetchMyExhibitors(state, action: PayloadAction<{}>) {},
         FetchExhibitorDetail(state, action: PayloadAction<{ id: number }>) { },
         MakeFavourite(state, action: PayloadAction<{ exhibitor_id: number, screen: string }>) { },
         update(state, action: PayloadAction<Exhibitor[]>) {
@@ -47,6 +50,9 @@ export const ExhibitorSlice = createSlice({
         },
         updateOurExhibitors(state, action: PayloadAction<Exhibitor[]>) {
             state.our_exhibitors = action.payload;
+        },
+        updateMyExhibitors(state, action: PayloadAction<Exhibitor[]>) {
+            state.my_exhibitors = action.payload;
         },
         updateCategory(state, action: PayloadAction<number>) {
             state.category_id = action.payload;
@@ -78,11 +84,15 @@ export const ExhibitorActions = {
     updateSettings: ExhibitorSlice.actions.updateSettings,
     MakeFavourite: ExhibitorSlice.actions.MakeFavourite,
     updateExhibitorDetail: ExhibitorSlice.actions.updateExhibitorDetail,
+    FetchMyExhibitors: ExhibitorSlice.actions.FetchMyExhibitors,
+    updateMyExhibitors: ExhibitorSlice.actions.updateMyExhibitors,
 }
 
 export const SelectExhibitors = (state: RootState) => state.exhibitors.exhibitors
 
 export const SelectOurExhibitors = (state: RootState) => state.exhibitors.our_exhibitors
+
+export const SelectMyExhibitors = (state: RootState) => state.exhibitors.my_exhibitors
 
 export const SelectExhibitorCategories = (state: RootState) => state.exhibitors.categories
 

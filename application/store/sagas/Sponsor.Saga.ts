@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getSponsorApi, makeFavouriteApi, getSponsorDetailApi } from 'application/store/api/Sponsor.api';
+import { getSponsorApi, makeFavouriteApi, getSponsorDetailApi, getMySponsorsApi } from 'application/store/api/Sponsor.api';
 
 import { SponsorActions } from 'application/store/slices/Sponsor.Slice'
 
@@ -24,7 +24,9 @@ function* OnGetSponsors({
     const response: HttpResponse = yield call(getSponsorApi, { ...payload, limit: payload.screen === 'our-sponsors' ? 5 : 20 }, state)
     if(payload.screen === 'our-sponsors') {
         yield put(SponsorActions.updateOurSponsors(response.data.data.sponsors!))
-    } else {
+    } else if(payload.screen === 'my-sponsors') {
+        yield put(SponsorActions.updateMySponsors(response.data.data.sponsors!))
+    }else{
         yield put(SponsorActions.update(response.data.data.sponsors!))
     }
     
@@ -32,6 +34,20 @@ function* OnGetSponsors({
     yield put(SponsorActions.updateSettings(response.data.data.settings!))
     yield put(SponsorActions.updateCategory(payload.category_id))
     yield put(SponsorActions.updateQuery(payload.query))
+    yield put(LoadingActions.set(false));
+}
+
+function* OnGetMySponsors({
+    payload,
+}: {
+    type: typeof SponsorActions.FetchMySponsors
+    payload: { }
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getMySponsorsApi,payload, state)
+    yield put(SponsorActions.updateMySponsors(response.data.data.sponsors!))
+    yield put(SponsorActions.updateSettings(response.data.data.settings!))
     yield put(LoadingActions.set(false));
 }
 
@@ -45,7 +61,10 @@ function* OnMakeFavourite({
     yield call(makeFavouriteApi, payload, state);
     if (payload.screen === "listing") {
         yield put(SponsorActions.FetchSponsors({ category_id: 0, query: '', screen: state.sponsors.screen }))
-    } else {
+    }else if(payload.screen === "my-sponsors") {
+        yield put(SponsorActions.FetchMySponsors({ }))
+    }
+    else {
         yield put(SponsorActions.FetchSponsorDetail({ id: payload.sponsor_id }))
     }
 }
@@ -67,6 +86,7 @@ function* OnGetSponsorDetail({
 // Watcher Saga
 export function* SponsorWatcherSaga(): SagaIterator {
     yield takeEvery(SponsorActions.FetchSponsors.type, OnGetSponsors)
+    yield takeEvery(SponsorActions.FetchMySponsors.type, OnGetMySponsors)
     yield takeEvery(SponsorActions.FetchSponsorDetail.type, OnGetSponsorDetail)
     yield takeEvery(SponsorActions.MakeFavourite.type, OnMakeFavourite)
 }
