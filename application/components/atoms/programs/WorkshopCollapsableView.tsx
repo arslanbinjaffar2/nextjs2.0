@@ -29,7 +29,7 @@ const WorkshopCollapsableView = ({ program, k, border, speaker, section }: AppPr
           onPress={() => {
             setOpen(!open)
           }}>
-          <Icon size="md" as={AntDesign} name={!open ? "up" :"down"} color={"primary.text"} />
+          <Icon size="md" as={AntDesign} name={!open ? "up" :"right"} color={"primary.text"} />
         </Pressable>
       </Box>
       {!open && <>

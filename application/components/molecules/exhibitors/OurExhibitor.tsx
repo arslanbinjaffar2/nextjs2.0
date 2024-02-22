@@ -9,7 +9,7 @@ import { Exhibitor } from 'application/models/exhibitor/Exhibitor';
 import Slider from "react-slick";
 
 const OurExhibitor = () => {
-  const { our_exhibitors, categories, FetchExhibitors, category_id, query } = UseExhibitorService();
+  const { our_exhibitors, FetchOurExhibitors} = UseExhibitorService();
  const settings = {
       dots: false,
       infinite: true,
@@ -28,7 +28,7 @@ const OurExhibitor = () => {
   const { modules } = UseEventService();
 
   React.useEffect(() => {
-    FetchExhibitors({ category_id: category_id, query: query, screen: 'our-exhibitors' });
+    FetchOurExhibitors();
   }, []);
 
   return (
@@ -40,7 +40,7 @@ const OurExhibitor = () => {
            <Slider {...settings}>
            {our_exhibitors.length > 0 && our_exhibitors.map((exhibitor: Exhibitor, key: number) =>
            <Box key={key}  w={265} height={180} p="0" rounded="lg">
-            <BoxView exhibitor={exhibitor} k={key} w='100%' />
+            <BoxView exhibitor={exhibitor} k={key} screen="our-exhibitors" w='100%' />
            </Box>
            )}
            </Slider>

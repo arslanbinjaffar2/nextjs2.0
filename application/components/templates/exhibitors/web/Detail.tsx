@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable } from 'native-base';
+import React, { useEffect } from 'react'
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Image } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icouser from 'application/assets/icons/small/Icouser';
@@ -18,6 +18,9 @@ import ListingLayout2 from 'application/components/molecules/documents/ListingLa
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
+import UseBannerService from 'application/store/services/UseBannerService';
+import { Banner } from 'application/models/Banner'
+import UseEnvService from 'application/store/services/UseEnvService';
 
 
 type ScreenParams = { id: string, cms: string | undefined }
@@ -34,7 +37,14 @@ const Detail = React.memo(() => {
 
     const { documents, clearState } = UseDocumentService();
     
-    const { event } = UseEventService()
+    const { event } = UseEventService();
+
+    const { banners, FetchBanners }  = UseBannerService();
+
+    const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
+
+    const { _env } = UseEnvService();
 
     const { back } = useRouter()
 
@@ -46,7 +56,23 @@ const Detail = React.memo(() => {
             clearState();
         }
     }, [id]);
+    React.useEffect(() => {
 
+        const filteredBanner =  banners.filter((banner: any) => {
+            return id == banner.exhibitor_id;
+        });
+        setFilteredBanner(filteredBanner);
+    }, [banners]);
+    useEffect(()=>{
+        const filteredBanner=banners.filter((banner  : Banner)=>{
+            return banner.module_name == 'exhibitors' && banner.module_type == 'detail'
+        })
+
+        setFilteredBanners(filteredBanner);
+    },[banners]);
+    React.useEffect(() => {
+        FetchBanners();
+    }, []);
     return (
         <>
             {loading ? (
@@ -72,13 +98,14 @@ const Detail = React.memo(() => {
                                         <Text fontSize="lg">Contact person(s)</Text>
                                     </HStack>
                                     
-                                        {detail?.detail?.exhibitors_attendee?.map((attendee: ExhibitorsAttendee, key: number) =>
+                                        {detail?.detail?.exhibitors_attendee?.map((attendee: ExhibitorsAttendee, key: number)  =>
                                             <React.Fragment key={key}>
                                                 <RectangleView total={detail?.detail?.exhibitors_attendee?.length as number} attendee={attendee} k={key} />
                                             </React.Fragment>
                                         )}
                                 </Box>
                             )}
+
                             {event?.exhibitor_settings?.document == 1 && documents.length > 0  && <Box p="0" w="100%">
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                     <Icodocument width="15px" height="18px" />
@@ -93,6 +120,10 @@ const Detail = React.memo(() => {
                                 </Box>
                             </Box>}
                         </Container>
+                            {filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>
+
+                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />
+                            )}
                         {/* <Container mb="3" maxW="100%" w="100%">
                             <Text mb="3" fontSize="lg" textTransform="uppercase">Available Survey</Text>
                             <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
@@ -140,6 +171,17 @@ const Detail = React.memo(() => {
                             </Box>
                         </Container> */}
                     </Container>
+                    <Box width={"100%"} height={"5%"}>
+                        {filteredBanners.map((banner, k) =>
+                          <Image
+                            key={k}
+                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+                            alt="Image"
+                            width="100%"
+                            height="100%"
+                          />
+                        )}
+                    </Box>
                 </>
             )}
         </>

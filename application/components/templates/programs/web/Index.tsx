@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, Container, HStack, Pressable, Spacer, Text } from 'native-base';
-import { useState } from 'react';
+import { Box, Button, Container, HStack, Image, Pressable, Spacer, Text } from 'native-base'
+import { useEffect, useState } from 'react'
 import Search from 'application/components/atoms/programs/Search';
 import SlideView from 'application/components/molecules/programs/SlideView';
 import UseProgramService from 'application/store/services/UseProgramService';
@@ -11,6 +11,9 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import TrackRectangleDetailView from 'application/components/atoms/programs/tracks/RectangleDetailView';
 import LoadMore from 'application/components/atoms/LoadMore';
 import UseEventService from 'application/store/services/UseEventService';
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
+import UseEnvService from 'application/store/services/UseEnvService'
 
 const Index = () => {
 
@@ -22,11 +25,13 @@ const Index = () => {
     const { loading, scroll, processing } = UseLoadingService();
     
     const { response } = UseAuthService();
-    
-    const { event, modules  } = UseEventService();
+    const { _env } = UseEnvService()
 
+    const { event, modules  } = UseEventService();
+    const { banners, FetchBanners} = UseBannerService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
-    
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
+
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['program', 'my-program'])) {
@@ -47,7 +52,13 @@ const Index = () => {
             }
         }
     }, [scroll]);
-
+    useEffect(()=>{
+        const filteredBanner=banners.filter((banner  : Banner)=>{
+            return banner.module_name == 'agendas' && banner.module_type == 'listing'
+        })
+        console.log('hamza hre',filteredBanner)
+        setFilteredBanners(filteredBanner);
+    },[query,banners]);
     React.useEffect(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
@@ -63,6 +74,9 @@ const Index = () => {
         }else{
             FetchPrograms({ query: '', page: 1, screen: tab, id: 0, track_id: 0 });
         }
+    }, []);
+    React.useEffect(() => {
+        FetchBanners();
     }, []);
 
     return (
@@ -113,6 +127,17 @@ const Index = () => {
                             <TrackRectangleDetailView key={key} track={track} border={tracks.length != (key + 1)} updateTab={updateTab} />
                         )}
                     </Container>}
+                    <Box width={"100%"} height={"5%"}>
+                        {filteredBanners.map((banner, k) =>
+                          <Image
+                            key={k}
+                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+                            alt="Image"
+                            width="100%"
+                            height="100%"
+                          />
+                        )}
+                    </Box>
                 </>
             )}
             {(in_array('programs', processing) || in_array('tracks', processing)) && page > 1 && (

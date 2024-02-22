@@ -15,7 +15,7 @@ const NotesBox = () => {
   return (
     <>
         {detail.program !== undefined && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
-            <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" rounded={8}>
+            <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
                 <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
                 <Text fontSize="lg">Notes</Text>
             </HStack>
