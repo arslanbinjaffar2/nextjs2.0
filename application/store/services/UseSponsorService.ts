@@ -23,6 +23,7 @@ export type SponsorServiceOperators = {
     query: string
     FetchSponsors: (payload: { category_id: number, query: string, screen: string }) => void
     FetchMySponsors: (payload: { }) => void
+    FetchOurSponsors: () => void
     FetchSponsorDetail: (payload: { id: number }) => void
     MakeFavourite: (payload: { sponsor_id: number, screen: string }) => void
 }
@@ -53,6 +54,12 @@ export const UseSponsorService = (): Readonly<SponsorServiceOperators> => {
         FetchMySponsors: useCallback(
             (payload: { }) => {
                 dispatch(SponsorActions.FetchMySponsors(payload))
+            },
+            [dispatch],
+        ),
+        FetchOurSponsors: useCallback(
+            () => {
+                dispatch(SponsorActions.FetchOurSponsors({}))
             },
             [dispatch],
         ),
