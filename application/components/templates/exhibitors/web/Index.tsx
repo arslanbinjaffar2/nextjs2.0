@@ -90,7 +90,8 @@ const Index = React.memo(() => {
                             setSearch(text);
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </HStack>
-                    <HStack mb="3" space={1} justifyContent="center" w="100%">
+                    {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') && (
+                        <HStack mb="3" space={1} justifyContent="center" w="100%">
                         {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') && <Button onPress={() => {
                             setTab('name')
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
@@ -103,6 +104,8 @@ const Index = React.memo(() => {
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'))
                         }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
                     </HStack>
+                    )}
+                    
                     {(tab === 'name' || tab === 'category-exhibitors') && <>
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
                             <IconButton

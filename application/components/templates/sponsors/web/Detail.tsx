@@ -61,7 +61,7 @@ const Detail = React.memo(() => {
                         <Spacer />
                     </HStack>
                     <Container overflow="hidden" mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" rounded="10">
-                        <Container mb="4"  maxW="100%" w="100%" bg="primary.box" rounded="10">
+                        <Container  maxW="100%" w="100%" bg="primary.box" rounded="10">
                             <DetailBox detail={detail} />
                             {detail?.detail?.sponsors_attendee!?.length > 0 && ( 
                                 <Box w="100%" p="0">
@@ -77,7 +77,7 @@ const Detail = React.memo(() => {
                                         )}
                                 </Box>
                             )}
-                            {event?.sponsor_settings?.document == 1 && documents.length > 0 && <Box p="0" w="100%">
+                            {event?.sponsor_settings?.document == 1 && documents.length > 0 && <Box mb="4" p="0" w="100%">
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                     <Icodocument width="15px" height="18px" />
                                     <Text fontSize="lg">Documents</Text>

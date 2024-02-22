@@ -13,6 +13,7 @@ import type { RootState } from 'application/store/Index'
 export interface SponsorState {
     sponsors: Sponsor[],
     our_sponsors: Sponsor[],
+    my_sponsors: Sponsor[],
     categories: SponsorCategory[],
     settings: SponsorSetting,
     category_id: number,
@@ -24,6 +25,7 @@ export interface SponsorState {
 const initialState: SponsorState = {
     sponsors: [],
     our_sponsors: [],
+    my_sponsors: [],
     categories: [],
     settings: {},
     category_id: 0,
@@ -40,6 +42,7 @@ export const SponsorSlice = createSlice({
         FetchSponsors(state, action: PayloadAction<{ category_id: number, query: string, screen: string }>) {
             state.screen = action.payload.screen;
         },
+        FetchMySponsors(state, action: PayloadAction<{}>) {},
         FetchSponsorDetail(state, action: PayloadAction<{ id: number }>) { },
         MakeFavourite(state, action: PayloadAction<{ sponsor_id: number, screen: string }>) { },
         update(state, action: PayloadAction<Sponsor[]>) {
@@ -47,6 +50,9 @@ export const SponsorSlice = createSlice({
         },
         updateOurSponsors(state, action: PayloadAction<Sponsor[]>) {
             state.our_sponsors = action.payload;
+        },
+        updateMySponsors(state, action: PayloadAction<Sponsor[]>) {
+            state.my_sponsors = action.payload;
         },
         updateCategory(state, action: PayloadAction<number>) {
             state.category_id = action.payload;
@@ -69,6 +75,7 @@ export const SponsorSlice = createSlice({
 // Actions
 export const SponsorActions = {
     FetchSponsors: SponsorSlice.actions.FetchSponsors,
+    FetchMySponsors: SponsorSlice.actions.FetchMySponsors,
     FetchSponsorDetail: SponsorSlice.actions.FetchSponsorDetail,
     update: SponsorSlice.actions.update,
     updateOurSponsors: SponsorSlice.actions.updateOurSponsors,
@@ -78,11 +85,14 @@ export const SponsorActions = {
     updateSettings: SponsorSlice.actions.updateSettings,
     MakeFavourite: SponsorSlice.actions.MakeFavourite,
     updateSponsorDetail: SponsorSlice.actions.updateSponsorDetail,
+    updateMySponsors: SponsorSlice.actions.updateMySponsors,
 }
 
 export const SelectSponsors = (state: RootState) => state.sponsors.sponsors
 
 export const SelectOurSponsors = (state: RootState) => state.sponsors.our_sponsors
+
+export const SelectMySponsors = (state: RootState) => state.sponsors.my_sponsors
 
 export const SelectSponsorCategories = (state: RootState) => state.sponsors.categories
 
