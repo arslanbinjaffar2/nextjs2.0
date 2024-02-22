@@ -43,19 +43,20 @@ const Index = () => {
 
     setFilteredBanners(filteredBanner);
   },[query,banners]);
-  useEffect(()=>{
-    const filteredImages=gallery_images.filter((gallery_image)=>{
-      if(query !== ''){
-          if(gallery_image.info.find(info => info.name == 'image_title')?.value?.toLowerCase()?.indexOf(query.toLowerCase()) > -1){
-              return gallery_image;
+  useEffect(() => {
+    const filteredImages = gallery_images.filter((gallery_image) => {
+      if (query !== '') {
+        const imageTitleInfo = gallery_image.info?.find(info => info.name === 'image_title');
+        if (imageTitleInfo && imageTitleInfo.value?.toLowerCase()?.includes(query.toLowerCase())) {
+          return true;
           }
-      }else{
-          return gallery_image;
+      } else {
+        return true;
       }
       return false;
     });
     setFilteredGalleryImages(filteredImages);
-  },[query,gallery_images]);
+  }, [gallery_images, query]);
   React.useEffect(() => {
     FetchBanners();
   }, []);
