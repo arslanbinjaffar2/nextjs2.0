@@ -23,6 +23,7 @@ export type ExhibitorServiceOperators = {
     query: string
     FetchExhibitors: (payload: { category_id: number, query: string, screen: string }) => void
     FetchMyExhibitors: () => void
+    FetchOurExhibitors: () => void
     FetchExhibitorDetail: (payload: { id: number }) => void
     MakeFavourite: (payload: { exhibitor_id: number, screen: string }) => void
 }
@@ -53,6 +54,12 @@ export const UseExhibitorService = (): Readonly<ExhibitorServiceOperators> => {
         FetchMyExhibitors: useCallback(
             () => {
                 dispatch(ExhibitorActions.FetchMyExhibitors({}))
+            },
+            [dispatch],
+        ),
+        FetchOurExhibitors: useCallback(
+            () => {
+                dispatch(ExhibitorActions.FetchOurExhibitors({}))
             },
             [dispatch],
         ),

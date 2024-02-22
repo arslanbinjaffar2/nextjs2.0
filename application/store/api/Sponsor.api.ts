@@ -19,3 +19,7 @@ export const getSponsorDetailApi = (payload: any, state: any): Promise<HttpRespo
 export const getMySponsorsApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/settings/my-sponsors`, payload);
 }
+
+export const getOurSponsorsApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/sponsors/homepage/listing`, payload);
+}

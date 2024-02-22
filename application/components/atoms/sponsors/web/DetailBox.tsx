@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Image, Spacer, Text, HStack, IconButton, Icon, Divider, ZStack } from 'native-base'
 import { Category, SponsorDetail } from 'application/models/sponsor/SponsorDetail'
 import DynamicIcon from 'application/utils/DynamicIcon';
@@ -20,6 +20,29 @@ const DetailBox = ({ detail }: AppProps) => {
     
     const { event } = UseEventService()
 
+    const [isFav,setIsFav] = useState(false)
+
+    useEffect(() => {
+        console.log("fav: ",isFav)
+    }, [isFav])
+
+    useEffect(() => {
+        if (detail?.detail?.attendee_sponsors?.length && detail?.detail?.attendee_sponsors?.length > 0) {
+            setIsFav(true)
+        } else {
+            setIsFav(false)
+        }
+    }, [detail?.detail?.attendee_sponsors])
+
+    function toggleFav(){
+        if(isFav){
+            setIsFav(false)
+        }else{
+            setIsFav(true)
+        }
+        MakeFavourite({ sponsor_id: detail?.detail?.id ? detail?.detail?.id : 0, screen: 'sponsor-detail' });
+    }
+
     return (
         <>
             {detail && <Box w="100%" bg="primary.primarycolor" p="0" roundedTop="10">
@@ -38,9 +61,9 @@ const DetailBox = ({ detail }: AppProps) => {
                             bg="transparent"
                             p="1"
                             _hover={{ bg: 'primary.500' }}
-                            icon={<Icon size="xl" as={Ionicons} name={detail?.detail?.attendee_sponsors!?.length > 0 ? 'heart' : 'heart-outline'} color={detail?.detail?.attendee_sponsors!?.length > 0 ? 'secondary.500' : "primary.text"}/>}
+                            icon={<Icon size="xl" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? 'secondary.500' : "primary.text"}/>}
                             onPress={() => {
-                                MakeFavourite({ sponsor_id: Number(detail?.detail?.id), screen: 'sponsor-detail' });
+                                toggleFav();
                             }}
                             position={'absolute'}
                             zIndex={'999999'}

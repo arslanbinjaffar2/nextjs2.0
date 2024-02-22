@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Pressable, ZStack, Popover, Button } from 'native-base'
 import { Sponsor, Category } from 'application/models/sponsor/Sponsor'
 import DynamicIcon from 'application/utils/DynamicIcon';
@@ -27,6 +27,25 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 
     const { event } = UseEventService()
 
+    const [isFav,setIsFav] = useState(false)
+
+    useEffect(() => {
+        if (sponsor.attendee_sponsors.length > 0) {
+            setIsFav(true)
+        }else{
+            setIsFav(false)
+        }
+    }, [sponsor.attendee_sponsors])
+
+    function toggleFav(){
+        if(isFav){
+            setIsFav(false)
+        }else{
+            setIsFav(true)
+        }
+        MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
+    }
+
     return (
         <>
             <Box w={w ? w : '49%'}>
@@ -51,9 +70,9 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
                                 p="1"
                                 rounded={'full'}
                                 _hover={{ bg: 'primary.500' }}
-                                icon={<Icon size="md" as={Ionicons} name={sponsor.attendee_sponsors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
+                                icon={<Icon size="md" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color="primary.text" />}
                                 onPress={() => {
-                                    MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
+                                    toggleFav();
                                 }}
                                 position={'absolute'}
                                 zIndex={'999999'}

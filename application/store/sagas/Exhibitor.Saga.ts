@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getExhibitorApi, makeFavouriteApi, getExhibitorDetailApi, getMyExhibitorApi } from 'application/store/api/Exhibitor.api';
+import { getExhibitorApi, makeFavouriteApi, getExhibitorDetailApi, getMyExhibitorApi, getOurExhibitorApi } from 'application/store/api/Exhibitor.api';
 
 import { ExhibitorActions } from 'application/store/slices/Exhibitor.Slice'
 
@@ -50,6 +50,20 @@ function* OnGetMyExhibitors({
     yield put(LoadingActions.set(false));
 }
 
+function* OnGetOurExhibitors({
+    payload,
+}: {
+    type: typeof ExhibitorActions.FetchOurExhibitors
+    payload: {}
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getOurExhibitorApi,payload, state)
+    yield put(ExhibitorActions.updateOurExhibitors(response.data.data.exhibitors!))
+    yield put(ExhibitorActions.updateSettings(response.data.data.settings!))
+    yield put(LoadingActions.set(false));
+}
+
 function* OnMakeFavourite({
     payload,
 }: {
@@ -58,12 +72,8 @@ function* OnMakeFavourite({
 }): SagaIterator {
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
-    if (payload.screen === "listing") {
-        yield put(ExhibitorActions.FetchExhibitors({ category_id: 0, query: '', screen: state?.exhibitors?.screen }))
-    }else if(payload.screen === "my-exhibitors") {
+    if(payload.screen === "my-exhibitors") {
         yield put(ExhibitorActions.FetchMyExhibitors({ }))
-    }else {
-        yield put(ExhibitorActions.FetchExhibitorDetail({ id: payload.exhibitor_id }))
     }
 }
 
@@ -87,6 +97,7 @@ export function* ExhibitorWatcherSaga(): SagaIterator {
     yield takeEvery(ExhibitorActions.FetchExhibitorDetail.type, OnGetExhibitorDetail)
     yield takeEvery(ExhibitorActions.MakeFavourite.type, OnMakeFavourite)
     yield takeEvery(ExhibitorActions.FetchMyExhibitors.type, OnGetMyExhibitors)
+    yield takeEvery(ExhibitorActions.FetchOurExhibitors.type, OnGetOurExhibitors)
 }
 
 export default ExhibitorWatcherSaga
