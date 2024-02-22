@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box, Button, Container, HStack, Icon, IconButton, Input, Spacer, Text, ScrollView } from 'native-base';
+import React, { useEffect } from 'react'
+import { Box, Button, Container, HStack, Icon, IconButton, Input, Spacer, Text, ScrollView, Image } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import UseSponsorService from 'application/store/services/UseSponsorService';
@@ -13,6 +13,10 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { SponsorCategory } from 'application/models/sponsor/SponsorCategory';
 import UseEventService from 'application/store/services/UseEventService';
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
+import UseEnvService from 'application/store/services/UseEnvService'
+
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
 const Index = React.memo(() => {
@@ -42,14 +46,17 @@ const Index = React.memo(() => {
     const { event } = UseEventService()
 
     const { loading } = UseLoadingService();
+    const { _env } = UseEnvService()
 
     const [tab, setTab] = React.useState(tabQueryParam !== null ? tabQueryParam : event?.sponsor_settings?.sponsor_list);
 
+    const { banners, FetchBanners} = UseBannerService();
     const [mode, setMode] = React.useState(modeQueryParam ? modeQueryParam : 'grid')
 
     const [searchQuery, setSearch] = React.useState('')
 
     const { sponsors, categories, FetchSponsors, category_id, query } = UseSponsorService();
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
         FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tabQueryParam == 'category-sponsor') ? categoryIdQueryParam : 0), query: '', screen: 'sponsors' });
@@ -60,7 +67,13 @@ const Index = React.memo(() => {
     const updateTab = (tab: string) => {
         setTab(tab);
     }
+    useEffect(()=>{
+        const filteredBanner=banners.filter((banner  : Banner)=>{
+            return banner.module_name == 'sponsors' && banner.module_type == 'listing'
+        })
 
+        setFilteredBanners(filteredBanner);
+    },[query,banners]);
     React.useEffect(() => {
         return () => {
             search.cancel();
@@ -76,7 +89,9 @@ const Index = React.memo(() => {
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
-
+    React.useEffect(() => {
+        FetchBanners();
+    }, []);
     return (
         <>
             {loading ? (
@@ -159,6 +174,17 @@ const Index = React.memo(() => {
                             </Box>
                         }
                     </>}
+                    <Box width={"100%"} height={"5%"}>
+                        {filteredBanners.map((banner, k) =>
+                          <Image
+                            key={k}
+                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+                            alt="Image"
+                            width="100%"
+                            height="100%"
+                          />
+                        )}
+                    </Box>
                     {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
                             <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">

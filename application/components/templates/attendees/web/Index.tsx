@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Button, Container, HStack, Pressable, Spacer, Text, VStack, Icon, Input } from 'native-base';
+import { Button, Container, HStack, Pressable, Spacer, Text, VStack, Icon, Input, Image, Box } from 'native-base'
 import RectangleAttendeeView from 'application/components/atoms/attendees/RectangleView';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -8,6 +8,7 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import { Attendee } from 'application/models/attendee/Attendee';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEventService from 'application/store/services/UseEventService';
+import UseBannerService from 'application/store/services/UseBannerService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import debounce from 'lodash.debounce';
 import LoadMore from 'application/components/atoms/LoadMore';
@@ -20,6 +21,8 @@ import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
 import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';
 import { Category } from 'application/models/event/Category';
+import UseEnvService from 'application/store/services/UseEnvService'
+import { Banner } from 'application/models/Banner'
 
 type ScreenParams = { slug: any }
 
@@ -33,6 +36,7 @@ type Props = {
 const Index = ({ speaker, screen }: Props) => {
 
     const { push, back } = useRouter()
+    const { _env } = UseEnvService()
 
     const pathname = usePathname()
     
@@ -58,7 +62,7 @@ const Index = ({ speaker, screen }: Props) => {
     const { response } = UseAuthService();
 
     const { event } = UseEventService();
-    
+    const { banners, FetchBanners} = UseBannerService();
     const [tab, setTab] = useState<string | null>(tabQueryParam !== null ? tabQueryParam : (speaker === 1 ?  (event?.speaker_settings?.default_display !== 'name' ? 'category' : 'attendee') :  (event?.attendee_settings?.default_display !== 'name' ? 'group' : 'attendee')));
 
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
@@ -70,7 +74,7 @@ const Index = ({ speaker, screen }: Props) => {
     const [searchQuery, setSearch] = React.useState('')
 
     const [slug] = useParam('slug');
-
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     useEffect(() => {
         const newTabQueryParam = searchParams.get('tab')
@@ -104,6 +108,12 @@ const Index = ({ speaker, screen }: Props) => {
             }
         }
     }, [tab, category_id]);
+    useEffect(()=>{
+        const filteredBanner=banners.filter((banner  : Banner)=>{
+            return banner.module_name == 'attendees' && banner.module_type == 'listing'
+        })
+        setFilteredBanners(filteredBanner);
+    },[query,banners]);
 
     useEffect(() => {
         mounted.current = true;
@@ -162,6 +172,9 @@ const Index = ({ speaker, screen }: Props) => {
         }
     }, [screen]);
 
+    React.useEffect(() => {
+        FetchBanners();
+    }, []);
     return (
         <>
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
@@ -363,6 +376,17 @@ const Index = ({ speaker, screen }: Props) => {
                         </Container>}
                     </>
                 )}
+                <Box width={"100%"} height={"5%"}>
+                    {filteredBanners.map((banner, k) =>
+                          <Image
+                            key={k}
+                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+                            alt="Image"
+                            width="100%"
+                            height="100%"
+                          />
+                    )}
+                </Box>
             </>
             {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('category-listing', processing)) && page > 1 && (
                 <LoadMore />
