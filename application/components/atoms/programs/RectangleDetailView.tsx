@@ -49,12 +49,14 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                       )}
                     </ZStack>
                   </Box>}
-                    {(event.agenda_settings?.agenda_display_time == 1 && program?.hide_time == 0)  && <VStack w={["45px","60px"]} space="0">
+                     <VStack w={["45px","60px"]} space="0">
+                      {(event.agenda_settings?.agenda_display_time == 1 && program?.hide_time == 0)  &&<>
                       <Text lineHeight="22px">{moment(`${program.date} ${program.start_time}`).format('HH:mm')}</Text>
                       <Text lineHeight="22px">{moment(`${program.date} ${program.end_time}`).format('HH:mm')}</Text>
-                    </VStack>}
+                      </>}
+                    </VStack>
                     <Center maxW={[_condtion ? '55%' : '75%', _condtion ? '70%' : '80%']} alignSelf="flex-start" p="0">
-                      <Text alignSelf="flex-start" lineHeight="22px"> {program.topic}</Text>
+                      <Text alignSelf="flex-start" lineHeight="22px">{program.topic}</Text>
                     </Center>
                     <Spacer />
                     

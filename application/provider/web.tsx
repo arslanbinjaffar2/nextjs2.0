@@ -13,6 +13,13 @@ import Head from 'next/head';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { usePathname } from 'next/navigation';
 
+function hex2rgb(hex: string) {
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  return [Math.abs(r), Math.abs(g), Math.abs(b)]
+}
+
 type ScreenParams = { event: string }
 
 const { useParam } = createParam<ScreenParams>()
@@ -50,8 +57,8 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
     useEffect(() => {
       if(Object.keys(event).length > 0){
           const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
-    
-          const theme = extendTheme({
+        const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
+           const theme = extendTheme({
             colors: {
                 primary: {
                     50: event?.settings?.primary_color,
@@ -65,7 +72,8 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     800: event?.settings?.primary_color,
                     900: event?.settings?.primary_color,
                     box: `rgba(${colors.darkbox},0.3)`,
-                    darkbox: `rgba(${colors.box},0.6)`,
+                    darkbox: `rgba(0,0,0,0.2)`,
+                    primarycolor : `rgba(${[...rgb]},0.2)`,
                     boxTransparent: `rgba(${colors.box},0.5)`,
                     text: `${colors.text}`,
                     bordercolor: `${colors.text}`,

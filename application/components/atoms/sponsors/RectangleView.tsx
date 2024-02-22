@@ -44,14 +44,14 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
                         </ZStack>
                     </Box>} */}
                     <HStack pt="0" w="100%" space="4" alignItems="center">
-                        <VStack marginRight={'auto'} w="calc(100% - 90px);" space="0">
+                        <VStack marginRight={'auto'} w="calc(100% - 220px);" space="0">
                             <Text fontSize="lg" lineHeight="22px">
                                 {sponsor.name}
                             </Text>
 														{settings?.catTab == 1 &&  sponsor.categories.length > 0 && 
 														<HStack flexWrap={'wrap'} mt="2" space={1}>
 																{settings?.catTab == 1 &&  sponsor.categories.length > 0 && sponsor.categories.slice(0, 3).map((category: Category, i: number) =>(
-																		<Box mb="5px" key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
+																		<Box borderWidth={1} borderColor={'primary.box'} mb="5px" key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
 																				<Text fontSize="sm">{`${category.info.name}`}</Text>
 																		</Box>
 																))}
@@ -76,8 +76,8 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
 																	<Popover.Body borderTopWidth="0" bgColor={'primary.500'}>
 																	<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
 																		{sponsor.categories.length > 3 && sponsor.categories.slice(3).map((category: Category, i: number) =>(
-                                        <Box mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
-                                             <Text fontSize="sm">{`${category.info.name}`}</Text>
+                                        <Box borderWidth={1} borderColor={'primary.box'} mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
+                                             <Text  fontSize="sm">{`${category.info.name}`}</Text>
                                         </Box>
                              				))}
 																	</HStack>
@@ -90,7 +90,7 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
                         </HStack>}
 												</VStack>
              
-                        <HStack  w="70px" pr="3" space="5" alignItems="center">
+                        <HStack  pr="3" space="5" alignItems="center">
                             {sponsor.booth && (
                                 <Button
                                     p="1"
