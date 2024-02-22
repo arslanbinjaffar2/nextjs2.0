@@ -186,6 +186,22 @@ body {
   backdrop-filter: blur(5px);
 }
 .no-margin * {margin: 0}
+.styles_react-code-input-container__tpiKG  {
+  width: 100% !important;
+}
+.styles_react-code-input__CRulA {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.styles_react-code-input__CRulA > input {
+  width: 14% !important;
+  background: rgba(0,0,0,0.1) !important;
+  border-radius: 6px !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {

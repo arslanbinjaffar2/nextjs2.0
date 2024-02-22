@@ -7,6 +7,9 @@ import Octicons from '@expo/vector-icons/Octicons';
 import { Info } from 'application/models/Info'
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
+import IcoFileText from 'application/assets/icons/small/IcoFileText';
+import IcoFolder from 'application/assets/icons/small/IcoFolder';
+import IcoLink from 'application/assets/icons/small/IcoLink';
 import { Linking } from 'react-native';
 
 const RectangleView = (info: Info) => {
@@ -35,20 +38,20 @@ const RectangleView = (info: Info) => {
                     }
                 }
             }}>
-            <HStack borderBottomWidth="1px" borderBottomColor="primary.box" px="4" py="5" space="4" alignItems="center">
+            <HStack borderBottomWidth="1px" borderBottomColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                 {
                     (() => {
                         if (info.type === 'folder') {
                             return (
-                                <Icon as={FontAwesome} name="folder" size="lg" color="primary.text" />
+                                <IcoFolder />
                             )
                         } else if (info.type === 'page') {
                             return (
-                                <Icon as={FontAwesome} name="file-text" size="lg" color="primary.text" />
+                                <IcoFileText  />
                             )
                         } else if (info.type === 'link') {
                             return (
-                                <Icon  as={FontAwesome} name="link" size="lg" color="primary.text" />
+                                <IcoLink />
                             )
                         }
                     })()

@@ -15,6 +15,7 @@ const ThemeColors = {
         box: `rgba(${colors.box},0.8)`,
         darkbox: `rgba(${colors.darkbox},0.8)`,
         text: `${colors.text}`,
+        bordercolor: `${colors.text}`,
         secondary: colors.secondary,
         bdColor: 'rgba(148,160,183,0.64)',
         bdBox: `rgba(${colors.darkbox},1)`,

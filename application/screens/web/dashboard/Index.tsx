@@ -77,7 +77,7 @@ const Index = ({ navigation }: indexProps) => {
         <>
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
             <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-              <Heading pt="2" fontSize="2xl" w="100%" textAlign="center">PROGRAMS</Heading>
+              <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>PROGRAM</Heading>
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
               <Center py="3" px="2" w="100%" alignItems="flex-end">
                 <Button onPress={() => {
@@ -94,7 +94,7 @@ const Index = ({ navigation }: indexProps) => {
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
               <ScrollView w={[width - 30,'100%']} pb={2} showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
                 <HStack pt="1" space="2" alignItems="flex-start" justifyContent="space-between">
-                  {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['85']}>
+                  {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
                     <RoundedView attendee={attendee} />
                     <Text isTruncated pt="2" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
                   </VStack>)}

@@ -68,7 +68,7 @@ const SquareBox = ({ post, index }: AppProps) => {
         <HStack space="3" alignItems="center" key="rd90">
           <Avatar
             borderWidth={1}
-            borderColor="primary.box"
+            borderColor="primary.text"
             size="md"
             source={{
               uri: `${_env.eventcenter_base_url}/assets/attendees/${post.attendee.image}`
@@ -181,7 +181,7 @@ const SquareBox = ({ post, index }: AppProps) => {
         <HStack>
           <Avatar
             borderWidth={1}
-            borderColor="primary.box"
+            borderColor="primary.text"
             size="sm"
             source={{
               uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`

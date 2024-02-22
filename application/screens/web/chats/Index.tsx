@@ -25,7 +25,7 @@ const Index = ({ navigation }: indexProps)  => {
         <>
           {tab && <>
             <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
-              <HStack borderBottomWidth="1" borderColor="primary.box" w="100%" p="4" space="5">
+              <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                 <Avatar
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -44,7 +44,7 @@ const Index = ({ navigation }: indexProps)  => {
                   <Avatar.Badge position="static" borderWidth="0" bg="green.500" size={4} />
                 </VStack>
               </HStack>
-              <HStack borderBottomWidth="1" borderColor="primary.box" w="100%" p="4" space="5">
+              <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                 <Avatar
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -63,7 +63,7 @@ const Index = ({ navigation }: indexProps)  => {
                 </VStack>
               
               </HStack>
-              <HStack borderBottomWidth="1" borderColor="primary.box" w="100%" p="4" space="5">
+              <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                 <Avatar
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -80,7 +80,7 @@ const Index = ({ navigation }: indexProps)  => {
                   <Text opacity="0.6" fontSize="md">18:00</Text>
                 </VStack>
               </HStack>
-              <HStack borderBottomWidth="0" borderColor="primary.box" w="100%" p="4" space="5">
+              <HStack borderBottomWidth="0" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                 <Avatar
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -116,7 +116,7 @@ const Index = ({ navigation }: indexProps)  => {
         </>
         <>
           {!tab && <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
-            <HStack borderBottomWidth="1" borderColor="primary.box" w="100%" p="4" space="5">
+            <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
               <Avatar
                 source={{
                   uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -135,7 +135,7 @@ const Index = ({ navigation }: indexProps)  => {
               </VStack>
               
             </HStack>
-            <HStack borderBottomWidth="1" borderColor="primary.box" w="100%" p="4" space="5">
+            <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
               <Avatar
                 source={{
                   uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -154,7 +154,7 @@ const Index = ({ navigation }: indexProps)  => {
               </VStack>
               
             </HStack>
-            <HStack borderBottomWidth="0" borderColor="primary.box" w="100%" p="4" space="5">
+            <HStack borderBottomWidth="0" borderColor="primary.bordercolor" w="100%" p="4" space="5">
               <Avatar
                 source={{
                   uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'

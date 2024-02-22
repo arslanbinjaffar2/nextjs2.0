@@ -44,7 +44,7 @@ const Index = () => {
         </HStack>
         <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
           {programs?.length > 0 && programs?.map((program, k) =>
-            <Box w="100%" key={k} borderBottomWidth={k === 3 ? 0 : 1} borderColor="primary.box" py="3">
+            <Box w="100%" key={k} borderBottomWidth={k === 3 ? 0 : 1} borderColor="primary.bordercolor" py="3">
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                 <Box position="absolute" left="0" top="0" w="15px">
                 <ZStack>
