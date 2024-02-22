@@ -94,7 +94,7 @@ const Index = ({ navigation }: indexProps) => {
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
               <ScrollView w={[width - 30,'100%']} pb={2} showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
                 <HStack pt="1" space="2" alignItems="flex-start" justifyContent="space-between">
-                  {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['85']}>
+                  {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
                     <RoundedView attendee={attendee} />
                     <Text isTruncated pt="2" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
                   </VStack>)}

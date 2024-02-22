@@ -21,7 +21,7 @@ const IcoLogin = () => {
         fill="none"
         stroke={fill}
         strokeLinecap="round"
-        strokeWidth={2}
+        strokeWidth={1}
       >
         <G>
           <Path

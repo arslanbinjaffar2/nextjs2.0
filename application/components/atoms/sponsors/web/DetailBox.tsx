@@ -57,7 +57,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             <>
                                 {detail?.detail?.categories!?.map((category: Category, i: number) =>
                                     <Box borderColor={'primary.box'} borderWidth={1} rounded={'full'} bg={category.color} px={4} py={1} my={1} mr={2}  key={i}>
-                                        <Text lineHeight={'sm'} fontSize="sm">{`${category.info.name}${(i + 1) < detail?.detail?.categories!?.length ? ', ' : ''}`}</Text>
+                                        <Text lineHeight={'sm'} fontSize="sm">{`${category.info.name}`}</Text>
                                     </Box>
                                 )}
                             </>
