@@ -11,7 +11,7 @@ import in_array from "in_array";
 const CheckinList = (type:any) => {
 	const [toggle, settoggle] = React.useState(false)
 	return (
-		<Box borderBottomColor={'primary.box'} borderBottomWidth={1} p={3} alignItems="center">
+		<Box borderBottomColor={'primary.bordercolor'} borderBottomWidth={1} p={3} alignItems="center">
 			<HStack w={'100%'} space="0">
 					<Center alignItems={'flex-start'} justifyContent={'flex-start'} w={'calc(100% - 130px)'}>
 						<Text  fontWeight={500} mb={1} fontSize="md">Forældrebegivenhed Lead 2.0</Text>
@@ -55,7 +55,7 @@ const CheckinList = (type:any) => {
 						/>
 			</HStack>
 			{toggle && <Box my={3}  w={'100%'} bg="primary.box"  rounded="lg">
-				{[...Array(3)].map(list =>  <HStack  py="2" px={3} borderBottomColor={'primary.box'} borderBottomWidth={1}  space="0" alignItems="flex-start">
+				{[...Array(3)].map(list =>  <HStack  py="2" px={3} borderBottomColor={'primary.bordercolor'} borderBottomWidth={1}  space="0" alignItems="flex-start">
 						<HStack  space="2" alignItems="center" justifyContent={'flex-start'}>
 							<Box lineHeight={1} bg={'success.500'} p="1" rounded={4}>
 								<Icon size={'sm'} lineHeight={1} color={'white'} as={SimpleLineIcons} name="login"  />

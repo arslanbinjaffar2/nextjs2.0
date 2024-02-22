@@ -42,7 +42,7 @@ const BoxView = ({ k, sponsor, w }: AppProps) => {
                     }
                 }}
                     >
-                    <Box mb="3" w="100%" bg="primary.boxTransparent" p="0" borderWidth="1" borderColor="primary.bdBox" rounded="10">
+                    <Box mb="3" w="100%" bg="primary.box" p="0" borderWidth="1" borderColor="primary.box" rounded="10">
                         <Text fontSize="md" textAlign={'center'} my={2}>{sponsor?.name}</Text>
                         {settings?.mark_favorite === 1 && (
                             <IconButton

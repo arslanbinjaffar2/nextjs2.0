@@ -14,6 +14,9 @@ export default function gStyle (colors:any){
     bgContainer: {
       backgroundColor: `rgba(${colors.background},0.8)`,
     },
+    bgContainerSolid: {
+      backgroundColor: `rgba(${colors.background},1)`,
+    },
     flex1: {
       flex: 1
     },

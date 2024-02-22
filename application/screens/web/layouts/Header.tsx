@@ -76,7 +76,7 @@ const Header = ({ width }: any) => {
         <HStack w="100%" alignItems="flex-start" space="5">
           <Center overflow="hidden" alignItems="flex-start" w="100%" maxW={width! > 1200 ? '265px' : '70px'}>
             <Pressable onPress={() => { router.push(`/${event.url}/dashboard`) }}>
-              <Image alt='logo' source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` }} w="225px" h="48px" alignSelf={'center'} />
+              <Image alt='logo' source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` }} w="180px" h="60px" alignSelf={'center'} />
             </Pressable>
           </Center>
           <Center w="100%" maxW={width! > 1200 ? '600px' : '40%'}>
