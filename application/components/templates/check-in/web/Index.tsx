@@ -106,7 +106,25 @@ const Index = () => {
             <WebLoading />
         ):(
             <Container pt="1" maxW="100%" w="100%">
+							<Box flexDirection="row" w={'100%'} alignItems="center">
                 <Text mb="3" textTransform="uppercase" fontSize="2xl">Session check-in</Text>
+							<Spacer />
+							{!checkInOut?.setting?.self_checkin && <>
+								<Box  >
+									{in_array('checkin-send-qr-code', processing) ?
+										<WebLoading/>
+										:
+										<IconButton
+											variant="transparent"
+											p="1"
+											icon={<Icon size="md" as={SimpleLineIcons} name="envelope" color="white" />}
+											onPress={SendQRCode}
+										/>
+									}
+								</Box>
+							</>}
+							</Box>
+							{checkInOut?.setting?.self_checkin && <>
                 <Box mb="3" w="100%" bg="primary.box" p="5" rounded="10">
                 <HStack space="3" alignItems="center">
                     <Text fontSize="lg">My ticket for </Text>
@@ -121,7 +139,6 @@ const Index = () => {
                     />}
                    
                 </HStack>
-                {checkInOut?.setting?.self_checkin && <>
                         <Box mx="auto" w="190px" h="190px" bg="primary.darkbox" p="3" rounded="10">
                         <Image
                         source={{
@@ -148,9 +165,8 @@ const Index = () => {
                             Scan to Checkin
                         </Button>
                     </HStack>
-                    
-                </>}
                 </Box>
+							</>}
                 <Image
                 mb="3"
                 rounded="10"
