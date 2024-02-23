@@ -21,7 +21,7 @@ const BannerAds = ({
   useEffect(() => {
     const filteredBanner = banners.filter((banner: Banner) => {
       return (
-        ((banner.module_name === module_name && banner.module_type === module_type) || banner.banner_position === module_type )
+        (banner.module_name === module_name && banner.module_type === module_type)
       )
     })
     setFilteredBanners(filteredBanner)
