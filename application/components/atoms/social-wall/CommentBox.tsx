@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, HStack, IconButton, Text, VStack } from 'native-base'
+import { Avatar, Box, HStack, IconButton, Text, VStack } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import { Comment } from 'application/models/socialWall/SocialWall'
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -31,7 +31,7 @@ const CommentBox = ({ comment }: AppProps) => {
 
 
     return (
-      <HStack space="3" alignItems="center" key={'m-' + comment.id}>
+      <HStack space="3" px={5} alignItems="flex-start" key={'m-' + comment.id}>
         <Avatar
           borderWidth={1}
           borderColor="primary.text"
@@ -42,13 +42,16 @@ const CommentBox = ({ comment }: AppProps) => {
         >
           SS
         </Avatar>
-        <VStack space="0">
+        <VStack  space="0">
+          <Box  bg="primary.darkbox" mb={2} px="3" py={2}  rounded="lg">
           <Text key="cmntfn" fontSize="md" fontWeight="600">
             {comment.attendee.full_name}
           </Text>
           <Text key="cmntcn" fontSize="sm" fontWeight="300">
             {comment.comment}
           </Text>
+          </Box>
+          
           <Text key="cmntdt" fontSize="xs">
             {comment.created_at_formatted} {likesCount} likes
           </Text>

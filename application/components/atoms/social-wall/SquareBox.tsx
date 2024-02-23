@@ -54,7 +54,7 @@ const SquareBox = ({ post, index }: AppProps) => {
       <VStack space="3">
         {/* button to delete post */}
         {post.attendee.id === response?.data?.user?.id && (
-          <>
+          <HStack px={4} justifyContent={'flex-end'} width={'100%'}>
           <Button onPress={() => {
             deletePost()
           }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
@@ -63,9 +63,9 @@ const SquareBox = ({ post, index }: AppProps) => {
           <Link href={`/${event.url}/social_wall/edit/${post.id}`}>
             <Text w={'100%'} fontSize='md' lineHeight='sm'>Edit</Text>
           </Link>
-      </>
+      </HStack>
         )}
-        <HStack space="3" alignItems="center" key="rd90">
+        <HStack space="3" px={4} alignItems="center" key="rd90">
           <Avatar
             borderWidth={1}
             borderColor="primary.bordercolor"
@@ -81,9 +81,9 @@ const SquareBox = ({ post, index }: AppProps) => {
             <Text fontSize="sm" key="time_attendee_post">{post.created_at_formatted}</Text>
           </VStack>
         </HStack>
-        <Text px={3} key="p-content" fontSize="md">{post.content}</Text>
+        <Text px={4} key="p-content" fontSize="md">{post.content}</Text>
         {(post.type === 'image' || post.type === 'text') && post.image !== '' &&(
-          <Center w={'100%'} px={3}>
+          <Center w={'100%'} px={4}>
             <Image
               source={{
                 uri: `${_env.eventcenter_base_url}/assets/social_wall/${post.image}`
@@ -98,7 +98,7 @@ const SquareBox = ({ post, index }: AppProps) => {
         )}
 
         {post.type === 'video' && post.image !== '' &&(
-          <Center w={'100%'} px={3}>
+          <Center w={'100%'} px={4}>
             <video
               width="100%"
               height="295px"
@@ -107,7 +107,7 @@ const SquareBox = ({ post, index }: AppProps) => {
             />
           </Center>
         )}
-        <HStack  space="1" w={'100%'} px={3}>
+        <HStack  space="1" w={'100%'} px={4}>
            <HStack space="1" alignItems="center">
               <Icolikealt />
               <Text fontSize="sm">{likesCount}</Text>
@@ -175,7 +175,7 @@ const SquareBox = ({ post, index }: AppProps) => {
           </HStack>
         </HStack>
         {/* new comment section */}
-        <HStack>
+        {/* <HStack>
           <Avatar
             borderWidth={1}
             borderColor="primary.bordercolor"
@@ -186,21 +186,17 @@ const SquareBox = ({ post, index }: AppProps) => {
           >
             SS
           </Avatar>
-          <VStack space="0" >
-            <Text fontSize="md" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text>
-            {/* add a input with button */}
-            <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} />
-          </VStack>
-        </HStack>
+        </HStack> */}
+          
         {post.comments.map((comment: Comment) => {
           return <React.Fragment key={comment.id}>
-            <Box>
+            <Box w={'100%'}>
               <CommentBox comment={comment} key={comment.id} />
               {comment.replies.map((reply: Comment) => {
                 <CommentBox comment={reply} key={reply.id} />
               })}
             </Box>
-            <HStack w={'100%'} py={2} px={3} borderTopWidth={1} borderTopColor={'primary.box'} space="2" alignItems="center">
+            <HStack w={'100%'} py={2} px={4} space="2" alignItems="center">
               <Center>
                 <Avatar
                   borderWidth={1}
@@ -221,6 +217,26 @@ const SquareBox = ({ post, index }: AppProps) => {
             
           </React.Fragment>
         })}
+        <HStack w={'100%'} px={4} py={3} borderTopWidth={1} borderTopColor={'primary.bordercolor'} space="3" >
+           <Center>
+                <Avatar
+                  borderWidth={1}
+                  borderColor="primary.text"
+                  size="md"
+                  source={{
+                    uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
+                  }}
+                >
+                  SS
+                </Avatar>
+            </Center>
+            {/* <Text fontSize="md" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text> */}
+            {/* add a input with button */}
+            <Center w={'calc(100% - 60px)'}>
+              <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} />
+            </Center>
+            
+          </HStack>
       </VStack>
     </Box>
   )
