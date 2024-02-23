@@ -6,10 +6,8 @@ import ListingLayout2 from 'application/components/molecules/documents/ListingLa
 import Search from 'application/components/atoms/documents/Search';
 import UseEventService from 'application/store/services/UseEventService';
 import in_array from "in_array";
-import UseEnvService from 'application/store/services/UseEnvService'
-import UseBannerService from 'application/store/services/UseBannerService'
-import { Banner } from 'application/models/Banner'
 import UseSponsorService from 'application/store/services/UseSponsorService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = React.memo(() => {
 
@@ -17,22 +15,9 @@ const Index = React.memo(() => {
     const { event, modules  } = UseEventService();
     const { sponsors, categories, FetchSponsors, category_id, query } = UseSponsorService();
     const [searchQuery, setSearch] = React.useState('')
-    const { _env } = UseEnvService()
-    const { banners, FetchBanners} = UseBannerService();
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'documents' && banner.module_type == 'listing'
-        })
-
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
     return (
         <>
             {in_array('documents', processing) ? (
@@ -48,15 +33,7 @@ const Index = React.memo(() => {
                 </Container>
             )}
             <Box width={"100%"} height={"5%"}>
-                {filteredBanners.map((banner, k) =>
-                  <Image
-                    key={k}
-                    source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                    alt="Image"
-                    width="100%"
-                    height="100%"
-                  />
-                )}
+                <BannerAds module_name={'documents'} module_type={'listing'} />
             </Box>
         </>
     )

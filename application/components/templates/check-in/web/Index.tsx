@@ -188,16 +188,6 @@ const Index = () => {
                     </HStack>
                 </Box>
 							</>:null}
-                <Image
-                mb="3"
-                rounded="10"
-                source={{
-                    uri: 'https://wallpaperaccess.com/full/206501.jpg'
-                }}
-                alt="Alternate Text"
-                w="100%"
-                h="144px"
-                />
                 <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                     <Button onPress={() => { setTab('event') }} bg={tab === 'event' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Event</Button>
 									{checkInOut?.setting?.show_programs_checkin_history ? <>
@@ -245,7 +235,6 @@ const Index = () => {
             </Container>
         )
       }
-			<Spacer></Spacer>
 			<Box width={"100%"} height={"5%"}>
 				<BannerAds module_name={'checkIn'} module_type={'listing'} />
 			</Box>
