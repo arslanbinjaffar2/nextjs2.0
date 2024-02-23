@@ -21,6 +21,7 @@ import { useRouter } from 'solito/router';
 import UseBannerService from 'application/store/services/UseBannerService';
 import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -45,7 +46,6 @@ const Detail = React.memo(() => {
     const { banners, FetchBanners } = UseBannerService();
 
     const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
         if (id) {
@@ -56,16 +56,6 @@ const Detail = React.memo(() => {
             clearState();
         }
     }, [id]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'sponsors' && banner.module_type == 'detail'
-        })
-
-        setFilteredBanners(filteredBanner);
-    },[banners]);
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
     React.useEffect(() => {
 
         const filteredBanner = banners.filter((banner: any) => {
@@ -173,15 +163,7 @@ const Detail = React.memo(() => {
                         </Container> */}
                     </Container>
                     <Box width={"100%"} height={"5%"}>
-                        {filteredBanners.map((banner, k) =>
-                          <Image
-                            key={k}
-                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                            alt="Image"
-                            width="100%"
-                            height="100%"
-                          />
-                        )}
+                        <BannerAds module_name={'sponsors'} module_type={'detail'} />
                     </Box>
                 </>
             )}
