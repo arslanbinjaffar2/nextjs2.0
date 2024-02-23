@@ -13,9 +13,7 @@ import LoadMore from 'application/components/atoms/LoadMore';
 import UseEventService from 'application/store/services/UseEventService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 const Index = () => {
-
-    const [moduleName, setModuleName] = useState<string>('');
-    const [moduleType, setModuleType] = useState<string>('');
+    
     const mounted = React.useRef(false);
     
     const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track, parent_track, ResetTracks } = UseProgramService();
@@ -112,7 +110,7 @@ const Index = () => {
                         )}
                     </Container>}
                     <Box width={"100%"} height={"5%"}>
-                        <BannerAds module_name={moduleName} module_type={moduleType} />
+                        <BannerAds module_name={'agendas'} module_type={'listing'} />
                     </Box>
                 </>
             )}
