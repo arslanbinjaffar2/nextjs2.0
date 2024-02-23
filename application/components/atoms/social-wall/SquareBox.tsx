@@ -12,6 +12,8 @@ import useSocialWallService from 'application/store/services/UseSocialWallServic
 import NewCommentBox from 'application/components/atoms/social-wall/NewCommentBox';
 import CommentBox from 'application/components/atoms/social-wall/CommentBox';
 import UseEventService from 'application/store/services/UseEventService';
+import { useRouter } from 'solito/router'
+
 
 type AppProps = {
   post: Post,
@@ -20,6 +22,7 @@ type AppProps = {
 
 const SquareBox = ({ post, index }: AppProps) => {
 
+  const { push } = useRouter();
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
   const { event } = UseEventService();
@@ -68,9 +71,11 @@ const SquareBox = ({ post, index }: AppProps) => {
           }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
             <Text fontSize="xs" color="primary.text">Delete</Text>
           </Button>
-          <Link href={`/${event.url}/social_wall/edit/${post.id}`}>
-            <Text w={'100%'} fontSize='md' lineHeight='sm'>Edit</Text>
-          </Link>
+          <Button onPress={() => {
+            push(`/${event.url}/social_wall/edit/${post.id}`)
+          }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
+            <Text fontSize="xs" color="primary.text">Edit</Text>
+          </Button>
       </HStack>
         )}
         <HStack space="3" px={4} alignItems="center" key="rd90">
