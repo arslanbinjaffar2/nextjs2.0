@@ -22,9 +22,8 @@ import moment from 'moment';
 import in_array from "in_array";
 import { Platform } from 'react-native'
 import DateTimePicker from 'application/components/atoms/DateTimePicker'
-import UseBannerService from 'application/store/services/UseBannerService'
-import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const CheckinList = (type:any) => {
 	const [toggle, settoggle] = React.useState(false)
@@ -114,20 +113,8 @@ const Index = () => {
   React.useEffect(() => {  
     FetchCheckInOut();
   }, [])
-  const { banners, FetchBanners} = UseBannerService();
-  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
   const [tab, setTab] = React.useState<'event'| 'program' | 'group' | 'ticket'>('event');
 
-  useEffect(()=>{
-    const filteredBanner=banners.filter((banner  : Banner)=>{
-      return banner.module_name == 'checkIn' && banner.module_type == 'listing'
-    })
-
-    setFilteredBanners(filteredBanner);
-  },[banners]);
-  React.useEffect(() => {
-    FetchBanners();
-  }, []);
   return (
     <>
       {
@@ -201,16 +188,6 @@ const Index = () => {
                     </HStack>
                 </Box>
 							</>:null}
-                <Image
-                mb="3"
-                rounded="10"
-                source={{
-                    uri: 'https://wallpaperaccess.com/full/206501.jpg'
-                }}
-                alt="Alternate Text"
-                w="100%"
-                h="144px"
-                />
                 <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                     <Button onPress={() => { setTab('event') }} bg={tab === 'event' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Event</Button>
 									{checkInOut?.setting?.show_programs_checkin_history ? <>
@@ -258,17 +235,9 @@ const Index = () => {
             </Container>
         )
       }
-      <Box width={"100%"} height={"5%"}>
-        {filteredBanners.map((banner, k) =>
-          <Image
-            key={k}
-            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-            alt="Image"
-            width="100%"
-            height="100%"
-          />
-        )}
-      </Box>
+			<Box width={"100%"} height={"5%"}>
+				<BannerAds module_name={'checkIn'} module_type={'listing'} />
+			</Box>
     </>
   )
 }
