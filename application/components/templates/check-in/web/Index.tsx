@@ -1,5 +1,18 @@
 import React, { useEffect } from 'react'
-import { Box, Button, Center, Container, HStack, Icon, IconButton, Image, Spacer, Text, VStack } from 'native-base';
+import {
+	Box,
+	Button,
+	Center,
+	Container,
+	Divider,
+	HStack,
+	Icon,
+	IconButton,
+	Image,
+	Spacer,
+	Text,
+	VStack
+} from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseCheckInOutService from 'application/store/services/UseCheckInOutService';
@@ -7,6 +20,8 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import moment from 'moment';
 import in_array from "in_array";
+import { Platform } from 'react-native'
+import DateTimePicker from 'application/components/atoms/DateTimePicker'
 import UseBannerService from 'application/store/services/UseBannerService'
 import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService'
@@ -122,6 +137,10 @@ const Index = () => {
             <Container pt="1" maxW="100%" w="100%">
 							<Box flexDirection="row" w={'100%'} alignItems="center">
                 <Text mb="3" textTransform="uppercase" fontSize="2xl">Session check-in</Text>
+								<Spacer />
+								<HStack space="0" alignItems="center" justifyContent={'center'} pt={4}>
+									<Button px={4} py={1} mb={8} fontSize={'md'} shadow={3} colorScheme="primary" minW={100}>Order Detail</Button>
+								</HStack>
 							<Spacer />
 							{!checkInOut?.setting?.self_checkin && checkInOut?.setting?.enable_email_ticket ? <>
 								<Box >
@@ -204,6 +223,10 @@ const Index = () => {
                     <Button onPress={() => { setTab('ticket')}} bg={tab === 'ticket' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Ticket</Button>
 									</>:null}
 									</HStack>
+							<Box zIndex={9999} mb="3" py="3" pl="20" w="100%">
+								<Divider mb="5" opacity={0.27} bg="primary.text" />
+								<DateTimePicker label={'Date'} showdate={'DD-MM-YYYY'}  />
+							</Box>
                 <Box  overflow="hidden" h="100%" w="100%" bg="primary.box" p="0" mb={3} rounded="10">
 									 {[...Array(3)].map(item => 
 											 <CheckinList type="checkin" key={item}  />
@@ -218,7 +241,7 @@ const Index = () => {
                         <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK IN</Text>
                         <VStack space="1">
                         {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
-                            <Text fontSize="md">{getTypeEntityName(item)} {(item.checkin !== '' && item.checkin !== '0000-00-00 00:00:00') ? moment(item.checkin).format('DD/mm/yyyy HH:mm:ss') : '---'}</Text>
+                            <Text fontSize="md">{getTypeEntityName(item)} {(item.checkin !== '' && item.checkin !== '00-00-0000 00:00:00') ? moment(item.checkin).format('DD-MM-yyyy HH:mm:ss') : '---'}</Text>
                         </HStack>))}
                         </VStack>
                     </Box>
@@ -227,7 +250,7 @@ const Index = () => {
                         <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK OUT</Text>
                         <VStack space="1">
                         {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
-                            <Text fontSize="md">{(item.checkout !== '' && item.checkout !== '0000-00-00 00:00:00') ? moment(item.checkout).format('DD/mm/yyyy HH:mm:ss') : " ---"}</Text>
+                            <Text fontSize="md">{(item.checkout !== '' && item.checkout !== '00-00-0000 00:00:00') ? moment(item.checkout).format('DD-MM-yyyy HH:mm:ss') : " ---"}</Text>
                         </HStack>))}
                         </VStack>
                     </Box>

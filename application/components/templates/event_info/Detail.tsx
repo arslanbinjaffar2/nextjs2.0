@@ -103,7 +103,7 @@ const Detail = (props: any) => {
                                         <HStack  w="100%" px="4" py="1" space="3" alignItems="center">
                                             <Icon color={'primary.text'} as={AntDesign} name="pdffile1" size="md" />
                                             <VStack space="0" w={'calc(100% - 100px)'}>
-                                                <Text fontSize="md">{page.pdf_title}</Text>
+                                                <Text fontSize="md">{event?.labels?.PRACTICAL_INFORMATION_VIEW_DOCUMENT}</Text>
                                             </VStack>
                                             <Spacer />
                                             <Icon as={AntDesign} name="download" size="md" color="primary.text" />

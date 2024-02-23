@@ -62,12 +62,13 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
                     }
                 }}
                     >
-                    <Box mb="3" w="100%" bg="primary.box" p="0" borderWidth="1" borderColor="primary.box" rounded="10">
-                        <Text fontSize="md" textAlign={'center'} my={2}>{event?.sponsor_settings?.sponsorName ? sponsor?.name : ''}</Text>
+                    <Box mb="3" w="100%" bg="primary.box" justifyContent={'flex-end'} p="0" borderWidth="1" borderColor="primary.box" rounded="10">
+                        <Text mx={'auto'} isTruncated maxWidth={'75%'} minHeight={'27px'} fontSize="lg" fontWeight={500} textAlign={'center'} my={2}>{event?.sponsor_settings?.sponsorName ? sponsor?.name : ''}</Text>
                         {settings?.mark_favorite === 1 && (
                             <IconButton
                                 bg="transparent"
                                 p="1"
+                                rounded={'full'}
                                 _hover={{ bg: 'primary.500' }}
                                 icon={<Icon size="md" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color="primary.text" />}
                                 onPress={() => {
@@ -75,8 +76,8 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
                                 }}
                                 position={'absolute'}
                                 zIndex={'999999'}
-                                right={'3px'}
-                                top={'3px'}
+                                right={'4px'}
+                                top={'7px'}
                             />
                         )}
                         <Center mb={3} px="1" alignItems="center" w="100%">
@@ -86,14 +87,14 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
                                 <Image source={ExhibitorDefaultImage} alt="Alternate Text" w="210px" h="72px" />
                             )}
                         </Center>
-                        <HStack pb={3} space="3" alignItems="center" position={'relative'}>
+                        <HStack mb={3} space="3" minHeight={'25px'} alignItems="center"  position={'relative'}>
                             {settings?.catTab == 1 && sponsor?.categories.length > 0 && 
-                            <HStack alignItems="flex-start" minH={'25px'} w="100%" position={'relative'}>
+                            <HStack alignItems="flex-start" minH={'25px'}  position={'relative'}>
                                 <Center alignItems="flex-start" w='120px' p="0">
                                     <ZStack reversed>
                                         {sponsor?.categories.length > 0 && sponsor?.categories.slice(0,3).map((cat, i)=>(
-                                            <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${measureText(sponsor?.categories[0]?.info.name, 14) + 16 + (i * 10)}px`} px="2">
-                                                {i== 0 && <Text isTruncated lineHeight={25} fontSize="sm">{cat?.info?.name}</Text>}
+                                            <Box key={cat.id} bg={cat.color} borderWidth="1"  borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(sponsor?.categories[0]?.info.name, 14)) + 16 + (i * 10)}px`} px="2">
+                                                {i== 0 && <Text isTruncated lineHeight={25}  fontSize="sm">{cat?.info?.name}</Text>}
                                             </Box>
                                         ))}
                                     </ZStack>
@@ -131,7 +132,8 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 																			</>
 															}
                             </HStack>}
-                            <Center pr="6" alignItems="flex-end" w="50%">
+														<Spacer />
+                            <Center pr={2} alignItems="flex-end">
                                 {sponsor.booth && <HStack space="3" alignItems="center">
                                     <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
                                     <Text fontSize="md">{sponsor.booth}</Text>
