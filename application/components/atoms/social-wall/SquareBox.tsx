@@ -24,6 +24,10 @@ const SquareBox = ({ post, index }: AppProps) => {
   const { response } = UseAuthService();
   const { event } = UseEventService();
   const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment, DeleteSocialWallPost } =useSocialWallService();
+
+  const [toggleReplay, settoggleReplay] = useState(null)
+  const [commnetid, setcommnetid] = useState(null)
+
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some(like => like.attendee_id === response?.data?.user?.id)
   );
@@ -48,7 +52,11 @@ const SquareBox = ({ post, index }: AppProps) => {
   function likeComment(id:number) {
     LikeSocialWallComment({id:id})
   }
-
+ const handleChildClick = (a: any, b: any) => {
+    settoggleReplay(a);
+    setcommnetid(b)
+    // You can perform any actions needed with the received data
+  };
   return (
     <Box mb="3"  w="100%" py={3}  bg={'primary.box'} roundedTop={ index === 0 ? 0 : 10 } roundedBottom={10} borderWidth="1" borderColor="primary.box">
       <VStack space="3">
@@ -124,7 +132,7 @@ const SquareBox = ({ post, index }: AppProps) => {
         </HStack>
         
         <HStack key="rd99" px="3" space="0" alignItems="center">
-          <HStack  py={3} borderBottomWidth="1" w={'100%'} flexWrap={'wrap'} borderTopWidth="1" borderColor="primary.box" space="2" alignItems="center" key="likebtn">
+          <HStack  py={3} borderBottomWidth="1" w={'100%'} flexWrap={'wrap'} borderTopWidth="1" borderColor="primary.bordercolor" space="2" alignItems="center" key="likebtn">
             <Center flex={1} alignItems={'flex-start'}>
                 <Button
                   colorScheme="unstyled"
@@ -190,14 +198,15 @@ const SquareBox = ({ post, index }: AppProps) => {
           
         {post.comments.map((comment: Comment) => {
           return <React.Fragment key={comment.id}>
-            <Box w={'100%'}>
-              <CommentBox comment={comment} key={comment.id} />
-              {comment.replies.map((reply: Comment) => {
-                <CommentBox comment={reply} key={reply.id} />
-              })}
-            </Box>
-            <HStack w={'100%'} py={2} px={4} space="2" alignItems="center">
+            <Box overflow={'hidden'} w={'100%'}>
+              <CommentBox onChildClick={handleChildClick}  secondlevel={false} comment={comment} key={comment.id} />
+              {comment.replies.map((reply: Comment) => 
+                <CommentBox onChildClick={handleChildClick}  secondlevel={true} comment={reply} key={reply.id} />
+              )}
+             {toggleReplay && commnetid === comment.id && <Divider bg={'primary.bordercolor'} zIndex={2} height={'calc(100% - 65px)'} width={'1px'} position={'absolute'} left={'35px'} top={'32px'} />}
+            {toggleReplay && commnetid === comment.id && <HStack w={'100%'} py={2} pl={'65px'} pr={3} space="2" alignItems="center">
               <Center>
+                <Divider w={'4'} position={'absolute'} left={'-30px'} top={3} bg={'primary.bordercolor'} />
                 <Avatar
                   borderWidth={1}
                   borderColor="primary.text"
@@ -213,7 +222,8 @@ const SquareBox = ({ post, index }: AppProps) => {
                 <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} />
               </Center>
               
-            </HStack>
+            </HStack>}
+            </Box>
             
           </React.Fragment>
         })}
