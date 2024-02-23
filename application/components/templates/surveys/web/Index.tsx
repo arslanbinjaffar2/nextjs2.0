@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Divider } from 'native-base'
+import { Box, Divider, Image } from 'native-base'
 import RectangleView from 'application/components/atoms/surveys/RectangleView';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Button, Container, HStack, Icon, Input, Spacer, Text } from 'native-base';
@@ -10,6 +10,9 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import { Survey } from 'application/models/survey/Survey';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
+import UseBannerService from 'application/store/services/UseBannerService'
+import UseEnvService from 'application/store/services/UseEnvService'
+import { Banner } from 'application/models/Banner'
 
 const Index = () => {
 
@@ -24,9 +27,20 @@ const Index = () => {
     const { FetchSurveys, surveys, completed_surveys, survey_labels } = UseSurveyService();
 
     const { event, modules  } = UseEventService();
-
+    const { banners, FetchBanners} = UseBannerService();
+    const { _env } = UseEnvService()
     const { push } = useRouter()
-    
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
+    useEffect(()=>{
+      const filteredBanner=banners.filter((banner  : Banner)=>{
+        return banner.module_name == 'polls' && banner.module_type == 'listing'
+      })
+
+      setFilteredBanners(filteredBanner);
+    },[query,banners]);
+    React.useEffect(() => {
+      FetchBanners();
+    }, []);
     useEffect(() => {
             FetchSurveys();
     }, []);
@@ -85,8 +99,8 @@ const Index = () => {
                             <Input rounded="10" w="60%" bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
-                            <Button onPress={() => setTab('pending')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>NOT ATTENDED</Button>
-                            <Button onPress={() => setTab('completed')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
+                            <Button onPress={() => setTab('pending')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>NOT ATTENDED</Button>
+                            <Button onPress={() => setTab('completed')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
@@ -124,6 +138,17 @@ const Index = () => {
                     </Container>
                 )
             }
+          <Box width={"100%"} height={"5%"}>
+            {filteredBanners.map((banner, k) =>
+              <Image
+                key={k}
+                source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+                alt="Image"
+                width="100%"
+                height="100%"
+              />
+            )}
+          </Box>
         </>
         
     )

@@ -5,7 +5,7 @@ import IcoLike from 'application/assets/icons/Icolike';
 
 const BoxList = ({ border }: any) => {
   return (
-    <Box w="100%" borderBottomWidth={border} borderColor={border === 1 ? 'primary.text' : 'transparent'} py="3">
+    <Box w="100%" borderBottomWidth={border} borderColor={border === 1 ? 'primary.box' : 'transparent'} py="3">
       <HStack px="3" w="100%" space="0" alignItems="center" justifyContent="space-between">
         <Center alignItems="flex-start" w="60%" p="0">
           <HStack space="3" alignItems="center">

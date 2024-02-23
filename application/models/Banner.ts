@@ -26,6 +26,8 @@ export interface Banner {
   status: number;
   banner_type: string;
   banner_position: string;
+  module_name: string;
+  module_type: string;
   created_at: string;
   updated_at: string;
   deleted_at: string;
@@ -33,4 +35,6 @@ export interface Banner {
   end_date: string;
   image?: string;
   url?: string;
+
+  find(param: (banners: { module_name: string; module_type: string }) => boolean): any
 }

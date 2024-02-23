@@ -23,7 +23,7 @@ const BannerSlider = ({ banners }: { banners: Banner[] }) => {
   }, []);
 
   return (
-    <Box width="full" height={100} my={5}>
+    <Box width="full"  my={5}>
       <RectangleView url={`${_env.eventcenter_base_url}/assets/banners/${banners[currentBanner]?.image}`} />
     </Box>
   )

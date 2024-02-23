@@ -31,11 +31,11 @@ const DetailBlock = ({ children }: AppProps) => {
             size="full"
             w="100%"
             h="160px"
-            rounded="10"
+            roundedTop="10"
             mb="5"
             source={{ uri: `https://wallpaperaccess.com/full/31751.jpg` }}
         />
-        <Box w="100%" px="5">
+        <Box w="100%" px="7">
             <HStack w="100%" mb="3" space="3" alignItems="flex-start">
                 <Text maxW="80%" fontSize="xl">{detail?.program?.topic}</Text>
                 <Spacer />
@@ -50,7 +50,7 @@ const DetailBlock = ({ children }: AppProps) => {
             </HStack>
             <HStack w="100%" mb="3" space="10" alignItems="center">
                 {detail?.program?.start_time && detail?.program?.end_time  && event.agenda_settings?.agenda_display_time == 1 && detail?.program?.hide_time == 0 && (
-                    <Text fontSize="md">{moment(`${detail?.program?.date} ${detail?.program?.start_time}`).format('HH:mm')} - {moment(`${detail?.program?.date} ${detail?.program?.start_time}`).format('HH:mm')}</Text>
+                    <Text fontSize="md">{moment(`${detail?.program?.date} ${detail?.program?.start_time}`).format('HH:mm')} - {moment(`${detail?.program?.date} ${detail?.program?.end_time}`).format('HH:mm')}</Text>
                 )}
                 {detail?.program?.location && (
                     <HStack space="3" alignItems="center">
@@ -61,18 +61,11 @@ const DetailBlock = ({ children }: AppProps) => {
             </HStack>
              <Box mb="4" w="100%">
              {event?.agenda_settings?.show_tracks == 1 && <>
-                    <Box position="absolute" left="0" top="0" w="15px" marginLeft={'-20px'}>
-                        <ZStack>
-                        {detail?.program?.program_tracks!?.length > 0 && detail?.program?.program_tracks!.map((track: any, i: number) =>
-                            <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
-                        )}
-                        </ZStack>
-                    </Box>
                     {detail?.program?.program_tracks!?.length > 0 && (
                         <>
                             <Text mb="3" fontSize="md">Track:
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
-                                        <React.Fragment key={key}>{`${track?.name}, `}</React.Fragment>
+                                        <Box rounded={'full'} mx={2} my={1} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
                                     
                                 ))}
                             </Text>

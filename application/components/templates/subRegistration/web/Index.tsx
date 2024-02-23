@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
-import { useState } from 'react';
+import { useEffect, useState } from 'react'
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { createParam } from 'solito';
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -26,6 +26,8 @@ import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 import { error } from 'application/store/slices/Auth.Slice';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
 
 
 type ScreenParams = { id: string }
@@ -43,7 +45,7 @@ const Detail = () => {
 
   const { _env } = UseEnvService();
 
-  const { event  } = UseEventService();
+  const { event, modules  } = UseEventService();
 
   const { response  } = UseAuthService();
 
@@ -51,7 +53,7 @@ const Detail = () => {
 
   const { afterLogin, FetchSubRegistrationAfterLogin, SaveSubRegistration, submitting, skip, setSkip } = UseSubRegistrationService();
 
-  const { netWorkskip } = UseNetworkInterestService();
+  const { netWorkskip,setNetworkSkip  } = UseNetworkInterestService();
 
 
   const [formData, setFormData] = useState<FormData>({});
@@ -59,8 +61,9 @@ const Detail = () => {
   const [updates, setUpdates] = useState(0);
 
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
+  const { banners, FetchBanners} = UseBannerService();
 
-  
+  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
   const updateFormData = (question_id:number, type:string, answer:any, index?:number, agendaId?:number) => {
     
@@ -123,10 +126,24 @@ const Detail = () => {
 
     React.useEffect(() => {
       if(skip === true){
-          push(`/${event.url}/${netWorkskip !== true ? 'network-interest' : 'dashboard'}`)
+          if(netWorkskip !== true  && event?.keyword_settings?.show_after_login !== 0){
+            push(`/${event.url}/network-interest`)
+          }else{
+            setNetworkSkip();
+            push(`/${event.url}/dashboard`)
+          }
       }
     }, [skip]);
+    useEffect(()=>{
+      const filteredBanner=banners.filter((banner  : Banner)=>{
+        return banner.module_name == 'subregistration' && banner.module_type == 'listing'
+      })
 
+      setFilteredBanners(filteredBanner);
+    },[banners]);
+    React.useEffect(() => {
+      FetchBanners();
+    }, []);
     const validate = async () => {
       let error = false;
       let newFormData = errors;
@@ -270,8 +287,11 @@ const Detail = () => {
             ) : (
             <Container mb="3" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                <Text isTruncated pr="6" fontSize="lg">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
+              </HStack>
+              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Spacer />
-                <Text isTruncated pr="6" fontSize="lg">Subregistration</Text>
+                <Text isTruncated pr="6" fontSize="lg">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
               </HStack>
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                 {afterLogin?.questions?.question.length! > 0 &&  afterLogin?.questions?.question.map((item, index)=>(
@@ -300,7 +320,7 @@ const Detail = () => {
                         setSkip();
                       }}
                     >
-                      Skip
+                      {event?.labels?.GENERAL_SKIP}
                     </Button>}
                     <Spacer />
                     
@@ -320,6 +340,17 @@ const Detail = () => {
               </Box>}
             </Container>
       )}
+      <Box width={"100%"} height={"5%"}>
+        {filteredBanners.map((banner, k) =>
+          <Image
+            key={k}
+            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+            alt="Image"
+            width="100%"
+            height="100%"
+          />
+        )}
+      </Box>
     </>
   );
 };

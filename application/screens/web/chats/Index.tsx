@@ -19,13 +19,13 @@ const Index = ({ navigation }: indexProps)  => {
           <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
         <HStack mb="3" space={1} justifyContent="center" w="100%">
-          <Button onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{fontWeight: '600'}}>CHATS</Button>
-          <Button onPress={() => setTab(false)} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{fontWeight: '600'}}>ATTENDEE GROUPS</Button>
+          <Button onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{fontWeight: '600'}}>CHATS</Button>
+          <Button onPress={() => setTab(false)} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{fontWeight: '600'}}>ATTENDEE GROUPS</Button>
         </HStack>
         <>
           {tab && <>
             <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
-              <HStack borderBottomWidth="1" borderColor="primary.text" w="100%" p="4" space="5">
+              <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                 <Avatar
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -44,7 +44,7 @@ const Index = ({ navigation }: indexProps)  => {
                   <Avatar.Badge position="static" borderWidth="0" bg="green.500" size={4} />
                 </VStack>
               </HStack>
-              <HStack borderBottomWidth="1" borderColor="primary.text" w="100%" p="4" space="5">
+              <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                 <Avatar
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -63,7 +63,7 @@ const Index = ({ navigation }: indexProps)  => {
                 </VStack>
               
               </HStack>
-              <HStack borderBottomWidth="1" borderColor="primary.text" w="100%" p="4" space="5">
+              <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                 <Avatar
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -80,7 +80,7 @@ const Index = ({ navigation }: indexProps)  => {
                   <Text opacity="0.6" fontSize="md">18:00</Text>
                 </VStack>
               </HStack>
-              <HStack borderBottomWidth="0" borderColor="primary.text" w="100%" p="4" space="5">
+              <HStack borderBottomWidth="0" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                 <Avatar
                   source={{
                     uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -116,7 +116,7 @@ const Index = ({ navigation }: indexProps)  => {
         </>
         <>
           {!tab && <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
-            <HStack borderBottomWidth="1" borderColor="primary.text" w="100%" p="4" space="5">
+            <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
               <Avatar
                 source={{
                   uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -135,7 +135,7 @@ const Index = ({ navigation }: indexProps)  => {
               </VStack>
               
             </HStack>
-            <HStack borderBottomWidth="1" borderColor="primary.text" w="100%" p="4" space="5">
+            <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
               <Avatar
                 source={{
                   uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -154,7 +154,7 @@ const Index = ({ navigation }: indexProps)  => {
               </VStack>
               
             </HStack>
-            <HStack borderBottomWidth="0" borderColor="primary.text" w="100%" p="4" space="5">
+            <HStack borderBottomWidth="0" borderColor="primary.bordercolor" w="100%" p="4" space="5">
               <Avatar
                 source={{
                   uri:'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'

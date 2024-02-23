@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, Container, HStack, Pressable, Spacer, Text } from 'native-base';
-import { useState } from 'react';
+import { Box, Button, Container, HStack, Image, Pressable, Spacer, Text } from 'native-base'
+import { useEffect, useState } from 'react'
 import Search from 'application/components/atoms/programs/Search';
 import SlideView from 'application/components/molecules/programs/SlideView';
 import UseProgramService from 'application/store/services/UseProgramService';
@@ -11,6 +11,9 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import TrackRectangleDetailView from 'application/components/atoms/programs/tracks/RectangleDetailView';
 import LoadMore from 'application/components/atoms/LoadMore';
 import UseEventService from 'application/store/services/UseEventService';
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
+import UseEnvService from 'application/store/services/UseEnvService'
 
 const Index = () => {
 
@@ -22,11 +25,13 @@ const Index = () => {
     const { loading, scroll, processing } = UseLoadingService();
     
     const { response } = UseAuthService();
-    
-    const { event, modules  } = UseEventService();
+    const { _env } = UseEnvService()
 
+    const { event, modules  } = UseEventService();
+    const { banners, FetchBanners} = UseBannerService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
-    
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
+
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['program', 'my-program'])) {
@@ -47,7 +52,13 @@ const Index = () => {
             }
         }
     }, [scroll]);
-
+    useEffect(()=>{
+        const filteredBanner=banners.filter((banner  : Banner)=>{
+            return banner.module_name == 'agendas' && banner.module_type == 'listing'
+        })
+        console.log('hamza hre',filteredBanner)
+        setFilteredBanners(filteredBanner);
+    },[query,banners]);
     React.useEffect(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
@@ -64,6 +75,9 @@ const Index = () => {
             FetchPrograms({ query: '', page: 1, screen: tab, id: 0, track_id: 0 });
         }
     }, []);
+    React.useEffect(() => {
+        FetchBanners();
+    }, []);
 
     return (
         <>
@@ -76,12 +90,12 @@ const Index = () => {
                 {(event?.agenda_settings?.agenda_list == 0 || event?.agenda_settings?.agenda_tab == 1) && <Button onPress={() => {
                     ResetTracks();
                     setTab('program')
-                }} borderWidth="1px" borderRightRadius="0" borderLeftRadius={8} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.box' : 'primary.darkbox'} w={event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}>PROGRAMS</Button>}
+                }} borderWidth="1px" borderRightRadius="0" borderLeftRadius={8} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.darkbox' : 'primary.box'} w={event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}>PROGRAMS</Button>}
                 {(modules?.find((m)=>(m.alias == 'myprograms'))) &&<Button onPress={() => {
                     ResetTracks();
                     setTab('my-program');
-                }} borderWidth="1px" borderRightRadius={(event?.agenda_settings?.agenda_tab == 0 && event?.agenda_settings?.agenda_list == 0) ? 8 : 0} borderLeftRadius={(event?.agenda_settings?.agenda_tab == 0 && event?.agenda_settings?.agenda_list == 1) ? 8 : 0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.box' : 'primary.darkbox'} w={event?.agenda_settings?.agenda_tab == 1 ? '33%': '50%'} _text={{ fontWeight: '600' }}>MY PROGRAMS</Button>}
-                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button onPress={() => setTab('track')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'track' ? 'primary.box' : 'primary.darkbox'} w={ event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}>TRACKS</Button>}
+                }} borderWidth="1px" borderRightRadius={(event?.agenda_settings?.agenda_tab == 0 && event?.agenda_settings?.agenda_list == 0) ? 8 : 0} borderLeftRadius={(event?.agenda_settings?.agenda_tab == 0 && event?.agenda_settings?.agenda_list == 1) ? 8 : 0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.darkbox' : 'primary.box'} w={event?.agenda_settings?.agenda_tab == 1 ? '33%': '50%'} _text={{ fontWeight: '600' }}>MY PROGRAMS</Button>}
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button onPress={() => setTab('track')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'track' ? 'primary.darkbox' : 'primary.box'} w={ event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}>TRACKS</Button>}
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack mb="3" pt="2" w="100%" space="3">
@@ -113,6 +127,17 @@ const Index = () => {
                             <TrackRectangleDetailView key={key} track={track} border={tracks.length != (key + 1)} updateTab={updateTab} />
                         )}
                     </Container>}
+                    <Box width={"100%"} height={"5%"}>
+                        {filteredBanners.map((banner, k) =>
+                          <Image
+                            key={k}
+                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+                            alt="Image"
+                            width="100%"
+                            height="100%"
+                          />
+                        )}
+                    </Box>
                 </>
             )}
             {(in_array('programs', processing) || in_array('tracks', processing)) && page > 1 && (

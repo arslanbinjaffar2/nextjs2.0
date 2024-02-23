@@ -9,13 +9,7 @@ type indexProps = {
 }
 
 const Index = ({ navigation }: indexProps) => {
-
-  const { FetchSponsors } = UseSponsorService();
-
-  React.useEffect(() => {
-    FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
-  }, [])
-
+  
   return (
       <IndexTemplate />
   );

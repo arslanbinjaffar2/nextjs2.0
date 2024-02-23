@@ -1,5 +1,5 @@
-import React from 'react'
-import { HStack, Text, Icon, Box, Pressable, ScrollView, Container, View } from 'native-base'
+import React,{ useEffect } from 'react'
+import { HStack, Text, Icon, Box, Pressable, ScrollView, Container, View, Center } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import { Document } from 'application/models/document/Document'
@@ -13,6 +13,15 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
     const [breadcrumbs, setBreadCrumbs] = React.useState<Document[]>([]);
 
     const { documents, data, FilterDocuments } = UseDocumentService();
+
+    const [filteredDocuments, setFilteredDocuments] = React.useState<Document[]>([]);
+
+    useEffect(() => {
+        const nonEmptyDocuments = documents.filter((document) => {
+            return document?.path !== undefined || document?.children_files?.length > 0;
+        });
+        setFilteredDocuments(nonEmptyDocuments);
+      }, [documents]);
 
     const updateBreadCrumbs = (breadcrumbs: Document[]) => {
         setBreadCrumbs(breadcrumbs);
@@ -28,7 +37,7 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                         FilterDocuments({ document_id: 0, query: '' });
                         setBreadCrumbs([]);
                     }}>
-                    <Text textTransform="uppercase" fontSize="xs">Documents</Text>
+                    <Text textTransform="uppercase" fontSize="lg">Documents</Text>
                 </Pressable>}
                 {breadcrumbs.length > 0 && breadcrumbs.map((breadcrumb: Document, key: number) =>
                     <React.Fragment key={key}>
@@ -38,32 +47,35 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                                 FilterDocuments({ document_id: breadcrumb.id, query: '' });
                                 setBreadCrumbs(FindPath(data, breadcrumb.id));
                             }}>
-                            <Text textTransform="uppercase" fontSize="xs">{breadcrumb.name}</Text>
+                            <Center maxW="250px">
+															<Text textTransform="uppercase" fontSize="md" isTruncated>{breadcrumb.name}</Text>
+														</Center>
+														
                         </Pressable>
                     </React.Fragment>
                 )}
             </HStack>
             {Platform.OS === 'web' ? (
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
-                    {documents.map((document: Document, key: number) => {
-                            if(document?.path !== undefined ||document?.files?.length > 0 || document?.children_files?.length > 0){
+                    {filteredDocuments.map((document: Document, key: number) => {
                                return <React.Fragment key={key}>
-                                    <RectangleViewLayout2 length={documents.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
+                                    <RectangleViewLayout2 length={filteredDocuments.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
                                 </React.Fragment>
-                            }
                         }
                     )}
-                    { documents.length <= 0 &&
-                        <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                    { filteredDocuments.length <= 0 &&
+                        <Box p="3">
+                            <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                        </Box>
                     }
                 </Box>
             ) : (
                 <Container w="100%" h="90%" bg="primary.box" p="0" rounded="10" maxW={'100%'}>
                     <ScrollView w={'100%'}>
                         <Box overflow="hidden" w="100%">
-                            {documents.map((document: Document, key: number) =>
+                            {filteredDocuments.map((document: Document, key: number) =>
                                 <React.Fragment key={key}>
-                                    <RectangleViewLayout2 length={documents.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
+                                    <RectangleViewLayout2 length={filteredDocuments.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
                                 </React.Fragment>
                             )}
                         </Box>

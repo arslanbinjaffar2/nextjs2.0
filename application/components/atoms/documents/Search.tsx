@@ -4,11 +4,15 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import debounce from 'lodash.debounce';
 import { Keyboard } from 'react-native';
+import UseEventService from 'application/store/services/UseEventService';
+
 
 
 const Search = () => {
 
     const { FilterDocuments, query, documents, document_id } = UseDocumentService();
+    const { event, modules  } = UseEventService();
+
 
     const searchInputRef = React.useRef<any>(null);
 
@@ -33,7 +37,7 @@ const Search = () => {
     }, [query])
 
     return (
-        <Input rounded="10" ref={searchInputRef} bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} onChangeText={(text: string) => {
+        <Input rounded="10" ref={searchInputRef} bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} onChangeText={(text: string) => {
             search(text, (documents.length > 0 ? (documents[0]?.directory_id !== undefined ? documents[0]?.directory_id : documents[0]?.parent_id) : document_id));
         }} />
     )

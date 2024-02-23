@@ -24,7 +24,7 @@ const RectangleView = ({ k, attendee, total }: boxItemProps) => {
         <Pressable w='100%' onPress={() => {
             push(`/${event.url}/speakers/detail/${attendee.id}`)
         }}>
-            <HStack key={k} borderBottomWidth={total !== (k + 1) ? '1px' : '0'} borderColor="primary.text" px="3" py="3" w="100%" space="0" alignItems="center">
+            <HStack key={k} borderBottomWidth={total !== (k + 1) ? '1px' : '0'} borderColor="primary.bordercolor" px="3" py="3" w="100%" space="0" alignItems="center">
                 <Center alignItems="flex-start" w="70%" p="0">
                     <HStack space="3" alignItems="center">
                         <Avatar

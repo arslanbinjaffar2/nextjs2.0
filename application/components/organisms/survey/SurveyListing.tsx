@@ -14,7 +14,7 @@ const SurveyListing = ({surveys}:{surveys:Surveys}) => {
     
   return (
     <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-    <Heading py="1" fontSize="2xl" borderBottomWidth='1' borderColor="primary.text" w="100%" textAlign="center">{modules?.find((polls)=>(polls.alias == 'survey'))?.name ?? 'Surveys'}</Heading>
+    <Heading py="1" fontSize="26px" fontWeight={500} w="100%" textAlign="center">{modules?.find((polls)=>(polls.alias == 'survey'))?.name ?? 'Surveys'}</Heading>
     {surveys?.slice(0, 4).map((poll:Survey)=>{
        return <SurveyRectangleView survey={poll} key={poll.id} completed={false} />
     })}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, VStack, Radio, FormControl, Spinner, Divider } from 'native-base';
+import { Button, Center, Flex, Text, Image, VStack, Radio, FormControl, Spinner, Divider, Box } from 'native-base';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
@@ -76,8 +76,8 @@ const Verification = ({ props }: any) => {
                                     name="code"
                                     rules={{ required: 'Code is required' }}
                                 />
-                                <FormControl.ErrorMessage>
-                                    {error ? error : errors.code?.message}
+                                <FormControl.ErrorMessage width={'100%'} p="3" bg="danger.100" rounded="sm" >
+                                        <Text fontSize="md" color={'danger.500'}>{error ? error : errors.code?.message}</Text>
                                 </FormControl.ErrorMessage>
                             </FormControl>
                             <Flex direction="row">
@@ -99,7 +99,7 @@ const Verification = ({ props }: any) => {
                                                     {minutes < 4 && (
                                                         <>
                                                             <Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
-                                                            <Text onPress={() => {
+                                                            <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
                                                                 verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
                                                             }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
                                                         </>
@@ -111,7 +111,7 @@ const Verification = ({ props }: any) => {
                                 />
                             </Flex>
                             <Link href={`/${event.url}/auth/login`}>
-                                <Text w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
+                                <Text textDecorationLine={'underline'}  w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
                             </Link>
                             <Button
                                 width={'100%'}

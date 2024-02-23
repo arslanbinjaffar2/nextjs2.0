@@ -44,17 +44,17 @@ const Index = () => {
         </HStack>
         <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
           {programs?.length > 0 && programs?.map((program, k) =>
-            <Box w="100%" key={k} borderBottomWidth={k === 3 ? 0 : 1} borderColor="primary.text" py="3">
+            <Box w="100%" key={k} borderBottomWidth={k === 3 ? 0 : 1} borderColor="primary.bordercolor" py="3">
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                 <Box position="absolute" left="0" top="0" w="15px">
                 <ZStack>
-                      {program?.tracks?.length > 0 && program.tracks.map((track: any, i: number) =>
+                      {program?.tracks?.length > 0 && program.tracks.slice(0,3).map((track: any, i: number) =>
                         <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
                       )}
                     </ZStack>
                 </Box>
                 <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                  <VStack maxW={['62%', '70%', '40%']} space="1">
+                  <VStack maxW={'calc(100% - 80px)'} space="1">
                     <Text fontSize="md" lineHeight="22px">
                       {program?.info.topic}
                     </Text>

@@ -15,7 +15,7 @@ const NotesBox = () => {
   return (
     <>
         {detail?.detail !== undefined && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
-            <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" rounded={8}>
+            <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
                 <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
                 <Text fontSize="lg">Notes</Text>
             </HStack>
@@ -34,7 +34,7 @@ const NotesBox = () => {
                             SaveNote({note:note, note_type:'sponsors', note_type_id: detail.detail?.id});
                             setNote('');
                         }
-                     }}><Icon as={FontAwesome} name="save" fontSize={'20px'} /></Pressable>
+                     }}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
                 </Box>
             </Box>
         </Box>}

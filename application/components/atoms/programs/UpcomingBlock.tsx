@@ -13,8 +13,8 @@ type AppProps = {
 const UpcomingBlock = ({ title, desc, location, date, time }: AppProps) => {
 
   return (
-    <Box mb="3" w="100%" py="3" px="3" borderWidth="1px" borderColor="primary.bdBox" bg="primary.boxTransparent" rounded="10">
-      {title && <Heading fontSize={['md', 'md', 'xl']}>{title}</Heading>}
+    <Box mb="3" w="100%" py="4" px="3" borderWidth="1px" borderColor="primary.box" bg="primary.box" rounded="10">
+      {title && <Heading pb={1} fontSize={['md', 'md', 'xl']}>{title}</Heading>}
       {desc && <Text lineHeight="sm" fontSize={['13px', 'md']}>{desc}</Text>}
       {location && <HStack><Icon h="20px" lineHeight="5" pt="1" size="16px" color="primary.text" as={MaterialIcons} name="location-pin" /><Text fontSize="md"> {location}</Text></HStack>}
       {(date || time) && <HStack space={['1', '3']}>{date && <Text fontSize={['13px', 'md']}>{date}</Text>}{time && <Text fontSize={['13px', 'md']}> {time}</Text>}</HStack>}

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
-import { useState } from 'react';
+import { useEffect, useState } from 'react'
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { createParam } from 'solito';
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -24,6 +24,8 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/survey/Survey';
 import { useRouter } from 'solito/router'
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
 
 
 type ScreenParams = { id: string }
@@ -50,7 +52,7 @@ const Detail = () => {
 
   const { response  } = UseAuthService();
 
-  const { push } = useRouter()
+  const { push, back } = useRouter()
 
   const { FetchSurveyDetail, detail, survey_labels, submitSuccess, SubmitSurvey } = UseSurveyService();
 
@@ -101,13 +103,23 @@ const Detail = () => {
 
 
     const [id] = useParam('id');
-
+    const { banners, FetchBanners} = UseBannerService();
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
     React.useEffect(() => {
         if (id) {
           FetchSurveyDetail({ id: Number(id) });
         }
     }, [id]);
+    useEffect(()=>{
+      const filteredBanner=banners.filter((banner  : Banner)=>{
+        return banner.module_name == 'polls' && banner.module_type == 'detail'
+      })
 
+      setFilteredBanners(filteredBanner);
+    },[banners]);
+    React.useEffect(() => {
+      FetchBanners();
+    }, []);
     React.useEffect(() => {
       console.log(submitSuccess, 'useEffect');
         setcompleted(submitSuccess);
@@ -234,16 +246,15 @@ const Detail = () => {
                 <WebLoading />
             ) : (
             <Container mb="3" maxW="100%" w="100%">
-              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Pressable onPress={()=> push(`/${event.url}/survey`)}>
+              <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
+                <Pressable onPress={()=> back() }>
                   <HStack space="3" alignItems="center">
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                         <Text fontSize="2xl">BACK</Text>
                   </HStack>
                 </Pressable>
-                <Spacer />
-                <Text isTruncated pr="6" fontSize="lg">{detail?.info.name}</Text>
               </HStack>
+               <Text mb={1} textBreakStrategy='simple' w={'100%'} textAlign={'center'} fontSize="2xl">{detail?.info.name}</Text>
               {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
                 { detail?.questions.map((item, key)=>(
                     <Box key={key} bg={steps >= key ? 'primary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />
@@ -321,7 +332,7 @@ const Detail = () => {
               </Box>}
               {completed === true && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
-                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.text" rounded="100%" alignItems="center" justifyContent="center">
+                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
                     <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
                   </Box>
                   <Text fontSize="lg">{survey_labels?.SURVEY_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
@@ -329,6 +340,17 @@ const Detail = () => {
               </Box>}
             </Container>
       )}
+      <Box width={"100%"} height={"5%"}>
+        {filteredBanners.map((banner, k) =>
+          <Image
+            key={k}
+            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+            alt="Image"
+            width="100%"
+            height="100%"
+          />
+        )}
+      </Box>
     </>
   );
 };

@@ -27,12 +27,12 @@ const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean
           push(`/${event.url}/polls/result/${poll.agenda_id}`)
         }
        }}>
-      <Box w="100%" borderBottomWidth='1' borderColor="primary.text" py="3">
+      <Box w="100%" borderBottomWidth='1' borderColor="primary.bordercolor" py="3">
         <HStack px="3" w="100%" space="0" alignItems="center" justifyContent="space-between">
-          <VStack marginRight={5}>
-            <Icon size="lg" as={AntDesign} name={poll?.agenda_favs?.length > 0 ? 'heart' :'hearto'} color={poll?.agenda_favs?.length > 0 ? 'primary.400' : 'primary.text'} />
-          </VStack>
-          <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="1">
+          {/* <VStack marginRight={5}>
+            <Icon size="lg" as={AntDesign} name={poll?.agenda_favs?.length > 0 ? 'heart' :'hearto'} color={poll?.agenda_favs?.length > 0 ? 'secondary.500' : 'primary.text'} />
+          </VStack> */}
+          <VStack bg="red" w="100%" maxW={['90%', '85%', '85%']} space="1">
             <Text fontSize="md">{poll.program.info.topic}</Text>
             <Text fontSize="sm">{moment(`${poll.program.start_date} ${poll.program.start_time}`).format('HH:mm')} - {moment(`${poll.program.start_date} ${poll.end_time}`).format('HH:mm')} </Text>
           </VStack>

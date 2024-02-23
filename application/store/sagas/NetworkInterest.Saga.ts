@@ -17,6 +17,7 @@ function* OnFetchNetworkInterests({
     type: typeof NetworkInterestActions.FetchNetworkInterests
 }): SagaIterator {
     yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'keywords' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getNetworkInterestApi, {}, state)
     yield put(NetworkInterestActions.update({ keywords: response.data.data! }))
@@ -24,6 +25,8 @@ function* OnFetchNetworkInterests({
         yield put(NetworkInterestActions.setSkip());
     }
     yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'keywords' }))
+
 }
 
 function* OnSaveMykeywords({
