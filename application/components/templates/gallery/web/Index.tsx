@@ -49,7 +49,7 @@ const Index = () => {
         const imageTitleInfo = gallery_image.info?.find(info => info.name === 'image_title');
         if (imageTitleInfo && imageTitleInfo.value?.toLowerCase()?.includes(query.toLowerCase())) {
           return true;
-        }
+          }
       } else {
         return true;
       }

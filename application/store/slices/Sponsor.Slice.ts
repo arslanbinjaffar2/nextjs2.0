@@ -43,6 +43,7 @@ export const SponsorSlice = createSlice({
             state.screen = action.payload.screen;
         },
         FetchMySponsors(state, action: PayloadAction<{}>) {},
+        FetchOurSponsors(state, action: PayloadAction<{}>) {},
         FetchSponsorDetail(state, action: PayloadAction<{ id: number }>) { },
         MakeFavourite(state, action: PayloadAction<{ sponsor_id: number, screen: string }>) { },
         update(state, action: PayloadAction<Sponsor[]>) {
@@ -76,6 +77,7 @@ export const SponsorSlice = createSlice({
 export const SponsorActions = {
     FetchSponsors: SponsorSlice.actions.FetchSponsors,
     FetchMySponsors: SponsorSlice.actions.FetchMySponsors,
+    FetchOurSponsors: SponsorSlice.actions.FetchOurSponsors,
     FetchSponsorDetail: SponsorSlice.actions.FetchSponsorDetail,
     update: SponsorSlice.actions.update,
     updateOurSponsors: SponsorSlice.actions.updateOurSponsors,
