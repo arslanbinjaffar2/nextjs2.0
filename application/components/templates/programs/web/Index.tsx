@@ -110,7 +110,7 @@ const Index = () => {
                         )}
                     </Container>}
                     <Box width={"100%"} height={"5%"}>
-                        <BannerAds module_name={'agendas'} module_type={'listing'} />
+                         <BannerAds module_name={'agendas'} module_type={'listing'} />
                     </Box>
                 </>
             )}
