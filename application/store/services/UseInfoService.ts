@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { InfoActions, SelectInfo, SelectPage, SelectParentFolder } from 'application/store/slices/Info.Slice'
+import { InfoActions, SelectInfo, SelectPage, SelectParentFolder, SelectParentFolderName } from 'application/store/slices/Info.Slice'
 
 import { Info } from 'application/models/Info'
 
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type InfoServiceOperators = {
     parent_folder: number
+    parent_folder_name: string
     info: Info[] | null
     page: Info | null
     FetchInfo: (payload: { id: number, type: string }) => void
@@ -25,6 +26,7 @@ export const UseInfoService = (): Readonly<InfoServiceOperators> => {
 
     return {
         parent_folder: useAppSelector(SelectParentFolder),
+        parent_folder_name: useAppSelector(SelectParentFolderName),
         info: useAppSelector(SelectInfo),
         page: useAppSelector(SelectPage),
         FetchInfo: useCallback(

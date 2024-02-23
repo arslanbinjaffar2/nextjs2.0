@@ -28,7 +28,6 @@ const LeftBar = () => {
 
   const { setLoading } = UseLoadingService();
 
-
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Box pb="3">
@@ -66,7 +65,7 @@ const LeftBar = () => {
             <Center w="30px">
               <IcoDashboard width="24" height="24" />
             </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Dashboard</Text>}
+            {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">Dashboard</Text>}
           </HStack>
         </Pressable>
         {modules.map((row: any, key: any) =>
@@ -95,7 +94,7 @@ const LeftBar = () => {
               <Center w="30px">
                 <DynamicIcon iconType={row?.alias.replace('-', '_')} iconProps={{ width: 24, height: 21 }} />
               </Center>
-              {width > 1200 && <Text fontSize={'lg'} color="primary.text">{row?.name}</Text>}
+              {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
             </HStack>
           </Pressable>
         )}

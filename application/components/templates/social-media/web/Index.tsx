@@ -1,24 +1,38 @@
 import React, { useEffect } from 'react'
 
-import { Box, Center, Container, Flex, HStack, Icon, Text, Pressable } from 'native-base';
+import { Box, Center, Container, Flex, HStack, Icon, Text, Pressable, Image } from 'native-base'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import UseLoadingService from '../../../../store/services/UseLoadingService'; 
 import UseSocialMediaService from '../../../../store/services/UseSocialMediaService'; 
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Linking } from 'react-native';
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
+import UseEnvService from 'application/store/services/UseEnvService'
 
 const index = () => {
 
   const mounted = React.useRef(false);
+  const { banners, FetchBanners} = UseBannerService();
+  const { _env } = UseEnvService()
 
     const { loading } = UseLoadingService();
-    
-    const { FetchSocialMedias, socialMedia } = UseSocialMediaService();
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
+    const { FetchSocialMedias, socialMedia } = UseSocialMediaService();
+    useEffect(()=>{
+      const filteredBanner=banners.filter((banner  : Banner)=>{
+        return banner.module_name == 'social' && banner.module_type == 'listing'
+      })
+
+    setFilteredBanners(filteredBanner);
+    },[banners]);
     useEffect(() => {
       FetchSocialMedias();
     }, []);
-
+    React.useEffect(() => {
+      FetchBanners();
+    }, []);
   return (
     <>
       {
@@ -29,11 +43,11 @@ const index = () => {
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
               <Text textTransform="uppercase" fontSize="2xl">Social media</Text>
             </HStack>
-            <Box w="100%" mb="3" bg="primary.box" p="8" pb="1" rounded="10px">
+            <Box w="100%" mb="3" bg="primary.box" p={["4","8"]} pb="1" rounded="10px">
               <Flex direction="row" flexWrap="wrap">
                 {socialMedia.length > 0 && socialMedia.map((link)=>{
                   if(link.value !== ''){
-                    return <Center mb="8" w="25%" alignItems="center" justifyContent="center">
+                    return <Center mb="8" w={["33%","25%"]} alignItems="center" justifyContent="center">
                     <Pressable
                     onPress={async () => {
                       
@@ -44,8 +58,8 @@ const index = () => {
                         }
                     }}>
                     
-                    <Box w={["50px","90px"]} h={["50px","90px"]} shadow="1" bg={SocialStyleOptions[link.name].color} rounded="100%" alignItems="center" justifyContent="center">
-                      <Icon textAlign="center" color="#fff" size={["2xl","5xl"]} as={FontAwesome} name={SocialStyleOptions[link.name].icon} />
+                    <Box w={["75px","90px"]} h={["75px","90px"]} shadow="1" bg={SocialStyleOptions[link.name].color} rounded="100%" alignItems="center" justifyContent="center">
+                      <Icon textAlign="center" color="#fff" size={["3xl","5xl"]} as={FontAwesome} name={SocialStyleOptions[link.name].icon} />
                     </Box>
                   </Pressable>
                   </Center>
@@ -57,6 +71,17 @@ const index = () => {
           </Container>
        )
       }
+      <Box width={"100%"} height={"5%"}>
+        {filteredBanners.map((banner, k) =>
+          <Image
+            key={k}
+            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
+            alt="Image"
+            width="100%"
+            height="100%"
+          />
+        )}
+      </Box>
   </>
   )
 }

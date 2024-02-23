@@ -31,7 +31,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
   return (
-    <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.box" py="3">
+    <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.bordercolor" py="3">
       <Pressable
         onPress={() => {
           if (Platform.OS === "web") {
@@ -56,7 +56,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
             ) : (
               <Image rounded="25" size="5" source={UserPlaceholderImage} alt="Alternate Text" w="50px" h="50px" />
             )}
-            <VStack maxW={['62%', '70%', '40%']} space="0">
+            <VStack w={'calc(100% - 165px)'} space="0">
               {(attendee?.first_name || attendee?.last_name) && (
                 <>
                   <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>

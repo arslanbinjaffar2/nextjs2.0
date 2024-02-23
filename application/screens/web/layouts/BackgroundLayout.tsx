@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { ImageBackground, View } from 'react-native';
+import { ImageBackground } from 'react-native';
 import { gStyle, images } from 'application/styles';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
+import { View } from 'native-base';
 
 type Props = {
     children:
@@ -19,11 +20,11 @@ const BackgroundLayout = ({ children }: Props) => {
 
     const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
     const gStyles = gStyle(colors);
-
+    console.log(gStyles.flex1)
     return (
             <>
-                <ImageBackground blurRadius={8} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode='cover' source={{ uri:`${_env.eventcenter_base_url}/assets/event/app_background/${event.settings?.app_background_image}`  }}>
-                    <View style={{ ...gStyles.flex1, ...gStyles.bgContainer }} />
+                <ImageBackground blurRadius={15} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode='cover' source={{ uri:`${_env.eventcenter_base_url}/assets/event/app_background/${event.settings?.app_background_image}`  }}>
+                    <View flex={1} bg={'primary.100'} style={event.settings?.app_background_image ? {...gStyles.bgContainer} : {...gStyles.bgContainerSolid}} />
                 </ImageBackground>
                 {children}
             </>

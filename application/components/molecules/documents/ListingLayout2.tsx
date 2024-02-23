@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useEffect } from 'react'
 import { HStack, Text, Icon, Box, Pressable, ScrollView, Container, View, Center } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseDocumentService from 'application/store/services/UseDocumentService';
@@ -13,6 +13,15 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
     const [breadcrumbs, setBreadCrumbs] = React.useState<Document[]>([]);
 
     const { documents, data, FilterDocuments } = UseDocumentService();
+
+    const [filteredDocuments, setFilteredDocuments] = React.useState<Document[]>([]);
+
+    useEffect(() => {
+        const nonEmptyDocuments = documents.filter((document) => {
+            return document?.path !== undefined || document?.children_files?.length > 0;
+        });
+        setFilteredDocuments(nonEmptyDocuments);
+      }, [documents]);
 
     const updateBreadCrumbs = (breadcrumbs: Document[]) => {
         setBreadCrumbs(breadcrumbs);
@@ -48,25 +57,25 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
             </HStack>
             {Platform.OS === 'web' ? (
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
-                    {documents.map((document: Document, key: number) => {
-                            if(document?.path !== undefined ||document?.files?.length > 0 || document?.children_files?.length > 0){
+                    {filteredDocuments.map((document: Document, key: number) => {
                                return <React.Fragment key={key}>
-                                    <RectangleViewLayout2 length={documents.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
+                                    <RectangleViewLayout2 length={filteredDocuments.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
                                 </React.Fragment>
-                            }
                         }
                     )}
-                    { documents.length <= 0 &&
-                        <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                    { filteredDocuments.length <= 0 &&
+                        <Box p="3">
+                            <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                        </Box>
                     }
                 </Box>
             ) : (
                 <Container w="100%" h="90%" bg="primary.box" p="0" rounded="10" maxW={'100%'}>
                     <ScrollView w={'100%'}>
                         <Box overflow="hidden" w="100%">
-                            {documents.map((document: Document, key: number) =>
+                            {filteredDocuments.map((document: Document, key: number) =>
                                 <React.Fragment key={key}>
-                                    <RectangleViewLayout2 length={documents.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
+                                    <RectangleViewLayout2 length={filteredDocuments.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
                                 </React.Fragment>
                             )}
                         </Box>

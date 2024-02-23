@@ -142,7 +142,7 @@ const Selectstyles2 = {
     })
 
     const [customFieldData, setCustomFieldData] = React.useState<any>(customFields.reduce((ack1, question, i)=>{
-        let answers = attendee.info[`custom_field_id${question.event_id}`].split(',').reduce((ack2:any, id, i)=>{ 
+        let answers = attendee.info[`custom_field_id${question.event_id}`]?.split(',').reduce((ack2:any, id, i)=>{ 
            let is_answer = question.children_recursive.find((answer:any)=>(answer.id == id));
            if(is_answer !== undefined){
              ack2.push({
@@ -1057,7 +1057,7 @@ const Selectstyles2 = {
             <Box mb="4" w="100%" bg="primary.darkbox" px="3" py="1" >
                 <Text fontSize="lg">Contact information</Text>
             </Box>
-            {attendee_feild_settings?.website === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.website === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'}  />
                 </Center>
@@ -1074,7 +1074,7 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.facebook === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.facebook === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'}  />
                 </Center>
@@ -1091,7 +1091,7 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.twitter === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.twitter === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-twitter" size={'lg'}  />
                 </Center>
@@ -1108,7 +1108,7 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.linkedin === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.box'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.linkedin === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="3"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'}  />
                 </Center>

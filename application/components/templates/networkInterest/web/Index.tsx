@@ -220,7 +220,7 @@ const CheckboxWrapp = ({ title, checked, addMyKeyword}: checkboxProps) => {
         _pressed={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
         _text={{ fontSize: 'lg' }}
         rounded="20px"
-        leftIcon={<Icon as={AntDesign} name={checked ? 'check' : 'plus'} />}
+        leftIcon={<Icon color={'primary.text'} as={AntDesign} name={checked ? 'check' : 'plus'} />}
         onPress={() => {
             addMyKeyword();
         }}

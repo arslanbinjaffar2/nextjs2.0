@@ -23,21 +23,20 @@ const WorkshopCollapsableView = ({ program, k, border, speaker, section }: AppPr
 
   return (
     <>
-      <Box w={"100%"} pl={'50px'} pr={3} py={1} bg="primary.darkbox" display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-        <Text  >{program.program_workshop}</Text>
+      <Box w={"100%"} pl={'5'} pr={3} py={1} bg="primary.darkbox" display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+        <Text>{program.program_workshop}</Text>
         <Pressable
           onPress={() => {
             setOpen(!open)
           }}>
-          <Icon size="md" as={AntDesign} name={!open ? "up" :"down"} color={"primary.text"} />
+          <Icon size="md" as={AntDesign} name={!open ? "up" :"right"} color={"primary.text"} />
         </Pressable>
       </Box>
       {!open && <>
         {program.workshop_programs?.map((workshop_program: Program, i: number) =>
             <RectangleDetailView key={i} section={section} speaker={speaker} program={workshop_program} k={i} border={program.workshop_programs?.length !== (i + 1)} />
             )}
-        <Box w={"100%"} height={2} bg="primary.darkbox"></Box>
-      </>}
+        </>}
     </>
   )
 };

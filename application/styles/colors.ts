@@ -1,7 +1,7 @@
 const background = hex2rgb('#343d50');
 const hsb = rgb2hsv(background[0], background[1], background[2]);
-const box = hsbTorgb(hsb[0], hsb[1] / 2, hsb[2] + 30);
-const darkbox = hsbTorgb(hsb[0], hsb[1] / 2, hsb[2] + 12);
+const box = hsbTorgb(hsb[0], hsb[1] / 3, hsb[2] + 50);
+const darkbox = hsbTorgb(hsb[0], hsb[1] / 3, hsb[2] + 50);
 const primary = '#1e938a';
 const secondary = '#004884';
 const white20 = 'rgba(255, 255, 255, 0.2)';
@@ -52,13 +52,13 @@ function rgb2hsv(r: number, g: number, b: number) {
 export function getColorScheme(primaryColor:string, textMode:string|undefined){
   const background = hex2rgb(primaryColor);
   const hsb = rgb2hsv(background[0], background[1], background[2]);
-  const box = hsbTorgb(hsb[0], hsb[1] / 2, hsb[2] + 30);
-  const darkbox = hsbTorgb(hsb[0], hsb[1] / 2, hsb[2] + 12);
+  const box = hsbTorgb(hsb[0], (hsb[1] / 2 - 30), hsb[2] + 1);
+  const darkbox = hsbTorgb(hsb[0], hsb[1] / 3, hsb[2] + 45);
   const primary = primaryColor;
   const secondary = '#004884';
   const white20 = 'rgba(255, 255, 255, 0.2)';
   const dark = '#EAEAEA';
-  const light = '#1e1e1e';
+  const light = '#000000';
   const text = textMode == 'dark' ? light : dark;
 
   return {
