@@ -14,7 +14,7 @@ const BannerAds = ({
    }: {
   module_name: string;
   module_type: string;
-  banner_position: string;
+  banner_position?: string;
 }) => {
   const { _env } = UseEnvService();
   const { event } = UseEventService();
