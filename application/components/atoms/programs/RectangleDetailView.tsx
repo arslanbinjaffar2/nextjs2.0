@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, HStack, Spacer, VStack, Text, Icon, ZStack, Center, IconButton, Pressable } from 'native-base'
+import { Box, HStack, Spacer, VStack, Text, Icon, ZStack, Center, IconButton, Pressable, Divider } from 'native-base'
 import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -14,11 +14,12 @@ type AppProps = {
   program: Program,
   k: number,
   border: boolean,
+  workshop: boolean,
   speaker?:number,
   section?:string,
 }
 
-const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps) => {
+const RectangleDetailView = ({ program, k, border, speaker, section, workshop }: AppProps) => {
 
   const { MakeFavourite, SetFavouriteProgramError, favouriteProgramError, agendas_attached_via_group } = UseProgramService();
 
@@ -31,21 +32,23 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
     SetFavouriteProgramError('');
     alert(message);
   }  
-  const _condtion = (program?.session?.length && program?.enable_speakerlist) || (program?.videos?.length) || (event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) )
+  const _condtion = (program?.session?.length && program?.enable_speakerlist) || (program?.videos?.length) || (event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) );
+  console.log(workshop)
   return (
     <>
     <Box w="100%" key={k} borderBottomWidth={border ? 1 : 0} borderColor="primary.bordercolor" py="3">
+      {workshop && <Divider w={'5px'} bg={'primary.500'}  position={'absolute'} right={0} height={'calc(100% + 1px)'} top={0} />}
       <Pressable
               onPress={() => {
                 push(`/${event.url}/agendas/detail/${program.id}`)
               }}>
 
                 <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-                  <HStack pt="2" w="100%" space="0" minH={'55px'} alignItems="flex-start" justifyContent="space-between">
-                  {Platform.OS === 'web' && event?.agenda_settings?.show_tracks == 1 && <Box width={['38px','45px']} h={'55px'} ml="-30px">
-                    <ZStack reversed>
+                  <HStack pt="2" pr={1} w="100%" space="0" minH={'55px'} alignItems="flex-start" justifyContent="space-between">
+                  {Platform.OS === 'web' && event?.agenda_settings?.show_tracks == 1 && <Box  width={['35px','35px']} h={'55px'} ml="-30px">
+                    <ZStack top={'50%'} mt={`-${program.program_tracks.slice(0,3).length === 3 ?  10 : program.program_tracks.slice(0,3).length === 2 ? 20 : 30 }px`}  reversed>
                       {program?.program_tracks?.length > 0 && program.program_tracks.slice(0,3).map((track: any, i: number) =>
-                        <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" h={'55px'}   w={`${15 + (i * 10)}px`} borderRightRadius="10" shadow={2} />
+                        <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w={'15px'} top={`-${i*10}px`}   height={`${i === 0 && program?.program_tracks?.length === 1 ? '55px' : '35px'}`} borderRightRadius="10" shadow={2} />
                       )}
                     </ZStack>
                   </Box>}
@@ -55,12 +58,12 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                       <Text lineHeight="22px">{moment(`${program.date} ${program.end_time}`).format('HH:mm')}</Text>
                       </>}
                     </VStack>
-                    <Center maxW={[_condtion ? '55%' : '75%', _condtion ? '70%' : '80%']} alignSelf="flex-start" p="0">
+                    <Center maxW={[_condtion ? '55%' : '75%', _condtion ? '68%' : '78%']} alignSelf="flex-start" p="0">
                       <Text alignSelf="flex-start" lineHeight="22px">{program.topic}</Text>
                     </Center>
                     <Spacer />
                     
-                    {_condtion && <HStack pr="3" space={['2','3']} alignItems="flex-end">
+                    {_condtion && <HStack pr="3" space={['2','4']} alignItems="center" justifyContent={'flex-end'}>
                       {program?.session?.length && program?.enable_speakerlist ? (
                         <IconButton
                           p={0}
