@@ -50,7 +50,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                         return (
                             <Pressable
                                 onPress={async () => {
-                                    const url: any = `${_env.eventcenter_base_url}/assets/directory/${document.path}`;
+                                    const url: any = document.s3 ? `${document.s3_url}` : `${_env.eventcenter_base_url}/assets/directory/${document.path}`;
                                     const supported = await Linking.canOpenURL(url);
                                     if (supported) {
                                         await Linking.openURL(url);
