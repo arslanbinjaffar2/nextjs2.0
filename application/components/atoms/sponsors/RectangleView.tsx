@@ -10,10 +10,10 @@ import { Linking } from 'react-native';
 
 type AppProps = {
     sponsor: Sponsor,
-    k: number
+    border: number
 }
 
-const RectangleView = ({ k, sponsor }: AppProps) => {
+const RectangleView = ({ border, sponsor }: AppProps) => {
 
     const { settings, MakeFavourite } = UseSponsorService();
 
@@ -22,7 +22,7 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
     const { event } = UseEventService()
 
     return (
-        <Box w="100%" borderBottomWidth={1} borderColor="primary.bordercolor" py="3">
+        <Box w="100%" borderBottomWidth={border} borderColor="primary.bordercolor" py="3">
             <Pressable
                 onPress={async () => {
                     if(sponsor?.url && sponsor?.url !== '' && sponsor.url !== 'http://' && sponsor.url !== 'https://'){
@@ -44,7 +44,7 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
                         </ZStack>
                     </Box>} */}
                     <HStack pt="0" w="100%" space="4" alignItems="center">
-                        <VStack marginRight={'auto'} w="calc(100% - 220px);" space="0">
+                        <VStack marginRight={'auto'} w="calc(100% - 180px);" space="0">
                             <Text fontSize="lg" lineHeight="22px">
                                 {sponsor.name}
                             </Text>

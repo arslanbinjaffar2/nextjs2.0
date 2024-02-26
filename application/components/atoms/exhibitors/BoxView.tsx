@@ -94,40 +94,42 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
                                                 {i== 0 && <Text isTruncated lineHeight={25}  fontSize="sm">{cat?.info?.name}</Text>}
                                             </Box>
                                         ))}
+
+																		{settings?.catTab == 1 &&  exhibitor.categories.length > 3 &&
+																			<>
+																			<Spacer />
+																				<Popover
+																					trigger={(triggerProps) => {
+																					return <Button
+																									bg={'transparent'}
+																									px={1}
+																									py={0}
+																									mr={2}
+																									position={'relative'}
+																									left={`${(measureText(exhibitor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(exhibitor?.categories[0]?.info.name, 14)) + 28 + (1 * 10)}px`}
+																									rounded={'full'}
+																									{...triggerProps}
+																								>
+																									<Text lineHeight={24} fontSize="sm">{`+${ exhibitor.categories.length - 3}`}</Text>
+																								</Button>
+																							}}>
+																					<Popover.Content bgColor={'primary.500'}>
+																						<Popover.Arrow bgColor={'primary.500'} />
+																						<Popover.Body borderTopWidth="0" bgColor={'primary.500'}>
+																						<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
+																							{exhibitor.categories.length > 3 && exhibitor.categories.slice(3).map((category: Category, i: number) =>(
+																									<Box mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
+																											<Text fontSize="sm">{`${category.info.name}`}</Text>
+																									</Box>
+																							))}
+																						</HStack>
+																						</Popover.Body>
+																					</Popover.Content>
+																				</Popover>
+																				
+																				</>}
                                     </ZStack>
                                 </Center>
-																	{settings?.catTab == 1 &&  exhibitor.categories.length > 3 &&
-																		<>
-																		<Spacer />
-																			<Popover
-																				trigger={(triggerProps) => {
-																				return <Button
-																								bg={'transparent'}
-																								px={1}
-																								py={0}
-																								mr={2}
-																								rounded={'full'}
-																								{...triggerProps}
-																							>
-																								<Text lineHeight={24} fontSize="sm">{`+${ exhibitor.categories.length - 3}`}</Text>
-																							</Button>
-																						}}>
-																				<Popover.Content bgColor={'primary.500'}>
-																					<Popover.Arrow bgColor={'primary.500'} />
-																					<Popover.Body borderTopWidth="0" bgColor={'primary.500'}>
-																					<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
-																						{exhibitor.categories.length > 3 && exhibitor.categories.slice(3).map((category: Category, i: number) =>(
-																								<Box mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
-																										<Text fontSize="sm">{`${category.info.name}`}</Text>
-																								</Box>
-																						))}
-																					</HStack>
-																					</Popover.Body>
-																				</Popover.Content>
-																			</Popover>
-																			
-																			</>
-															}
                             </HStack>}
 														<Spacer />
                             <Center pr={2} alignItems="flex-end">
