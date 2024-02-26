@@ -127,6 +127,9 @@ export interface Category {
 interface CategoryInfo {
   name: string;
 }
+interface CategoryInfo2 {
+  description: string;
+}
 
 interface ExhibitorCategoryPivot {
   exhibitor_id: number;

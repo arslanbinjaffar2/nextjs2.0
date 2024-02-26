@@ -134,9 +134,9 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
                             </HStack>}
 														<Spacer />
                             <Center pr={2} alignItems="flex-end">
-                                {sponsor.booth && <HStack space="3" alignItems="center">
+                                {sponsor.booth && <HStack space="2" alignItems="center">
                                     <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
-                                    <Text fontSize="md">{sponsor.booth}</Text>
+                                    <Text fontSize="sm">{sponsor.booth}</Text>
                                 </HStack>}
                             </Center>
                         </HStack>
