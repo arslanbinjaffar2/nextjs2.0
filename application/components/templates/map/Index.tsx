@@ -54,7 +54,7 @@ const Index = () => {
                     <Box width={'100%'}>
                         <LoadImage
                             path={`${map?.image}`}
-                            alt="Alternate Text"
+                            alt=""
                             width="100%"
                             height="auto"
                             rounded="10"

@@ -186,7 +186,7 @@ const Detail = () => {
 
                             {filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>
 
-                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />
+                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="" w="700px" h="100px" rounded={10} />
                             )}
                         {in_array(tab, ['about']) && (
                             <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">

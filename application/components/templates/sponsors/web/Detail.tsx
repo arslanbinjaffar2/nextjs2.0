@@ -123,7 +123,7 @@ const Detail = React.memo(() => {
 
                             {filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>
 
-                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />
+                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="" w="700px" h="100px" rounded={10} />
                             )}
                         {/* <Container mb="3" maxW="100%" w="100%">
                             <Text mb="3" fontSize="lg" textTransform="uppercase">Available Survey</Text>

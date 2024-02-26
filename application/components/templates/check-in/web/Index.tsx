@@ -178,7 +178,7 @@ const Index = () => {
                         source={{
                             uri: checkInOut?.qrCodeImgSrc
                         }}
-                        alt="Alternate Text"
+                        alt=""
                         w="164px"
                         h="164px"
                         rounded="10"
@@ -207,7 +207,7 @@ const Index = () => {
                 source={{
                     uri: 'https://wallpaperaccess.com/full/206501.jpg'
                 }}
-                alt="Alternate Text"
+                alt=""
                 w="100%"
                 h="144px"
                 />

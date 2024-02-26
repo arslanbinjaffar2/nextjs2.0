@@ -32,7 +32,7 @@ const SquareBox = () => {
           source={{
             uri: 'https://wallpaperaccess.com/full/3175001.jpg'
           }}
-          alt="Alternate Text"
+          alt=""
           w="100%"
           h="295px"
           rounded="10"

@@ -27,7 +27,7 @@ const DetailBlock = ({ children }: AppProps) => {
 
     return <Container mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
         <Image
-            alt="Alternate Text"
+            alt=""
             size="full"
             w="100%"
             h="160px"

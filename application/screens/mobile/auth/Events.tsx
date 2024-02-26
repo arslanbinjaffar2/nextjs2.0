@@ -23,7 +23,7 @@ const Events = ({ navigation }: any) => {
                       source={{
                         uri: `https://wallpaperaccess.com/full/30${i}.jpg`
                       }}
-                      alt="Alternate Text"
+                      alt=""
                       width="225px"
                       height="80px"
                     />
