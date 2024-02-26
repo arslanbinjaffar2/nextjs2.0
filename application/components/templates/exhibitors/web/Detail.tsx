@@ -110,10 +110,10 @@ const Detail = React.memo(() => {
                                 </Box>
                             </Box>}
                         </Container>
-                            {filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>
+                            {/*{filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>*/}
 
-                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />
-                            )}
+                            {/*    <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />*/}
+                            {/*)}*/}
                         {/* <Container mb="3" maxW="100%" w="100%">
                             <Text mb="3" fontSize="lg" textTransform="uppercase">Available Survey</Text>
                             <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
@@ -161,8 +161,9 @@ const Detail = React.memo(() => {
                             </Box>
                         </Container> */}
                     </Container>
+
                     <Box width={"100%"} height={"5%"}>
-                        <BannerAds module_name={'exhibitors'} module_type={'detail'} />
+                        <BannerAds module_name={'exhibitors'} module_type={'detail'} module_id={detail?.detail?.id} />
                     </Box>
                 </>
             )}
