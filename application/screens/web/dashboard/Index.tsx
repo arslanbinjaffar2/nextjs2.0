@@ -124,7 +124,6 @@ const Index = ({ navigation }: indexProps) => {
             </Box>
           </Container>
 
-          {banners && <BannerSlider banners={banners} />}
           <Container mb="3" w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} banner_position={'before_polls'}/>
