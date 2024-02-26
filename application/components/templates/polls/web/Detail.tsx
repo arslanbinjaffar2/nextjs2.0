@@ -337,7 +337,7 @@ const Detail = () => {
             </Container>
       )}
       <Box width={"100%"} height={"5%"}>
-        <BannerAds module_name={'polls'} module_type={'detail'} />
+        <BannerAds module_name={'polls'} module_type={'detail'}/>
       </Box>
     </>
   );

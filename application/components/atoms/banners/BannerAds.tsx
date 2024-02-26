@@ -11,10 +11,12 @@ const BannerAds = ({
      module_name,
      module_type,
      banner_position,
+     module_id,
    }: {
-  module_name: string;
-  module_type?: string;
-  banner_position?: string;
+    module_name: string;
+    module_type?: string;
+    banner_position?: string;
+    module_id?: number;
 }) => {
   const { _env } = UseEnvService();
   const { event } = UseEventService();
@@ -30,13 +32,29 @@ const BannerAds = ({
           banner.banner_position === banner_position
         );
       } else {
-        if (module_type) {
+        if (module_type != 'detail' && module_type) {
           return (
             banner.module_name === module_name &&
             banner.module_type === module_type
           );
-        } else {
-          return banner.module_name === module_name;
+        }
+        if(module_type == 'detail' && module_id == banner.agenda_id ){
+          return (
+            banner.module_name === module_name &&
+            banner.module_type === module_type
+          );
+        }
+        if(module_type == 'detail' && module_id == banner.sponsor_id ){
+          return (
+            banner.module_name === module_name &&
+            banner.module_type === module_type
+          );
+        }
+        if(module_type == 'detail' && module_id == banner.exhibitor_id ){
+          return (
+            banner.module_name === module_name &&
+            banner.module_type === module_type
+          );
         }
       }
     });

@@ -176,10 +176,10 @@ const Detail = () => {
                             </HStack>
                         )}
 
-                            {filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>
+                            {/*{filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>*/}
 
-                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />
-                            )}
+                            {/*    <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />*/}
+                            {/*)}*/}
                         {in_array(tab, ['about']) && (
                             <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
                                 {modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && (
@@ -292,7 +292,7 @@ const Detail = () => {
                         )}
                     </Container>
                     <Box width={"100%"} height={"5%"}>
-                        <BannerAds module_name={'agendas'} module_type={'detail'} />
+                        <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
                     </Box>
                     {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />
