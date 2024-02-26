@@ -36,7 +36,7 @@ const RectangleView = ({ border, exhibitor }: AppProps) => {
                     }
                 }}
             >
-                <HStack pl={["15px",'15px', '30px']} alignItems="center" minH="55px" space={0} justifyContent="flex-start">
+                <HStack pl={["15px",'15px', '25px']} alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                     {/* {event?.exhibitor_settings?.catTab == 1 && <Box position="absolute" left="0" top="0" w="15px">
                         <ZStack>
                             {exhibitor.categories.length > 0 && exhibitor.categories.map((category: Category, i: number) =>

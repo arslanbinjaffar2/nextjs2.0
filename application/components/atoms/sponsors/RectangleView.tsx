@@ -35,7 +35,7 @@ const RectangleView = ({ border, sponsor }: AppProps) => {
                         push(`/${event.url}/sponsors/detail/${sponsor.id}`)
                     }
                 }}>
-                <HStack pl={["15px",'15px', '30px']} alignItems="center" minH="55px" space={0} justifyContent="flex-start">
+                <HStack pl={["15px",'15px', '25px']} alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                     {/* {event?.sponsor_settings?.catTab == 1 && <Box position="absolute" left="0" top="0" w="15px">
                         <ZStack>
                             {sponsor.categories.length > 0 && sponsor.categories.map((category: Category, i: number) =>

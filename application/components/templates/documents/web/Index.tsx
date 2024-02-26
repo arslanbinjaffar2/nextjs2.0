@@ -39,9 +39,9 @@ const Index = React.memo(() => {
                 <WebLoading />
             ) : (
                 <Container pt="2" maxW="100%" w="100%">
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                    <HStack display={['block','flex']} mb="3" pt="2" w="100%" space="0" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((documents)=>(documents.alias == 'ddirectory'))?.name ?? 'Documents'}</Text>
-                        <Spacer />
+                        <Spacer  />
                         <Search />
                     </HStack>
                     <ListingLayout2 />
