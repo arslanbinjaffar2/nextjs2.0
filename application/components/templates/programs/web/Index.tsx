@@ -56,7 +56,6 @@ const Index = () => {
         const filteredBanner=banners.filter((banner  : Banner)=>{
             return banner.module_name == 'agendas' && banner.module_type == 'listing'
         })
-        console.log('hamza hre',filteredBanner)
         setFilteredBanners(filteredBanner);
     },[query,banners]);
     React.useEffect(() => {

@@ -130,7 +130,6 @@ const Detail = () => {
         const filteredBanner=banners.filter((banner  : Banner)=>{
             return banner.module_name == 'agendas' && banner.module_type == 'detail'
         })
-        console.log('hamza hre',filteredBanner)
         setFilteredBanners(filteredBanner);
     },[query,banners]);
     React.useEffect(() => {
