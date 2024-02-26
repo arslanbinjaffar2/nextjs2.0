@@ -121,14 +121,14 @@ const Index = ({ speaker }: Props) => {
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
             </HStack>
             <HStack mb="3" space={1} justifyContent="center" w="100%">
-                <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>ALL</Button>
+                <Button onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>ALL</Button>
                 {speaker === 0 ? (
                     <>
-                        <Button onPress={() => setTab('my-attendee')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-attendee' ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>MY ATTENDEES</Button>
-                        <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>GROUPS</Button>
+                        <Button onPress={() => setTab('my-attendee')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>MY ATTENDEES</Button>
+                        <Button onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>GROUPS</Button>
                     </>
                 ) : (
-                    <Button onPress={() => setTab('category')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>CATEGORIES</Button>
+                    <Button onPress={() => setTab('category')} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={speaker === 0 ? '33%' : '50%'} _text={{ fontWeight: '600' }}>CATEGORIES</Button>
                 )}
             </HStack>
             {group_id > 0 && (

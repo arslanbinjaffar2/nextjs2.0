@@ -225,10 +225,10 @@ const Detail = () => {
                     {/* <Text opacity={0.58} fontSize="md">1 Questions</Text> */}
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
-                        <Button onPress={() => { setTab('popular') }} bg={tab === 'popular' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Popular</Button>
-                        <Button onPress={() => { setTab('recent')}} bg={tab === 'recent' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Recent</Button>
-                        <Button onPress={() => { setTab('archive')}} bg={tab === 'archive' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Archive</Button>
-                        <Button onPress={() => { setTab('my_question')}} bg={tab === 'my_question' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>My Questions</Button>
+                        <Button onPress={() => { setTab('popular') }} bg={tab === 'popular' ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Popular</Button>
+                        <Button onPress={() => { setTab('recent')}} bg={tab === 'recent' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Recent</Button>
+                        <Button onPress={() => { setTab('archive')}} bg={tab === 'archive' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Archive</Button>
+                        <Button onPress={() => { setTab('my_question')}} bg={tab === 'my_question' ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>My Questions</Button>
                     </HStack>
                     <Box mb="10" px="5" w="100%" position="relative">
                         {loading && <MobileLoading />}

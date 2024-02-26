@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { Box, Center, Checkbox, Divider, HStack, Icon, Input, Radio, ScrollView, Text, TextArea, VStack } from 'native-base';
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/survey/Detail';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -58,7 +58,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
       </Box>}
       
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-        <Icodocument width="15px" height="18px" />
+        <Icowritecomment width="15px" height="18px" />
         <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
       </HStack>
       <Box py="3" px="4" w="100%">

@@ -14,6 +14,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
+import { Platform, useWindowDimensions } from 'react-native';
 
 const Index = () => {
 
@@ -31,6 +32,7 @@ const Index = () => {
     const { banners, FetchBanners} = UseBannerService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
     const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
+    const { width } = useWindowDimensions();
 
     React.useEffect(() => {
         if (mounted.current) {
@@ -82,8 +84,10 @@ const Index = () => {
     return (
         <>
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text fontSize="2xl">PROGRAMS</Text>
-                <Spacer />
+                {width > 480 &&
+                <>
+                 <Text fontSize="2xl">PROGRAMS</Text>
+                <Spacer /></>}
                 {event?.eventsite_settings?.agenda_search_filter == 1 && <Search tab={tab} />}
             </HStack>
             <HStack mb="3" space={1} justifyContent="center" w="100%">

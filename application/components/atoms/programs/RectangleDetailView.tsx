@@ -37,7 +37,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
   return (
     <>
     <Box w="100%" key={k} borderBottomWidth={border ? 1 : 0} borderColor="primary.bordercolor" py="3">
-      {workshop && <Divider w={'5px'} bg={'primary.500'} position={'absolute'} right={0} height={'100%'} top={0} />}
+      {workshop && <Divider w={'5px'} bg={'primary.500'}  position={'absolute'} right={0} height={'calc(100% + 1px)'} top={0} />}
       <Pressable
               onPress={() => {
                 push(`/${event.url}/agendas/detail/${program.id}`)
@@ -58,12 +58,12 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
                       <Text lineHeight="22px">{moment(`${program.date} ${program.end_time}`).format('HH:mm')}</Text>
                       </>}
                     </VStack>
-                    <Center maxW={[_condtion ? '55%' : '75%', _condtion ? '70%' : '80%']} alignSelf="flex-start" p="0">
+                    <Center maxW={[_condtion ? '55%' : '75%', _condtion ? '68%' : '78%']} alignSelf="flex-start" p="0">
                       <Text alignSelf="flex-start" lineHeight="22px">{program.topic}</Text>
                     </Center>
                     <Spacer />
                     
-                    {_condtion && <HStack pr="3" space={['2','2']} alignItems="flex-end">
+                    {_condtion && <HStack pr="3" space={['2','4']} alignItems="center" justifyContent={'flex-end'}>
                       {program?.session?.length && program?.enable_speakerlist ? (
                         <IconButton
                           p={0}
