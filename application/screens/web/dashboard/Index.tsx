@@ -7,7 +7,7 @@ import SpeakerListing from 'application/components/organisms/speakers/Listing';
 import QAListing from 'application/components/organisms/qa/Listing';
 import ChatClient from 'application/components/organisms/chat/ChatClient';
 import Master from 'application/screens/web/layouts/Master';
-import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack } from 'native-base'
+import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack, Box } from 'native-base'
 import PollListingByDate from 'application/components/organisms/polls/PollListingByDate'
 import SurveyListing from 'application/components/organisms/survey/SurveyListing'
 import UsePollService from 'application/store/services/UsePollService';
@@ -28,6 +28,7 @@ import in_array from "in_array";
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { useWindowDimensions } from 'react-native';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type indexProps = {
   navigation: unknown
@@ -75,6 +76,11 @@ const Index = ({ navigation }: indexProps) => {
         <WebLoading />
       ) : (
         <>
+          <Container mb="3"  w="100%" maxW="100%">
+            <Box width={"100%"} height={"5%"}>
+              <BannerAds module_name={'dashboard'} banner_position={'before_program'}/>
+            </Box>
+          </Container>
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
             <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
               <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>PROGRAM</Heading>
@@ -88,8 +94,18 @@ const Index = ({ navigation }: indexProps) => {
               </Center>
             </Container>
           ) : <></>}
-
+          <Container mb="3" w="100%" maxW="100%">
+            <Box width={"100%"} height={"5%"}>
+              <BannerAds module_name={'dashboard'} banner_position={'after_program'}/>
+            </Box>
+          </Container>
+          <Container mb="3" w="100%" maxW="100%">
+            <Box width={"100%"} height={"5%"}>
+              <BannerAds module_name={'dashboard'} banner_position={'before_speaker'}/>
+            </Box>
+          </Container>
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
+
             <Container overflow={'hidden'} mb="1" w="100%" maxW="100%">
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
               <ScrollView w={[width - 30,'100%']} pb={2} showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
@@ -102,13 +118,35 @@ const Index = ({ navigation }: indexProps) => {
               </ScrollView>
             </Container>
           ) : <></>}
+          <Container mb="3" w="100%" maxW="100%">
+            <Box width={"100%"} height={"5%"}>
+              <BannerAds module_name={'dashboard'} banner_position={'after_speaker'}/>
+            </Box>
+          </Container>
 
           {banners && <BannerSlider banners={banners} />}
-
+          <Container mb="3" w="100%" maxW="100%">
+            <Box width={"100%"} height={"5%"}>
+              <BannerAds module_name={'dashboard'} banner_position={'before_polls'}/>
+            </Box>
+          </Container>
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
-
+          <Container mb="3" w="100%" maxW="100%">
+            <Box width={"100%"} height={"5%"}>
+              <BannerAds module_name={'dashboard'} banner_position={'after_polls'}/>
+            </Box>
+          </Container>
+          <Container mb="3" w="100%" maxW="100%">
+            <Box width={"100%"} height={"5%"}>
+              <BannerAds module_name={'dashboard'} banner_position={'before_survey'}/>
+            </Box>
+          </Container>
           {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) &&  (pollSettings?.display_survey == 1) && <SurveyListing surveys={surveys} />}
-
+          <Container mb="3" w="100%" maxW="100%">
+            <Box width={"100%"} height={"5%"}>
+              <BannerAds module_name={'dashboard'} banner_position={'after_survey'}/>
+            </Box>
+          </Container>
           {/* <HStack mb="3" space={1} justifyContent="center" w="100%">
             <Button onPress={() => setTab('qa')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab === 'qa' ? 'primary.darkbox' : 'primary.box'} w={event?.speaker_settings?.display_speaker_dashboard == 1 ? "50%" : "100%"} _text={{ fontWeight: '600' }}>Q & A</Button>
             {event?.speaker_settings?.display_speaker_dashboard == 1 && <Button onPress={() => setTab('speakerlist')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'speakerlist' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>SPEAKERS LIST</Button>}
