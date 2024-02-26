@@ -13,7 +13,7 @@ const BannerAds = ({
      banner_position,
    }: {
   module_name: string;
-  module_type: string;
+  module_type?: string;
   banner_position?: string;
 }) => {
   const { _env } = UseEnvService();
@@ -30,10 +30,14 @@ const BannerAds = ({
           banner.banner_position === banner_position
         );
       } else {
-        return (
-          banner.module_name === module_name &&
-          banner.module_type === module_type
-        );
+        if (module_type) {
+          return (
+            banner.module_name === module_name &&
+            banner.module_type === module_type
+          );
+        } else {
+          return banner.module_name === module_name;
+        }
       }
     });
     setFilteredBanners(filteredBanner);
