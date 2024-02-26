@@ -37,23 +37,22 @@ const DetailBlock = ({ children }: AppProps) => {
         />
         <Box w="100%" px="7">
             <HStack w="100%" mb="3" space="3" alignItems="flex-start">
-                <Text maxW="80%" fontSize="xl">{detail?.program?.topic}</Text>
-                <Spacer />
+                <Text maxW="100%" fontSize="xl">{detail?.program?.topic}</Text>
+                {/* <Spacer />
                 {(event?.agenda_settings?.qa == 1 || detail?.program?.qa == 1) && <Pressable
                         onPress={() => {
                             push(`/${event.url}/qa/detail/${detail?.program?.id}`)
                         }}>
 
                             <DynamicIcon iconType="qa" iconProps={{ width: 25, height: 24 }} />
-                        </Pressable>
-                }
+                        </Pressable>} */}
             </HStack>
             <HStack w="100%" mb="3" space="10" alignItems="center">
                 {detail?.program?.start_time && detail?.program?.end_time  && event.agenda_settings?.agenda_display_time == 1 && detail?.program?.hide_time == 0 && (
                     <Text fontSize="md">{moment(`${detail?.program?.date} ${detail?.program?.start_time}`).format('HH:mm')} - {moment(`${detail?.program?.date} ${detail?.program?.end_time}`).format('HH:mm')}</Text>
                 )}
                 {detail?.program?.location && (
-                    <HStack space="3" alignItems="center">
+                    <HStack space="2" alignItems="center">
                         <Icon color="primary.text" size="md" as={Ionicons} name="ios-location-sharp" />
                         <Text pt="2px" fontSize="md">{detail?.program?.location}</Text>
                     </HStack>

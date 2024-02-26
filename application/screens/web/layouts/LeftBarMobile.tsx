@@ -28,7 +28,6 @@ const LeftBarMobile = () => {
 
   const { setLoading } = UseLoadingService();
 
-
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
       <Box borderBottomWidth={1} mb="3" w="100%" borderBottomColor={'primary.bordercolor'} pb="3" px="3">
@@ -49,6 +48,7 @@ const LeftBarMobile = () => {
             w="100%"
             px="4"
             py="2"
+            bg={`${ router.asPath.includes('/dashboard') && 'primary.500'}`}
             _hover={{ bg: 'primary.500' }}
             borderRadius="4"
             onPress={() => {
