@@ -66,7 +66,8 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                       attendee?.info.title) && (
                       <>
                         
-                          <Text lineHeight="22px" fontSize="lg">{attendee?.info?.title}&nbsp;{attendee?.info?.company_name &&
+                          <Text lineHeight="22px" fontSize="lg">
+                            {attendee?.info?.title}{attendee?.info?.company_name &&
                             attendee?.info?.title &&
                             ", "}
                             { attendee?.field_settings?.department.is_private == 0 && attendee?.info?.department && `${attendee?.info?.department} ${attendee?.info?.company_name && ', '}`}
