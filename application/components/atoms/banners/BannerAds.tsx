@@ -62,7 +62,9 @@ const BannerAds = ({
 
 
   useEffect(() => {
-    FetchBanners();
+    if(banners.length === 0){
+      FetchBanners();
+    }
   }, []);
 
   const { push } = useRouter();
@@ -77,7 +79,8 @@ const BannerAds = ({
         push(`/${event.url}/agendas/detail/${banner.agenda_id}`);
       }
       else if (banner.other_link_url) {
-        push(`${banner.other_link_url}`);
+        window.open(banner.other_link_url, '_blank');
+        return;
       }
     }
     let url ;
@@ -88,7 +91,8 @@ const BannerAds = ({
     }else if(banner.module_name === 'agendas'){
       url=`/${event.url}/${banner.module_name}/detail/${banner.agenda_id}`;
     } else if (banner.other_link_url) {
-      url =`${banner.other_link_url}`;
+      window.open(banner.other_link_url, '_blank');
+      return;
     }
     if (url) {
       push(url);
