@@ -33,7 +33,11 @@ const Login = ({ props }: any) => {
     const onSubmit: SubmitHandler<Inputs> = input => {
         login({ email: input.email, password: input.password })
     };
-
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleSubmit(onSubmit)();
+        }
+    };
     React.useEffect(() => {
         if (response.redirect === "choose-provider") {
             push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
@@ -74,7 +78,7 @@ const Login = ({ props }: any) => {
                                         <Controller
                                             control={control}
                                             render={({ field: { onChange, onBlur, value } }) => (
-                                                <Input onChangeText={(val) => onChange(val)} type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_EMAIL} />
+                                                <Input onChangeText={(val) => onChange(val)}  onKeyPress={handleKeyPress} type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_EMAIL} />
                                             )}
                                             name="email"
                                             rules={{
@@ -94,7 +98,7 @@ const Login = ({ props }: any) => {
                                         <Controller
                                             control={control}
                                             render={({ field: { onChange, onBlur, value } }) => (
-                                                <Input onChangeText={(val) => onChange(val)} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_PASSWORD} />
+                                                <Input onChangeText={(val) => onChange(val)}  onKeyPress={handleKeyPress} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_PASSWORD} />
                                             )}
                                             name="password"
                                             rules={{
