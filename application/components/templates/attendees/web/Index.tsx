@@ -251,7 +251,8 @@ const Index = ({ speaker, screen }: Props) => {
                         }
                     </HStack>}
                     {speaker ===  1 && <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        {((event?.speaker_settings?.default_display === 'name' || event?.speaker_settings?.tab == 1)) &&  
+                        
+                        {(( event?.speaker_settings?.tab == 1)) &&  
                             <Button 
                                 onPress={() => {
                                     setTab('attendee') 
@@ -261,30 +262,30 @@ const Index = ({ speaker, screen }: Props) => {
                                 borderWidth="1px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
-                                borderRightRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} 
+                                borderRightRadius={0} 
                                 borderLeftRadius={8} 
                                 h="42px" 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
-                                w={((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} 
+                                w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                ALL
+                                {event?.labels?.GENERAL_ALL}
                             </Button>
                         }
-                        {(event?.speaker_settings?.default_display !== 'name' || event?.speaker_settings?.tab == 1) &&
+                        {( event?.speaker_settings?.tab == 1) &&
                             <Button 
                                 onPress={() => {
                                     setTab('category')
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
                                 }} 
                                 borderRightRadius={8} 
-                                borderLeftRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} 
+                                borderLeftRadius={0} 
                                 borderWidth="1px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
                                 bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} 
-                                w={((event?.speaker_settings?.default_display !== 'name' && event?.speaker_settings?.tab == 0)) ? '100%' : '50%'} 
+                                w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
                                 CATEGORIES
@@ -373,12 +374,17 @@ const Index = ({ speaker, screen }: Props) => {
                                 </React.Fragment>
                             )}
                         </Container>}
-                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container pt={3} mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     <RectangleCategoryView category={category} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />
                                 </React.Fragment>
                             )}
+                            { categories.length <= 0 &&
+                                <Box p="3">
+                                    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                </Box>
+                            }
                         </Container>}
                     </>
                 )}
