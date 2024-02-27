@@ -145,10 +145,10 @@ const Index = React.memo(() => {
                             />
                         </HStack>
                         {mode === "list" &&
-                            <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+                            <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.box">
                                 <ScrollView h={'53%'}>
                                     {exhibitors.length > 0 && exhibitors.map((exhibitor: Exhibitor, key: number) =>
-                                        <RectangleView exhibitor={exhibitor} k={key} key={key} />
+                                        <RectangleView exhibitor={exhibitor} border={exhibitors.length === 0 ? 0 : exhibitors.length > 0 && key === exhibitors.length-1 ? 0 : 1} key={key} />
                                     )}
                                 </ScrollView>
                             </Box>
