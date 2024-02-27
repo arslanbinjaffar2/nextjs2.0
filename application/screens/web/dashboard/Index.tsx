@@ -78,7 +78,7 @@ const Index = ({ navigation }: indexProps) => {
         <>
           <Container mb="3"  w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
-              <BannerAds module_name={'dashboard'} banner_position={'before_program'}/>
+              <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
             </Box>
           </Container>
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
@@ -96,12 +96,12 @@ const Index = ({ navigation }: indexProps) => {
           ) : <></>}
           <Container mb="3" w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
-              <BannerAds module_name={'dashboard'} banner_position={'after_program'}/>
+              <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
             </Box>
           </Container>
           <Container mb="3" w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
-              <BannerAds module_name={'dashboard'} banner_position={'before_speaker'}/>
+              <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
             </Box>
           </Container>
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
@@ -120,30 +120,30 @@ const Index = ({ navigation }: indexProps) => {
           ) : <></>}
           <Container mb="3" w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
-              <BannerAds module_name={'dashboard'} banner_position={'after_speaker'}/>
+              <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
             </Box>
           </Container>
 
           <Container mb="3" w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
-              <BannerAds module_name={'dashboard'} banner_position={'before_polls'}/>
+              <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
             </Box>
           </Container>
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
           <Container mb="3" w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
-              <BannerAds module_name={'dashboard'} banner_position={'after_polls'}/>
+              <BannerAds module_name={'dashboard'} module_type={'after_polls'}/>
             </Box>
           </Container>
           <Container mb="3" w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
-              <BannerAds module_name={'dashboard'} banner_position={'before_survey'}/>
+              <BannerAds module_name={'dashboard'} module_type={'before_survey'}/>
             </Box>
           </Container>
           {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) &&  (pollSettings?.display_survey == 1) && <SurveyListing surveys={surveys} />}
           <Container mb="3" w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
-              <BannerAds module_name={'dashboard'} banner_position={'after_survey'}/>
+              <BannerAds module_name={'dashboard'} module_type={'after_survey'}/>
             </Box>
           </Container>
           {/* <HStack mb="3" space={1} justifyContent="center" w="100%">
