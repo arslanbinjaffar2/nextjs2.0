@@ -10,12 +10,10 @@ import RectangleView from 'application/components/atoms/banners/RectangleView'
 const BannerAds = ({
      module_name,
      module_type,
-     banner_position,
      module_id,
    }: {
     module_name: string;
     module_type?: string;
-    banner_position?: string;
     module_id?: number;
 }) => {
   const { _env } = UseEnvService();
@@ -25,41 +23,43 @@ const BannerAds = ({
   const { banners, FetchBanners } = UseBannerService();
 
   useEffect(() => {
-    const filteredBanner = banners.filter((banner: Banner) => {
+    const filtered = banners.filter((banner: Banner) => {
       if (module_name === 'dashboard') {
+        var moduleType = banner.module_type.split(',');
         return (
           banner.module_name === module_name &&
-          banner.banner_position === banner_position
+          moduleType.includes(module_type ?? '')
         );
       } else {
-        if (module_type != 'detail' && module_type) {
+        var moduleType = banner.module_type.split(',');
+        if (module_type !== 'detail' && module_type !== '') {
           return (
             banner.module_name === module_name &&
-            banner.module_type === module_type
+            moduleType.includes(module_type ?? '')
           );
-        }
-        if(module_type == 'detail' && module_id == banner.agenda_id ){
-          return (
-            banner.module_name === module_name &&
-            banner.module_type === module_type
-          );
-        }
-        if(module_type == 'detail' && module_id == banner.sponsor_id ){
-          return (
-            banner.module_name === module_name &&
-            banner.module_type === module_type
-          );
-        }
-        if(module_type == 'detail' && module_id == banner.exhibitor_id ){
-          return (
-            banner.module_name === module_name &&
-            banner.module_type === module_type
-          );
+        } else {
+          let id = 0;
+          if (banner.agenda_id !== 0) {
+            id = banner.agenda_id;
+          } else if (banner.sponsor_id !== 0) {
+            id = banner.sponsor_id;
+          } else if (banner.exhibitor_id !== 0) {
+            id = banner.exhibitor_id;
+          }
+          if (module_type === 'detail' && module_id === id) {
+            return (
+              banner.module_name === module_name &&
+              moduleType.includes(module_type)
+            );
+          }
         }
       }
     });
-    setFilteredBanners(filteredBanner);
-  }, [banners]);
+    // Further processing with filteredBanner
+    console.log('filtered:',filtered)
+    setFilteredBanners(filtered)
+  }, [banners, module_name, module_type, module_id]);
+
 
   useEffect(() => {
     FetchBanners();
@@ -69,27 +69,35 @@ const BannerAds = ({
 
   const handleBannerClick = (banner: Banner) => {
     if (module_name === 'dashboard') {
-      if (banner.sponsor_id) {
+      if (banner.sponsor_id != 0) {
         push(`/${event.url}/sponsors/detail/${banner.sponsor_id}`);
       } else if (banner.exhibitor_id) {
         push(`/${event.url}/exhibitors/detail/${banner.exhibitor_id}`);
-      } else if (banner.agenda_id) {
+      } else if (banner.agenda_id != 0) {
         push(`/${event.url}/agendas/detail/${banner.agenda_id}`);
       }
+      else if (banner.other_link_url) {
+        push(`${banner.other_link_url}`);
+      }
     }
+    let url ;
     if (banner.module_name === 'sponsors') {
-      push(`/${event.url}/${banner.module_name}/detail/${banner.sponsor_id}`);
+      url=`/${event.url}/${banner.module_name}/detail/${banner.sponsor_id}`;
     } else if(banner.module_name === 'exhibitors'){
-      push(`/${event.url}/${banner.module_name}/detail/${banner.exhibitor_id}`);
+      url=`/${event.url}/${banner.module_name}/detail/${banner.exhibitor_id}`;
     }else if(banner.module_name === 'agendas'){
-      push(`/${event.url}/${banner.module_name}/detail/${banner.agenda_id}`);
+      url=`/${event.url}/${banner.module_name}/detail/${banner.agenda_id}`;
     } else if (banner.other_link_url) {
-      push(`/${event.url}/${banner.other_link_url}`);
+      url =`${banner.other_link_url}`;
+    }
+    if (url) {
+      push(url);
     }
   };
   useEffect(() => {
     const bannerInterval = setInterval(() => {
-      setCurrentBanner((prevBanner) => (prevBanner + 1) % filteredBanners.length);
+      // setCurrentBanner((prevState) => (prevState + 1) % filteredBanners.length);
+      setCurrentBanner((prevIndex) => (prevIndex + 1) % filteredBanners.length);
     }, 5000);
     return () => {
       clearInterval(bannerInterval);
@@ -98,14 +106,16 @@ const BannerAds = ({
   const currentBannerImage = filteredBanners[currentBanner]?.image;
   return (
     <>
-      {currentBannerImage && (
-        <TouchableOpacity onPress={() => handleBannerClick(filteredBanners[currentBanner])}>
-          <View style={{ width: '100%', height: '100%' }}>
-            <Box width="full" my={5}>
-              <RectangleView url={`${_env.eventcenter_base_url}/assets/banners/${currentBannerImage}`} />
-            </Box>
-          </View>
-        </TouchableOpacity>
+      {filteredBanners.map((banner:Banner,index)=>
+       <Box style={{ display: index === currentBanner ? 'block' : 'none', maxWidth: '100%', maxHeight: '100%' }}>
+         <TouchableOpacity onPress={() => handleBannerClick(banner)}>
+           <View w={'100%'} h={'100%'}>
+             <Box width="full" my={5}>
+               <RectangleView url={`${_env.eventcenter_base_url}/assets/banners/${banner.image}`} />
+             </Box>
+           </View>
+         </TouchableOpacity>
+        </Box>
       )}
     </>
   );
