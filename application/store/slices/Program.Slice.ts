@@ -114,6 +114,45 @@ export const ProgramSlice = createSlice({
             state.track = {};
             state.parent_track = {};
         },
+        ToggleFavourite(state, action: PayloadAction<{ program_id: number }>) {
+            const updatedPrograms = [...state.programs]; // Change 'current' to 'state'
+            let updatedProgram = null;
+            let groupIndex = null;
+            let programIndex = null;
+            
+            for (let i = 0; i < updatedPrograms.length; i++) {
+                const group = updatedPrograms[i];
+                const foundProgramIndex = group.findIndex(program => program.id === action.payload.program_id);
+                if (foundProgramIndex !== -1) {
+                    groupIndex = i;
+                    programIndex = foundProgramIndex;
+                    updatedProgram = { ...group[foundProgramIndex] }; // Create a copy of the found program object
+                    break; // Break out of the loop once the program is found
+                }
+            }
+            
+            if (updatedProgram && updatedProgram.program_attendees_attached.length > 0) {
+                updatedProgram = { ...updatedProgram, program_attendees_attached: [] }; // Create a new object with the updated property
+            } else {
+                updatedProgram = {
+                    ...updatedProgram,
+                    program_attendees_attached: [{ id: 0, attendee_id: 0, program_id: action.payload.program_id }]
+                }; // Create a new object with the updated property
+            }
+            
+            if (updatedProgram && groupIndex !== null && programIndex !== null) {
+                // Create a new copy of the group containing the updated program
+                const updatedGroup = [...updatedPrograms[groupIndex]];
+                updatedGroup[programIndex] = updatedProgram; // Assign updated program to the found index in the group
+            
+                // Create a new copy of the updatedPrograms array with the updated group
+                updatedPrograms[groupIndex] = updatedGroup;
+            
+                // Update updatedPrograms with the new array
+                state.programs = updatedPrograms;
+            }
+        },
+        
     },
 })
 
@@ -128,6 +167,7 @@ export const ProgramActions = {
     UpdateDetail: ProgramSlice.actions.UpdateDetail,
     SetFavouriteProgramError: ProgramSlice.actions.SetFavouriteProgramError,
     ResetTracks: ProgramSlice.actions.ResetTracks,
+    ToggleFavourite: ProgramSlice.actions.ToggleFavourite,
 }
 
 export const SelectMyPrograms = (state: RootState) => state.programs.programs

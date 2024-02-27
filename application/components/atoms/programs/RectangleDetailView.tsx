@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, HStack, Spacer, VStack, Text, Icon, ZStack, Center, IconButton, Pressable } from 'native-base'
 import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -24,13 +24,34 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
 
   const { event } = UseEventService();
 
+  const [isFav,setFav] = useState(false);
+
   const { push } = useRouter()
 
   if(favouriteProgramError !== ''){
     let message = favouriteProgramError;
     SetFavouriteProgramError('');
     alert(message);
-  }  
+  } 
+  
+  useEffect(()=>{
+      if(program?.program_attendees_attached?.length){
+        setFav(true);
+      }else{
+        setFav(false);
+      }
+  }
+  ,[program?.program_attendees_attached])
+
+  function toggleFav(){
+    if(isFav){
+      setFav(false);
+    }else{
+      setFav(true);
+    }
+    MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
+  }
+  
   const _condtion = (program?.session?.length && program?.enable_speakerlist) || (program?.videos?.length) || (event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) )
   return (
     <>
@@ -76,10 +97,8 @@ const RectangleDetailView = ({ program, k, border, speaker, section }: AppProps)
                         <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
                       ) : ''}
                        {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && <Pressable
-                        onPress={() => {
-                          MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
-                        }}>
-                        <Icon size="xl" as={AntDesign} name={program?.program_attendees_attached?.length ? "heart" : "hearto"} color={program?.program_attendees_attached?.length ? 'secondary.500' : 'primary.text'} />
+                        onPress={() => toggleFav()}>
+                        <Icon size="xl" as={AntDesign} name={isFav ? "heart" : "hearto"} color={isFav ? 'secondary.500' : 'primary.text'} />
                       </Pressable>}
                       
                     </HStack>}

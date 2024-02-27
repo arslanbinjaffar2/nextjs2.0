@@ -9,6 +9,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import { Platform } from 'react-native';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
+import { useRouter } from 'next/router';
 
 type AppProps = {
     programs: Program[],
@@ -20,17 +21,32 @@ type AppProps = {
 
 const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 
-    const { setScrollCounter, scroll } = UseLoadingService();
+    const { setScrollCounter, scroll, processing } = UseLoadingService();
     
     const { event, modules  } = UseEventService();
 
     const [dates, setDates] = React.useState<any>([]);
     const [currentIndex, setCurrentIndex] = React.useState<number>();
+    const router = useRouter();
    
     React.useEffect(() => {
-        setDates(programs[0]);
-        setCurrentIndex(0);
-      }, [])
+        let indexFromQuery= router.asPath.split('currentIndex=')[1];
+        const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
+        setDates(programs[currentIndex]);
+        setCurrentIndex(currentIndex);
+    }, [])
+
+    React.useEffect(() => {
+        if (currentIndex !== undefined) {
+            const queryParams = { ...router.query, ['currentIndex']: currentIndex };
+
+            router.push({
+              pathname: router.pathname,
+              query: queryParams,
+            });
+
+        }
+    }, [currentIndex]);
     
     React.useEffect(() => {
         if(currentIndex !== undefined){
