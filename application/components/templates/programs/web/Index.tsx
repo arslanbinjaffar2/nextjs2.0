@@ -45,9 +45,7 @@ const Index = () => {
     }, [tab]);
 
     function loadMore() {
-        console.log('load more')
         if (mounted.current) {
-            console.log('monted: load more')
             if (in_array(tab, ['program', 'my-program'])) {
                 FetchPrograms({ query: query, page: page + 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: track_id });
             } else if (tab === "track") {
@@ -55,7 +53,6 @@ const Index = () => {
             }
         }
     }
-
     React.useEffect(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
