@@ -21,6 +21,7 @@ export interface ProgramState {
     query: string,
     screen: string,
     page: number,
+    total_pages: number,
     id: number,
     track_id: number,
     favouriteProgramError:string,
@@ -36,6 +37,7 @@ const initialState: ProgramState = {
     query: '',
     screen: '',
     page: 1,
+    total_pages: 1,
     id: 0,
     track_id: 0,
     favouriteProgramError:'',
@@ -58,7 +60,7 @@ export const ProgramSlice = createSlice({
                 state.track = {};
             }
         },
-        update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track , agendas_attached_via_group:number[]}>) {
+        update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track , agendas_attached_via_group:number[],total_pages:number}>) {
             const existed: any = current(state.programs);
             console.log(action.payload.programs.reduce((ack, item:any)=>{
                 let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
@@ -81,6 +83,7 @@ export const ProgramSlice = createSlice({
             }, [...existed]);
             state.track = action.payload.track;
             state.agendas_attached_via_group = action.payload.agendas_attached_via_group;
+            state.total_pages = action.payload.total_pages;
         },
         FetchTracks(state, action: PayloadAction<{ query: string, page: number, screen: string, track_id: number }>) {
             state.query = action.payload.query;
@@ -175,6 +178,8 @@ export const SelectMyPrograms = (state: RootState) => state.programs.programs
 export const SelectQuery = (state: RootState) => state.programs.query
 
 export const SelectPage = (state: RootState) => state.programs.page
+
+export const SelectTotalPages = (state: RootState) => state.programs.total_pages
 
 export const SelectID = (state: RootState) => state.programs.id
 

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail, SelectFavouriteProgramError, SelectParentTrackDetail, SelectAgendasAttachedViaGroup } from 'application/store/slices/Program.Slice'
+import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail, SelectFavouriteProgramError, SelectParentTrackDetail, SelectAgendasAttachedViaGroup, SelectTotalPages } from 'application/store/slices/Program.Slice'
 
 import { Program } from 'application/models/program/Program'
 
@@ -13,6 +13,7 @@ import { Detail } from 'application/models/program/Detail';
 export type ProgramServiceOperators = {
     query: string
     page: number
+    total_pages: number
     id: number
     track_id: number
     programs: Program[]
@@ -41,6 +42,7 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
     return {
         query: useAppSelector(SelectQuery),
         page: useAppSelector(SelectPage),
+        total_pages: useAppSelector(SelectTotalPages),
         id: useAppSelector(SelectID),
         track_id: useAppSelector(SelectTrack),
         programs: useAppSelector(SelectMyPrograms),

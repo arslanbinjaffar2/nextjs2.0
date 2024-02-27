@@ -10,6 +10,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import TrackRectangleDetailView from 'application/components/atoms/programs/tracks/RectangleDetailView';
 import LoadMore from 'application/components/atoms/LoadMore';
+import IntersectionObserverComponent from 'application/components/atoms/IntersectionObserverComponent';
 import UseEventService from 'application/store/services/UseEventService';
 import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
@@ -20,7 +21,7 @@ const Index = () => {
     
     const mounted = React.useRef(false);
     
-    const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track, parent_track, ResetTracks } = UseProgramService();
+    const { FetchPrograms, programs, page,total_pages, id, query, track_id, tracks, FetchTracks, track, parent_track, ResetTracks } = UseProgramService();
     
     const { loading, scroll, processing } = UseLoadingService();
     
@@ -43,21 +44,18 @@ const Index = () => {
         }
     }, [tab]);
 
-    React.useEffect(() => {
+    function loadMore() {
+        console.log('load more')
         if (mounted.current) {
+            console.log('monted: load more')
             if (in_array(tab, ['program', 'my-program'])) {
                 FetchPrograms({ query: query, page: page + 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: track_id });
             } else if (tab === "track") {
                 FetchTracks({ page: page + 1, query: query, screen: tab, track_id: track_id });
             }
         }
-    }, [scroll]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'agendas' && banner.module_type == 'listing'
-        })
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
+    }
+
     React.useEffect(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
@@ -142,6 +140,12 @@ const Index = () => {
             )}
             {(in_array('programs', processing) || in_array('tracks', processing)) && page > 1 && (
                 <LoadMore />
+            )}
+
+            {!(in_array('programs', processing) || in_array('tracks', processing)) && (page < total_pages) && (
+                <>
+                <IntersectionObserverComponent onIntersect={loadMore} />
+                </>
             )}
         </>
     );
