@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, HStack, Icon, Spacer, Text, VStack, ZStack, Button, IconButton, Pressable } from 'native-base'
+import { Box, HStack, Icon, Spacer, Text, VStack, ZStack, Button, IconButton, Pressable, Popover } from 'native-base'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Exhibitor, Category } from 'application/models/exhibitor/Exhibitor'
@@ -10,10 +10,10 @@ import { Linking } from 'react-native';
 
 type AppProps = {
     exhibitor: Exhibitor,
-    k: number
+    border: number
 }
 
-const RectangleView = ({ k, exhibitor }: AppProps) => {
+const RectangleView = ({ border, exhibitor }: AppProps) => {
 
     const { settings, MakeFavourite } = UseExhibitorService();
 
@@ -22,7 +22,7 @@ const RectangleView = ({ k, exhibitor }: AppProps) => {
     const { event } = UseEventService()
 
     return (
-        <Box w="100%" borderBottomWidth={1} borderColor="primary.bordercolor" py="3">
+        <Box w="100%" borderBottomWidth={border} borderColor="primary.bordercolor" py="3">
             <Pressable
                 onPress={async () => {
                     if(exhibitor?.url && exhibitor?.url !== '' && exhibitor.url !== 'http://' && exhibitor.url !== 'https://'){
@@ -36,7 +36,7 @@ const RectangleView = ({ k, exhibitor }: AppProps) => {
                     }
                 }}
             >
-                <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
+                <HStack pl={["15px",'15px', '25px']} alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                     {/* {event?.exhibitor_settings?.catTab == 1 && <Box position="absolute" left="0" top="0" w="15px">
                         <ZStack>
                             {exhibitor.categories.length > 0 && exhibitor.categories.map((category: Category, i: number) =>
@@ -44,26 +44,54 @@ const RectangleView = ({ k, exhibitor }: AppProps) => {
                             )}
                         </ZStack>
                     </Box>} */}
-                    <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
-                        <VStack maxW={['62%', '70%', '40%']} space="0">
+                    <HStack pt="0" w="100%" space="4" alignItems="center">
+                        <VStack marginRight={'auto'} w="calc(100% - 180px);" space="0">
                             <Text fontSize="lg" lineHeight="22px">
                                 {exhibitor.name}
                             </Text>
-                        </VStack>
-                        <HStack space={1}>
+                       
+                        <HStack flexWrap={'wrap'} mt="2" space={1}>
                             {settings?.catTab == 1 &&  exhibitor.categories.length > 0 && exhibitor.categories.slice(0, 3).map((category: Category, i: number) =>(
-                                        <Box key={i} p={2} bg={category?.color} rounded={'full'}>
-                                             <Text fontSize="md">{`${category.info.name}`}</Text>
+                                        <Box borderWidth={1} borderColor={'primary.box'} mb="5px" key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
+                                             <Text fontSize="sm">{`${category.info.name}`}</Text>
                                         </Box>
                              ))}
-                            {settings?.catTab == 1 && exhibitor.categories.length > 1 && 
-                                <Box p={2} bg={'primary.darkbox'} rounded={'full'}>
-                                             <Text fontSize="md">{`+${ exhibitor.categories.length}`}</Text>
-                                </Box>
+                            {settings?.catTab == 1 &&  exhibitor.categories.length > 3 &&
+														<>
+															
+															<Popover
+																trigger={(triggerProps) => {
+																return <Button
+																				mb="5px"
+																				lineHeight={1}
+																				bg={'transparent'}
+																				p={1}
+																				rounded={'full'}
+																				{...triggerProps}
+																			>
+																				<Text  fontSize="sm">{`+${ exhibitor.categories.length - 3}`}</Text>
+																			</Button>
+																		}}>
+																<Popover.Content bgColor={'primary.500'}>
+																	<Popover.Arrow bgColor={'primary.500'} />
+																	<Popover.Body borderTopWidth="0" bgColor={'primary.500'}>
+																	<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
+																		{exhibitor.categories.length > 3 && exhibitor.categories.slice(3).map((category: Category, i: number) =>(
+                                        <Box borderWidth={1} borderColor={'primary.box'} mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
+                                             <Text  fontSize="sm">{`${category.info.name}`}</Text>
+                                        </Box>
+                             				))}
+																	</HStack>
+																	</Popover.Body>
+																</Popover.Content>
+															</Popover>
+															
+															</>
                             } 
                         </HStack>
+                         </VStack>
                         <Spacer />
-                        <HStack pr="3" space="5" alignItems="center">
+                        <HStack  pr="3" space="5" alignItems="center">
                             {exhibitor.booth && (
                                 <Button
                                     p="1"
@@ -81,7 +109,7 @@ const RectangleView = ({ k, exhibitor }: AppProps) => {
                                     bg="transparent"
                                     p="1"
                                     _hover={{ bg: 'primary.500' }}
-                                    icon={<Icon size="xl" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color="primary.darkbox" />}
+                                    icon={<Icon size="xl" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
                                     onPress={() => {
                                         MakeFavourite({ exhibitor_id: exhibitor.id, screen: 'listing' });
                                     }}
