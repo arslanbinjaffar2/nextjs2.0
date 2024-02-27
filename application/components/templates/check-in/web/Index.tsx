@@ -25,6 +25,7 @@ import DateTimePicker from 'application/components/atoms/DateTimePicker'
 import UseBannerService from 'application/store/services/UseBannerService'
 import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService'
+import UseEventService from 'application/store/services/UseEventService';
 
 const CheckinList = (type:any) => {
 	const [toggle, settoggle] = React.useState(false)
@@ -109,6 +110,7 @@ const CheckinList = (type:any) => {
 const Index = () => {
     const { loading, processing } = UseLoadingService();
   const { _env } = UseEnvService()
+  const { event, modules } = UseEventService()
 
   const { FetchCheckInOut, checkInOut, SendQRCode }  = UseCheckInOutService();
   React.useEffect(() => {  
@@ -136,7 +138,7 @@ const Index = () => {
         ):(
             <Container pt="1" maxW="100%" w="100%">
 							<Box flexDirection="row" w={'100%'} alignItems="center">
-                <Text mb="3" textTransform="uppercase" fontSize="2xl">Session check-in</Text>
+                <Text mb="3" textTransform="uppercase" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
 								<Spacer />
 								<HStack space="0" alignItems="center" justifyContent={'center'} pt={4}>
 									<Button px={4} py={1} mb={8} fontSize={'md'} shadow={3} colorScheme="primary" minW={100}>Order Detail</Button>
@@ -212,15 +214,15 @@ const Index = () => {
                 h="144px"
                 />
                 <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
-                    <Button onPress={() => { setTab('event') }} bg={tab === 'event' ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Event</Button>
+                    <Button onPress={() => { setTab('event') }} bg={tab === 'event' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Event</Button>
 									{checkInOut?.setting?.show_programs_checkin_history ? <>
-									<Button onPress={() => { setTab('program')}} bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Program</Button>
+									<Button onPress={() => { setTab('program')}} bg={tab === 'program' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Program</Button>
 									</>:null}
 									{checkInOut?.setting?.show_groups_checkin_history ? <>
-									<Button onPress={() => { setTab('group')}} bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Group</Button>
+									<Button onPress={() => { setTab('group')}} bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Group</Button>
 									</>:null}
 									{checkInOut?.setting?.show_tickets_checkin_history ? <>
-                    <Button onPress={() => { setTab('ticket')}} bg={tab === 'ticket' ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Ticket</Button>
+                    <Button onPress={() => { setTab('ticket')}} bg={tab === 'ticket' ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Ticket</Button>
 									</>:null}
 									</HStack>
 							<Box zIndex={9999} mb="3" py="3" pl="20" w="100%">
