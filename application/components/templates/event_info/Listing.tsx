@@ -39,7 +39,7 @@ const Listing = (props: any) => {
                 <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
             </Box> )} */}
                 {(filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
-                    <RectangleView key={key} {...row} cms={props.cms} />
+                    <RectangleView index={key} key={key} {...row} cms={props.cms} />
                 ) : <Box padding={5}>
                 <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
             </Box>)}

@@ -32,6 +32,7 @@ export interface Info {
 
 export interface Info {
     id?: number;
+    index?: number;
     name?: string;
     value?: string;
     page_id?: number;
