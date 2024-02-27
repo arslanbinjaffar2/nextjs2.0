@@ -111,7 +111,7 @@ const BannerAds = ({
   return (
     <>
       {filteredBanners.map((banner:Banner,index)=>
-       <Box style={{ display: index === currentBanner ? 'block' : 'none', maxWidth: '100%', maxHeight: '100%' }}>
+       <Box maxW="100%" maxH="100%" display={index === currentBanner ? 'block' : 'none'}>
          <TouchableOpacity onPress={() => handleBannerClick(banner)}>
            <View w={'100%'} h={'100%'}>
              <Box width="full" my={5}>
