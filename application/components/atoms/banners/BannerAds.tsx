@@ -46,7 +46,7 @@ const BannerAds = ({
           } else if (banner.exhibitor_id !== 0) {
             id = banner.exhibitor_id;
           }
-          if (module_type === 'detail' && module_id === id) {
+          if (module_type === 'detail') {
             return (
               banner.module_name === module_name &&
               moduleType.includes(module_type)
