@@ -23,6 +23,7 @@ import DateTimePicker from 'application/components/atoms/DateTimePicker';
 
 import { getColorScheme } from 'application/styles/colors';
 
+import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
 
 import moment from 'moment';
 
@@ -195,7 +196,7 @@ const Selectstyles2 = {
     const updateDate = (obj: any) => {
         setAttendeeData({
             ...attendeeData,
-            [obj.name]: (typeof obj.item === 'object' && obj.item !== null) ? obj.item.format("YYYY-MM-DD") : obj.item,
+            [obj.name]: (typeof obj.item === 'object' && obj.item !== null) ? obj.item.format(GENERAL_DATE_FORMAT) : obj.item,
         });
     };
 
@@ -204,7 +205,7 @@ const Selectstyles2 = {
             ...attendeeData,
             info: {
                 ...attendeeData?.info,
-                [obj.name]: (typeof obj.item === 'object' && obj.item !== null) ? obj.item.format("YYYY-MM-DD") : obj.item,
+                [obj.name]: (typeof obj.item === 'object' && obj.item !== null) ? obj.item.format(GENERAL_DATE_FORMAT) : obj.item,
             },
         });
 
@@ -773,8 +774,8 @@ const Selectstyles2 = {
                                     onChange={(item: any) => {
                                         updateDate({ item, name: "BIRTHDAY_YEAR" });
                                     }}
-                                    value={attendeeData?.BIRTHDAY_YEAR !== '' && attendeeData?.BIRTHDAY_YEAR !== '0000-00-00' && attendeeData?.BIRTHDAY_YEAR !== '0000-00-00 00:00:00' ? moment(attendeeData?.BIRTHDAY_YEAR).format('YYYY-MM-DD') : ''}
-                                    showdate={"YYYY-MM-DD"}
+                                    value={attendeeData?.BIRTHDAY_YEAR !== '' && attendeeData?.BIRTHDAY_YEAR !== '0000-00-00' && attendeeData?.BIRTHDAY_YEAR !== '0000-00-00 00:00:00' ? moment(attendeeData?.BIRTHDAY_YEAR).format(GENERAL_DATE_FORMAT) : ''}
+                                    showdate={GENERAL_DATE_FORMAT}
                                 />
                             </Center>
 
@@ -791,8 +792,8 @@ const Selectstyles2 = {
                                     onChange={(item: any) => {
                                         updateInfoDate({ item, name: "date_of_issue_passport" });
                                     }}
-                                    value={attendeeData?.info?.date_of_issue_passport !== '' && attendeeData?.info?.date_of_issue_passport !== '0000-00-00' && attendeeData?.info?.date_of_issue_passport !== '0000-00-00 00:00:00' ? moment(attendeeData?.info?.date_of_issue_passport).format('YYYY-MM-DD') : ''}
-                                    showdate={"YYYY-MM-DD"}
+                                    value={attendeeData?.info?.date_of_issue_passport !== '' && attendeeData?.info?.date_of_issue_passport !== '0000-00-00' && attendeeData?.info?.date_of_issue_passport !== '0000-00-00 00:00:00' ? moment(attendeeData?.info?.date_of_issue_passport).format(GENERAL_DATE_FORMAT) : ''}
+                                    showdate={GENERAL_DATE_FORMAT}
                                 />
                             </Center>
 
@@ -809,8 +810,8 @@ const Selectstyles2 = {
                                     onChange={(item: any) => {
                                         updateInfoDate({ item, name: "date_of_expiry_passport" });
                                     }}
-                                    value={attendeeData?.info?.date_of_expiry_passport !== '' && attendeeData?.info?.date_of_expiry_passport !== '0000-00-00' && attendeeData?.info?.date_of_expiry_passport !== '0000-00-00 00:00:00' ? moment(attendeeData?.info?.date_of_expiry_passport).format('YYYY-MM-DD') : ''}
-                                    showdate={"YYYY-MM-DD"}
+                                    value={attendeeData?.info?.date_of_expiry_passport !== '' && attendeeData?.info?.date_of_expiry_passport !== '0000-00-00' && attendeeData?.info?.date_of_expiry_passport !== '0000-00-00 00:00:00' ? moment(attendeeData?.info?.date_of_expiry_passport).format(GENERAL_DATE_FORMAT) : ''}
+                                    showdate={GENERAL_DATE_FORMAT}
                                 />
                             </Center>
                         </HStack>
@@ -826,8 +827,8 @@ const Selectstyles2 = {
                                     onChange={(item: any) => {
                                         updateInfoDate({ item, name: "EMPLOYMENT_DATE" });
                                     }}
-                                    value={attendeeData?.EMPLOYMENT_DATE !== '' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.EMPLOYMENT_DATE).format('YYYY-MM-DD') : ''}
-                                    showdate={"YYYY-MM-DD"}
+                                    value={attendeeData?.EMPLOYMENT_DATE !== '' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.EMPLOYMENT_DATE).format(GENERAL_DATE_FORMAT) : ''}
+                                    showdate={GENERAL_DATE_FORMAT}
                                 />
                             </Center>
                         </HStack>

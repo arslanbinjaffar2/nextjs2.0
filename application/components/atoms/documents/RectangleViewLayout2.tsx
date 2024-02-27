@@ -11,6 +11,7 @@ import { Linking } from 'react-native';
 import UseEnvService from 'application/store/services/UseEnvService';
 import FileIconByType from 'application/components/atoms/documents/FileIconByType';
 import moment from 'moment';
+import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
 
 type AppProps = {
     document: Document,
@@ -63,7 +64,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                         <Text fontSize="md">{document?.name}</Text>
                                         <HStack space="3" alignItems="center">
                                             <Text fontSize="xs">{HumanFileSize(document?.file_size)}</Text>
-                                            <Text fontSize="xs">{moment(document?.start_date).format('DD-MM-YYYY')}</Text>
+                                            <Text fontSize="xs">{moment(document?.start_date).format(GENERAL_DATE_FORMAT)}</Text>
                                             {/* <Text fontSize="xs">{document?.start_time}</Text> */}
                                         </HStack>
                                     </VStack>
