@@ -169,9 +169,9 @@ const Index = React.memo(() => {
                             </Box>
                         }
                         {sponsors.length <= 0 &&
-                            <Box w="100%">
-                                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
-                            </Box>
+                          <Box p="3">
+                              <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                          </Box>
                         }
                     </>}
                     <Box width={"100%"} height={"5%"}>
