@@ -25,7 +25,7 @@ const Index = () => {
     const { response } = UseAuthService();
     const { event, modules  } = UseEventService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
-
+    const { width } = useWindowDimensions();
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['program', 'my-program'])) {
