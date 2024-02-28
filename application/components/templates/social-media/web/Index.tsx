@@ -6,32 +6,16 @@ import UseLoadingService from '../../../../store/services/UseLoadingService';
 import UseSocialMediaService from '../../../../store/services/UseSocialMediaService'; 
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Linking } from 'react-native';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
-import UseEnvService from 'application/store/services/UseEnvService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const index = () => {
 
   const mounted = React.useRef(false);
-  const { banners, FetchBanners} = UseBannerService();
-  const { _env } = UseEnvService()
-
     const { loading } = UseLoadingService();
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     const { FetchSocialMedias, socialMedia } = UseSocialMediaService();
-    useEffect(()=>{
-      const filteredBanner=banners.filter((banner  : Banner)=>{
-        return banner.module_name == 'social' && banner.module_type == 'listing'
-      })
-
-    setFilteredBanners(filteredBanner);
-    },[banners]);
     useEffect(() => {
       FetchSocialMedias();
-    }, []);
-    React.useEffect(() => {
-      FetchBanners();
     }, []);
   return (
     <>
@@ -72,15 +56,7 @@ const index = () => {
        )
       }
       <Box width={"100%"} height={"5%"}>
-        {filteredBanners.map((banner, k) =>
-          <Image
-            key={k}
-            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-            alt="Image"
-            width="100%"
-            height="100%"
-          />
-        )}
+        <BannerAds module_name={'social'} module_type={'listing'} />
       </Box>
   </>
   )

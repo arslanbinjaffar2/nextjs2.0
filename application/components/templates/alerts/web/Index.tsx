@@ -9,6 +9,7 @@ import UseAlertService from 'application/store/services/UseAlertService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Poll } from 'application/models/poll/Poll';
 import { Alert } from 'application/models/alert/Alert';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
 
@@ -50,6 +51,9 @@ const Index = () => {
                     </Container>
                 )
             }
+            <Box width={"100%"} height={"5%"}>
+                <BannerAds module_name={'alerts'} module_type={'listing'} />
+            </Box>
         </>
         
     )

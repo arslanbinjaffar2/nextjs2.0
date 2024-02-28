@@ -39,7 +39,7 @@ const Index = () => {
                           return plan;
                       }
                     }).map((plan:FloorPlan)=>(
-                        <Text borderBottomWidth="1" borderBottomColor="primary.box" px="3" py="2" fontSize="md">{plan.floor_plan_name}</Text>
+                        <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md">{plan.floor_plan_name}</Text>
                     ))}
                 </VStack>
               </Box>
@@ -69,9 +69,9 @@ export default Index
                 <Input bg="transparent" rounded="0" w="100%" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                 <Divider w="100%" bg="primary.text" h="1px" />
                 <VStack mb="10" w="100%" space="0">
-                  <Text borderBottomWidth="1" borderBottomColor="primary.box" px="3" py="2" fontSize="md">A1, Amnesty youth</Text>
-                  <Text borderBottomWidth="1" borderBottomColor="primary.box" px="3" py="2" fontSize="md">A2, Ungdomssken & UU kobenhavn</Text>
-                  <Text borderBottomWidth="1" borderBottomColor="primary.box" px="3" py="2" fontSize="md">A3, Dansk Industry (DI)</Text>
+                  <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md">A1, Amnesty youth</Text>
+                  <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md">A2, Ungdomssken & UU kobenhavn</Text>
+                  <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md">A3, Dansk Industry (DI)</Text>
                 </VStack>
               </Box>
               </Container> */}

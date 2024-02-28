@@ -13,7 +13,7 @@ const RectangleDetailView = ({ track, border, updateTab }: AppProps) => {
 
     const { FetchTracks, FetchPrograms } = UseProgramService();
 
-    return <Box  w="100%" key={track.id} borderBottomWidth={border ? 1 : 0} borderColor="primary.box" py="3">
+    return <Box  w="100%" key={track.id} borderBottomWidth={border ? 1 : 0} borderColor="primary.bordercolor" py="3">
         <Pressable onPress={() => {
             if (track?.parent_id == 0) {
                 updateTab('track');

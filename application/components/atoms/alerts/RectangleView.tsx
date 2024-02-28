@@ -15,7 +15,7 @@ const RectangleView = ({title, description, date_time}:{title:string,description
       p="0"
       w="100%"
       _hover={{ bg: 'primary.500' }}>
-      <Box w="100%" borderBottomWidth='1' borderColor="primary.box" py="3">
+      <Box w="100%" borderBottomWidth='1' borderColor="primary.bordercolor" py="3">
         <HStack px="3" w="100%" space="2" alignItems="center" justifyContent={'space-between'}>
           <Center  bg="primary.darkbox" p="2" rounded={'50%'}>
             <IcoBell width={28} height={28} />

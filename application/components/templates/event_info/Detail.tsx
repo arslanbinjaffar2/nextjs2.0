@@ -6,6 +6,7 @@ import AntDesign from '@expo/vector-icons/AntDesign'
 import { useWindowDimensions, Linking, Platform } from 'react-native';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
+import { getColorScheme } from 'application/styles/colors';
 import { createParam } from 'solito';
 import LoadImage from 'application/components/atoms/LoadImage';
 import ThemeColors from 'application/utils/ThemeColors';
@@ -33,6 +34,8 @@ const Detail = (props: any) => {
     const [iframeHeight, setIframeHeight] = useState(0);
     const iframe = useRef<any>();
 
+      const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+
     const onWebViewMessage = (event: any) => {
         setweb_height(parseInt(event.nativeEvent.data) + 15);
     }
@@ -55,7 +58,7 @@ const Detail = (props: any) => {
                                 </>
                             )}
                             {page.image !== '' && page.image_position === 'top' && <HStack w="90%" ml={5} mb={5}>
-                                <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%" h={(10 / 100) * height} />
+                                <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%"  />
                             </HStack>}
                             {page?.description != "" && (Platform.OS === 'web' ? (
                                 <iframe 
@@ -64,6 +67,7 @@ const Detail = (props: any) => {
                                     onLoad={() => {
                                         const obj = iframe.current;
                                         obj.contentWindow.document.body.style.fontFamily = '"Open Sans", sans-serif';
+                                        obj.contentWindow.document.body.style.color = colors.text ? colors.text : '#000';
                                         setIframeHeight(
                                             obj.contentWindow.document.body.scrollHeight + 50 
                                         );
@@ -99,7 +103,7 @@ const Detail = (props: any) => {
                                         <HStack  w="100%" px="4" py="1" space="3" alignItems="center">
                                             <Icon color={'primary.text'} as={AntDesign} name="pdffile1" size="md" />
                                             <VStack space="0" w={'calc(100% - 100px)'}>
-                                                <Text fontSize="md">{page.pdf_title}</Text>
+                                                <Text fontSize="md">{event?.labels?.PRACTICAL_INFORMATION_VIEW_DOCUMENT}</Text>
                                             </VStack>
                                             <Spacer />
                                             <Icon as={AntDesign} name="download" size="md" color="primary.text" />

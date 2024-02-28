@@ -27,7 +27,7 @@ const MatrixTypeResult = ({ question, questionNumber }: PropTypes) => {
                 <Text fontWeight="600" maxW="80%" fontSize="lg">Your Answer</Text>
             </HStack>
             <Divider mb="5" opacity={0.27} bg="primary.text" />
-          <ScrollView w="100%" pb="5" showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
+          <ScrollView w={['320px','100%']} pb="5" showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
             <Box position="relative" w="100%" rounded="lg">
             <HStack space="1" alignItems="center" pb="3">
               <Center zIndex={9} position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1" height="20px"></Center>

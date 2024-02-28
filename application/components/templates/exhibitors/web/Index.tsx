@@ -13,11 +13,9 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { ExhibitorCategory } from 'application/models/exhibitor/ExhibitorCategory';
 import UseEventService from 'application/store/services/UseEventService';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
-import UseEnvService from 'application/store/services/UseEnvService'
 import { useSearchParams, usePathname } from 'next/navigation'
 import { useRouter } from 'solito/router'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = React.memo(() => {
 
@@ -43,9 +41,7 @@ const Index = React.memo(() => {
     )
 
     const { event } = UseEventService()
-    const { banners, FetchBanners} = UseBannerService();
     const { loading } = UseLoadingService();
-    const { _env } = UseEnvService()
     const [tab, setTab] = React.useState(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list);
 
     const [mode, setMode] = React.useState(modeQueryParam ? modeQueryParam : 'grid')
@@ -53,7 +49,6 @@ const Index = React.memo(() => {
     const [searchQuery, setSearch] = React.useState('')
 
     const { exhibitors, categories, FetchExhibitors, category_id, query } = UseExhibitorService();
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
         FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: '', screen: 'exhibitors' });
@@ -75,19 +70,9 @@ const Index = React.memo(() => {
             FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: query, screen: 'exhibitors' });
         }, 1000);
     }, []);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'exhibitors' && banner.module_type == 'listing'
-        })
-
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
     return (
         <>
             {loading ? (
@@ -102,7 +87,8 @@ const Index = React.memo(() => {
                             setSearch(text);
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </HStack>
-                    <HStack mb="3" space={1} justifyContent="center" w="100%">
+                    {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') && (
+                        <HStack mb="3" space={1} justifyContent="center" w="100%">
                         {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') && <Button onPress={() => {
                             setTab('name')
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
@@ -115,6 +101,8 @@ const Index = React.memo(() => {
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'))
                         }} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
                     </HStack>
+                    )}
+                    
                     {(tab === 'name' || tab === 'category-exhibitors') && <>
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
                             <IconButton
@@ -168,15 +156,7 @@ const Index = React.memo(() => {
                         }
                     </>}
                     <Box width={"100%"} height={"5%"}>
-                        {filteredBanners.map((banner, k) =>
-                          <Image
-                            key={k}
-                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                            alt="Image"
-                            width="100%"
-                            height="100%"
-                          />
-                        )}
+                        <BannerAds module_name={'exhibitors'} module_type={'listing'} />
                     </Box>
                     {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
