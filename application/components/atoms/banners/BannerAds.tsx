@@ -20,7 +20,7 @@ const BannerAds = ({
   const { event } = UseEventService();
   const [filteredBanners, setFilteredBanners] = useState<Banner[]>([]);
   const [currentBanner, setCurrentBanner] = React.useState(0);
-  const { banners, FetchBanners } = UseBannerService();
+  let { banners, FetchBanners } = UseBannerService();
 
   useEffect(() => {
     const filtered = banners.filter((banner: Banner) => {
@@ -71,31 +71,51 @@ const BannerAds = ({
 
   const handleBannerClick = (banner: Banner) => {
     if (module_name === 'dashboard') {
-      if (banner.sponsor_id != 0) {
+      if (banner.sponsor_id !== 0) {
         push(`/${event.url}/sponsors/detail/${banner.sponsor_id}`);
-      } else if (banner.exhibitor_id) {
+      } else if (banner.exhibitor_id !== 0) {
         push(`/${event.url}/exhibitors/detail/${banner.exhibitor_id}`);
-      } else if (banner.agenda_id != 0) {
+      } else if (banner.agenda_id !== 0) {
         push(`/${event.url}/agendas/detail/${banner.agenda_id}`);
-      }
-      else if (banner.other_link_url) {
+      } else if (banner.other_link_url) {
         window.open(banner.other_link_url, '_blank');
         return;
       }
-    }
-    let url ;
-    if (banner.module_name === 'sponsors') {
-      url=`/${event.url}/${banner.module_name}/detail/${banner.sponsor_id}`;
-    } else if(banner.module_name === 'exhibitors'){
-      url=`/${event.url}/${banner.module_name}/detail/${banner.exhibitor_id}`;
-    }else if(banner.module_name === 'agendas'){
-      url=`/${event.url}/${banner.module_name}/detail/${banner.agenda_id}`;
-    } else if (banner.other_link_url) {
-      window.open(banner.other_link_url, '_blank');
-      return;
-    }
-    if (url) {
-      push(url);
+    } else {
+      let url;
+      if (banner.sponsor_id > 0) {
+        if (banner.url) {
+          url = banner.url;
+        } else {
+          url = `/${event.url}/sponsors/detail/${banner.sponsor_id}`;
+        }
+      } else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0) {
+        url = `${banner.other_link_url}`;
+      } else if (banner.exhibitor_id > 0) {
+        if (banner.url ) {
+          url = banner.url;
+        } else {
+          url = `/${event.url}/exhibitors/detail/${banner.exhibitor_id}`;
+        }
+      } else if (banner.agenda_id > 0) {
+        url = `/${event.url}/agendas/detail/${banner.agenda_id}`;
+      }
+      if (url) {
+        push(url);
+      }
+      let type;
+      if (banner.sponsor_id > 0) {
+        type = 'sponsor';
+      } else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0) {
+        type = 'other';
+      } else if (banner.exhibitor_id > 0) {
+        type = 'exhibitor';
+      } else if (banner.agenda_id > 0) {
+        type = 'program';
+      }
+      if (type) {
+        push(type);
+      }
     }
   };
   useEffect(() => {
