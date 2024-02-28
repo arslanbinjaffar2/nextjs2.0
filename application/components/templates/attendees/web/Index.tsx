@@ -381,7 +381,7 @@ const Index = ({ speaker, screen }: Props) => {
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p="3">
+                                <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
                                     <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
                                 </Box>
                             }
