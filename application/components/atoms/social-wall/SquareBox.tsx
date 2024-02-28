@@ -12,6 +12,8 @@ import useSocialWallService from 'application/store/services/UseSocialWallServic
 import NewCommentBox from 'application/components/atoms/social-wall/NewCommentBox';
 import CommentBox from 'application/components/atoms/social-wall/CommentBox';
 import UseEventService from 'application/store/services/UseEventService';
+import { useRouter } from 'solito/router'
+
 
 type AppProps = {
   post: Post,
@@ -20,10 +22,15 @@ type AppProps = {
 
 const SquareBox = ({ post, index }: AppProps) => {
 
+  const { push } = useRouter();
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
   const { event } = UseEventService();
   const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment, DeleteSocialWallPost } =useSocialWallService();
+
+  const [toggleReplay, settoggleReplay] = useState(null)
+  const [commnetid, setcommnetid] = useState(null)
+
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some(like => like.attendee_id === response?.data?.user?.id)
   );
@@ -48,24 +55,30 @@ const SquareBox = ({ post, index }: AppProps) => {
   function likeComment(id:number) {
     LikeSocialWallComment({id:id})
   }
-
+ const handleChildClick = (a: any, b: any) => {
+    settoggleReplay(a);
+    setcommnetid(b)
+    // You can perform any actions needed with the received data
+  };
   return (
     <Box mb="3"  w="100%" py={3}  bg={'primary.box'} roundedTop={ index === 0 ? 0 : 10 } roundedBottom={10} borderWidth="1" borderColor="primary.box">
       <VStack space="3">
         {/* button to delete post */}
         {post.attendee.id === response?.data?.user?.id && (
-          <>
+          <HStack px={4} justifyContent={'flex-end'} width={'100%'}>
           <Button onPress={() => {
             deletePost()
           }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
             <Text fontSize="xs" color="primary.text">Delete</Text>
           </Button>
-          <Link href={`/${event.url}/social_wall/edit/${post.id}`}>
-            <Text w={'100%'} fontSize='md' lineHeight='sm'>Edit</Text>
-          </Link>
-      </>
+          <Button onPress={() => {
+            push(`/${event.url}/social_wall/edit/${post.id}`)
+          }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
+            <Text fontSize="xs" color="primary.text">Edit</Text>
+          </Button>
+      </HStack>
         )}
-        <HStack space="3" alignItems="center" key="rd90">
+        <HStack space="3" px={4} alignItems="center" key="rd90">
           <Avatar
             borderWidth={1}
             borderColor="primary.text"
@@ -81,9 +94,9 @@ const SquareBox = ({ post, index }: AppProps) => {
             <Text fontSize="sm" key="time_attendee_post">{post.created_at_formatted}</Text>
           </VStack>
         </HStack>
-        <Text px={3} key="p-content" fontSize="md">{post.content}</Text>
+        <Text px={4} key="p-content" fontSize="md">{post.content}</Text>
         {(post.type === 'image' || post.type === 'text') && post.image !== '' &&(
-          <Center w={'100%'} px={3}>
+          <Center w={'100%'} px={4}>
             <Image
               source={{
                 uri: `${_env.eventcenter_base_url}/assets/social_wall/${post.image}`
@@ -98,8 +111,10 @@ const SquareBox = ({ post, index }: AppProps) => {
         )}
 
         {post.type === 'video' && post.image !== '' &&(
-          <Center w={'100%'} px={3}>
+          <Center w={'100%'} px={4}>
             <video
+              width="100%"
+              height="295px"
               width="100%"
               height="295px"
               controls
@@ -107,7 +122,7 @@ const SquareBox = ({ post, index }: AppProps) => {
             />
           </Center>
         )}
-        <HStack  space="1" w={'100%'} px={3}>
+        <HStack  space="1" w={'100%'} px={4}>
            <HStack space="1" alignItems="center">
               <Icolikealt />
               <Text fontSize="sm">{likesCount}</Text>
@@ -124,7 +139,7 @@ const SquareBox = ({ post, index }: AppProps) => {
         </HStack>
         
         <HStack key="rd99" px="3" space="0" alignItems="center">
-          <HStack  py={3} borderBottomWidth="1" w={'100%'} flexWrap={'wrap'} borderTopWidth="1" borderColor="primary.box" space="2" alignItems="center" key="likebtn">
+          <HStack  py={3} borderBottomWidth="1" w={'100%'} flexWrap={'wrap'} borderTopWidth="1" borderColor="primary.bordercolor" space="2" alignItems="center" key="likebtn">
             <Center flex={1} alignItems={'flex-start'}>
                 <Button
                   colorScheme="unstyled"
@@ -175,7 +190,7 @@ const SquareBox = ({ post, index }: AppProps) => {
           </HStack>
         </HStack>
         {/* new comment section */}
-        <HStack>
+        {/* <HStack>
           <Avatar
             borderWidth={1}
             borderColor="primary.text"
@@ -186,22 +201,19 @@ const SquareBox = ({ post, index }: AppProps) => {
           >
             SS
           </Avatar>
-          <VStack space="0" >
-            <Text fontSize="md" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text>
-            {/* add a input with button */}
-            <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} />
-          </VStack>
-        </HStack>
+        </HStack> */}
+          
         {post.comments.map((comment: Comment) => {
           return <React.Fragment key={comment.id}>
-            <Box>
-              <CommentBox comment={comment} key={comment.id} />
-              {comment.replies.map((reply: Comment) => {
-                <CommentBox comment={reply} key={reply.id} />
-              })}
-            </Box>
-            <HStack w={'100%'} py={2} px={3} borderTopWidth={1} borderTopColor={'primary.box'} space="2" alignItems="center">
+            <Box overflow={'hidden'} w={'100%'}>
+              <CommentBox onChildClick={handleChildClick}  secondlevel={false} comment={comment} key={comment.id} />
+              {comment.replies.map((reply: Comment) => 
+                <CommentBox onChildClick={handleChildClick}  secondlevel={true} comment={reply} key={reply.id} />
+              )}
+             {toggleReplay && commnetid === comment.id && <Divider bg={'primary.bordercolor'} zIndex={2} height={'calc(100% - 65px)'} width={'1px'} position={'absolute'} left={'35px'} top={'32px'} />}
+            {toggleReplay && commnetid === comment.id && <HStack w={'100%'} py={2} pl={'65px'} pr={3} space="2" alignItems="center">
               <Center>
+                <Divider w={'4'} position={'absolute'} left={'-30px'} top={3} bg={'primary.bordercolor'} />
                 <Avatar
                   borderWidth={1}
                   borderColor="primary.text"
@@ -217,10 +229,31 @@ const SquareBox = ({ post, index }: AppProps) => {
                 <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} />
               </Center>
               
-            </HStack>
+            </HStack>}
+            </Box>
             
           </React.Fragment>
         })}
+        <HStack w={'100%'} px={4} py={3} borderTopWidth={1} borderTopColor={'primary.bordercolor'} space="3" >
+           <Center>
+                <Avatar
+                  borderWidth={1}
+                  borderColor="primary.text"
+                  size="md"
+                  source={{
+                    uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
+                  }}
+                >
+                  SS
+                </Avatar>
+            </Center>
+            {/* <Text fontSize="md" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text> */}
+            {/* add a input with button */}
+            <Center w={'calc(100% - 60px)'}>
+              <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} />
+            </Center>
+            
+          </HStack>
       </VStack>
     </Box>
   )

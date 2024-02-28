@@ -1,17 +1,20 @@
 import React, { useState } from 'react'
-import { Avatar, HStack, IconButton, Text, VStack } from 'native-base'
+import { Avatar, Box, Center, Divider, HStack, Icon, IconButton, Pressable, Spacer, Text, VStack } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import { Comment } from 'application/models/socialWall/SocialWall'
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import useSocialWallService from 'application/store/services/UseSocialWallService'
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 
 type AppProps = {
   comment: Comment,
+  secondlevel: boolean,
+  onChildClick: (a: any,b:any) => void
 }
-const CommentBox = ({ comment }: AppProps) => {
+const CommentBox = ({ comment, secondlevel,onChildClick }: AppProps) => {
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
   const { processing } = UseLoadingService();
@@ -28,10 +31,15 @@ const CommentBox = ({ comment }: AppProps) => {
     setlikesCount(isLiked ? likesCount - 1 : likesCount + 1);
     LikeSocialWallComment({id:id})
   }
+const handleClick = () => {
+  onChildClick(true,comment.id)
 
-
+}
     return (
-      <HStack space="3" alignItems="center" key={'m-' + comment.id}>
+      <>
+      <HStack pb={3} position={'relative'} space="3" px={5} pl={secondlevel ? '55px' : '5'} alignItems="flex-start" key={'m-' + comment.id}>
+       {secondlevel && <Divider w={'5'} position={'absolute'} left={'35px'} top={3} bg={'primary.bordercolor'} />}
+        
         <Avatar
           borderWidth={1}
           borderColor="primary.text"
@@ -42,25 +50,49 @@ const CommentBox = ({ comment }: AppProps) => {
         >
           SS
         </Avatar>
-        <VStack space="0">
+        <VStack  position={'relative'} zIndex={4} maxW={['calc(100% - 55px)']} space="0">
+          <Box  bg="primary.darkbox" mb={2} px="3" py={2} position={'relative'}  rounded="lg">
           <Text key="cmntfn" fontSize="md" fontWeight="600">
             {comment.attendee.full_name}
           </Text>
           <Text key="cmntcn" fontSize="sm" fontWeight="300">
             {comment.comment}
           </Text>
-          <Text key="cmntdt" fontSize="xs">
-            {comment.created_at_formatted} {likesCount} likes
+          {likesCount > 0 && <HStack position={'absolute'} right={'-15px'} bottom={'-5px'} space="1" alignItems="center">
+            <Center p={1} bg={'white'} shadow={1} rounded={'full'}><Icon as={AntDesign} name="like1" size={'xs'} color={'primary.500'}  /></Center>
+            <Text color={'primary.text'} fontSize="xs">{likesCount}</Text>
+          </HStack>}
+          
+          </Box>
+          <HStack w={'100%'} space="3" alignItems="center">
+          <Text fontSize="sm">
+            {comment.created_at_formatted} 
           </Text>
-          <IconButton
-            icon={<IcoLike width="18px" height="18px" />}
-            onPress={() => {
-              likeComment(comment.id)
-            }}
-            {...(isLiked ? { variant: 'solid' } : { variant: 'unstyled' })}
-          />
+            <Pressable
+              p="0"
+              borderWidth="0"
+              onPress={()=>{
+                likeComment(comment.id)
+              }}
+            
+            >
+              <Text fontSize={'sm'} color={isLiked ? 'primary.500' : 'primary.text'}>Like</Text>
+            </Pressable>
+             
+          {!secondlevel &&  <Pressable
+              p="0"
+              borderWidth="0"
+              onPress={handleClick}
+            
+            >
+              <Text fontWeight={500} fontSize={'sm'}>Reply</Text>
+            </Pressable>}
+          </HStack>
         </VStack>
+        
       </HStack>
+    {secondlevel && <Divider bg={'primary.bordercolor'} zIndex={2} height={'calc(100% - 65px)'} width={'1px'} position={'absolute'} left={'35px'} top={'32px'} />}
+    </>
     )
 
 }
