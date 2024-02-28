@@ -4,6 +4,7 @@ import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData, Answer, Settings, Allprogram } from 'application/models/subRegistration/SubRegistration';
 import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
+import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
 
 type PropTypes = {
   updates:number,
@@ -81,7 +82,7 @@ const checkIfProgramdisabled =  (answer:Answer, result:any[], settings:Settings,
       end_time1 = moment(end_time1, 'HH:mm');
       start_time2 = moment(start_time2, 'HH:mm');
       end_time2 = moment(end_time2, 'HH:mm');
-      if(pId != answer.link_to && (moment(thisPrograms.date, 'DD-MM-YYYY').isSame(moment(selectedProgram.date, 'DD-MM-YYYY'))) == true ){
+      if(pId != answer.link_to && (moment(thisPrograms.date, GENERAL_DATE_FORMAT).isSame(moment(selectedProgram.date, GENERAL_DATE_FORMAT))) == true ){
           if ((start_time1 >= start_time2 && start_time1 < end_time2) || (start_time2 >= start_time1 && start_time2 < end_time1)) {
                   disabled = true;
 

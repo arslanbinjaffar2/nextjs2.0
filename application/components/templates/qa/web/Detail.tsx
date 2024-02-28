@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Pressable,  Image, Divider, Avatar, TextArea, Button, IconButton, ZStack, Select, Checkbox, Center, Input, Spinner } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Pressable,  Image, Divider, Avatar, TextArea, Button, IconButton, ZStack, Select, Checkbox, Center, Input, Spinner, View } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import IcoHistory from 'application/assets/icons/IcoHistory';
@@ -15,6 +15,7 @@ import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { QaSettings } from 'application/models/qa/Qa';
 import UseSocketService from 'application/store/services/UseSocketService';
+import { TextInput } from 'react-native';
 
 type ScreenParams = { id: string }
 
@@ -199,11 +200,14 @@ const Detail = () => {
                     {qaDetials?.speakers?.length > 0 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
                     <Text w={'30%'} fontSize="lg">Select speaker</Text>
                     <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
-                      <Select
+                      <View w={'100%'}>
+                        <Select
                         placeholder="Please Select Attendee"
                         w="100%"
                         rounded="4"
+                        minW={'20%'}
                         h="42px"
+                        flex={1}
                         borderWidth="1"
                         selectedValue={speaker ?? ''}
                         onValueChange={(item)=>setSpeaker(item)}
@@ -212,16 +216,21 @@ const Detail = () => {
                             <Select.Item label={`${speaker?.attendee?.first_name} ${speaker?.attendee?.last_name}`} value={`${speaker?.id}`} />
                         ))}
                     </Select>
+                      </View>
+                      
                     </Center>
                     
                     </HStack>}
                     {qaDetials?.paragraph?.length > 0 && <HStack px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3"  alignItems="center">
                     <Text  w="30%"  fontSize="lg">Select Paragraph</Text>
                     <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
+                    <View w={'100%'}>
                     <Select
                         placeholder="Please Select Attendee"
                         w="100%"
                         minW={'100%'}
+                        position={'absolute'}
+                        right={0}
                         flex={1}
                         rounded="4"
                         h="42px"
@@ -233,6 +242,8 @@ const Detail = () => {
                             <Select.Item  label={`${pg?.heading}`} value={`${pg.id}`} />
                         ))}
                     </Select>
+                    </View>
+                    
                     </Center>
                     
                     
@@ -243,6 +254,7 @@ const Detail = () => {
                     </HStack>}
                     <Box w="100%" px="3">
                         <TextArea rounded={8} bg="primary.box" value={question} onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%" borderColor={'transparent'} minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
+
                     </Box>
                     
                     <HStack px="3" py="2" space="3" alignItems="center">
@@ -268,7 +280,7 @@ const Detail = () => {
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
-                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
+                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
                         ))}
                     </HStack>
                     <Box mb="10" px="5" w="100%" position="relative">

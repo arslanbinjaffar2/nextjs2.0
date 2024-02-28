@@ -98,7 +98,7 @@ const Detail = ({ navigation }: indexProps) => {
           source={{
             uri: 'https://wallpaperaccess.com/full/311401.jpg'
           }}
-          alt="Alternate Text"
+          alt=""
           w="100%"
           h="150px"
           rounded="10"

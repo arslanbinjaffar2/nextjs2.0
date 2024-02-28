@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Text, TextArea, VStack } from 'native-base';
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData, Answer } from 'application/models/poll/Detail';
 
 type PropTypes = {
@@ -34,7 +34,7 @@ const MultipleAnswer = ({ question, formData, updateFormData, error, labels }: P
       {Number(question.enable_comments) === 1 &&
         <>
         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-          <Icodocument width="15px" height="18px" />
+          <Icowritecomment width="15px" height="18px" />
           <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
         </HStack>
         <Box py="3" px="4" w="100%">

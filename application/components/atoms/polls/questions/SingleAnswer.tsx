@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Icon, Radio, Text, TextArea, VStack } from 'native-base';
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/poll/Detail';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Platform } from 'react-native';
@@ -21,7 +21,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error, labels }: Pro
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info?.question} {Number(question?.required_question) === 1 && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
-        <Radio.Group space="5" defaultValue={formData[question.id]?.answer !== null && formData[question.id]?.answer.length > 0 ? `${formData[question.id]?.answer[0]}` : ``} name="MyRadioGroup"  onChange={answer_id => {updateFormData(question.id, question.question_type, answer_id);}}>
+        <Radio.Group space="4" defaultValue={formData[question.id]?.answer !== null && formData[question.id]?.answer.length > 0 ? `${formData[question.id]?.answer[0]}` : ``} name="MyRadioGroup"  onChange={answer_id => {updateFormData(question.id, question.question_type, answer_id);}}>
           {question.answer.map((answer, k) =>
             <Radio  key={k}  value={`${answer.id}`}> {answer.answer} </Radio>
           )}
@@ -33,7 +33,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error, labels }: Pro
       {Number(question.enable_comments) === 1 &&
         <>
           <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-            <Icodocument width="15px" height="18px" />
+            <Icowritecomment width="15px" height="18px" />
             <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
           </HStack>
           <Box py="3" px="4" w="100%">

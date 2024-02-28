@@ -20,7 +20,7 @@ const Index = () => {
 
     const { _env } = UseEnvService();
   
-    const { event  } = UseEventService();
+    const { event, modules  } = UseEventService();
 
     const [showAttendees, setShowAttendees] = useState(false);
 
@@ -55,7 +55,7 @@ export default Index
 
 const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, FetchSearchMatchAttendees, showAttendees, setShowAttendees }:{keywords:Keyword[],searchMatchAttendees:Attendee[]|null, searchingAttendees:boolean, FetchSearchMatchAttendees:(payload:any)=>void, showAttendees:boolean, setShowAttendees:React.Dispatch<React.SetStateAction<boolean>>}) => {
   
-  const { event } = UseEventService();
+  const { event, modules } = UseEventService();
   const { _env } = UseEnvService();
 
   const [interestkeywords, setInterestKeywords] = useState(keywords);
@@ -125,7 +125,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                 {showAttendees ? (
                     <Container  pt="2" maxW="100%" w="100%" >
                       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                      <Text textTransform="uppercase" fontSize="2xl">Attendees</Text>
+                      <Text textTransform="uppercase" fontSize="2xl">{modules?.find((attendees)=>(attendees.alias == 'attendees'))?.name ?? ""}</Text>
                     </HStack>
                     {searchingAttendees && <SectionLoading/>}
                     {searchMatchAttendees && <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
@@ -155,7 +155,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
 
                  )  : (<Container pt="2" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="uppercase" fontSize="2xl">Network interest</Text>
+                    <Text textTransform="uppercase" fontSize="2xl">{modules?.find((network)=>(network.alias == 'business'))?.name ?? ""}</Text>
                     </HStack>
                     <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
                     <Center mb="3" px="1">

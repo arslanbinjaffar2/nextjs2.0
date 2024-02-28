@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, HStack, Icon, Image, Pressable, Spacer, Text, VStack } from 'native-base'
+import {Avatar, Box, HStack, Icon, Image, Pressable, Spacer, Text, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'application/assets/icons/Icoribbon'
 import { Attendee } from 'application/models/attendee/Attendee'
@@ -10,6 +10,7 @@ import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
 import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
+import AvatarColors from 'application/utils/AvatarColors'
 
 type boxItemProps = {
   attendee: Attendee
@@ -29,6 +30,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   const { push } = useRouter()
 
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
+
 
   return (
     <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.bordercolor" py="3">
@@ -52,9 +54,13 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
           <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
             {attendee?.image ? (
-              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="Alternate Text" w="50px" h="50px" />
+              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
-              <Image rounded="25" size="5" source={UserPlaceholderImage} alt="Alternate Text" w="50px" h="50px" />
+              <Avatar
+                  borderWidth={1}
+                  borderColor="primary.darkbox"
+                  bg={AvatarColors()}
+                  >{ attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}</Avatar>
             )}
             <VStack w={'calc(100% - 165px)'} space="0">
               {(attendee?.first_name || attendee?.last_name) && (
@@ -65,7 +71,8 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                       attendee?.info.title) && (
                       <>
                         
-                          <Text lineHeight="22px" fontSize="lg">{attendee?.info?.title}&nbsp;{attendee?.info?.company_name &&
+                          <Text lineHeight="22px" fontSize="lg">
+                            {attendee?.info?.title}{attendee?.info?.company_name &&
                             attendee?.info?.title &&
                             ", "}
                             { attendee?.field_settings?.department.is_private == 0 && attendee?.info?.department && `${attendee?.info?.department} ${attendee?.info?.company_name && ', '}`}

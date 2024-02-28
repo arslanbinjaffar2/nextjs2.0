@@ -24,9 +24,9 @@ const RectangleView = ({ k, attendee, total }: AppProps) => {
     return (
         <HStack key={`item-${k}`} py="3" px="2" space="4" alignItems="center" borderBottomWidth={k === (total-1) ? 0 : 1} borderColor="primary.bordercolor">
             {attendee.image ? (
-                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="Alternate Text" w="50px" h="50px" rounded={30} />
+                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="" w="50px" h="50px" rounded={30} />
             ) : (
-                <Image source={UserPlaceholderImage} alt="Alternate Text" w="50px" h="50px" rounded={30} />
+                <Image source={UserPlaceholderImage} alt="" w="50px" h="50px" rounded={30} />
             )}
             <VStack space="0">
                 {(attendee?.first_name || attendee?.last_name) && (

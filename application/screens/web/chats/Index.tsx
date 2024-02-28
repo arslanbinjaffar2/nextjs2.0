@@ -19,8 +19,8 @@ const Index = ({ navigation }: indexProps)  => {
           <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
         <HStack mb="3" space={1} justifyContent="center" w="100%">
-          <Button onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{fontWeight: '600'}}>CHATS</Button>
-          <Button onPress={() => setTab(false)} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{fontWeight: '600'}}>ATTENDEE GROUPS</Button>
+          <Button onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{fontWeight: '600'}}>CHATS</Button>
+          <Button onPress={() => setTab(false)} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{fontWeight: '600'}}>ATTENDEE GROUPS</Button>
         </HStack>
         <>
           {tab && <>

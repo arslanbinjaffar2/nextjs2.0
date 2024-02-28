@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Pressable, ZStack } from 'native-base'
-import { Exhibitor } from 'application/models/exhibitor/Exhibitor'
+import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Pressable, ZStack, Popover, Button } from 'native-base'
+import { Exhibitor, Category } from 'application/models/exhibitor/Exhibitor'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
@@ -62,41 +62,80 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
                         }
                     }}>
                     <Box mb="3" w="100%" bg="primary.box" p="0" borderWidth="1" borderColor="primary.box" rounded="10">
-                    <Text fontSize="md" textAlign={'center'} my={2}>{event?.exhibitor_settings?.exhibitorName ? exhibitor?.name :""}</Text>
+                    <Text mx={'auto'} isTruncated maxWidth={'75%'} minHeight={'27px'} fontSize="lg" fontWeight={500} textAlign={'center'} my={2}>{event?.exhibitor_settings?.exhibitorName ? exhibitor?.name :""}</Text>
                         {settings?.mark_favorite === 1 && (
                             <IconButton
                                 bg="transparent"
                                 p="1"
+                                rounded={'full'}
                                 _hover={{ bg: 'primary.500' }}
                                 icon={<Icon size="md" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color="primary.text" />}
                                 onPress={() => toggleFav()}
                                 position={'absolute'}
                                 zIndex={'999999'}
-                                right={'3px'}
-                                top={'3px'}
+                                right={'4px'}
+                                top={'7px'}
                             />
                         )}
-                        <Center mb={1} px="1" alignItems="center" w="100%">
+                        <Center mb={3} px="1" alignItems="center" w="100%">
                             {exhibitor.logo ? (
-                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${exhibitor.logo}` }} alt="Alternate Text" w="210px" h="72px" />
+                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${exhibitor.logo}` }} alt="" w="210px" h="72px" />
                             ) : (
-                                <Image source={ExhibitorDefaultImage} alt="Alternate Text" w="210px" h="72px" />
+                                <Image source={ExhibitorDefaultImage} alt="" w="210px" h="72px" />
                             )}
                         </Center>
-                        <HStack pb={6} space="3" alignItems="center" position={'relative'}>
-                            {settings?.catTab == 1 && exhibitor?.categories.length > 0 && <Center alignItems="flex-start" minH={'25px'} w="100%" position={'relative'}>
-                                <ZStack reversed>
-                                    {exhibitor?.categories.length > 0 && exhibitor?.categories.map((cat, i)=>(
-                                        <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.box" borderRightRadius="10" h={'25px'} shadow="1"  w={`${measureText(exhibitor?.categories[0]?.info.name, 14) + 16 + (i * 10)}px`} px="2">
-                                            {i== 0 && <Text fontSize="sm">{cat?.info?.name}</Text>}
-                                        </Box>
-                                    ))}
-                                </ZStack>
-                            </Center>}
-                            <Center pr="6" alignItems="flex-end" w="50%">
-                                {exhibitor.booth && <HStack space="3" alignItems="center">
+                         <HStack mb={3} space="3" minHeight={'25px'} alignItems="center"  position={'relative'}>
+                            {settings?.catTab == 1 && exhibitor?.categories.length > 0 && 
+                            <HStack alignItems="flex-start" minH={'25px'}  position={'relative'}>
+                                <Center alignItems="flex-start" w='120px' p="0">
+                                    <ZStack reversed>
+                                        {exhibitor?.categories.length > 0 && exhibitor?.categories.slice(0,3).map((cat, i)=>(
+                                            <Box key={cat.id} bg={cat.color} borderWidth="1"  borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${(measureText(exhibitor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(exhibitor?.categories[0]?.info.name, 14)) + 16 + (i * 10)}px`} px="2">
+                                                {i== 0 && <Text isTruncated lineHeight={25}  fontSize="sm">{cat?.info?.name}</Text>}
+                                            </Box>
+                                        ))}
+
+																		{settings?.catTab == 1 &&  exhibitor.categories.length > 3 &&
+																			<>
+																			<Spacer />
+																				<Popover
+																					trigger={(triggerProps) => {
+																					return <Button
+																									bg={'transparent'}
+																									px={1}
+																									py={0}
+																									mr={2}
+																									position={'relative'}
+																									left={`${(measureText(exhibitor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(exhibitor?.categories[0]?.info.name, 14)) + 28 + (1 * 10)}px`}
+																									rounded={'full'}
+																									{...triggerProps}
+																								>
+																									<Text lineHeight={24} fontSize="sm">{`+${ exhibitor.categories.length - 3}`}</Text>
+																								</Button>
+																							}}>
+																					<Popover.Content bgColor={'primary.500'}>
+																						<Popover.Arrow bgColor={'primary.500'} />
+																						<Popover.Body borderTopWidth="0" bgColor={'primary.500'}>
+																						<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
+																							{exhibitor.categories.length > 3 && exhibitor.categories.slice(3).map((category: Category, i: number) =>(
+																									<Box mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
+																											<Text fontSize="sm">{`${category.info.name}`}</Text>
+																									</Box>
+																							))}
+																						</HStack>
+																						</Popover.Body>
+																					</Popover.Content>
+																				</Popover>
+																				
+																				</>}
+                                    </ZStack>
+                                </Center>
+                            </HStack>}
+														<Spacer />
+                            <Center pr={2} alignItems="flex-end">
+                                {exhibitor.booth && <HStack space="2" alignItems="center">
                                     <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
-                                    <Text fontSize="md">{exhibitor.booth}</Text>
+                                    <Text fontSize="sm">{exhibitor.booth}</Text>
                                 </HStack>}
                             </Center>
                         </HStack>
