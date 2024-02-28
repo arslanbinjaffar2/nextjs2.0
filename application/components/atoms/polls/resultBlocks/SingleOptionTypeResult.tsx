@@ -14,7 +14,7 @@ const SingleOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
   
   return (
     <>
-        {question.results && question.results.length > 0 && <Center maxW="100%" w="100%" mb="3" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
+        {question.results && question.results.length > 0 && <Center maxW="100%" w="100%" mb="3" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
         <Box mb="3" w="100%">
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" alignItems="center" justifyContent={'space-between'} roundedTop={10}>
                 <Text fontWeight="600" maxW="80%" fontSize="lg">Question {`#${questionNumber + 1}`} </Text>
