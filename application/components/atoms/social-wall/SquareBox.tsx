@@ -115,8 +115,6 @@ const SquareBox = ({ post, index }: AppProps) => {
             <video
               width="100%"
               height="295px"
-              width="100%"
-              height="295px"
               controls
               src={`${_env.eventcenter_base_url}/assets/social_wall/${post.image}`}
             />
