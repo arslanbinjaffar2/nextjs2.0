@@ -59,7 +59,7 @@ const Index = ({ speaker, screen }: Props) => {
 
     const { response } = UseAuthService();
 
-    const { event } = UseEventService();
+    const { event, modules } = UseEventService();
     const [tab, setTab] = useState<string | null>(tabQueryParam !== null ? tabQueryParam : (speaker === 1 ?  (event?.speaker_settings?.default_display !== 'name' ? 'category' : 'attendee') :  (event?.attendee_settings?.default_display !== 'name' ? 'group' : 'attendee')));
 
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
@@ -164,7 +164,11 @@ const Index = ({ speaker, screen }: Props) => {
     return (
         <>
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text fontSize="2xl">{speaker === 0 ? 'ATTENDEES' : 'SPEAKERS'}</Text>
+                
+                <Text textTransform="uppercase" fontSize="2xl">
+                    {speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee)=>(attendee.alias == 'attendees'))?.name :  modules?.find((attendee)=>(attendee.alias == 'my-attendee-list'))?.name) : modules?.find((speaker)=>(speaker.alias == 'speakers'))?.name}
+                </Text>
+                
                 <Spacer />
                 <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
                     search(text, tab!);
@@ -186,7 +190,7 @@ const Index = ({ speaker, screen }: Props) => {
                                 borderRightRadius="0" 
                                 borderLeftRadius={8} 
                                 h="42px" 
-                                bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} 
+                                bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                 w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
                                 _text={{ fontWeight: '600' }}
                             >
@@ -205,7 +209,7 @@ const Index = ({ speaker, screen }: Props) => {
                                 h="42px" 
                                 borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
                                 borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
-                                bg={tab === 'my-attendee' ? 'primary.darkbox' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
+                                bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
                                 MY ATTENDEES
@@ -222,7 +226,7 @@ const Index = ({ speaker, screen }: Props) => {
                                     borderLeftRadius="0" 
                                     borderRightRadius={8} 
                                     h="42px" 
-                                    bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} 
+                                    bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} 
                                     w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
                                     _text={{ fontWeight: '600' }}
                                 >
@@ -231,7 +235,8 @@ const Index = ({ speaker, screen }: Props) => {
                         }
                     </HStack>}
                     {speaker ===  1 && <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        {((event?.speaker_settings?.default_display === 'name' || event?.speaker_settings?.tab == 1)) &&  
+                        
+                        {(( event?.speaker_settings?.tab == 1)) &&  
                             <Button 
                                 onPress={() => {
                                     setTab('attendee') 
@@ -241,30 +246,30 @@ const Index = ({ speaker, screen }: Props) => {
                                 borderWidth="1px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
-                                borderRightRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} 
+                                borderRightRadius={0} 
                                 borderLeftRadius={8} 
                                 h="42px" 
-                                bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.darkbox' : 'primary.box'} 
-                                w={((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} 
+                                bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
+                                w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                ALL
+                                {event?.labels?.GENERAL_ALL}
                             </Button>
                         }
-                        {(event?.speaker_settings?.default_display !== 'name' || event?.speaker_settings?.tab == 1) &&
+                        {( event?.speaker_settings?.tab == 1) &&
                             <Button 
                                 onPress={() => {
                                     setTab('category')
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
                                 }} 
                                 borderRightRadius={8} 
-                                borderLeftRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} 
+                                borderLeftRadius={0} 
                                 borderWidth="1px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
-                                bg={tab === 'category' ? 'primary.darkbox' : 'primary.box'} 
-                                w={((event?.speaker_settings?.default_display !== 'name' && event?.speaker_settings?.tab == 0)) ? '100%' : '50%'} 
+                                bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} 
+                                w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
                                 CATEGORIES
@@ -320,15 +325,15 @@ const Index = ({ speaker, screen }: Props) => {
                     <SectionLoading />
                 ) : (
                     <>
-                        {in_array(tab, ['attendee', 'my-attendee', 'group-attendee', 'category-attendee']) && <Container position="relative" pt={3} mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {in_array(tab, ['attendee', 'my-attendee', 'group-attendee', 'category-attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {speaker === 0 && GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-${k}`}>
                                     {map?.letter && (
-                                        <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
                                     )}
                                     {map?.records?.map((attendee: Attendee, k: number) =>
                                         <React.Fragment key={`${k}`}>
-                                            <RectangleAttendeeView attendee={attendee} border={attendees.length > 0 && attendees[attendees.length - 1]?.id !== attendee?.id ? 1 : 0} speaker={speaker} />
+                                            <RectangleAttendeeView attendee={attendee} border={map?.records.length === 1 ? 0 : map?.records.length > 1 && k ===  map?.records.length -1 ? 0 : 1 } speaker={speaker} />
                                         </React.Fragment>
                                     )}
                                 </React.Fragment>
@@ -343,22 +348,27 @@ const Index = ({ speaker, screen }: Props) => {
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
-                                        <Text w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
                                     )}
                                     {map?.records?.map((group: Group, k: number) =>
                                         <React.Fragment key={`${k}`}>
-                                            <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} updateTab={updateTab} />
+                                            <RectangleGroupView group={group} k={k} border={map?.records.length === 1 ? 0 : map?.records.length > 1 && k ===  map?.records.length -1 ? 0 : 1 } updateTab={updateTab} />
                                         </React.Fragment>
                                     )}
                                 </React.Fragment>
                             )}
                         </Container>}
-                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container pt={3} mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     <RectangleCategoryView category={category} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />
                                 </React.Fragment>
                             )}
+                            { categories.length <= 0 &&
+                                <Box p="3">
+                                    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                </Box>
+                            }
                         </Container>}
                     </>
                 )}

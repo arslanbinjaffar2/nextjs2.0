@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, VStack } from 'native-base';
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/poll/Detail';
 import DateTimePicker from '../../DateTimePicker';
 import { Platform } from 'react-native';
@@ -29,7 +29,7 @@ const DateAnswer = ({ question, formData, updateFormData, labels }: PropTypes) =
         {Platform.OS === "web" && <DateTimePicker label="Date" showtime={true} showdate={true} />}
       </Box>
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-        <Icodocument width="15px" height="18px" />
+        <Icowritecomment width="15px" height="18px" />
         <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
       </HStack>
       <Box py="3" px="4" w="100%">

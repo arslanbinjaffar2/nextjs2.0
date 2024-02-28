@@ -24,6 +24,8 @@ import { Platform } from 'react-native'
 import DateTimePicker from 'application/components/atoms/DateTimePicker'
 import UseEnvService from 'application/store/services/UseEnvService'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import UseEventService from 'application/store/services/UseEventService';
+import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT} from 'application/utils/Globals'
 
 const CheckinList = (type:any) => {
 	const [toggle, settoggle] = React.useState(false)
@@ -108,6 +110,7 @@ const CheckinList = (type:any) => {
 const Index = () => {
     const { loading, processing } = UseLoadingService();
   const { _env } = UseEnvService()
+  const { event, modules } = UseEventService()
 
   const { FetchCheckInOut, checkInOut, SendQRCode }  = UseCheckInOutService();
   React.useEffect(() => {  
@@ -123,7 +126,7 @@ const Index = () => {
         ):(
             <Container pt="1" maxW="100%" w="100%">
 							<Box flexDirection="row" w={'100%'} alignItems="center">
-                <Text mb="3" textTransform="uppercase" fontSize="2xl">Session check-in</Text>
+                <Text mb="3" textTransform="uppercase" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
 								<Spacer />
 								<HStack space="0" alignItems="center" justifyContent={'center'} pt={4}>
 									<Button px={4} py={1} mb={8} fontSize={'md'} shadow={3} colorScheme="primary" minW={100}>Order Detail</Button>
@@ -165,7 +168,7 @@ const Index = () => {
                         source={{
                             uri: checkInOut?.qrCodeImgSrc
                         }}
-                        alt="Alternate Text"
+                        alt=""
                         w="164px"
                         h="164px"
                         rounded="10"
@@ -202,7 +205,7 @@ const Index = () => {
 									</HStack>
 							<Box zIndex={9999} mb="3" py="3" pl="20" w="100%">
 								<Divider mb="5" opacity={0.27} bg="primary.text" />
-								<DateTimePicker label={'Date'} showdate={'DD-MM-YYYY'}  />
+								<DateTimePicker label={'Date'} showdate={GENERAL_DATE_FORMAT}  />
 							</Box>
                 <Box  overflow="hidden" h="100%" w="100%" bg="primary.box" p="0" mb={3} rounded="10">
 									 {[...Array(3)].map(item => 
@@ -218,7 +221,7 @@ const Index = () => {
                         <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK IN</Text>
                         <VStack space="1">
                         {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
-                            <Text fontSize="md">{getTypeEntityName(item)} {(item.checkin !== '' && item.checkin !== '00-00-0000 00:00:00') ? moment(item.checkin).format('DD-MM-yyyy HH:mm:ss') : '---'}</Text>
+                            <Text fontSize="md">{getTypeEntityName(item)} {(item.checkin !== '' && item.checkin !== '00-00-0000 00:00:00') ? moment(item.checkin).format(GENERAL_DATETIME_FORMAT) : '---'}</Text>
                         </HStack>))}
                         </VStack>
                     </Box>
@@ -227,7 +230,7 @@ const Index = () => {
                         <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK OUT</Text>
                         <VStack space="1">
                         {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
-                            <Text fontSize="md">{(item.checkout !== '' && item.checkout !== '00-00-0000 00:00:00') ? moment(item.checkout).format('DD-MM-yyyy HH:mm:ss') : " ---"}</Text>
+                            <Text fontSize="md">{(item.checkout !== '' && item.checkout !== '00-00-0000 00:00:00') ? moment(item.checkout).format(GENERAL_DATETIME_FORMAT) : " ---"}</Text>
                         </HStack>))}
                         </VStack>
                     </Box>

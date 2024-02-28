@@ -18,11 +18,23 @@ const SingleOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
         <Box mb="3" w="100%">
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" alignItems="center" justifyContent={'space-between'} roundedTop={10}>
                 <Text fontWeight="600" maxW="80%" fontSize="lg">Question {`#${questionNumber + 1}`} </Text>
-                <Box width={'50%'} >
+                <Box>
                   {question.answer.find((a)=>(a.correct == 1)) && question?.result_score !== undefined && question?.result_score[0] !== undefined && (
                      question?.result_score[0]?.score > 0 ? 
-                     <Text fontWeight="600" fontSize="lg" textAlign={'right'}><CorrectAnswer  /> {`Correct Answer | Point : 1`} </Text> : 
-                     <Text fontWeight="600" fontSize="lg" textAlign={'right'}><WrongAnswer/> {`Wrong Answer | Point : 0`} </Text> 
+                     <HStack  space="3" alignItems="center">
+                      <HStack  space="1" alignItems="center">
+                        <CorrectAnswer  />  <Text fontWeight="500" fontSize="lg" textAlign={'right'}> {`Correct Answer`} </Text>
+                      </HStack>
+                      <Divider h={4} bg={'primary.text'} orientation='vertical' />
+                      <Text fontSize="lg">Point : 1</Text>
+                    </HStack> : 
+                     <HStack  space="3" alignItems="center">
+                      <HStack  space="1" alignItems="center">
+                        <WrongAnswer  />  <Text fontWeight="500" fontSize="lg" textAlign={'right'}> {`Wrong Answer`} </Text>
+                      </HStack>
+                      <Divider h={4} bg={'primary.text'} orientation='vertical' />
+                      <Text fontSize="lg">Point : 0</Text>
+                    </HStack>
                   )}
                   
                 </Box>

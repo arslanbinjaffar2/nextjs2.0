@@ -34,7 +34,11 @@ const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean
           </VStack> */}
           <VStack bg="red" w="100%" maxW={['90%', '85%', '85%']} space="1">
             <Text fontSize="md">{poll.program.info.topic}</Text>
-            <Text fontSize="sm">{moment(`${poll.program.start_date} ${poll.program.start_time}`).format('HH:mm')} - {moment(`${poll.program.start_date} ${poll.end_time}`).format('HH:mm')} </Text>
+            {!poll.program.hide_time &&
+              <Text fontSize="sm">
+                {moment(`${poll.program.start_date} ${poll.program.start_time}`).format('HH:mm')} - {moment(`${poll.program.start_date} ${poll.end_time}`).format('HH:mm')} 
+              </Text>
+            }
           </VStack>
           <Spacer />
            <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
