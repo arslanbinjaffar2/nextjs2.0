@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, VStack } from 'native-base';
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
 import moment from 'moment';
@@ -27,11 +27,11 @@ const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer, error
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
       </Box>}
-      <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-        <Icodocument width="15px" height="18px" />
+      <HStack px="3" py="1" mb={1} bg="primary.darkbox" w="100%" space="3" alignItems="center">
+        <Icowritecomment width="15px" height="18px" />
         <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
       </HStack>
-      <Box py="3" px="4" w="100%">
+      <Box py="3" px="4" mb={0} w="100%">
         <TextArea
           p="3"
           mb={1}
