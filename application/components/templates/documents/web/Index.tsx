@@ -33,7 +33,7 @@ const Index = React.memo(() => {
                 </Container>
             )}
             <Box width={"100%"} height={"5%"}>
-                <BannerAds module_name={'documents'} module_type={'listing'} />
+                <BannerAds module_name={'ddirectory'} module_type={'listing'} />
             </Box>
         </>
     )
