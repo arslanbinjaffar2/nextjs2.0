@@ -21,8 +21,7 @@ import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
 import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';
 import { Category } from 'application/models/event/Category';
-import UseEnvService from 'application/store/services/UseEnvService'
-import { Banner } from 'application/models/Banner'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { slug: any }
 
@@ -36,7 +35,6 @@ type Props = {
 const Index = ({ speaker, screen }: Props) => {
 
     const { push, back } = useRouter()
-    const { _env } = UseEnvService()
 
     const pathname = usePathname()
     
@@ -62,7 +60,6 @@ const Index = ({ speaker, screen }: Props) => {
     const { response } = UseAuthService();
 
     const { event } = UseEventService();
-    const { banners, FetchBanners} = UseBannerService();
     const [tab, setTab] = useState<string | null>(tabQueryParam !== null ? tabQueryParam : (speaker === 1 ?  (event?.speaker_settings?.default_display !== 'name' ? 'category' : 'attendee') :  (event?.attendee_settings?.default_display !== 'name' ? 'group' : 'attendee')));
 
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
@@ -74,7 +71,6 @@ const Index = ({ speaker, screen }: Props) => {
     const [searchQuery, setSearch] = React.useState('')
 
     const [slug] = useParam('slug');
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     useEffect(() => {
         const newTabQueryParam = searchParams.get('tab')
@@ -108,12 +104,6 @@ const Index = ({ speaker, screen }: Props) => {
             }
         }
     }, [tab, category_id]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'attendees' && banner.module_type == 'listing'
-        })
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
 
     useEffect(() => {
         mounted.current = true;
@@ -171,10 +161,6 @@ const Index = ({ speaker, screen }: Props) => {
             setTab('my-attendee');
         }
     }, [screen]);
-
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
     return (
         <>
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
@@ -377,15 +363,7 @@ const Index = ({ speaker, screen }: Props) => {
                     </>
                 )}
                 <Box width={"100%"} height={"5%"}>
-                    {filteredBanners.map((banner, k) =>
-                          <Image
-                            key={k}
-                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                            alt="Image"
-                            width="100%"
-                            height="100%"
-                          />
-                    )}
+                    <BannerAds module_name={'attendees'} module_type={'listing'} />
                 </Box>
             </>
             {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('category-listing', processing)) && page > 1 && (

@@ -11,12 +11,8 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import TrackRectangleDetailView from 'application/components/atoms/programs/tracks/RectangleDetailView';
 import LoadMore from 'application/components/atoms/LoadMore';
 import UseEventService from 'application/store/services/UseEventService';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
-import UseEnvService from 'application/store/services/UseEnvService'
-
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 const Index = () => {
-
     
     const mounted = React.useRef(false);
     
@@ -25,12 +21,8 @@ const Index = () => {
     const { loading, scroll, processing } = UseLoadingService();
     
     const { response } = UseAuthService();
-    const { _env } = UseEnvService()
-
     const { event, modules  } = UseEventService();
-    const { banners, FetchBanners} = UseBannerService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
         if (mounted.current) {
@@ -52,13 +44,6 @@ const Index = () => {
             }
         }
     }, [scroll]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'agendas' && banner.module_type == 'listing'
-        })
-        console.log('hamza hre',filteredBanner)
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
     React.useEffect(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
@@ -74,9 +59,6 @@ const Index = () => {
         }else{
             FetchPrograms({ query: '', page: 1, screen: tab, id: 0, track_id: 0 });
         }
-    }, []);
-    React.useEffect(() => {
-        FetchBanners();
     }, []);
 
     return (
@@ -128,15 +110,7 @@ const Index = () => {
                         )}
                     </Container>}
                     <Box width={"100%"} height={"5%"}>
-                        {filteredBanners.map((banner, k) =>
-                          <Image
-                            key={k}
-                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                            alt="Image"
-                            width="100%"
-                            height="100%"
-                          />
-                        )}
+                         <BannerAds module_name={'agendas'} module_type={'listing'} />
                     </Box>
                 </>
             )}
