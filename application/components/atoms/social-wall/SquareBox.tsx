@@ -108,8 +108,8 @@ const SquareBox = ({ post, index }: AppProps) => {
                 console.log('hello')
               }}
             />
-          </Center>
-        )}
+        </HStack>
+        </HStack>
         <HStack  space="1" w={'100%'} px={3}>
            <HStack space="1" alignItems="center">
               <Icolikealt />
