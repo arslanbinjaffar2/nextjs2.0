@@ -104,7 +104,7 @@ const SquareBox = ({ post, index }: AppProps) => {
               alt="Alternate Text"
               w="100%"
               h="295px"
-              rounded="10"
+              rounded="10"   
             />
           </Center>
           
