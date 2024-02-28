@@ -12,6 +12,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import Head from 'next/head';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { usePathname } from 'next/navigation';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 function hex2rgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -128,6 +129,11 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                         }
                       
                     },
+                },
+                Select: {
+                    defaultProps: {
+                        dropdownIcon: <Icon as={AntDesign} name='caretdown' mr={3} />
+                    }
                 },
                 Radio: {
                     defaultProps: {
