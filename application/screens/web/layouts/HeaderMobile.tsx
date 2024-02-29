@@ -55,7 +55,7 @@ const [open, setOpen] = React.useState(false)
            <Spacer />
           <Center overflow="hidden" alignItems="flex-start">
             <Pressable onPress={() => { router.push(`/${event.url}/dashboard`) }}>
-              <Image alt='logo' source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` }} w="190px" h="37px" alignSelf={'center'} />
+              <Image alt='logo' source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` }} w="180px" h="60px" alignSelf={'center'} />
             </Pressable>
           </Center>
           <Spacer />

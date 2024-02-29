@@ -25,7 +25,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/survey/Survey';
 import { useRouter } from 'solito/router'
 import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 
 type ScreenParams = { id: string }
@@ -103,23 +103,13 @@ const Detail = () => {
 
 
     const [id] = useParam('id');
-    const { banners, FetchBanners} = UseBannerService();
     const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
     React.useEffect(() => {
         if (id) {
           FetchSurveyDetail({ id: Number(id) });
         }
     }, [id]);
-    useEffect(()=>{
-      const filteredBanner=banners.filter((banner  : Banner)=>{
-        return banner.module_name == 'polls' && banner.module_type == 'detail'
-      })
 
-      setFilteredBanners(filteredBanner);
-    },[banners]);
-    React.useEffect(() => {
-      FetchBanners();
-    }, []);
     React.useEffect(() => {
       console.log(submitSuccess, 'useEffect');
         setcompleted(submitSuccess);
@@ -332,7 +322,7 @@ const Detail = () => {
               </Box>}
               {completed === true && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
-                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.box" rounded="100%" alignItems="center" justifyContent="center">
+                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
                     <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
                   </Box>
                   <Text fontSize="lg">{survey_labels?.SURVEY_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
@@ -341,15 +331,7 @@ const Detail = () => {
             </Container>
       )}
       <Box width={"100%"} height={"5%"}>
-        {filteredBanners.map((banner, k) =>
-          <Image
-            key={k}
-            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-            alt="Image"
-            width="100%"
-            height="100%"
-          />
-        )}
+        <BannerAds module_name={'polls'} module_type={'detail'} module_id={detail?.id}/>
       </Box>
     </>
   );

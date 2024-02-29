@@ -68,7 +68,7 @@ const SquareBox = ({ post, index }: AppProps) => {
         <HStack space="3" alignItems="center" key="rd90">
           <Avatar
             borderWidth={1}
-            borderColor="primary.text"
+            borderColor="primary.bordercolor"
             size="md"
             source={{
               uri: `${_env.eventcenter_base_url}/assets/attendees/${post.attendee.image}`
@@ -81,35 +81,35 @@ const SquareBox = ({ post, index }: AppProps) => {
             <Text fontSize="sm" key="time_attendee_post">{post.created_at_formatted}</Text>
           </VStack>
         </HStack>
-        <Text px={3} key="p-content" fontSize="md">{post.content}</Text>
-        {(post.type === 'image' || post.type === 'text') && post.image !== '' &&(
-          <Center w={'100%'} px={3}>
-            <Image
-              source={{
-                uri: `${_env.eventcenter_base_url}/assets/social_wall/${post.image}`
+        <Text mb="3" fontSize="md">Technology, the application of scientific knowledge to the practical aims of human life or, as it is sometimes phrased,to the change </Text>
+        <Image
+          source={{
+            uri: 'https://wallpaperaccess.com/full/3175001.jpg'
+          }}
+          alt="Alternate Text"
+          w="100%"
+          h="295px"
+          rounded="10"
+          mb="2"
+        />
+        <HStack pb="3" borderBottomWidth="1" borderBottomColor="primary.bordercolor" space="3" alignItems="center">
+          <HStack space="2" alignItems="center">
+            <IconButton
+              variant="unstyled"
+              icon={<IcoLike width="18px" height="18px" />}
+              onPress={() => {
+                console.log('hello')
               }}
-              alt="Alternate Text"
-              w="100%"
-              h="295px"
-              rounded="10"
             />
-          </Center>
-          
-        )}
-
-        {post.type === 'video' && post.image !== '' &&(
-          <Center w={'100%'} px={3}>
-            <video
-              w="100%"
-              h="295px"
-              rounded="10"
-              mb="2"
-              mt="3"
-              controls
-              src={`${_env.eventcenter_base_url}/assets/social_wall/${post.image}`}
+            <IconButton
+              variant="unstyled"
+              icon={<IcoMessage width="18px" height="18px" />}
+              onPress={() => {
+                console.log('hello')
+              }}
             />
-          </Center>
-        )}
+        </HStack>
+        </HStack>
         <HStack  space="1" w={'100%'} px={3}>
            <HStack space="1" alignItems="center">
               <Icolikealt />
@@ -181,7 +181,7 @@ const SquareBox = ({ post, index }: AppProps) => {
         <HStack>
           <Avatar
             borderWidth={1}
-            borderColor="primary.text"
+            borderColor="primary.bordercolor"
             size="sm"
             source={{
               uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`

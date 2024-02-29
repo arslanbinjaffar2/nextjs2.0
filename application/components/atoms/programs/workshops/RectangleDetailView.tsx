@@ -3,7 +3,7 @@ import { Box, HStack, Spacer, VStack, Text, Icon, ZStack, Center } from 'native-
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 const RectangleDetailView = (props: any) => {
-    return <Box w="100%" key={props?.program.id} borderBottomWidth={props.k === 1 ? 0 : 1} borderColor="primary.box" py="3">
+    return <Box w="100%" key={props?.program.id} borderBottomWidth={props.k === 1 ? 0 : 1} borderColor="primary.bordercolor" py="3">
         <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
             <Box position="absolute" left="0" top="0" w="15px">
                 <ZStack>
