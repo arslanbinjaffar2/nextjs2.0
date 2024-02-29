@@ -54,6 +54,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import UseBannerService from 'application/store/services/UseBannerService';
 import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService';
+import IcoDashboard from 'application/assets/icons/IcoDashboard';
 
 type ScreenParams = { id: string }
 
@@ -142,6 +143,46 @@ const Detail = () => {
                 <WebLoading />
             ) : (
                 <>
+                    {/* Breadcrumb layout */}
+                    <HStack w={'100%'} pt={2} space="2" alignItems="center">
+                        
+                            <Pressable
+                                py="1"
+                                px={3}
+                                borderWidth="0"
+                                bg={'primary.box'}
+                                rounded={'full'}
+                                onPress={()=>{
+                                    console.log('hello')
+                                }}
+                            
+                            >
+                                <HStack  space="2" alignItems="center">
+                                    <IcoDashboard width="18" height="18" />
+                                    <Text>Dashboard</Text>
+                                </HStack>
+                            </Pressable>
+                            <Icon size="3" as={AntDesign} name="right" color="primary.text" />
+                            <Pressable
+                                py="1"
+                                px={3}
+                                borderWidth="0"
+                                rounded={'full'}
+                                onPress={()=>{
+                                    console.log('hello')
+                                }}
+                            
+                            >
+                                <HStack  space="2" alignItems="center">
+                                   <DynamicIcon iconType={'agendas'} iconProps={{ width: 18, height: 18 }} />
+                                    <Text>Program</Text>
+                                </HStack>
+                            </Pressable>
+                            
+                        
+                    </HStack>
+                    
+                    {/* Breadcrumb layout End */}
                     <HStack pt="2" w="100%" space="3" alignItems="center">
                         <Pressable onPress={()=> back() }>
                         <HStack space="3" alignItems="center">

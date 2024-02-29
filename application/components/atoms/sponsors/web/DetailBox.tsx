@@ -90,7 +90,9 @@ const DetailBox = ({ detail }: AppProps) => {
                         {detail?.detail?.booth && (
                             <HStack alignItems="center" space="2">
                                 <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
-                                <Text fontSize="md">{detail?.detail?.booth}</Text>
+                                <Center maxW={120}>
+                                    <Text  fontSize="md">{detail?.detail?.booth}</Text>
+                                </Center>
                             </HStack>
                         )}
                     </HStack>

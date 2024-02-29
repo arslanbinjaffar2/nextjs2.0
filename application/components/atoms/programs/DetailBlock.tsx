@@ -64,7 +64,7 @@ const DetailBlock = ({ children }: AppProps) => {
                         <>
                             <Text mb="3" fontSize="md">Track:
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
-                                        <Box rounded={'full'} mx={2} my={1} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
+                                        <Box rounded={'full'} mx={1} my={1} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
                                     
                                 ))}
                             </Text>

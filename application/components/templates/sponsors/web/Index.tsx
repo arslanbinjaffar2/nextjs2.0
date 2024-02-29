@@ -97,7 +97,7 @@ const Index = React.memo(() => {
             {loading ? (
                 <WebLoading />
             ) : (
-                <Container h="100%" pt="4" maxW="100%" w="100%">
+                <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">Sponsors</Text>
                         <Spacer />
@@ -174,7 +174,7 @@ const Index = React.memo(() => {
                             </Box>
                         }
                     </>}
-                    <Box width={"100%"} height={"5%"}>
+                    <Box width={"100%"}>
                         {filteredBanners.map((banner, k) =>
                           <Image
                             key={k}
@@ -185,7 +185,7 @@ const Index = React.memo(() => {
                           />
                         )}
                     </Box>
-                    {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+                    {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
                             <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
                                 {categories.length > 0 && categories.map((category: SponsorCategory, key: number) =>
