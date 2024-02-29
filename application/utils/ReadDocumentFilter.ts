@@ -6,7 +6,7 @@ const readDocument = (data: any[], document_id: any): Document[]|boolean => {
         if (obj.id === document_id) {
             return obj.children_files;
         }
-        if (obj.children) {
+        if (obj.children_files) {
             let result = readDocument(obj.children_files, document_id);
             if (result) {
                 return result;
