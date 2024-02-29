@@ -118,14 +118,14 @@ export const ProgramSlice = createSlice({
             state.parent_track = {};
         },
         ToggleFavourite(state, action: PayloadAction<{ program_id: number }>) {
-            const updatedPrograms = [...state.programs]; // Change 'current' to 'state'
-            let updatedProgram = null;
-            let groupIndex = null;
-            let programIndex = null;
-            
+            const updatedPrograms: any = [...state.programs];
+            let updatedProgram: Program | null = null;
+            let groupIndex: number | null = null;
+            let programIndex: number | null = null;
+
             for (let i = 0; i < updatedPrograms.length; i++) {
-                const group = updatedPrograms[i];
-                const foundProgramIndex = group.findIndex(program => program.id === action.payload.program_id);
+                const group: Program[] = updatedPrograms[i] as Program[];
+                const foundProgramIndex: number = group.findIndex(program => program.id === action.payload.program_id);
                 if (foundProgramIndex !== -1) {
                     groupIndex = i;
                     programIndex = foundProgramIndex;
@@ -133,24 +133,24 @@ export const ProgramSlice = createSlice({
                     break; // Break out of the loop once the program is found
                 }
             }
-            
+
             if (updatedProgram && updatedProgram.program_attendees_attached.length > 0) {
                 updatedProgram = { ...updatedProgram, program_attendees_attached: [] }; // Create a new object with the updated property
             } else {
                 updatedProgram = {
-                    ...updatedProgram,
-                    program_attendees_attached: [{ id: 0, attendee_id: 0, program_id: action.payload.program_id }]
+                    ...updatedProgram!,
+                    program_attendees_attached: [{ id: 0, attendee_id: 0, agenda_id: action.payload.program_id , added_by: 0, linked_from: '', link_id: 0, created_at: '', updated_at: '', deleted_at: ''}]
                 }; // Create a new object with the updated property
             }
-            
+
             if (updatedProgram && groupIndex !== null && programIndex !== null) {
                 // Create a new copy of the group containing the updated program
-                const updatedGroup = [...updatedPrograms[groupIndex]];
+                const updatedGroup: Program[] = [...updatedPrograms[groupIndex]];
                 updatedGroup[programIndex] = updatedProgram; // Assign updated program to the found index in the group
-            
+
                 // Create a new copy of the updatedPrograms array with the updated group
                 updatedPrograms[groupIndex] = updatedGroup;
-            
+
                 // Update updatedPrograms with the new array
                 state.programs = updatedPrograms;
             }
