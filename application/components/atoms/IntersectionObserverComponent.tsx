@@ -1,7 +1,10 @@
 import React from 'react';
 import { useRef, useEffect } from 'react';
 
-const IntersectionObserverComponent = ({ onIntersect }) => {
+type AppProps = {
+  onIntersect: () => void;
+};
+const IntersectionObserverComponent = ({ onIntersect }:AppProps) => {
     const intersectionRef = useRef(null);
   
     useEffect(() => {
