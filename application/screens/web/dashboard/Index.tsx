@@ -7,7 +7,7 @@ import SpeakerListing from 'application/components/organisms/speakers/Listing';
 import QAListing from 'application/components/organisms/qa/Listing';
 import ChatClient from 'application/components/organisms/chat/ChatClient';
 import Master from 'application/screens/web/layouts/Master';
-import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack } from 'native-base'
+import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack, Spacer, Box } from 'native-base'
 import PollListingByDate from 'application/components/organisms/polls/PollListingByDate'
 import SurveyListing from 'application/components/organisms/survey/SurveyListing'
 import UsePollService from 'application/store/services/UsePollService';
@@ -28,6 +28,9 @@ import in_array from "in_array";
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { useWindowDimensions } from 'react-native';
+import { Alert } from 'application/models/alert/Alert'
+import RectangleView from 'application/components/atoms/alerts/RectangleView'
+import UseAlertService from 'application/store/services/UseAlertService'
 
 type indexProps = {
   navigation: unknown
@@ -44,7 +47,8 @@ const Index = ({ navigation }: indexProps) => {
   const { event, modules } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
-
+  const { FetchAlerts, alerts, markAlertRead} = UseAlertService();
+  const { loading } = UseLoadingService();
   const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track } = UseProgramService();
 
   const { FetchAttendees, attendees, my_attendees } = UseAttendeeService();
@@ -61,6 +65,7 @@ const Index = ({ navigation }: indexProps) => {
     FetchPolls();
     FetchSurveys();
     FetchBanners();
+    FetchAlerts();
     if (modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0) {
       FetchPrograms({ query: '', page: 1, screen: 'dashboard', id: 0, track_id: 0 });
     }
@@ -124,7 +129,39 @@ const Index = ({ navigation }: indexProps) => {
           </>
 
           <ChatClient /> */}
+          <>
+            {
+              loading ? (
+                <WebLoading />
+              ):(
+                <Container pt="2" maxW="100%" w="100%">
+                  <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                    <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
+                    <Spacer />
+                  </HStack>
+                  {alerts.length > 0 ? (
+                    <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
+                      {alerts.map((alert:Alert, i:Number)=>(
 
+                        <RectangleView key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date_time={alert.display_alert_date} is_last_item={(alerts.length-1 === i) ? true : false}  />
+                      ))}
+                    </Box>
+                  ) : (
+                    <Box p="3">
+                      <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                    </Box>
+                  )}
+                  <Center py="3" px="2" w="100%" alignItems="flex-end">
+                    <Button onPress={() => {
+                      push(`/${event.url}/alerts`)
+                    }} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                      Show all
+                    </Button>
+                  </Center>
+                </Container>
+              )
+            }
+          </>
         </>
 
       )}
