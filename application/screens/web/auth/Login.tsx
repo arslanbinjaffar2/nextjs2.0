@@ -33,7 +33,7 @@ const Login = ({ props }: any) => {
     const onSubmit: SubmitHandler<Inputs> = input => {
         login({ email: input.email, password: input.password })
     };
-    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyPress = (event: any) => {
         if (event.key === 'Enter') {
             handleSubmit(onSubmit)();
         }
