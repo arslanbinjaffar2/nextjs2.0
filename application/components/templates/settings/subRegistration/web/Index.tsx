@@ -41,7 +41,7 @@ const Detail = () => {
 
   const { _env } = UseEnvService();
 
-  const { event  } = UseEventService();
+  const { event,setting_modules  } = UseEventService();
 
   const { response  } = UseAuthService();
 
@@ -68,6 +68,7 @@ const Detail = () => {
               skip={skip}
               setSkip={setSkip}
               event={event}
+              setting_modules={setting_modules}
             />
       )}
     </>
@@ -77,7 +78,7 @@ const Detail = () => {
 export default Detail;
 
 
-function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, event}:any) {
+function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, event, setting_modules}:any) {
 
   const [formData, setFormData] = useState<FormData>(mySubReg?.questions?.question
     .reduce(
@@ -306,7 +307,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
     <Container mb="3" maxW="100%" w="100%">
     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
       <Spacer />
-      <Text isTruncated pr="6" fontSize="lg">Subregistration</Text>
+      <Text isTruncated pr="6" fontSize="lg">{setting_modules?.find((module: { alias: string; })=>(module.alias == 'subregistration'))?.name ?? 'Subregistration'}</Text>
     </HStack>
      <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
       {mySubReg?.questions?.question.length! > 0 &&  mySubReg?.questions?.question.map((item:any, index:any)=>(
