@@ -373,11 +373,11 @@ const Selectstyles2 = {
                     {setting?.name === 'bio_info' && (
                         <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.about}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="lg">{event.labels?.GENERAL_ABOUT}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-                                    placeholder={labels?.about}
+                                    placeholder={event.labels?.GENERAL_ABOUT}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('about', answer);
