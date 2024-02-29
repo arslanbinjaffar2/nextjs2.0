@@ -21,7 +21,7 @@ function* OnGetMyPrograms({
     yield put(LoadingActions.addProcess({ process: 'programs' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getProgramApi, payload, state)
-    yield put(ProgramActions.update({ programs: response.data?.data?.programs, query: payload.query, page: payload.page, track: response.data.data.track!, agendas_attached_via_group:response.data.data.agendas_attached_via_group! }))
+    yield put(ProgramActions.update({ programs: response.data?.data?.programs, query: payload.query, page: payload.page, track: response.data.data.track!, agendas_attached_via_group:response.data.data.agendas_attached_via_group!, total_pages: response?.data?.data?.programs_total_pages }))
     yield put(LoadingActions.removeProcess({ process: 'programs' }))
 }
 
@@ -42,7 +42,7 @@ function* OnMakeFavourite({
     payload,
 }: {
     type: typeof ProgramActions.MakeFavourite
-    payload: { exhibitor_id: number, screen: string }
+    payload: { program_id: number, screen: string }
 }): SagaIterator {
     const state = yield select(state => state);
     const response: HttpResponse =  yield call(makeFavouriteApi, payload, state);
@@ -51,13 +51,13 @@ function* OnMakeFavourite({
     }
     else{
         if (payload.screen === "my-program") {
-            yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'my-program', id: 0, track_id: state?.programs?.track_id }))
+            yield put(ProgramActions.ToggleFavourite({ program_id: payload.program_id }))
         }
         else if (payload.screen === "program") {
-            yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'program', id: 0, track_id: state?.programs?.track_id }))
+            yield put(ProgramActions.ToggleFavourite({ program_id: payload.program_id }))
         }
         else if (payload.screen === "speaker-program") {
-            yield put(ProgramActions.FetchPrograms({ query: '', page: 1, screen: 'speaker-program', id: state?.attendees?.detail?.detail?.id, track_id: state?.programs?.track_id }))
+            yield put(ProgramActions.ToggleFavourite({ program_id: payload.program_id }))
         }
     }
 }

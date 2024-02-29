@@ -87,6 +87,9 @@ const Detail = () => {
     const { banners, FetchBanners } = UseBannerService();
 
     const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
+    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
+    const [showSpeakers, setshowSpeakers] = React.useState<Boolean>(false);
+    const [showPolls, setshowPolls] = React.useState<Boolean>(false);
 
     React.useEffect(() => {
         if (mounted.current) {
@@ -126,6 +129,25 @@ const Detail = () => {
         });
         setFilteredBanner(filteredBanner);
     }, [banners]);
+    useEffect(()=>{
+        const filteredBanner=banners.filter((banner  : Banner)=>{
+            return banner.module_name == 'agendas' && banner.module_type == 'detail'
+        })
+        setFilteredBanners(filteredBanner);
+    },[query,banners]);
+    React.useEffect(() => {
+        FetchBanners();
+    }, []);
+
+    React.useEffect(() => {
+        const showSpeaker=modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && detail?.program?.program_speakers!?.length > 0;
+        setshowSpeakers(showSpeaker == undefined ? false : showSpeaker);
+
+        const showPolls=modules?.find((polls)=>(polls.alias == 'polls')) && detail?.polls_count! > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0;
+        setshowPolls(showPolls == undefined ? false : showPolls);
+        
+    }, [detail]);
+
     return (
         <>
             {in_array('program-detail', processing) ? (
@@ -150,15 +172,15 @@ const Detail = () => {
                         </DetailBlock>
                     <Container mb="3" maxW="100%" w="100%">
                         <HStack mb="3" space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
-                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 &&<Button rounded={0} minW={'50%'} flex={1} onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ABOUT</Button>}
+                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 && (showSpeakers || showPolls) &&<Button rounded={0} minW={'50%'} flex={1} onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>ABOUT</Button>}
                             {event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0 && (
                                 <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>GROUPS</Button>
                             )}
                             {modules?.find((polls)=>(polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 && (
                                 <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'attendee' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ATTENDEES</Button>
                             )}
-                            {modules?.find((polls)=>(polls.alias == 'documents')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 && (
-                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>DOCUMENTS</Button>
+                            {modules?.find((polls)=>(polls.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 && (
+                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'documents' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>DOCUMENTS</Button>
                             )}
                         </HStack>
                         {group_id > 0 && (
@@ -177,7 +199,7 @@ const Detail = () => {
 
                         {in_array(tab, ['about']) && (
                             <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
-                                {modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && (
+                                {showSpeakers && (
                                     <>
                                         {detail?.program?.program_speakers!?.length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="speakers" iconProps={{ width: 12, height: 18 }} />
@@ -188,7 +210,7 @@ const Detail = () => {
                                         )}
                                     </>
                                 )}
-                                {modules?.find((polls)=>(polls.alias == 'polls')) && detail?.polls_count! > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
+                                {showPolls && (
                                     <>
                                         {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />

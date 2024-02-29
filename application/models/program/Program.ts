@@ -194,7 +194,7 @@ interface Session {
     deleted_at: string;
 }
 
-interface ProgramAttendeesAttached {
+export interface ProgramAttendeesAttached {
     id: number;
     attendee_id: number;
     agenda_id: number;
