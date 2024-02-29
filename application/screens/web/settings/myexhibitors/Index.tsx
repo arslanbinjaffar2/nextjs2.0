@@ -20,7 +20,7 @@ const Index = ({ navigation }: indexProps) => {
 
     const { my_exhibitors, FetchMyExhibitors} = UseExhibitorService();
     const { loading } = UseLoadingService();
-    const { event,modules } = UseEventService();
+    const { event,setting_modules } = UseEventService();
 
     React.useEffect(() => {
         FetchMyExhibitors();
@@ -29,7 +29,7 @@ const Index = ({ navigation }: indexProps) => {
     return (
       <>
         <Box>
-          <Text mb="3" pt="2" w="100%" alignItems="center" fontSize="2xl">{modules?.find((module)=>(module.alias == 'myexhibitors'))?.name ?? 'My exhibitors'}</Text>
+          <Text mb="3" pt="2" w="100%" alignItems="center" fontSize="2xl">{setting_modules?.find((module)=>(module.alias == 'myexhibitors'))?.name ?? 'My exhibitors'}</Text>
         </Box>
         <Box w="100%">
           <ScrollView h={'53%'} w={'100%'}>
