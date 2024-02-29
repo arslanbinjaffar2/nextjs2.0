@@ -187,7 +187,7 @@ const Detail = ({ speaker }: Props) => {
                                                         
                                                 {
                                                     groups?.length <= 0 && (
-                                                        <Text w="100%" p={3} bg="primary.darkbox">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                                        <Text w="100%" p={3} bg="primary.darkbox">{event.labels.GENERAL_NO_RECORD}</Text>
                                                     )
                                                 }
                                             </>
@@ -200,7 +200,7 @@ const Detail = ({ speaker }: Props) => {
                                         ) : (
                                             programs.length > 0 ? 
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> :
-                                            <Text p={3} fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                            <Text p={3} mb="3" bg="primary.box" rounded="lg" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
                                         )}
                                     </Container>}
                                     {tab === 'category' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
@@ -217,7 +217,7 @@ const Detail = ({ speaker }: Props) => {
                                             </React.Fragment>
                                         )}
                                         {detail?.detail?.categories.length <=0 && 
-                                        <Text p={3} fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>}
+                                        <Text p={3} mb="3" bg="primary.box" rounded="lg" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>}
                                     </Container>}
                                     {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
                                         {in_array('documents', processing) && page === 1 ? (

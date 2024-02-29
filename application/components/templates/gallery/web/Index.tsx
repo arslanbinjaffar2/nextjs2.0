@@ -97,7 +97,7 @@ const Index = () => {
                   ))}
                   {filteredGalleryImages.length === 0 && (
                     <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" padding={5}>
-                      <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                      <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                     </Box>
                   )}
                 </Stack>

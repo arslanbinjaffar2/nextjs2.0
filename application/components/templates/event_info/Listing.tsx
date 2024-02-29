@@ -36,12 +36,12 @@ const Listing = (props: any) => {
                 {((info && props?.searchText == '') || (info && props?.searchText == undefined) ) && (info.length > 0  ? info.map((row: any, key: number) =>
                     <RectangleView index={key} key={key} {...row} cms={props.cms} />
                 ): <Box padding={5}>
-                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
             </Box> )}
                 {/* {(filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
                     <RectangleView key={key} {...row} cms={props.cms} />
                 ) : <Box padding={5}>
-                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
             </Box>)} */}
             </Box>
         </>

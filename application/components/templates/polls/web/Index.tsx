@@ -136,7 +136,7 @@ const Index = () => {
                                         </React.Fragment>
                                     )) : 
                                         <Box padding={5}>
-                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                                         </Box>
                                     ): (
                                         <Box padding={5}>
@@ -159,7 +159,7 @@ const Index = () => {
                                         </React.Fragment>
                                     )) : 
                                         <Box padding={5}>
-                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                                         </Box>
                                     ): (
                                         <Box padding={5}>

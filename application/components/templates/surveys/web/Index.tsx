@@ -107,7 +107,7 @@ const Index = () => {
                                     {surveys && surveys.length > 0 ? (filteredPendingSurveys.length > 0 ? filteredPendingSurveys.map((survey:Survey)=>(
                                         <RectangleView key={survey.id} survey={survey} completed={false} />
                                     )) : <Box padding={5}>
-                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                                         </Box>
                                     ) : (
                                         <Box padding={5}>
@@ -124,7 +124,7 @@ const Index = () => {
                                     {completed_surveys && completed_surveys.length > 0 ? ( filteredCompletedSurveys.length > 0 ? filteredCompletedSurveys.map((survey:Survey)=>(
                                         <RectangleView key={survey.id} survey={survey} completed={true} />
                                     )) : <Box padding={5}>
-                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                                         </Box> 
                                     ) : (
                                         <Box padding={5}>

@@ -186,7 +186,7 @@ const Index = ({ speaker, screen }: Props) => {
                 </Text>
                 
                 <Spacer />
-                <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+                <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
@@ -382,7 +382,7 @@ const Index = ({ speaker, screen }: Props) => {
                             )}
                             { categories.length <= 0 &&
                                 <Box p="3">
-                                    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                    <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                                 </Box>
                             }
                         </Container>}
