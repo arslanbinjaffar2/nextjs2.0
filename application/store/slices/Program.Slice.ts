@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Program } from 'application/models/program/Program'
+import { Program, ProgramRating } from 'application/models/program/Program'
 
 import { Track } from 'application/models/program/Track'
 
@@ -26,6 +26,7 @@ export interface ProgramState {
     track_id: number,
     favouriteProgramError:string,
     agendas_attached_via_group:number[],
+    rating: ProgramRating|null,
 }
 
 const initialState: ProgramState = {
@@ -42,6 +43,7 @@ const initialState: ProgramState = {
     track_id: 0,
     favouriteProgramError:'',
     agendas_attached_via_group:[],
+    rating: null,
 }
 
 // Slices
@@ -155,6 +157,17 @@ export const ProgramSlice = createSlice({
                 state.programs = updatedPrograms;
             }
         },
+        FetchRating(state, action: PayloadAction<{ program_id: number }>) {
+        },
+        SaveRating(state, action: PayloadAction<{ program_id: number, rate:number,comment:string }>) {
+        },
+        UpdateRating(state, action: PayloadAction<{ rating: ProgramRating }>) {
+            if(action.payload.rating){
+                state.rating = action.payload.rating;
+            }else{
+                state.rating = null;
+            }
+        }
         
     },
 })
@@ -171,6 +184,10 @@ export const ProgramActions = {
     SetFavouriteProgramError: ProgramSlice.actions.SetFavouriteProgramError,
     ResetTracks: ProgramSlice.actions.ResetTracks,
     ToggleFavourite: ProgramSlice.actions.ToggleFavourite,
+    FetchRating: ProgramSlice.actions.FetchRating,
+    SaveRating: ProgramSlice.actions.SaveRating,
+    UpdateRating: ProgramSlice.actions.UpdateRating,
+    
 }
 
 export const SelectMyPrograms = (state: RootState) => state.programs.programs
@@ -196,6 +213,8 @@ export const SelectProgramDetail = (state: RootState) => state.programs.detail
 export const SelectFavouriteProgramError = (state: RootState) => state.programs.favouriteProgramError
 
 export const SelectAgendasAttachedViaGroup = (state: RootState) => state.programs.agendas_attached_via_group
+
+export const SelectRating = (state: RootState) => state.programs.rating
 
 // Reducer
 export default ProgramSlice.reducer

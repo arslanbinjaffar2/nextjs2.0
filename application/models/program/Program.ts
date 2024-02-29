@@ -205,3 +205,11 @@ export interface ProgramAttendeesAttached {
     updated_at: string;
     deleted_at: string;
 }
+
+export interface ProgramRating {
+    id: number;
+    rate: number;
+    agenda_id: number;
+    attendee_id: number;
+    comment: string;
+}

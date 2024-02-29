@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 
-import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail, SelectFavouriteProgramError, SelectParentTrackDetail, SelectAgendasAttachedViaGroup, SelectTotalPages } from 'application/store/slices/Program.Slice'
+import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail, SelectFavouriteProgramError, SelectParentTrackDetail, SelectAgendasAttachedViaGroup, SelectTotalPages, SelectRating } from 'application/store/slices/Program.Slice'
 
-import { Program } from 'application/models/program/Program'
+import { Program, ProgramRating } from 'application/models/program/Program'
 
 import { Track } from 'application/models/program/Track'
 
@@ -23,12 +23,15 @@ export type ProgramServiceOperators = {
     detail: Detail
     favouriteProgramError:string
     agendas_attached_via_group:number[]
+    rating: ProgramRating|null
     FetchPrograms: (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => void
     MakeFavourite: (payload: { program_id: number, screen: string }) => void
     FetchTracks: (payload: { query: string, page: number, screen: string, track_id: number }) => void
     FetchProgramDetail: (payload: { id: number }) => void
     SetFavouriteProgramError: (payload: string) => void
     ResetTracks: () => void
+    FetchRating: (payload: { program_id: number}) => void
+    SaveRating: (payload: { program_id: number, rate:number,comment:string }) => void
 }
 
 /**
@@ -52,6 +55,7 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         favouriteProgramError: useAppSelector(SelectFavouriteProgramError),
         parent_track: useAppSelector(SelectParentTrackDetail),
         agendas_attached_via_group: useAppSelector(SelectAgendasAttachedViaGroup),
+        rating: useAppSelector(SelectRating),
         FetchPrograms: useCallback(
             (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => {
                 dispatch(ProgramActions.FetchPrograms(payload))
@@ -88,6 +92,18 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
             },
             [dispatch],
         ),
+        FetchRating: useCallback(
+            (payload: { program_id: number}) => {
+                dispatch(ProgramActions.FetchRating(payload))
+            },
+            [dispatch],
+        ),
+        SaveRating: useCallback(
+            (payload: { program_id: number, rate:number,comment:string }) => {
+                dispatch(ProgramActions.SaveRating(payload))
+            },
+            [dispatch],
+        ),  
     }
 
 }
