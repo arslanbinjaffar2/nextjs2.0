@@ -18,7 +18,6 @@ const RectangleView = (info: Info) => {
 
     const { event } = UseEventService()
 
-
     return (
         <Pressable
             onPress={async () => {
@@ -38,7 +37,7 @@ const RectangleView = (info: Info) => {
                     }
                 }
             }}>
-            <HStack borderBottomWidth="1px" borderBottomColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
+            <HStack borderTopWidth={info?.index === 0 ? 0 : "1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                 {
                     (() => {
                         if (info.type === 'folder') {

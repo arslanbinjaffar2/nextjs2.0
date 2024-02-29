@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, VStack } from 'native-base';
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/survey/Detail';
 import { Platform } from 'react-native';
 
@@ -38,7 +38,7 @@ const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: 
       {Number(question.enable_comments) === 1 &&
         <>
         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-          <Icodocument width="15px" height="18px" />
+          <Icowritecomment  />
           <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
         </HStack>
         <Box py="3" px="4" w="100%">

@@ -24,9 +24,9 @@ const DetailBox = ({ detail }: AppProps) => {
         <>
             <Box w="100%" bg="primary.500" p="0" rounded="10">
                 {detail?.detail?.logo ? (
-                    <Image mb="5" rounded="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="Alternate Text" w="100%" h="160px" />
+                    <Image mb="5" rounded="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
                 ) : (
-                    <Image mb="5" rounded="10" size="full" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="100%" h="160px" />
+                    <Image mb="5" rounded="10" size="full" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="" w="100%" h="160px" />
                 )}
                 <Box w="100%" px="5">
                     <HStack w="100%" mb="1" space="3" alignItems="flex-start">

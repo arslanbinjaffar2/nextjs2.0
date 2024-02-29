@@ -7,12 +7,15 @@ import UseSocialMediaService from '../../../../store/services/UseSocialMediaServ
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Linking } from 'react-native';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import UseEnvService from 'application/store/services/UseEnvService'
+import UseEventService from 'application/store/services/UseEventService';
 
 const index = () => {
 
   const mounted = React.useRef(false);
     const { loading } = UseLoadingService();
-
+    const { _env } = UseEnvService()
+    const { event, modules } = UseEventService()
     const { FetchSocialMedias, socialMedia } = UseSocialMediaService();
     useEffect(() => {
       FetchSocialMedias();
@@ -25,7 +28,7 @@ const index = () => {
         ):(
         <Container pt="2" maxW="100%" w="100%">
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-              <Text textTransform="uppercase" fontSize="2xl">Social media</Text>
+              <Text textTransform="uppercase" fontSize="2xl">{modules?.find((socialMedia)=>(socialMedia.alias == 'social-media'))?.name ?? ""}</Text>
             </HStack>
             <Box w="100%" mb="3" bg="primary.box" p={["4","8"]} pb="1" rounded="10px">
               <Flex direction="row" flexWrap="wrap">

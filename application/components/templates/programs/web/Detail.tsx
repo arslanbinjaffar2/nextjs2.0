@@ -126,7 +126,6 @@ const Detail = () => {
         });
         setFilteredBanner(filteredBanner);
     }, [banners]);
-
     return (
         <>
             {in_array('program-detail', processing) ? (
@@ -151,15 +150,15 @@ const Detail = () => {
                         </DetailBlock>
                     <Container mb="3" maxW="100%" w="100%">
                         <HStack mb="3" space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
-                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 &&<Button rounded={0} minW={'50%'} flex={1} onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>ABOUT</Button>}
+                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 &&<Button rounded={0} minW={'50%'} flex={1} onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ABOUT</Button>}
                             {event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0 && (
-                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>GROUPS</Button>
+                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>GROUPS</Button>
                             )}
                             {modules?.find((polls)=>(polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 && (
-                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'attendee' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>ATTENDEES</Button>
+                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'attendee' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ATTENDEES</Button>
                             )}
                             {modules?.find((polls)=>(polls.alias == 'documents')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 && (
-                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'documents' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>DOCUMENTS</Button>
+                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>DOCUMENTS</Button>
                             )}
                         </HStack>
                         {group_id > 0 && (
@@ -176,10 +175,6 @@ const Detail = () => {
                             </HStack>
                         )}
 
-                            {/*{filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>*/}
-
-                            {/*    <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />*/}
-                            {/*)}*/}
                         {in_array(tab, ['about']) && (
                             <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
                                 {modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && (

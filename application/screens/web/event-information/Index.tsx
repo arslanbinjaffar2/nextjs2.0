@@ -47,7 +47,7 @@ const Index = ({ navigation }: indexProps) => {
         <SectionLoading />
       ) : (
         <Container pt="2" maxW="100%" w="100%">
-          <HStack mb="3" w="100%" space="3" alignItems="center">
+          <HStack display={['block','flex']} mb="3" w="100%" space="0" alignItems="center">
             <Text fontSize="2xl">
               {
                 (() => {
@@ -62,7 +62,7 @@ const Index = ({ navigation }: indexProps) => {
               }
             </Text>
             <Spacer />
-            <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w="60%" bg="primary.box" borderWidth={0}  placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+            <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w={["100%","60%"]} bg="primary.box" borderWidth={0}  placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
           </HStack>
           <Listing rounded={10} cms={cms} searchText={searchText} />
           {/* <BannerView url={''} /> */}

@@ -10,7 +10,7 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
     const { loading } = UseLoadingService();
-    const { event  } = UseEventService();
+    const { event, modules   } = UseEventService();
 
     const { map, FetchMap} = UseMapService()
     React.useEffect(()=>{
@@ -24,7 +24,7 @@ const Index = () => {
         :
             <Container pt="2" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text textTransform="uppercase" fontSize="2xl">{event?.labels?.EVENTSITE_MAP}</Text>
+                <Text textTransform="uppercase" fontSize="2xl">{modules?.find((map)=>(map.alias == 'maps'))?.name ?? ""}</Text>
                 </HStack>
                 {map && map?.url && map?.url !== '' && <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
                     <iframe 
@@ -41,7 +41,7 @@ const Index = () => {
                     <Box width={'100%'}>
                         <LoadImage
                             path={`${map?.image}`}
-                            alt="Alternate Text"
+                            alt=""
                             width="100%"
                             height="auto"
                             rounded="10"

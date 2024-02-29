@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Badge, Box, Button, Center, Container, Heading, HStack, Image, Menu, Pressable, Spacer, Text, VStack, Icon, Drawer } from 'native-base';
+import { Badge, Box, Button, Center, Container, Heading, HStack, Image, Menu, Pressable, Spacer, Text, VStack, Icon, Drawer, Divider } from 'native-base';
 import LeftBarMobile from 'application/screens/web/layouts/LeftBarMobile';
 import Notification from 'application/components/atoms/header/Notification';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -34,7 +34,6 @@ const [open, setOpen] = React.useState(false)
     setOpen(false)
   }, [router])
   
-
   return (
     <>
       <Container mb="3"  maxW="100%" w="100%">
@@ -65,6 +64,16 @@ const [open, setOpen] = React.useState(false)
             </HStack>
           </Center>
         </HStack>
+        {router.asPath.includes('/dashboard') && <Box pt={'4'} w={'100%'}>
+          <Divider bg={'primary.text'} w={'90px'} mx={'auto'} mb={4} />
+          
+           <VStack pb="0" space={0} w="100%">
+              <Heading textAlign={'center'} textTransform={'uppercase'} fontWeight={500} fontSize="3xl">{event.name}</Heading>
+              <Heading textAlign={'center'} textTransform={'uppercase'} fontWeight={500} pb="1" fontSize="xl">{event.detail?.location_name} {" "} {event?.calendar_date}</Heading>
+              <Heading textAlign={'center'} fontWeight={600} fontSize="lg">{event.detail?.location_address}</Heading>
+            </VStack>
+        </Box>}
+        
       </Container>
       
       <Drawer isOpen={open} placement='left'>
