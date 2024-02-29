@@ -86,7 +86,7 @@ const Index = React.memo(() => {
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
                         <Spacer />
-                        <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+                        <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels.GENERAL_SEARCH} onChangeText={(text: string) => {
                             search(text);
                             setSearch(text);
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
@@ -109,6 +109,7 @@ const Index = React.memo(() => {
                     )}
                     
                     {(tab === 'name' || tab === 'category-sponsor') && <>
+                        {sponsors.length > 0 && (
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
                             <IconButton
                                 opacity={mode === "list" ? 100 : 50}
@@ -133,6 +134,7 @@ const Index = React.memo(() => {
 
                             />
                         </HStack>
+                        )}
                         {mode === "list" &&
                             <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.box">
                                 <ScrollView h={'53%'}>
@@ -154,9 +156,9 @@ const Index = React.memo(() => {
                             </Box>
                         }
                         {sponsors.length <= 0 &&
-                            <Box w="100%">
-                                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
-                            </Box>
+                        <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
+                            <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                        </Box>
                         }
                     </>}
                     <Box width={"100%"} height={"5%"}>
