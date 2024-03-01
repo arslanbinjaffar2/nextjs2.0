@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, HStack, Spacer, VStack, Text, Icon, ZStack, Center, IconButton, Pressable } from 'native-base'
+import { Box, HStack, Spacer, VStack, Text, Icon, ZStack, Center, IconButton, Pressable, Divider } from 'native-base'
 import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
