@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getProgramApi, getTrackApi, makeFavouriteApi, getProgramDetailApi } from 'application/store/api/Program.Api';
+import { getProgramApi, getTrackApi, makeFavouriteApi, getProgramDetailApi, getRatingApi, saveRatingApi } from 'application/store/api/Program.Api';
 
 import { ProgramActions } from 'application/store/slices/Program.Slice'
 
@@ -75,12 +75,40 @@ function* OnGetTracks({
     yield put(LoadingActions.removeProcess({ process: 'tracks' }))
 }
 
+function* OnGetRating({
+    payload,
+}: {
+    type: typeof ProgramActions.FetchRating
+    payload: { program_id: number}
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: 'program-ratings' }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getRatingApi, payload, state)
+    yield put(ProgramActions.UpdateRating({ rating: response.data.data.rating!}))
+    yield put(LoadingActions.removeProcess({ process: 'program-ratings' }))
+}
+
+function* OnSaveRating({
+    payload,
+}: {
+    type: typeof ProgramActions.SaveRating
+    payload: { program_id: number, rate:number,comment:string}
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: 'program-ratings' }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(saveRatingApi, payload, state)
+    yield put(ProgramActions.UpdateRating({ rating: response.data.data.rating!}))
+    yield put(LoadingActions.removeProcess({ process: 'program-ratings' }))
+}
+
 // Watcher Saga
 export function* ProgramWatcherSaga(): SagaIterator {
     yield takeEvery(ProgramActions.FetchPrograms.type, OnGetMyPrograms)
     yield takeEvery(ProgramActions.MakeFavourite.type, OnMakeFavourite)
     yield takeEvery(ProgramActions.FetchTracks.type, OnGetTracks)
     yield takeEvery(ProgramActions.FetchProgramDetail.type, OnGetProgramDetail)
+    yield takeEvery(ProgramActions.FetchRating.type, OnGetRating)
+    yield takeEvery(ProgramActions.SaveRating.type, OnSaveRating)
 }
 
 export default ProgramWatcherSaga

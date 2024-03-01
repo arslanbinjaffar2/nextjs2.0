@@ -10,6 +10,7 @@ import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBo
 import SponsorContactInfo from 'application/components/atoms/sponsors/contact-info/ContactInfo';
 import { useRouter as UseNextRouter } from 'next/router';
 import UseEventService from 'application/store/services/UseEventService';
+import SessionRating from 'application/components/atoms/programs/SessionRating';
 
 const RightBar = () => {
   const nextRouter = UseNextRouter();
@@ -23,6 +24,7 @@ const RightBar = () => {
       {nextRouter.asPath.includes('sponsors/detail') &&  <SponsorContactInfo />}
       {nextRouter.asPath.includes('sponsors/detail') && event?.sponsor_settings?.notes == 1 &&  <SponsorNotesBox />}
       {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.enable_notes == 1 &&  <ProgramNotesBox />}
+      {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.session_ratings == 1 &&  <SessionRating />}
       <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
       <UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} />
       <Divider mb="1" bg="transparent" />

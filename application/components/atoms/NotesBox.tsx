@@ -17,7 +17,6 @@ const NotesBox = ({note_type,note_type_id}:AppProps) => {
   },[])
 
   useEffect(()=>{
-    console.log('my_note',my_note);
     if(my_note == null || my_note?.id === undefined || my_note?.id === 0){
         setIsNewNote(true);
     }else{
