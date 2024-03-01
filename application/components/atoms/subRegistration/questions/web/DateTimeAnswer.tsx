@@ -6,7 +6,8 @@ import DateTimePicker from 'application/components/atoms/DateTimePicker';
 import moment from 'moment';
 import { Platform } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
-import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT} from 'application/utils/Globals'
+import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT} from 'application/utils/Globals';
+import Comments from 'application/components/atoms/subRegistration/questions/Comments';
 
 type PropTypes = {
   question: Question,
@@ -35,26 +36,7 @@ const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer, error
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
       </Box>}
-      {Number(question.enable_comments) === 1 &&
-      <>
-        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-          <Icodocument width="15px" height="18px" />
-          <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
-        </HStack>
-        <Box py="3" px="4" w="100%">
-          <TextArea
-            p="3"
-            mb={1}
-            h="100px"
-            bg={'primary.darkbox'}
-            value={comment}
-            isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
-            onChange={(e) => {setComment(e.currentTarget.valueOf.toString()); updateFormData(question.id, 'comment', e.currentTarget.valueOf.toString())}}
-            onChangeText={(text) => {setComment(text); updateFormData(question.id, 'comment', text)}}
-            borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
-        </Box>
-      </>
-      }
+      {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
 }
