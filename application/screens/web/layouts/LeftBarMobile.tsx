@@ -43,7 +43,7 @@ const LeftBarMobile = () => {
         </Flex>
       </Box>
       <ScrollView w={'100%'} h={height - 150}>
-        <Center px={'0'} w="100%" maxW="100%" >
+        <VStack space={1} px={'0'} w="100%" maxW="100%" >
           <Pressable
             w="100%"
             px="4"
@@ -107,7 +107,7 @@ const LeftBarMobile = () => {
               <Text fontSize={'lg'} color="primary.text">Logout</Text>
             </HStack>
           </Pressable>
-        </Center>
+        </VStack>
     </ScrollView>
     </Center>
   );

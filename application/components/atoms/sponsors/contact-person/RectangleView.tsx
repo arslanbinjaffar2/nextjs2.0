@@ -22,7 +22,7 @@ const RectangleView = ({ k, attendee }: AppProps) => {
     const { event } = UseEventService()
 
     return (
-        <HStack w={'100%'} key={`item-${k}`} py="3" px="3" space="4" alignItems="center" borderBottomWidth={k === 2 ? 0 : 1} borderColor="primary.bordercolor">
+        <HStack w={'100%'} key={`item-${k}`} py="3" px="3" space="4" alignItems="center" borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor">
             {attendee.image ? (
                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="Alternate Text" w="50px" h="50px" rounded={30} />
             ) : (

@@ -51,7 +51,7 @@ const LeftBar = () => {
             </Flex>
         </Pressable>
       </Box>
-      <Center px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
+      <VStack space={1} px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
         <Pressable
           w="100%"
           px="4"
@@ -115,7 +115,7 @@ const LeftBar = () => {
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Logout</Text>}
           </HStack>
         </Pressable>
-      </Center>
+      </VStack>
     </Center>
   );
 
