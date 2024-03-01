@@ -339,11 +339,11 @@ const Selectstyles2 = {
                     {setting?.name === 'first_name' && (
                         <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.first_name}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="lg">{event.labels?.GENERAL_FIRSTNAME}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-                                    placeholder={labels?.first_name}
+                                    placeholder={event.labels?.GENERAL_FIRSTNAME}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('first_name', answer);
@@ -492,11 +492,11 @@ const Selectstyles2 = {
                     {setting?.name === 'title' && (
                         <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.title}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="lg">{event.labels?.GENERAL_TITLE}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-                                    placeholder={labels?.title}
+                                    placeholder={event.labels?.GENERAL_TITLE}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('title', answer);
@@ -732,11 +732,11 @@ const Selectstyles2 = {
                     {setting?.name === 'email' && (
                         <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.email}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="lg">{event.labels?.GENERAL_EMAIL}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-                                    placeholder={labels?.email}
+                                    placeholder={event.labels?.GENERAL_EMAIL}
                                     isReadOnly={true}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('email', answer);
@@ -749,7 +749,7 @@ const Selectstyles2 = {
                     {setting?.name === 'gender' && (
                         <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.gender}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="lg">{event.labels?.GENERAL_GENDER}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                     
