@@ -28,6 +28,7 @@ import { useRouter } from 'solito/router';
 import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
+import { Platform } from 'react-native';
 
 type ScreenParams = { id: string }
 
@@ -231,6 +232,12 @@ const Detail = ({ speaker }: Props) => {
                                     )}
                                 </Container>
                             )}
+                            {((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) &&
+                            <Box display={["","none"]} width={"100%"}>
+                                <ContactInfo detail={detail!} />
+                            </Box>
+                            }
+                            
                             <Box width={"100%"} height={"5%"}>
                                 {filteredBanners.map((banner, k) =>
                                   <Image

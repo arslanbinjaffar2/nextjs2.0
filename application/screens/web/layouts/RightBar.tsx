@@ -10,10 +10,13 @@ import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBo
 import SponsorContactInfo from 'application/components/atoms/sponsors/contact-info/ContactInfo';
 import { useRouter as UseNextRouter } from 'next/router';
 import UseEventService from 'application/store/services/UseEventService';
+import UseAttendeeService from 'application/store/services/UseAttendeeService';
+import ContactInfo from 'application/components/atoms/attendees/detail/ContactInfo';
 
 const RightBar = () => {
   const nextRouter = UseNextRouter();
-  const { event } = UseEventService()
+  const { event } = UseEventService();
+  const { detail } = UseAttendeeService();
 
   return (
     <>
@@ -23,6 +26,7 @@ const RightBar = () => {
       {nextRouter.asPath.includes('sponsors/detail') &&  <SponsorContactInfo />}
       {nextRouter.asPath.includes('sponsors/detail') && event?.sponsor_settings?.notes == 1 &&  <SponsorNotesBox />}
       {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.enable_notes == 1 &&  <ProgramNotesBox />}
+      {(nextRouter.asPath.includes('speakers/detail') || nextRouter.asPath.includes('attendees/detail')) && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
       <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
       <UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} />
       <Divider mb="1" bg="transparent" />
