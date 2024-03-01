@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, ScrollView, Text, TextArea, VStack } from 'native-base';
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
@@ -15,6 +15,14 @@ type PropTypes = {
 }
 const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnswer }: PropTypes) => {
   const { event } = UseEventService()
+  const [comment,setComment] =  React.useState('');
+
+  useEffect(() => {
+    setComment(question?.result?.[0]?.comments ?? '');
+  }
+  ,[question?.result]);
+
+
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
@@ -70,8 +78,10 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
             mb={1}
             h="100px"
             bg={'primary.darkbox'}
+            value={comment}
             isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
-            onChangeText={(text) => updateFormData(question.id, 'comment', text)}
+            onChange={(e) => {setComment(e.currentTarget.valueOf.toString()); updateFormData(question.id, 'comment', e.currentTarget.valueOf.toString())}}
+            onChangeText={(text) => {setComment(text); updateFormData(question.id, 'comment', text)}}
             borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
         </Box>
       </>
