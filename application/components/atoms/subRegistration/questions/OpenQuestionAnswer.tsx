@@ -18,12 +18,16 @@ const OpenQuestionAnswer = ({ question, formData, updateFormData, error, canChan
   const { event } = UseEventService()
   const [inputText, setInputText] = React.useState(formData[question.id]?.answer ?? '')
 
-  const [comment,setComment] =  React.useState('');
+  const [characterLimit,setCharacterLimit] =  React.useState(2000);
 
-  useEffect(() => {
-    setComment(question?.result?.[0]?.comments ?? '');
+  function updateInputText(updatedText:string) {
+    // implement character limit
+    if (inputText.length < updatedText.length && updatedText.length > characterLimit) {
+      return;
+    }
+    setInputText(updatedText);
+    updateFormData(question.id, question.question_type, updatedText)
   }
-  ,[question?.result]);
 
   return (
     <Center maxW="100%" w="100%" mb="0">
@@ -32,11 +36,13 @@ const OpenQuestionAnswer = ({ question, formData, updateFormData, error, canChan
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <TextArea w="100%" bg="primary.darkbox" isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }  borderColor={'primary.darkbox'} fontSize={'lg'} placeholder={event?.labels?.EVENTSITE_SUB_REGISTRATION_ANSWER_PLACEHOLDER} autoCompleteType={undefined} 
           value={inputText}
-          onChangeText={(answer)=>{ 
-            updateFormData(question.id, question.question_type, answer)
-            setInputText(answer)
-          }}
+          onChangeText={(answer)=>{ updateInputText(answer) }}
         />
+        <HStack px="3" py="1" w="100%" space="3" alignItems="center" justifyContent="end">
+          <Text>
+            {characterLimit - inputText.length > 0 ? characterLimit - inputText.length : 0} {event?.labels?.GENERAL_CHARACTER_REMAINING}
+          </Text>
+        </HStack>
       </Box>
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>

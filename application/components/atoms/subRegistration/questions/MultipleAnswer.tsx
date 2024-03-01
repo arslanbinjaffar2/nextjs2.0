@@ -20,12 +20,6 @@ type PropTypes = {
 
 const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, programs, canChangeAnswer}: PropTypes) => {
   const { event } = UseEventService()
-  const [comment,setComment] =  React.useState('');
-
-  useEffect(() => {
-    setComment(question?.result?.[0]?.comments ?? '');
-  }
-  ,[question?.result]);
 
   return (
     <Center maxW="100%" w="100%" mb="0">

@@ -19,17 +19,7 @@ type PropTypes = {
 }
 const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer }: PropTypes) => {
   const { event } = UseEventService()
-  const [comment,setComment] =  React.useState('');
-
-  useEffect(() => {
-    setComment(question?.result?.[0]?.comments ?? '');
-  }
-  ,[question?.result]);
-
-  const [show, setshow] = React.useState(false)
-  const handleChange = ({}) => {
-    console.log('handleChange')
-  }
+  
   return (
     <Center zIndex={1} maxW="100%" w="100%" mb="0">
       <Box fontFamily={'Avenir'} zIndex={2} mb="3" py="3" px="4" w="100%">

@@ -21,9 +21,12 @@ const Comments = ({ question, updateFormData, canChangeAnswer }: PropTypes) => {
   ,[question?.result]);
 
   
-  function updateComment(comment:string) {
-    setComment(comment);
-    updateFormData(question.id, 'comment', comment);
+  function updateComment(updatedComment:string) {
+    if (comment.length < updatedComment.length && updatedComment.length > characterLimit) {
+      return;
+    }
+    setComment(updatedComment);
+    updateFormData(question.id, 'comment', updatedComment);
   }
 
   return (
@@ -34,19 +37,21 @@ const Comments = ({ question, updateFormData, canChangeAnswer }: PropTypes) => {
         </HStack>
         <Box py="3" px="4" w="100%">
           <TextArea
-            p="0"
-            h="30px"
+            p="3"
+            mb={1}
+            h="100px"
+            bg={'primary.darkbox'}
             value={comment}
             isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
             onChange={(e) => updateComment(e.currentTarget.valueOf.toString())}
             onChangeText={(text) => updateComment(text)}
-            focusOutlineColor="transparent"
-            _focus={{ bg: 'transparent' }}
             borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
         </Box>
-        <Text>
-          characterLimit: {characterLimit - comment.length}
-        </Text>
+        <HStack px="3" py="1" w="100%" space="3" alignItems="center" justifyContent="end">
+          <Text>
+            {characterLimit - comment.length > 0 ? characterLimit - comment.length : 0} {event?.labels?.GENERAL_CHARACTER_REMAINING}
+          </Text>
+        </HStack>
       </>
   )
 }
