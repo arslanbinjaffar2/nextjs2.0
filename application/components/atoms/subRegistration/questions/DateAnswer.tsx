@@ -40,7 +40,7 @@ const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer }: Pro
           isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
-          borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
+          borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
       </Box>
     </Center>
   )

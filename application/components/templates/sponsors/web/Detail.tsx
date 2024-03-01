@@ -111,7 +111,7 @@ const Detail = React.memo(() => {
                                     <Icodocument width="15px" height="18px" />
                                     <Text fontSize="lg">Documents</Text>
                                 </HStack>
-                                <Box p={2} >
+                                <Box w={'100%'} >
                                         {in_array('documents', processing) ? (
                                                     <SectionLoading />
                                                 ) : (
@@ -172,7 +172,7 @@ const Detail = React.memo(() => {
                             </Box>
                         </Container> */}
                     </Container>
-                    <Box width={"100%"} height={"5%"}>
+                    <Box width={"100%"}>
                         {filteredBanners.map((banner, k) =>
                           <Image
                             key={k}

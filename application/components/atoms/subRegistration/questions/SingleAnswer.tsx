@@ -45,7 +45,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
               isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
               onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
               onChangeText={(text) => updateFormData(question.id, 'comment', text)}
-              borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
+              borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
           </Box>
         </>
       }
