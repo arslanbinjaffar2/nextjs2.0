@@ -55,7 +55,7 @@ const Index = React.memo(() => {
 
     const [searchQuery, setSearch] = React.useState('')
 
-    const { sponsors, categories, FetchSponsors, category_id, query } = UseSponsorService();
+    const { sponsors,site_labels, categories, FetchSponsors, category_id, query } = UseSponsorService();
     const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
