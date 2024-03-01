@@ -13,7 +13,7 @@ type AppProps = {
 
 const Search = ({ tab, w }: AppProps) => {
 
-    const { FetchPrograms, query, id, track_id } = UseProgramService();
+    const { FetchPrograms,FetchTracks , query, id, track_id } = UseProgramService();
 
     const { event } = UseEventService();
 
@@ -29,6 +29,8 @@ const Search = ({ tab, w }: AppProps) => {
         return debounce(function (query: string) {
             if (in_array(tab, ['program', 'my-program'])) {
                 FetchPrograms({ query: query, page: 1, screen: tab, id: tab === 'my-program' ? id : 0, track_id: track_id });
+            }else if(tab === "track") {
+                FetchTracks({ query: query, page: 1, screen: tab, track_id: 0 });
             }
         }, 1000);
     }, [tab]);

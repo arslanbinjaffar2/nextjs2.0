@@ -10,6 +10,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import TrackRectangleDetailView from 'application/components/atoms/programs/tracks/RectangleDetailView';
 import LoadMore from 'application/components/atoms/LoadMore';
+import IntersectionObserverComponent from 'application/components/atoms/IntersectionObserverComponent';
 import UseEventService from 'application/store/services/UseEventService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 
@@ -19,7 +20,7 @@ const Index = () => {
     
     const mounted = React.useRef(false);
     
-    const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track, parent_track, ResetTracks } = UseProgramService();
+    const { FetchPrograms, programs, page,total_pages, id, query, track_id, tracks, FetchTracks, track, parent_track, ResetTracks } = UseProgramService();
     
     const { loading, scroll, processing } = UseLoadingService();
     
@@ -39,7 +40,7 @@ const Index = () => {
         }
     }, [tab]);
 
-    React.useEffect(() => {
+    function loadMore() {
         if (mounted.current) {
             if (in_array(tab, ['program', 'my-program'])) {
                 FetchPrograms({ query: query, page: page + 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: track_id });
@@ -47,7 +48,7 @@ const Index = () => {
                 FetchTracks({ page: page + 1, query: query, screen: tab, track_id: track_id });
             }
         }
-    }, [scroll]);
+    }
     React.useEffect(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
@@ -114,6 +115,7 @@ const Index = () => {
                         {tracks?.map((track: any, key: any) =>
                             <TrackRectangleDetailView key={key} track={track} border={tracks.length != (key + 1)} updateTab={updateTab} />
                         )}
+                        {tracks?.length <= 0 && <Text textAlign="center" fontSize="lg" p="5">{event?.labels?.EVENT_NORECORD_FOUND}</Text>}
                     </Container>}
                     <Box width={"100%"} height={"5%"}>
                          <BannerAds module_name={'agendas'} module_type={'listing'} />
@@ -122,6 +124,12 @@ const Index = () => {
             )}
             {(in_array('programs', processing) || in_array('tracks', processing)) && page > 1 && (
                 <LoadMore />
+            )}
+
+            {!(in_array('programs', processing) || in_array('tracks', processing)) && (page < total_pages && total_pages>1) && (in_array(tab, ['program', 'my-program'])) && (
+                <>
+                <IntersectionObserverComponent onIntersect={loadMore} />
+                </>
             )}
         </>
     );
