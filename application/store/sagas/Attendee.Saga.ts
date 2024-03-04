@@ -48,7 +48,11 @@ function* OnMakeFavourite({
 }): SagaIterator {
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
-    yield put(AttendeeActions.UpdateFavourite({ attendee_id: payload.attendee_id, screen: payload.screen}))
+    if (payload.screen === "listing") {
+        yield put(AttendeeActions.FetchAttendees({ query: state?.attendees?.query, page: 1, group_id: state?.attendees?.group_id, my_attendee_id: state?.attendees?.my_attendee_id, speaker: 0, category_id: state?.attendees?.category_id, screen: state?.attendees?.screen, program_id: state?.attendees?.program_id }))
+    } else {
+        yield put(AttendeeActions.FetchAttendeeDetail({ id: payload.attendee_id, speaker: 0 }))
+    }
 }
 
 function* OnGetGroups({

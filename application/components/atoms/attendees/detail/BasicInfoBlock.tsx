@@ -31,17 +31,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
 
     console.log(showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1), 'show_hotel')
 
-    const [isFav, setIsFav] = React.useState<boolean>(false);
-
-    React.useMemo(() => {
-        setIsFav(detail?.is_favourite == 1 ? true : false)
-    }, [detail?.is_favourite])
-
-    function toggleFav () {
-        setIsFav(!isFav);
-        MakeFavourite({ attendee_id: Number(detail?.detail?.id), screen: 'detail' })
-    }
-
     return (
         <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
             <Box w="100%" p="4" py="5" rounded="10">
@@ -76,9 +65,9 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && <Box w="20px" h="100%">
                         <Pressable
                             onPress={() => {
-                                toggleFav()
+                                MakeFavourite({ attendee_id: Number(detail?.detail?.id), screen: 'detail' })
                             }}>
-                            <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
+                            <Icoribbon width="20" height="28" color={detail?.is_favourite ? event?.settings?.primary_color : ''} />
                         </Pressable>
                     </Box>}
                 </HStack>

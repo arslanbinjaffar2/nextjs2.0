@@ -31,17 +31,6 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
-  const [isFav, setIsFav] = React.useState<boolean>(false);
-
-  React.useMemo(() => {
-    setIsFav(attendee?.favourite == 1 ? true : false)
-  }, [attendee?.favourite])
-
-  function toggleFav(){
-    setIsFav(!isFav);
-    MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
-  }
-
 
   return (
     <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.bordercolor" py="3">
@@ -105,8 +94,10 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               <HStack space="4" alignItems="center">
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
-                  onPress={() => toggleFav()}>
-                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
+                  onPress={() => {
+                    MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
+                  }}>
+                  <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.primary_color : ''} />
                 </Pressable>
                 )}
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
