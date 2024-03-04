@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { saveNote } from 'application/store/api/Notes.Api'
+import { getMyNoteApi, saveNote, updateNote } from 'application/store/api/Notes.Api'
 
 import { NoteActions } from 'application/store/slices/Notes.Slice'
 
@@ -21,16 +21,39 @@ function* OnSaveNote({
     
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveNote, payload, state)
+    yield put(NoteActions.GetMyNote({note_type:payload.note_type, note_type_id:payload.note_type_id}));
     yield put(NoteActions.SetSaving(false));
 }
 
+function* OnUpdateNote({
+    payload
+}: {
+    type: typeof NoteActions.UpdateNote
+    payload: any
+}): SagaIterator {
+    
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(updateNote, payload, state)
+    yield put(NoteActions.SetSaving(false));
+}
 
-
-
+function* OnGetMyNote({
+    payload
+}: {
+    type: typeof NoteActions.GetMyNote
+    payload: any
+}): SagaIterator {
+    
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getMyNoteApi, payload, state)
+    yield put(NoteActions.update(response.data.data));
+}
 
 // Watcher Saga
 export function* NoteWatcherSaga(): SagaIterator {
     yield takeEvery(NoteActions.SaveNote.type, OnSaveNote)
+    yield takeEvery(NoteActions.GetMyNote.type, OnGetMyNote)
+    yield takeEvery(NoteActions.UpdateNote.type, OnUpdateNote)
 }
 
 export default NoteWatcherSaga

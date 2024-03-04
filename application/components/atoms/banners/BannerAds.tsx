@@ -89,7 +89,11 @@ const BannerAds = ({
         } else {
           url = `/${event.url}/sponsors/detail/${banner.sponsor_id}`;
         }
-      } else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0) {
+      }
+      else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0 && banner.other_link_url == '' ) {
+        return
+      }
+      else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0) {
         url = `${banner.other_link_url}`;
       } else if (banner.exhibitor_id > 0) {
         if (banner.url ) {
@@ -106,7 +110,10 @@ const BannerAds = ({
       let type;
       if (banner.sponsor_id > 0) {
         type = 'sponsor';
-      } else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0) {
+      }
+      else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0 && banner.other_link_url == '' ) {
+        return
+      }else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0) {
         type = 'other';
       } else if (banner.exhibitor_id > 0) {
         type = 'exhibitor';
