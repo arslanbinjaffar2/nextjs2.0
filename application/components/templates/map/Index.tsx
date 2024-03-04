@@ -48,7 +48,7 @@ const Index = () => {
                     </Box>
                 }
                 {!map && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
-                    <Text>{event.labels?.EVENT_NORECORD_FOUND}</Text>
+                    <Text>{event.labels?.GENERAL_NO_RECORD}</Text>
                 </Box>}
             </Container>
         }

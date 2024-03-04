@@ -86,7 +86,7 @@ const Index = React.memo(() => {
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
                         <Spacer />
-                        <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels.GENERAL_SEARCH} onChangeText={(text: string) => {
+                        <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                             search(text);
                             setSearch(text);
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
@@ -157,7 +157,7 @@ const Index = React.memo(() => {
                         }
                         {sponsors.length <= 0 &&
                         <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                            <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                            <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                         </Box>
                         }
                     </>}
