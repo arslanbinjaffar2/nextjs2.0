@@ -19,8 +19,9 @@ function* OnFetchAlerts({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAlertApi, {}, state)
-    yield put(AlertActions.update({ alerts: response.data.data.alerts!, attendee_alerts:response.data.data.attendee_alerts!, alert_settings: response.data.data.alert_setting!}))
-    yield put(LoadingActions.set(false));
+
+     yield put(AlertActions.update({ alerts: response.data.data.alerts!, attendee_alerts:response.data.data.attendee_alerts!, alert_settings: response.data.data.alert_setting!}))
+     yield put(LoadingActions.set(false));
 }
 
 function* OnMarkAlertRead({

@@ -140,10 +140,9 @@ const Index = ({ navigation }: indexProps) => {
                     <Spacer />
                   </HStack>
                   
-                  {alert_setting && alert_setting[0]?.display_in_dashboard === 1 && alerts.length > 0 ? (
+                   {alert_setting && alert_setting[0]?.display_in_dashboard === 1 && alerts.length > 0 ? (
                     <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                      {alerts.map((alert:Alert, i:Number)=>(
-
+                      {alerts.slice(0, 5).map((alert:Alert, i:Number)=>(
                         <RectangleView key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date_time={alert.display_alert_date} is_last_item={(alerts.length-1 === i) ? true : false}  />
                       ))}
                     </Box>
