@@ -11,11 +11,13 @@ import {
 export interface AlertState {
     alerts: Alert[],
     attendee_alerts: "" | number[],
+    alert_setting: "" | number[],
 }
 
 const initialState: AlertState = {
     alerts: [],
-    attendee_alerts: []
+    attendee_alerts: [],
+    alert_setting: []
 }
 
 // Slice
@@ -42,6 +44,7 @@ export const AlertActions = {
 export const SelectAlerts = (state: RootState) => state.alerts.alerts
 
 export const SelectAttendeeAlerts = (state: RootState) => state.alerts.attendee_alerts
+export const SelectAlertSetting = (state: RootState) => state.alerts.alert_setting
 
 
 

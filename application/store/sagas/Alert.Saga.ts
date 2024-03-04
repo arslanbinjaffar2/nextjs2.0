@@ -20,6 +20,7 @@ function* OnFetchAlerts({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAlertApi, {}, state)
     yield put(AlertActions.update({ alerts: response.data.data.alerts!, attendee_alerts:response.data.data.attendee_alerts! }))
+    yield put(AlertActions.update({ alerts: response.data.data.alerts!, alert_setting:response.data.data.alert_setting! }))
     yield put(LoadingActions.set(false));
 }
 
