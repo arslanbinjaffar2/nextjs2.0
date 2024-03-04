@@ -13,8 +13,6 @@ const Index = () => {
     const { loading, scroll } = UseLoadingService();
 
     const { _env } = UseEnvService();
-  
-    const { event  } = UseEventService();
 
     const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords, skip } = UseNetworkInterestService();
     
@@ -42,6 +40,7 @@ const Index = () => {
 
 export default Index
 
+const { event } = UseEventService();
 
 
 const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords:Keyword[], UpdatingMyKeywords:boolean, SaveMykerwords:(payload:any)=>void}) => {
