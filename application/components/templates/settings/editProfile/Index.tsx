@@ -102,7 +102,7 @@ const Selectstyles2 = {
       maxWidth: '100%',
 			minWidth: '100%',
       marginBottom: 10,
-			background: `rgba(${colors.box},1)`,
+			background: `rgba(0,0,0,0.2)`,
 			color: '#eaeaea',
 			fontFamily: 'Avenir',
 			boxShadow: 'none',
@@ -911,7 +911,7 @@ const Selectstyles2 = {
 
                     {setting?.name === 'show_custom_field' && (
                       customFields.map((question, i)=>(
-                        <HStack mb="3" key={i} alignItems="flex-start" px="3" flexDirection={['column', 'row']} zIndex={100 - i} w="100%">
+                        <HStack mb="3" key={i} alignItems="flex-start" px="6" flexDirection={['column', 'row']} zIndex={100 - i} w="100%">
                             <Center alignItems="flex-start" w="225px">
                                 <Text isTruncated fontWeight="500" fontSize="16px">{question?.name}</Text>
                             </Center>
@@ -1023,7 +1023,7 @@ const Selectstyles2 = {
                             </HStack>
                     )}
                     {setting?.name === 'resume' && (
-                            <HStack mb="3" alignItems="start" px="3"  w="100%" >
+                            <HStack mb="3" alignItems="start" px="6"  w="100%" >
                             
                                 <HStack mb="3" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
                                     <Center alignItems="flex-start" width={'225px'} maxW="225px">

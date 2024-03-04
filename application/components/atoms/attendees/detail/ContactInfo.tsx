@@ -5,6 +5,10 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Linking } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
+import IcoFacebook from 'application/assets/icons/small/IcoFacebook';
+import IcoTwitterX from 'application/assets/icons/small/IcoTwitterX';
+import IcoLinkedIN from 'application/assets/icons/small/IcoLinkedIN';
+import IcoWebLink from 'application/assets/icons/small/IcoWebLink';
 
 type AppProps = {
     detail: Detail,
@@ -18,7 +22,7 @@ const ContactInfo = ({ detail }: AppProps) => {
     return (
         <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
             <Box w="100%" p="4" py="5" rounded="10">
-                <HStack>
+                <HStack space={3}>
                     {detail?.detail?.info?.facebook && detail?.field_setting?.facebook ? (
                         <Pressable
                             onPress={async () => {
@@ -28,7 +32,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                                     await Linking.openURL(url);
                                 }
                             }}>
-                            <Icon size="md" as={AntDesign} name="facebook-square" color={'primary.secondary'} />
+                            <IcoFacebook />
                         </Pressable>
                     ) : ''}
                     {detail?.detail?.info?.twitter && detail?.field_setting?.twitter ? (
@@ -40,7 +44,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                                     await Linking.openURL(url);
                                 }
                             }}>
-                            <Icon ml={5} size="md" as={AntDesign} name="twitter" color={'primary.secondary'} />
+                            <IcoTwitterX />
                         </Pressable>
                     ) : ''}
                     {detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin ? (
@@ -52,7 +56,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                                     await Linking.openURL(url);
                                 }
                             }}>
-                            <Icon ml={5} size="md" as={AntDesign} name="linkedin-square" color={'primary.secondary'} />
+                            <IcoLinkedIN />
                         </Pressable>
                     ) : ''}
                     {detail?.detail?.info?.website && detail?.field_setting?.website ? (
@@ -64,7 +68,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                                     await Linking.openURL(url);
                                 }
                             }}>
-                            <Icon ml={5} size="md" as={FontAwesome} name="tv" color={'primary.secondary'} />
+                            <IcoWebLink />
                         </Pressable>
                     ) : ''}
 

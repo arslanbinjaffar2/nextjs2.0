@@ -69,7 +69,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
           h="100px"
           bg={'primary.darkbox'}
           onChangeText={(text) => updateFormData(question.id, 'comment', text)}
-          borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
+          borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
       </Box>
     </Center>
   )
