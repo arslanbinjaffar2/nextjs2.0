@@ -13,6 +13,7 @@ import debounce from 'lodash.debounce';
 import MobileLoading from 'application/components/atoms/MobileLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { Keyboard } from 'react-native';
+import UseEventService from '../../../../store/services/UseEventService'
 
 const Index = React.memo(() => {
 
@@ -25,6 +26,7 @@ const Index = React.memo(() => {
     const [searchQuery, setSearch] = React.useState('')
 
     const { exhibitors, categories, FetchExhibitors, category_id, query } = UseExhibitorService();
+    const { event } = UseEventService()
 
     const updateTab = (tab: string) => {
         setTab(tab);
@@ -51,7 +53,7 @@ const Index = React.memo(() => {
         <>
             <Container maxW="100%" h={'93%'} w="100%">
                 <HStack mb="3" w="100%" alignItems="center">
-                    <Input rounded="10" bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+                    <Input rounded="10" bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels.GENERAL_SEARCH} onChangeText={(text: string) => {
                         search(text);
                         setSearch(text);
                     }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />

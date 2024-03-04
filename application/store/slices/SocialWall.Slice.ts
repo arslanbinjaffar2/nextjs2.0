@@ -47,21 +47,21 @@ export const socialWallSlice = createSlice({
         },
         UpdateSocialWallPost(state, action: PayloadAction<any>){},
         SocialWallPostsUpdated(state, action: PayloadAction<{ post: Post}>) {
-            const existed: Post[] = state.posts;
+            const existed: Post[] = JSON.parse(JSON.stringify(state.posts));
             // Find the index of the post with the same id
-                const index = existed.findIndex((post: Post) => post.id === action.payload.post.id);
+            const index = existed.findIndex((post: Post) => post.id === action.payload.post.id);
 
-                if (index > -1) {
-                    // Replace the existing post
-                    state.posts = [
-                        ...existed.slice(0, index),
-                        action.payload.post,
-                        ...existed.slice(index + 1)
-                    ];
-                } else {
-                    // Add the new post at the beginning
-                    state.posts = [action.payload.post, ...existed];
-                }
+            if (index > -1) {
+                // Replace the existing post
+                state.posts = [
+                    ...existed.slice(0, index),
+                    JSON.parse(JSON.stringify(action.payload.post)),
+                    ...existed.slice(index + 1)
+                ];
+            } else {
+                // Add the new post at the beginning
+                state.posts = [JSON.parse(JSON.stringify(action.payload.post)), ...existed];
+            }
         },
         LikeSocialWallPost(state, action: PayloadAction<{id:number}>){},
         DeleteSocialWallPost(state, action: PayloadAction<{id:number}>){},

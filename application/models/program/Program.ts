@@ -194,7 +194,7 @@ interface Session {
     deleted_at: string;
 }
 
-interface ProgramAttendeesAttached {
+export interface ProgramAttendeesAttached {
     id: number;
     attendee_id: number;
     agenda_id: number;
@@ -204,4 +204,12 @@ interface ProgramAttendeesAttached {
     created_at: string;
     updated_at: string;
     deleted_at: string;
+}
+
+export interface ProgramRating {
+    id: number;
+    rate: number;
+    agenda_id: number;
+    attendee_id: number;
+    comment: string;
 }

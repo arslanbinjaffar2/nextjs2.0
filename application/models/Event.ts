@@ -89,6 +89,7 @@ interface Setting {
     desktop_program_screen_sidebar_checkin?: string;
     enable_vp?: string;
     header_logo?: string;
+    app_header_logo?: string;
     streaming_service?: string;
     badgeName?: string;
     badgeTitle?: string;
