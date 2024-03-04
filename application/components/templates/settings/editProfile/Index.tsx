@@ -953,7 +953,6 @@ const Selectstyles2 = {
                             <ReactSelect
                                 styles={Selectstyles2}
                                 isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
-                                opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                 placeholder={question.name}
                                 components={{ IndicatorSeparator: null }}
                                 options={question.children_recursive.map((item:any, index:number) => {
