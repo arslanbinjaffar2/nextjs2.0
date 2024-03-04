@@ -79,101 +79,104 @@ const Index = React.memo(() => {
     }, [query]);
     return (
         <>
-            {loading ? (
-                <WebLoading />
-            ) : (
-                <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                        <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
-                        <Spacer />
-                        <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
-                            search(text);
-                            setSearch(text);
-                        }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-                    </HStack>
-                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && (
-                        <HStack mb="3" space={1} justifyContent="center" w="100%">
-                       {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && <Button onPress={() => {
-                            setTab('name')
-                            FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
-                            push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'name'))
-                        }} 
-                        borderWidth="1px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>NAME</Button>}
-                       {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button onPress={() => {
-                            setTab('category')
-                            FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
-                            push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'category'))
+            <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">
+                <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                    <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
+                    <Spacer />
+                    <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels.GENERAL_SEARCH} onChangeText={(text: string) => {
+                        search(text);
+                        setSearch(text);
+                    }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                </HStack>
+                {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && (
+                    <HStack mb="3" space={1} justifyContent="center" w="100%">
+                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && <Button onPress={() => {
+                        setTab('name')
+                        FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
+                        push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'name'))
+                    }} 
+                    borderWidth="1px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>NAME</Button>}
+                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button onPress={() => {
+                        setTab('category')
+                        FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
+                        push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'category'))
 
-                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
-                    </HStack>
-                    )}
-                    
-                    {(tab === 'name' || tab === 'category-sponsor') && <>
-                        <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
-                            <IconButton
-                                opacity={mode === "list" ? 100 : 50}
-                                p="0"
-                                variant="transparent"
-                                icon={<Icon size="xl" as={Entypo} name="menu" color="primary.text" />}
-                                onPress={() => {
-                                    setMode('list')
-                                    push(`/${event.url}/sponsors` + '?' + createQueryString('mode', 'list'))
-                                }}
+                    }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
+                </HStack>
+                )}
 
-                            />
-                            <IconButton
-                                p="0"
-                                opacity={mode === "grid" ? 100 : 50}
-                                variant="transparent"
-                                icon={<Icon size="xl" as={Entypo} name="grid" color="primary.text" />}
-                                onPress={() => {
-                                    setMode('grid')
-                                    push(`/${event.url}/sponsors` + '?' + createQueryString('mode', 'grid'))
-                                }}
+                {loading ? (
+                    <WebLoading />
+                ) : (
+                    <>
+                        {(tab === 'name' || tab === 'category-sponsor') && <>
+                            {sponsors.length > 0 && (
+                            <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
+                                <IconButton
+                                    opacity={mode === "list" ? 100 : 50}
+                                    p="0"
+                                    variant="transparent"
+                                    icon={<Icon size="xl" as={Entypo} name="menu" color="primary.text" />}
+                                    onPress={() => {
+                                        setMode('list')
+                                        push(`/${event.url}/sponsors` + '?' + createQueryString('mode', 'list'))
+                                    }}
 
-                            />
-                        </HStack>
-                        {mode === "list" &&
-                            <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.box">
-                                <ScrollView h={'53%'}>
-                                    {sponsors.length > 0 && sponsors.map((sponsor: Sponsor, key: number) =>
-                                        <RectangleView border={sponsors.length === 0 ? 0 : sponsors.length > 0 && key === sponsors.length-1 ? 0 : 1} sponsor={sponsor}  key={key} />
-                                    )}
-                                </ScrollView>
-                            </Box>
-                        }
-                        {mode === "grid" &&
-                            <Box w="100%">
-                                <ScrollView h={'53%'} w={'100%'}>
-                                    <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                        {sponsors.length > 0 && sponsors.map((sponsor: Sponsor, key: number) =>
-                                            <BoxView sponsor={sponsor} k={key} />
-                                        )}
-                                    </HStack>
-                                </ScrollView>
-                            </Box>
-                        }
-                        {sponsors.length <= 0 &&
-                            <Box w="100%">
-                                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
-                            </Box>
-                        }
-                    </>}
-                    <Box width={"100%"} height={"5%"}>
-                        <BannerAds module_name={'sponsors'} module_type={'listing'} />
-                    </Box>
-                    {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
-                        <ScrollView h={'60%'} w={'100%'}>
-                            <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                {categories.length > 0 && categories.map((category: SponsorCategory, key: number) =>
-                                    <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
-                                )}
+                                />
+                                <IconButton
+                                    p="0"
+                                    opacity={mode === "grid" ? 100 : 50}
+                                    variant="transparent"
+                                    icon={<Icon size="xl" as={Entypo} name="grid" color="primary.text" />}
+                                    onPress={() => {
+                                        setMode('grid')
+                                        push(`/${event.url}/sponsors` + '?' + createQueryString('mode', 'grid'))
+                                    }}
+
+                                />
                             </HStack>
-                        </ScrollView>
-                    </Box>}
-                    {/* <BannerView url={''} /> */}
-                </Container>
-            )}
+                            )}
+                            {mode === "list" &&
+                                <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.box">
+                                    <ScrollView h={'53%'}>
+                                        {sponsors.length > 0 && sponsors.map((sponsor: Sponsor, key: number) =>
+                                            <RectangleView border={sponsors.length === 0 ? 0 : sponsors.length > 0 && key === sponsors.length-1 ? 0 : 1} sponsor={sponsor}  key={key} />
+                                        )}
+                                    </ScrollView>
+                                </Box>
+                            }
+                            {mode === "grid" &&
+                                <Box w="100%">
+                                    <ScrollView h={'53%'} w={'100%'}>
+                                        <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
+                                            {sponsors.length > 0 && sponsors.map((sponsor: Sponsor, key: number) =>
+                                                <BoxView sponsor={sponsor} k={key} />
+                                            )}
+                                        </HStack>
+                                    </ScrollView>
+                                </Box>
+                            }
+                            {sponsors.length <= 0 &&
+                            <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
+                                <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                            </Box>
+                            }
+                        </>}
+                        {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+                            <ScrollView h={'60%'} w={'100%'}>
+                                <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
+                                    {categories.length > 0 && categories.map((category: SponsorCategory, key: number) =>
+                                        <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
+                                    )}
+                                </HStack>
+                            </ScrollView>
+                        </Box>}
+                        <Box width={"100%"} height={"5%"}>
+                            <BannerAds module_name={'sponsors'} module_type={'listing'} />
+                        </Box>
+                    </>
+                )}
+            </Container>
         </>
     )
 

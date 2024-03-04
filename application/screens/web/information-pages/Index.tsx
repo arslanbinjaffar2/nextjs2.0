@@ -19,7 +19,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const { loading } = UseLoadingService();
 
-  const { modules  } = UseEventService();
+  const {event, modules  } = UseEventService();
 
 
   const router = useRouter();
@@ -50,7 +50,7 @@ const Index = ({ navigation }: indexProps) => {
               {modules?.find((module)=>(module.id == id))?.name ?? 'Information Pages'}
             </Text>
             <Spacer />
-            <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+            <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder={event.labels.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
           </HStack>
           <Listing rounded={10} cms={cms} searchText={searchText} />
           {/* <BannerView url={''} /> */}
