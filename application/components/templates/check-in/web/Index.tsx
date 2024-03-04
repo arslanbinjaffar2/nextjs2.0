@@ -134,30 +134,7 @@ const Index = () => {
 								<HStack mb={3} w={'100%'} space="0" alignItems="center" justifyContent={'center'} pt={4}>
                 <Text mb="0" textTransform="uppercase" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
 								<Spacer />
-									<Button px={4} py={1} fontSize={'md'} shadow={3} colorScheme="primary" minW={100}>Order Detail</Button>
-								</HStack>
-							<Spacer />
-							{!checkInOut?.setting?.self_checkin && checkInOut?.setting?.enable_email_ticket ? <>
-								<Box >
-									{in_array('checkin-send-qr-code', processing) ?
-										<WebLoading/>
-										:
-										<IconButton
-											variant="transparent"
-											p="1"
-											icon={<Icon size="md" as={SimpleLineIcons} name="envelope" color="white" />}
-											onPress={SendQRCode}
-										/>
-									}
-								</Box>
-							</>:null}
-							</Box>
-							{checkInOut?.setting?.self_checkin ? <>
-                <Box mb="3" w="100%" bg="primary.box" p="5" rounded="10">
-                <HStack space="3" alignItems="center">
-                    <Text fontSize="16px" fontWeight={500}>My ticket for </Text>
-                    <Spacer />
-									{checkInOut?.setting?.enable_email_ticket ? <>
+                  {checkInOut?.setting?.enable_email_ticket ? <>
                     {in_array('checkin-send-qr-code', processing) ?  <WebLoading/> : 
                     <HStack  space="2" alignItems="center">
                       <IconButton
@@ -180,7 +157,26 @@ const Index = () => {
                     
                     }
 									</>:null}
-                </HStack>
+								</HStack>
+							<Spacer />
+							{!checkInOut?.setting?.self_checkin && checkInOut?.setting?.enable_email_ticket ? <>
+								<Box >
+									{in_array('checkin-send-qr-code', processing) ?
+										<WebLoading/>
+										:
+										<IconButton
+											variant="transparent"
+											p="1"
+											icon={<Icon size="md" as={SimpleLineIcons} name="envelope" color="white" />}
+											onPress={SendQRCode}
+										/>
+									}
+								</Box>
+							</>:null}
+							</Box>
+							{checkInOut?.setting?.self_checkin ? <>
+                <Box mb="3" w="100%" bg="primary.box" p="5" rounded="10">
+
                       <Box mx="auto" w="190px" h="190px" bg="primary.box" p="3" rounded="10">
                         <Image
                         source={{
@@ -236,7 +232,7 @@ const Index = () => {
 										)}
                 </Box>
                 
-                 <HStack w="100%" space="0">
+                 {/* <HStack w="100%" space="0">
                     <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="10">
                         <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK IN</Text>
                         <VStack space="1">
@@ -254,7 +250,7 @@ const Index = () => {
                         </HStack>))}
                         </VStack>
                     </Box>
-                </HStack>
+                </HStack> */}
             </Container>
         )
       }
