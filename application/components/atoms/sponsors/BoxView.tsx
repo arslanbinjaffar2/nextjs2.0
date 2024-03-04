@@ -9,6 +9,7 @@ import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import { Linking } from 'react-native';
+import { colorText } from 'application/styles/colors';
 
 type AppProps = {
     sponsor: Sponsor,
@@ -94,7 +95,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
                                     <ZStack position={'relative'} reversed>
                                         {sponsor?.categories.length > 0 && sponsor?.categories.slice(0,3).map((cat, i)=>(
                                             <Box key={cat.id} bg={cat.color} borderWidth="1"  borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(sponsor?.categories[0]?.info.name, 14)) + 16 + (i * 10)}px`} px="2">
-                                                {i== 0 && <Text isTruncated lineHeight={25}  fontSize="sm">{cat?.info?.name}</Text>}
+                                                {i== 0 && <Text color={colorText(cat.color)} isTruncated lineHeight={25}  fontSize="sm">{cat?.info?.name}</Text>}
                                             </Box>
                                         ))}
 

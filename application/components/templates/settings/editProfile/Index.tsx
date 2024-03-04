@@ -151,7 +151,7 @@ const Selectstyles2 = {
              });
            }
            return ack2;
-         }, []);
+         }, []) || "" ;
          ack1[`custom_field_id_q${i}`] = question.allow_multiple === 1 ? answers : answers[0];
          return ack1;
      }, {}));
@@ -958,8 +958,7 @@ const Selectstyles2 = {
                                     </Center>
                                     <Center pl="2" w="calc(100% - 100px)">
                                         <Input w="100%"
-																						h={'50px'}
-                                            h="50px"
+											h={'50px'}
                                             placeholder={labels?.phone}
                                             isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                             onChangeText={(answer) => {
