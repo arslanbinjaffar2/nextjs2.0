@@ -14,7 +14,7 @@ const OurExhibitor = () => {
       dots: false,
       infinite: true,
       speed: 500,
-      slidesToShow:our_exhibitors.length >= 4 ? 4 : our_exhibitors.length,
+      slidesToShow:our_exhibitors.length > 4 ? 4 : 1 ,
       slidesToScroll: 1,
       autoplay: true,
       arrows: false,
@@ -36,7 +36,7 @@ const OurExhibitor = () => {
       {modules.filter((module: any, key: number) => module.alias === 'exhibitors').length > 0 && our_exhibitors?.length > 0 && (
         <>
           <IconWithLeftHeading icon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 22, height: 24 }} />} title="OUR EXHIBITORS" />
-         <div style={{width: '265px'}}>
+         {our_exhibitors.length > 4 ? <div style={{width: '265px'}}>
            <Slider {...settings}>
            {our_exhibitors.length > 0 && our_exhibitors.map((exhibitor: Exhibitor, key: number) =>
            <Box key={key}  w={265} height={180} p="0" rounded="lg">
@@ -44,7 +44,15 @@ const OurExhibitor = () => {
            </Box>
            )}
            </Slider>
-         </div>
+         </div> : (
+          <>
+          {our_exhibitors.length > 0 && our_exhibitors.map((exhibitor: Exhibitor, key: number) =>
+           <Box key={key}  w={265} height={180} p="0" rounded="lg">
+            <BoxView exhibitor={exhibitor} k={key} screen="our-exhibitors" w='100%' />
+           </Box>
+           )}
+          </>
+         )}
         </>
       )}
     </Container>

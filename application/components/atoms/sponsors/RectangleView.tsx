@@ -44,7 +44,7 @@ const RectangleView = ({ border, sponsor }: AppProps) => {
                         </ZStack>
                     </Box>} */}
                     <HStack pt="0" w="100%" space="4" alignItems="center">
-                        <VStack marginRight={'auto'} w="calc(100% - 180px);" space="0">
+                        <VStack marginRight={'auto'} w="calc(100% - 220px);" space="0">
                             <Text fontSize="lg" lineHeight="22px">
                                 {sponsor.name}
                             </Text>
@@ -75,7 +75,7 @@ const RectangleView = ({ border, sponsor }: AppProps) => {
 																	<Popover.Arrow bgColor={'primary.500'} />
 																	<Popover.Body borderTopWidth="0" bgColor={'primary.500'}>
 																	<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
-																		{sponsor.categories.length > 3 && sponsor.categories.slice(3).map((category: Category, i: number) =>(
+																		{sponsor.categories.length > 3 && sponsor.categories.map((category: Category, i: number) =>(
                                         <Box borderWidth={1} borderColor={'primary.box'} mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
                                              <Text  fontSize="sm">{`${category.info.name}`}</Text>
                                         </Box>
@@ -90,23 +90,25 @@ const RectangleView = ({ border, sponsor }: AppProps) => {
                         </HStack>}
 												</VStack>
              
-                        <HStack  pr="3" space="5" alignItems="center">
+                        <HStack  pr="3" space="4" alignItems="center">
                             {sponsor.booth && (
                                 <Button
-                                    p="1"
+                                    p="0"
                                     leftIcon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />}
                                     bg="transparent"
                                     onPress={() => {
                                         console.log('hello')
                                     }}
                                 >
-                                    {sponsor.booth}
+                                    <Text isTruncated maxW={'80px'}>{sponsor.booth}</Text>
+																		
                                 </Button>
                             )}
                             {settings?.mark_favorite === 1 && (
                                 <IconButton
                                     bg="transparent"
                                     p="1"
+																		rounded={'full'}
                                     _hover={{ bg: 'primary.500' }}
                                     icon={<Icon size="xl" as={Ionicons} name={sponsor.attendee_sponsors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
                                     onPress={() => {

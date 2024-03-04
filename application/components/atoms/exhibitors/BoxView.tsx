@@ -69,7 +69,7 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
                                 p="1"
                                 rounded={'full'}
                                 _hover={{ bg: 'primary.500' }}
-                                icon={<Icon size="md" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color="primary.text" />}
+                                icon={<Icon size="md" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? "secondary.500" : "primary.text"} />}
                                 onPress={() => toggleFav()}
                                 position={'absolute'}
                                 zIndex={'999999'}
@@ -113,11 +113,11 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
 																									<Text lineHeight={24} fontSize="sm">{`+${ exhibitor.categories.length - 3}`}</Text>
 																								</Button>
 																							}}>
-																					<Popover.Content bgColor={'primary.500'}>
-																						<Popover.Arrow bgColor={'primary.500'} />
-																						<Popover.Body borderTopWidth="0" bgColor={'primary.500'}>
+																					<Popover.Content borderColor={'primary.500'} bgColor={'primary.500'}>
+																						<Popover.Arrow borderColor={'primary.500'} bgColor={'primary.500'} />
+																						<Popover.Body borderTopWidth="0" borderColor={'primary.500'} bgColor={'primary.500'}>
 																						<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
-																							{exhibitor.categories.length > 3 && exhibitor.categories.slice(3).map((category: Category, i: number) =>(
+																							{exhibitor.categories.length > 3 && exhibitor.categories.map((category: Category, i: number) =>(
 																									<Box mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
 																											<Text fontSize="sm">{`${category.info.name}`}</Text>
 																									</Box>
@@ -135,7 +135,7 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
                             <Center pr={2} alignItems="flex-end">
                                 {exhibitor.booth && <HStack space="2" alignItems="center">
                                     <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
-                                    <Text fontSize="sm">{exhibitor.booth}</Text>
+                                    <Text maxW={'80px'} isTruncated fontSize="sm">{exhibitor.booth}</Text>
                                 </HStack>}
                             </Center>
                         </HStack>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Image, Spacer, Text, HStack, IconButton, Icon, Divider, ZStack } from 'native-base'
+import { Box, Image, Spacer, Text, HStack, IconButton, Icon, Divider, ZStack, Center } from 'native-base'
 import { Category, ExhibitorDetail } from 'application/models/exhibitor/ExhibitorDetail'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
@@ -91,17 +91,20 @@ const DetailBox = ({ detail }: AppProps) => {
                         {detail?.detail?.booth && (
                             <HStack alignItems="center" space="2">
                                 <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
-                                <Text fontSize="md">{detail?.detail?.booth}</Text>
+                                <Center maxW={120}>
+                                    <Text  fontSize="md">{detail?.detail?.booth}</Text>
+                                </Center>
+                                
                             </HStack>
                         )}
                     </HStack>
-                    <Box mb="4" w="100%">
+                    {detail?.detail?.description && <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
                         <Text fontSize="lg">
                             <div className='ebs-iframe-content' style={{overflow:'hidden'}} dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>
                         </Text>
                         
-                    </Box>
+                    </Box>}
                 </Box>
             </Box>
         </>

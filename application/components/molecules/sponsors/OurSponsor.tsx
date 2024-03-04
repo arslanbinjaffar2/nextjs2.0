@@ -14,7 +14,7 @@ const OurSponsor = () => {
       dots: false,
       infinite: true,
       speed: 500,
-      slidesToShow:our_sponsors.length >= 4 ? 4 : our_sponsors.length,
+      slidesToShow:our_sponsors.length > 4 ? 4 : our_sponsors.length,
       slidesToScroll: 1,
       autoplay: true,
       arrows: false,
@@ -37,7 +37,7 @@ const OurSponsor = () => {
             {modules.filter((module: any, key: number) => module.alias === 'sponsors').length > 0 && our_sponsors?.length > 0 && (
                 <>
                     <IconWithLeftHeading icon={<DynamicIcon iconType="sponsors" iconProps={{ width: 22, height: 24 }} />} title="OUR SPONSORS" />
-                    <div style={{width: '265px'}}>
+                    {our_sponsors.length > 4 ? <div style={{width: '265px'}}>
                         <Slider {...settings}>
                             {our_sponsors.length > 0 && our_sponsors.map((sponsor: Sponsor, key: number) =>
                             <Box key={key}  w={265} height={180} p="0" rounded="lg">
@@ -45,7 +45,15 @@ const OurSponsor = () => {
                             </Box>
                             )}
                          </Slider>
-                    </div>
+                        </div> : (
+                        <>
+                        {our_sponsors.length > 0 && our_sponsors.map((sponsor: Sponsor, key: number) =>
+                            <Box key={key}  w={265} height={180} p="0" rounded="lg">
+                                <BoxView sponsor={sponsor} k={key} screen="our-sponsors"  w='100%' />
+                            </Box>
+                            )}
+                        </>
+                    )}
                 </>
             )}
         </Container>

@@ -101,7 +101,7 @@ const Detail = React.memo(() => {
                                     <Icodocument width="15px" height="18px" />
                                     <Text fontSize="lg">Documents</Text>
                                 </HStack>
-                                <Box p={2} >
+                                <Box w={'100%'}>
                                     {in_array('documents', processing) ? (
                                                 <SectionLoading />
                                             ) : (

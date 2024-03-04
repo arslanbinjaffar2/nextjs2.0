@@ -90,15 +90,16 @@ const DetailBox = ({ detail }: AppProps) => {
                         {detail?.detail?.booth && (
                             <HStack alignItems="center" space="2">
                                 <DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />
-                                <Text fontSize="md">{detail?.detail?.booth}</Text>
+                                <Center maxW={120}>
+                                    <Text  fontSize="md">{detail?.detail?.booth}</Text>
+                                </Center>
                             </HStack>
                         )}
                     </HStack>
-                    <Box mb="4" w="100%">
+                    {detail?.detail?.description && <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
                         <Text><div dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div></Text>
-                        
-                    </Box>
+                    </Box>}
                 </Box>
             </Box>}
         </>

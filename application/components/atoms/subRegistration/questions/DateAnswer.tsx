@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, VStack } from 'native-base';
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
 import DateTimePicker from '../../DateTimePicker';
 import { Platform } from 'react-native';
@@ -29,18 +29,18 @@ const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer }: Pro
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         {Platform.OS === "web" && <DateTimePicker readOnly={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false } showtime={true} showdate={true} />}
       </Box>
-      <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-        <Icodocument width="15px" height="18px" />
+      <HStack px="3" py="1" mb={1} bg="primary.darkbox" w="100%" space="3" alignItems="center">
+        <Icowritecomment width="15px" height="18px" />
         <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
       </HStack>
-      <Box py="3" px="4" w="100%">
+      <Box py="3" px="4" pb={0} w="100%">
         <TextArea
           p="0"
           h="30px"
           isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
           focusOutlineColor="transparent"
           _focus={{ bg: 'transparent' }}
-          borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
+          borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
       </Box>
     </Center>
   )

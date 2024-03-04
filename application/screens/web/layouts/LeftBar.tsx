@@ -29,7 +29,7 @@ const LeftBar = () => {
   const { setLoading } = UseLoadingService();
 
   return (
-    <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
+    <Center nativeID='ebs-master-left-bar' overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Box pb="3">
         <Pressable
             w="100%"
@@ -51,7 +51,7 @@ const LeftBar = () => {
             </Flex>
         </Pressable>
       </Box>
-      <Center px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
+      <VStack space={1} px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
         <Pressable
           w="100%"
           px="4"
@@ -120,7 +120,7 @@ const LeftBar = () => {
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Logout</Text>}
           </HStack>
         </Pressable>
-      </Center>
+      </VStack>
     </Center>
   );
 

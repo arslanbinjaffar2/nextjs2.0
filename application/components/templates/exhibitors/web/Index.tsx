@@ -158,7 +158,7 @@ const Index = React.memo(() => {
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'exhibitors'} module_type={'listing'} />
                     </Box>
-                    {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+                    {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
                             <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
                                 {categories.length > 0 && categories.map((category: ExhibitorCategory, key: number) =>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View } from 'native-base';
 
 import {default  as ReactSelect} from "react-select";
 
@@ -100,9 +100,9 @@ const Selectstyles2 = {
       minHeight: 50,
       width: '100%',
       maxWidth: '100%',
-			minWidth: '256px',
+			minWidth: '100%',
       marginBottom: 10,
-			background: `rgba(${colors.box},1)`,
+			background: `rgba(0,0,0,0.2)`,
 			color: '#eaeaea',
 			fontFamily: 'Avenir',
 			boxShadow: 'none',
@@ -296,19 +296,20 @@ const Selectstyles2 = {
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
-            <Box mb="4" w="100%" bg="primary.darkbox" px="3" py="2" roundedTop="md">
-                <Text fontSize="lg">General information</Text>
+            <Box mb="4" w="100%" bg="primary.darkbox" px="6" py="1" roundedTop="md">
+                <Text fontSize="16px" fontWeight={500}>General information</Text>
             </Box>
 
             {settings?.map((setting: Setting, index: number) => (
                 <VStack alignItems={"center"} w="100%" key={index}>
                     {setting?.name === 'initial' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.initial}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.initial}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.initial}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -320,12 +321,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'password' && setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1  && event?.attendee_settings?.create_profile == 1 && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.password}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.password}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={'********'}
                                     type='password'
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -337,12 +339,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'first_name' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.first_name}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.first_name}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.first_name}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -354,12 +357,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'last_name' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.last_name}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.last_name}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.last_name}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -371,12 +375,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'bio_info' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.about}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.about}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -388,12 +393,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'age' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.age}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.age}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.age}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -405,12 +411,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'first_name_passport' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.FIRST_NAME_PASSPORT}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.FIRST_NAME_PASSPORT}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.FIRST_NAME_PASSPORT}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -422,12 +429,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'last_name_passport' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.LAST_NAME_PASSPORT}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.LAST_NAME_PASSPORT}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.LAST_NAME_PASSPORT}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -439,12 +447,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'place_of_birth' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.place_of_birth}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.place_of_birth}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.place_of_birth}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -456,12 +465,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'passport_no' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.passport_no}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.passport_no}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.passport_no}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -473,12 +483,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'company_name' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.company_name}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.company_name}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.company_name}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -490,12 +501,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'title' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.title}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.title}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.title}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -507,12 +519,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'organization' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.organization}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.organization}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.organization}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -524,12 +537,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'department' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.department}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.department}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.department}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -541,12 +555,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'show_industry' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.industry}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.industry}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.industry}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -558,12 +573,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'show_job_tasks' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.jobs}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.jobs}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.jobs}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -575,12 +591,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'interest' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.interests}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.interests}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.interests}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -592,12 +609,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'network_group' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.network_group}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.network_group}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.network_group}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -609,12 +627,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'delegate_number' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.delegate}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.delegate}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.delegate}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -626,12 +645,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'table_number' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.table_number}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.table_number}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.table_number}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -643,12 +663,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'pa_street' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_street}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.private_street}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.private_street}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -660,12 +681,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'pa_house_no' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_house_number}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.private_house_number}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.private_house_number}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -677,12 +699,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'pa_post_code' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_post_code}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.private_post_code}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.private_post_code}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -694,12 +717,13 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'pa_city' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_city}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.private_city}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.private_city}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     onChangeText={(answer) => {
@@ -711,11 +735,12 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'pa_country' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.private_country}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.private_country}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
+															<View w={'100%'}>
                                 <Select
                                     placeholder="Please Select"
                                     minWidth="64"
@@ -726,16 +751,19 @@ const Selectstyles2 = {
                                 >
                                     {countries.map((answer, key) => (<Select.Item key={key} label={answer.name} value={`${answer.id}`} />))}
                                 </Select>
+															</View>
+															
                             </Center>
                         </HStack>
                     )}
                     {setting?.name === 'email' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.email}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.email}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
+																		h={'50px'}
                                     placeholder={labels?.email}
                                     isReadOnly={true}
                                     onChangeText={(answer) => {
@@ -747,9 +775,9 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'gender' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.gender}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.gender}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                     
@@ -764,9 +792,9 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'birth_date' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.BIRTHDAY_YEAR}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.BIRTHDAY_YEAR}</Text>
                             </Center>
                             <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                 <DateTimePicker
@@ -782,9 +810,9 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'date_of_issue_passport' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.date_of_issue_passport}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.date_of_issue_passport}</Text>
                             </Center>
                             <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                 <DateTimePicker
@@ -800,9 +828,9 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'date_of_expiry_passport' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.date_of_expiry_passport}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.date_of_expiry_passport}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <DateTimePicker
@@ -817,9 +845,9 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'employment_date' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.EMPLOYMENT_DATE}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.EMPLOYMENT_DATE}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <DateTimePicker
@@ -834,11 +862,12 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'country' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.country}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.country}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
+															<View w={'100%'}>
                                 <Select
                                     placeholder="Please Select"
                                     minWidth="64"
@@ -850,13 +879,14 @@ const Selectstyles2 = {
                                 >
                                     {countries.map((answer, key) => (<Select.Item key={key} label={answer.name} value={`${answer.id}`} />))}
                                 </Select>
+															</View>
                             </Center>
                         </HStack>
                     )}
                     {setting?.name === 'spoken_languages' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.SPOKEN_LANGUAGE}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.SPOKEN_LANGUAGE}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                             <DropDown
@@ -881,9 +911,9 @@ const Selectstyles2 = {
 
                     {setting?.name === 'show_custom_field' && (
                       customFields.map((question, i)=>(
-                        <HStack mb="3" key={i} alignItems="flex-start" px="3" flexDirection={['column', 'row']} zIndex={100 - i} w="100%">
+                        <HStack mb="3" key={i} alignItems="flex-start" px="6" flexDirection={['column', 'row']} zIndex={100 - i} w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{question?.name}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{question?.name}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                             <ReactSelect
@@ -910,9 +940,9 @@ const Selectstyles2 = {
                       ))
                     )}
                     {setting?.name === 'phone' && (
-                        <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" w="225px">
-                                <Text isTruncated fontWeight="500" fontSize="lg">{labels?.phone}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.phone}</Text>
                             </Center>
                             <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                 <HStack w="100%">
@@ -929,6 +959,7 @@ const Selectstyles2 = {
                                     </Center>
                                     <Center pl="2" w="calc(100% - 100px)">
                                         <Input w="100%"
+																						h={'50px'}
                                             h="50px"
                                             placeholder={labels?.phone}
                                             isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -947,7 +978,7 @@ const Selectstyles2 = {
                                 
                                     <HStack mb="0" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
                                         <Center alignItems="flex-start" w="225px">
-                                            <Text isTruncated fontWeight="500" fontSize="lg">Profile picture</Text>
+                                            <Text isTruncated fontWeight="500" fontSize="16px">Profile picture</Text>
                                         </Center>
                                         <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                             <HStack w="100%">
@@ -993,11 +1024,11 @@ const Selectstyles2 = {
                             </HStack>
                     )}
                     {setting?.name === 'resume' && (
-                            <HStack mb="3" alignItems="start" px="3"  w="100%" >
+                            <HStack mb="3" alignItems="start" px="6"  w="100%" >
                             
                                 <HStack mb="3" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
                                     <Center alignItems="flex-start" width={'225px'} maxW="225px">
-                                        <Text isTruncated fontWeight="500" fontSize="lg">Resume</Text>
+                                        <Text isTruncated fontWeight="500" fontSize="16px">Resume</Text>
                                     </Center>
                                     <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                         <HStack w="100%">
@@ -1055,10 +1086,10 @@ const Selectstyles2 = {
                     )}
                 </VStack>
             ))}
-            <Box mb="4" w="100%" bg="primary.darkbox" px="3" py="1" >
-                <Text fontSize="lg">Contact information</Text>
+            <Box mb="4" w="100%" bg="primary.darkbox" px="6" py="1" >
+                <Text fontSize="16px" fontWeight={500}>Contact information</Text>
             </Box>
-            {attendee_feild_settings?.website === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.website === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'}  />
                 </Center>
@@ -1075,7 +1106,7 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.facebook === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.facebook === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'}  />
                 </Center>
@@ -1092,7 +1123,7 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.twitter === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.twitter === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-twitter" size={'lg'}  />
                 </Center>
@@ -1109,7 +1140,7 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.linkedin === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="3"  w="100%">
+            {attendee_feild_settings?.linkedin === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'}  />
                 </Center>
@@ -1126,28 +1157,29 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {<HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
-							 <Center alignItems="flex-start" w="225px">
-                </Center>
+            {<HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                     <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
                         updateAttendeeFeild('gdpr', isSelected);
                     }} size="md"   >GDPR</Checkbox>
                 </Center>
             </HStack>}
-            <HStack mb="3" alignItems="flex-start" px="3" flexDirection={['column', 'row']}  w="100%">
+            <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                 <Button
                     minW={225}
-                    py="5"
+                    py="2"
                     px="5"
                     mx={'auto'}
-                    leftIcon={<IcoLongArrow />}
+										shadow={3}
                     colorScheme="primary"
                     isLoading={updatingAttendee}
                     onPress={() => {
                         updateAttendeeData();
                     }}
-                />
+                >
+									<Text fontSize="2xl" fontWeight={600}>SAVE</Text>
+									
+								</Button>
             </HStack>
         </Container>
     )
