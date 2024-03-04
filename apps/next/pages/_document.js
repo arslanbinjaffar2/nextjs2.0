@@ -216,7 +216,7 @@ body {
 }
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
-}
+} 
 `;
 
 export async function getInitialProps({ renderPage }) {
