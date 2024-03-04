@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Alert } from 'application/models/alert/Alert'
+import { Alert, AlertSetting } from 'application/models/alert/Alert'
 
 import { RootState } from 'application/store/Index'
 
@@ -11,13 +11,13 @@ import {
 export interface AlertState {
     alerts: Alert[],
     attendee_alerts: "" | number[],
-    alert_setting: "" | number[],
+    alert_setting: null | AlertSetting[],
 }
 
 const initialState: AlertState = {
     alerts: [],
     attendee_alerts: [],
-    alert_setting: []
+    alert_setting: null
 }
 
 // Slice
@@ -26,9 +26,10 @@ export const AlertSlice = createSlice({
     initialState,
     reducers: {
         FetchAlerts() {},
-        update(state, action: PayloadAction<{ alerts: Alert[], attendee_alerts:"" | number[] }>) {
+        update(state, action: PayloadAction<{ alerts: Alert[], attendee_alerts:"" | number[], alert_settings: null | AlertSetting[] }>) {
             state.alerts = action.payload.alerts;
             state.attendee_alerts = action.payload.attendee_alerts;
+            state.alert_setting = action.payload.alert_settings;
         },
         markAlertRead(state, action: PayloadAction<{ alertIds: string,}>) {}
     },

@@ -7,14 +7,14 @@ import {
     SelectAlertSetting
 } from 'application/store/slices/Alert.Slice'
 
-import {  Alert } from 'application/models/alert/Alert'
+import {  Alert, AlertSetting } from 'application/models/alert/Alert'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type AlertServiceOperators = {
     alerts: Alert[],
     attendee_alerts: "" | number[],
-    alert_setting: "" | number[],
+    alert_setting: null | AlertSetting[],
     FetchAlerts: () => void,
     markAlertRead: (payload:{alertIds:string}) => void,
 }

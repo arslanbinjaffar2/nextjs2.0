@@ -6,7 +6,6 @@ export interface RootObject {
 export interface Alert {
   id: number;
   event_id: number;
-  show_app_dashboard: any;
   pre_schedule: number;
   alert_date: string;
   alert_time: string;
@@ -19,6 +18,12 @@ export interface Alert {
   deleted_at: string;
   alert_detail: Alertdetail;
   display_alert_date: string;
+}
+
+export interface AlertSetting {
+  id: number;
+  event_id: number;
+  display_in_dashboard: number;
 }
 
 export interface Alertdetail {
