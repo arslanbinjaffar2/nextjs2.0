@@ -6,6 +6,7 @@ export interface RootObject {
 export interface Alert {
   id: number;
   event_id: number;
+  show_app_dashboard: any;
   pre_schedule: number;
   alert_date: string;
   alert_time: string;

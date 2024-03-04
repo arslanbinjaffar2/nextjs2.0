@@ -139,7 +139,9 @@ const Index = ({ navigation }: indexProps) => {
                     <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
                     <Spacer />
                   </HStack>
-                  {alerts.length > 0 ? (
+                  {console.log(alerts.show_app_dashboard[0]['display_in_dashboard'])}
+
+                  {alert?.display_in_dashboard === 1 && alerts.length > 0 ? (
                     <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                       {alerts.map((alert:Alert, i:Number)=>(
 
