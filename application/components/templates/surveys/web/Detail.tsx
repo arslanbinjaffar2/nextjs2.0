@@ -257,7 +257,7 @@ const Detail = () => {
                <Text mb={1} textBreakStrategy='simple' w={'100%'} textAlign={'center'} fontSize="2xl">{detail?.info.name}</Text>
               {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
                 { detail?.questions.map((item, key)=>(
-                    <Box key={key} bg={steps >= key ? 'primary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />
+                    <Box key={key} bg={steps >= key ? 'secondary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />
                 ))}
               </HStack>}
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
