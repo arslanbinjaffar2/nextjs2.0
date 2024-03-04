@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, HStack, Icon, Image, Pressable, Spacer, Text, VStack } from 'native-base'
+import {Avatar, Box, HStack, Icon, Image, Pressable, Spacer, Text, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'application/assets/icons/Icoribbon'
 import { Attendee } from 'application/models/attendee/Attendee'
@@ -29,6 +29,18 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   const { push } = useRouter()
 
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
+
+  const [isFav, setIsFav] = React.useState<boolean>(false);
+
+  React.useMemo(() => {
+    setIsFav(attendee?.favourite == 1 ? true : false)
+  }, [attendee?.favourite])
+
+  function toggleFav(){
+    setIsFav(!isFav);
+    MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
+  }
+
 
   return (
     <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.bordercolor" py="3">
@@ -87,10 +99,8 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               <HStack space="4" alignItems="center">
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
-                  onPress={() => {
-                    MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
-                  }}>
-                  <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.primary_color : ''} />
+                  onPress={() => toggleFav()}>
+                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
                 </Pressable>
                 )}
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />

@@ -110,6 +110,20 @@ export const AttendeeSlice = createSlice({
             state.groups = action.payload.page === 1 ? action.payload.groups : [...existed, ...action.payload.groups];
         },
         MakeFavourite(state, action: PayloadAction<{ attendee_id: number, screen: string }>) { },
+        UpdateFavourite(state, action: PayloadAction<{ attendee_id: number, screen:string}>) { 
+            if(action.payload.screen === "listing"){
+                let attendees = state.attendees;
+                let attendee = attendees.find((attendee: Attendee) => attendee.id === action.payload.attendee_id);
+                if(attendee){
+                    attendee.favourite = attendee.favourite === 1 ? 0 : 1;
+                }
+                state.attendees = attendees;
+            }else{
+                let detail = state.detail;
+                detail.is_favourite = detail.is_favourite === 1 ? 0 : 1;
+                state.detail = detail;
+            }
+         },
         FetchAttendeeDetail(state, action: PayloadAction<{ id: number, speaker: number }>) { },
         UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
@@ -147,6 +161,7 @@ export const AttendeeActions = {
     Update: AttendeeSlice.actions.Update,
     UpdateGroups: AttendeeSlice.actions.UpdateGroups,
     MakeFavourite: AttendeeSlice.actions.MakeFavourite,
+    UpdateFavourite: AttendeeSlice.actions.UpdateFavourite,
     FetchAttendeeDetail: AttendeeSlice.actions.FetchAttendeeDetail,
     UpdateDetail: AttendeeSlice.actions.UpdateDetail,
     UpdateCategory: AttendeeSlice.actions.UpdateCategory,
