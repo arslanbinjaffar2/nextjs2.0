@@ -22,34 +22,35 @@ const RectangleView = ({ k, attendee }: AppProps) => {
     const { event } = UseEventService()
 
     return (
-        <HStack key={`item-${k}`} py="3" px="2" space="4" alignItems="center" borderBottomWidth={k === 2 ? 0 : 1} borderColor="primary.bordercolor">
-            {attendee.image ? (
-                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="" w="50px" h="50px" rounded={30} />
-            ) : (
-                <Image source={UserPlaceholderImage} alt="" w="50px" h="50px" rounded={30} />
-            )}
-            <VStack space="0">
-                {(attendee?.first_name || attendee?.last_name) && (
-                    <Text fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
+        <Pressable  onPress={() => {
+            push(`/${event.url}/attendees/detail/${attendee.id}`)
+        }}>
+            <HStack key={`item-${k}`} py="3" px="2" space="4" alignItems="center" borderBottomWidth={k === 2 ? 0 : 1} borderColor="primary.bordercolor">
+                {attendee.image ? (
+                    <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="" w="50px" h="50px" rounded={30} />
+                ) : (
+                    <Image source={UserPlaceholderImage} alt="" w="50px" h="50px" rounded={30} />
                 )}
-                {(attendee?.info?.company_name || attendee?.info?.title) && (
-                    <Text fontSize="lg">
-                        {`${attendee?.info?.company_name}`}
-                        {attendee?.info?.title && (
-                            <>
-                                {` - ${attendee?.info?.title}`}
-                            </>
-                        )}
-                    </Text>
-                )}
-            </VStack>
-            <Spacer />
-            <Pressable  onPress={() => {
-                    push(`/${event.url}/attendees/detail/${attendee.id}`)
-                }}>
+                <VStack space="0">
+                    {(attendee?.first_name || attendee?.last_name) && (
+                        <Text fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
+                    )}
+                    {(attendee?.info?.company_name || attendee?.info?.title) && (
+                        <Text fontSize="lg">
+                            {`${attendee?.info?.company_name}`}
+                            {attendee?.info?.title && (
+                                <>
+                                    {` - ${attendee?.info?.title}`}
+                                </>
+                            )}
+                        </Text>
+                    )}
+                </VStack>
+                <Spacer />
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
-            </Pressable>
-        </HStack>
+            </HStack>
+        </Pressable>
+        
     )
 }
 
