@@ -114,9 +114,9 @@ const Index = () => {
                     <WebLoading />
                 ):(
                     <Container pt="2" maxW="100%" w="100%">
-                        <HStack mb="3" pt="2" w="100%" space="0" alignItems="center">
-                            <Text display={['none','']} textTransform="uppercase" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Text>
-                            <Spacer display={['none','']}  />
+                        <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="0" alignItems="center">
+                            <Text textTransform="uppercase" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Text>
+                            <Spacer   />
                             <Input rounded="10" w={['100%',"60%"]} bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">

@@ -111,7 +111,7 @@ const Detail = React.memo(() => {
                                     <Icodocument width="15px" height="18px" />
                                     <Text fontSize="lg">Documents</Text>
                                 </HStack>
-                                <Box p={2} >
+                                <Box w={'100%'}>
                                     {in_array('documents', processing) ? (
                                                 <SectionLoading />
                                             ) : (
@@ -124,54 +124,8 @@ const Detail = React.memo(() => {
 
                                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="" w="700px" h="100px" rounded={10} />
                             )}
-                        {/* <Container mb="3" maxW="100%" w="100%">
-                            <Text mb="3" fontSize="lg" textTransform="uppercase">Available Survey</Text>
-                            <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
-                                <Box py="3" px="4" w="100%">
-                                    <Text mb="3" fontSize="lg">Tillykke med valget som tilli…</Text>
-                                    <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
-                                        <Box bg="primary.500" h="22px" w="33.33%" />
-                                        <Box borderLeftWidth="1" borderRightWidth="1" borderColor="primary.bdBox" bg="primary.500" h="22px" w="33.33%" />
-                                        <Box bg="transparent" h="22px" w="33.33%" />
-                                    </HStack>
-                                </Box>
-                                <MultipleAnswer req={true} title="What types of workouts will I be doing on DAMY Programs? Does it include cardio and weights?" />
-                                <Box py="0" px="4" w="100%">
-                                    <Divider mb="15" opacity={0.27} bg="primary.text" />
-                                    <HStack mb="3" space="3" alignItems="center">
-                                        <Button
-                                            bg="transparent"
-                                            p="2"
-                                            textTransform={'uppercase'}
-                                            fontSize="lg"
-                                            leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
-                                            colorScheme="primary"
-                                            onPress={() => {
-                                                console.log('hello')
-                                            }}
-                                        >
-                                            previous
-                                        </Button>
-                                        <Spacer />
-                                        <Button
-                                            bg="transparent"
-                                            p="2"
-                                            textTransform={'uppercase'}
-                                            fontSize="lg"
-                                            rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
-                                            colorScheme="primary"
-                                            onPress={() => {
-                                                console.log('hello')
-                                            }}
-                                        >
-                                            next
-                                        </Button>
-                                    </HStack>
-                                </Box>
-                            </Box>
-                        </Container> */}
                     </Container>
-                    <Box width={"100%"} height={"5%"}>
+                    <Box width={"100%"}>
                         {filteredBanners.map((banner, k) =>
                           <Image
                             key={k}

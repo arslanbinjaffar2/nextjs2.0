@@ -39,7 +39,7 @@ const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer, error
           h="100px"
           bg={'primary.darkbox'}
           isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
-          borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
+          borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
       </Box>
     </Center>
   )

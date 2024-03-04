@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Center, HStack, Pressable, Text } from 'native-base';
+import { Center, HStack, Pressable, Text, VStack } from 'native-base';
 
 import { useWindowDimensions } from 'react-native';
 
@@ -20,7 +20,7 @@ const LeftBarProfile = () => {
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
-      <Center px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
+      <VStack space={1} px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
         {setting_modules?.map((row: any, key: any) =>
           <Pressable
             key={key}
@@ -41,7 +41,7 @@ const LeftBarProfile = () => {
             </HStack>
           </Pressable>
         )}
-      </Center>
+      </VStack>
     </Center>
   );
 

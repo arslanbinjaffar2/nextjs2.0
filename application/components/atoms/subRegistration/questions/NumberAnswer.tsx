@@ -43,7 +43,7 @@ const NumberAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
             bg={'primary.darkbox'}
             isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
             onChangeText={(text) => updateFormData(question.id, 'comment', text)}
-            borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
+            borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
         </Box>
         </>
       }

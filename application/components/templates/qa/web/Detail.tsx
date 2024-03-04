@@ -171,7 +171,7 @@ const Detail = () => {
                         </HStack>
                     </Pressable>
                 </HStack>
-                <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" borderBottomWidth={1} borderColor="primary.bdBox">
+                <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" >
                 <Box w="100%"  py="3">
                     <HStack width={"100%"} pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                         <Box position="absolute" left="0" top="0" w="15px">
@@ -253,7 +253,7 @@ const Detail = () => {
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
                     <Box w="100%" px="3">
-                        <TextArea rounded={8} bg="primary.box" value={question} onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%" borderColor={'transparent'} minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
+                        <TextArea rounded={8} bg="primary.darkbox" borderWidth={1} borderColor={'primary.darkbox'} value={question} onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%"  minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
 
                     </Box>
                     
