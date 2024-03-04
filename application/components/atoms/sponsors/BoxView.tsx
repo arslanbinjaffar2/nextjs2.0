@@ -70,7 +70,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
                                 bg="transparent"
                                 p="1"
                                 rounded={'full'}
-                                _hover={{ bg: 'primary.500' }}
+                               _hover={{ bg: 'transparent', _icon: { color: !isFav ? "secondary.500" : "primary.text",name: !isFav ? 'heart' : 'heart-outline' } }}
                                 icon={<Icon size="md" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? "secondary.500" : "primary.text"} />}
                                 onPress={() => {
                                     toggleFav();

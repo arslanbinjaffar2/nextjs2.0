@@ -110,8 +110,8 @@ const RectangleView = ({ border, exhibitor }: AppProps) => {
                                     bg="transparent"
                                     p="1"
 																		rounded={'full'}
-                                    _hover={{ bg: 'primary.500' }}
-                                    icon={<Icon size="xl" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
+                                   _hover={{ bg: 'transparent', _icon: { color: exhibitor.attendee_exhibitors.length > 0 ? "primary.text" : "secondary.500",name:  exhibitor.attendee_exhibitors.length > 0  ? 'heart-outline' : 'heart' } }}
+                                    icon={<Icon size="xl" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color={exhibitor.attendee_exhibitors.length > 0 ? "secondary.500" :"primary.text" }/>}
                                     onPress={() => {
                                         MakeFavourite({ exhibitor_id: exhibitor.id, screen: 'listing' });
                                     }}
