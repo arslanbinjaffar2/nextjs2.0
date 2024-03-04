@@ -177,10 +177,10 @@ const Index = ({ speaker, screen }: Props) => {
     }, []);
     return (
         <>
-            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+            <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text fontSize="2xl">{speaker === 0 ? 'ATTENDEES' : 'SPEAKERS'}</Text>
                 <Spacer />
-                <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
