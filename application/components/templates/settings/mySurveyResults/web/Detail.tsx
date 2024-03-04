@@ -46,7 +46,7 @@ const Detail = () => {
 
   const { response  } = UseAuthService();
 
-  const { push } = useRouter()
+  const { push, back } = useRouter()
 
   const { FetchMySurveyResultDetail, mySurveyResultDetail, mySurveyResultScore } = UseSurveyService();
 
@@ -64,10 +64,18 @@ const Detail = () => {
                 <WebLoading />
             ) : (
             <Container mb="3" maxW="100%" w="100%">
+              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                <Pressable onPress={()=> back()}>
+                  <HStack space="3" alignItems="center">
+                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+                        <Text fontSize="2xl">BACK</Text>
+                  </HStack>
+                </Pressable>
+                <Spacer />
+                <Text isTruncated  fontSize="xl">{`${mySurveyResultScore}/${mySurveyResultDetail?.question.length} Points(s)`}</Text>
+              </HStack>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
-                <Text isTruncated pr="6" fontSize="2xl">{mySurveyResultDetail?.info?.name}</Text>
-                <Text isTruncated pr="6" fontSize="2xl">{`${mySurveyResultScore}/${mySurveyResultDetail?.question.length} Points(s)`}</Text>
-
+                <Text textAlign={'center'} w={'100%'} fontSize="2xl">{mySurveyResultDetail?.info?.name}</Text>
               </HStack>
               <Box w="100%" >
                 {mySurveyResultDetail && mySurveyResultDetail?.question.length > 0 && mySurveyResultDetail.question.map((question, i) => (

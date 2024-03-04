@@ -33,7 +33,7 @@ const RectangleView = ({ k, category, updateTab }: AppProps) => {
         [searchParams]
     )
     return (
-        <Box w="100%" key={k} borderBottomWidth={1} borderColor="primary.bordercolor" py="3">
+        <Box w="100%" key={k} borderTopWidth={k === 0 ? 0 : 1}  borderColor="primary.bordercolor" py="3">
             <Pressable
                 onPress={() => {
                     if(category.exhibitors.length > 0){

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, ScrollView, Text, TextArea, VStack } from 'native-base';
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
 import { Platform } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
@@ -20,7 +20,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.required_question == '1' && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>} {question?.info?.[0]?.value}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
-        <ScrollView w="100%" pb="5" showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
+        <ScrollView w={["320","100%"]} pb="5" showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
           <Box position="relative" w="100%" rounded="lg">
           <HStack space="1" alignItems="center" pb="3">
             <Center zIndex={9} position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1" height="20px"></Center>
@@ -58,11 +58,11 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
               <Text color="red.900"> {error} </Text>
       </Box>}
       
-      <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-        <Icodocument width="15px" height="18px" />
+      <HStack px="3" py="1" mb={1} bg="primary.darkbox" w="100%" space="3" alignItems="center">
+        <Icowritecomment width="15px" height="18px" />
         <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
       </HStack>
-      <Box py="3" px="4" w="100%">
+      <Box py="3" px="4" pb={0} w="100%">
         <TextArea
           p="3"
           mb={1}
