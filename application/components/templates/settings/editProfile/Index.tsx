@@ -312,6 +312,7 @@ const Selectstyles2 = {
 																		h={'50px'}
                                     placeholder={labels?.initial}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('initial', answer);
                                     }}
@@ -331,6 +332,7 @@ const Selectstyles2 = {
                                     placeholder={'********'}
                                     type='password'
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('password', answer);
                                     }}
@@ -348,6 +350,7 @@ const Selectstyles2 = {
 																		h={'50px'}
                                     placeholder={labels?.first_name}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('first_name', answer);
                                     }}
@@ -366,6 +369,7 @@ const Selectstyles2 = {
 																		h={'50px'}
                                     placeholder={labels?.last_name}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('last_name', answer);
                                     }}
@@ -381,9 +385,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+                                    h={'50px'}
                                     placeholder={labels?.about}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('about', answer);
                                     }}
@@ -399,9 +404,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.age}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('age', answer);
                                     }}
@@ -417,9 +423,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.FIRST_NAME_PASSPORT}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('FIRST_NAME_PASSPORT', answer);
                                     }}
@@ -435,9 +442,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+                                    h={'50px'}
                                     placeholder={labels?.LAST_NAME_PASSPORT}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('LAST_NAME_PASSPORT', answer);
                                     }}
@@ -453,9 +461,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.place_of_birth}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('place_of_birth', answer);
                                     }}
@@ -471,9 +480,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+                                    h={'50px'}
                                     placeholder={labels?.passport_no}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('passport_no', answer);
                                     }}
@@ -489,9 +499,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.company_name}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('company_name', answer);
                                     }}
@@ -507,9 +518,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.title}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('title', answer);
                                     }}
@@ -525,9 +537,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.organization}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('organization', answer);
                                     }}
@@ -543,9 +556,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.department}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('department', answer);
                                     }}
@@ -561,9 +575,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.industry}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('industry', answer);
                                     }}
@@ -579,9 +594,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.jobs}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('jobs', answer);
                                     }}
@@ -597,9 +613,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.interests}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('interests', answer);
                                     }}
@@ -615,9 +632,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.network_group}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('network_group', answer);
                                     }}
@@ -633,9 +651,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.delegate}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('delegate_number', answer);
                                     }}
@@ -651,9 +670,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.table_number}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('table_number', answer);
                                     }}
@@ -669,9 +689,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.private_street}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_street', answer);
                                     }}
@@ -687,9 +708,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.private_house_number}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_house_number', answer);
                                     }}
@@ -705,9 +727,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.private_post_code}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_post_code', answer);
                                     }}
@@ -723,9 +746,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.private_city}
                                     isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_city', answer);
                                     }}
@@ -746,6 +770,7 @@ const Selectstyles2 = {
                                     minWidth="64"
                                     h="50px"
                                     isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     selectedValue={attendeeData?.info?.private_country}
                                     onValueChange={answer => updateInfoSelect({ answer, name: "private_country" })}
                                 >
@@ -763,9 +788,10 @@ const Selectstyles2 = {
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
-																		h={'50px'}
+									h={'50px'}
                                     placeholder={labels?.email}
                                     isReadOnly={true}
+                                    opacity={'0.5'}
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('email', answer);
                                     }}
@@ -783,8 +809,14 @@ const Selectstyles2 = {
                                     
                                 <Radio.Group space="5"   value={gender} name="MyRadioGroup" onChange={(gender) => { setGender(gender); }}>
                                     <HStack space="3" alignItems="center">
-                                        <Radio  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'male'}> Male </Radio>
-                                        <Radio  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} value={'female'}> Female </Radio>
+                                        <Radio  
+                                        isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} 
+                                        value={'male'} 
+                                        opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> Male </Radio>
+                                        <Radio  
+                                        isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} 
+                                        value={'female'}
+                                        opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> Female </Radio>
                                     </HStack>
 
                                 </Radio.Group>
@@ -867,13 +899,14 @@ const Selectstyles2 = {
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.country}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
-															<View w={'100%'}>
+							<View w={'100%'}>
                                 <Select
                                     placeholder="Please Select"
                                     minWidth="64"
                                     w="100%"
                                     h="50px"
                                     isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     selectedValue={attendeeData?.info?.country}
                                     onValueChange={answer => updateInfoSelect({ answer, name: "country" })}
                                 >
@@ -894,6 +927,7 @@ const Selectstyles2 = {
                                 listitems={languages}
                                 required={false}
                                 isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                 isMulti={true}
                                 selected={
                                     attendeeData.SPOKEN_LANGUAGE &&
@@ -919,6 +953,7 @@ const Selectstyles2 = {
                             <ReactSelect
                                 styles={Selectstyles2}
                                 isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                 placeholder={question.name}
                                 components={{ IndicatorSeparator: null }}
                                 options={question.children_recursive.map((item:any, index:number) => {
@@ -952,6 +987,7 @@ const Selectstyles2 = {
                                             w={'100%'}
                                             h="50px"
                                             isDisabled={setting?.is_editable === 1 ? false : true}
+                                            opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                             selectedValue={attendeeData?.callingCode}
                                             onValueChange={answer => updateInfoSelect({ answer, name: "phone" })}>
                                             {callingCodes.map((answer, key) => (<Select.Item key={key} label={answer.name} value={`${answer.id}`} />))}
@@ -962,6 +998,7 @@ const Selectstyles2 = {
 											h={'50px'}
                                             placeholder={labels?.phone}
                                             isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                            opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                             onChangeText={(answer) => {
                                                 updateAttendeeFeild('phone', answer);
                                             }}
@@ -1083,21 +1120,18 @@ const Selectstyles2 = {
                                 </HStack>
                             </HStack>
                     )}
-                </VStack>
-            ))}
-            <Box mb="4" w="100%" bg="primary.darkbox" px="6" py="1" >
-                <Text fontSize="16px" fontWeight={500}>Contact information</Text>
-            </Box>
-            {attendee_feild_settings?.website === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
+
+                {setting?.name === 'website' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
                         placeholder={"Website"}
-                        isReadOnly={true}
-												bg={'transparent'}
-												borderWidth={0}
+                        isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                        opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
+                        bg={'transparent'}
+                        borderWidth={0}
                         onChangeText={(answer) => {
                             updateAttendeeInfoFeild('website', answer);
                         }}
@@ -1105,16 +1139,17 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.facebook === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
+            {setting?.name === 'facebook' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
                         placeholder={"Facebook"}
-                        isReadOnly={true}
-												bg={'transparent'}
-												borderWidth={0}
+                        isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                        opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
+                        bg={'transparent'}
+                        borderWidth={0}
                         onChangeText={(answer) => {
                             updateAttendeeInfoFeild('facebook', answer);
                         }}
@@ -1122,16 +1157,17 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.twitter === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
+            {setting?.name === 'twitter' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-twitter" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
                         placeholder={"Twitter"}
-                        isReadOnly={true}
-												bg={'transparent'}
-												borderWidth={0}
+                        isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                        opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
+                        bg={'transparent'}
+                        borderWidth={0}
                         onChangeText={(answer) => {
                             updateAttendeeInfoFeild('twitter', answer);
                         }}
@@ -1139,16 +1175,17 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {attendee_feild_settings?.linkedin === 1 && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
+            {setting?.name === 'linkedin' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
                 <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
                         placeholder={"LinkedIn"}
-                        isReadOnly={true}
-												bg={'transparent'}
-												borderWidth={0}
+                        isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                        opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
+                        bg={'transparent'}
+                        borderWidth={0}
                         onChangeText={(answer) => {
                             updateAttendeeInfoFeild('linkedin', answer);
                         }}
@@ -1156,11 +1193,17 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
+                </VStack>
+            ))}
+            {/* <Box mb="4" w="100%" bg="primary.darkbox" px="6" py="1" >
+                <Text fontSize="16px" fontWeight={500}>Contact information</Text>
+            </Box> */}
+            
             {<HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                     <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
                         updateAttendeeFeild('gdpr', isSelected);
-                    }} size="md"   >GDPR</Checkbox>
+                    }} size="md">GDPR</Checkbox>
                 </Center>
             </HStack>}
             <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
@@ -1169,16 +1212,15 @@ const Selectstyles2 = {
                     py="2"
                     px="5"
                     mx={'auto'}
-										shadow={3}
+					shadow={3}
                     colorScheme="primary"
                     isLoading={updatingAttendee}
                     onPress={() => {
                         updateAttendeeData();
                     }}
                 >
-									<Text fontSize="2xl" fontWeight={600}>SAVE</Text>
-									
-								</Button>
+                    <Text fontSize="2xl" fontWeight={600}>SAVE</Text>
+                </Button>
             </HStack>
         </Container>
     )

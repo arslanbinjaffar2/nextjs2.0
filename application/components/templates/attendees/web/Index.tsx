@@ -83,17 +83,17 @@ const Index = ({ speaker, screen }: Props) => {
 
     useEffect(() => {
         if (mounted.current) {
-            if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
+            if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) { console.log('call 1')
                 FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }
     }, [scroll]);
 
     useEffect(() => {
-        if (mounted.current) {
+        if (mounted.current) { 
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0, program_id: 0 });
-            } else if (in_array(tab, ['attendee', 'my-attendee', 'category-attendee'])) {
+            } else if (in_array(tab, ['attendee', 'my-attendee', 'category-attendee'])) { console.log('call 2')
                 FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             } else if (in_array(tab, ['category'])) {
                 FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
@@ -112,10 +112,13 @@ const Index = ({ speaker, screen }: Props) => {
 
     useEffect(() => {
         if (slug !== undefined && slug.length === 1) { // Group attendees by slug
-            setTab('group-attendee');
+            setTab('group-attendee'); console.log('call 3')
             FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
+        } else if ((slug === undefined || slug.length === 0) && tab === 'attendee' && screen === "my-attendees") {
+            setTab('attendee'); console.log('call 4')
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: response?.data?.user?.id , speaker: 0, category_id: 0, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
         } else if ((slug === undefined || slug.length === 0) && tab === 'attendee') {
-            setTab('attendee');
+            setTab('attendee'); console.log('call 4')
             FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
         } else if ((slug === undefined || slug.length === 0) && tab === 'category') {
             setTab('category');
@@ -146,7 +149,7 @@ const Index = ({ speaker, screen }: Props) => {
         return debounce(function (query: string, tab:string) {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: group_id, page: 1, attendee_id: 0, program_id: 0 });
-            } else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
+            } else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {console.log('call 5')
                 FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }, 1000);
@@ -156,7 +159,7 @@ const Index = ({ speaker, screen }: Props) => {
         setSearch(query);
     }, [query]);
 
-    React.useEffect(() => {
+    React.useEffect(() => { 
         if (screen === 'my-attendees') {
             setTab('my-attendee');
         }

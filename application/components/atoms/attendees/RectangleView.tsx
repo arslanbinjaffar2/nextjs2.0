@@ -97,7 +97,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   onPress={() => {
                     MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
                   }}>
-                  <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.primary_color : ''} />
+                  <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.secondary_color : ''} />
                 </Pressable>
                 )}
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
