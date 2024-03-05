@@ -13,12 +13,13 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useEffect } from 'react'
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseSponsorService from 'application/store/services/UseSponsorService'
+import id from 'next-app/pages/[event]/qa/detail/[id]'
 
-// const { sponsors, FetchSponsorContact } = UseSponsorService();
+const { sponsors, FetchSponsorContact } = UseSponsorService();
 
-// useEffect(React.useCallback(() => {
-//   FetchSponsorContact();
-// }, []);
+React.useEffect(() => {
+  FetchSponsorContact({ id: Number((id !== null) ? id : 0), query: '', screen: 'sponsors' });
+}, []);
 const RightBar = () => {
   const nextRouter = UseNextRouter();
   const { event } = UseEventService()

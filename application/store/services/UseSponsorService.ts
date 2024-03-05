@@ -25,7 +25,7 @@ export type SponsorServiceOperators = {
     query: string
     FetchSponsors: (payload: { category_id: number, query: string, screen: string }) => void
     FetchMySponsors: (payload: { }) => void
-    FetchSponsorContact: (payload: {id:number }) => void
+    FetchSponsorContact: (payload: { query: string; screen: string; id: number }) => void
     FetchOurSponsors: () => void
     FetchSponsorDetail: (payload: { id: number }) => void
     MakeFavourite: (payload: { sponsor_id: number, screen: string }) => void
