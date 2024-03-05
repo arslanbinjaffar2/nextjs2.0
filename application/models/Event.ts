@@ -76,6 +76,7 @@ export interface Event {
     exhibitor_settings?: ExhibitorSettings
     eventsite_settings?: EventSiteSettings
     keyword_settings?: KeywordSettings
+    document_settings?: DocumentSettings
 }
 interface Setting {
     poll_setting?: string;
@@ -607,4 +608,8 @@ export interface EventSiteSettings {
 
 export interface KeywordSettings{
   show_after_login: number;
+}
+
+export interface DocumentSettings{
+  show_documents_notes: number;
 }

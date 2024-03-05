@@ -70,12 +70,14 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                     </VStack>
                                     <Spacer />
                                     <HStack  space="3" alignItems="center" justifyContent={'flex-end'}>
+                                    {event.document_settings?.show_documents_notes == 1 && 
                                     <Pressable
                                         onPress={async () => {
                                             setIsNotesOpen(true);
                                         }}>
                                         <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
                                     </Pressable>
+                                    }
                                     <Pressable
                                         onPress={async () => {
                                             const url: any = document.s3 ? `${document.s3_url}` : `${_env.eventcenter_base_url}/assets/directory/${document.path}`;
