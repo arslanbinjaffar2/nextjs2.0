@@ -297,14 +297,14 @@ const Detail = () => {
               {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
                 {afterLogin?.questions?.question.length! > 0 &&  afterLogin?.questions?.question.map((item, index)=>(
                     <React.Fragment key={item.id}>
-                    {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer id={item.id} onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
-                    {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer id={item.id} onsubmit={submitcount} settings={afterLogin.settings!} programs={afterLogin.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'single' && item.display_question === "yes" && <SingleAnswer id={item.id} onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'dropdown' && item.display_question === "yes" && <DropdownAnswer id={item.id} onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-                    {item.question_type === 'open' && <OpenQuestionAnswer id={item.id} onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'number' && <NumberAnswer id={item.id} onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-                    {item.question_type === 'date' && <DateAnswer id={item.id} onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-                    {item.question_type === 'date_time' && <DateTimeAnswer id={item.id} onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
+                    {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer onsubmit={submitcount} settings={afterLogin.settings!} programs={afterLogin.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'single' && item.display_question === "yes" && <SingleAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'dropdown' && item.display_question === "yes" && <DropdownAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'open' && <OpenQuestionAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'number' && <NumberAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'date' && <DateAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'date_time' && <DateTimeAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
                   </React.Fragment>
                 )) }
                 <Box py="0" px="4" w="100%">
