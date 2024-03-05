@@ -10,6 +10,7 @@ import { getColorScheme } from 'application/styles/colors';
 import { createParam } from 'solito';
 import LoadImage from 'application/components/atoms/LoadImage';
 import ThemeColors from 'application/utils/ThemeColors';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -121,6 +122,9 @@ const Detail = (props: any) => {
                     {/* <BannerView url={''} /> */}
                 </HStack>
             </View>}
+            <Box width={"100%"} height={"5%"}>
+                <BannerAds module_name={'information_pages'} module_type={'detail'} />
+            </Box>
         </>
     )
 
