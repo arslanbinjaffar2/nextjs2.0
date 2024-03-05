@@ -8,18 +8,16 @@ type PropTypes = {
   question: Question,
   updates:number,
   onsubmit:number,
-  id:number,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void
     error:string|null,
     canChangeAnswer?:number
 
 }
-const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnswer,updates,onsubmit, id }: PropTypes) => {
+const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnswer,updates,onsubmit }: PropTypes) => {
   const { event } = UseEventService()
   const refElement = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
-    console.log(id, 'id')
     console.log(onsubmit)
     if (error) {
       if (refElement.current) {
