@@ -22,6 +22,7 @@ export interface SponsorState {
     query: string,
     screen: string,
     detail: SponsorDetail | null,
+    contact: SponsorContact | null,
 }
 
 const initialState: SponsorState = {
@@ -35,6 +36,7 @@ const initialState: SponsorState = {
     query: '',
     screen: 'sponsors',
     detail: null,
+    contact: null,
 }
 
 // Slice
@@ -77,8 +79,8 @@ export const SponsorSlice = createSlice({
         updateSponsorDetail(state, action: PayloadAction<SponsorDetail>) {
             state.detail = action.payload;
         },
-        updateSponsorContact(state, action: PayloadAction<SponsorDetail>) {
-            state.detail = action.payload;
+        updateSponsorContact(state, action: PayloadAction<SponsorContact>) {
+            state.contact = action.payload;
         },
     },
 })
@@ -119,7 +121,7 @@ export const SelectSponsorCategoryID = (state: RootState) => state.sponsors.cate
 export const SelectSponsorQuery = (state: RootState) => state.sponsors.query
 
 export const SelectSponsorDetail = (state: RootState) => state.sponsors.detail
-export const SelectSponsorContact = (state: RootState) => state.sponsors.id
+export const SelectSponsorContact = (state: RootState) => state.sponsors.contact
 
 // Reducer
 export default SponsorSlice.reducer
