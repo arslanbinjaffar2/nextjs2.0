@@ -163,6 +163,7 @@ const Index = React.memo(() => {
                             }
                         </>}
                         {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+                            {categories.length > 0 ? (
                             <ScrollView h={'60%'} w={'100%'}>
                                 <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
                                     {categories.length > 0 && categories.map((category: SponsorCategory, key: number) =>
@@ -170,6 +171,11 @@ const Index = React.memo(() => {
                                     )}
                                 </HStack>
                             </ScrollView>
+                            ) : (
+                              <Box p={3} >
+                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              </Box>
+                            )}
                         </Box>}
                         <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'sponsors'} module_type={'listing'} />
