@@ -29,10 +29,11 @@ const { useParam } = createParam<ScreenParams>()
 
 type Props = {
     speaker: number,
-    screen: string
+    screen: string,
+    banner_module?:string
 }
 
-const Index = ({ speaker, screen }: Props) => {
+const Index = ({ speaker, screen, banner_module }: Props) => {
 
     const { push, back } = useRouter()
 
@@ -362,9 +363,12 @@ const Index = ({ speaker, screen }: Props) => {
                         </Container>}
                     </>
                 )}
-                <Box width={"100%"} height={"5%"}>
-                    <BannerAds module_name={'attendees'} module_type={'listing'} />
-                </Box>
+                {banner_module && 
+                    <Box width={"100%"} height={"5%"}>
+                        <BannerAds module_name={banner_module} module_type={'listing'} />
+                    </Box>
+                }
+                
             </>
             {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('category-listing', processing)) && page > 1 && (
                 <LoadMore />
