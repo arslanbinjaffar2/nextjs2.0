@@ -80,7 +80,7 @@ const Detail = React.memo(() => {
                         <Spacer />
                     </HStack>
                     <Container overflow="hidden" mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" rounded="10">
-                        <Container  maxW="100%" w="100%" bg="primary.box" rounded="10">
+                        <Container  maxW="100%" w="100%"  rounded="10">
                             <DetailBox detail={detail} />
                             {detail?.detail?.sponsors_attendee!?.length > 0 && ( 
                                 <Box w="100%" p="0">

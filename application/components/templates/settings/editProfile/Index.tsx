@@ -35,7 +35,7 @@ import { Linking } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-
+import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
 
 
 
@@ -152,7 +152,7 @@ const Selectstyles2 = {
              });
            }
            return ack2;
-         }, []);
+         }, []) || "" ;
          ack1[`custom_field_id_q${i}`] = question.allow_multiple === 1 ? answers : answers[0];
          return ack1;
      }, {}));
@@ -303,8 +303,8 @@ const Selectstyles2 = {
             {settings?.map((setting: Setting, index: number) => (
                 <VStack alignItems={"center"} w="100%" key={index}>
                     {setting?.name === 'initial' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.initial}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -322,8 +322,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'password' && setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1  && event?.attendee_settings?.create_profile == 1 && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.password}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -341,8 +341,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'first_name' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.first_name}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -360,8 +360,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'last_name' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.last_name}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -379,8 +379,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'bio_info' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -398,8 +398,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'age' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.age}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -417,8 +417,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'first_name_passport' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.FIRST_NAME_PASSPORT}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -436,8 +436,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'last_name_passport' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.LAST_NAME_PASSPORT}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -455,8 +455,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'place_of_birth' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.place_of_birth}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -474,8 +474,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'passport_no' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.passport_no}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -493,8 +493,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'company_name' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.company_name}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -512,8 +512,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'title' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.title}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -531,8 +531,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'organization' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.organization}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -550,8 +550,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'department' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.department}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -569,8 +569,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'show_industry' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.industry}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -588,8 +588,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'show_job_tasks' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.jobs}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -607,8 +607,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'interest' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.interests}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -626,8 +626,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'network_group' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.network_group}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -645,8 +645,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'delegate_number' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.delegate}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -664,8 +664,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'table_number' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.table_number}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -683,8 +683,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'pa_street' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.private_street}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -702,8 +702,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'pa_house_no' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.private_house_number}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -721,8 +721,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'pa_post_code' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.private_post_code}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -740,8 +740,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'pa_city' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.private_city}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -759,8 +759,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'pa_country' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.private_country}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -782,8 +782,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'email' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.email}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -801,8 +801,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'gender' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.gender}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -824,8 +824,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'birth_date' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.BIRTHDAY_YEAR}</Text>
                             </Center>
                             <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
@@ -842,8 +842,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'date_of_issue_passport' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.date_of_issue_passport}</Text>
                             </Center>
                             <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
@@ -860,8 +860,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'date_of_expiry_passport' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.date_of_expiry_passport}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -877,8 +877,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'employment_date' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.EMPLOYMENT_DATE}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -894,8 +894,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'country' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.country}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -917,8 +917,8 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'spoken_languages' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.SPOKEN_LANGUAGE}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -946,7 +946,7 @@ const Selectstyles2 = {
                     {setting?.name === 'show_custom_field' && (
                       customFields.map((question, i)=>(
                         <HStack mb="3" key={i} alignItems="flex-start" px="6" flexDirection={['column', 'row']} zIndex={100 - i} w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{question?.name}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -974,8 +974,8 @@ const Selectstyles2 = {
                       ))
                     )}
                     {setting?.name === 'phone' && (
-                        <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
-                            <Center alignItems="flex-start" w="225px">
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.phone}</Text>
                             </Center>
                             <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
@@ -1009,10 +1009,10 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'profile_picture' && (
-                            <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} px="3"  w="100%" >
+                            <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} px="6"  w="100%" >
                                 
                                     <HStack mb="0" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
-                                        <Center alignItems="flex-start" w="225px">
+                                        <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                             <Text isTruncated fontWeight="500" fontSize="16px">Profile picture</Text>
                                         </Center>
                                         <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
@@ -1062,7 +1062,7 @@ const Selectstyles2 = {
                             <HStack mb="3" alignItems="start" px="6"  w="100%" >
                             
                                 <HStack mb="3" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
-                                    <Center alignItems="flex-start" width={'225px'} maxW="225px">
+                                    <Center alignItems="flex-start" width={'225px'}  pb={[2,0]} maxW={["100%","225px"]}>
                                         <Text isTruncated fontWeight="500" fontSize="16px">Resume</Text>
                                     </Center>
                                     <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
@@ -1119,9 +1119,8 @@ const Selectstyles2 = {
                                 </HStack>
                             </HStack>
                     )}
-
-                {setting?.name === 'website' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
-                <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
+                    {setting?.name === 'website' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start","center"]} px="6"  w="100%">
+                <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
                    <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
@@ -1138,8 +1137,8 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {setting?.name === 'facebook' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
-                <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
+            {setting?.name === 'facebook' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start","center"]} px="6"  w="100%">
+                <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
@@ -1156,9 +1155,9 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {setting?.name === 'twitter' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
-                <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
-                   <Icon as={Ionicons} color={'primary.text'} name="logo-twitter" size={'lg'}  />
+            {setting?.name === 'twitter' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start","center"]} px="6"  w="100%">
+                <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
+                   <IcoTwitterXsm width={20} height={20} />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
                     <Input w="100%"
@@ -1174,8 +1173,8 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-            {setting?.name === 'linkedin' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems="center" px="6"  w="100%">
-                <Center w="42" h="42" rounded={2} mr={3} alignItems="center" bg={'primary.darkbox'}>
+            {setting?.name === 'linkedin' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start","center"]} px="6"  w="100%">
+                <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
                    <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'}  />
                 </Center>
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
@@ -1192,20 +1191,17 @@ const Selectstyles2 = {
                     />
                 </Center>
             </HStack>}
-                </VStack>
+            </VStack>
             ))}
-            {/* <Box mb="4" w="100%" bg="primary.darkbox" px="6" py="1" >
-                <Text fontSize="16px" fontWeight={500}>Contact information</Text>
-            </Box> */}
             
-            {<HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
+            {<HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                     <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
                         updateAttendeeFeild('gdpr', isSelected);
                     }} size="md">GDPR</Checkbox>
                 </Center>
             </HStack>}
-            <HStack mb="3" alignItems="center" px="6" flexDirection={['column', 'row']}  w="100%">
+            <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                 <Button
                     minW={225}
                     py="2"

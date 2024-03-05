@@ -7,6 +7,7 @@ import UseExhibitorService from 'application/store/services/UseExhibitorService'
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
+import { colorText } from 'application/styles/colors';
 
 type AppProps = {
     exhibitor: Exhibitor,
@@ -53,7 +54,7 @@ const RectangleView = ({ border, exhibitor }: AppProps) => {
                         <HStack flexWrap={'wrap'} mt="2" space={1}>
                             {settings?.catTab == 1 &&  exhibitor.categories.length > 0 && exhibitor.categories.slice(0, 3).map((category: Category, i: number) =>(
                                         <Box borderWidth={1} borderColor={'primary.box'} mb="5px" key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
-                                             <Text fontSize="sm">{`${category.info.name}`}</Text>
+                                             <Text color={colorText(category.color)} fontSize="sm">{`${category.info.name}`}</Text>
                                         </Box>
                              ))}
                             {settings?.catTab == 1 &&  exhibitor.categories.length > 3 &&
@@ -72,13 +73,13 @@ const RectangleView = ({ border, exhibitor }: AppProps) => {
 																				<Text  fontSize="sm">{`+${ exhibitor.categories.length - 3}`}</Text>
 																			</Button>
 																		}}>
-																<Popover.Content bgColor={'primary.500'}>
-																	<Popover.Arrow bgColor={'primary.500'} />
+																<Popover.Content borderColor={'primary.500'} bgColor={'primary.500'}>
+																	<Popover.Arrow borderColor={'primary.500'} bgColor={'primary.500'} />
 																	<Popover.Body borderTopWidth="0" bgColor={'primary.500'}>
 																	<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
 																		{exhibitor.categories.length > 3 && exhibitor.categories.map((category: Category, i: number) =>(
                                         <Box borderWidth={1} borderColor={'primary.box'} mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
-                                             <Text  fontSize="sm">{`${category.info.name}`}</Text>
+                                             <Text color={colorText(category.color)} fontSize="sm">{`${category.info.name}`}</Text>
                                         </Box>
                              				))}
 																	</HStack>
@@ -109,8 +110,8 @@ const RectangleView = ({ border, exhibitor }: AppProps) => {
                                     bg="transparent"
                                     p="1"
 																		rounded={'full'}
-                                    _hover={{ bg: 'primary.500' }}
-                                    icon={<Icon size="xl" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
+                                   _hover={{ bg: 'transparent', _icon: { color: exhibitor.attendee_exhibitors.length > 0 ? "primary.text" : "secondary.500",name:  exhibitor.attendee_exhibitors.length > 0  ? 'heart-outline' : 'heart' } }}
+                                    icon={<Icon size="xl" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color={exhibitor.attendee_exhibitors.length > 0 ? "secondary.500" :"primary.text" }/>}
                                     onPress={() => {
                                         MakeFavourite({ exhibitor_id: exhibitor.id, screen: 'listing' });
                                     }}

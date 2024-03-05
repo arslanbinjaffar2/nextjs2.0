@@ -9,8 +9,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
-import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
-import AvatarColors from 'application/utils/AvatarColors'
+
 
 type boxItemProps = {
   attendee: Attendee
@@ -70,7 +69,8 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               <Avatar
                   borderWidth={1}
                   borderColor="primary.darkbox"
-                  bg={AvatarColors()}
+                  textTransform="uppercase"
+                  bg={'#A5A5A5'}
                   >{ attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}</Avatar>
             )}
             <VStack w={'calc(100% - 165px)'} space="0">

@@ -48,6 +48,15 @@ function rgb2hsv(r: number, g: number, b: number) {
   }
   return [Math.floor(h * 360), Math.floor(s * 100), Math.floor(l * 100)];
 }
+var colourIsLight = function (r:any, g:any, b: any) {
+  var a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return (a < 0.5);
+}
+export function colorText(color: string) {
+  let text = hex2rgb(color || '#343d50');
+  let type = colourIsLight(text[0],text[1],text[2])
+  return type ? '#1e1e1e' : '#EAEAEA';
+}
 
 export function getColorScheme(primaryColor:string, textMode:string|undefined){
   const background = hex2rgb(primaryColor);

@@ -6,6 +6,8 @@ import IcoFacebook from 'application/assets/icons/small/IcoFacebook';
 import IcoTwitterX from 'application/assets/icons/small/IcoTwitterX';
 import IcoLinkedIN from 'application/assets/icons/small/IcoLinkedIN';
 import IcoWebLink from 'application/assets/icons/small/IcoWebLink';
+import IcoEnvelope from 'application/assets/icons/small/IcoEnvelope';
+import IcoPhone from 'application/assets/icons/small/IcoPhone';
 import { Linking } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -40,17 +42,17 @@ const ContactInfo = () => {
 								
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
-                {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="flex-start">
+                {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
                     <Box>
-                    	<Icon size="md" as={AntDesign} name="mail" color={'primary.text'} />
+                    	<IcoEnvelope />
                     </Box>
                     <Box  pl="1">
                         <Text fontSize="14px">{detail?.detail?.email}</Text>
                     </Box>
                 </HStack>}
-                {detail?.detail?.phone_number && detail?.detail?.phone_number !== '' && <HStack space="0" alignItems="flex-start">
+                {detail?.detail?.phone_number && detail?.detail?.phone_number !== '' && <HStack space="0" alignItems="center">
                     <Box>
-                    <Icon size="md" as={AntDesign} name="phone" color={'primary.text'} />
+                    <IcoPhone />
                     </Box>
                     <Box pl="1">
                         <Text fontSize="14px">{detail?.detail?.phone_number}</Text>

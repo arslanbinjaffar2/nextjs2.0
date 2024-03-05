@@ -43,34 +43,35 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     }
 
     return (
-        <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
-            <Box w="100%" p="4" py="5" rounded="10">
-                <HStack mb="4" space="5">
-                    {detail?.detail?.image ? (
+        <Box mb={3} bg="primary.box" p="0" w={'100%'} rounded="10">
+            <Container borderWidth="0" borderColor="primary.darkbox" bg="primary.primarycolor" rounded="10" overflow="hidden" maxW="100%" w="100%">
+                <Box w="100%" p="4" py="5" rounded="10">
+                    <HStack mb="4" space="5">
+                        {detail?.detail?.image ? (
                         <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
-                    ) : (
+                        ) : (
                         <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={UserPlaceholderImage} alt="" w="50px" h="50px" />
-                    )}
-                    <VStack w="calc(100% - 140px)" space="0">
-                        <Text lineHeight="sm" fontSize="xl">
-                            {`${detail?.detail?.first_name} ${detail?.detail?.last_name}`}
-                        </Text>
-                        {detail?.detail?.info &&
-                            (detail?.detail?.info.company_name ||
-                                detail?.detail?.info.title) && 
-                                (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
-                                && (
-                                <>
-                                        <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}&nbsp;{detail?.detail?.info?.company_name &&
-                                            detail?.detail?.info?.title &&
-                                            ", "}
-                                            {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>
-                                    
-                                </>
-                            )}
-                        {(showPrivate == 1 || isPrivate?.department == 0) && detail?.detail?.info?.department && (
-                            <Text lineHeight="sm" fontSize="18px">{detail?.detail?.info?.department}</Text>
                         )}
+                        <VStack w="calc(100% - 140px)" space="0">
+                            <Text lineHeight="sm" fontSize="xl">
+                                {`${detail?.detail?.first_name} ${detail?.detail?.last_name}`}
+                            </Text>
+                            {detail?.detail?.info &&
+                                (detail?.detail?.info.company_name ||
+                                    detail?.detail?.info.title) && 
+                                    (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
+                                    && (
+                                    <>
+                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}&nbsp;{detail?.detail?.info?.company_name &&
+                                                detail?.detail?.info?.title &&
+                                                ", "}
+                                                {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>
+                                        
+                                    </>
+                                )}
+                            {(showPrivate == 1 || isPrivate?.department == 0) && detail?.detail?.info?.department && (
+                                <Text lineHeight="sm" fontSize="18px">{detail?.detail?.info?.department}</Text>
+                            )}
                     </VStack>
                     <Spacer />
                     {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && <Box w="20px" h="100%">
@@ -110,7 +111,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                 </HStack>
             </Box>
             {detail?.detail?.attendee_cv && (
-            <Box w="100%" bg="primary.secondary" px="5" py="3" borderTopWidth="1" borderColor="primary.darkbox">
+                <Box w="100%" bg="primary.secondary" px="5" mt={3} py="3" borderTopWidth="1" borderColor="primary.darkbox">
                 <HStack w="100%" space="0">
                     {(showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) ? '1' : '0'} borderColor={'primary.box'} alignItems="flex-start">
                         <Pressable
@@ -124,7 +125,10 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             <Icoresume width="22" height="25" />
                         </Pressable>
                     </Center>}
-                    {showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && <Center w="20%"  borderColor="primary.bordercolor" alignItems="center">
+                    </HStack>
+                </Box>
+                )}
+                {showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && <Center w="20%"  borderColor="primary.bordercolor" alignItems="center">
                         <Pressable
                                 onPress={async () => {
                                     push(`/${event.url}/attendees/hotel/${detail?.detail?.id}`)
@@ -132,10 +136,8 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             <Icohotelbed width="24" height="18" />
                         </Pressable>
                     </Center>}
-                </HStack>
-            </Box>
-              )}
-        </Container>
+            </Container>
+        </Box>
     )
 
 }

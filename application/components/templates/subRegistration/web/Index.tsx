@@ -58,9 +58,9 @@ const Detail = () => {
   const [formData, setFormData] = useState<FormData>({});
   const [errors, setErrors] = useState<FormData>({});
   const [updates, setUpdates] = useState(0);
-
+  const [submitcount, setsubmitcount] = useState(0);
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
-
+  const refElement = React.useRef<HTMLDivElement>(null);
   const updateFormData = (question_id:number, type:string, answer:any, index?:number, agendaId?:number) => {
     
     let newErrors = errors;
@@ -196,10 +196,12 @@ const Detail = () => {
        }
        setErrors(newFormData);
        setUpdates(updates + 1);
+       setsubmitcount(submitcount + 1);
        return error;
   }
 
     const onSubmit = async ( ) => {
+
       const isError = await validate();
 
       console.log(isError);
@@ -272,7 +274,7 @@ const Detail = () => {
       {loading ? (
                 <WebLoading />
             ) : (
-            <Container mb="3" maxW="100%" w="100%">
+            <Container ref={refElement} mb="3" maxW="100%" w="100%">
             
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text isTruncated  fontSize="2xl">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
@@ -280,14 +282,14 @@ const Detail = () => {
               {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
                 {afterLogin?.questions?.question.length! > 0 &&  afterLogin?.questions?.question.map((item, index)=>(
                     <React.Fragment key={item.id}>
-                    {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
-                    {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer settings={afterLogin.settings!} programs={afterLogin.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'single' && item.display_question === "yes" && <SingleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'dropdown' && item.display_question === "yes" && <DropdownAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-                    {item.question_type === 'open' && <OpenQuestionAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'number' && <NumberAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-                    {item.question_type === 'date' && <DateAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-                    {item.question_type === 'date_time' && <DateTimeAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
+                    {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer onsubmit={submitcount} settings={afterLogin.settings!} programs={afterLogin.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'single' && item.display_question === "yes" && <SingleAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'dropdown' && item.display_question === "yes" && <DropdownAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'open' && <OpenQuestionAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'number' && <NumberAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'date' && <DateAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'date_time' && <DateTimeAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
                   </React.Fragment>
                 )) }
                 <Box py="0" px="4" w="100%">
