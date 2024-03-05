@@ -8,7 +8,7 @@ type AppProps = {
     note_type_id: any,
     children?: React.ReactNode
 }
-const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
+const DocumentNotesBox = ({note_type,note_type_id,children}:AppProps) => {
   const { my_note,saving_notes, SaveNote,GetNote,UpdateNote } = UseNoteService();
   const [note, setNote] = React.useState('')
   const [isNewNote, setIsNewNote] = React.useState(true)
@@ -64,4 +64,4 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
   )
 }
 
-export default NotesBox
+export default DocumentNotesBox
