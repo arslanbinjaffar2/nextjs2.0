@@ -10,7 +10,7 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
 
     return (
-            <IndexTemplate speaker={1} screen='attendees' />
+            <IndexTemplate banner_module='speakers' speaker={1} screen='attendees' />
     );
 
 };
