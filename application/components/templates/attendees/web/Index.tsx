@@ -376,7 +376,7 @@ const Index = ({ speaker, screen }: Props) => {
                     </>
                 )}
                 <Box width={"100%"} height={"5%"}>
-                    <BannerAds module_name={'attendees'} module_type={'listing'} />
+                    <BannerAds module_name={'speakers'} module_type={'listing'} />
                 </Box>
             </>
             {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('category-listing', processing)) && page > 1 && (

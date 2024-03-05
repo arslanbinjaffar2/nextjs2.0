@@ -48,7 +48,7 @@ const Index = ({ navigation }: indexProps) => {
   const { event, modules } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
-  const { FetchAlerts, alerts, markAlertRead} = UseAlertService();
+  const { FetchAlerts, alerts, markAlertRead, alert_setting} = UseAlertService();
   const { loading } = UseLoadingService();
   const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track } = UseProgramService();
 
@@ -176,10 +176,10 @@ const Index = ({ navigation }: indexProps) => {
                     <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
                     <Spacer />
                   </HStack>
-                  {alerts.length > 0 ? (
+                  
+                   {alert_setting && alert_setting[0]?.display_in_dashboard === 1 && alerts.length > 0 ? (
                     <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                      {alerts.map((alert:Alert, i:Number)=>(
-
+                      {alerts.slice(0, 5).map((alert:Alert, i:Number)=>(
                         <RectangleView key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date_time={alert.display_alert_date} is_last_item={(alerts.length-1 === i) ? true : false}  />
                       ))}
                     </Box>

@@ -104,6 +104,7 @@ const Index = React.memo(() => {
                     )}
                     
                     {(tab === 'name' || tab === 'category-exhibitors') && <>
+                        {exhibitors.length > 0 &&
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
                             <IconButton
                                 opacity={mode === "list" ? 100 : 50}
@@ -129,6 +130,7 @@ const Index = React.memo(() => {
 
                             />
                         </HStack>
+                        }
                         {mode === "list" &&
                             <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.box">
                                 <ScrollView h={'53%'}>

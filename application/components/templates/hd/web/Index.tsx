@@ -10,6 +10,7 @@ import in_array from "in_array";
 import moment from 'moment';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
 
@@ -73,6 +74,9 @@ const Index = () => {
                     <Text>{event.labels?.GENERAL_NO_RECORD}</Text>
                 </Box>}
         </Box>
+          <Box width={"100%"} height={"5%"}>
+            <BannerAds module_name={'help_desk'} module_type={'listing'} />
+          </Box>
       </Container>)
     }
     </>
