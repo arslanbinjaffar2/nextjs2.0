@@ -90,10 +90,7 @@ const Index = React.memo(() => {
     }, []);
     return (
         <>
-            {loading ? (
-                <WebLoading />
-            ) : (
-                <Container h="100%" pt="4" maxW="100%" w="100%">
+            <Container h="100%" pt="4" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias == 'exhibitors'))?.name ?? ""}</Text>
                         <Spacer />
@@ -117,7 +114,10 @@ const Index = React.memo(() => {
                         }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
                     </HStack>
                     )}
-                    
+                    {loading ? (
+                        <WebLoading />
+                    ) : (
+                    <>
                     {(tab === 'name' || tab === 'category-exhibitors') && <>
                         {exhibitors.length > 0 &&
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
@@ -172,6 +172,21 @@ const Index = React.memo(() => {
                            </Box>
                         }
                     </>}
+                    
+                    {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+                        <ScrollView h={'60%'} w={'100%'}>
+                            <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
+                                {categories.length > 0 && categories.map((category: ExhibitorCategory, key: number) =>
+                                    <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
+                                )}
+                            </HStack>
+                        </ScrollView>
+                    </Box>}
+                    {tab === 'category' && categories.length <= 0 &&
+                        <Box  p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
+                            <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                        </Box>
+                    }
                     <Box width={"100%"} height={"5%"}>
                         {filteredBanners.map((banner, k) =>
                           <Image
@@ -183,18 +198,10 @@ const Index = React.memo(() => {
                           />
                         )}
                     </Box>
-                    {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
-                        <ScrollView h={'60%'} w={'100%'}>
-                            <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                {categories.length > 0 && categories.map((category: ExhibitorCategory, key: number) =>
-                                    <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
-                                )}
-                            </HStack>
-                        </ScrollView>
-                    </Box>}
                     {/* <BannerView url={''} /> */}
-                </Container>
-            )}
+                    </>
+                    )}
+            </Container>
         </>
     )
 
