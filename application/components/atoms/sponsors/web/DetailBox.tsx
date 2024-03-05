@@ -7,6 +7,7 @@ import UseSponsorService from 'application/store/services/UseSponsorService';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import UseEventService from 'application/store/services/UseEventService';
+import { colorText } from 'application/styles/colors'
 
 type AppProps = {
     detail: SponsorDetail|null,
@@ -61,7 +62,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             bg="transparent"
                             p="1"
                             rounded={'full'}
-                            _hover={{ bg: 'primary.500' }}
+                           _hover={{ bg: 'transparent', _icon: { color: !isFav ? "secondary.500" : "primary.text",name: !isFav ? 'heart' : 'heart-outline' } }}
                             icon={<Icon size="xl" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? 'secondary.500' : "primary.text"}/>}
                             onPress={() => {
                                 toggleFav();
@@ -81,7 +82,8 @@ const DetailBox = ({ detail }: AppProps) => {
                             <HStack alignItems="flex-start" justifyContent={'flex-start'} display={'flex'} flexWrap={'wrap'} maxW={'calc(100% - 145px)'}>
                                 {detail?.detail?.categories!?.map((category: Category, i: number) =>
                                     <Box borderColor={'primary.box'} borderWidth={1} rounded={'full'} bg={category.color} px={4} py={1} my={1} mr={2}  key={i}>
-                                        <Text lineHeight={'sm'} fontSize="sm">{`${category.info.name}`}</Text>
+                                        
+                                        <Text color={colorText(category.color)} lineHeight={'sm'} fontSize="sm">{`${category.info.name}`}</Text>
                                     </Box>
                                 )}
                             </HStack>
@@ -98,7 +100,7 @@ const DetailBox = ({ detail }: AppProps) => {
                     </HStack>
                     {detail?.detail?.description && <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
-                        <Text><div dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div></Text>
+                        <Text><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div></Text>
                     </Box>}
                 </Box>
             </Box>}

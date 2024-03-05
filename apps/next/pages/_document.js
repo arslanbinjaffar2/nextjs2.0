@@ -162,12 +162,24 @@ body {
 .rdtTime .rdtSwitch,.rdtTimeToggle {
   display: none !important;
 }
+.ebs-iframe-content-no-margin {
+  display: flex;
+  flex-direction: column;
+}
 .ebs-iframe-content-no-margin * {
   line-height: 1.2;
   margin: 0;
 }
+.ebs-iframe-content {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+}
 .ebs-iframe-content * {
-  line-height: 1.2;
+  margin: 0;
+}
+.ebs-iframe-content p,.ebs-iframe-content  h1,.ebs-iframe-content  h2,.ebs-iframe-content  h3,.ebs-iframe-content h4,.ebs-iframe-content h5,.ebs-iframe-content h6 {
+  margin-bottom: 15px;
 }
 .ebs-iframe-content img {
   max-width: 100%;
@@ -176,7 +188,7 @@ body {
 .r-zIndex-1ufr4wv + .r-zIndex-1ufr4wv{
   z-index: 8 !important;
 }
-.css-view-1dbjc4n {
+.css-view-1dbjc4n,.css-1dbjc4n {
   z-index: unset !important;
 }
 .css-12a83d4-MultiValueRemove {
@@ -204,7 +216,7 @@ body {
 }
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
-}
+} 
 `;
 
 export async function getInitialProps({ renderPage }) {

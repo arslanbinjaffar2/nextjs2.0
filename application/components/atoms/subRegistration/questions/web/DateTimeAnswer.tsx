@@ -12,14 +12,23 @@ type PropTypes = {
   question: Question,
   formData: FormData,
   updates:number,
+  onsubmit:number,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
   error:string|null,
   canChangeAnswer?:number
 }
-const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer, error }: PropTypes) => {
-  const { event } = UseEventService()
+const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer, error, onsubmit }: PropTypes) => {
+  const { event } = UseEventService();
+  const refElement = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (error) {
+      if (refElement.current) {
+        refElement.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "start"  });
+      }
+    }
+  }, [onsubmit])
   return (
-    <Center maxW="100%" w="100%" mb="0" zIndex={9}>
+    <Center ref={refElement} maxW="100%" w="100%" mb="0" zIndex={9}>
       <Box zIndex={9999} position={'relative'} mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.required_question == '1' && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>} {question?.info?.[0]?.value}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />

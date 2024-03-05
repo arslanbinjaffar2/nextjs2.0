@@ -278,7 +278,7 @@ const Detail = () => {
                                     </HStack>
                                     <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            <div className='ebs-iframe-content' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                             {hdSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"

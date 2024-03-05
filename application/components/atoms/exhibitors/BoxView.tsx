@@ -9,6 +9,7 @@ import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import { Linking } from 'react-native';
+import { colorText } from 'application/styles/colors';
 
 type AppProps = {
     exhibitor: Exhibitor,
@@ -68,7 +69,7 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
                                 bg="transparent"
                                 p="1"
                                 rounded={'full'}
-                                _hover={{ bg: 'primary.500' }}
+                                _hover={{ bg: 'transparent', _icon: { color: !isFav ? "secondary.500" : "primary.text",name: !isFav ? 'heart' : 'heart-outline' } }}
                                 icon={<Icon size="md" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? "secondary.500" : "primary.text"} />}
                                 onPress={() => toggleFav()}
                                 position={'absolute'}
@@ -91,7 +92,7 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
                                     <ZStack reversed>
                                         {exhibitor?.categories.length > 0 && exhibitor?.categories.slice(0,3).map((cat, i)=>(
                                             <Box key={cat.id} bg={cat.color} borderWidth="1"  borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${(measureText(exhibitor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(exhibitor?.categories[0]?.info.name, 14)) + 16 + (i * 10)}px`} px="2">
-                                                {i== 0 && <Text isTruncated lineHeight={25}  fontSize="sm">{cat?.info?.name}</Text>}
+                                                {i== 0 && <Text color={colorText(cat.color)} isTruncated lineHeight={25}  fontSize="sm">{cat?.info?.name}</Text>}
                                             </Box>
                                         ))}
 
@@ -119,7 +120,7 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
 																						<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
 																							{exhibitor.categories.length > 3 && exhibitor.categories.map((category: Category, i: number) =>(
 																									<Box mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
-																											<Text fontSize="sm">{`${category.info.name}`}</Text>
+																											<Text color={colorText(category.color)} fontSize="sm">{`${category.info.name}`}</Text>
 																									</Box>
 																							))}
 																						</HStack>
