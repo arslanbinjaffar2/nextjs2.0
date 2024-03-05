@@ -15,6 +15,7 @@ import NotesBoxGeneral from 'application/components/atoms/NotesBox';
 import UseEventService from 'application/store/services/UseEventService';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import DynamicIcon from 'application/utils/DynamicIcon';
+import DocumentNotesBox from 'application/components/atoms/documents/DocumentNotesBox';
 
 type AppProps = {
     document: Document,
@@ -71,12 +72,29 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                     <Spacer />
                                     <HStack  space="3" alignItems="center" justifyContent={'flex-end'}>
                                     {event.document_settings?.show_documents_notes == 1 && 
-                                    <Pressable
-                                        onPress={async () => {
-                                            setIsNotesOpen(true);
-                                        }}>
-                                        <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
-                                    </Pressable>
+                                        <>
+                                         <Pressable
+                                                onPress={async () => {
+                                                    setIsNotesOpen(true);
+                                                }}>
+                                                <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
+                                            </Pressable>
+                                            <Modal
+                                            isOpen={isNotesOpen}
+                                            onClose={()=>{
+                                            setIsNotesOpen(false);
+                                            }}
+                                        >
+                                            
+                                        <Modal.Content p={0}>
+                                                <Modal.Body position={'relative'} zIndex={1} p={0}>
+                                                    <DocumentNotesBox note_type_id={document.id}>
+                                                    <Pressable onPress={() => setIsNotesOpen(false)}><Icon as={FontAwesome} name="close" size={'lg'} color={'primary.text'} /></Pressable>
+                                                    </DocumentNotesBox>
+                                                </Modal.Body>
+                                            </Modal.Content>
+                                        </Modal>
+                                        </>
                                     }
                                     <Pressable
                                         onPress={async () => {
@@ -91,21 +109,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                     </HStack>
                                     
                                   
-                                    <Modal
-                                        isOpen={isNotesOpen}
-                                        onClose={()=>{
-                                        
-                                        }}
-                                    >
-                                        
-                                        <Modal.Content p={0}>
-                                            <Modal.Body position={'relative'} zIndex={1} p={0}>
-                                                <NotesBoxGeneral note_type={'directory'} note_type_id={document.id}>
-                                                <Pressable onPress={() => setIsNotesOpen(false)}><Icon as={FontAwesome} name="close" size={'lg'} color={'primary.text'} /></Pressable>
-                                                </NotesBoxGeneral>
-                                            </Modal.Body>
-                                        </Modal.Content>
-                                    </Modal>
+                                    
                                 </HStack>
                         )
                 })()

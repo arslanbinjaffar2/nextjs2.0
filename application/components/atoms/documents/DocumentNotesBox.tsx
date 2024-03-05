@@ -3,19 +3,33 @@ import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Sc
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseNoteService from 'application/store/services/UseNoteService';
 import DynamicIcon from 'application/utils/DynamicIcon';
+import makeApi from "application/utils/ConfigureAxios";
+import { HttpResponse } from 'application/models/GeneralResponse';
+import { getMyNoteApi } from '../../../store/api/Notes.Api';
+
+
 type AppProps = {
-    note_type: string,
-    note_type_id: any,
+    note_type_id: number
     children?: React.ReactNode
 }
-const DocumentNotesBox = ({note_type,note_type_id,children}:AppProps) => {
+const DocumentNotesBox = ({note_type_id, children}:AppProps) => {
   const { my_note,saving_notes, SaveNote,GetNote,UpdateNote } = UseNoteService();
   const [note, setNote] = React.useState('')
   const [isNewNote, setIsNewNote] = React.useState(true)
+  const note_type = 'directory';
 
-  useEffect(()=>{
-    GetNote({note_type:note_type, note_type_id:note_type_id});
-  },[])
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await getMyNoteApi({note_type:note_type, note_type_id:note_type_id}, {}); // Call the API function
+        console.log(response);
+      } catch (error) {
+        // Handle error
+      }
+    }
+
+    fetchData(); // Call the function to fetch data
+  }, []);
 
   useEffect(()=>{
     if(my_note == null || my_note?.id === undefined || my_note?.id === 0){
