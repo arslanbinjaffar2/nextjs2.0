@@ -9,24 +9,27 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 type PropTypes = {
   question: Question,
   updates:number,
+  onsubmit:number,
+  id:number,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void,
   error:string|null,
   canChangeAnswer?:number
 }
-const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnswer, updates }: PropTypes) => {
-  const errorMessage = React.useRef();
+const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnswer, updates,onsubmit, id }: PropTypes) => {
+  const { event } = UseEventService();
+  const refElement = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
-    return () => {
-       if (errorMessage.current && typeof(error) !== undefined) {
-        console.log(typeof(error))
-        errorMessage.current.scrollIntoView({ behavior: 'smooth' });
+    console.log(id)
+    if (error) {
+      if (refElement.current) {
+        refElement.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
       }
     }
-  }, [error,updates])
-  
+  }, [onsubmit])
+
   return (
-    <Center ref={errorMessage} maxW="100%" w="100%" mb="0">
+    <Center ref={refElement} maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{Number(question?.required_question) === 1 && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>} {question?.info?.[0]?.value}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
