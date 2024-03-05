@@ -172,6 +172,11 @@ const Index = React.memo(() => {
                             <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
                         </Box>
                     }
+                    {exhibitors.length <= 0 &&
+                      <Box w="100%">
+                          <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                      </Box>
+                    }
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'exhibitors'} module_type={'listing'} />
                     </Box>
