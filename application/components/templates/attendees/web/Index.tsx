@@ -212,7 +212,7 @@ const Index = ({ speaker, screen }: Props) => {
                             >
                                     ALL
                             </Button>}
-                            <Button 
+                            <Button
                                 onPress={() => {
                                     setTab('my-attendee')
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
@@ -359,6 +359,11 @@ const Index = ({ speaker, screen }: Props) => {
                                             <RectangleAttendeeView attendee={attendee} border={attendees.length > 0 && attendees[attendees.length - 1]?.id !== attendee?.id ? 1 : 0} speaker={speaker} />
                                         </React.Fragment>
                              )}
+                            {attendees.length <= 0 &&
+                              <Box p={3} mb="3"  rounded="lg" w="100%">
+                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              </Box>
+                            }
                         </Container>}
                         {(tab === 'group' || tab === 'sub-group') && <Container mb="3" pt={3} rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
@@ -373,6 +378,11 @@ const Index = ({ speaker, screen }: Props) => {
                                     )}
                                 </React.Fragment>
                             )}
+                            {groups.length <= 0 &&
+                              <Box p={3} mb="3" rounded="lg" w="100%">
+                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              </Box>
+                            }
                         </Container>}
                         {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
@@ -381,7 +391,7 @@ const Index = ({ speaker, screen }: Props) => {
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p="3">
+                                <Box p={3} mb="3" rounded="lg" w="100%">
                                     <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                                 </Box>
                             }
