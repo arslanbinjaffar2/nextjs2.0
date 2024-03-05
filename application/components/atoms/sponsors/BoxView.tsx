@@ -123,7 +123,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 																							<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
 																								{sponsor.categories.length > 3 && sponsor.categories.map((category: Category, i: number) =>(
 																										<Box mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
-																												<Text fontSize="sm">{`${category.info.name}`}</Text>
+																												<Text color={colorText(category.color)} fontSize="sm">{`${category.info.name}`}</Text>
 																										</Box>
 																								))}
 																							</HStack>
