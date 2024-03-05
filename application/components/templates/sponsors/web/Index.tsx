@@ -185,15 +185,23 @@ const Index = React.memo(() => {
                           />
                         )}
                     </Box>
-                    {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
-                        <ScrollView h={'60%'} w={'100%'}>
-                            <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                {categories.length > 0 && categories.map((category: SponsorCategory, key: number) =>
-                                    <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
-                                )}
-                            </HStack>
-                        </ScrollView>
-                    </Box>}
+                    {tab === 'category' && (
+                      <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+                          {categories.length > 0 ? (
+                            <ScrollView h={'60%'} w={'100%'}>
+                                <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
+                                    {categories.map((category: SponsorCategory, key: number) => (
+                                      <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
+                                    ))}
+                                </HStack>
+                            </ScrollView>
+                          ) : (
+                            <Box p={3} >
+                                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                            </Box>
+                          )}
+                      </Box>
+                    )}
                     {/* <BannerView url={''} /> */}
                 </Container>
             )}
