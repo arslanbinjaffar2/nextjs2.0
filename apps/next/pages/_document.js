@@ -188,7 +188,7 @@ body {
 .r-zIndex-1ufr4wv + .r-zIndex-1ufr4wv{
   z-index: 8 !important;
 }
-.css-view-1dbjc4n {
+.css-view-1dbjc4n,.css-1dbjc4n {
   z-index: unset !important;
 }
 .css-12a83d4-MultiValueRemove {
@@ -216,7 +216,7 @@ body {
 }
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
-}
+} 
 `;
 
 export async function getInitialProps({ renderPage }) {
