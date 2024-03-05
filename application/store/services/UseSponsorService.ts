@@ -10,7 +10,8 @@ import {
     SelectSponsorDetail,
     SelectOurSponsors,
     SelectMySponsors,
-    SelectSiteLabel
+    SelectSiteLabel,
+    SelectSponsorContact
 } from 'application/store/slices/Sponsor.Slice'
 
 import { Sponsor } from 'application/models/sponsor/Sponsor'
