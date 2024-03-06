@@ -57,7 +57,7 @@ const ContactInfo = () => {
                     </Box>
                 </HStack>}
             </VStack>}
-            <HStack space={3} p={3} pt={0} pb={4}>
+            <HStack space={3} p={3} pt={0} pb={4} w={'100%'} alignItems={'flex-start'}>
                         {detail?.detail?.facebook && detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://' ? (
                             <Pressable
                                 onPress={async () => {
@@ -67,7 +67,7 @@ const ContactInfo = () => {
                                         await Linking.openURL(url);
                                     }
                                 }}>
-                               	<IcoFacebook />
+                               	<IcoFacebook width={30} height={30} />
                             </Pressable>
                         ) : ''}
                         {detail?.detail?.twitter && detail?.detail?.twitter !== '' && detail?.detail?.twitter !== 'http://' &&  detail?.detail?.twitter !== 'https://' ? (
@@ -79,7 +79,7 @@ const ContactInfo = () => {
                                         await Linking.openURL(url);
                                     }
                                 }}>
-                                <IcoTwitterX />
+                                <IcoTwitterX width={30} height={30} />
                             </Pressable>
                         ) : ''}
                         {detail?.detail?.linkedin && detail?.detail?.linkedin !== '' && detail?.detail?.linkedin !== 'http://' &&  detail?.detail?.linkedin !== 'https://' ? (
@@ -91,7 +91,7 @@ const ContactInfo = () => {
                                         await Linking.openURL(url);
                                     }
                                 }}>
-                                <IcoLinkedIN />
+                                <IcoLinkedIN width={30} height={30} />
                             </Pressable>
                         ) : ''}
                         {detail?.detail?.website && detail?.detail?.website !== '' && detail?.detail?.website !== 'http://' &&  detail?.detail?.website !== 'https://'  ? (
@@ -103,7 +103,7 @@ const ContactInfo = () => {
                                         await Linking.openURL(url);
                                     }
                                 }}>
-                                <IcoWebLink />
+                                <IcoWebLink width={30} height={30} />
                             </Pressable>
                         ) : ''}
 
