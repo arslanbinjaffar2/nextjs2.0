@@ -178,7 +178,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
       for(const activeQuestion of mySubReg?.questions?.question!){
       if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!]?.answer !== undefined && formData[activeQuestion?.id!]?.answer !== null)){
         if(activeQuestion?.question_type === 'multiple'){
-          if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+          if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0)){
             newFormData[activeQuestion.id!] = {
                 error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
               };
@@ -308,6 +308,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
   return (
     <Container mb="3" maxW="100%" w="100%">
     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+      <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
       <Spacer />
       <Text isTruncated pr="6" fontSize="lg">{setting_modules?.find((module: { alias: string; })=>(module.alias == 'subregistration'))?.name ?? 'Subregistration'}</Text>
     </HStack>

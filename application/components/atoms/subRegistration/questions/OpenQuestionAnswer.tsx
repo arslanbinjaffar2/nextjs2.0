@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
 import { Platform } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
+import Comments from 'application/components/atoms/subRegistration/questions/Comments';
 
 type PropTypes = {
   question: Question,
@@ -26,6 +27,17 @@ const OpenQuestionAnswer = ({ question, formData, updateFormData, error, canChan
     }
   }, [onsubmit])
 
+  const [characterLimit,setCharacterLimit] =  React.useState(2000);
+
+  function updateInputText(updatedText:string) {
+    // implement character limit
+    if (inputText.length < updatedText.length && updatedText.length > characterLimit) {
+      return;
+    }
+    setInputText(updatedText);
+    updateFormData(question.id, question.question_type, updatedText)
+  }
+
   return (
     <Center  ref={refElement} maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
@@ -33,11 +45,13 @@ const OpenQuestionAnswer = ({ question, formData, updateFormData, error, canChan
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <TextArea w="100%" bg="primary.darkbox" isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }  borderColor={'primary.darkbox'} fontSize={'lg'} placeholder={event?.labels?.EVENTSITE_SUB_REGISTRATION_ANSWER_PLACEHOLDER} autoCompleteType={undefined} 
           value={inputText}
-          onChangeText={(answer)=>{ 
-            updateFormData(question.id, question.question_type, answer)
-            setInputText(answer)
-          }}
+          onChangeText={(answer)=>{ updateInputText(answer) }}
         />
+        <HStack px="3" py="1" w="100%" space="3" alignItems="center" justifyContent="end">
+          <Text>
+            {characterLimit - inputText.length > 0 ? characterLimit - inputText.length : 0} {event?.labels?.GENERAL_CHARACTER_REMAINING}
+          </Text>
+        </HStack>
       </Box>
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
@@ -60,6 +74,7 @@ const OpenQuestionAnswer = ({ question, formData, updateFormData, error, canChan
         </Box>
         </>
       }
+      {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
 }

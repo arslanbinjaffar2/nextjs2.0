@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
 import { Platform } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
+import Comments from 'application/components/atoms/subRegistration/questions/Comments';
 
 type PropTypes = {
   question: Question,
@@ -56,6 +57,7 @@ const NumberAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
         </Box>
         </>
       }
+      {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
 }

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, ScrollView, Text, TextArea, VStack } from 'native-base';
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
 import { Platform } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
+import Comments from 'application/components/atoms/subRegistration/questions/Comments';
+
 type PropTypes = {
   question: Question,
   updates:number,
@@ -81,6 +83,8 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
           onChangeText={(text) => updateFormData(question.id, 'comment', text)}
           borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
       </Box>
+
+      {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
 }

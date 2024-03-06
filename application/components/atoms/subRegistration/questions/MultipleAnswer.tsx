@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Heading, Text, TextArea, VStack } from 'native-base';
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData, Answer, Settings, Allprogram } from 'application/models/subRegistration/SubRegistration';
 import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
-import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
+import {GENERAL_DATE_FORMAT} from 'application/utils/Globals';
+import Comments from 'application/components/atoms/subRegistration/questions/Comments';
 
 type PropTypes = {
   updates:number,
@@ -63,6 +64,7 @@ const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, 
         </Box>
         </>
       }
+      {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
 }

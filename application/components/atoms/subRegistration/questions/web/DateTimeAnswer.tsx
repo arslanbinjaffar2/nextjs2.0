@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
@@ -6,7 +6,8 @@ import DateTimePicker from 'application/components/atoms/DateTimePicker';
 import moment from 'moment';
 import { Platform } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
-import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT} from 'application/utils/Globals'
+import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT} from 'application/utils/Globals';
+import Comments from 'application/components/atoms/subRegistration/questions/Comments';
 
 type PropTypes = {
   question: Question,
@@ -50,6 +51,7 @@ const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer, error
           isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
           borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
       </Box>
+      {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
 }
