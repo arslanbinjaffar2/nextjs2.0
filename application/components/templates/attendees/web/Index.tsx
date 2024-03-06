@@ -29,10 +29,11 @@ const { useParam } = createParam<ScreenParams>()
 
 type Props = {
     speaker: number,
-    screen: string
+    screen: string,
+    banner_module?:string
 }
 
-const Index = ({ speaker, screen }: Props) => {
+const Index = ({ speaker, screen, banner_module }: Props) => {
 
     const { push, back } = useRouter()
 
@@ -197,7 +198,7 @@ const Index = ({ speaker, screen }: Props) => {
                             >
                                     ALL
                             </Button>}
-                            <Button 
+                            <Button
                                 onPress={() => {
                                     setTab('my-attendee')
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
@@ -344,6 +345,11 @@ const Index = ({ speaker, screen }: Props) => {
                                             <RectangleAttendeeView attendee={attendee} border={attendees.length > 0 && attendees[attendees.length - 1]?.id !== attendee?.id ? 1 : 0} speaker={speaker} />
                                         </React.Fragment>
                              )}
+                            {attendees.length <= 0 &&
+                              <Box p={3} mb="3"  rounded="lg" w="100%">
+                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              </Box>
+                            }
                         </Container>}
                         {(tab === 'group' || tab === 'sub-group') && <Container mb="3" pt={3} rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
@@ -358,6 +364,11 @@ const Index = ({ speaker, screen }: Props) => {
                                     )}
                                 </React.Fragment>
                             )}
+                            {groups.length <= 0 &&
+                              <Box p={3} mb="3" rounded="lg" w="100%">
+                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              </Box>
+                            }
                         </Container>}
                         {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
@@ -366,16 +377,19 @@ const Index = ({ speaker, screen }: Props) => {
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
+                                <Box p={3} mb="3" rounded="lg" w="100%">
                                     <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                                 </Box>
                             }
                         </Container>}
                     </>
                 )}
-                <Box width={"100%"} height={"5%"}>
-                    <BannerAds module_name={'speakers'} module_type={'listing'} />
-                </Box>
+                {banner_module && 
+                    <Box width={"100%"} height={"5%"}>
+                        <BannerAds module_name={banner_module} module_type={'listing'} />
+                    </Box>
+                }
+                
             </>
             {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('category-listing', processing)) && page > 1 && (
                 <LoadMore />
