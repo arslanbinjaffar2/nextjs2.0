@@ -35,7 +35,7 @@ const Comments = ({ question, updateFormData, canChangeAnswer }: PropTypes) => {
           <Icodocument width="15px" height="18px" />
           <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
         </HStack>
-        <Box py="3" px="4" w="100%">
+        <Box pt="3" px="4" w="100%">
           <TextArea
             p="3"
             mb={1}
@@ -45,10 +45,10 @@ const Comments = ({ question, updateFormData, canChangeAnswer }: PropTypes) => {
             isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
             onChange={(e) => updateComment(e.currentTarget.valueOf.toString())}
             onChangeText={(text) => updateComment(text)}
-            borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
+            borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
         </Box>
         <HStack px="3" py="1" w="100%" space="3" alignItems="center" justifyContent="end">
-          <Text>
+          <Text fontSize="sm">
             {characterLimit - comment.length > 0 ? characterLimit - comment.length : 0} {event?.labels?.GENERAL_CHARACTER_REMAINING}
           </Text>
         </HStack>
