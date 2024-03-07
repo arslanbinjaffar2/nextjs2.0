@@ -90,25 +90,25 @@ const BannerAds = ({
         if (banner.url) {
           url = banner.url;
         } else {
-          url = `/${event.url}/sponsors/detail/${banner.sponsor_id}`;
+          push(`/${event.url}/sponsors/detail/${banner.sponsor_id}`);
         }
       }
       else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0 && banner.other_link_url == '' ) {
         return
       }
       else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0) {
-        url = `${banner.other_link_url}`;
+       push(`${banner.other_link_url}`);
+       return
       } else if (banner.exhibitor_id > 0) {
         if (banner.url ) {
           url = banner.url;
         } else {
-          url = `/${event.url}/exhibitors/detail/${banner.exhibitor_id}`;
+         push(`/${event.url}/exhibitors/detail/${banner.exhibitor_id}`);
+         return
         }
       } else if (banner.agenda_id > 0) {
-        url = `/${event.url}/agendas/detail/${banner.agenda_id}`;
-      }
-      if (url) {
-        push(url);
+        push(`/${event.url}/agendas/detail/${banner.agenda_id}`);
+        return
       }
       let type;
       if (banner.sponsor_id > 0) {
