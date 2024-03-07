@@ -3,6 +3,7 @@ import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, V
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
 import UseEventService from 'application/store/services/UseEventService';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 
 
 type PropTypes = {
@@ -32,7 +33,7 @@ const Comments = ({ question, updateFormData, canChangeAnswer }: PropTypes) => {
   return (
     <>
         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-          <Icodocument width="15px" height="18px" />
+          <Icowritecomment width="15px" height="18px" />
           <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
         </HStack>
         <Box pt="3" px="4" w="100%">
