@@ -4,7 +4,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { Detail } from 'application/models/attendee/Detail';
 import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
-
+import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
 type AppProps = {
     detail: Detail,
     info: React.ReactNode,
@@ -165,7 +165,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.date_of_issue_passport}:</Heading>
                                             </Box>
                                             <Box pl="1" w="calc(100% - 200px)">
-                                                <Text fontSize="sm">{moment(detail?.detail?.info?.date_of_issue_passport).format('YYYY-MM-DD')}</Text>
+                                                <Text fontSize="sm">{moment(detail?.detail?.info?.date_of_issue_passport).format(GENERAL_DATE_FORMAT)}</Text>
                                             </Box>
                                         </HStack>
                                     )}
@@ -175,7 +175,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.date_of_expiry_passport}:</Heading>
                                             </Box>
                                             <Box pl="1" w="calc(100% - 200px)">
-                                                <Text fontSize="sm">{moment(detail?.detail?.info?.date_of_expiry_passport).format('YYYY-MM-DD')}</Text>
+                                                <Text fontSize="sm">{moment(detail?.detail?.info?.date_of_expiry_passport).format(GENERAL_DATE_FORMAT)}</Text>
                                             </Box>
                                         </HStack>
                                     )}
@@ -185,7 +185,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.BIRTHDAY_YEAR}:</Heading>
                                             </Box>
                                             <Box pl="1" w="calc(100% - 200px)">
-                                                <Text fontSize="sm">{moment(detail?.detail?.BIRTHDAY_YEAR).format('YYYY-MM-DD')}</Text>
+                                                <Text fontSize="sm">{moment(detail?.detail?.BIRTHDAY_YEAR).format(GENERAL_DATE_FORMAT)}</Text>
                                             </Box>
                                         </HStack>
                                     )}
@@ -195,7 +195,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.EMPLOYMENT_DATE}:</Heading>
                                             </Box>
                                             <Box pl="1" w="calc(100% - 200px)">
-                                                <Text fontSize="sm">{moment(detail?.detail?.EMPLOYMENT_DATE).format('YYYY-MM-DD')}</Text>
+                                                <Text fontSize="sm">{moment(detail?.detail?.EMPLOYMENT_DATE).format(GENERAL_DATE_FORMAT)}</Text>
                                             </Box>
                                         </HStack>
                                     )}

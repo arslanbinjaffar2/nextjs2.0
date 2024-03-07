@@ -51,9 +51,9 @@ const DetailBox = ({ detail }: AppProps) => {
         <Box w="100%" bg="primary.box" p="0" roundedTop="10">
             <Box w="100%" bg="primary.primarycolor" p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
-                    <Image mb="5" roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="Alternate Text" w="100%" h="160px" />
+                    <Image mb="5" roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
                 ) : (
-                    <Image mb="5" roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="Alternate Text" w="100%" h="160px" />
+                    <Image mb="5" roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="" w="100%" h="160px" />
                 )}
                 <Box w="100%" px="6" position={'relative'}>
                     <HStack w="100%" mb="1" space="3" alignItems="flex-start">

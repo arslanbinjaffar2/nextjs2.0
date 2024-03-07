@@ -48,7 +48,7 @@ const Index = () => {
                     }).map((gallery_image:GalleryImage)=>(
                       <Image source={{
                         uri:  `${_env.eventcenter_base_url}/assets/imagegallery/${gallery_image.image}` 
-                      }} alt="Alternate Text" size="xl" key={gallery_image.id} />
+                      }} alt="" size="xl" key={gallery_image.id} />
                     ))}
                   </Stack>
                 </VStack>

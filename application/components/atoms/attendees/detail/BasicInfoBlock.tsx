@@ -37,9 +37,9 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                 <Box w="100%" p="4" py="5" rounded="10">
                     <HStack mb="4" space="5">
                         {detail?.detail?.image ? (
-                            <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="Alternate Text" w="50px" h="50px" />
+                        <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
                         ) : (
-                            <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={UserPlaceholderImage} alt="Alternate Text" w="50px" h="50px" />
+                        <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={UserPlaceholderImage} alt="" w="50px" h="50px" />
                         )}
                         <VStack w="calc(100% - 140px)" space="0">
                             <Text lineHeight="sm" fontSize="xl">
@@ -68,7 +68,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 onPress={() => {
                                     MakeFavourite({ attendee_id: Number(detail?.detail?.id), screen: 'detail' })
                                 }}>
-                                <Icoribbon width="20" height="28" color={detail?.is_favourite ? event?.settings?.primary_color : ''} />
+                            <Icoribbon width="20" height="28" color={detail?.is_favourite ? event?.settings?.secondary_color : ''} />
                             </Pressable>
                         </Box>}
                     </HStack>

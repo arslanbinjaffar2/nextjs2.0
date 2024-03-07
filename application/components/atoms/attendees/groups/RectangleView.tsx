@@ -60,9 +60,7 @@ const RectangleView = ({ group, border, k, updateTab, navigation }: boxItemProps
                             borderWidth={1}
                             borderColor="primary.darkbox"
                             bg={group?.color}
-                            source={{
-                                uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                            }}>{group?.info?.initial}</Avatar>
+                            >{group?.info?.initial}</Avatar>
                         <VStack maxW={['62%', '70%', '70%']} space="0">
                             <Text lineHeight="22px" fontSize="lg">{group?.info?.name}</Text>
                         </VStack>

@@ -9,30 +9,32 @@ import { Linking } from 'react-native';
 import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
+import UseEventService from 'application/store/services/UseEventService';
 
 const index = () => {
 
   const mounted = React.useRef(false);
   const { banners, FetchBanners} = UseBannerService();
   const { _env } = UseEnvService()
+  const { event, modules } = UseEventService()
 
-    const { loading } = UseLoadingService();
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
+  const { loading } = UseLoadingService();
+  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
-    const { FetchSocialMedias, socialMedia } = UseSocialMediaService();
-    useEffect(()=>{
-      const filteredBanner=banners.filter((banner  : Banner)=>{
-        return banner.module_name == 'social' && banner.module_type == 'listing'
-      })
+  const { FetchSocialMedias, socialMedia } = UseSocialMediaService();
+  useEffect(()=>{
+    const filteredBanner=banners.filter((banner  : Banner)=>{
+      return banner.module_name == 'social' && banner.module_type == 'listing'
+    })
 
-    setFilteredBanners(filteredBanner);
-    },[banners]);
-    useEffect(() => {
-      FetchSocialMedias();
-    }, []);
-    React.useEffect(() => {
-      FetchBanners();
-    }, []);
+  setFilteredBanners(filteredBanner);
+  },[banners]);
+  useEffect(() => {
+    FetchSocialMedias();
+  }, []);
+  React.useEffect(() => {
+    FetchBanners();
+  }, []);
   return (
     <>
       {
@@ -41,7 +43,7 @@ const index = () => {
         ):(
         <Container pt="2" maxW="100%" w="100%">
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-              <Text textTransform="uppercase" fontSize="2xl">Social media</Text>
+              <Text textTransform="uppercase" fontSize="2xl">{modules?.find((socialMedia)=>(socialMedia.alias == 'social-media'))?.name ?? ""}</Text>
             </HStack>
             <Box w="100%" mb="3" bg="primary.box" p={["4","8"]} pb="1" rounded="10px">
               <Flex direction="row" flexWrap="wrap">

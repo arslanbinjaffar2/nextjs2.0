@@ -25,6 +25,7 @@ export interface Document {
     start_date?: string;
     start_time?: string;
     s3?: number;
+    s3_url?: string;
     children: Document[];
     children_files: Document[];
 }

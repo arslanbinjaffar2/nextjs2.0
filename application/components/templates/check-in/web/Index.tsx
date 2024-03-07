@@ -29,6 +29,8 @@ import DateTimePicker from 'application/components/atoms/DateTimePicker'
 import UseBannerService from 'application/store/services/UseBannerService'
 import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService'
+import UseEventService from 'application/store/services/UseEventService';
+import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT} from 'application/utils/Globals'
 
 const CheckinList = ({type, k}: any) => {
 	const [toggle, settoggle] = React.useState(false);
@@ -114,6 +116,7 @@ const CheckinList = ({type, k}: any) => {
 const Index = () => {
     const { loading, processing } = UseLoadingService();
   const { _env } = UseEnvService()
+  const { event, modules } = UseEventService()
 
   const { FetchCheckInOut, checkInOut, SendQRCode }  = UseCheckInOutService();
   React.useEffect(() => {  
@@ -142,7 +145,7 @@ const Index = () => {
             <Container pt="1" maxW="100%" w="100%">
 							<Box flexDirection="row" w={'100%'} alignItems="center">
 								<HStack mb={3} w={'100%'} space="0" alignItems="center" justifyContent={'center'} pt={4}>
-                <Text mb="0" textTransform="uppercase" fontSize="2xl">Session check-in</Text>
+                <Text mb="0" textTransform="uppercase" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
 								<Spacer />
                   {checkInOut?.setting?.enable_email_ticket ? <>
                     {in_array('checkin-send-qr-code', processing) ?  <WebLoading/> : 
@@ -192,7 +195,7 @@ const Index = () => {
                         source={{
                             uri: checkInOut?.qrCodeImgSrc
                         }}
-                        alt="Alternate Text"
+                        alt=""
                         w="164px"
                         h="164px"
                         rounded="10"
@@ -221,7 +224,7 @@ const Index = () => {
                 source={{
                     uri: 'https://wallpaperaccess.com/full/206501.jpg'
                 }}
-                alt="Alternate Text"
+                alt=""
                 w="100%"
                 h="144px"
                 />
@@ -239,7 +242,7 @@ const Index = () => {
 									</HStack>
                 <Box  mb="3" py="3" alignItems={'flex-end'} display={'flex'} w="100%">
                   <Box w={'100%'} maxW={396}>
-                    <DateTimePicker label={'Date'} showdate={'DD-MM-YYYY'}  />
+                    <DateTimePicker label={'Date'} showdate={GENERAL_DATE_FORMAT}  />
                   </Box>
                 
 							</Box>
@@ -257,7 +260,7 @@ const Index = () => {
                         <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK IN</Text>
                         <VStack space="1">
                         {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
-                            <Text fontSize="md">{getTypeEntityName(item)} {(item.checkin !== '' && item.checkin !== '00-00-0000 00:00:00') ? moment(item.checkin).format('DD-MM-yyyy HH:mm:ss') : '---'}</Text>
+                            <Text fontSize="md">{getTypeEntityName(item)} {(item.checkin !== '' && item.checkin !== '00-00-0000 00:00:00') ? moment(item.checkin).format(GENERAL_DATETIME_FORMAT) : '---'}</Text>
                         </HStack>))}
                         </VStack>
                     </Box>
@@ -266,7 +269,7 @@ const Index = () => {
                         <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK OUT</Text>
                         <VStack space="1">
                         {checkInOut?.type_history[tab]?.map((item)=>(<HStack px="3" space="4" alignItems="center">
-                            <Text fontSize="md">{(item.checkout !== '' && item.checkout !== '00-00-0000 00:00:00') ? moment(item.checkout).format('DD-MM-yyyy HH:mm:ss') : " ---"}</Text>
+                            <Text fontSize="md">{(item.checkout !== '' && item.checkout !== '00-00-0000 00:00:00') ? moment(item.checkout).format(GENERAL_DATETIME_FORMAT) : " ---"}</Text>
                         </HStack>))}
                         </VStack>
                     </Box>

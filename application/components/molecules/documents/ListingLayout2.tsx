@@ -47,8 +47,8 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                                 setBreadCrumbs(FindPath(data, breadcrumb.id));
                             }}>
                             <Center maxW="250px">
-															<Text textTransform="uppercase" fontSize="md" isTruncated>{breadcrumb.name}</Text>
-														</Center>
+                                    <Text textTransform="uppercase" fontSize="md" isTruncated>{breadcrumb.name}</Text>
+                                </Center>
 														
                         </Pressable>
                     </React.Fragment>
