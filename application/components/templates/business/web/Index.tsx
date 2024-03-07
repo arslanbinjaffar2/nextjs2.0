@@ -14,6 +14,8 @@ import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleView from 'application/components/atoms/attendees/RectangleView';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
+
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -36,7 +38,7 @@ const Index = () => {
   return (
     <>
         {loading && <SectionLoading />}
-        {(!loading  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
+        {(!loading  && keywords.length <=0 ) && <Text>No keyword found</Text>} 
         {(!loading  && keywords.length > 0 ) && <ManageKeywords 
           keywords={keywords} 
           searchMatchAttendees={searchMatchAttendees} 
@@ -45,6 +47,9 @@ const Index = () => {
           showAttendees={showAttendees}
           setShowAttendees={setShowAttendees}
          />}
+          <Box width={"100%"} height={"5%"}>
+            <BannerAds module_name={'business'} module_type={'listing'} />
+          </Box>    
     </>
   )
 }
