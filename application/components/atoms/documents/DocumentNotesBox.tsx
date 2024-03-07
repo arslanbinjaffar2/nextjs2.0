@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea } from 'native-base';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import UseNoteService from 'application/store/services/UseNoteService';
 import DynamicIcon from 'application/utils/DynamicIcon';
-import makeApi from "application/utils/ConfigureAxios";
-import { HttpResponse } from 'application/models/GeneralResponse';
-import { getMyNoteApi } from '../../../store/api/Notes.Api';
+import { getMyNoteApi, saveNote, updateNote } from 'application/store/api/Notes.Api';
+import { MyNote } from 'application/models/notes/Notes';
+import { store } from 'application/store/Index'
 
 
 type AppProps = {
@@ -13,43 +12,69 @@ type AppProps = {
     children?: React.ReactNode
 }
 const DocumentNotesBox = ({note_type_id, children}:AppProps) => {
-  const { my_note,saving_notes, SaveNote,GetNote,UpdateNote } = UseNoteService();
   const [note, setNote] = React.useState('')
   const [isNewNote, setIsNewNote] = React.useState(true)
-  const note_type = 'directory';
+  const noteType = 'directory';
+
+  const [myNote, setMyNote] = useState<MyNote|null>(null);
+
+  const [loadingNote, setLoadingNote] = useState<boolean>(false);
+
+  async function fetchNotes() {
+    const mystate=store.getState()
+    setLoadingNote(true);
+    try {
+      const response = await getMyNoteApi({note_type:noteType, note_type_id:note_type_id},mystate); // Call the API function
+      setMyNote(response.data.data.note);
+      setLoadingNote(false);
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  async function saveNotes() {
+    const mystate=store.getState()
+    setLoadingNote(true);
+    try {
+      await saveNote ({note: note,note_type:noteType, note_type_id:note_type_id},mystate); // Call the API function
+      fetchNotes();
+      setLoadingNote(false);
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  async function updateNotes() {
+    const mystate=store.getState()
+    setLoadingNote(true);
+    try {
+      await updateNote ({notes: note,id:myNote?.id, type:noteType},mystate); // Call the API function
+      setLoadingNote(false);
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await getMyNoteApi({note_type:note_type, note_type_id:note_type_id}, {}); // Call the API function
-        console.log(response);
-      } catch (error) {
-        // Handle error
-      }
-    }
-
-    fetchData(); // Call the function to fetch data
+    fetchNotes();
   }, []);
 
+
   useEffect(()=>{
-    if(my_note == null || my_note?.id === undefined || my_note?.id === 0){
+    if(myNote == null || myNote?.id === undefined || myNote?.id === 0){
         setIsNewNote(true);
     }else{
         setIsNewNote(false);
     }
-    setNote(my_note?.notes ?? '');
-  },[my_note])
+    setNote(myNote?.notes ?? '');
+  },[myNote])
 
-  function save(){
-    if(note === '' || saving_notes){
-        return;
-    }
-    if(isNewNote){
-        SaveNote({note:note, note_type:note_type, note_type_id:note_type_id });
-    }else{
-        UpdateNote({notes:note, id:my_note?.id, type:note_type});
-    }
 
+  function save() {
+    if (note === '' || loadingNote) {
+      return;
+    }
+    isNewNote ? saveNotes() : updateNotes();
   }
 
   return (
@@ -70,7 +95,7 @@ const DocumentNotesBox = ({note_type_id, children}:AppProps) => {
                 borderWidth="0" fontSize="md" placeholder="Take note" autoCompleteType={undefined} />
                 <HStack justifyContent={'flex-end'} alignItems={'flex-end'} space={2}>
                     {children}
-                    <Pressable onPress={() => save()}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
+                    <Pressable onPress={() => save()} disabled={loadingNote}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
                 </HStack>
             </Box>
         </Box>
