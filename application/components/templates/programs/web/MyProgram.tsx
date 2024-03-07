@@ -40,7 +40,7 @@ const MyProgram = () => {
     return (
         <>
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'myprograms'))?.name ?? 'My programs'}</Text>
+                <Text textTransform="uppercase" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'myprograms'))?.name ?? ''}</Text>
                 <Spacer />
                 <Search tab={'my-program'} />
             </HStack>

@@ -6,7 +6,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 import IcoBell from 'application/assets/icons/IcoBell';
 
-const RectangleView = ({title, description, date_time}:{title:string,description:string, date_time:string}) => {
+const RectangleView = ({title, description, date_time, is_last_item}:{title:string,description:string, date_time:string, is_last_item:boolean}) => {
   // const { event } = UseEventService();
   // const { push } = useRouter()
 

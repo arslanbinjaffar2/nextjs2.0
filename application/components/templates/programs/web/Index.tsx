@@ -58,7 +58,6 @@ const Index = () => {
         const filteredBanner=banners.filter((banner  : Banner)=>{
             return banner.module_name == 'agendas' && banner.module_type == 'listing'
         })
-        console.log('hamza hre',filteredBanner)
         setFilteredBanners(filteredBanner);
     },[query,banners]);
     React.useEffect(() => {
@@ -80,14 +79,15 @@ const Index = () => {
     React.useEffect(() => {
         FetchBanners();
     }, []);
-
+console.log(tab);
     return (
         <>
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 {width > 480 &&
                 <>
-                 <Text fontSize="2xl">PROGRAMS</Text>
-                <Spacer /></>}
+                <Text textTransform="uppercase" fontSize="2xl">{modules?.find((programTitle)=>(programTitle.alias == 'agendas'))?.name ?? ''}</Text>
+                <Spacer />
+                </>}
                 {event?.eventsite_settings?.agenda_search_filter == 1 && <Search tab={tab} />}
             </HStack>
             <HStack mb="3" space={1} justifyContent="center" w="100%">

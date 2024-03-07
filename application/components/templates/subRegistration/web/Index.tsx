@@ -26,8 +26,7 @@ import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 import { error } from 'application/store/slices/Auth.Slice';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
+
 
 
 type ScreenParams = { id: string }
@@ -59,14 +58,9 @@ const Detail = () => {
   const [formData, setFormData] = useState<FormData>({});
   const [errors, setErrors] = useState<FormData>({});
   const [updates, setUpdates] = useState(0);
-   const [submitcount, setsubmitcount] = useState(0);
-
+  const [submitcount, setsubmitcount] = useState(0);
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
-  const { banners, FetchBanners} = UseBannerService();
-
-  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
-   const refElement = React.useRef<HTMLDivElement>(null);
-
+  const refElement = React.useRef<HTMLDivElement>(null);
   const updateFormData = (question_id:number, type:string, answer:any, index?:number, agendaId?:number) => {
     
     let newErrors = errors;
@@ -136,16 +130,7 @@ const Detail = () => {
           }
       }
     }, [skip]);
-    useEffect(()=>{
-      const filteredBanner=banners.filter((banner  : Banner)=>{
-        return banner.module_name == 'subregistration' && banner.module_type == 'listing'
-      })
 
-      setFilteredBanners(filteredBanner);
-    },[banners]);
-    React.useEffect(() => {
-      FetchBanners();
-    }, []);
     const validate = async () => {
       let error = false;
       let newFormData = errors;
@@ -341,17 +326,7 @@ const Detail = () => {
               </Box>}
             </Container>
       )}
-      <Box width={"100%"} height={"5%"}>
-        {filteredBanners.map((banner, k) =>
-          <Image
-            key={k}
-            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-            alt="Image"
-            width="100%"
-            height="100%"
-          />
-        )}
-      </Box>
+
     </>
   );
 };

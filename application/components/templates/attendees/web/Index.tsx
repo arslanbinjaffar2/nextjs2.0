@@ -61,7 +61,7 @@ const Index = ({ speaker, screen }: Props) => {
 
     const { response } = UseAuthService();
 
-    const { event } = UseEventService();
+    const { event, modules } = UseEventService();
     const { banners, FetchBanners} = UseBannerService();
     const [tab, setTab] = useState<string | null>(tabQueryParam !== null ? tabQueryParam : (speaker === 1 ?  (event?.speaker_settings?.default_display !== 'name' ? 'category' : 'attendee') :  (event?.attendee_settings?.default_display !== 'name' ? 'group' : 'attendee')));
 
@@ -87,17 +87,17 @@ const Index = ({ speaker, screen }: Props) => {
 
     useEffect(() => {
         if (mounted.current) {
-            if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
+            if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) { console.log('call 1')
                 FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }
     }, [scroll]);
 
     useEffect(() => {
-        if (mounted.current) {
+        if (mounted.current) { 
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0, program_id: 0 });
-            } else if (in_array(tab, ['attendee', 'my-attendee', 'category-attendee'])) {
+            } else if (in_array(tab, ['attendee', 'my-attendee', 'category-attendee'])) { console.log('call 2')
                 FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             } else if (in_array(tab, ['category'])) {
                 FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
@@ -122,10 +122,13 @@ const Index = ({ speaker, screen }: Props) => {
 
     useEffect(() => {
         if (slug !== undefined && slug.length === 1) { // Group attendees by slug
-            setTab('group-attendee');
+            setTab('group-attendee'); console.log('call 3')
             FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
+        } else if ((slug === undefined || slug.length === 0) && tab === 'attendee' && screen === "my-attendees") {
+            setTab('attendee'); console.log('call 4')
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: response?.data?.user?.id , speaker: 0, category_id: 0, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
         } else if ((slug === undefined || slug.length === 0) && tab === 'attendee') {
-            setTab('attendee');
+            setTab('attendee'); console.log('call 4')
             FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
         } else if ((slug === undefined || slug.length === 0) && tab === 'category') {
             setTab('category');
@@ -156,7 +159,7 @@ const Index = ({ speaker, screen }: Props) => {
         return debounce(function (query: string, tab:string) {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: group_id, page: 1, attendee_id: 0, program_id: 0 });
-            } else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {
+            } else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {console.log('call 5')
                 FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }, 1000);
@@ -166,7 +169,7 @@ const Index = ({ speaker, screen }: Props) => {
         setSearch(query);
     }, [query]);
 
-    React.useEffect(() => {
+    React.useEffect(() => { 
         if (screen === 'my-attendees') {
             setTab('my-attendee');
         }
@@ -175,10 +178,14 @@ const Index = ({ speaker, screen }: Props) => {
     React.useEffect(() => {
         FetchBanners();
     }, []);
+
+    console.log(screen);
     return (
         <>
             <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text fontSize="2xl">{speaker === 0 ? 'ATTENDEES' : 'SPEAKERS'}</Text>
+                <Text fontSize="2xl">
+                    {speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee)=>(attendee.alias == 'attendees'))?.name :  modules?.find((attendee)=>(attendee.alias == 'my-attendee-list'))?.name) : modules?.find((speaker)=>(speaker.alias == 'speakers'))?.name}
+                </Text>
                 <Spacer />
                 <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
                     search(text, tab!);
@@ -245,7 +252,8 @@ const Index = ({ speaker, screen }: Props) => {
                         }
                     </HStack>}
                     {speaker ===  1 && <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        {((event?.speaker_settings?.default_display === 'name' || event?.speaker_settings?.tab == 1)) &&  
+                        
+                        {(( event?.speaker_settings?.tab == 1)) &&  
                             <Button 
                                 onPress={() => {
                                     setTab('attendee') 
@@ -255,30 +263,30 @@ const Index = ({ speaker, screen }: Props) => {
                                 borderWidth="1px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
-                                borderRightRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} 
+                                borderRightRadius={0} 
                                 borderLeftRadius={8} 
                                 h="42px" 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
-                                w={((event?.speaker_settings?.default_display == 'name' && event?.speaker_settings?.tab == 0) ? '100%' : '50%')} 
+                                w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                ALL
+                                {event?.labels?.GENERAL_ALL}
                             </Button>
                         }
-                        {(event?.speaker_settings?.default_display !== 'name' || event?.speaker_settings?.tab == 1) &&
+                        {( event?.speaker_settings?.tab == 1) &&
                             <Button 
                                 onPress={() => {
                                     setTab('category')
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
                                 }} 
                                 borderRightRadius={8} 
-                                borderLeftRadius={event?.speaker_settings?.tab == 0 ? 8 : 0} 
+                                borderLeftRadius={0} 
                                 borderWidth="1px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
                                 bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} 
-                                w={((event?.speaker_settings?.default_display !== 'name' && event?.speaker_settings?.tab == 0)) ? '100%' : '50%'} 
+                                w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
                                 CATEGORIES
@@ -367,12 +375,17 @@ const Index = ({ speaker, screen }: Props) => {
                                 </React.Fragment>
                             )}
                         </Container>}
-                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container pt={3} mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     <RectangleCategoryView category={category} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />
                                 </React.Fragment>
                             )}
+                            { categories.length <= 0 &&
+                                <Box p="3">
+                                    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                </Box>
+                            }
                         </Container>}
                     </>
                 )}

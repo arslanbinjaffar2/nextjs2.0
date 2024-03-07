@@ -80,9 +80,9 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
                         )}
                         <Center mb={3} px="1" alignItems="center" w="100%">
                             {exhibitor.logo ? (
-                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${exhibitor.logo}` }} alt="Alternate Text" w="210px" h="72px" />
+                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${exhibitor.logo}` }} alt="" w="210px" h="72px" />
                             ) : (
-                                <Image source={ExhibitorDefaultImage} alt="Alternate Text" w="210px" h="72px" />
+                                <Image source={ExhibitorDefaultImage} alt="" w="210px" h="72px" />
                             )}
                         </Center>
                          <HStack mb={3} space="3" minHeight={'25px'} alignItems="center"  position={'relative'}>

@@ -135,9 +135,9 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                                         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
                                           <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
                                             {attendee?.image ? (
-                                              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="Alternate Text" w="50px" h="50px" />
+                                              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
                                             ) : (
-                                              <Image rounded="25" size="5" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="50px" h="50px" />
+                                              <Image rounded="25" size="5" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="" w="50px" h="50px" />
                                             )}
                                             <VStack maxW={['62%', '70%', '40%']} space="0">
                                               {(attendee?.first_name || attendee?.last_name) && (
