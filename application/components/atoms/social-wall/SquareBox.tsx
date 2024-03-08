@@ -251,7 +251,7 @@ const SquareBox = ({ post, index }: AppProps) => {
 
               </Button>
             </Center>
-            <Center flex={1}>
+            <Center flex={1} alignItems={'flex-end'}>
               <Button
                 colorScheme="unstyled"
                 bg={'transparent'}
