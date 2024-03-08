@@ -7,14 +7,17 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import useSocialWallService from 'application/store/services/UseSocialWallService'
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 type AppProps = {
   comment: Comment,
   secondlevel: boolean,
-  onChildClick: (a: any,b:any) => void
+  hiddenReplies?: number,
+  onChildClick: (a: any,b:any) => void,
+  toggleHiddenReplies?: (a: number) => void;
 }
-const CommentBox = ({ comment, secondlevel,onChildClick }: AppProps) => {
+const CommentBox = ({ comment, secondlevel, hiddenReplies, onChildClick, toggleHiddenReplies }: AppProps) => {
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
   const { processing } = UseLoadingService();
@@ -91,6 +94,24 @@ const handleClick = () => {
         </VStack>
         
       </HStack>
+      {hiddenReplies && hiddenReplies > 1 ?
+        <HStack pb={3} position={'relative'} space="3" px={5} pl={secondlevel ? '55px' : '5'} alignItems="flex-start">
+          {secondlevel && <Divider w={'5'} position={'absolute'} left={'35px'} top={3} bg={'primary.bordercolor'} />}
+            <Icon as={Ionicons} name="return-down-forward" size={7} color={'primary.text'} />
+
+            <VStack pb={2} position={'relative'} space="3"  justifyContent="flex-start">
+              <Pressable onPress={() => {
+                toggleHiddenReplies(comment.parent_id)
+              }}>
+                <HStack>
+                  <Text fontWeight={500} fontSize={'md'}>
+                    View {hiddenReplies} more
+                  </Text></HStack>
+
+              </Pressable>
+            </VStack>
+            </HStack>
+      : null}
     {secondlevel && <Divider bg={'primary.bordercolor'} zIndex={2} height={'calc(100% - 65px)'} width={'1px'} position={'absolute'} left={'35px'} top={'32px'} />}
     </>
     )

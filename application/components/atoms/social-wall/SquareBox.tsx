@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input, Center, Link, Menu, Icon, ScrollView } from 'native-base'
+import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input, Center, Link, Menu, Icon, ScrollView, Pressable } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
 import IcoSharePost from 'application/assets/icons/IcoSharePost'
@@ -14,6 +14,7 @@ import CommentBox from 'application/components/atoms/social-wall/CommentBox';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import Entypo from '@expo/vector-icons/Entypo';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 
 type AppProps = {
@@ -31,6 +32,8 @@ const SquareBox = ({ post, index }: AppProps) => {
 
   const [toggleReplay, settoggleReplay] = useState(null)
   const [commnetid, setcommnetid] = useState(null)
+  const [hiddenReplies, setHiddenReplies] = useState<{ [commentId: number]: number }>({});
+  const [commentsSortBy, setCommentsSortBy] = useState<string>('top');
 
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some(like => like.attendee_id === response?.data?.user?.id)
@@ -56,11 +59,37 @@ const SquareBox = ({ post, index }: AppProps) => {
   function likeComment(id:number) {
     LikeSocialWallComment({id:id})
   }
- const handleChildClick = (a: any, b: any) => {
+
+  const handleChildClick = (a: any, b: any) => {
     settoggleReplay(a);
     setcommnetid(b)
+    handleToggleReplies(b)
     // You can perform any actions needed with the received data
   };
+
+
+  const handleToggleReplies = (commentId: number) => {
+    setHiddenReplies(prevState => ({
+      ...prevState,
+      [commentId]: post.comments.find(comment => comment.id === commentId)?.replies.length ?? 0
+    }));
+  };
+
+  const sortedComments = [...post.comments].sort((a: Comment, b: Comment) => {
+    if (commentsSortBy === 'top') {
+      const aTotalInteractions = a.likes.length + a.replies.length;
+      const bTotalInteractions = b.likes.length + b.replies.length;
+      return bTotalInteractions - aTotalInteractions;
+    } else {
+      console.log(new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    }
+  });
+
+  const handleCommentsSortBy = (sortBy: string) => {
+    setCommentsSortBy(sortBy);
+  };
+
   return (
     <Box mb="3"  w="100%" py={3}  bg={'primary.box'} roundedTop={ index === 0 ? 0 : 10 } roundedBottom={10} borderWidth="1" borderColor="primary.box">
       <VStack  space="3">
@@ -181,7 +210,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                   Comments
                 </Button>
             </Center>
-             <Center flex={1} alignItems={'flex-end'}>
+             {/* <Center flex={1} alignItems={'flex-end'}>
               <Button
                   colorScheme="unstyled"
                   bg={'transparent'}
@@ -196,7 +225,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                 >
                   Share
                 </Button>
-            </Center>
+            </Center> */}
           </HStack>
         </HStack>
         {/* new comment section */}
@@ -212,42 +241,84 @@ const SquareBox = ({ post, index }: AppProps) => {
             SS
           </Avatar>
         </HStack> */}
-          
-        {post.comments.map((comment: Comment) => {
-          return <React.Fragment key={comment.id}>
-            <Box overflow={'hidden'} w={'100%'}>
-              <ScrollView w={'100%'} maxH={350}>
-             
-              
-              <CommentBox onChildClick={handleChildClick}  secondlevel={false} comment={comment} key={comment.id} />
-              {comment.replies.map((reply: Comment) => 
-                <CommentBox onChildClick={handleChildClick}  secondlevel={true} comment={reply} key={reply.id} />
-              )}
-             {toggleReplay && commnetid === comment.id && <Divider bg={'primary.bordercolor'} zIndex={2} height={'calc(100% - 65px)'} width={'1px'} position={'absolute'} left={'35px'} top={'32px'} />}
-            {toggleReplay && commnetid === comment.id && <HStack w={'100%'} py={2} pl={'65px'} pr={3} space="2" alignItems="center">
-              <Center>
-                <Divider w={'4'} position={'absolute'} left={'-30px'} top={3} bg={'primary.bordercolor'} />
-                <Avatar
-                  borderWidth={1}
-                  borderColor="primary.text"
-                  size="sm"
-                  source={{
-                    uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
-                  }}
+
+      {sortedComments.length > 0 &&
+          <HStack px={3} py={1} roundedTop={'10px'} w={'100%'}>
+            <Box ml={'auto'}>
+              <Menu
+                placement="bottom right"
+                bg="primary.darkbox"
+                borderWidth={1}
+                borderColor="#707070"
+                shouldFlip={true}
+                w={180}
+                crossOffset={0}
+                trigger={triggerProps => {
+                  return (
+                    <Pressable accessibilityLabel="More options menu" {...triggerProps}>
+                      <HStack space="2" alignItems="center">
+                        <Text fontSize="md">
+                          {commentsSortBy === 'top' ? 'Top Comments' : commentsSortBy === 'newest' ? 'Newest' : 'Most Liked Comments'}
+                        </Text>
+                        <Icon as={AntDesign} name="caretdown" color={'primary.text'} />
+                      </HStack>
+                    </Pressable>
+                  );
+                }}
+              >
+                <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
+                  Top Comments
+                </Menu.Item>
+                <Menu.Item
+                  _focus={{ bg: '' }}
+                  _hover={{ bg: 'primary.500' }}
+                  textValue="comments_newest"
+                  onPress={() => handleCommentsSortBy('newest')}
                 >
-                  SS
-                </Avatar>
-              </Center>
-              <Center w={'calc(100% - 45px)'}>
-                <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} />
-              </Center>
-              
-            </HStack>}
-             </ScrollView>
+                  Newest
+                </Menu.Item>
+              </Menu>
             </Box>
-            
-          </React.Fragment>
-        })}
+          </HStack>
+        }
+          
+          <VStack overflowY={'auto'} maxHeight={'250px'}>
+          {sortedComments.map((comment: Comment) => {
+            const totalReplies: number = comment.replies.length ? comment.replies.length : 0;
+            const visibleReplies: number = hiddenReplies[comment.id] ?? 1;
+            const remainingReplies = totalReplies > 0 ? totalReplies - visibleReplies : 0;
+
+            return <React.Fragment key={comment.id}>
+              <Box overflow={'hidden'} w={'100%'}>
+                <CommentBox onChildClick={handleChildClick} secondlevel={false} comment={comment} key={comment.id} />
+                {comment.replies.slice(0, visibleReplies).map((reply: Comment) => (
+                  <CommentBox onChildClick={handleChildClick} secondlevel={true} comment={reply} key={reply.id} hiddenReplies={remainingReplies} toggleHiddenReplies={() => handleToggleReplies(comment.id)} />
+                ))}
+                {toggleReplay && commnetid === comment.id && <Divider bg={'primary.bordercolor'} zIndex={2} height={'calc(100% - 65px)'} width={'1px'} position={'absolute'} left={'35px'} top={'32px'} />}
+                {toggleReplay && commnetid === comment.id && <HStack w={'100%'} py={2} pl={'65px'} pr={3} space="2" alignItems="center">
+                  <Center>
+                    <Divider w={'4'} position={'absolute'} left={'-30px'} top={3} bg={'primary.bordercolor'} />
+                    <Avatar
+                      borderWidth={1}
+                      borderColor="primary.text"
+                      size="sm"
+                      source={{
+                        uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
+                      }}
+                    >
+                      SS
+                    </Avatar>
+                  </Center>
+                  <Center w={'calc(100% - 45px)'}>
+                    <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} />
+                  </Center>
+
+                </HStack>}
+              </Box>
+
+            </React.Fragment>
+          })}
+        </VStack>
         <HStack w={'100%'} px={4} py={3} borderTopWidth={0} borderTopColor={'primary.bordercolor'} space="3" >
            <Center>
                 <Avatar
