@@ -235,7 +235,7 @@ const SquareBox = ({ post, index }: AppProps) => {
 
         <HStack key="rd99" px="3" space="0" alignItems="center">
           <HStack py={3} borderBottomWidth="1" w={'100%'} flexWrap={'wrap'} borderTopWidth="1" borderColor="primary.bordercolor" space="2" alignItems="center" key="likebtn">
-            <Center flex={1} alignItems={'flex-start'}>
+            <Center alignItems={'flex-start'}>
               <Button
                 colorScheme="unstyled"
                 bg={'transparent'}
@@ -251,7 +251,7 @@ const SquareBox = ({ post, index }: AppProps) => {
 
               </Button>
             </Center>
-            <Center flex={1} alignItems={'flex-end'}>
+            <Center flex={1} alignItems={'flex-center'}>
               <Button
                 colorScheme="unstyled"
                 bg={'transparent'}
