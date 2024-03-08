@@ -150,7 +150,7 @@ const Detail = () => {
         for(const activeQuestion of afterLogin?.questions?.question!){
         if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!]?.answer !== undefined && formData[activeQuestion?.id!]?.answer !== null)){
           if(activeQuestion?.question_type === 'multiple'){
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer.length <= 0){
+            if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer.length <= 0)){
               newFormData[activeQuestion.id!] = {
                   error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
                 };
