@@ -28,7 +28,7 @@ import { SponsorContact } from 'application/models/sponsor/SponsorDetail'
 export type SponsorServiceOperators = {
     sponsors: Sponsor[]
     our_sponsors: Sponsor[]
-    site_labels: Sponsor[]
+    labels: any
     my_sponsors: Sponsor[]
     categories: SponsorCategory[]
     settings: SponsorSetting
@@ -54,7 +54,7 @@ export const UseSponsorService = (): Readonly<SponsorServiceOperators> => {
 
     return {
         sponsors: useAppSelector(SelectSponsors),
-        site_labels: useAppSelector(SelectSiteLabel),
+        labels: useAppSelector(SelectSiteLabel),
         our_sponsors: useAppSelector(SelectOurSponsors),
         my_sponsors: useAppSelector(SelectMySponsors),
         categories: useAppSelector(SelectSponsorCategories),
