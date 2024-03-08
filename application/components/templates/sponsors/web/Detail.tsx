@@ -84,7 +84,7 @@ const Detail = React.memo(() => {
                             <Pressable onPress={()=> back() }>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                                    <Text fontSize="2xl">BACK</Text>
+                                    <Text fontSize="2xl">{event.labels?.GENERAL_BACK}</Text>
                                 </HStack>
                             </Pressable>
                         <Spacer />
