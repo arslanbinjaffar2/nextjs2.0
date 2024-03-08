@@ -306,9 +306,10 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
   return (
     <Container mb="3" maxW="100%" w="100%">
     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-      <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
-      <Spacer />
       <Text isTruncated pr="6" fontSize="lg">{setting_modules?.find((module: { alias: string; })=>(module.alias == 'subregistration'))?.name ?? 'Subregistration'}</Text>
+    </HStack>
+      <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+      <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
     </HStack>
      <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
       {mySubReg?.questions?.question.length! > 0 &&  mySubReg?.questions?.question.map((item:any, index:any)=>(

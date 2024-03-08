@@ -290,8 +290,7 @@ const Detail = () => {
                 <Text isTruncated pr="6" fontSize="lg">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
               </HStack>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Spacer />
-                <Text isTruncated pr="6" fontSize="lg">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
+                <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
               </HStack>
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                 {afterLogin?.questions?.question.length! > 0 &&  afterLogin?.questions?.question.map((item, index)=>(
