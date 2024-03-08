@@ -10,6 +10,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
 import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
+import AvatarColors from 'application/utils/AvatarColors'
 
 type AppProps = {
     detail: Detail,
@@ -50,7 +51,11 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         {detail?.detail?.image ? (
                         <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
                         ) : (
-                        <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={UserPlaceholderImage} alt="" w="50px" h="50px" />
+                          <Avatar
+                            borderWidth={1}
+                            borderColor="primary.darkbox"
+                            bg={AvatarColors()}
+                          >{ detail?.detail?.first_name && detail?.detail?.last_name ? detail?.detail?.first_name?.substring(0,1) + detail?.detail?.last_name?.substring(0,1) : detail?.detail?.first_name?.substring(0,1)}</Avatar>
                         )}
                         <VStack w="calc(100% - 140px)" space="0">
                             <Text lineHeight="sm" fontSize="xl">
