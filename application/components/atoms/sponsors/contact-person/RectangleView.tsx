@@ -33,10 +33,6 @@ const RectangleView = ({ k, attendee }: AppProps) => {
                   bg={'#A5A5A5'}
                   >{ attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}</Avatar>
             )}
-            <VStack  w={'calc(100% - 120px)'} space="0">
-                {(attendee?.first_name || attendee?.last_name) && (
-                    <Text fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
-                )}
                 <VStack  w={'calc(100% - 120px)'} space="0">
                     {(attendee?.first_name || attendee?.last_name) && (
                         <Text fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
@@ -53,10 +49,12 @@ const RectangleView = ({ k, attendee }: AppProps) => {
                     )}
                 </VStack>
                 <Spacer />
+            <Pressable  onPress={() => {
+                    push(`/${event.url}/attendees/detail/${attendee.id}`)
+                }}>
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
-            </HStack>
         </Pressable>
-        
+        </HStack>
     )
 }
 
