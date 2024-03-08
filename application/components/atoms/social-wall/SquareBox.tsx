@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input, Center, Link, Menu, Icon, ScrollView, Pressable } from 'native-base'
+import { Avatar, Box, HStack, VStack, Text, Image, Spacer, Button, Divider, Center, Menu, Icon, Pressable, Modal } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
-import IcoSharePost from 'application/assets/icons/IcoSharePost'
-import IcoMessagealt from 'application/assets/icons/IcoMessagealt'
+// import IcoSharePost from 'application/assets/icons/IcoSharePost'
+// import IcoMessagealt from 'application/assets/icons/IcoMessagealt'
 import Icolikealt from 'application/assets/icons/Icolikealt'
 import { Comment, NewComment, Post } from 'application/models/socialWall/SocialWall'
 import UseEnvService from 'application/store/services/UseEnvService';
@@ -12,9 +12,11 @@ import useSocialWallService from 'application/store/services/UseSocialWallServic
 import NewCommentBox from 'application/components/atoms/social-wall/NewCommentBox';
 import CommentBox from 'application/components/atoms/social-wall/CommentBox';
 import UseEventService from 'application/store/services/UseEventService';
+import LoadImage from 'application/components/atoms/LoadImage';
 import { useRouter } from 'solito/router';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { GalleryImage } from 'application/models/gallery/GalleryImage';
 
 
 type AppProps = {
@@ -28,12 +30,16 @@ const SquareBox = ({ post, index }: AppProps) => {
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
   const { event } = UseEventService();
-  const { LikeSocialWallPost,SaveSocialWallComment,LikeSocialWallComment, DeleteSocialWallPost } =useSocialWallService();
+  const { LikeSocialWallPost, SaveSocialWallComment, LikeSocialWallComment, DeleteSocialWallPost } = useSocialWallService();
+
+  const [activepopup, setactivepopup] = React.useState(false);
+  const [modalImage, setModalImage] = useState<string>("")
 
   const [toggleReplay, settoggleReplay] = useState(null)
   const [commnetid, setcommnetid] = useState(null)
   const [hiddenReplies, setHiddenReplies] = useState<{ [commentId: number]: number }>({});
   const [commentsSortBy, setCommentsSortBy] = useState<string>('top');
+  const [showLikesMenu, setShowLikesMenu] = useState(false);
 
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some(like => like.attendee_id === response?.data?.user?.id)
@@ -45,19 +51,19 @@ const SquareBox = ({ post, index }: AppProps) => {
   function likePost() {
     setIsLiked(!isLiked);
     setlikesCount(isLiked ? likesCount - 1 : likesCount + 1);
-    LikeSocialWallPost({id:post.id})
+    LikeSocialWallPost({ id: post.id })
   }
 
   function deletePost() {
-    DeleteSocialWallPost({id:post.id})
+    DeleteSocialWallPost({ id: post.id })
   }
 
-  function saveComment(newComment:NewComment) {
-    SaveSocialWallComment({...newComment})
+  function saveComment(newComment: NewComment) {
+    SaveSocialWallComment({ ...newComment })
   }
 
-  function likeComment(id:number) {
-    LikeSocialWallComment({id:id})
+  function likeComment(id: number) {
+    LikeSocialWallComment({ id: id })
   }
 
   const handleChildClick = (a: any, b: any) => {
@@ -90,32 +96,40 @@ const SquareBox = ({ post, index }: AppProps) => {
     setCommentsSortBy(sortBy);
   };
 
+  const handleMouseEnter = () => {
+    setShowLikesMenu(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowLikesMenu(false);
+  };
+
   return (
-    <Box mb="3"  w="100%" py={3}  bg={'primary.box'} roundedTop={ index === 0 ? 0 : 10 } roundedBottom={10} borderWidth="1" borderColor="primary.box">
-      <VStack  space="3">
+    <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="1" borderColor="primary.box">
+      <VStack space="3">
         {post.attendee.id === response?.data?.user?.id && (
-          <HStack px={3} w={'100%'} justifyContent={'flex-end'}  space="3" alignItems="center">
-          <Menu
-            placement="bottom right"
-            bg="primary.box"
-            borderWidth={1}
-            borderColor="#707070"
-            shouldFlip={true}
-            w={180}
-            crossOffset={0}
-            trigger={(triggerProps) => {
-            return <Button w={'30px'} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal"  />
-            </Button>
-            }}
-            
-          >
-            <Menu.Item _focus={{bg: ''}} _hover={{bg: 'primary.500'}} onPress={() => {push(`/${event.url}/social_wall/edit/${post.id}`)}}>Edit</Menu.Item>
-            <Menu.Item _focus={{bg: ''}} _hover={{bg: 'primary.500'}} onPress={() => {deletePost()}}>Delete</Menu.Item>
-          </Menu>
+          <HStack px={3} w={'100%'} justifyContent={'flex-end'} space="3" alignItems="center">
+            <Menu
+              placement="bottom right"
+              bg="primary.box"
+              borderWidth={1}
+              borderColor="#707070"
+              shouldFlip={true}
+              w={180}
+              crossOffset={0}
+              trigger={(triggerProps) => {
+                return <Button w={'30px'} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal" />
+                </Button>
+              }}
+
+            >
+              <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>Edit</Menu.Item>
+              <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>Delete</Menu.Item>
+            </Menu>
           </HStack>
-          
+
         )}
-        
+
         {/* button to delete post */}
         <HStack space="3" px={4} alignItems="center" key="rd90">
           <Avatar
@@ -134,22 +148,43 @@ const SquareBox = ({ post, index }: AppProps) => {
           </VStack>
         </HStack>
         <Text px={4} key="p-content" fontSize="md">{post.content}</Text>
-        {(post.type === 'image' || post.type === 'text') && post.image !== '' &&(
-          <Center w={'100%'} px={4}>
-            <Image
-              source={{
-                uri: `${_env.eventcenter_base_url}/assets/social_wall/${post.image}`
-              }}
-              alt="Alternate Text"
-              w="100%"
-              h="295px"
-              rounded="10"   
-            />
-          </Center>
-          
+        {(post.type === 'image' || post.type === 'text') && post.image !== '' && (
+          <Pressable
+            p="0"
+            borderWidth="0"
+            onPress={() => {
+              setactivepopup(true);
+              setModalImage(post.image)
+            }}
+          >
+            <Center w={'100%'} px={4}>
+              <Image
+                source={{
+                  uri: `${_env.eventcenter_base_url}/assets/social_wall/${post.image}`
+                }}
+                alt="Alternate Text"
+                w="100%"
+                h="295px"
+                rounded="10"
+              />
+
+              <Modal
+                size={'full'}
+                isOpen={activepopup}
+                onClose={() => { }}
+              >
+                <Modal.Content maxW={['350px', '780px']} >
+                  <Modal.Body p={0} justifyContent="flex-end">
+                    <Modal.CloseButton borderWidth={1} borderColor={'white'} rounded={'50%'} zIndex={999} onPress={() => { setactivepopup(false); setModalImage(null) }} />
+                    <LoadImage width={'100%'} path={`${_env.eventcenter_base_url}/assets/social_wall/${modalImage}`} alt={''} />
+                  </Modal.Body>
+                </Modal.Content>
+              </Modal>
+            </Center>
+          </Pressable>
         )}
 
-        {post.type === 'video' && post.image !== '' &&(
+        {post.type === 'video' && post.image !== '' && (
           <Center w={'100%'} px={4}>
             <video
               width="100%"
@@ -159,12 +194,35 @@ const SquareBox = ({ post, index }: AppProps) => {
             />
           </Center>
         )}
-        <HStack  space="1" w={'100%'} px={4}>
-           <HStack space="1" alignItems="center">
-              <Icolikealt />
-              <Text fontSize="sm">{likesCount}</Text>
-            </HStack>
-            <Spacer />
+        <HStack space="1" w={'100%'} px={4}>
+          <HStack space="1" alignItems="center" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <Icolikealt />
+            <Text fontSize="sm">{likesCount}</Text>
+
+            {showLikesMenu && (
+              <Box bg={'primary.box'} py={3} borderWidth="1" borderColor="primary.box">
+                <Text fontSize="sm" px={3} mb={2}> <Icolikealt /> Liked by</Text>
+                <Divider />
+
+                {post.likes.map((like) => (
+                  <HStack key={like.id} alignItems="center" px={4} mt={3}>
+                    <Avatar
+                      borderWidth={1}
+                      borderColor="primary.text"
+                      size="sm"
+                      source={{
+                        uri: `${_env.eventcenter_base_url}/assets/attendees/${like.attendee.image}`,
+                      }}
+                    >
+                      SS
+                    </Avatar>
+                    <Text fontSize="md" ml={3}>{like.attendee.full_name}</Text>
+                  </HStack>
+                ))}
+              </Box>
+            )}
+          </HStack>
+          <Spacer />
           <HStack space="3" alignItems="center" key="commentbtn">
             <HStack space="1" alignItems="center">
               <Text fontSize="sm">{post.comments_count} Comments</Text>
@@ -174,43 +232,42 @@ const SquareBox = ({ post, index }: AppProps) => {
             </HStack>
           </HStack>
         </HStack>
-        
+
         <HStack key="rd99" px="3" space="0" alignItems="center">
-          <HStack  py={3} borderBottomWidth="1" w={'100%'} flexWrap={'wrap'} borderTopWidth="1" borderColor="primary.bordercolor" space="2" alignItems="center" key="likebtn">
+          <HStack py={3} borderBottomWidth="1" w={'100%'} flexWrap={'wrap'} borderTopWidth="1" borderColor="primary.bordercolor" space="2" alignItems="center" key="likebtn">
             <Center flex={1} alignItems={'flex-start'}>
-                <Button
-                  colorScheme="unstyled"
-                  bg={'transparent'}
-                  px={1}
-                  py={0}
-                  _hover={{bg: 'transparent'}}
-                  leftIcon={<IcoLike width="18px" height="18px" />}
-                  onPress={()=>{
-                    likePost()
-                  }}
-                
-                >
-                  <Text color={isLiked ? 'primary.500' : 'primary.text'}>Like</Text>
-                  
-                </Button>
+              <Button
+                colorScheme="unstyled"
+                bg={'transparent'}
+                px={1}
+                py={0}
+                _hover={{ bg: 'transparent' }}
+                leftIcon={<IcoLike width="18px" height="18px" />}
+                onPress={() => {
+                  likePost()
+                }}
+              >
+                <Text color={isLiked ? 'primary.500' : 'primary.text'}>Like</Text>
+
+              </Button>
             </Center>
             <Center flex={1}>
               <Button
-                  colorScheme="unstyled"
-                  bg={'transparent'}
-                  _hover={{bg: 'transparent'}}
-                  px={1}
-                  py={0}
-                  leftIcon={<IcoMessage width="18px" height="18px" />}
-                  onPress={()=>{
-                   console.log('hello')
-                  }}
-                
-                >
-                  Comments
-                </Button>
+                colorScheme="unstyled"
+                bg={'transparent'}
+                _hover={{ bg: 'transparent' }}
+                px={1}
+                py={0}
+                leftIcon={<IcoMessage width="18px" height="18px" />}
+                onPress={() => {
+                  console.log('hello')
+                }}
+
+              >
+                Comments
+              </Button>
             </Center>
-             {/* <Center flex={1} alignItems={'flex-end'}>
+            {/* <Center flex={1} alignItems={'flex-end'}>
               <Button
                   colorScheme="unstyled"
                   bg={'transparent'}
@@ -242,7 +299,7 @@ const SquareBox = ({ post, index }: AppProps) => {
           </Avatar>
         </HStack> */}
 
-      {sortedComments.length > 0 &&
+        {sortedComments.length > 0 &&
           <HStack px={3} py={1} roundedTop={'10px'} w={'100%'}>
             <Box ml={'auto'}>
               <Menu
@@ -281,8 +338,8 @@ const SquareBox = ({ post, index }: AppProps) => {
             </Box>
           </HStack>
         }
-          
-          <VStack overflowY={'auto'} maxHeight={'250px'}>
+
+        <VStack overflowY={'auto'} maxHeight={'250px'}>
           {sortedComments.map((comment: Comment) => {
             const totalReplies: number = comment.replies.length ? comment.replies.length : 0;
             const visibleReplies: number = hiddenReplies[comment.id] ?? 1;
@@ -320,25 +377,25 @@ const SquareBox = ({ post, index }: AppProps) => {
           })}
         </VStack>
         <HStack w={'100%'} px={4} py={3} borderTopWidth={0} borderTopColor={'primary.bordercolor'} space="3" >
-           <Center>
-                <Avatar
-                  borderWidth={1}
-                  borderColor="primary.text"
-                  size="md"
-                  source={{
-                    uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
-                  }}
-                >
-                  SS
-                </Avatar>
-            </Center>
-            {/* <Text fontSize="md" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text> */}
-            {/* add a input with button */}
-            <Center w={'calc(100% - 60px)'}>
-              <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} />
-            </Center>
-            
-          </HStack>
+          <Center>
+            <Avatar
+              borderWidth={1}
+              borderColor="primary.text"
+              size="md"
+              source={{
+                uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
+              }}
+            >
+              SS
+            </Avatar>
+          </Center>
+          {/* <Text fontSize="md" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text> */}
+          {/* add a input with button */}
+          <Center w={'calc(100% - 60px)'}>
+            <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} />
+          </Center>
+
+        </HStack>
       </VStack>
     </Box>
   )
