@@ -177,17 +177,17 @@ const Index = ({ navigation }: indexProps) => {
                     <Spacer />
                   </HStack>
                   
-                   {alert_setting && alert_setting[0]?.display_in_dashboard === 1 && alerts.length > 0 ? (
+                   {/*{alert_setting && alert_setting[0]?.display_in_dashboard === 1 && alerts.length > 0 ? (*/}
                     <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                       {alerts.slice(0, 5).map((alert:Alert, i:Number)=>(
                         <RectangleView key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date_time={alert.display_alert_date} is_last_item={(alerts.length-1 === i) ? true : false}  />
                       ))}
                     </Box>
-                  ) : (
-                    <Box p="3">
-                      <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
-                    </Box>
-                  )}
+                  {/*) : (*/}
+                  {/*  <Box p="3">*/}
+                  {/*    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>*/}
+                  {/*  </Box>*/}
+                  {/*)}*/}
                   <Center py="3" px="2" w="100%" alignItems="flex-end">
                     <Button onPress={() => {
                       push(`/${event.url}/alerts`)

@@ -20,9 +20,12 @@ const BannerAds = ({
   const { event } = UseEventService();
   const [filteredBanners, setFilteredBanners] = useState<Banner[]>([]);
   const [currentBanner, setCurrentBanner] = React.useState(0);
-  let { banners, FetchBanners } = UseBannerService();
+  const { banners, FetchBanners } = UseBannerService();
 
   useEffect(() => {
+    if(banners === undefined){
+      return;
+    }
     const filtered = banners.filter((banner: Banner) => {
       if (module_name === 'dashboard') {
         var moduleType = banner.module_type.split(',');
@@ -62,7 +65,7 @@ const BannerAds = ({
 
 
   useEffect(() => {
-    if(banners.length === 0){
+    if(banners === undefined || banners.length === 0){
       FetchBanners();
     }
   }, []);

@@ -173,7 +173,7 @@ const Detail = ({ speaker }: Props) => {
                                                         
                                                 {
                                                     groups?.length <= 0 && (
-                                                        <Text w="100%" p={3} bg="primary.darkbox">{event.labels.GENERAL_NO_RECORD}</Text>
+                                                        <Text w="100%" fontSize="18px" p={3}>{event.labels.EVENT_NORECORD_FOUND}</Text>
                                                     )
                                                 }
                                             </>
