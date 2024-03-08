@@ -156,7 +156,7 @@ const Detail = () => {
                 };
               error  = true;
             }
-            else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!]?.answer.length < activeQuestion.min_options){
+            else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length !== 0 && formData[activeQuestion?.id!]?.answer.length < activeQuestion.min_options){
               newFormData[activeQuestion.id!] = {
                   error: afterLogin?.labels?.SUB_REGISTRATION_MIN_SELECTION_ERROR
                   .replace(/%q/g, activeQuestion?.info[0]?.value)
@@ -164,7 +164,7 @@ const Detail = () => {
                 };
                 error  = true;
             }
-            else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!]?.answer.length > activeQuestion.max_options){
+            else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length !== 0 && formData[activeQuestion?.id!]?.answer.length > activeQuestion.max_options){
               newFormData[activeQuestion.id!] = {
                   error:afterLogin?.labels?.SUB_REGISTRATION_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString())
                 };
