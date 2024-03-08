@@ -76,7 +76,7 @@ const handleClick = () => {
               }}
             
             >
-              <Text fontSize={'sm'} color={isLiked ? 'primary.500' : 'primary.text'}>Like</Text>
+              <Text fontWeight={500}  fontSize={'sm'} color={isLiked ? 'primary.500' : 'primary.text'}>Like</Text>
             </Pressable>
              
           {!secondlevel &&  <Pressable

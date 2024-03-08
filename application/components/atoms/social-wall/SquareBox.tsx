@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input, Center, Link } from 'native-base'
+import { Avatar, Box, HStack, VStack, Text, Image, Spacer, IconButton, Button, Divider, Input, Center, Link, Menu, Icon, ScrollView } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
 import IcoSharePost from 'application/assets/icons/IcoSharePost'
@@ -12,7 +12,8 @@ import useSocialWallService from 'application/store/services/UseSocialWallServic
 import NewCommentBox from 'application/components/atoms/social-wall/NewCommentBox';
 import CommentBox from 'application/components/atoms/social-wall/CommentBox';
 import UseEventService from 'application/store/services/UseEventService';
-import { useRouter } from 'solito/router'
+import { useRouter } from 'solito/router';
+import Entypo from '@expo/vector-icons/Entypo';
 
 
 type AppProps = {
@@ -62,22 +63,31 @@ const SquareBox = ({ post, index }: AppProps) => {
   };
   return (
     <Box mb="3"  w="100%" py={3}  bg={'primary.box'} roundedTop={ index === 0 ? 0 : 10 } roundedBottom={10} borderWidth="1" borderColor="primary.box">
-      <VStack space="3">
-        {/* button to delete post */}
+      <VStack  space="3">
         {post.attendee.id === response?.data?.user?.id && (
-          <HStack px={4} justifyContent={'flex-end'} width={'100%'}>
-          <Button onPress={() => {
-            deletePost()
-          }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
-            <Text fontSize="xs" color="primary.text">Delete</Text>
-          </Button>
-          <Button onPress={() => {
-            push(`/${event.url}/social_wall/edit/${post.id}`)
-          }} variant="unstyled" alignSelf="flex-end" p="0" m="0">
-            <Text fontSize="xs" color="primary.text">Edit</Text>
-          </Button>
-      </HStack>
+          <HStack px={3} w={'100%'} justifyContent={'flex-end'}  space="3" alignItems="center">
+          <Menu
+            placement="bottom right"
+            bg="primary.box"
+            borderWidth={1}
+            borderColor="#707070"
+            shouldFlip={true}
+            w={180}
+            crossOffset={0}
+            trigger={(triggerProps) => {
+            return <Button w={'30px'} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal"  />
+            </Button>
+            }}
+            
+          >
+            <Menu.Item _focus={{bg: ''}} _hover={{bg: 'primary.500'}} onPress={() => {push(`/${event.url}/social_wall/edit/${post.id}`)}}>Edit</Menu.Item>
+            <Menu.Item _focus={{bg: ''}} _hover={{bg: 'primary.500'}} onPress={() => {deletePost()}}>Delete</Menu.Item>
+          </Menu>
+          </HStack>
+          
         )}
+        
+        {/* button to delete post */}
         <HStack space="3" px={4} alignItems="center" key="rd90">
           <Avatar
             borderWidth={1}
@@ -141,16 +151,18 @@ const SquareBox = ({ post, index }: AppProps) => {
             <Center flex={1} alignItems={'flex-start'}>
                 <Button
                   colorScheme="unstyled"
-                  bg={isLiked ? 'primary.500' : 'transparent'}
+                  bg={'transparent'}
                   px={1}
                   py={0}
+                  _hover={{bg: 'transparent'}}
                   leftIcon={<IcoLike width="18px" height="18px" />}
                   onPress={()=>{
                     likePost()
                   }}
                 
                 >
-                  Like
+                  <Text color={isLiked ? 'primary.500' : 'primary.text'}>Like</Text>
+                  
                 </Button>
             </Center>
             <Center flex={1}>
@@ -204,6 +216,9 @@ const SquareBox = ({ post, index }: AppProps) => {
         {post.comments.map((comment: Comment) => {
           return <React.Fragment key={comment.id}>
             <Box overflow={'hidden'} w={'100%'}>
+              <ScrollView w={'100%'} maxH={350}>
+             
+              
               <CommentBox onChildClick={handleChildClick}  secondlevel={false} comment={comment} key={comment.id} />
               {comment.replies.map((reply: Comment) => 
                 <CommentBox onChildClick={handleChildClick}  secondlevel={true} comment={reply} key={reply.id} />
@@ -228,11 +243,12 @@ const SquareBox = ({ post, index }: AppProps) => {
               </Center>
               
             </HStack>}
+             </ScrollView>
             </Box>
             
           </React.Fragment>
         })}
-        <HStack w={'100%'} px={4} py={3} borderTopWidth={1} borderTopColor={'primary.bordercolor'} space="3" >
+        <HStack w={'100%'} px={4} py={3} borderTopWidth={0} borderTopColor={'primary.bordercolor'} space="3" >
            <Center>
                 <Avatar
                   borderWidth={1}
