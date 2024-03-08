@@ -45,25 +45,6 @@ const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, 
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
       </Box>}
-      {Number(question.enable_comments) === 1 &&
-        <>
-        <HStack px="3" py="1" mb={1} bg="primary.darkbox" w="100%" space="3" alignItems="center">
-          <Icowritecomment width="15px" height="18px" />
-          <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
-        </HStack>
-        <Box py="3" px="4" pb={0} w="100%">
-          <TextArea
-            p="3"
-            mb={1}
-            h="100px"
-            bg={'primary.darkbox'}
-            isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
-            onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
-            onChangeText={(text) => updateFormData(question.id, 'comment', text)}
-            borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
-        </Box>
-        </>
-      }
       {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
