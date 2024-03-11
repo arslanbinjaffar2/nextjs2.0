@@ -16,6 +16,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { QaSettings } from 'application/models/qa/Qa';
 import UseSocketService from 'application/store/services/UseSocketService';
 import { TextInput } from 'react-native';
+import IcoSend from 'application/assets/icons/small/IcoSend'
 
 type ScreenParams = { id: string }
 
@@ -221,17 +222,14 @@ const Detail = () => {
                     </Center>
                     
                     </HStack>}
-                    {qaDetials?.paragraph?.length > 0 && <HStack px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3"  alignItems="center">
+                    {qaDetials?.paragraph?.length > 0 && <HStack  px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3"  alignItems="center">
                     <Text  w="30%"  fontSize="lg">Select Paragraph</Text>
-                    <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
+                    <Center  w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                     <View w={'100%'}>
                     <Select
                         placeholder="Please Select Attendee"
                         w="100%"
                         minW={'100%'}
-                        position={'absolute'}
-                        right={0}
-                        flex={1}
                         rounded="4"
                         h="42px"
                         borderWidth="1"
@@ -263,7 +261,7 @@ const Detail = () => {
                     <IconButton
                         variant="transparent"
                         disabled={in_array('qa-submitting', processing)}
-                        icon={in_array('qa-submitting', processing) ?  <Spinner accessibilityLabel="Submitting Question" size={'sm'} /> : <Icon size="lg" as={Feather} name="send" color="white" />}
+                        icon={in_array('qa-submitting', processing) ?  <Spinner accessibilityLabel="Submitting Question" size={'sm'} /> : <IcoSend width={25} height={25} />}
                         onPress={() => { onSubmit(); }}
 
                     />
@@ -278,9 +276,12 @@ const Detail = () => {
                     <Spacer />
                     {/* <Text opacity={0.58} fontSize="md">1 Questions</Text> */}
                     </HStack>
-                    <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
+                 
+                    <HStack mb="4" space={4} justifyContent="flex-start" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
-                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
+                            <Pressable onPress={() => { setTab(item) }} key={index} bg={'transparent'}  borderWidth="0px" p={0} borderColor="primary.darkbox" >
+                                <Text pb={1} borderBottomWidth={item === tab ? 2 : 0} borderBottomColor={'primary.text'} fontSize="16px" fontWeight={600} textTransform={'uppercase'}>{TabHeadings[item]}</Text>
+                            </Pressable>
                         ))}
                     </HStack>
                     <Box mb="10" px="5" w="100%" position="relative">
@@ -302,22 +303,42 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                        <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                        <Text w={'calc(100% - 80px)'} pt={1}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
-                                        <Spacer />
-                                            {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
-                                                <IconButton
-                                                    variant="transparent"
-                                                    p={0}
-                                                    mr={2}
+                                    <Box w={'100%'}>
+                                        <HStack w={'100%'} space="3" alignItems="flex-start" justifyContent={'flex-start'}>
+                                            <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                            <Text w={'100%'} pt={1}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
+                                                
+                                        </HStack>   
+                                        {qaSettings.up_vote == 1 && <HStack 
+                                            mt={3}
+                                            ml={'56px'}
+                                        
+                                            alignItems={'center'}> 
+                                                <Button
+                                                    variant="unstyled"
+                                                    w={'80px'}
+                                                    rounded={6}
+                                                    borderWidth={1}
+                                                    borderColor={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'primary.text'}
+                                                    bg={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'transparent'}
+                                                    px={3}
+                                                    py={2}
+                                                    _hover={{bg: question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'transparent'}}
+                                                    justifyContent={'flex-start'}
                                                     disabled={in_array(`qa-like-${question?.id}`, processing)}
-                                                    icon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
+                                                    leftIcon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="md" as={AntDesign} name={'like2'} color="primary.text" />}
                                                     onPress={() => { SubmitQaLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
-                                                /> 
+                                                > 
+                                                <HStack  space="3" pl={1} alignItems="center">
+                                                <Divider width={'1px'} height={'20px'} bg={'primary.text'} borderWidth={0} />
                                                 <Text>{question?.likes?.length}</Text>
-                                            </HStack>}
-                                    </HStack>        
+                                                </HStack>
+                                                
+                                                
+                                                </Button>
+                                            </HStack>}    
+                                    </Box>
+                                    
                                     </>
                                   ))  
                                 }
@@ -335,23 +356,45 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                            <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <Text w={'calc(100% - 80px)'} pt={1}>
-                                                <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                            </Text>
-                                            <Spacer />
-                                            {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
-                                                <IconButton
-                                                    variant="transparent"
-                                                    disabled={in_array(`qa-like-${question?.id}`, processing)}
-                                                    icon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
-                                                    onPress={() => { SubmitQaLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
-                                                /> 
-                                                <Text>{question?.likes?.length}</Text>
-                                            </HStack>}
-                                    </HStack>        
+                                    <Box w={'100%'}>
+                                        <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
+                                                <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                                <Text w={'100%'} pt={1}>
+                                                    <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                                </Text>
+                                        </HStack>  
+                                        {qaSettings.up_vote == 1 && <HStack 
+                                                mt={3}
+                                                ml={'56px'}
+                                            
+                                                alignItems={'center'}> 
+                                                    <Button
+                                                        variant="unstyled"
+                                                        w={'80px'}
+                                                        rounded={6}
+                                                        borderWidth={1}
+                                                        borderColor={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'primary.text'}
+                                                        bg={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'transparent'}
+                                                        px={3}
+                                                        py={2}
+                                                        _hover={{bg: question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'transparent'}}
+                                                        justifyContent={'flex-start'}
+                                                        disabled={in_array(`qa-like-${question?.id}`, processing)}
+                                                        leftIcon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="md" as={AntDesign} name={'like2'} color="primary.text" />}
+                                                        onPress={() => { SubmitQaLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
+                                                    > 
+                                                    <HStack  space="3" pl={1} alignItems="center">
+                                                    <Divider width={'1px'} height={'20px'} bg={'primary.text'} borderWidth={0} />
+                                                    <Text>{question?.likes?.length}</Text>
+                                                    </HStack>
+                                                    
+                                                    
+                                                    </Button>
+                                                </HStack>}      
+
+                                    </Box>
                                     </>
+                                    
                                   ))  
                                 }
                                 {tab === 'archive' &&
@@ -368,22 +411,44 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                            <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <Text w={'calc(100% - 80px)'} pt={1}>
-                                                <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                            </Text>
-                                            <Spacer />
-                                            {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
-                                                <IconButton
-                                                    variant="transparent"
+                                    <Box w={'100%'}>
+                                        <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
+                                                <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                                <Text w={'100%'} pt={1}>
+                                                    <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                                </Text>
+                                        </HStack>  
+                                        {qaSettings.up_vote == 1 && <HStack 
+                                            mt={3}
+                                            ml={'56px'}
+                                        
+                                            alignItems={'center'}> 
+                                                <Button
+                                                    variant="unstyled"
+                                                    w={'80px'}
+                                                    rounded={6}
+                                                    borderWidth={1}
+                                                    borderColor={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'primary.text'}
+                                                    bg={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'transparent'}
+                                                    px={3}
+                                                    py={2}
+                                                    _hover={{bg: question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'transparent'}}
+                                                    justifyContent={'flex-start'}
                                                     disabled={in_array(`qa-like-${question?.id}`, processing)}
-                                                    icon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
+                                                    leftIcon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="md" as={AntDesign} name={'like2'} color="primary.text" />}
                                                     onPress={() => { SubmitQaLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
-                                                /> 
+                                                > 
+                                                <HStack  space="3" pl={1} alignItems="center">
+                                                <Divider width={'1px'} height={'20px'} bg={'primary.text'} borderWidth={0} />
                                                 <Text>{question?.likes?.length}</Text>
-                                            </HStack>}
-                                    </HStack>        
+                                                </HStack>
+                                                
+                                                
+                                                </Button>
+                                            </HStack>}      
+
+                                    </Box>
+                                    
                                     </>
                                   ))  
                                 }
@@ -401,22 +466,42 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     </HStack>
+                                    <Box w={'100%'}>
                                     <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <Text w={'calc(100% - 80px)'} pt={1}>
+                                            <Text w={'100%'} pt={1}>
                                                 <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                             </Text>
-                                            <Spacer />
-                                            {qaSettings.up_vote == 1 && <HStack alignItems={'center'}> 
-                                                <IconButton
-                                                    variant="transparent"
-                                                    disabled={in_array(`qa-like-${question?.id}`, processing)}
-                                                    icon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="sm" as={AntDesign} name={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? "like1" : "like2"} color="white" />}
-                                                    onPress={() => { SubmitQaLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
-                                                /> 
-                                                <Text>{question?.likes?.length}</Text>
-                                            </HStack>}
-                                    </HStack>        
+                                            </HStack>  
+                                    {qaSettings.up_vote == 1 && <HStack 
+                                    mt={3}
+                                    ml={'56px'}
+                                   
+                                    alignItems={'center'}> 
+                                        <Button
+                                            variant="unstyled"
+                                             w={'80px'}
+                                            rounded={6}
+                                            borderWidth={1}
+                                            borderColor={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'primary.text'}
+                                            bg={question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'transparent'}
+                                            px={3}
+                                            py={2}
+                                            _hover={{bg: question?.likes?.find((like)=>(like.attendee_id == response.attendee_detail.id)) ? 'secondary.500' : 'transparent'}}
+                                            justifyContent={'flex-start'}
+                                            disabled={in_array(`qa-like-${question?.id}`, processing)}
+                                            leftIcon={in_array(`qa-like-${question?.id}`, processing) ?  <Spinner accessibilityLabel="Question liked" size={'sm'} /> : <Icon size="md" as={AntDesign} name={'like2'} color="primary.text" />}
+                                            onPress={() => { SubmitQaLike({question_id:question?.id, agenda_id:question?.agenda_id}); }}
+                                        > 
+                                        <HStack  space="3" pl={1} alignItems="center">
+                                          <Divider width={'1px'} height={'20px'} bg={'primary.text'} borderWidth={0} />
+                                          <Text>{question?.likes?.length}</Text>
+                                        </HStack>
+                                        
+                                        
+                                        </Button>
+                                    </HStack>}
+                                    </Box>      
                                     </>
                                   ))  
                                 }

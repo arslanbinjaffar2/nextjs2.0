@@ -314,7 +314,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                 </Box>
             )}
             {detail?.sort_field_setting.length <= 0 && 
-                        <Text fontSize="sm">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                        <Text p={3} fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
             }
             
         </Box>

@@ -51,14 +51,14 @@ const Detail = (props: any) => {
         <>
             {page && <View w="100%">
                 <ScrollView h={'68%'}>
-                    <HStack borderTopRadius="7" space={0} alignItems="center" w="100%" bg="primary.box" >
-                        <Box w="100%" bg="primary.box" py="4" borderTopRadius="10">
+                    <HStack rounded="10" space={0} alignItems="center" w="100%" bg="primary.box" >
+                        <Box w="100%" bg="primary.box"  rounded="10">
                             {(page.image == '' && page.description == '' && page.pdf == '') &&(
                                 <>
-                                <Text px={4}>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                <Text p={4}>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
                                 </>
                             )}
-                            {page.image !== '' && page.image_position === 'top' && <HStack w="90%" ml={5} mb={5}>
+                            {page.image !== '' && page.image_position === 'top' && <HStack w="100%" ml={0} mb={5}>
                                 <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%"  />
                             </HStack>}
                             {page?.description != "" && (Platform.OS === 'web' ? (
@@ -87,7 +87,7 @@ const Detail = (props: any) => {
                                 />
                             ))}
                             {page.pdf && (
-                                <Box mb="3" w="100%" bg="primary.box" py="4" borderBottomRadius="10">
+                                <Box mb="3" w="100%"  py="4" borderBottomRadius="10">
                                     <HStack mb="3" bg="primary.darkbox" py="1" px="4" space="2" alignItems="center">
                                         <Icon color={'primary.text'} as={AntDesign} name="file1" size="md" />
                                         <Text fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
