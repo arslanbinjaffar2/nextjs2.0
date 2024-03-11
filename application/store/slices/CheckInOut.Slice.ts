@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Attendee, History, FetchCheckInOutResponse, Setting, Checkin } from 'application/models/checkInOut/CheckInOut'
+import { Attendee, History, FetchCheckInOutResponse, Setting, Checkin, GroupedHistory } from 'application/models/checkInOut/CheckInOut'
 
 import { RootState } from 'application/store/Index'
 
@@ -12,8 +12,9 @@ export interface CheckInOutState  {
     checkInOut:{
         attendee: Attendee | null;
         setting: Setting  | null;
+        hasOrderItems: boolean;
         history:History[],
-        type_history: {event:History[],program:History[],group:History[],ticket:History[]};
+        type_history: {event:GroupedHistory[],program:GroupedHistory[],group:GroupedHistory[],ticket:GroupedHistory[]};
         enableEvent: boolean;
         enableCheckinWithoutLocatiom: boolean;
         status: string;
@@ -28,6 +29,7 @@ const initialState: CheckInOutState = {
     checkInOut:{
         attendee: null,
         setting: null,
+        hasOrderItems: false,
         history:[],
         type_history: {event:[],program:[],group:[],ticket:[]},
         enableEvent: false,

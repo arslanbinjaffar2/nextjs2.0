@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import { SelectCheckInOut,  CheckInOutActions,  } from 'application/store/slices/CheckInOut.Slice'
 
-import { Attendee, Checkin, Setting, History } from 'application/models/checkInOut/CheckInOut'
+import { Attendee, Checkin, Setting, History, GroupedHistory } from 'application/models/checkInOut/CheckInOut'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
@@ -10,8 +10,9 @@ export type CheckInOutServiceOperators = {
     checkInOut:{
         attendee: Attendee | null;
         setting: Setting  | null;
+        hasOrderItems: boolean;
         history:History[];
-        type_history: {event:History[],program:History[],group:History[],ticket:History[]};
+        type_history: {event:GroupedHistory[],program:GroupedHistory[],group:GroupedHistory[],ticket:GroupedHistory[]};
         enableEvent: boolean;
         enableCheckinWithoutLocatiom: boolean;
         status: string;
