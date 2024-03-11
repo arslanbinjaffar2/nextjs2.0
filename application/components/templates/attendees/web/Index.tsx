@@ -186,6 +186,7 @@ const Index = ({ speaker, screen }: Props) => {
                 </Text>
                 
                 <Spacer />
+                
                 <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
