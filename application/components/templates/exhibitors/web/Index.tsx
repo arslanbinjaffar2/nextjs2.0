@@ -165,7 +165,7 @@ const Index = React.memo(() => {
                             </Box>
                         }
                          {exhibitors.length <= 0 &&
-                            <Box w="100%">
+                            <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
                                 <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                             </Box>
                         }
@@ -190,11 +190,6 @@ const Index = React.memo(() => {
                             </HStack>
                         </ScrollView>
                     </Box>}
-                    {exhibitors.length <= 0 &&
-                      <Box w="100%">
-                          <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                      </Box>
-                    }
                     {/* <BannerView url={''} /> */}
                 </Container>
             )}

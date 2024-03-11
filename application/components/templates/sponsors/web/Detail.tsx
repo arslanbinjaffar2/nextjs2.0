@@ -96,7 +96,7 @@ const Detail = React.memo(() => {
                                 <Box w="100%" p="0">
                                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                         <Icouser />
-                                        <Text fontSize="lg">Contact person(s)</Text>
+                                        <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_PERSON}</Text>
                                     </HStack>
                                     
                                         {detail?.detail?.sponsors_attendee?.map((attendee: SponsorsAttendee, key: number) =>
@@ -109,7 +109,7 @@ const Detail = React.memo(() => {
                             {event?.sponsor_settings?.document == 1 && documents.length > 0 && <Box mb="4" p="0" w="100%">
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                     <Icodocument width="15px" height="18px" />
-                                    <Text fontSize="lg">Documents</Text>
+                                    <Text fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
                                 </HStack>
                                 <Box p={2} >
                                         {in_array('documents', processing) ? (
