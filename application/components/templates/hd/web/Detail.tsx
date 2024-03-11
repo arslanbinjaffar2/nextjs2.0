@@ -15,6 +15,7 @@ import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { Setting } from 'application/models/hd/Hd';
 import UseSocketService from 'application/store/services/UseSocketService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { id: string }
 
@@ -26,7 +27,7 @@ const Detail = () => {
     const { processing, loading } = UseLoadingService();
     const { _env } = UseEnvService();
 
-    const { event } = UseEventService();
+    const { event, modules } = UseEventService();
 
     const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' >('popular')
 
@@ -129,24 +130,16 @@ const Detail = () => {
         setSpeaker(null);
   
       }
-
+      const module = modules.find((module) => module.alias === 'help_desk');
   return (
     <>
     {
         in_array('hd-detail', processing) ? (
             <WebLoading />
         ):(
+            <>
+            <NextBreadcrumbs module={module} title={hdDetails?.group?.info?.name}/>
             <Container overflow="hidden" mb="4" maxW="100%" w="100%">
-                <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
-                    <Pressable onPress={()=>{
-                        push(`/${event.url}/help_desk`)
-                    }}>
-                        <HStack  space="3" alignItems="center">
-                            <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text"  />
-                            <Text  fontSize="2xl">BACK</Text>
-                        </HStack>
-                    </Pressable>
-                </HStack>
                 <HStack width={"100%"}  alignItems="center" mb={1}  space={0} justifyContent="flex-start">
                     <Text fontSize="2xl" w={'100%'} textAlign={'center'}  textBreakStrategy='simple' >
                         {hdDetails?.group?.info?.name}
@@ -302,6 +295,7 @@ const Detail = () => {
                 </Box>
                 
             </Container>
+            </>
         )
     }
     </>

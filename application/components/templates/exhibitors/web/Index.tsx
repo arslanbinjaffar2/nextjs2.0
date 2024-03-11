@@ -18,6 +18,7 @@ import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
 import { useSearchParams, usePathname } from 'next/navigation'
 import { useRouter } from 'solito/router'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = React.memo(() => {
 
@@ -88,11 +89,17 @@ const Index = React.memo(() => {
     React.useEffect(() => {
         FetchBanners();
     }, []);
+    const module = modules.find((module) => module.alias === 'exhibitors');
+    const category = categories.find((category) => {
+        return category.id ===  Number(categoryIdQueryParam)
+    })
     return (
         <>
             {loading ? (
                 <WebLoading />
             ) : (
+                <>
+                <NextBreadcrumbs module={module} title={category?.name}/>
                 <Container h="100%" pt="4" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias == 'exhibitors'))?.name ?? ""}</Text>
@@ -192,6 +199,7 @@ const Index = React.memo(() => {
                     </Box>}
                     {/* <BannerView url={''} /> */}
                 </Container>
+                </>
             )}
         </>
     )

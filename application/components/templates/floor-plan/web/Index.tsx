@@ -5,46 +5,55 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseFloorPlanService from 'application/store/services/UseFloorPlanService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import { FloorPlan } from 'application/models/floorPlans/FloorPlans';
+import UseEventService from 'application/store/services/UseEventService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+
 const Index = () => {
   const { loading } = UseLoadingService();
-
+  const { modules } = UseEventService();
   const [query, setQuery] = React.useState("");
 
   const { FetchFloorPlans, floor_plans } = UseFloorPlanService();
-
-  useEffect(()=>{
-      FetchFloorPlans();
-  },[]);
+  const module = modules.find((module) => {
+    return module.alias === 'plans'
+  })
+  useEffect(() => {
+    FetchFloorPlans();
+  }, []);
 
   return (
     <>
       {
-          loading ? (
-              <WebLoading />
-          ):(
-              <Container pt="2" maxW="100%" w="100%">
+        loading ? (
+          <WebLoading />
+        ) : (
+          <>
+            <NextBreadcrumbs module={module} />
+
+            <Container pt="2" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text textTransform="uppercase" fontSize="2xl">FLoor Plan</Text>
+                <Text textTransform="uppercase" fontSize="2xl">{module?.name ?? "FLoor Plan"}</Text>
               </HStack>
               <Box w="100%" bg="primary.box" overflow="hidden" rounded="10px">
                 <Input bg="transparent" rounded="0" w="100%" borderWidth={0} value={query} onChangeText={setQuery} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                 <Divider w="100%" bg="primary.text" h="1px" />
                 <VStack mb="10" w="100%" space="0">
-                  {floor_plans.filter((plan)=>{
-                      if(query !== ''){
-                          if(plan.floor_plan_name.toLowerCase().indexOf(query.toLowerCase()) > -1){
-                              return plan;
-                          }
-                      }else{
-                          return plan;
+                  {floor_plans.filter((plan) => {
+                    if (query !== '') {
+                      if (plan.floor_plan_name.toLowerCase().indexOf(query.toLowerCase()) > -1) {
+                        return plan;
                       }
-                    }).map((plan:FloorPlan)=>(
-                        <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md">{plan.floor_plan_name}</Text>
-                    ))}
+                    } else {
+                      return plan;
+                    }
+                  }).map((plan: FloorPlan) => (
+                    <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md">{plan.floor_plan_name}</Text>
+                  ))}
                 </VStack>
               </Box>
-              </Container>
-      )}
+            </Container>
+          </>
+        )}
     </>
   )
 }

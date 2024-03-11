@@ -10,6 +10,7 @@ import BannerView from 'application/components/atoms/banners/RectangleView';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseEventService from 'application/store/services/UseEventService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type indexProps = {
   navigation: unknown
@@ -25,6 +26,7 @@ const Index = ({ navigation }: indexProps) => {
   const router = useRouter();
 
   const id: any = router.query['id'];
+  console.log("🚀 ~ Index ~ id:", id)
 
   const { FetchInfo, info, ClearState } = UseInfoService();
 
@@ -38,12 +40,14 @@ const Index = ({ navigation }: indexProps) => {
   }, [cms, id])
 
   const [searchText, setSearchText] = React.useState<string>("")
-
+  const module = modules?.find((module)=>(module.id == id));
   return (
     <>
       {loading ? (
         <SectionLoading />
       ) : (
+        <>
+        <NextBreadcrumbs module={module} />
         <Container pt="2" maxW="100%" w="100%">
           <HStack mb="3" w="100%" space="3" alignItems="center">
             <Text fontSize="2xl">
@@ -55,6 +59,7 @@ const Index = ({ navigation }: indexProps) => {
           <Listing rounded={10} cms={cms} searchText={searchText} />
           {/* <BannerView url={''} /> */}
         </Container>
+        </>
       )}
 
     </>

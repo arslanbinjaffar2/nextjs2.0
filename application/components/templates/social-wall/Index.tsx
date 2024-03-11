@@ -5,6 +5,8 @@ import AddPost from 'application/components/atoms/social-wall/AddPost';
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
 import { Banner } from 'application/models/Banner'
+import UseEventService from 'application/store/services/UseEventService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
   const { banners, FetchBanners } = UseBannerService();
@@ -22,8 +24,12 @@ const Index = () => {
     FetchBanners();
   }, []);
 
+  const { modules } = UseEventService();
+    const module = modules.find((module) => module.alias === 'social_wall');
+
   return (
     <>
+     <NextBreadcrumbs module={module} />
       <AddPost />
       <Box w="100%">
         <SquareBox />

@@ -21,6 +21,7 @@ import { useRouter } from 'solito/router';
 import UseBannerService from 'application/store/services/UseBannerService';
 import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 
 type ScreenParams = { id: string, cms: string | undefined }
@@ -37,7 +38,7 @@ const Detail = React.memo(() => {
 
     const { documents, clearState } = UseDocumentService();
     
-    const { event } = UseEventService();
+    const { event, modules } = UseEventService();
 
     const { banners, FetchBanners }  = UseBannerService();
 
@@ -73,21 +74,14 @@ const Detail = React.memo(() => {
     React.useEffect(() => {
         FetchBanners();
     }, []);
+    const module = modules.find((module) => module.alias === "exhibitors");
     return (
         <>
             {loading ? (
                 <WebLoading />
             ) : (
                 <>
-                    <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
-                            <Pressable onPress={()=> back()}>
-                                <HStack space="3" alignItems="center">
-                                    <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                                    <Text fontSize="2xl">BACK</Text>
-                                </HStack>
-                            </Pressable>
-                        <Spacer />
-                    </HStack>
+                 <NextBreadcrumbs module={module} title={detail?.detail?.name} />
                     <Container maxW="100%" h={'93%'} w="100%">
                         <Container mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" roundedTop="10">
                             <DetailBox detail={detail} />

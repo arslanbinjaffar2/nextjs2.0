@@ -17,6 +17,7 @@ import { QaSettings } from 'application/models/qa/Qa';
 import UseSocketService from 'application/store/services/UseSocketService';
 import { TextInput } from 'react-native';
 import IcoSend from 'application/assets/icons/small/IcoSend'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { id: string }
 
@@ -28,7 +29,7 @@ const Detail = () => {
     const { processing, loading } = UseLoadingService();
     const { _env } = UseEnvService();
 
-    const { event } = UseEventService();
+    const { event, modules } = UseEventService();
 
     const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | 'my_question'>('popular')
 
@@ -155,23 +156,16 @@ const Detail = () => {
         setSpeaker(null);
   
       }
+      const module = modules.find((module) => module.alias === 'qa');
   return (
     <>
     {
         in_array('qa-detail', processing) ? (
             <WebLoading />
         ):(
+            <>
+             <NextBreadcrumbs module={module} title={qaDetials?.program_detail?.info?.topic}/>
             <Container overflow="hidden" mb="4" maxW="100%" w="100%">
-                <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Pressable onPress={()=>{
-                        back();
-                    }}>
-                        <HStack  space="3" alignItems="center">
-                            <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text"  />
-                            <Text  fontSize="2xl">BACK</Text>
-                        </HStack>
-                    </Pressable>
-                </HStack>
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" >
                 <Box w="100%"  py="3">
                     <HStack width={"100%"} pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
@@ -516,6 +510,7 @@ const Detail = () => {
                 </Box>
                 
             </Container>
+            </>
         )
     }
     </>

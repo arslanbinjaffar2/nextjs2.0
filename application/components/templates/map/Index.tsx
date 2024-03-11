@@ -8,6 +8,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import LoadImage from 'application/components/atoms/LoadImage';
 import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
     const { loading } = UseLoadingService();
@@ -30,11 +31,14 @@ const Index = () => {
   React.useEffect(() => {
     FetchBanners();
   }, []);
+  const module = modules.find((module) => module.alias === 'maps');
   return (
     <>
         {loading ? 
             <SectionLoading/>
         :
+        <>
+       <NextBreadcrumbs module={module} />
             <Container pt="2" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text textTransform="uppercase" fontSize="2xl">{modules?.find((map)=>(map.alias == 'maps'))?.name ?? ""}</Text>
@@ -65,6 +69,7 @@ const Index = () => {
                     <Text>{event.labels?.EVENT_NORECORD_FOUND}</Text>
                 </Box>}
             </Container>
+            </>
         }
       <Box width={"100%"} height={"5%"}>
         {filteredBanners.map((banner, k) =>

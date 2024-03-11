@@ -10,6 +10,7 @@ import BannerView from 'application/components/atoms/banners/RectangleView';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseEventService from 'application/store/services/UseEventService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 
 type indexProps = {
@@ -26,7 +27,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const id: any = router.query['id'];
 
-  const { event, modules  } = UseEventService();
+  const { event, modules } = UseEventService();
 
   const [searchText, setSearchText] = React.useState<string>("")
 
@@ -40,33 +41,38 @@ const Index = ({ navigation }: indexProps) => {
     }
   }, [cms, id])
 
+  const module = modules.find((module) => module.alias === 'additional-info');
+
 
   return (
     <>
       {loading ? (
         <SectionLoading />
       ) : (
-        <Container pt="2" maxW="100%" w="100%">
-          <HStack display={['block','flex']} mb="3" w="100%" space="0" alignItems="center">
-            <Text fontSize="2xl">
-              {
-                (() => {
-                  if (cms === 'practical-info') {
-                    return modules?.find((module)=>(module.alias == 'practical-info'))?.name ?? 'Practical information'
-                  } else if (cms === 'additional-info') {
-                    return modules?.find((module)=>(module.alias == 'additional-info'))?.name ?? 'Additional information'
-                  } else if (cms === 'general-info') {
-                    return modules?.find((module)=>(module.alias == 'general-info'))?.name ?? 'General information'
-                  }
-                })()
-              }
-            </Text>
-            <Spacer />
-            <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w={["100%","60%"]} bg="primary.box" borderWidth={0}  placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-          </HStack>
-          <Listing rounded={10} cms={cms} searchText={searchText} />
-          {/* <BannerView url={''} /> */}
-        </Container>
+        <>
+          <NextBreadcrumbs module={module} />
+          <Container pt="2" maxW="100%" w="100%">
+            <HStack display={['block', 'flex']} mb="3" w="100%" space="0" alignItems="center">
+              <Text fontSize="2xl">
+                {
+                  (() => {
+                    if (cms === 'practical-info') {
+                      return modules?.find((module) => (module.alias == 'practical-info'))?.name ?? 'Practical information'
+                    } else if (cms === 'additional-info') {
+                      return modules?.find((module) => (module.alias == 'additional-info'))?.name ?? 'Additional information'
+                    } else if (cms === 'general-info') {
+                      return modules?.find((module) => (module.alias == 'general-info'))?.name ?? 'General information'
+                    }
+                  })()
+                }
+              </Text>
+              <Spacer />
+              <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w={["100%", "60%"]} bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+            </HStack>
+            <Listing rounded={10} cms={cms} searchText={searchText} />
+            {/* <BannerView url={''} /> */}
+          </Container>
+        </>
       )}
 
     </>
