@@ -196,7 +196,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                    ALL
+                                {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
                             </Button>}
                             <Button
                                 onPress={() => {
@@ -214,7 +214,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                MY ATTENDEES
+                                {modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
                             </Button>
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
                                 <Button 
@@ -232,7 +232,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
                                     _text={{ fontWeight: '600' }}
                                 >
-                                    GROUPS
+                                    {event?.labels?.ATTENDEE_LIST_BY_GROUP}
                                 </Button>
                         }
                     </HStack>}
