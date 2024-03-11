@@ -1,8 +1,9 @@
 export interface FetchCheckInOutResponse {
   attendee: Attendee;
   setting: Setting;
+  hasOrderItems: boolean;
   history: History[];
-  type_history: {event:History[],program:History[],group:History[],ticket:History[]};
+  type_history: {event:GroupedHistory[],program:GroupedHistory[],group:GroupedHistory[],ticket:GroupedHistory[]};
   enableEvent: boolean;
   enableCheckinWithoutLocatiom: boolean;
   status: string;
@@ -41,6 +42,12 @@ export interface Info2 {
   module_order_id: number;
 }
 
+export interface GroupedHistory {
+  log_date: string;
+  first_log: History;
+  other_logs: History[];
+}
+
 export interface History {
   id: number;
   checkin: string;
@@ -57,6 +64,9 @@ export interface History {
   created_at: string;
   updated_at: string;
   deleted_at: string;
+  group: any;
+  ticket: any;
+  program: any;
   attendees: Attendee2[];
 }
 
