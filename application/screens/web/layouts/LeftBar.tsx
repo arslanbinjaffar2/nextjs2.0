@@ -27,7 +27,7 @@ const LeftBar = () => {
   const { _env } = UseEnvService();
 
   const { setLoading } = UseLoadingService();
-
+  console.log(modules)
   return (
     <Center nativeID='ebs-master-left-bar' overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Box pb="3">
