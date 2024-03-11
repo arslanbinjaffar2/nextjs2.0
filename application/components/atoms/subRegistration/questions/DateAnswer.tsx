@@ -27,7 +27,8 @@ const DateAnswer = ({ question, formData, updateFormData, canChangeAnswer }: Pro
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         {Platform.OS === "web" && <DateTimePicker readOnly={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false } showtime={true} showdate={true} />}
       </Box>
-      {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
+      {Number(question.enable_comments) === 1 && <Comments
+       question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
 }

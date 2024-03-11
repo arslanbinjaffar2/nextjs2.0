@@ -279,7 +279,7 @@ const Detail = () => {
          });
       }
     }
-
+  console.log(afterLogin.questions)
   return (
     <>
       {loading ? (
