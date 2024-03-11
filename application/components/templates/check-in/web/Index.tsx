@@ -34,6 +34,7 @@ import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT} from 'application/utils/Gl
 
 const CheckinList = ({type, k}: any) => {
 	const [toggle, settoggle] = React.useState(false);
+  const { FetchCheckInOut, checkInOut, SendQRCode }  = UseCheckInOutService();
   console.log(k)
 	return (
 		<Box borderTopColor={'primary.bordercolor'} borderTopWidth={k === 0 ? 0 : 1} p={3} pl={4} alignItems="center">
@@ -118,7 +119,7 @@ const Index = () => {
   const { _env } = UseEnvService()
   const { event, modules } = UseEventService()
 
-  const { FetchCheckInOut, checkInOut, SendQRCode }  = UseCheckInOutService();
+  const { FetchCheckInOut, checkInOut, SendQRCode, DoCheckInOut }  = UseCheckInOutService();
   React.useEffect(() => {  
     FetchCheckInOut();
   }, [])
@@ -172,24 +173,10 @@ const Index = () => {
 									</>:null}
 								</HStack>
 							<Spacer />
-							{!checkInOut?.setting?.self_checkin && checkInOut?.setting?.enable_email_ticket ? <>
-								<Box >
-									{in_array('checkin-send-qr-code', processing) ?
-										<WebLoading/>
-										:
-										<IconButton
-											variant="transparent"
-											p="1"
-											icon={<Icon size="md" as={SimpleLineIcons} name="envelope" color="white" />}
-											onPress={SendQRCode}
-										/>
-									}
-								</Box>
-							</>:null}
 							</Box>
-							{checkInOut?.setting?.self_checkin ? <>
+              {checkInOut?.setting?.show_qrcode || checkInOut?.setting?.self_checkin ? 
                 <Box mb="3" w="100%" bg="primary.box" p="5" rounded="10">
-
+                    {checkInOut?.setting?.show_qrcode ? 
                       <Box mx="auto" w="190px" h="190px" bg="primary.box" p="3" rounded="10">
                         <Image
                         source={{
@@ -201,6 +188,8 @@ const Index = () => {
                         rounded="10"
                         />
                     </Box>
+                    :null}
+                    {checkInOut?.setting?.self_checkin ? <>
                     <HStack space="0" alignItems="center" justifyContent={'center'} pt={4}>
                         <Button
                             px={4}
@@ -209,15 +198,15 @@ const Index = () => {
                             colorScheme="primary"
                             minW={190}
                             onPress={()=>{
-                                console.log('hello')
+                              DoCheckInOut();
                             }}
                         
                         >
-                            <Text fontSize="xl" fontWeight={600}>Scan to Checkin</Text>
+                            <Text fontSize="xl" fontWeight={600}>{checkInOut?.status === 'check-in' ? event?.labels?.CHECK_IN_BUTTON : event?.labels?.CHECK_OUT_BUTTON}</Text>
                         </Button>
                     </HStack>
-                </Box>
-							</>:null}
+                    </>:null}
+                </Box>:null}
                 <Image
                 mb="3"
                 rounded="10"
@@ -247,15 +236,15 @@ const Index = () => {
                 
 							</Box>
                 <Box  overflow="hidden" w="100%" bg="primary.box" p="0" mb={3} rounded="10">
-									 {[...Array(3)].map((item,k) => 
+									 {checkInOut?.type_history[tab]?.map((item,k) => 
 											 <CheckinList type="checkin" k={k} key={item}  />
 										)}
-									 {[...Array(3)].map((item,k) => 
+									 {checkInOut?.type_history[tab]?.map((item,k) => 
 											 <CheckinList type="checkout" k={k} key={item}  />
 										)}
                 </Box>
                 
-                 {/* <HStack w="100%" space="0">
+                 <HStack w="100%" space="0">
                     <Box pb="3" overflow="hidden" h="100%" w="49%" bg="primary.box" p="0" rounded="10">
                         <Text mb="3" bg="primary.darkbox" py="1" px="3" fontSize="lg">CHECK IN</Text>
                         <VStack space="1">
@@ -273,7 +262,7 @@ const Index = () => {
                         </HStack>))}
                         </VStack>
                     </Box>
-                </HStack> */}
+                </HStack>
             </Container>
         )
       }

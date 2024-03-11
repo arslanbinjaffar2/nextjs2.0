@@ -50,6 +50,7 @@ export const CheckInOutSlice = createSlice({
             state.checkInOut= action.payload;
         },
         SendQRCode() {},
+        DoCheckInOut(state, action: PayloadAction<{ attendee_id: number, organizer_id: number, action: string }>) {},
     },
 })
 
@@ -58,6 +59,8 @@ export const CheckInOutActions = {
     FetchCheckInOut:CheckInOutSlice.actions.FetchCheckInOut,
     SendQRCode:CheckInOutSlice.actions.SendQRCode,
     update:CheckInOutSlice.actions.update,
+    DoCheckInOut:CheckInOutSlice.actions.DoCheckInOut,
+    
 }
 
 export const SelectCheckInOut = (state: RootState) => state.checkInOut.checkInOut

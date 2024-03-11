@@ -22,6 +22,7 @@ export type CheckInOutServiceOperators = {
     }
     FetchCheckInOut: () => void,
     SendQRCode: () => void,
+    DoCheckInOut: (payload: { attendee_id: number, organizer_id: number, action: string }) => void,
 }
 
 /**
@@ -44,6 +45,12 @@ export const UseCheckInOutService = (): Readonly<CheckInOutServiceOperators> => 
         SendQRCode: useCallback(
             () => {
                 dispatch(CheckInOutActions.SendQRCode())
+            },
+            [dispatch],
+        ),
+        DoCheckInOut: useCallback(
+            (payload: { attendee_id: number, organizer_id: number, action: string }) => {
+                dispatch(CheckInOutActions.DoCheckInOut(payload))
             },
             [dispatch],
         ),

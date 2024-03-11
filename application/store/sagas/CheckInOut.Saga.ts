@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getCheckInOutApi, sendQRCodeApi } from 'application/store/api/CheckInOut.Api'
+import { doCheckInOutApi, getCheckInOutApi, sendQRCodeApi } from 'application/store/api/CheckInOut.Api'
 
 import { CheckInOutActions } from 'application/store/slices/CheckInOut.Slice'
 
@@ -33,6 +33,19 @@ function* OnSendQRCode({
     yield put(LoadingActions.removeProcess({process:'checkin-send-qr-code'}));
 }
 
+function* OnDoCheckInOut({
+    payload,
+}: {
+    type: typeof CheckInOutActions.DoCheckInOut,
+    payload: { attendee_id: number, organizer_id: number, action: string }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:'checking-in-out'}));
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(doCheckInOutApi,payload, state)
+    yield put(CheckInOutActions.FetchCheckInOut())
+    yield put(LoadingActions.removeProcess({process:'checking-in-out'}));
+}
+
 
 
 
@@ -41,6 +54,8 @@ function* OnSendQRCode({
 export function* CheckInOutWatcherSaga(): SagaIterator {
     yield takeEvery(CheckInOutActions.FetchCheckInOut.type, OnFetchCheckInOut)
     yield takeEvery(CheckInOutActions.SendQRCode.type, OnSendQRCode)
+    yield takeEvery(CheckInOutActions.DoCheckInOut.type, OnDoCheckInOut)
+    
 }
 
 export default CheckInOutWatcherSaga
