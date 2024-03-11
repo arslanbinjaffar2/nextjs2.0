@@ -45,12 +45,23 @@ export const CheckInOutSlice = createSlice({
     name: 'checkInOut',
     initialState,
     reducers: {
-        FetchCheckInOut() {},
+        FetchCheckInOut(state, action: PayloadAction<{showLoading:boolean}>) {
+            if(action.payload.showLoading == null){
+                action.payload.showLoading = true;
+            }
+        },
         update(state, action: PayloadAction<FetchCheckInOutResponse>) {
             state.checkInOut= action.payload;
         },
         SendQRCode() {},
         DoCheckInOut(state, action: PayloadAction<{ attendee_id: number, organizer_id: number, action: string }>) {},
+        toggleCheckInOut(state) {
+            if(state.checkInOut.status == 'check-in'){
+                state.checkInOut.status = 'check-out';
+            }else{
+                state.checkInOut.status = 'check-in';
+            }
+        }
     },
 })
 
@@ -60,6 +71,7 @@ export const CheckInOutActions = {
     SendQRCode:CheckInOutSlice.actions.SendQRCode,
     update:CheckInOutSlice.actions.update,
     DoCheckInOut:CheckInOutSlice.actions.DoCheckInOut,
+    toggleCheckInOut:CheckInOutSlice.actions.toggleCheckInOut,
     
 }
 

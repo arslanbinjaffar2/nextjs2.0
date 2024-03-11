@@ -30,7 +30,9 @@ import UseBannerService from 'application/store/services/UseBannerService'
 import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService'
 import UseEventService from 'application/store/services/UseEventService';
-import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT} from 'application/utils/Globals'
+import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT} from 'application/utils/Globals';
+import UseAuthService from 'application/store/services/UseAuthService';
+
 
 const CheckinList = ({type, k}: any) => {
 	const [toggle, settoggle] = React.useState(false);
@@ -115,14 +117,16 @@ const CheckinList = ({type, k}: any) => {
 }
 
 const Index = () => {
-    const { loading, processing } = UseLoadingService();
+  const { loading, processing } = UseLoadingService();
   const { _env } = UseEnvService()
-  const { event, modules } = UseEventService()
+  const { event, modules } = UseEventService();
+  const { response  } = UseAuthService();
 
   const { FetchCheckInOut, checkInOut, SendQRCode, DoCheckInOut }  = UseCheckInOutService();
   React.useEffect(() => {  
-    FetchCheckInOut();
+    FetchCheckInOut({showLoading:true});
   }, [])
+  
   const { banners, FetchBanners} = UseBannerService();
   const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
   const [tab, setTab] = React.useState<'event'| 'program' | 'group' | 'ticket'>('event');
@@ -134,13 +138,16 @@ const Index = () => {
 
     setFilteredBanners(filteredBanner);
   },[banners]);
+
   React.useEffect(() => {
     FetchBanners();
   }, []);
+
+
   return (
     <>
       {
-        loading ? (
+        in_array('fetch-checkin-out',processing) ? (
             <WebLoading />
         ):(
             <Container pt="1" maxW="100%" w="100%">
@@ -198,8 +205,9 @@ const Index = () => {
                             colorScheme="primary"
                             minW={190}
                             onPress={()=>{
-                              DoCheckInOut();
+                              DoCheckInOut({attendee_id:response.data.user.id,organizer_id:event.organizer_id!, action:"attendee-checkin"});
                             }}
+                            isDisabled={in_array('checking-in-out', processing)}
                         
                         >
                             <Text fontSize="xl" fontWeight={600}>{checkInOut?.status === 'check-in' ? event?.labels?.CHECK_IN_BUTTON : event?.labels?.CHECK_OUT_BUTTON}</Text>

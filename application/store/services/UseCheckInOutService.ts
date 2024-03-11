@@ -20,7 +20,7 @@ export type CheckInOutServiceOperators = {
         checkInOutSetting: Setting | null;
         qrCodeImgSrc:string;
     }
-    FetchCheckInOut: () => void,
+    FetchCheckInOut: (payload:{showLoading:boolean}) => void,
     SendQRCode: () => void,
     DoCheckInOut: (payload: { attendee_id: number, organizer_id: number, action: string }) => void,
 }
@@ -37,8 +37,8 @@ export const UseCheckInOutService = (): Readonly<CheckInOutServiceOperators> => 
         
         checkInOut: useAppSelector(SelectCheckInOut),
         FetchCheckInOut: useCallback(
-            () => {
-                dispatch(CheckInOutActions.FetchCheckInOut())
+            (payload:{showLoading:boolean}) => {
+                dispatch(CheckInOutActions.FetchCheckInOut(payload))
             },
             [dispatch],
         ),
