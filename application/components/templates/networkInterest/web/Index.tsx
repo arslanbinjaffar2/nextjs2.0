@@ -14,7 +14,6 @@ const Index = () => {
 
     const { _env } = UseEnvService();
 
-    const { event  } = UseEventService();
 
     const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords, skip } = UseNetworkInterestService();
     
