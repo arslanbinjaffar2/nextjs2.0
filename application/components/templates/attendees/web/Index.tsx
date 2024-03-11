@@ -229,6 +229,7 @@ const Index = ({ speaker, screen }: Props) => {
                                 bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
+                                
                                 {modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
                             </Button>
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
