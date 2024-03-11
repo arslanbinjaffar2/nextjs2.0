@@ -152,7 +152,7 @@ const Index = React.memo(() => {
                             </Box>
                         }
                          {exhibitors.length <= 0 &&
-                           <Box  p={3} mb="3" bg="primary.box" rounded="lg" p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
+                           <Box  p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
                                <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                            </Box>
                         }
@@ -169,7 +169,7 @@ const Index = React.memo(() => {
                     </Box>}
                     {tab === 'category' && categories.length <= 0 &&
                         <Box  p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                            <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                            <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                         </Box>
                     }
                     <Box width={"100%"} height={"5%"}>
