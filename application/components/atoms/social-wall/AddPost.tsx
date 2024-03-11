@@ -110,7 +110,7 @@ const AddPost = () => {
 
     return (
         <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
-            <IconButton
+            {/* <IconButton
                 w="30px"
                 h="30px"
                 p="1"
@@ -124,7 +124,7 @@ const AddPost = () => {
                 onPress={() => {
                     console.log('hello')
                 }}
-            />
+            /> */}
             <HStack px="4" py="3" pr="12" space="3" alignItems="flex-start">
                 <Avatar
                     size="sm"
