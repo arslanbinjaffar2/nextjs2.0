@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, Box, HStack, VStack, Text, Image, Spacer, Button, Divider, Center, Menu, Icon, Pressable, Modal } from 'native-base'
+import { Avatar, Box, HStack, VStack, Text, Image, Spacer, Button, Divider, Center, Menu, Icon, Pressable, Modal, Popover, ScrollView } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
 // import IcoSharePost from 'application/assets/icons/IcoSharePost'
@@ -195,32 +195,48 @@ const SquareBox = ({ post, index }: AppProps) => {
           </Center>
         )}
         <HStack space="1" w={'100%'} px={4}>
-          <HStack space="1" alignItems="center" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <Icolikealt />
-            <Text fontSize="sm">{likesCount}</Text>
-
-            {showLikesMenu && (
-              <Box bg={'primary.box'} py={3} borderWidth="1" borderColor="primary.box">
-                <Text fontSize="sm" px={3} mb={2}> <Icolikealt /> Liked by</Text>
-                <Divider />
-
-                {post.likes.map((like) => (
-                  <HStack key={like.id} alignItems="center" px={4} mt={3}>
-                    <Avatar
-                      borderWidth={1}
-                      borderColor="primary.text"
-                      size="sm"
-                      source={{
-                        uri: `${_env.eventcenter_base_url}/assets/attendees/${like.attendee.image}`,
-                      }}
-                    >
-                      SS
-                    </Avatar>
-                    <Text fontSize="md" ml={3}>{like.attendee.full_name}</Text>
-                  </HStack>
-                ))}
-              </Box>
-            )}
+          <HStack space="1" alignItems="center">
+            
+            <Text fontSize="sm"></Text>
+            <Popover
+              trigger={(triggerProps) => {
+              return <Button p={0} variant={'unstyled'} bg={'transparent'} _hover={{bg: 'transparent'}} leftIcon={<Icolikealt />} {...triggerProps} >{likesCount}</Button>
+              }}
+              
+            >
+              <Popover.Content  bg={'primary.box'}>
+                <Popover.Body bg={'primary.box'} borderTopWidth="0" p={0} rounded={6}>
+                  <Box bg={'primary.box'} py={3} borderWidth="0" borderColor="primary.box">
+                    <HStack width={'100%'} px={3} mb={2} space="1" alignItems="center">
+                      <Icolikealt width={20} height={20} />
+                      <Text fontSize="md" fontWeight={500}>  Liked by</Text>
+                    </HStack>
+                    
+                     
+                     <ScrollView maxHeight={200}>
+                     {post.likes.map((like) => (
+                      <>
+                      <Divider bg={'primary.bordercolor'} />
+                      <HStack key={like.id} alignItems="center" px={3} mt={3}>
+                        <Avatar
+                          borderWidth={1}
+                          borderColor="primary.text"
+                          size="sm"
+                          source={{
+                            uri: `${_env.eventcenter_base_url}/assets/attendees/${like.attendee.image}`,
+                          }}
+                        >
+                          SS
+                        </Avatar>
+                        <Text fontSize="md" ml={3}>{like.attendee.full_name}</Text>
+                      </HStack>
+                      </>
+                    ))}
+                     </ScrollView>
+                  </Box>
+                </Popover.Body>
+              </Popover.Content>
+            </Popover>
           </HStack>
           <Spacer />
           <HStack space="3" alignItems="center" key="commentbtn">

@@ -7,7 +7,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import useSocialWallService from 'application/store/services/UseSocialWallService'
 import AntDesign from '@expo/vector-icons/AntDesign';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import IcoSendMore from 'application/assets/icons/small/IcoSendMore'
 
 
 type AppProps = {
@@ -95,11 +95,10 @@ const handleClick = () => {
         
       </HStack>
       {hiddenReplies && hiddenReplies > 1 ?
-        <HStack pb={3} position={'relative'} space="3" px={5} pl={secondlevel ? '55px' : '5'} alignItems="flex-start">
+        <HStack pb={3} position={'relative'} space="3" px={5} pl={secondlevel ? '55px' : '5'} alignItems="center">
           {secondlevel && <Divider w={'5'} position={'absolute'} left={'35px'} top={3} bg={'primary.bordercolor'} />}
-            <Icon as={Ionicons} name="return-down-forward" size={7} color={'primary.text'} />
-
-            <VStack pb={2} position={'relative'} space="3"  justifyContent="flex-start">
+            <IcoSendMore />
+            <VStack pb={0} position={'relative'} space="0"  justifyContent="flex-start">
               <Pressable onPress={() => {
                 toggleHiddenReplies(comment.parent_id)
               }}>
@@ -112,7 +111,7 @@ const handleClick = () => {
             </VStack>
             </HStack>
       : null}
-    {secondlevel && <Divider bg={'primary.bordercolor'} zIndex={2} height={'calc(100% - 65px)'} width={'1px'} position={'absolute'} left={'35px'} top={'32px'} />}
+    {secondlevel && <Divider bg={'primary.bordercolor'} zIndex={2} height={'calc(100% - 56px)'} width={'1px'} position={'absolute'} left={'35px'} top={'32px'} />}
     </>
     )
 
