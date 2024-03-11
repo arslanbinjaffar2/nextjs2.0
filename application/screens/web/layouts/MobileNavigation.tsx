@@ -1,75 +1,200 @@
-import * as React from "react";
-import { ScrollView } from "react-native-gesture-handler";
-import type { ICarouselInstance } from "react-native-reanimated-carousel";
-import Carousel from "react-native-reanimated-carousel";
+import React from 'react';
+import {  useWindowDimensions } from 'react-native';
+import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon } from 'native-base';
 import { SafeAreaView } from "react-native-safe-area-context";
-import SButton from "./SButton";
-import { useWindowDimensions } from "react-native";
-import Animated, { useSharedValue } from "react-native-reanimated";
-import { Box, Text, View } from "native-base";
+import Slider from "react-slick";
+import IcoDashboard from 'application/assets/icons/IcoDashboard';
+import DynamicIcon from 'application/utils/DynamicIcon';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
-
-
-const PAGE_WIDTH = 600;
-
-function Index() {
-  const windowWidth = useWindowDimensions().width;
-  const scrollOffsetValue = useSharedValue<number>(0);
-  const [data, setData] = React.useState([...new Array(20).keys()]);
-  const [isVertical, setIsVertical] = React.useState(false);
-  const [isFast, setIsFast] = React.useState(false);
-  const [isAutoPlay, setIsAutoPlay] = React.useState(false);
-  const [isPagingEnabled, setIsPagingEnabled] = React.useState(true);
-  const ref = React.useRef<ICarouselInstance>(null);
-
-  const baseOptions = isVertical
-    ? ({
-      vertical: true,
-      swipe: false,
-      width: windowWidth/4 - 30,
-      height: 50,
-    } as const)
-    : ({
-      vertical: false,
-      width: windowWidth/4 - 30,
-      height: 50,
-    } as const);
-
+const MobileNavigation = () => {
+  const width = useWindowDimensions();
+  const sliderRef = React.useRef<Slider>(null);
+   const settings = {
+      dots: false,
+      arrows: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      swipeToSlide: true,
+    };
   return (
-    <SafeAreaView edges={["bottom"]} style={{ flex: 1, width: '100%' }}>
-      <View w={'100%'}>
-      <Carousel
-        {...baseOptions}
-        loop
-        ref={ref}
-        defaultScrollOffsetValue={scrollOffsetValue}
-        testID={"xxx"}
-        style={{ width: "100%" }}
-        autoPlay={false}
-        data={data}
-        pagingEnabled={false}
-        renderItem={({ index }) => <Animated.View><Text  fontSize="xs">Text</Text></Animated.View>}
-      />
-          </View>
-      <ScrollView style={{ flex: 1 }}>
-        <SButton
-          onPress={() => {
-            ref.current?.scrollTo({ count: -1, animated: true });
-          }}
-        >
-          prev
-        </SButton>
-        <SButton
-          onPress={() => {
-            ref.current?.scrollTo({ count: 1, animated: true });
-          }}
-        >
-          next
-        </SButton>
-      </ScrollView>
-    </SafeAreaView>
-  );
+    <SafeAreaView edges={['left']}>
+      <HStack pt={4} space="0" alignItems="center">
+        <Center  size="8">
+          <IconButton
+            variant="unstyled"
+            icon={<Icon size="md" as={AntDesign} name="left" color="primary.text" />}
+            onPress={()=>{
+              if (sliderRef.current) {
+                sliderRef.current.slickPrev();
+              }
+            }}
+            
+          />
+          
+          
+        </Center>
+         <View w={width.width - 100}>
+          <Slider
+          ref={sliderRef}
+           {...settings}>
+            <Box>
+              <Pressable
+                p="0"
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderWidth="0"
+                onPress={()=>{
+                  console.log('hello')
+                }}
+              
+              >
+                <IcoDashboard width="24" height="24" />
+                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Dashboard</Text>
+              </Pressable>
+              
+            </Box>
+            <Box>
+              <Pressable
+                p="0"
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderWidth="0"
+                onPress={()=>{
+                  console.log('hello')
+                }}
+              
+              >
+                <DynamicIcon iconType={'attendees'} iconProps={{ width: 24, height: 21 }} />
+                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Attendees</Text>
+              </Pressable>
+              
+            </Box>
+            <Box>
+              <Pressable
+                p="0"
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderWidth="0"
+                onPress={()=>{
+                  console.log('hello')
+                }}
+              
+              >
+                <DynamicIcon iconType={'speakers'} iconProps={{ width: 24, height: 21 }} />
+                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Speakers</Text>
+              </Pressable>
+              
+            </Box>
+            <Box>
+              <Pressable
+                p="0"
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderWidth="0"
+                onPress={()=>{
+                  console.log('hello')
+                }}
+              
+              >
+                <DynamicIcon iconType={'agendas'} iconProps={{ width: 24, height: 21 }} />
+                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Programs</Text>
+              </Pressable>
+              
+            </Box>
+            <Box>
+              <Pressable
+                p="0"
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderWidth="0"
+                onPress={()=>{
+                  console.log('hello')
+                }}
+              
+              >
+                <DynamicIcon iconType={'polls'} iconProps={{ width: 24, height: 21 }} />
+                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Polls</Text>
+              </Pressable>
+              
+            </Box>
+            <Box>
+              <Pressable
+                p="0"
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderWidth="0"
+                onPress={()=>{
+                  console.log('hello')
+                }}
+              
+              >
+                <DynamicIcon iconType={'survey'} iconProps={{ width: 24, height: 21 }} />
+                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Surveys</Text>
+              </Pressable>
+              
+            </Box>
+            <Box>
+              <Pressable
+                p="0"
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderWidth="0"
+                onPress={()=>{
+                  console.log('hello')
+                }}
+              
+              >
+                <DynamicIcon iconType={'my_notes'} iconProps={{ width: 24, height: 21 }} />
+                <Text textAlign={'center'} pt={1} fontSize={'sm'}>My Notes</Text>
+              </Pressable>
+              
+            </Box>
+            <Box>
+              <Pressable
+                p="0"
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderWidth="0"
+                onPress={()=>{
+                  console.log('hello')
+                }}
+              
+              >
+                <DynamicIcon iconType={'sponsors'} iconProps={{ width: 24, height: 21 }} />
+                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Sponsors</Text>
+              </Pressable>
+              
+            </Box>
+          </Slider>
+      </View>
+        <Center  size="8">
+          <IconButton
+            variant="unstyled"
+            icon={<Icon size="md" as={AntDesign} name="right" color="primary.text" />}
+            onPress={()=>{
+              if (sliderRef.current) {
+                sliderRef.current.slickNext();
+              }
+            }}
+            
+          />
+        </Center>
+      </HStack>
+      
+     
+     </SafeAreaView>
+  )
 }
 
-
-export default Index;
+export default MobileNavigation

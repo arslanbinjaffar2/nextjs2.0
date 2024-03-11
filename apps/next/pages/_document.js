@@ -217,7 +217,7 @@ body {
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
 }
-.slick-slide {
+#ebs-exhibitor-slider .slick-slide,#ebs-sponsors-slider .slick-slide {
  width: 250px !important; 
 } 
 `;

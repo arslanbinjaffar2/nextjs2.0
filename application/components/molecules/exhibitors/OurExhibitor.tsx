@@ -32,7 +32,7 @@ const OurExhibitor = () => {
   }, []);
 
   return (
-    <Container w="100%" maxW="100%">
+    <Container nativeID='ebs-exhibitor-slider' w="100%" maxW="100%">
       {modules.filter((module: any, key: number) => module.alias === 'exhibitors').length > 0 && our_exhibitors?.length > 0 && (
         <>
           <IconWithLeftHeading icon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 22, height: 24 }} />} title="OUR EXHIBITORS" />

@@ -91,7 +91,6 @@ const LeftBarMobile = () => {
               }}>
               <HStack space="4" alignItems="center">
                 <Center w="30px">
-                  {console.log(row?.alias)}
                   <DynamicIcon iconType={row?.alias.replace('-', '_')} iconProps={{ width: 24, height: 21 }} />
                 </Center>
                 <Text fontSize={'lg'} color="primary.text">{row?.name}</Text>
