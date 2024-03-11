@@ -178,13 +178,13 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
       for(const activeQuestion of mySubReg?.questions?.question!){
       if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!]?.answer !== undefined && formData[activeQuestion?.id!]?.answer !== null)){
         if(activeQuestion?.question_type === 'multiple'){
-          if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+          if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0)){
             newFormData[activeQuestion.id!] = {
                 error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
               };
             error  = true;
           }
-          else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
+          else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length !== 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
             newFormData[activeQuestion.id!] = {
                 error: mySubReg?.labels?.SUB_REGISTRATION_MIN_SELECTION_ERROR
                 .replace(/%q/g, activeQuestion?.info[0]?.value)
@@ -192,7 +192,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
               };
               error  = true;
           }
-          else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
+          else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length !== 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
             newFormData[activeQuestion.id!] = {
                 error:mySubReg?.labels?.SUB_REGISTRATION_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString())
               };
@@ -308,10 +308,12 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
   return (
     <Container mb="3" maxW="100%" w="100%">
     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-      <Spacer />
       <Text isTruncated pr="6" fontSize="lg">{setting_modules?.find((module: { alias: string; })=>(module.alias == 'subregistration'))?.name ?? 'Subregistration'}</Text>
     </HStack>
-     <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
+      <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+      <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
+    </HStack>
+     <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
       {mySubReg?.questions?.question.length! > 0 &&  mySubReg?.questions?.question.map((item:any, index:any)=>(
           <React.Fragment key={item.id}>
           {item.question_type === 'matrix' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MatrixAnswer onsubmit={submitcount} canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
