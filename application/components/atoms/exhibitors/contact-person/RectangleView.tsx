@@ -1,5 +1,5 @@
 import React from 'react'
-import { HStack, Icon, Spacer, Text, VStack, Image, Pressable } from 'native-base'
+import { HStack, Icon, Spacer, Text, VStack, Image, Pressable, View } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { ExhibitorsAttendee } from 'application/models/exhibitor/ExhibitorDetail'
 import UseEnvService from 'application/store/services/UseEnvService';
@@ -26,7 +26,13 @@ const RectangleView = ({ k, attendee, total }: AppProps) => {
             {attendee.image ? (
                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="" w="50px" h="50px" rounded={30} />
             ) : (
-                <Image source={UserPlaceholderImage} alt="" w="50px" h="50px" rounded={30} />
+                    <View bg={"gray.400"} h={10} w={10} borderRadius={1000} alignItems={"center"}
+                        justifyContent={"center"}
+                        fontFamily={'body'}
+                        fontSize={16} fontWeight={600}
+                        color={'white'}
+                    >{attendee?.first_name?.charAt(0).toUpperCase()}{attendee?.last_name?.charAt(0).toUpperCase()}</View>
+                // <Image source={UserPlaceholderImage} alt="" w="50px" h="50px" rounded={30} />
             )}
             <VStack space="0">
                 {(attendee?.first_name || attendee?.last_name) && (
