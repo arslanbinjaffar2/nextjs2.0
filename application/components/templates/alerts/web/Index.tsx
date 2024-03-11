@@ -53,7 +53,7 @@ const Index = () => {
                             </Box>
                         ) : (
                           <Box p="3">
-                              <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                              <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                           </Box>
                         )}
                     </Container>
