@@ -17,9 +17,10 @@ import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
+import BannerAds from 'application/components/atoms/banners/BannerAds';
+
 const Index = React.memo(() => {
 
     const { push, back } = useRouter()
