@@ -31,6 +31,7 @@ import SocketSlice, { SocketActions } from './slices/Socket.Slice'
 import HdSlice from './slices/Hd.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 import GallerySlice from './slices/Gallery.Slice'
+import SocialWallSlice, { SocialWallActions } from './slices/SocialWall.Slice'
 
 const makeStore = () => {
 
@@ -56,6 +57,7 @@ const makeStore = () => {
             alerts:AlertSlice,
             floorPlans:FloorPlanSlice,
             galleryImages:GallerySlice,
+            socialWall:SocialWallSlice,
             banners:BannerSlice,
             editProfiles:EditProfileSlice,
             qa:QaSlice,
@@ -75,7 +77,9 @@ const makeStore = () => {
                     // Ignore these action types
                     ignoredActions: [
                         EditProfileActions.UpdateAttendee.type, 
-                        SocketActions.SetSocket.type
+                        SocketActions.SetSocket.type,
+                        SocialWallActions.AddSocialWallPost.type,
+                        SocialWallActions.UpdateSocialWallPost.type
                     ],
                     ignoredPaths: ['socket.socket']
                     
