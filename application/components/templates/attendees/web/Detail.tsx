@@ -189,7 +189,6 @@ const Detail = ({ speaker }: Props) => {
                                                 {
                                                     groups?.length <= 0 && (
                                                         <>
-                                                                        <Text textTransform="uppercase" mb="3" pt="2" fontSize="lg">Groups</Text>
                                                          <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.EVENT_NORECORD_FOUND}</Text>
                                                         </>
                                                     )
@@ -209,7 +208,6 @@ const Detail = ({ speaker }: Props) => {
                                                         : (
                                                             <>
 
-                                                                <Text textTransform="uppercase" mb="3" pt="2" fontSize="lg">Programs</Text>
                                                                 <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.EVENT_NORECORD_FOUND}</Text>
                                                             </>
                                                         )
@@ -234,7 +232,6 @@ const Detail = ({ speaker }: Props) => {
                                         (
                                             <>
                                           
-                                                    <Text textTransform="uppercase" mb="3" pt="2" fontSize="lg">Category</Text>
                                         <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.EVENT_NORECORD_FOUND}</Text>
                                                 </>
                                             )
