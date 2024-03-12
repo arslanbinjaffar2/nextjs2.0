@@ -26,10 +26,10 @@ const LeftBar = () => {
 
   const { _env } = UseEnvService();
 
-  const { setLoading } = UseLoadingService();
-  console.log(modules)
+  const { setLoading, scroll } = UseLoadingService();
+
   return (
-    <Center nativeID='ebs-master-left-bar' overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
+    <Center nativeID='ebs-master-left-bar' overflow="auto" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Box pb="3">
         <Pressable
             w="100%"

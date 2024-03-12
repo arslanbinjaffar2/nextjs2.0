@@ -50,7 +50,7 @@ const MyDTPicker: FC<any> = (props: Props): any => {
     return (
       <Box fontFamily={'Avenir'} w="100%">
         <label className={`label-input ${props.timeOnly ? 'ebs-time-icon' : ''}`}>
-          <Input opacity={props.disabled ? '0.5' : 1} rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} isReadOnly={true} {...props} placeholder={props.placeholder} />
+          <Input opacity={props.readOnly ? '0.5' : 1} rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} isReadOnly={true} {...props} placeholder={props.placeholder} />
           <span>{props.required && <em className="req">*</em>}</span>
         </label>
       </Box>

@@ -88,9 +88,30 @@ const Master = ({ children, section }: Props) => {
           <Flex w="100%" h="100%" direction="column">
             <ScrollView nativeID="body-scroll"
               onScroll={({ nativeEvent }) => {
+               
                 if (ScrollCloseToBottom(nativeEvent) && !loading) {
                   setScrollCounter(scroll + 1);
                 }
+                let scrollHeight = nativeEvent.contentOffset.y
+                let _id = document?.getElementById('ebs-master-left-bar');
+                let _id2 = document?.getElementById('ebs-master-right-bar');
+                if (_id){ 
+                if (scrollHeight > _id?.offsetHeight) {
+                  _id.style.position = 'sticky';
+                  _id.style.top = '-100%';
+                } else {
+                  _id.style.position = 'static';
+                  _id.style.top = '0';
+                }}
+                if (_id2){ 
+                if (scrollHeight > (_id2?.offsetHeight)) {
+                  _id2.style.position = 'sticky';
+                  _id2.style.top = '-100%';
+                } else {
+                  _id2.style.position = 'static';
+                  _id2.style.top = '0';
+                }}
+
               }}
               scrollEventThrottle={400}
             >
@@ -112,7 +133,7 @@ const Master = ({ children, section }: Props) => {
                     <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={nextRouter.asPath.includes('settings') ? (width >= 1201 ? '900px' : '850px') : (width > 750 ? '600px' : '100%')}>
                       {children}
                     </Center>
-                    {width >= 970 && !nextRouter.asPath.includes('settings') && <Center position="sticky" top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
+                    {width >= 970 && !nextRouter.asPath.includes('settings') && <Center nativeID='ebs-master-right-bar' top="2rem" alignItems="flex-start" maxW={width >= 1201 ? '265px' : '230px'}>
                       <RightBar />
                     </Center>}
                   </HStack>
