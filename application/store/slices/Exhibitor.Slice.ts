@@ -9,9 +9,11 @@ import { ExhibitorCategory } from 'application/models/exhibitor/ExhibitorCategor
 import { ExhibitorDetail } from 'application/models/exhibitor/ExhibitorDetail'
 
 import type { RootState } from 'application/store/Index'
+import { SponsorSlice } from 'application/store/slices/Sponsor.Slice'
 
 export interface ExhibitorState {
     exhibitors: Exhibitor[],
+    labels: any,
     our_exhibitors: Exhibitor[],
     my_exhibitors: Exhibitor[],
     categories: ExhibitorCategory[],
@@ -24,6 +26,7 @@ export interface ExhibitorState {
 
 const initialState: ExhibitorState = {
     exhibitors: [],
+    labels: [],
     our_exhibitors: [],
     my_exhibitors: [],
     categories: [],
@@ -48,6 +51,9 @@ export const ExhibitorSlice = createSlice({
         MakeFavourite(state, action: PayloadAction<{ exhibitor_id: number, screen: string }>) { },
         update(state, action: PayloadAction<Exhibitor[]>) {
             state.exhibitors = action.payload;
+        },
+        updateSiteLabels(state, action: PayloadAction<[]>) {
+            state.labels = action.payload;
         },
         updateOurExhibitors(state, action: PayloadAction<Exhibitor[]>) {
             state.our_exhibitors = action.payload;
@@ -78,6 +84,7 @@ export const ExhibitorActions = {
     FetchExhibitors: ExhibitorSlice.actions.FetchExhibitors,
     FetchExhibitorDetail: ExhibitorSlice.actions.FetchExhibitorDetail,
     update: ExhibitorSlice.actions.update,
+    labels: ExhibitorSlice.actions.update,
     updateOurExhibitors: ExhibitorSlice.actions.updateOurExhibitors,
     updateCategories: ExhibitorSlice.actions.updateCategories,
     updateCategory: ExhibitorSlice.actions.updateCategory,
@@ -88,9 +95,11 @@ export const ExhibitorActions = {
     FetchMyExhibitors: ExhibitorSlice.actions.FetchMyExhibitors,
     updateMyExhibitors: ExhibitorSlice.actions.updateMyExhibitors,
     FetchOurExhibitors: ExhibitorSlice.actions.FetchOurExhibitors,
+    updateSiteLabels: ExhibitorSlice.actions.updateSiteLabels,
 }
 
 export const SelectExhibitors = (state: RootState) => state.exhibitors.exhibitors
+export const SelectSiteLabel = (state: RootState) => state.exhibitors.labels
 
 export const SelectOurExhibitors = (state: RootState) => state.exhibitors.our_exhibitors
 

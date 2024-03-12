@@ -115,7 +115,7 @@ const Index = ({ speaker }: Props) => {
     return (
         <Container maxW="100%" h={'100%'} w="100%">
             <HStack mb="3" pt="3" w="100%" space="3" alignItems="center">
-                <Input rounded="10" bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+                <Input rounded="10" bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />

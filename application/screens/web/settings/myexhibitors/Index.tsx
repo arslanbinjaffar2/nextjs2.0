@@ -48,7 +48,7 @@ const Index = ({ navigation }: indexProps) => {
         </Box>
         {!loading && my_exhibitors.length <= 0 && (
           <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
           </Box>
         )}
       </>

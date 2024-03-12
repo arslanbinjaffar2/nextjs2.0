@@ -122,15 +122,15 @@ const Detail = ({ speaker }: Props) => {
                                                     <React.Fragment key={key}>
                                                         {
                                                             (() => {
-                                                                if (row?.tab_name === 'program' && row?.status == 1) {
+                                                                if (row?.tab_name === 'program' && row?.status == 1 && event?.speaker_settings?.program === 1) {
                                                                     return (
                                                                         <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('program')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{speaker ? (modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}</Button>
                                                                     )
-                                                                } else if (row?.tab_name === 'category' && row?.status == 1) {
+                                                                } else if (row?.tab_name === 'category' && row?.status == 1 && event?.speaker_settings?.category_group === 1) {
                                                                     return (
                                                                         <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('category')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.SPEAKER_CATEGORY}</Button>
                                                                     )
-                                                                } else if (row?.tab_name === 'documents' && row?.status == 1) {
+                                                                } else if (row?.tab_name === 'documents' && row?.status == 1 && event?.speaker_settings?.show_document === 1) {
                                                                     return (
                                                                         <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}</Button>
                                                                     )
@@ -173,25 +173,32 @@ const Detail = ({ speaker }: Props) => {
                                                         
                                                 {
                                                     groups?.length <= 0 && (
-                                                        <Text w="100%" fontSize="18px" p={3}>{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                                        <Text w="100%" p={3} bg="primary.darkbox">{event.labels.GENERAL_NO_RECORD}</Text>
                                                     )
                                                 }
                                             </>
                                         )}
 
                                     </Container>}
+                                    {event?.speaker_settings?.program === 1 && (
+                                      <>
                                     {tab === 'program' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                                         {in_array('programs', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
-                                            programs.length > 0 ? 
+                                            programs.length > 0 ?
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> :
-                                            <Text p={3} fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                            <Text p={3} mb="3" bg="primary.box" rounded="lg" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
                                         )}
                                     </Container>}
+                                      </>
+                                    )}
+
                                     {tab === 'category' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                                         {detail?.detail?.categories.map((map: any, k: number) =>
                                             <React.Fragment key={`item-box-group-${k}`}>
+                                                {event?.speaker_settings?.category_group === 1 && (
+                                                <>
                                                 {map?.name && (
                                                     <Text w="100%" pl="18px" bg="primary.darkbox">{map?.name}</Text>
                                                 )}
@@ -200,11 +207,15 @@ const Detail = ({ speaker }: Props) => {
                                                         <RectangleCategoryView category={category} k={k} border={map?.children.length != (index + 1)} navigation={true} screen="detail" />
                                                     </React.Fragment>
                                                 )}
+                                                </>
+                                                )}
                                             </React.Fragment>
                                         )}
                                         {detail?.detail?.categories.length <=0 && 
-                                        <Text p={3} fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>}
+                                        <Text p={3} mb="3" bg="primary.box" rounded="lg" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>}
                                     </Container>}
+                                    {event?.speaker_settings?.show_document === 1 && (
+                                      <>
                                     {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
                                         {in_array('documents', processing) && page === 1 ? (
                                             <SectionLoading />
@@ -212,6 +223,8 @@ const Detail = ({ speaker }: Props) => {
                                             <ListingLayout2 />
                                         )}
                                     </Container>}
+                                      </>
+                                      )}
                                     {(in_array('programs', processing) || in_array('groups', processing)) && page > 1 && (
                                         <LoadMore />
                                     )}

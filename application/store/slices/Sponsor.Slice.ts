@@ -12,6 +12,7 @@ import type { RootState } from 'application/store/Index'
 
 export interface SponsorState {
     sponsors: Sponsor[],
+    labels: any,
     our_sponsors: Sponsor[],
     my_sponsors: Sponsor[],
     categories: SponsorCategory[],
@@ -24,6 +25,7 @@ export interface SponsorState {
 
 const initialState: SponsorState = {
     sponsors: [],
+    labels: [],
     our_sponsors: [],
     my_sponsors: [],
     categories: [],
@@ -48,6 +50,9 @@ export const SponsorSlice = createSlice({
         MakeFavourite(state, action: PayloadAction<{ sponsor_id: number, screen: string }>) { },
         update(state, action: PayloadAction<Sponsor[]>) {
             state.sponsors = action.payload;
+        },
+        updateSiteLabels(state, action: PayloadAction<[]>) {
+            state.labels = action.payload;
         },
         updateOurSponsors(state, action: PayloadAction<Sponsor[]>) {
             state.our_sponsors = action.payload;
@@ -80,6 +85,7 @@ export const SponsorActions = {
     FetchOurSponsors: SponsorSlice.actions.FetchOurSponsors,
     FetchSponsorDetail: SponsorSlice.actions.FetchSponsorDetail,
     update: SponsorSlice.actions.update,
+    labels: SponsorSlice.actions.update,
     updateOurSponsors: SponsorSlice.actions.updateOurSponsors,
     updateCategories: SponsorSlice.actions.updateCategories,
     updateCategory: SponsorSlice.actions.updateCategory,
@@ -88,9 +94,11 @@ export const SponsorActions = {
     MakeFavourite: SponsorSlice.actions.MakeFavourite,
     updateSponsorDetail: SponsorSlice.actions.updateSponsorDetail,
     updateMySponsors: SponsorSlice.actions.updateMySponsors,
+    updateSiteLabels: SponsorSlice.actions.updateSiteLabels,
 }
 
 export const SelectSponsors = (state: RootState) => state.sponsors.sponsors
+export const SelectSiteLabel = (state: RootState) => state.sponsors.labels
 
 export const SelectOurSponsors = (state: RootState) => state.sponsors.our_sponsors
 
