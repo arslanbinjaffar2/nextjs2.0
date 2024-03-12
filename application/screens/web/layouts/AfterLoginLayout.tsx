@@ -58,14 +58,6 @@ const AfterLoginLayout = ({ children }: indexProps) => {
                  {children}
                 </Center>
               </HStack>
-              <HStack w="100%" pt="3" space="5" alignItems="flex-start">
-                {width > 725 && <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'} />}
-                <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={(width > 750 ? '600px' : '100%')}>
-                  <Box width={"100%"} height={"5%"}>
-                    <BannerAds module_name={'business'} module_type={'listing'}/>
-                  </Box>
-                </Center>
-              </HStack>
             </Container>
           </Flex>
         </ScrollView>
