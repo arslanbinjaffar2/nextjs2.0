@@ -32,7 +32,7 @@ const LeftBarProfile = () => {
             _hover={{ bg: 'primary.500' }}
             borderRadius="4"
             onPress={() => {
-              router.push(`/${event.url}/settings/${row?.alias.replace}`)
+              router.push(`/${event.url}/settings/${row?.alias}`)
             }}>
 
             <HStack space="4" alignItems="center">
