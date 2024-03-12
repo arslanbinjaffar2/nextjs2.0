@@ -21,10 +21,7 @@ const OpenQuestionAnswer = ({ question, formData, updateFormData, error, canChan
   const [characterLimit,setCharacterLimit] =  React.useState(2000);
 
   function updateInputText(updatedText:string) {
-    // implement character limit
-    if (inputText.length < updatedText.length && updatedText.length > characterLimit) {
-      return;
-    }
+    updatedText = updatedText.slice(0, characterLimit);
     setInputText(updatedText);
     updateFormData(question.id, question.question_type, updatedText)
   }

@@ -22,9 +22,7 @@ const Comments = ({ question, updateFormData, canChangeAnswer }: PropTypes) => {
 
   
   function updateComment(updatedComment:string) {
-    if (comment.length < updatedComment.length && updatedComment.length > characterLimit) {
-      return;
-    }
+    updatedComment = updatedComment.slice(0, characterLimit);
     setComment(updatedComment);
     updateFormData(question.id, 'comment', updatedComment);
   }
