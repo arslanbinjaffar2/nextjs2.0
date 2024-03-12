@@ -6,14 +6,20 @@ import Slider from "react-slick";
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import UseEventService from '../../../store/services/UseEventService'
+import UseEnvService from 'application/store/services/UseEnvService'
+import { useRouter } from 'solito/router'
+
 
 const MobileNavigation = () => {
+  const { event, modules } = UseEventService()
+  const { push, back } = useRouter()
   const width = useWindowDimensions();
   const sliderRef = React.useRef<Slider>(null);
    const settings = {
       dots: false,
       arrows: false,
-      infinite: true,
+      infinite: false,
       speed: 500,
       slidesToShow: 4,
       slidesToScroll: 1,
@@ -57,7 +63,8 @@ const MobileNavigation = () => {
               </Pressable>
               
             </Box>
-            <Box>
+            {modules.filter((module: any) => module.alias === 'attendees' && module.show_on_dashboard === 1).map((module: any, key: number) => (
+              <Box key={key}>
               <Pressable
                 p="0"
                 display={'flex'}
@@ -65,7 +72,7 @@ const MobileNavigation = () => {
                 justifyContent={'center'}
                 borderWidth="0"
                 onPress={()=>{
-                  console.log('hello')
+                  push(`/${event.url}/attendees`)
                 }}
               
               >
@@ -74,7 +81,9 @@ const MobileNavigation = () => {
               </Pressable>
               
             </Box>
-            <Box>
+              ))}
+            {modules.filter((module: any) => module.alias === 'speakers' && module.show_on_dashboard === 1).map((module: any, key: number) => (
+              <Box key={key}>
               <Pressable
                 p="0"
                 display={'flex'}
@@ -82,16 +91,37 @@ const MobileNavigation = () => {
                 justifyContent={'center'}
                 borderWidth="0"
                 onPress={()=>{
-                  console.log('hello')
+                  push(`/${event.url}/speakers`)
                 }}
-              
+
               >
                 <DynamicIcon iconType={'speakers'} iconProps={{ width: 24, height: 21 }} />
                 <Text textAlign={'center'} pt={1} fontSize={'sm'}>Speakers</Text>
               </Pressable>
-              
+
             </Box>
-            <Box>
+            ))}
+            {modules.filter((module: any) => module.alias === 'agendas' && module.show_on_dashboard === 1).map((module: any, key: number) => (
+              <Box key={key}>
+                <Pressable
+                  p="0"
+                  display={'flex'}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                  borderWidth="0"
+                  onPress={() => {
+                    push(`/${event.url}/agendas`)
+                  }}
+                >
+                  <DynamicIcon iconType={'agendas'} iconProps={{ width: 24, height: 21 }} />
+                  <Text textAlign={'center'} pt={1} fontSize={'sm'}>
+                    Programs
+                  </Text>
+                </Pressable>
+              </Box>
+            ))}
+            {modules.filter((module: any) => module.alias === 'polls' && module.show_on_dashboard === 1).map((module: any, key: number) => (
+              <Box key={key}>
               <Pressable
                 p="0"
                 display={'flex'}
@@ -99,33 +129,18 @@ const MobileNavigation = () => {
                 justifyContent={'center'}
                 borderWidth="0"
                 onPress={()=>{
-                  console.log('hello')
+                  push(`/${event.url}/polls`)
                 }}
-              
-              >
-                <DynamicIcon iconType={'agendas'} iconProps={{ width: 24, height: 21 }} />
-                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Programs</Text>
-              </Pressable>
-              
-            </Box>
-            <Box>
-              <Pressable
-                p="0"
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                borderWidth="0"
-                onPress={()=>{
-                  console.log('hello')
-                }}
-              
+
               >
                 <DynamicIcon iconType={'polls'} iconProps={{ width: 24, height: 21 }} />
                 <Text textAlign={'center'} pt={1} fontSize={'sm'}>Polls</Text>
               </Pressable>
-              
+
             </Box>
-            <Box>
+            ))}
+            {modules.filter((module: any) => module.alias === 'survey' && module.show_on_dashboard === 1).map((module: any, key: number) => (
+              <Box key={key}>
               <Pressable
                 p="0"
                 display={'flex'}
@@ -133,15 +148,17 @@ const MobileNavigation = () => {
                 justifyContent={'center'}
                 borderWidth="0"
                 onPress={()=>{
-                  console.log('hello')
+                  push(`/${event.url}/survey`)
                 }}
-              
+
               >
                 <DynamicIcon iconType={'survey'} iconProps={{ width: 24, height: 21 }} />
                 <Text textAlign={'center'} pt={1} fontSize={'sm'}>Surveys</Text>
               </Pressable>
-              
+
             </Box>
+              ))}
+            {modules.filter((module: any) => module.alias === 'my_notes' && module.show_on_dashboard === 1).map((module: any, key: number) => (
             <Box>
               <Pressable
                 p="0"
@@ -150,7 +167,7 @@ const MobileNavigation = () => {
                 justifyContent={'center'}
                 borderWidth="0"
                 onPress={()=>{
-                  console.log('hello')
+                  push(`/${event.url}/my_notes`)
                 }}
               
               >
@@ -159,7 +176,9 @@ const MobileNavigation = () => {
               </Pressable>
               
             </Box>
-            <Box>
+            ))}
+            {modules.filter((module: any) => module.alias === 'sponsors' && module.show_on_dashboard === 1).map((module: any, key: number) => (
+              <Box key={key}>
               <Pressable
                 p="0"
                 display={'flex'}
@@ -167,15 +186,16 @@ const MobileNavigation = () => {
                 justifyContent={'center'}
                 borderWidth="0"
                 onPress={()=>{
-                  console.log('hello')
+                  push(`/${event.url}/sponsors`)
                 }}
-              
+
               >
                 <DynamicIcon iconType={'sponsors'} iconProps={{ width: 24, height: 21 }} />
                 <Text textAlign={'center'} pt={1} fontSize={'sm'}>Sponsors</Text>
               </Pressable>
-              
+
             </Box>
+            ))}
           </Slider>
       </View>
         <Center  size="8">

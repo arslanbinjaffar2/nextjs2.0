@@ -10,7 +10,8 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
     const { loading } = UseLoadingService();
-    const { event, modules   } = UseEventService();
+    const { event, modules  } = UseEventService();
+    const { _env } = UseEnvService();
 
     const { map, FetchMap} = UseMapService()
     React.useEffect(()=>{

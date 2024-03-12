@@ -165,6 +165,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('my-attendee');
         }
     }, [screen]);
+    
     return (
         <>
             <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">

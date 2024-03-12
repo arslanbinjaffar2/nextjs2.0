@@ -12,9 +12,8 @@ import TrackRectangleDetailView from 'application/components/atoms/programs/trac
 import LoadMore from 'application/components/atoms/LoadMore';
 import IntersectionObserverComponent from 'application/components/atoms/IntersectionObserverComponent';
 import UseEventService from 'application/store/services/UseEventService';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
-
 import { Platform, useWindowDimensions } from 'react-native';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
     

@@ -50,12 +50,9 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import WebLoading from 'application/components/atoms/WebLoading';
-
-import UseBannerService from 'application/store/services/UseBannerService';
-import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { id: string }
 
@@ -85,10 +82,6 @@ const Detail = () => {
 
     const { _env } = UseEnvService();
 
-    const { banners, FetchBanners } = UseBannerService();
-
-    const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
     const [showSpeakers, setshowSpeakers] = React.useState<Boolean>(false);
     const [showPolls, setshowPolls] = React.useState<Boolean>(false);
 
@@ -121,23 +114,6 @@ const Detail = () => {
     React.useEffect(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
-    }, []);
-
-    React.useEffect(() => {
-
-        const filteredBanner = banners.filter((banner: any) => {
-            return _id == banner.agenda_id;
-        });
-        setFilteredBanner(filteredBanner);
-    }, [banners]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'agendas' && banner.module_type == 'detail'
-        })
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
-    React.useEffect(() => {
-        FetchBanners();
     }, []);
 
     React.useEffect(() => {

@@ -27,9 +27,9 @@ import in_array from "in_array";
 import { Platform } from 'react-native'
 import DateTimePicker from 'application/components/atoms/DateTimePicker'
 import UseEnvService from 'application/store/services/UseEnvService'
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT} from 'application/utils/Globals'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const CheckinList = ({type, k}: any) => {
 	const [toggle, settoggle] = React.useState(false);

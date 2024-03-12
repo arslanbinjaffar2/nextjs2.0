@@ -40,7 +40,7 @@ const Index = React.memo(() => {
         [searchParams]
     )
 
-    const { event, modules  } = UseEventService()
+    const { event, modules } = UseEventService()
     const { loading } = UseLoadingService();
     const [tab, setTab] = React.useState(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list);
 
@@ -73,6 +73,7 @@ const Index = React.memo(() => {
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
+    
     return (
         <>
             {loading ? (

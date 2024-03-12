@@ -18,8 +18,6 @@ import in_array from 'in_array'
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-import UseBannerService from 'application/store/services/UseBannerService';
-import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 
@@ -43,26 +41,14 @@ const Detail = React.memo(() => {
 
     const { _env } = UseEnvService();
 
-    const { banners, FetchBanners } = UseBannerService();
-
-    const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
-
     React.useEffect(() => {
         if (id) {
             FetchSponsorDetail({ id: Number(id) });
-            FetchBanners();
         }
         return () => {
             clearState();
         }
     }, [id]);
-    React.useEffect(() => {
-
-        const filteredBanner = banners.filter((banner: any) => {
-            return id == banner.sponsor_id;
-        });
-        setFilteredBanner(filteredBanner);
-    }, [banners]);
 
     return (
         <>

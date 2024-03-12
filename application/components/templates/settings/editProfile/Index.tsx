@@ -908,7 +908,7 @@ const Selectstyles2 = {
                                     placeholder="Please Select"
                                     minWidth="64"
                                     w="100%"
-                                    h="auto"
+                                    h="50px"
                                     isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                     opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     selectedValue={attendeeData?.info?.country}
@@ -988,7 +988,7 @@ const Selectstyles2 = {
                                         <Select
                                             placeholder="Please Select"
                                             w={'100%'}
-                                            h="auto"
+                                            h="50px"
                                             isDisabled={setting?.is_editable === 1 ? false : true}
                                             opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                             selectedValue={attendeeData?.callingCode}

@@ -16,7 +16,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
-
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
@@ -186,7 +186,9 @@ const Index = React.memo(() => {
                           )}
                       </Box>
                     )}
-                    {/* <BannerView url={''} /> */}
+                    <Box width={"100%"} height={"5%"}>
+                        <BannerAds module_name={'sponsors'} module_type={'listing'} />
+                    </Box>
                 </Container>
                 </>
             )}
