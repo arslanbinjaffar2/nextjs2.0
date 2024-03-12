@@ -86,8 +86,6 @@ const Detail = () => {
 
     const { _env } = UseEnvService();
 
-    const { banners, FetchBanners } = UseBannerService();
-
     const [showSpeakers, setshowSpeakers] = React.useState<Boolean>(false);
     const [showPolls, setshowPolls] = React.useState<Boolean>(false);
 

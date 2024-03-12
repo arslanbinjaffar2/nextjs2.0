@@ -1,5 +1,5 @@
 import React from 'react'
-import { HStack, Icon, Spacer, Text, VStack, Image, Pressable, Center, Avatar } from 'native-base'
+import { HStack, Icon, Spacer, Text, VStack, Image, Pressable, Avatar } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { ExhibitorsAttendee } from 'application/models/exhibitor/ExhibitorDetail'
 import UseEnvService from 'application/store/services/UseEnvService';

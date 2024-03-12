@@ -18,8 +18,6 @@ import ListingLayout2 from 'application/components/molecules/documents/ListingLa
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-import UseBannerService from 'application/store/services/UseBannerService';
-import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
@@ -41,10 +39,6 @@ const Detail = React.memo(() => {
     
     const { event, modules } = UseEventService();
 
-    const { banners, FetchBanners }  = UseBannerService();
-
-    const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
-
     const { _env } = UseEnvService();
 
     const { back } = useRouter()
@@ -57,16 +51,9 @@ const Detail = React.memo(() => {
             clearState();
         }
     }, [id]);
-    React.useEffect(() => {
-
-        const filteredBanner =  banners.filter((banner: any) => {
-            return id == banner.exhibitor_id;
-        });
-        setFilteredBanner(filteredBanner);
-    }, [banners]);
-
-    const module = modules.find((module) => module.alias === "exhibitors");
     
+    const module = modules.find((module) => module.alias === "exhibitors");
+
     return (
         <>
             {loading ? (

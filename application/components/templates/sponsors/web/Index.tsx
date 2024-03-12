@@ -183,15 +183,7 @@ const Index = React.memo(() => {
                         }
                     </>}
                     <Box width={"100%"} height={"5%"}>
-                        {filteredBanners.map((banner, k) =>
-                          <Image
-                            key={k}
-                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                            alt="Image"
-                            width="100%"
-                            height="100%"
-                          />
-                        )}
+                        <BannerAds module_name={'sponsors'} module_type={'listing'} />
                     </Box>
                     {tab === 'category' && (
                       <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">

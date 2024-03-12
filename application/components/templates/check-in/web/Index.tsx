@@ -326,18 +326,9 @@ const Index = () => {
                             <Text fontSize="xl" fontWeight={600}>{checkInOut?.status === 'check-in' ? event?.labels?.CHECK_IN_BUTTON : event?.labels?.CHECK_OUT_BUTTON}</Text>
                         </Button>
                     </HStack>
-                    </>:null}
-                </Box>:null}
-                <Image
-                mb="3"
-                rounded="10"
-                source={{
-                    uri: 'https://wallpaperaccess.com/full/206501.jpg'
-                }}
-                alt=""
-                w="100%"
-                h="144px"
-                />
+							      </>:null}
+              </Box>:null}
+
                 <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                   {checkInOut?.setting?.show_event_checkin_history ? <>
 									<Button onPress={() => { setTab('event') }} bg={tab === 'event' ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Event</Button>
