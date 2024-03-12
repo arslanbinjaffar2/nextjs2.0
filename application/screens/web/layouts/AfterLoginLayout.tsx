@@ -59,7 +59,7 @@ const AfterLoginLayout = ({ children }: indexProps) => {
                 </Center>
               </HStack>
               <Box width={"100%"} height={"5%"}>
-                <BannerAds module_name={'network-interest'} module_type={'listing'}/>
+                <BannerAds module_name={'business'} module_type={'listing'}/>
               </Box>
             </Container>
           </Flex>
