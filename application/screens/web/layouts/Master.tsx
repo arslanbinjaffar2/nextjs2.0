@@ -96,7 +96,7 @@ const Master = ({ children, section }: Props) => {
                 let _id = document?.getElementById('ebs-master-left-bar');
                 let _id2 = document?.getElementById('ebs-master-right-bar');
                 if (_id){ 
-                if (scrollHeight > (_id?.offsetHeight/2)) {
+                if (scrollHeight > _id?.offsetHeight) {
                   _id.style.position = 'sticky';
                   _id.style.top = '-100%';
                 } else {
@@ -104,7 +104,7 @@ const Master = ({ children, section }: Props) => {
                   _id.style.top = '0';
                 }}
                 if (_id2){ 
-                if (scrollHeight > (_id2?.offsetHeight/2)) {
+                if (scrollHeight > (_id2?.offsetHeight)) {
                   _id2.style.position = 'sticky';
                   _id2.style.top = '-100%';
                 } else {
