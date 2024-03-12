@@ -223,6 +223,7 @@ const AddPost = () => {
                         <IconButton
                             w="50%"
                             rounded="0"
+                            bg={'primary.box'}
                             _hover={{ bg: 'primary.secondary' }}
                             variant="unstyled"
                             icon={<Icon size="xl" as={Ionicons} name="ios-image-outline" color="primary.text" />}
@@ -246,6 +247,7 @@ const AddPost = () => {
                         <IconButton
                             w="50%"
                             rounded="0"
+                            bg={'primary.box'}
                             variant="unstyled"
                             _hover={{ bg: 'primary.secondary' }}
                             icon={<Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />}

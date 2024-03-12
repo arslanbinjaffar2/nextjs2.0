@@ -32,6 +32,7 @@ const NewCommentBox = ({ post_id,parent_id,saveComment }: AppProps) => {
     return (
         <HStack w={'100%'} space="2" alignItems="center">
               <Input
+                borderWidth={0}
                 w={'100%'}
                 onChange={(e) => {
                   setCommentData({

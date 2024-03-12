@@ -107,31 +107,12 @@ const SquareBox = ({ post, index }: AppProps) => {
   return (
     <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="1" borderColor="primary.box">
       <VStack space="3">
-        {post.attendee.id === response?.data?.user?.id && (
-          <HStack px={3} w={'100%'} justifyContent={'flex-end'} space="3" alignItems="center">
-            <Menu
-              placement="bottom right"
-              bg="primary.box"
-              borderWidth={1}
-              borderColor="#707070"
-              shouldFlip={true}
-              w={180}
-              crossOffset={0}
-              trigger={(triggerProps) => {
-                return <Button w={'30px'} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal" />
-                </Button>
-              }}
 
-            >
-              <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>Edit</Menu.Item>
-              <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>Delete</Menu.Item>
-            </Menu>
-          </HStack>
-
-        )}
 
         {/* button to delete post */}
-        <HStack space="3" px={4} alignItems="center" key="rd90">
+        <HStack  space="1" alignItems="center">
+          <Center>
+          <HStack space="3" px={4} alignItems="center" key="rd90">
           <Avatar
             borderWidth={1}
             borderColor="primary.bordercolor"
@@ -147,6 +128,37 @@ const SquareBox = ({ post, index }: AppProps) => {
             <Text fontSize="sm" key="time_attendee_post">{post.created_at_formatted}</Text>
           </VStack>
         </HStack>
+          </Center>
+          <Spacer />
+          <Center>
+              {post.attendee.id === response?.data?.user?.id && (
+                <HStack px={3} w={'100%'} justifyContent={'flex-end'} space="3" alignItems="center">
+                  <Menu
+                    placement="bottom right"
+                    bg="primary.boxsolid"
+                    borderWidth={1}
+                    borderColor="#707070"
+                    shouldFlip={true}
+                    w={180}
+                    crossOffset={0}
+                    trigger={(triggerProps) => {
+                      return <Button w={'30px'} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal" />
+                      </Button>
+                    }}
+
+                  >
+                    <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>Edit</Menu.Item>
+                    <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>Delete</Menu.Item>
+                  </Menu>
+                </HStack>
+
+              )}
+
+          </Center>
+
+        </HStack>
+        
+
         <Text px={4} key="p-content" fontSize="md">{post.content}</Text>
         {(post.type === 'image' || post.type === 'text') && post.image !== '' && (
           <Pressable
@@ -199,14 +211,15 @@ const SquareBox = ({ post, index }: AppProps) => {
             
             <Text fontSize="sm"></Text>
             <Popover
+              placement='bottom left'
               trigger={(triggerProps) => {
               return <Button p={0} variant={'unstyled'} bg={'transparent'} _hover={{bg: 'transparent'}} leftIcon={<Icolikealt />} {...triggerProps} >{likesCount}</Button>
               }}
               
             >
-              <Popover.Content  bg={'primary.box'}>
-                <Popover.Body bg={'primary.box'} borderTopWidth="0" p={0} rounded={6}>
-                  <Box bg={'primary.box'} py={3} borderWidth="0" borderColor="primary.box">
+              <Popover.Content  bg={'primary.boxsolid'}>
+                <Popover.Body bg={'primary.boxsolid'} borderTopWidth="0" p={0} rounded={6}>
+                  <Box bg={'primary.boxsolid'} py={3} borderWidth="0" borderColor="primary.box">
                     <HStack width={'100%'} px={3} mb={2} space="1" alignItems="center">
                       <Icolikealt width={20} height={20} />
                       <Text fontSize="md" fontWeight={500}>  Liked by</Text>
@@ -258,7 +271,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                 px={1}
                 py={0}
                 _hover={{ bg: 'transparent' }}
-                leftIcon={<IcoLike width="18px" height="18px" />}
+                leftIcon={<Icon position={'relative'} top={'-2px'} as={AntDesign} name={isLiked ? 'like1' : 'like2'} color={isLiked ? 'primary.500' : 'primary.text'} />}
                 onPress={() => {
                   likePost()
                 }}
