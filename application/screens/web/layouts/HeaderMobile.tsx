@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Badge, Box, Button, Center, Container, Heading, HStack, Image, Menu, Pressable, Spacer, Text, VStack, Icon, Drawer, Divider } from 'native-base';
 import LeftBarMobile from 'application/screens/web/layouts/LeftBarMobile';
+import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 import Notification from 'application/components/atoms/header/Notification';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Event } from 'application/models/Event'
@@ -73,11 +74,12 @@ const [open, setOpen] = React.useState(false)
               <Heading textAlign={'center'} fontWeight={600} fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
         </Box>}
-        
+        <MobileNavigation />
+            
       </Container>
       
       <Drawer isOpen={open} placement='left'>
-        <Container  alignItems={'flex-start'} w="375px" h={'100%'} bg={'primary.bdBox'}>
+        <Container   alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
             <Center w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
               <Pressable
                 alignItems={'flex-end'}
