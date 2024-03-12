@@ -4,6 +4,7 @@ import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/poll/Detail';
 import { Platform } from 'react-native';
 import UsePollService from 'application/store/services/UsePollService';
+import UseEventService from 'application/store/services/UseEventService';
 
 type PropTypes = {
   question: Question,
@@ -16,6 +17,7 @@ type PropTypes = {
 const NumberAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
   const [inputText, setInputText] = React.useState(formData[question.id]?.answer ?? '')
   const { poll_labels } = UsePollService();
+  const { event } = UseEventService ();
   
   return (
     <Center maxW="100%" w="100%" mb="0">

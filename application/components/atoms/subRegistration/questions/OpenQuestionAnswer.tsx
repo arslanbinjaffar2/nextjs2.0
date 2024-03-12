@@ -30,10 +30,7 @@ const OpenQuestionAnswer = ({ question, formData, updateFormData, error, canChan
   const [characterLimit,setCharacterLimit] =  React.useState(2000);
 
   function updateInputText(updatedText:string) {
-    // implement character limit
-    if (inputText.length < updatedText.length && updatedText.length > characterLimit) {
-      return;
-    }
+    updatedText = updatedText.slice(0, characterLimit);
     setInputText(updatedText);
     updateFormData(question.id, question.question_type, updatedText)
   }
@@ -47,7 +44,7 @@ const OpenQuestionAnswer = ({ question, formData, updateFormData, error, canChan
           value={inputText}
           onChangeText={(answer)=>{ updateInputText(answer) }}
         />
-        <HStack px="3" py="1" w="100%" space="3" alignItems="center" justifyContent="end">
+        <HStack px="" py="1" w="100%" space="3" alignItems="center" justifyContent="end">
           <Text fontSize="sm">
             {characterLimit - inputText.length > 0 ? characterLimit - inputText.length : 0} {event?.labels?.GENERAL_CHARACTER_REMAINING}
           </Text>

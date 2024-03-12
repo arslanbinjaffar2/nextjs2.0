@@ -22,9 +22,7 @@ const Comments = ({ question, updateFormData, canChangeAnswer }: PropTypes) => {
 
   
   function updateComment(updatedComment:string) {
-    if (comment.length < updatedComment.length && updatedComment.length > characterLimit) {
-      return;
-    }
+    updatedComment = updatedComment.slice(0, characterLimit);
     setComment(updatedComment);
     updateFormData(question.id, 'comment', updatedComment);
   }
@@ -47,7 +45,7 @@ const Comments = ({ question, updateFormData, canChangeAnswer }: PropTypes) => {
             onChangeText={(text) => updateComment(text)}
             borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
         </Box>
-        <HStack px="3" py="1" w="100%" space="3" alignItems="center" justifyContent="end">
+        <HStack px="4" py="1" w="100%" space="3" alignItems="center" justifyContent="end">
           <Text fontSize="sm">
             {characterLimit - comment.length > 0 ? characterLimit - comment.length : 0} {event?.labels?.GENERAL_CHARACTER_REMAINING}
           </Text>
