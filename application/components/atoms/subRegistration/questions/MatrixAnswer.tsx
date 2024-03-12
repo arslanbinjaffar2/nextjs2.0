@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, ScrollView, Text, TextArea, VStack } from 'native-base';
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/subRegistration/SubRegistration';
 import { Platform } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
+import Comments from 'application/components/atoms/subRegistration/questions/Comments';
+
 type PropTypes = {
   question: Question,
   updates:number,
@@ -67,20 +69,8 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
       </Box>}
-      
-      <HStack px="3" py="1" mb={1} bg="primary.darkbox" w="100%" space="3" alignItems="center">
-        <Icowritecomment width="15px" height="18px" />
-        <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
-      </HStack>
-      <Box py="3" px="4" pb={0} w="100%">
-        <TextArea
-          p="3"
-          mb={1}
-          h="100px"
-          bg={'primary.darkbox'}
-          onChangeText={(text) => updateFormData(question.id, 'comment', text)}
-          borderWidth="1" borderColor={'primary.darkbox'} fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
-      </Box>
+
+      {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
 }

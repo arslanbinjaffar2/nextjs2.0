@@ -97,7 +97,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
-      minHeight: 50,
+      minHeight: "40px",
+      padding:"3px",
+    // minHeight:50,
       width: '100%',
       maxWidth: '100%',
 			minWidth: '100%',
@@ -649,7 +651,9 @@ const Selectstyles2 = {
                             <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.delegate}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}
+                            
+                            >
                                 <Input w="100%"
 									h={'50px'}
                                     placeholder={labels?.delegate}
@@ -921,7 +925,7 @@ const Selectstyles2 = {
                             <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.SPOKEN_LANGUAGE}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
+                            <Center  justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']} >
                             <DropDown
                                 label={labels?.SPOKEN_LANGUAGE}
                                 listitems={languages}
