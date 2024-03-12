@@ -50,6 +50,7 @@ const Detail = React.memo(() => {
             clearState();
         }
     }, [id]);
+    const module = modules.find((module) => module.alias === "sponsors");
     return (
         <>
             {loading ? (
