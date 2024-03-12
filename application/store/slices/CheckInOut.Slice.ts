@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Attendee, History, FetchCheckInOutResponse, Setting, Checkin } from 'application/models/checkInOut/CheckInOut'
+import { Attendee, History, FetchCheckInOutResponse, Setting, Checkin, GroupedHistory } from 'application/models/checkInOut/CheckInOut'
 
 import { RootState } from 'application/store/Index'
 
@@ -12,8 +12,9 @@ export interface CheckInOutState  {
     checkInOut:{
         attendee: Attendee | null;
         setting: Setting  | null;
+        hasOrderItems: boolean;
         history:History[],
-        type_history: {event:History[],program:History[],group:History[],ticket:History[]};
+        type_history: {event:GroupedHistory[],program:GroupedHistory[],group:GroupedHistory[],ticket:GroupedHistory[]};
         enableEvent: boolean;
         enableCheckinWithoutLocatiom: boolean;
         status: string;
@@ -28,6 +29,7 @@ const initialState: CheckInOutState = {
     checkInOut:{
         attendee: null,
         setting: null,
+        hasOrderItems: false,
         history:[],
         type_history: {event:[],program:[],group:[],ticket:[]},
         enableEvent: false,
@@ -45,11 +47,23 @@ export const CheckInOutSlice = createSlice({
     name: 'checkInOut',
     initialState,
     reducers: {
-        FetchCheckInOut() {},
+        FetchCheckInOut(state, action: PayloadAction<{showLoading:boolean}>) {
+            if(action.payload.showLoading == null){
+                action.payload.showLoading = true;
+            }
+        },
         update(state, action: PayloadAction<FetchCheckInOutResponse>) {
             state.checkInOut= action.payload;
         },
         SendQRCode() {},
+        DoCheckInOut(state, action: PayloadAction<{ attendee_id: number, organizer_id: number, action: string }>) {},
+        toggleCheckInOut(state) {
+            if(state.checkInOut.status == 'check-in'){
+                state.checkInOut.status = 'check-out';
+            }else{
+                state.checkInOut.status = 'check-in';
+            }
+        }
     },
 })
 
@@ -58,6 +72,9 @@ export const CheckInOutActions = {
     FetchCheckInOut:CheckInOutSlice.actions.FetchCheckInOut,
     SendQRCode:CheckInOutSlice.actions.SendQRCode,
     update:CheckInOutSlice.actions.update,
+    DoCheckInOut:CheckInOutSlice.actions.DoCheckInOut,
+    toggleCheckInOut:CheckInOutSlice.actions.toggleCheckInOut,
+    
 }
 
 export const SelectCheckInOut = (state: RootState) => state.checkInOut.checkInOut

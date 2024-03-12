@@ -11,3 +11,7 @@ export const getCheckInOutApi = (payload: any, state: any): Promise<HttpResponse
 export const sendQRCodeApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/check-in-out/sendQRCode`);
 }
+
+export const doCheckInOutApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/check-in-out/save`, payload);
+}
