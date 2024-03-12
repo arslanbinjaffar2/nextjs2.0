@@ -1,4 +1,4 @@
-# NativeBase + Solito Starter Template
+# NativeBase + Solito Starter Template 
 
 For a long long time the React Native community has been looking for a way to make Universal Apps a reality, and the major roadblock that was stopping us was Navigation. Solito is most probably the answer to that, and as we know NativeBase already works on all the three platforms. It’s a match made in heaven. So now your next can run with the same codebase on all the 3 platforms and we are here to show you how?
 
