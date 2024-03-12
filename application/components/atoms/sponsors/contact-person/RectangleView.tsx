@@ -1,10 +1,9 @@
 import React from 'react'
-import { HStack, Icon, Spacer, Text, VStack, Image, Avatar } from 'native-base'
+import { HStack, Icon, Spacer, Text, VStack, Image, Avatar, Pressable } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { SponsorsAttendee } from 'application/models/sponsor/SponsorDetail'
 import UseEnvService from 'application/store/services/UseEnvService';
 import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
-import { Pressable } from 'react-native';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
 
@@ -22,6 +21,7 @@ const RectangleView = ({ k, attendee }: AppProps) => {
     const { event } = UseEventService()
 
     return (
+        <Pressable w={'100%'}  onPress={() => { push(`/${event.url}/attendees/detail/${attendee.id}`)}}>
         <HStack w={'100%'} key={`item-${k}`} py="3" px="3" space="4" alignItems="center" borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor">
             {attendee.image ? (
                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="" w="50px" h="50px" rounded={30} />
@@ -49,12 +49,10 @@ const RectangleView = ({ k, attendee }: AppProps) => {
                 )}
             </VStack>
             <Spacer />
-            <Pressable  onPress={() => {
-                    push(`/${event.url}/attendees/detail/${attendee.id}`)
-                }}>
+                   
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
-            </Pressable>
         </HStack>
+        </Pressable>
     )
 }
 

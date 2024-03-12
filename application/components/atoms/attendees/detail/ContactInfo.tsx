@@ -20,7 +20,7 @@ const ContactInfo = ({ detail }: AppProps) => {
 
 
     return (
-        <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
+        <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.box" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
             <Box w="100%" p="4" py="5" rounded="10">
                 <HStack space={3}>
                     {detail?.detail?.info?.facebook && detail?.field_setting?.facebook ? (
