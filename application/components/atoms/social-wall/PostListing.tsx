@@ -47,7 +47,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
               <Box>
                 <Menu
                   placement="bottom right"
-                  bg="primary.darkbox"
+                  bg="primary.box"
                   borderWidth={1}
                   borderColor="#707070"
                   shouldFlip={true}
@@ -74,7 +74,8 @@ const PostListing = ({ attendee_id }: AppProps) => {
                   <WebLoading />
                 </Box>
                 
-            ):(
+            ):
+            (
               <>
                 <Box w="100%" key='post-lising'>
                     {posts.map((post:Post, i: number)=>{
@@ -83,16 +84,10 @@ const PostListing = ({ attendee_id }: AppProps) => {
                 </Box>
                 { posts.length === 0 ? (
                   <Text>No Posts Found</Text>
-                ): page === last_page && !(in_array('social_wall_posts', processing)) ? (
-                  <Box overflow="hidden" w="100%"key='no-posts'>
-                      <Box padding={5}>
-                              <Text>There are no more posts</Text>
-                          </Box>
-                  </Box>
-                ):null}
-            
+                ): null}
               </>
-            )}
+            )
+            }
             {(in_array('social_wall_posts', processing)) && page > 1 && (
               <LoadMore />
             )}

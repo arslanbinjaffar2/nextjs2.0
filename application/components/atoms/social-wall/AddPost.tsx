@@ -110,7 +110,7 @@ const AddPost = () => {
 
     return (
         <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
-            <IconButton
+            {/* <IconButton
                 w="30px"
                 h="30px"
                 p="1"
@@ -124,7 +124,7 @@ const AddPost = () => {
                 onPress={() => {
                     console.log('hello')
                 }}
-            />
+            /> */}
             <HStack px="4" py="3" pr="12" space="3" alignItems="flex-start">
                 <Avatar
                     size="sm"
@@ -153,19 +153,20 @@ const AddPost = () => {
             </HStack>
             {/* show only if file is image */}
             {postData.type === 'image' && postData.file_url !== '' && (
-                <Box w="100%" h="200px" overflow="hidden">
+                <Box rounded={8} position={'relative'} px={4} mb={4}  w="100%"  overflow="hidden">
                     {/* add remove file button */}
                     <IconButton
-                        w="30px"
-                        h="30px"
+                        w="24px"
+                        h="24px"
                         p="1"
                         position="absolute"
-                        right="20px"
-                        top="15px"
+                        right="25px"
+                        top="10px"
                         zIndex="99"
                         rounded="100%"
-                        variant="unstyled"
-                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color="primary.text" />}
+                        variant="solid"
+                        bg={'white'}
+                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color="black" />}
                         onPress={() => {
                             removeFile()
                         }}
@@ -179,20 +180,20 @@ const AddPost = () => {
             )}
             {/* show only if file is video */}
             {postData.type === 'video' && postData.file_url !== '' && (
-                <Box w="100%" h="200px" overflow="hidden">
+                <Box rounded={8} position={'relative'} px={4} mb={4}  w="100%"  overflow="hidden">
                     {/* add remove video buttton before the video element*/}
                     <IconButton
-                        w="30px"
-                        h="30px"
+                        w="24px"
+                        h="24px"
                         p="1"
-                        // position="absolute"
-                        ml="auto"
-                        // mr="auto"
-                        // top="15px"
+                        position="absolute"
+                        right="25px"
+                        top="10px"
                         zIndex="99"
                         rounded="100%"
-                        variant="unstyled"
-                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color="primary.text" />}
+                        variant="solid"
+                        bg={'white'}
+                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color="black" />}
                         onPress={() => {
                             removeFile()
                         }}
