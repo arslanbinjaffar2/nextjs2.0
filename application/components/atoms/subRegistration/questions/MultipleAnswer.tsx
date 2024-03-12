@@ -62,12 +62,13 @@ const checkIfProgramdisabled =  (answer:Answer, result:any[], settings:Settings,
       let thisPrograms = programs.find((item)=>(item.id == pId))!;
       let start_time2:any = thisPrograms.start_time;
       let end_time2:any = thisPrograms.end_time;
-      start_time1 = moment(start_time1,'HH:mm');
-      end_time1 = moment(end_time1, 'HH:mm');
-      start_time2 = moment(start_time2, 'HH:mm');
-      end_time2 = moment(end_time2, 'HH:mm');
+      start_time1 = moment(start_time1,'HH:mm:ss');
+      end_time1 = moment(end_time1, 'HH:mm:ss');
+      start_time2 = moment(start_time2, 'HH:mm:ss');
+      end_time2 = moment(end_time2, 'HH:mm:ss');
+      
       if(pId != answer.link_to && (moment(thisPrograms.date, GENERAL_DATE_FORMAT).isSame(moment(selectedProgram.date, GENERAL_DATE_FORMAT))) == true ){
-          if ((start_time1 >= start_time2 && start_time1 < end_time2) || (start_time2 >= start_time1 && start_time2 < end_time1)) {
+          if ((start_time1 >= start_time2 && start_time1 <= end_time2) || (start_time2 >= start_time1 && start_time2 <= end_time1)) {
                   disabled = true;
 
           }
