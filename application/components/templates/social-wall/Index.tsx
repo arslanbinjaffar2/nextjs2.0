@@ -11,7 +11,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 const Index = () => {
 
   const { modules } = UseEventService();
-    const module = modules.find((module) => module.alias === 'social_wall');
+  const module = modules.find((module) => module.alias === 'social_wall');
 
   return (
     <>

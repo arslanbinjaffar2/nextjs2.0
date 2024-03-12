@@ -74,7 +74,6 @@ const Index = React.memo(() => {
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
-
     const module = modules.find((module) => module.alias === 'exhibitors');
     const category = categories.find((category) => {
         return category.id ===  Number(categoryIdQueryParam)
