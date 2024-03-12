@@ -28,7 +28,7 @@ function* OnGetSponsors({
         yield put(SponsorActions.updateMySponsors(response.data.data.sponsors!))
     }else{
         yield put(SponsorActions.update(response.data.data.sponsors!))
-        yield put(SponsorActions.updateSiteLabels(response.data.data.site_labels!))
+        yield put(SponsorActions.updateSiteLabels(response.data.data.labels!))
     }
     
     yield put(SponsorActions.updateCategories(response.data.data.sponsorCategories!))

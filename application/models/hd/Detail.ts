@@ -89,6 +89,7 @@ export interface Labels {
   SOCIAL_MEDIA_HEADING: string;
   GENERAL_CANCEL: string;
   GENERAL_NO_RECORD: string;
+  ATTENDEE_MORE_INFO: string;
   GENERAL_SEND: string;
   GENERAL_STATUS: string;
   SHARE_WITH_FRIEND_HEADING: string;

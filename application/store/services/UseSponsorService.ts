@@ -28,7 +28,7 @@ import { SponsorContact } from 'application/models/sponsor/SponsorDetail'
 export type SponsorServiceOperators = {
     sponsors: Sponsor[]
     our_sponsors: Sponsor[]
-    site_labels: Sponsor[]
+    labels: any
     my_sponsors: Sponsor[]
     categories: SponsorCategory[]
     settings: SponsorSetting
@@ -38,7 +38,7 @@ export type SponsorServiceOperators = {
     query: string
     FetchSponsors: (payload: { category_id: number, query: string, screen: string }) => void
     FetchMySponsors: (payload: { }) => void
-    FetchSponsorContact: (payload: {id:number }) => void
+    FetchSponsorContact: (payload: { id: number }) => void
     FetchOurSponsors: () => void
     FetchSponsorDetail: (payload: { id: number }) => void
     MakeFavourite: (payload: { sponsor_id: number, screen: string }) => void
@@ -54,7 +54,7 @@ export const UseSponsorService = (): Readonly<SponsorServiceOperators> => {
 
     return {
         sponsors: useAppSelector(SelectSponsors),
-        site_labels: useAppSelector(SelectSiteLabel),
+        labels: useAppSelector(SelectSiteLabel),
         our_sponsors: useAppSelector(SelectOurSponsors),
         my_sponsors: useAppSelector(SelectMySponsors),
         categories: useAppSelector(SelectSponsorCategories),

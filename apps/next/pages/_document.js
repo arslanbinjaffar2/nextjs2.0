@@ -216,6 +216,9 @@ body {
 }
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
+}
+.slick-slide {
+ width: 250px !important; 
 } 
 `;
 
