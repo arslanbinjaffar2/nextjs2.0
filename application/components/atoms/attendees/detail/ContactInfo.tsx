@@ -24,7 +24,7 @@ const ContactInfo = ({ detail }: AppProps) => {
           <Text fontSize="lg">{event?.labels?.ATTENDEE_TAB_CONTACT_INFO}</Text>
           {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf ? (
             <Pressable>
-            <a href={'#'} style={{ margin: 'auto', position: 'relative', left: '15vh'}}>
+            <a href={'#'} style={{ margin: 'auto', position: 'relative', left:'10vh'}}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="14.253" viewBox="0 0 20 14.253">
               <path
                 id="badge_FILL0_wght100_GRAD0_opsz24"
