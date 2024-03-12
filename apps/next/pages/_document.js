@@ -223,6 +223,9 @@ body {
 #ebs-alert-dialog {
   backdrop-filter: blur(8px)
 } 
+#ebs-button-close {
+  z-index: 99 !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {
