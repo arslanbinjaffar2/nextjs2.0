@@ -8,6 +8,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import { Keyword } from 'application/models/networkInterest/NetworkInterest';
 import { useRouter } from 'solito/router';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -36,6 +37,9 @@ const Index = () => {
         {loading && <SectionLoading />}
         {(!loading  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
         {(!loading  && keywords.length > 0 ) && <ManageKeywords keywords={keywords} SaveMykerwords={SaveMykeywords} UpdatingMyKeywords={UpdatingMyKeywords} />}
+        <Box width={"100%"} height={"5%"}>
+        <BannerAds module_name={'business'} module_type={'listing'}/>
+        </Box>
     </>
   )
 }
