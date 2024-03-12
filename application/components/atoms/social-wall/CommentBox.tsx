@@ -100,7 +100,7 @@ const handleClick = () => {
             <IcoSendMore />
             <VStack pb={0} position={'relative'} space="0"  justifyContent="flex-start">
               <Pressable onPress={() => {
-                toggleHiddenReplies(comment.parent_id)
+                toggleHiddenReplies && toggleHiddenReplies(comment.parent_id)
               }}>
                 <HStack>
                   <Text fontWeight={500} fontSize={'md'}>
