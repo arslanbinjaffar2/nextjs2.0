@@ -22,7 +22,7 @@ const ContactInfo = ({ detail }: AppProps) => {
         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
           <Icodocument width="15px" height="18px" />
           <Text fontSize="lg">{event?.labels?.ATTENDEE_TAB_CONTACT_INFO}</Text>
-          {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf ? (
+          {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.attendee_type_name !='Attendee' ? (
             <Pressable>
             <a href={'#'} style={{ margin: 'auto', position: 'relative', left:'10vh'}}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="14.253" viewBox="0 0 20 14.253">
