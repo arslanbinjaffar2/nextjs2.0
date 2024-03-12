@@ -35,7 +35,7 @@ const OpenQuestionAnswer = ({ question, formData, updateFormData, error, canChan
           value={inputText}
           onChangeText={(answer)=>{ updateInputText(answer) }}
         />
-        <HStack px="3" py="1" w="100%" space="3" alignItems="center" justifyContent="end">
+        <HStack px="" py="1" w="100%" space="3" alignItems="center" justifyContent="end">
           <Text fontSize="sm">
             {characterLimit - inputText.length > 0 ? characterLimit - inputText.length : 0} {event?.labels?.GENERAL_CHARACTER_REMAINING}
           </Text>
