@@ -33,7 +33,7 @@ const OurSponsor = () => {
     }, []);
 
     return (
-        <Container w="100%" maxW="100%">
+        <Container nativeID='ebs-sponsors-slider' w="100%" maxW="100%">
             {modules.filter((module: any, key: number) => module.alias === 'sponsors').length > 0 && our_sponsors?.length > 0 && (
                 <>
                     <IconWithLeftHeading icon={<DynamicIcon iconType="sponsors" iconProps={{ width: 22, height: 24 }} />} title="OUR SPONSORS" />

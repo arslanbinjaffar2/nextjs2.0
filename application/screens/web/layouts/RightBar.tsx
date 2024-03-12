@@ -41,7 +41,7 @@ const RightBar = () => {
       };
     }, []);
   const nextRouter = UseNextRouter();
-  const { event } = UseEventService()
+  const { event } = UseEventService();
 
   return (
     <>
