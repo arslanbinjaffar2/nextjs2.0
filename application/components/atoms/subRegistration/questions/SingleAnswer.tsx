@@ -34,7 +34,7 @@ const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <Radio.Group space="5"   defaultValue={`${formData[question.id]?.answer[0]}`} name="MyRadioGroup"  onChange={answer_id => {updateFormData(question.id, question.question_type, answer_id);}}>
           {question.answer.map((answer, k) =>
-            <Radio colorScheme={'secondary'} icon={<Icon size={'lg'} as={Ionicons} name="checkmark" />} key={k} isDisabled={(canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : checkIfdisabled(answer, question.result)}  value={`${answer.id}`}> {answer?.info[0]?.value} </Radio>
+            <Radio colorScheme={'secondary'} key={k} isDisabled={(canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : checkIfdisabled(answer, question.result)}  value={`${answer.id}`}> {answer?.info[0]?.value} </Radio>
           )}
         </Radio.Group>
       </Box>
