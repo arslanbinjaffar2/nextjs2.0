@@ -54,6 +54,7 @@ export interface Comment {
   comment: string;
   attendee_id: number;
   attendee: Attendee;
+  parent_id: number;
   created_at: string;
   created_at_formatted : string;
   replies: Comment[];
