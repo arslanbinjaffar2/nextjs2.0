@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container, HStack, Pressable, Icon, Text } from 'native-base';
+import { Box, Container, HStack, Pressable, Icon, Text, VStack, Button } from 'native-base'
 import { Detail } from 'application/models/attendee/Detail';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -37,6 +37,38 @@ const ContactInfo = ({ detail }: AppProps) => {
            </Pressable>
           ) : ''}
         </HStack>
+        {detail?.attendee_tabs_settings?.map((row: any, key: number) => (
+          <React.Fragment key={key}>
+            {row?.tab_name === 'contact_info' && row?.status == 1 && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && (
+              <VStack px="3" py="2" w="100%" space="3">
+                {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && (
+                  <>
+                    {detail?.detail?.email && detail?.detail?.email !== '' && (
+                      <HStack space="0" alignItems="flex-start">
+                        <Box w="20%">
+                          <Icon size="md" as={AntDesign} name="mail" color={'primary.text'} />
+                        </Box>
+                        <Box w="70%" pl="1">
+                          <Text fontSize="14px">{detail?.detail?.email}</Text>
+                        </Box>
+                      </HStack>
+                    )}
+                    {detail?.detail?.phone && detail?.detail?.phone !== '' && (
+                      <HStack space="0" alignItems="flex-start">
+                        <Box w="20%">
+                          <Icon size="md" as={AntDesign} name="phone" color={'primary.text'} />
+                        </Box>
+                        <Box w="70%" pl="1">
+                          <Text fontSize="14px">{detail?.detail?.phone}</Text>
+                        </Box>
+                      </HStack>
+                    )}
+                  </>
+                )}
+              </VStack>
+            )}
+          </React.Fragment>
+        ))}
         <Box py="3" px="4" w="100%">
           <HStack>
             {detail?.detail?.info?.facebook && detail?.field_setting?.facebook ? (
