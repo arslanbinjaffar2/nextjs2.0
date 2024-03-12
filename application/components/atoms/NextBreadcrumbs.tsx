@@ -17,7 +17,7 @@ interface NextBreadcrumb {
 }
 
 interface NextBreadcrumbsProps {
-  module: Module;
+  module: Module | undefined;
   title?: string;
 }
 
