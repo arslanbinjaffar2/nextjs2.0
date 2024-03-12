@@ -28,19 +28,19 @@ const Index = ({ navigation }: indexProps) => {
 
   const { FetchInfo, info, ClearState, parent_folder_name } = UseInfoService();
   let module = '';
-  if (info) {
-    // Find the item in the info array where the ID matches the parent_id
-    const itemWithMatchingParentId = info.find((item) => (item.parent_id == id));
+  // if (info) {
+  //   // Find the item in the info array where the ID matches the parent_id
+  //   const itemWithMatchingParentId = info.find((item) => (item.parent_id == id));
 
-    // If an item is found, retrieve its section_id
-    const section_id = itemWithMatchingParentId ? itemWithMatchingParentId.section_id : null;
+  //   // If an item is found, retrieve its section_id
+  //   const section_id = itemWithMatchingParentId ? itemWithMatchingParentId.section_id : null;
 
-    // Now you have the section_id
-    module = modules?.find((module) => {
-      return (module.id == section_id)
-    })
+  //   // Now you have the section_id
+  //   module = modules?.find((module) => {
+  //     return (module.id == section_id)
+  //   })
 
-  }
+  // }
 
   const cms = 'information-pages-sub';
   const { event } = UseEventService();
@@ -60,7 +60,7 @@ const Index = ({ navigation }: indexProps) => {
         <SectionLoading />
       ) : (
         <>
-          <NextBreadcrumbs module={module} title={parent_folder_name} />
+          {/* <NextBreadcrumbs module={module} title={parent_folder_name} /> */}
           <Container pt="2" maxW="100%" w="100%">
             <HStack mb="3" w="100%" space="3" alignItems="center">
               <Text fontSize="2xl">
