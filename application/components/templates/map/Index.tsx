@@ -6,6 +6,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEventService from 'application/store/services/UseEventService';
 import LoadImage from 'application/components/atoms/LoadImage';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
     const { loading } = UseLoadingService();
@@ -15,12 +16,14 @@ const Index = () => {
     React.useEffect(()=>{
             FetchMap();
     },[])
-
+const module = modules.find((module) => module.alias === 'maps');
   return (
     <>
         {loading ? 
             <SectionLoading/>
         :
+        <>
+       <NextBreadcrumbs module={module} />
             <Container pt="2" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text textTransform="uppercase" fontSize="2xl">{modules?.find((map)=>(map.alias == 'maps'))?.name ?? ""}</Text>
@@ -51,6 +54,7 @@ const Index = () => {
                     <Text>{event.labels?.GENERAL_NO_RECORD}</Text>
                 </Box>}
             </Container>
+            </>
         }
       <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'maps'} module_type={'listing'} />

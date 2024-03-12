@@ -16,6 +16,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useSearchParams, usePathname } from 'next/navigation'
 import { useRouter } from 'solito/router'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = React.memo(() => {
 
@@ -73,9 +74,19 @@ const Index = React.memo(() => {
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
+
+    const module = modules.find((module) => module.alias === 'exhibitors');
+    const category = categories.find((category) => {
+        return category.id ===  Number(categoryIdQueryParam)
+    })
     return (
         <>
-            <Container h="100%" pt="4" maxW="100%" w="100%">
+            {loading ? (
+                <WebLoading />
+            ) : (
+                <>
+                <NextBreadcrumbs module={module} title={category?.name}/>
+                <Container h="100%" pt="4" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias == 'exhibitors'))?.name ?? ""}</Text>
                         <Spacer />

@@ -16,6 +16,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
@@ -92,12 +93,19 @@ const Index = React.memo(() => {
     React.useEffect(() => {
         FetchBanners();
     }, []);
+    const module = modules.find((module) => module.alias === 'sponsors');
+    const category = categories.find((category) => {
+        return category.id ===  Number(categoryIdQueryParam)
+    })
     return (
         <>
             {loading ? (
                 <WebLoading />
             ) : (
-                <Container h="100%" pt="4" maxW="100%" w="100%">
+
+                <>
+                <NextBreadcrumbs module={module} title={category?.name}/>
+                <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
                         <Spacer />
@@ -204,6 +212,7 @@ const Index = React.memo(() => {
                     )}
                     {/* <BannerView url={''} /> */}
                 </Container>
+                </>
             )}
         </>
     )

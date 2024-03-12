@@ -8,29 +8,37 @@ import UseEventService from 'application/store/services/UseEventService';
 import in_array from "in_array";
 import UseSponsorService from 'application/store/services/UseSponsorService'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = React.memo(() => {
 
     const { processing } = UseLoadingService();
-    const { event, modules  } = UseEventService();
+    const { event, modules } = UseEventService();
     const { sponsors, categories, FetchSponsors, category_id, query } = UseSponsorService();
     const [searchQuery, setSearch] = React.useState('')
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
+    
+    const module = modules.find((module) => module.alias === 'ddirectory');
+
     return (
         <>
             {in_array('documents', processing) ? (
                 <WebLoading />
             ) : (
-                <Container pt="2" maxW="100%" w="100%">
-                    <HStack display={['block','flex']} mb="3" pt="2" w="100%" space="0" alignItems="center">
-                        <Text textTransform="uppercase" fontSize="2xl">{modules?.find((documents)=>(documents.alias == 'ddirectory'))?.name ?? 'Documents'}</Text>
-                        <Spacer  />
-                        <Search />
-                    </HStack>
-                    <ListingLayout2 />
-                </Container>
+                <>
+                    <NextBreadcrumbs module={module} />
+                    <Container pt="2" maxW="100%" w="100%">
+                        <HStack display={['block', 'flex']} mb="3" pt="2" w="100%" space="0" alignItems="center">
+                            <Text textTransform="uppercase" fontSize="2xl">{modules?.find((documents) => (documents.alias == 'ddirectory'))?.name ?? 'Documents'}</Text>
+                            <Spacer />
+                            <Search />
+                        </HStack>
+                        <ListingLayout2 />
+                    </Container>
+                </>
+
             )}
             <Box width={"100%"} height={"5%"}>
                 <BannerAds module_name={'ddirectory'} module_type={'listing'} />

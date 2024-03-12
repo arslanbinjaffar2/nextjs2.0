@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleView from 'application/components/atoms/attendees/RectangleView';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
-
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -122,11 +122,12 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
   }
 
   const { push } = useRouter()
-
+  const module = modules.find((module) => module.alias === 'business');
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
   return (
     <>
+    <NextBreadcrumbs module={module} />
                 {showAttendees ? (
                     <Container  pt="2" maxW="100%" w="100%" >
                       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">

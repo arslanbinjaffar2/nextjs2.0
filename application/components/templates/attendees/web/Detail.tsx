@@ -27,6 +27,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { id: string }
 
@@ -45,6 +46,7 @@ const Detail = ({ speaker }: Props) => {
     const { event,modules  } = UseEventService();
 
     const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
+    console.log("🚀 ~ Detail ~ detail:", detail)
 
     const { FetchPrograms, programs, page, id, query } = UseProgramService();
 
@@ -60,6 +62,7 @@ const Detail = ({ speaker }: Props) => {
     React.useEffect(() => {
         if (_id) {
             FetchAttendeeDetail({ id: Number(_id), speaker: speaker! });
+         
         }
     }, [_id]);
 
@@ -94,20 +97,22 @@ const Detail = ({ speaker }: Props) => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
-
+    console.log("🚀 ~ React.useEffect ~ speaker:", speaker)
+    const programModule = modules.find((module) => module.alias === (speaker ? "speakers" : "attendees"));
     return (
         <>
             {in_array('attendee-detail', processing) ? (
                 <WebLoading />
             ) : (
                 <>
+                    <NextBreadcrumbs module={programModule} title={detail?.detail?.first_name +''+ detail?.detail?.last_name}/>
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Pressable onPress={()=> back() }>
+                            {/* <Pressable onPress={()=> back() }>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                                     <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
                                 </HStack>
-                            </Pressable>
+                            </Pressable> */}
                         <Spacer />
                         <Search tab={tab} />
                     </HStack>

@@ -9,6 +9,7 @@ import in_array from "in_array";
 import moment from 'moment';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
 
@@ -16,7 +17,7 @@ const Index = () => {
 
     const { processing } = UseLoadingService();
 
-    const { event } = UseEventService();
+    const { event, modules } = UseEventService();
 
     const [tab, setTab] = React.useState<'pending'| 'completed'>('pending')
 
@@ -30,7 +31,7 @@ const Index = () => {
     useEffect(() => {
         FetchPrograms();
     }, []);
-    
+    const module = modules.find((module) => module.alias === 'qa');
 
   return (
     <>
@@ -38,6 +39,9 @@ const Index = () => {
         in_array('qa-listing', processing) ? (
             <WebLoading />
         ):(
+          <>
+            <NextBreadcrumbs module={module} />
+          
         <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text textTransform="uppercase" fontSize="2xl">Ask a question</Text>
@@ -81,7 +85,8 @@ const Index = () => {
               </HStack>
             </Box>)}
         </Box>
-      </Container>)
+      </Container>
+      </>)
     }
     </>
   )

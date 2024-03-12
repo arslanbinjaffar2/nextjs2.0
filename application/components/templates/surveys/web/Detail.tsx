@@ -26,7 +26,7 @@ import { SubmittedQuestion } from 'application/models/survey/Survey';
 import { useRouter } from 'solito/router'
 import { Banner } from 'application/models/Banner'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
-
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { id: string }
 
@@ -48,7 +48,7 @@ const Detail = () => {
 
   const { _env } = UseEnvService();
 
-  const { event  } = UseEventService();
+  const { event, modules  } = UseEventService();
 
   const { response  } = UseAuthService();
 
@@ -229,21 +229,15 @@ const Detail = () => {
         SubmitSurvey(postData);
 
     }
-
+    const module = modules.find((module) => module.alias === 'survey');
   return (
     <>
       {loading ? (
                 <WebLoading />
             ) : (
+              <>
+             <NextBreadcrumbs module={module} title={detail?.info.name}/>
             <Container mb="3" maxW="100%" w="100%">
-              <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
-                <Pressable onPress={()=> back() }>
-                  <HStack space="3" alignItems="center">
-                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                        <Text fontSize="2xl">BACK</Text>
-                  </HStack>
-                </Pressable>
-              </HStack>
                <Text mb={1} textBreakStrategy='simple' w={'100%'} textAlign={'center'} fontSize="2xl">{detail?.info.name}</Text>
               {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
                 { detail?.questions.map((item, key)=>(
@@ -329,6 +323,7 @@ const Detail = () => {
                 </VStack>
               </Box>}
             </Container>
+            </>
       )}
       <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'polls'} module_type={'detail'} module_id={detail?.id}/>

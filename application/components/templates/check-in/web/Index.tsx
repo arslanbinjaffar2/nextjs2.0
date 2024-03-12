@@ -34,6 +34,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { GroupedHistory, History } from 'application/models/checkInOut/CheckInOut'
 import UseBannerService from 'application/store/services/UseBannerService';
 import { Banner } from 'application/models/Banner';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 
 const CheckinList = ({type, k, group}: any) => {
@@ -252,6 +253,7 @@ const Index = () => {
     }
   }    
 
+  const module = modules.find((module) => module.alias === 'checkIn');
   return (
     <>
       {
@@ -259,6 +261,7 @@ const Index = () => {
             <WebLoading />
         ):(
             <Container pt="1" maxW="100%" w="100%">
+              <NextBreadcrumbs module={module} />
 							<Box flexDirection="row" w={'100%'} alignItems="center">
 								<HStack mb={3} w={'100%'} space="0" alignItems="center" justifyContent={'center'} pt={4}>
                 <Text mb="0" textTransform="uppercase" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>

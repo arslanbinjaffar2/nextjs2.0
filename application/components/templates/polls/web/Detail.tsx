@@ -25,7 +25,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
-
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { id: string }
 
@@ -47,7 +47,7 @@ const Detail = () => {
 
   const { _env } = UseEnvService();
 
-  const { event  } = UseEventService();
+  const { event, modules  } = UseEventService();
 
   const { response  } = UseAuthService();
 
@@ -233,22 +233,16 @@ const Detail = () => {
         SubmitPoll(postData);
 
     }
-
+    const module = modules.find((module) => module.alias === 'polls');
   return (
     <>
       {loading ? (
                 <WebLoading />
             ) : (
+
+              <>
+             <NextBreadcrumbs module={module} title={detail?.topic}/>
             <Container mb="3" maxW="100%" w="100%">
-              <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
-                <Pressable onPress={()=> back()}>
-                  <HStack space="3" alignItems="center">
-                        <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                        <Text fontSize="2xl">BACK</Text>
-                  </HStack>
-                </Pressable>
-                <Spacer />
-              </HStack>
               <Text mb={1} textBreakStrategy='simple' w={'100%'} textAlign={'center'} fontSize="2xl">{detail?.topic}</Text>
               {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
                 { detail?.questions.map((item, key)=>(
@@ -335,6 +329,8 @@ const Detail = () => {
                 </VStack>
               </Box>}
             </Container>
+
+            </>
       )}
       <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'polls'} module_type={'detail'}/>
