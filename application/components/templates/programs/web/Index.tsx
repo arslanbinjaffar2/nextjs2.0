@@ -11,13 +11,10 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import TrackRectangleDetailView from 'application/components/atoms/programs/tracks/RectangleDetailView';
 import LoadMore from 'application/components/atoms/LoadMore';
 import UseEventService from 'application/store/services/UseEventService';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
-import UseEnvService from 'application/store/services/UseEnvService'
 import { Platform, useWindowDimensions } from 'react-native';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
-
     
     const mounted = React.useRef(false);
     
@@ -26,12 +23,8 @@ const Index = () => {
     const { loading, scroll, processing } = UseLoadingService();
     
     const { response } = UseAuthService();
-    const { _env } = UseEnvService()
-
     const { event, modules  } = UseEventService();
-    const { banners, FetchBanners} = UseBannerService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
     const { width } = useWindowDimensions();
 
     React.useEffect(() => {
@@ -54,12 +47,6 @@ const Index = () => {
             }
         }
     }, [scroll]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'agendas' && banner.module_type == 'listing'
-        })
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
     React.useEffect(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
@@ -76,10 +63,7 @@ const Index = () => {
             FetchPrograms({ query: '', page: 1, screen: tab, id: 0, track_id: 0 });
         }
     }, []);
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
-console.log(tab);
+
     return (
         <>
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
@@ -132,15 +116,7 @@ console.log(tab);
                         )}
                     </Container>}
                     <Box width={"100%"} height={"5%"}>
-                        {filteredBanners.map((banner, k) =>
-                          <Image
-                            key={k}
-                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                            alt="Image"
-                            width="100%"
-                            height="100%"
-                          />
-                        )}
+                         <BannerAds module_name={'agendas'} module_type={'listing'} />
                     </Box>
                 </>
             )}

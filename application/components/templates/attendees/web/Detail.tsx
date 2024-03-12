@@ -25,9 +25,8 @@ import UseDocumentService from 'application/store/services/UseDocumentService';
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { id: string }
 
@@ -56,11 +55,8 @@ const Detail = ({ speaker }: Props) => {
     const { loading, scroll, processing } = UseLoadingService();
 
     const [_id] = useParam('id');
-    const { banners, FetchBanners} = UseBannerService();
     const { _env } = UseEnvService()
     const { push, back } = useRouter()
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
-
     React.useEffect(() => {
         if (_id) {
             FetchAttendeeDetail({ id: Number(_id), speaker: speaker! });
@@ -72,16 +68,6 @@ const Detail = ({ speaker }: Props) => {
             setTab(detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1)[0]?.tab_name!)
         }
     }, [detail]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'attendees' && banner.module_type == 'detail'
-        })
-
-        setFilteredBanners(filteredBanner);
-    },[banners]);
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
@@ -232,15 +218,7 @@ const Detail = ({ speaker }: Props) => {
                                 </Container>
                             )}
                             <Box width={"100%"} height={"5%"}>
-                                {filteredBanners.map((banner, k) =>
-                                  <Image
-                                    key={k}
-                                    source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                                    alt="Image"
-                                    width="100%"
-                                    height="100%"
-                                  />
-                                )}
+                                <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
                             </Box>
                         </>
                     )}

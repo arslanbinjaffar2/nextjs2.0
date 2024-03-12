@@ -26,7 +26,7 @@ import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 import { error } from 'application/store/slices/Auth.Slice';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
-
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 
 type ScreenParams = { id: string }
@@ -326,7 +326,9 @@ const Detail = () => {
               </Box>}
             </Container>
       )}
-
+      <Box width={"100%"} height={"5%"}>
+        <BannerAds module_name={'subregistration'} module_type={'listing'} />
+      </Box>
     </>
   );
 };

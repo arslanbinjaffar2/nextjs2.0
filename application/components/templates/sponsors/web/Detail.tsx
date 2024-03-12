@@ -18,9 +18,8 @@ import in_array from 'in_array'
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-import UseBannerService from 'application/store/services/UseBannerService';
-import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -42,37 +41,14 @@ const Detail = React.memo(() => {
 
     const { _env } = UseEnvService();
 
-    const { banners, FetchBanners } = UseBannerService();
-
-    const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
-
     React.useEffect(() => {
         if (id) {
             FetchSponsorDetail({ id: Number(id) });
-            FetchBanners();
         }
         return () => {
             clearState();
         }
     }, [id]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'sponsors' && banner.module_type == 'detail'
-        })
-
-        setFilteredBanners(filteredBanner);
-    },[banners]);
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
-    React.useEffect(() => {
-
-        const filteredBanner = banners.filter((banner: any) => {
-            return id == banner.sponsor_id;
-        });
-        setFilteredBanner(filteredBanner);
-    }, [banners]);
 
     return (
         <>
@@ -121,21 +97,55 @@ const Detail = React.memo(() => {
                             </Box>}
                         </Container>
 
-                            {filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>
-
-                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="" w="700px" h="100px" rounded={10} />
-                            )}
+                        {/* <Container mb="3" maxW="100%" w="100%">
+                            <Text mb="3" fontSize="lg" textTransform="uppercase">Available Survey</Text>
+                            <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
+                                <Box py="3" px="4" w="100%">
+                                    <Text mb="3" fontSize="lg">Tillykke med valget som tilli…</Text>
+                                    <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
+                                        <Box bg="primary.500" h="22px" w="33.33%" />
+                                        <Box borderLeftWidth="1" borderRightWidth="1" borderColor="primary.bdBox" bg="primary.500" h="22px" w="33.33%" />
+                                        <Box bg="transparent" h="22px" w="33.33%" />
+                                    </HStack>
+                                </Box>
+                                <MultipleAnswer req={true} title="What types of workouts will I be doing on DAMY Programs? Does it include cardio and weights?" />
+                                <Box py="0" px="4" w="100%">
+                                    <Divider mb="15" opacity={0.27} bg="primary.text" />
+                                    <HStack mb="3" space="3" alignItems="center">
+                                        <Button
+                                            bg="transparent"
+                                            p="2"
+                                            textTransform={'uppercase'}
+                                            fontSize="lg"
+                                            leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
+                                            colorScheme="primary"
+                                            onPress={() => {
+                                                console.log('hello')
+                                            }}
+                                        >
+                                            previous
+                                        </Button>
+                                        <Spacer />
+                                        <Button
+                                            bg="transparent"
+                                            p="2"
+                                            textTransform={'uppercase'}
+                                            fontSize="lg"
+                                            rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                                            colorScheme="primary"
+                                            onPress={() => {
+                                                console.log('hello')
+                                            }}
+                                        >
+                                            next
+                                        </Button>
+                                    </HStack>
+                                </Box>
+                            </Box>
+                        </Container> */}
                     </Container>
-                    <Box width={"100%"}>
-                        {filteredBanners.map((banner, k) =>
-                          <Image
-                            key={k}
-                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                            alt="Image"
-                            width="100%"
-                            height="100%"
-                          />
-                        )}
+                    <Box width={"100%"} height={"5%"}>
+                        <BannerAds module_name={'sponsors'} module_type={'detail'} module_id={detail?.detail?.id} />
                     </Box>
                 </>
             )}
