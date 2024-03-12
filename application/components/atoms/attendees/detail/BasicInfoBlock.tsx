@@ -98,7 +98,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </Center>
                     )}
                     {(showPrivate == 1 || isPrivate?.delegate_number == 0) && detail?.detail?.info?.delegate_number && (
-                        <Center borderRightWidth="1" borderColor="primary.bordercolor" alignItems="flex-start" pl={['3','8']} w="33.33%">
+                        <Center borderLeftWidth="1" borderColor="primary.bordercolor" alignItems="flex-start" pl={['3','8']} w="33.33%">
                             <VStack space="0">
                                 <Text lineHeight="sm" fontSize="md">Delegate nr:</Text>
                                 <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.delegate_number}</Text>
@@ -106,7 +106,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </Center>
                     )}
                     {(showPrivate == 1 || isPrivate?.table_number == 0) && detail?.detail?.info?.table_number && (
-                        <Center borderColor="primary.bordercolor" alignItems="flex-start" pl={['3','8']} w="33.33%">
+                        <Center borderLeftWidth="1" borderColor="primary.bordercolor" alignItems="flex-start" pl={['3','8']} w="33.33%">
                             <VStack space="0">
                                 <Text lineHeight="sm" fontSize="md">Table nr:</Text>
                                 <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.table_number}</Text>

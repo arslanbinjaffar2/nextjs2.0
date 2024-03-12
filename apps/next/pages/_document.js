@@ -217,8 +217,11 @@ body {
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
 }
-.slick-slide {
- width: 250px !important; 
+#ebs-exhibitor-slider .slick-slide,#ebs-sponsors-slider .slick-slide {
+ width: 264px !important; 
+}
+#ebs-alert-dialog {
+  backdrop-filter: blur(8px)
 } 
 `;
 
