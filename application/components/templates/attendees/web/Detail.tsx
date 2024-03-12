@@ -174,7 +174,8 @@ const Detail = ({ speaker }: Props) => {
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<Text textAlign={'left'}><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div></Text>} />}
                                     {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
                                     {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) && <SubRegistration detail={detail} />}
-                                    {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                    {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) &&
+                                            <Container mb="3" rounded="10" bg={`${groups?.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
                                         {in_array('groups', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
@@ -187,23 +188,36 @@ const Detail = ({ speaker }: Props) => {
                                                         
                                                 {
                                                     groups?.length <= 0 && (
-                                                        <Text w="100%" p={3} bg="primary.darkbox">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                                        <>
+                                                                        <Text textTransform="uppercase" mb="3" pt="2" fontSize="lg">Groups</Text>
+                                                         <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                                        </>
                                                     )
                                                 }
                                             </>
                                         )}
 
                                     </Container>}
-                                    {tab === 'program' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                        {tab === 'program' && <Container mb="3" rounded="10" bg={`${programs.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
                                         {in_array('programs', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
                                             programs.length > 0 ? 
-                                            <SlideView  speaker={speaker} section="program" programs={programs} /> :
-                                            <Text p={3} fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                               
+                                         
+                                            <SlideView  speaker={speaker} section="program" programs={programs} /> 
+                                                        : (
+                                                            <>
+
+                                                                <Text textTransform="uppercase" mb="3" pt="2" fontSize="lg">Programs</Text>
+                                                                <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                                            </>
+                                                        )
+                                            
+
                                         )}
                                     </Container>}
-                                    {tab === 'category' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                        {tab === 'category' && <Container mb="3" rounded="10" bg={`${detail?.detail?.categories.length > 0 ? "primary.box" :""}`} w="100%" maxW="100%">
                                         {detail?.detail?.categories.map((map: any, k: number) =>
                                             <React.Fragment key={`item-box-group-${k}`}>
                                                 {map?.name && (
@@ -217,7 +231,14 @@ const Detail = ({ speaker }: Props) => {
                                             </React.Fragment>
                                         )}
                                         {detail?.detail?.categories.length <=0 && 
-                                        <Text p={3} fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>}
+                                        (
+                                            <>
+                                          
+                                                    <Text textTransform="uppercase" mb="3" pt="2" fontSize="lg">Category</Text>
+                                        <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                                </>
+                                            )
+                                        }
                                     </Container>}
                                     {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
                                         {in_array('documents', processing) && page === 1 ? (

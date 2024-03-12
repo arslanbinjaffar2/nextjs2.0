@@ -14,10 +14,10 @@ type AppProps = {
 const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     const { event  } = UseEventService();
     return (
-        <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
+        <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.darkbox" : ""}`} w="100%"  p="0" rounded="10">
             {(showPrivate == 1 ||  detail?.sort_field_setting.find((s:any)=>(s.name === 'bio_info'))?.is_private == 0 ) && detail?.detail?.info?.about! && (
                 <>
-                    <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
+                    <HStack px="3" py="1"  w="100%" space={2} bg="primary.box" alignItems="center">
                         <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
                         <Text fontSize="sm">About</Text>
                     </HStack>
@@ -313,8 +313,12 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                     </VStack>
                 </Box>
             )}
-            {detail?.sort_field_setting.length <= 0 && 
-                        <Text fontSize="sm">{event.labels.EVENT_NORECORD_FOUND}</Text>
+            {detail?.sort_field_setting.length <= 0 && (
+                <>
+                <Text textTransform="uppercase" mb="3" pt="2" fontSize="lg">About</Text>
+                    <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.EVENT_NORECORD_FOUND}</Text>
+                </>
+            )
             }
             
         </Box>
