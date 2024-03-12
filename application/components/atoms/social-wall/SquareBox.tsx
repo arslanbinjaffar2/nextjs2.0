@@ -175,7 +175,7 @@ const SquareBox = ({ post, index }: AppProps) => {
               >
                 <Modal.Content maxW={['350px', '780px']} >
                   <Modal.Body p={0} justifyContent="flex-end">
-                    <Modal.CloseButton borderWidth={1} borderColor={'white'} rounded={'50%'} zIndex={999} onPress={() => { setactivepopup(false); setModalImage(null) }} />
+                    <Modal.CloseButton borderWidth={1} borderColor={'white'} rounded={'50%'} zIndex={999} onPress={() => { setactivepopup(false); setModalImage('') }} />
                     <LoadImage width={'100%'} path={`${_env.eventcenter_base_url}/assets/social_wall/${modalImage}`} alt={''} />
                   </Modal.Body>
                 </Modal.Content>

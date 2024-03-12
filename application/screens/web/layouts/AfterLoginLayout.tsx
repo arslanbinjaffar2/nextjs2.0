@@ -6,7 +6,7 @@ import Master from 'application/screens/web/layouts/Master';
 
 import IndexTemplate from 'application/components/templates/networkInterest/web/Index';
 
-import { Center, Container, Flex, HStack, ScrollView } from 'native-base';
+import { Box, Center, Container, Flex, HStack, ScrollView } from 'native-base'
 
 import BackgroundLayout from '../layouts/BackgroundLayout';
 import Header from '../layouts/Header';
@@ -15,6 +15,7 @@ import { useWindowDimensions } from 'react-native';
 import { useRouter } from 'solito/router';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { UseEventService } from 'application/store/services';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 
 type indexProps = {
@@ -55,6 +56,14 @@ const AfterLoginLayout = ({ children }: indexProps) => {
                 {width > 725 && <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'} />}
                 <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={(width > 750 ? '600px' : '100%')}>
                  {children}
+                </Center>
+              </HStack>
+              <HStack w="100%" pt="3" space="5" alignItems="flex-start">
+                {width > 725 && <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'} />}
+                <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={(width > 750 ? '600px' : '100%')}>
+                  <Box width={"100%"} height={"5%"}>
+                    <BannerAds module_name={'business'} module_type={'listing'}/>
+                  </Box>
                 </Center>
               </HStack>
             </Container>
