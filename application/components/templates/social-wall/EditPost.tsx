@@ -24,6 +24,7 @@ const EditPost = () => {
     const { UpdateSocialWallPost,DetailSocialWallPost, post_detail } = UseSocialWallService();
     const { processing } = UseLoadingService();
     const { response } = UseAuthService();
+   
     const [postData, setpostData] = React.useState<NewPost>({
             file: null,
             content: '',
@@ -40,7 +41,6 @@ const EditPost = () => {
     }, [id]);
 
     React.useEffect(() => {
-        console.log(post_detail);
         setpostData({
             content: post_detail?.content,
             file: null,
@@ -122,7 +122,7 @@ const EditPost = () => {
             inputVideoRef.current.value = '';
         }
     }
-
+    
     const inputImageRef = React.useRef<HTMLInputElement | null>(null);
     const inputVideoRef = React.useRef<HTMLInputElement | null>(null);
     const inputContentRef = React.useRef<HTMLInputElement | null>(null);
@@ -133,7 +133,7 @@ const EditPost = () => {
             <Text>Edit Post</Text>
         </Box>
         <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
-            <IconButton
+            {/* <IconButton
                 w="30px"
                 h="30px"
                 p="1"
@@ -147,7 +147,7 @@ const EditPost = () => {
                 onPress={() => {
                     console.log('hello')
                 }}
-            />
+            /> */}
             <HStack px="4" py="3" pr="12" space="3" alignItems="flex-start">
                 <Avatar
                     size="sm"
@@ -163,12 +163,13 @@ const EditPost = () => {
                             ...postData,
                             content: e.nativeEvent.text,
                         });
+                        
                     }}
                     ref={inputContentRef}
                     p="0"
                     pt="1"
-                    h="80px"
-                    w="calc(100% - 44px)"
+                    minH="80px"
+                    w="100%"
                     overflow="auto"
                     focusOutlineColor="transparent"
                     _focus={{ bg: 'transparent' }}
@@ -176,19 +177,20 @@ const EditPost = () => {
             </HStack>
             {/* show only if file is image */}
             {postData.type === 'image' && postData.file_url !== '' && (
-                <Box w="100%" h="200px" overflow="hidden">
+                <Box px={4} w="100%" mb={4} overflow="hidden">
                     {/* add remove file button */}
                     <IconButton
-                        w="30px"
-                        h="30px"
+                        w="24px"
+                        h="24px"
                         p="1"
                         position="absolute"
-                        right="20px"
-                        top="15px"
+                        right="25px"
+                        top="10px"
                         zIndex="99"
                         rounded="100%"
-                        variant="unstyled"
-                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color="primary.text" />}
+                        variant="solid"
+                        bg={'white'}
+                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color="black" />}
                         onPress={() => {
                             removeFile()
                         }}
@@ -295,10 +297,10 @@ const EditPost = () => {
                 </Center>
             </HStack>
             {(in_array(`social_wall_fetching_post_detail${id}`, processing)) && (
-                <Text>fetching Details....</Text>
+                <Text p={3}>fetching Details....</Text>
             )}
             {(in_array(`social_wall_update_post`, processing)) && (
-                <Text>Updating...</Text>
+                <Text p={3}>Updating...</Text>
             )}
         </Box>
         </>
