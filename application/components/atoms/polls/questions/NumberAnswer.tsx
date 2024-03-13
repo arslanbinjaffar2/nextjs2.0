@@ -20,7 +20,7 @@ const NumberAnswer = ({ question, formData, updateFormData, error, labels }: Pro
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
-        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.info.question} {question?.required_question == '1' && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>}</Text>
+        <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{question?.required_question == '1' && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>} {question?.info.question}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <Input w="100%" placeholder={poll_labels?.POLLS_NUMERIC_FIELD} keyboardType = 'numeric' value={inputText} onChangeText={(answer)=>{ 
             updateFormData(question.id, question.question_type, answer.replace(/[^0-9]/g, ''))
