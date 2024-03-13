@@ -237,6 +237,13 @@ const Index = () => {
     return 'checkout';
   }
 
+  function getLatestType(log: History){
+    if(log.checkout !== '' && log.checkout !== '0000-00-00 00:00:00'){
+      return 'checkout';
+    }
+    return 'checkin';
+  }
+
   function filterHistory(){
     if (tab !== '') {
       if (selectedDate && selectedDate !== '') {
@@ -361,7 +368,7 @@ const Index = () => {
                   {filteredHistory.length > 0 && tab !== ''  ? 
                     <Box  overflow="hidden" w="100%" bg="primary.box" p="0" mb={3} rounded="10">
                         {filteredHistory.map((group,k) => 
-                            <CheckinList type={getLogType(group?.first_log)} k={k} key={k} group={group}  />
+                            <CheckinList type={getLatestType(group?.first_log)} k={k} key={k} group={group}  />
                         )}
                     </Box>
                   :null}
