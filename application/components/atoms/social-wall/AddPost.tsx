@@ -163,6 +163,7 @@ const AddPost = () => {
                         right="25px"
                         top="10px"
                         zIndex="99"
+												nativeID='zindex-9'
                         rounded="100%"
                         variant="solid"
                         bg={'white'}
@@ -171,11 +172,15 @@ const AddPost = () => {
                             removeFile()
                         }}
                     />
-                    <LoadImage
-                        w="100%"
-                        h="200px"
+										<HStack w={'100%'}  space="3" alignItems="center" justifyContent={'center'}>
+											<LoadImage
+                        w="auto"
+                        h="auto"
                         path={postData?.file_url !== '' ? postData?.file_url :''}
                     />
+										</HStack>
+										
+                    
                 </Box>
             )}
             {/* show only if file is video */}
@@ -223,6 +228,7 @@ const AddPost = () => {
                         <IconButton
                             w="50%"
                             rounded="0"
+                            bg={'primary.box'}
                             _hover={{ bg: 'primary.secondary' }}
                             variant="unstyled"
                             icon={<Icon size="xl" as={Ionicons} name="ios-image-outline" color="primary.text" />}
@@ -246,6 +252,7 @@ const AddPost = () => {
                         <IconButton
                             w="50%"
                             rounded="0"
+                            bg={'primary.box'}
                             variant="unstyled"
                             _hover={{ bg: 'primary.secondary' }}
                             icon={<Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />}
