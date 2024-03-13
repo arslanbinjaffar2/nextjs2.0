@@ -6,7 +6,7 @@ import Master from 'application/screens/web/layouts/Master';
 
 import IndexTemplate from 'application/components/templates/networkInterest/web/Index';
 
-import { Center, Container, Flex, HStack, ScrollView } from 'native-base';
+import { Box, Center, Container, Flex, HStack, ScrollView } from 'native-base'
 
 import BackgroundLayout from '../layouts/BackgroundLayout';
 import Header from '../layouts/Header';
@@ -15,6 +15,7 @@ import { useWindowDimensions } from 'react-native';
 import { useRouter } from 'solito/router';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { UseEventService } from 'application/store/services';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 
 type indexProps = {
