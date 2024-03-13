@@ -17,23 +17,14 @@ import { useEffect } from 'react'
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseSponsorService from 'application/store/services/UseSponsorService'
 import UseDocumentService from 'application/store/services/UseDocumentService'
-import { createParam } from 'solito'
-import UseAttendeeService from 'application/store/services/UseAttendeeService'
 import UseEnvService from 'application/store/services/UseEnvService'
-import ContactInfo from 'application/components/atoms/attendees/detail/ContactInfo';
-
 type ScreenParams = { id: string, cms: string | undefined }
-
-// const id = urlParams.get('id');
 
 const RightBar = () => {
 
   const { _env } = UseEnvService()
   const { clearState, documents } = UseDocumentService();
   const { sponsors, FetchSponsorContact } = UseSponsorService();
-  const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
-
-
   // const handleSponsorContactClick = (attendeeId: any) => {
   //   console.log(attendeeId,'here');
   //     FetchSponsorContact({ id: Number(attendeeId) });
