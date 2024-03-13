@@ -230,13 +230,6 @@ const Index = () => {
   }
   , [selectedDate]);
 
-  function getLogType(log: History){
-    if(log.checkin !== '' && log.checkin !== '0000-00-00 00:00:00'){
-      return 'checkin';
-    }
-    return 'checkout';
-  }
-
   function getLatestType(log: History){
     if(log.checkout !== '' && log.checkout !== '0000-00-00 00:00:00'){
       return 'checkout';
