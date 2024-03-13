@@ -94,7 +94,7 @@ const CheckinList = ({type, k, group}: any) => {
 						<VStack w={'100%'}  space="1">
 							<HStack  space="2" alignItems="center">
 								<Icon color={'primary.text'} as={SimpleLineIcons} name="calendar"  />
-								<Text  fontSize="sm" fontWeight={500}>{moment(group?.log_date).format(GENERAL_DATE_FORMAT)}</Text>
+								<Text  fontSize="sm" fontWeight={500}>{moment(group?.first_log?.log_date).format(GENERAL_DATE_FORMAT)}</Text>
 							</HStack>
 							{/* <HStack  space="2" alignItems="center">
 								<Icon color={'primary.text'} as={SimpleLineIcons} name="clock"  />
@@ -219,11 +219,11 @@ const Index = () => {
   }
   , [selectedDate]);
 
-  function getLogType(log: History){
-    if(log.checkin !== '' && log.checkin !== '0000-00-00 00:00:00'){
-      return 'checkin';
+  function getLatestType(log: History){
+    if(log.checkout !== '' && log.checkout !== '0000-00-00 00:00:00'){
+      return 'checkout';
     }
-    return 'checkout';
+    return 'checkin';
   }
 
   function filterHistory(){
@@ -343,7 +343,7 @@ const Index = () => {
                   {filteredHistory.length > 0 && tab !== ''  ? 
                     <Box  overflow="hidden" w="100%" bg="primary.box" p="0" mb={3} rounded="10">
                         {filteredHistory.map((group,k) => 
-                            <CheckinList type={getLogType(group?.first_log)} k={k} key={k} group={group}  />
+                            <CheckinList type={getLatestType(group?.first_log)} k={k} key={k} group={group}  />
                         )}
                     </Box>
                   :null}
