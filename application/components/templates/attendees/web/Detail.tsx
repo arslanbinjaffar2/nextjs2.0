@@ -27,6 +27,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import { Platform } from 'react-native';
 
 type ScreenParams = { id: string }
 
@@ -133,10 +134,6 @@ const Detail = ({ speaker }: Props) => {
                                                                 } else if (row?.tab_name === 'documents' && row?.status == 1 && event?.speaker_settings?.show_document === 1) {
                                                                     return (
                                                                         <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}</Button>
-                                                                    )
-                                                                } else if (row?.tab_name === 'contact_info' && row?.status == 1 && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website))) {
-                                                                    return (
-                                                                        <Button flex={1} minWidth={'50%'} fontSize={['sm','md']} onPress={() => setTab('contact_info')} borderWidth="1px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'contact_info' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.ATTENDEE_TAB_CONTACT_INFO}</Button>
                                                                     )
                                                                 } else if (row?.tab_name === 'about' && row?.status == 1) {
                                                                     return (
@@ -247,6 +244,12 @@ const Detail = ({ speaker }: Props) => {
                                     )}
                                 </Container>
                             )}
+                            {((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) &&
+                            <Box display={["","none"]} width={"100%"}>
+                                <ContactInfo detail={detail!} />
+                            </Box>
+                            }
+                            
                             <Box width={"100%"} height={"5%"}>
                                 <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
                             </Box>
