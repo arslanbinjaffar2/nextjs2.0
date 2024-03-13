@@ -10,6 +10,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import { createParam } from 'solito';
+import { useRouter } from 'next/router';
 
 
 type ScreenParams = { id: string }
@@ -19,7 +20,7 @@ import { set } from 'lodash';
 const { useParam } = createParam<ScreenParams>()
 
 const EditPost = () => {
-
+    const router = useRouter();
     const { _env } = UseEnvService();
     const { UpdateSocialWallPost,DetailSocialWallPost, post_detail } = UseSocialWallService();
     const { processing } = UseLoadingService();
@@ -70,6 +71,8 @@ const EditPost = () => {
         if(inputVideoRef.current){
             inputVideoRef.current.value = '';
         }
+
+        router.back();
     }
 
     function handleImageSelected(e: any) {
