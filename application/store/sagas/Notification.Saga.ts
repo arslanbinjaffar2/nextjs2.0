@@ -18,8 +18,8 @@ function* OnFetchNotifications({
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getAllNotificationApi, {}, state)
-    yield put(NotificationActions.update({ notifications: response.data.data! }))
+    // const response: HttpResponse = yield call(getAllNotificationApi, {}, state)
+    // yield put(NotificationActions.update({ notifications: response.data.data! }))
     yield put(LoadingActions.set(false));
 }
 
