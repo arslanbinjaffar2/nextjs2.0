@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Avatar, Box, HStack, VStack, Text, Image, Spacer, Button, Divider, Center, Menu, Icon, Pressable, Modal, Popover, ScrollView } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
@@ -39,7 +39,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   const [commnetid, setcommnetid] = useState(null)
   const [hiddenReplies, setHiddenReplies] = useState<{ [commentId: number]: number }>({});
   const [commentsSortBy, setCommentsSortBy] = useState<string>('top');
-  const [showLikesMenu, setShowLikesMenu] = useState(false);
+  const [sortedComments, setSortedComments] = useState<any>([]);
 
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some(like => like.attendee_id === response?.data?.user?.id)
@@ -58,8 +58,9 @@ const SquareBox = ({ post, index }: AppProps) => {
     DeleteSocialWallPost({ id: post.id })
   }
 
-  function saveComment(newComment: NewComment) {
+  function saveComment(newComment: NewComment, commentId: number) {
     SaveSocialWallComment({ ...newComment })
+    handleToggleReplies(commentId)
   }
 
   function likeComment(id: number) {
@@ -73,6 +74,21 @@ const SquareBox = ({ post, index }: AppProps) => {
     // You can perform any actions needed with the received data
   };
 
+  useEffect(() => {
+
+    const sortedComments = [...post.comments].sort((a: Comment, b: Comment) => {
+      if (commentsSortBy === 'top') {
+        const aTotalInteractions = a.likes.length + a.replies.length;
+        const bTotalInteractions = b.likes.length + b.replies.length;
+        return bTotalInteractions - aTotalInteractions;
+      } else {
+        console.log(new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      }
+    });
+    setSortedComments(sortedComments)
+  }, [post.comments, commentsSortBy]);
+
 
   const handleToggleReplies = (commentId: number) => {
     setHiddenReplies(prevState => ({
@@ -81,72 +97,67 @@ const SquareBox = ({ post, index }: AppProps) => {
     }));
   };
 
-  const sortedComments = [...post.comments].sort((a: Comment, b: Comment) => {
-    if (commentsSortBy === 'top') {
-      const aTotalInteractions = a.likes.length + a.replies.length;
-      const bTotalInteractions = b.likes.length + b.replies.length;
-      return bTotalInteractions - aTotalInteractions;
-    } else {
-      console.log(new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-    }
-  });
+
 
   const handleCommentsSortBy = (sortBy: string) => {
     setCommentsSortBy(sortBy);
   };
 
-  const handleMouseEnter = () => {
-    setShowLikesMenu(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowLikesMenu(false);
-  };
-
   return (
     <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="1" borderColor="primary.box">
       <VStack space="3">
-        {post.attendee.id === response?.data?.user?.id && (
-          <HStack px={3} w={'100%'} justifyContent={'flex-end'} space="3" alignItems="center">
-            <Menu
-              placement="bottom right"
-              bg="primary.box"
-              borderWidth={1}
-              borderColor="#707070"
-              shouldFlip={true}
-              w={180}
-              crossOffset={0}
-              trigger={(triggerProps) => {
-                return <Button w={'30px'} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal" />
-                </Button>
-              }}
 
-            >
-              <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>Edit</Menu.Item>
-              <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>Delete</Menu.Item>
-            </Menu>
-          </HStack>
-
-        )}
 
         {/* button to delete post */}
-        <HStack space="3" px={4} alignItems="center" key="rd90">
-          <Avatar
-            borderWidth={1}
-            borderColor="primary.bordercolor"
-            size="md"
-            source={{
-              uri: `${_env.eventcenter_base_url}/assets/attendees/${post.attendee.image}`
-            }}
-          >
-            SS
-          </Avatar>
-          <VStack space="0" >
-            <Text fontSize="lg" key="full_name_att" fontWeight="600">{post.attendee.full_name}</Text>
-            <Text fontSize="sm" key="time_attendee_post">{post.created_at_formatted}</Text>
-          </VStack>
+        <HStack space="1" alignItems="center">
+          <Center>
+            <HStack space="3" px={4} alignItems="center" key="rd90">
+              <Avatar
+                borderWidth={1}
+                borderColor="primary.bordercolor"
+                size="md"
+                source={{
+                  uri: `${_env.eventcenter_base_url}/assets/attendees/${post.attendee.image}`
+                }}
+              >
+                SS
+              </Avatar>
+              <VStack space="0" >
+                <Text fontSize="lg" key="full_name_att" fontWeight="600">{post.attendee.full_name}</Text>
+                <Text fontSize="sm" key="time_attendee_post">{post.created_at_formatted}</Text>
+              </VStack>
+            </HStack>
+          </Center>
+          <Spacer />
+          <Center>
+            {post.attendee.id === response?.data?.user?.id && (
+              <HStack px={3} w={'100%'} justifyContent={'flex-end'} space="3" alignItems="center">
+                <Menu
+                  placement="bottom right"
+                  bg="primary.boxsolid"
+                  borderWidth={1}
+                  borderColor="#707070"
+                  shouldFlip={true}
+                  w={180}
+                  crossOffset={0}
+                  trigger={(triggerProps) => {
+                    return <Button w={'30px'} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal" />
+                    </Button>
+                  }}
+
+                >
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>Edit</Menu.Item>
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>Delete</Menu.Item>
+                </Menu>
+              </HStack>
+
+            )}
+
+          </Center>
+
         </HStack>
+
+
         <Text px={4} key="p-content" fontSize="md">{post.content}</Text>
         {(post.type === 'image' || post.type === 'text') && post.image !== '' && (
           <Pressable
@@ -196,43 +207,44 @@ const SquareBox = ({ post, index }: AppProps) => {
         )}
         <HStack space="1" w={'100%'} px={4}>
           <HStack space="1" alignItems="center">
-            
+
             <Text fontSize="sm"></Text>
             <Popover
+              placement='bottom left'
               trigger={(triggerProps) => {
-              return <Button p={0} variant={'unstyled'} bg={'transparent'} _hover={{bg: 'transparent'}} leftIcon={<Icolikealt />} {...triggerProps} >{likesCount}</Button>
+                return <Button p={0} variant={'unstyled'} bg={'transparent'} _hover={{ bg: 'transparent' }} leftIcon={<Icolikealt />} {...triggerProps} >{likesCount}</Button>
               }}
-              
+
             >
-              <Popover.Content  bg={'primary.box'}>
-                <Popover.Body bg={'primary.box'} borderTopWidth="0" p={0} rounded={6}>
-                  <Box bg={'primary.box'} py={3} borderWidth="0" borderColor="primary.box">
+              <Popover.Content bg={'primary.boxsolid'}>
+                <Popover.Body bg={'primary.boxsolid'} borderTopWidth="0" p={0} rounded={6}>
+                  <Box bg={'primary.boxsolid'} py={3} borderWidth="0" borderColor="primary.box">
                     <HStack width={'100%'} px={3} mb={2} space="1" alignItems="center">
                       <Icolikealt width={20} height={20} />
                       <Text fontSize="md" fontWeight={500}>  Liked by</Text>
                     </HStack>
-                    
-                     
-                     <ScrollView maxHeight={200}>
-                     {post.likes.map((like) => (
-                      <>
-                      <Divider bg={'primary.bordercolor'} />
-                      <HStack key={like.id} alignItems="center" px={3} mt={3}>
-                        <Avatar
-                          borderWidth={1}
-                          borderColor="primary.text"
-                          size="sm"
-                          source={{
-                            uri: `${_env.eventcenter_base_url}/assets/attendees/${like.attendee.image}`,
-                          }}
-                        >
-                          SS
-                        </Avatar>
-                        <Text fontSize="md" ml={3}>{like.attendee.full_name}</Text>
-                      </HStack>
-                      </>
-                    ))}
-                     </ScrollView>
+
+
+                    <ScrollView maxHeight={200}>
+                      {post.likes.map((like) => (
+                        <>
+                          <Divider bg={'primary.bordercolor'} />
+                          <HStack key={like.id} alignItems="center" px={3} mt={3}>
+                            <Avatar
+                              borderWidth={1}
+                              borderColor="primary.text"
+                              size="sm"
+                              source={{
+                                uri: `${_env.eventcenter_base_url}/assets/attendees/${like.attendee.image}`,
+                              }}
+                            >
+                              SS
+                            </Avatar>
+                            <Text fontSize="md" ml={3}>{like.attendee.full_name}</Text>
+                          </HStack>
+                        </>
+                      ))}
+                    </ScrollView>
                   </Box>
                 </Popover.Body>
               </Popover.Content>
@@ -243,9 +255,9 @@ const SquareBox = ({ post, index }: AppProps) => {
             <HStack space="1" alignItems="center">
               <Text fontSize="sm">{post.comments_count} Comments</Text>
             </HStack>
-            <HStack space="1" alignItems="center">
+            {/* <HStack space="1" alignItems="center">
               <Text fontSize="sm">{post.comments_count} Shares</Text>
-            </HStack>
+            </HStack> */}
           </HStack>
         </HStack>
 
@@ -258,7 +270,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                 px={1}
                 py={0}
                 _hover={{ bg: 'transparent' }}
-                leftIcon={<IcoLike width="18px" height="18px" />}
+                leftIcon={<Icon position={'relative'} top={'-2px'} as={AntDesign} name={isLiked ? 'like1' : 'like2'} color={isLiked ? 'primary.500' : 'primary.text'} />}
                 onPress={() => {
                   likePost()
                 }}
@@ -357,9 +369,12 @@ const SquareBox = ({ post, index }: AppProps) => {
 
         <VStack overflowY={'auto'} maxHeight={'250px'}>
           {sortedComments.map((comment: Comment) => {
+            console.log("🚀 ~ comment:", comment)
             const totalReplies: number = comment.replies.length ? comment.replies.length : 0;
-            const visibleReplies: number = hiddenReplies[comment.id] ?? 1;
+            const visibleReplies = toggleReplay && commnetid === comment.id ? comment.replies.length : hiddenReplies[comment.id] ?? 1;
+            console.log("🚀 ~ {sortedComments.map ~ visibleReplies:", visibleReplies)
             const remainingReplies = totalReplies > 0 ? totalReplies - visibleReplies : 0;
+            console.log("🚀 ~ {sortedComments.map ~ remainingReplies:", remainingReplies)
 
             return <React.Fragment key={comment.id}>
               <Box overflow={'hidden'} w={'100%'}>
