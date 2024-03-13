@@ -18,7 +18,7 @@ const WordCloudOptionTypeResult = ({ question, questionNumber  }: PropTypes) => 
                 <Text fontWeight="600" maxW="80%" fontSize="lg">Question {`#${questionNumber + 1}`} </Text>
             </HStack>
             {/* <Divider mb="5" opacity={0.27} bg="primary.text" /> */}
-            <Text px='4' py={4} fontSize="xl">{question?.info.question} {question?.required_question == '1' && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>}</Text>
+            <Text px='4' py={4} fontSize="xl">{question?.required_question == '1' && <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>} {question?.info.question}</Text>
 
         </Box>
         <Box mb="3" w="100%">
