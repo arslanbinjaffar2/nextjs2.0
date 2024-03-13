@@ -93,7 +93,7 @@ const CheckinList = ({type, k, group}: any) => {
 						<VStack w={'100%'}  space="1">
 							<HStack  space="2" alignItems="center">
 								<Icon color={'primary.text'} as={SimpleLineIcons} name="calendar"  />
-								<Text  fontSize="sm" fontWeight={500}>{moment(group?.log_date).format(GENERAL_DATE_FORMAT)}</Text>
+								<Text  fontSize="sm" fontWeight={500}>{moment(group?.first_log?.log_date).format(GENERAL_DATE_FORMAT)}</Text>
 							</HStack>
 							{/* <HStack  space="2" alignItems="center">
 								<Icon color={'primary.text'} as={SimpleLineIcons} name="clock"  />
