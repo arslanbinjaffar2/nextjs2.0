@@ -202,6 +202,9 @@ body {
   border-color: transparent !important;
   color: #fff !important;
 }
+#zindex-9 {
+  z-index: 9 !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {

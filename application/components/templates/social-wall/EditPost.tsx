@@ -11,6 +11,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import { createParam } from 'solito';
 import { useRouter } from 'next/router';
+import WebLoading from 'application/components/atoms/WebLoading';
 
 
 type ScreenParams = { id: string }
@@ -132,9 +133,9 @@ const EditPost = () => {
 
     return (
         <>
-        <Box p="3" borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
-            <Text>Edit Post</Text>
-        </Box>
+      
+         <Text py={2} fontSize={'2xl'}>Edit Post</Text>
+       
         <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
             {/* <IconButton
                 w="30px"
@@ -180,7 +181,7 @@ const EditPost = () => {
             </HStack>
             {/* show only if file is image */}
             {postData.type === 'image' && postData.file_url !== '' && (
-                <Box px={4} w="100%" mb={4} overflow="hidden">
+                 <Box rounded={8} position={'relative'} px={4} mb={4}  w="100%"  overflow="hidden">
                     {/* add remove file button */}
                     <IconButton
                         w="24px"
@@ -190,6 +191,7 @@ const EditPost = () => {
                         right="25px"
                         top="10px"
                         zIndex="99"
+                        nativeID='zindex-9'
                         rounded="100%"
                         variant="solid"
                         bg={'white'}
@@ -198,11 +200,13 @@ const EditPost = () => {
                             removeFile()
                         }}
                     />
-                    <LoadImage
-                        w="100%"
-                        h="200px"
-                        path={postData?.file_url !== '' ? postData?.file_url :''}
-                    />
+                    <HStack w={'100%'}  space="3" alignItems="center" justifyContent={'center'}>
+                        <LoadImage
+                            w="auto"
+                            h="auto"
+                            path={postData?.file_url !== '' ? postData?.file_url :''}
+                        />
+                    </HStack>
                 </Box>
             )}
             {/* show only if file is video */}
@@ -299,13 +303,14 @@ const EditPost = () => {
                     </Button>
                 </Center>
             </HStack>
+        </Box>
             {(in_array(`social_wall_fetching_post_detail${id}`, processing)) && (
-                <Text p={3}>fetching Details....</Text>
+                 <WebLoading />
             )}
             {(in_array(`social_wall_update_post`, processing)) && (
-                <Text p={3}>Updating...</Text>
+                 <WebLoading />
             )}
-        </Box>
+        
         </>
     )
 
