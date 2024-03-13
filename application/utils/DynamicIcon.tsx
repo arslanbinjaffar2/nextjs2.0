@@ -2,6 +2,7 @@ import React, { ComponentType, createElement } from 'react';
 import { View } from 'react-native';
 import IcoMyEvents from 'application/assets/icons/IcoMyEvents';
 import attendees from 'application/assets/icons/attendees';
+import mysponsers from 'application/assets/icons/mysponsers'
 import chat from 'application/assets/icons/chat';
 import checkIn from 'application/assets/icons/checkIn';
 import ddirectory from 'application/assets/icons/ddirectory';
@@ -21,6 +22,16 @@ import mydocuments from 'application/assets/icons/mydocuments';
 import my_notes from 'application/assets/icons/my_notes';
 import myprograms from 'application/assets/icons/myprograms';
 import alerts from 'application/assets/icons/alerts';
+import hdquestions from 'application/assets/icons/hdquestions'
+import myexhibitors from 'application/assets/icons/myexhibitors'
+import myevents from 'application/assets/icons/myevents'
+import editprofile from 'application/assets/icons/editprofile'
+import emailmynotes from 'application/assets/icons/emailmynotes'
+import myquestions from 'application/assets/icons/myquestions'
+import mykeywords from 'application/assets/icons/mykeywords'
+import logout from 'application/assets/icons/logout'
+import my_reservations from 'application/assets/icons/my_reservations'
+import subregistration from 'application/assets/icons/subregistration'
 import agendas from 'application/assets/icons/agendas';
 import myturnlist from 'application/assets/icons/myturnlist';
 import social_media from 'application/assets/icons/social_media';
@@ -43,7 +54,8 @@ type IconProps = {
     height?: number;
 };
 
-type IconType = 'IcoMyEvents' | 'attendees' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'my_notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social_media' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'my_registrations' | 'business' | any;
+type IconType = 'IcoMyEvents' | 'logout' |'myevents' | 'myquestions' | 'editprofile'| 'emailmynotes'| 'mykeywords' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
+'mysponsers'| 'attendees' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'my_notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social_media' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'my_registrations' | 'business' | any;
 
 type Props = {
     iconType: IconType;
@@ -54,8 +66,19 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
 
     const iconMap: Record<IconType, ComponentType<IconProps>> = {
         IcoMyEvents,
+        hdquestions,
+        logout,
+        editprofile,
+        myexhibitors,
+        my_reservations,
+        myevents,
+        emailmynotes,
+        mykeywords,
+        myquestions,
+        subregistration,
         attendees,
         chat,
+        mysponsers,
         checkIn,
         ddirectory,
         exhibitors,

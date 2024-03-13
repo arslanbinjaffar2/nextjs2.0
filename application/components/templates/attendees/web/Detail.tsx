@@ -46,7 +46,6 @@ const Detail = ({ speaker }: Props) => {
     const { event,modules  } = UseEventService();
 
     const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
-    console.log("🚀 ~ Detail ~ detail:", detail)
 
     const { FetchPrograms, programs, page, id, query } = UseProgramService();
 
@@ -97,15 +96,15 @@ const Detail = ({ speaker }: Props) => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
-    console.log("🚀 ~ React.useEffect ~ speaker:", speaker)
     const programModule = modules.find((module) => module.alias === (speaker ? "speakers" : "attendees"));
+    const title = (detail.detail as any)?.full_name || '';
     return (
         <>
             {in_array('attendee-detail', processing) ? (
                 <WebLoading />
             ) : (
                 <>
-                    <NextBreadcrumbs module={programModule} title={detail?.detail?.full_name}/>
+                    <NextBreadcrumbs module={programModule} title={title}/>
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                             {/* <Pressable onPress={()=> back() }>
                                 <HStack space="3" alignItems="center">

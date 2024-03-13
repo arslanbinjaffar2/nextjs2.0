@@ -27,10 +27,10 @@ const Index = ({ navigation }: indexProps) => {
   const id: any = router.query['id'];
 
   const { FetchInfo, info, ClearState, parent_folder_name } = UseInfoService();
-  let module = '';
+  let module: any = '';
   if (info) {
     // Find the item in the info array where the ID matches the parent_id
-    const itemWithMatchingParentId = info.find((item) => (item.parent_id == id));
+    const itemWithMatchingParentId : any = info.find((item: any) => (item.parent_id == id));
 
     // If an item is found, retrieve its section_id
     const section_id = itemWithMatchingParentId ? itemWithMatchingParentId.section_id : null;

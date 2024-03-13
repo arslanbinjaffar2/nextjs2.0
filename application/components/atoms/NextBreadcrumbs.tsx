@@ -14,6 +14,7 @@ interface Module {
 interface NextBreadcrumb {
   label: string;
   alias: string;
+  icon: string;
 }
 
 interface NextBreadcrumbsProps {
@@ -27,10 +28,9 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
 
   function generateBreadcrumbs(module: Module): NextBreadcrumb[] {
     const breadcrumbList: NextBreadcrumb[] = [];
-    breadcrumbList.push({ label: 'Dashboard', alias: 'dashboard' });
-
+    breadcrumbList.push({ label: 'Dashboard', alias: 'dashboard', icon: 'dashboard' });
     if (module) {
-      breadcrumbList.push({ label: module.name, alias: module.alias });
+      breadcrumbList.push({ label: module.name, alias: module.alias, icon: module.alias.replace('-', '_') });
     }
     return breadcrumbList;
   }
@@ -49,13 +49,12 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
         <React.Fragment key={index}>
           {index === 0 ? (
             <Pressable
-              disabled={!title}
               py="1"
               px={3}
               borderWidth="0"
               rounded={'full'}
               onPress={() => {
-                if (title) handlePress(breadcrumb.alias);
+                handlePress(breadcrumb.alias);
               }}>
               <HStack space="2" alignItems="center">
                 <IcoDashboard width="18" height="18" color={'gray.500'} />
@@ -74,7 +73,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
               }}>
               <HStack space="2" alignItems="center">
                 <DynamicIcon
-                  iconType={breadcrumb.alias.replace('-', '_')}
+                  iconType={breadcrumb.icon}
                   iconProps={{ width: 24, height: 21, color }}
                 />
                 <Text color={color}>{breadcrumb.label}</Text>
