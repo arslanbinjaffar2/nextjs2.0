@@ -11,6 +11,7 @@ import IcoLinkedIN from 'application/assets/icons/small/IcoLinkedIN';
 import IcoWebLink from 'application/assets/icons/small/IcoWebLink';
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import Vcfcontact from 'application/assets/icons/small/vcfcontact';
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 type AppProps = {
     detail: Detail,
