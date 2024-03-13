@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getCheckInOutApi, sendQRCodeApi } from 'application/store/api/CheckInOut.Api'
+import { doCheckInOutApi, getCheckInOutApi, sendQRCodeApi } from 'application/store/api/CheckInOut.Api'
 
 import { CheckInOutActions } from 'application/store/slices/CheckInOut.Slice'
 
@@ -13,14 +13,20 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 import { select } from 'redux-saga/effects';
 
 function* OnFetchCheckInOut({
+    payload,
 }: {
-    type: typeof CheckInOutActions.FetchCheckInOut
+    type: typeof CheckInOutActions.FetchCheckInOut,
+    payload: { showLoading: boolean }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    if (payload.showLoading){
+        yield put(LoadingActions.addProcess({process:'fetch-checkin-out'}));
+    }
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getCheckInOutApi, {}, state)
     yield put(CheckInOutActions.update({ ...response.data.data, }))
-    yield put(LoadingActions.set(false));
+    if(payload.showLoading){
+        yield put(LoadingActions.removeProcess({process:'fetch-checkin-out'}));
+    }
 }
 
 function* OnSendQRCode({
@@ -33,6 +39,20 @@ function* OnSendQRCode({
     yield put(LoadingActions.removeProcess({process:'checkin-send-qr-code'}));
 }
 
+function* OnDoCheckInOut({
+    payload,
+}: {
+    type: typeof CheckInOutActions.DoCheckInOut,
+    payload: { attendee_id: number, organizer_id: number, action: string }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:'checking-in-out'}));
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(doCheckInOutApi,payload, state)
+    yield put(CheckInOutActions.toggleCheckInOut())
+    yield put(CheckInOutActions.FetchCheckInOut({showLoading:false}))
+    yield put(LoadingActions.removeProcess({process:'checking-in-out'}));
+}
+
 
 
 
@@ -41,6 +61,8 @@ function* OnSendQRCode({
 export function* CheckInOutWatcherSaga(): SagaIterator {
     yield takeEvery(CheckInOutActions.FetchCheckInOut.type, OnFetchCheckInOut)
     yield takeEvery(CheckInOutActions.SendQRCode.type, OnSendQRCode)
+    yield takeEvery(CheckInOutActions.DoCheckInOut.type, OnDoCheckInOut)
+    
 }
 
 export default CheckInOutWatcherSaga
