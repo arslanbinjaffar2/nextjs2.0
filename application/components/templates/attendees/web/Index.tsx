@@ -177,7 +177,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     {speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee)=>(attendee.alias == 'attendees'))?.name :  modules?.find((attendee)=>(attendee.alias == 'my-attendee-list'))?.name) : modules?.find((speaker)=>(speaker.alias == 'speakers'))?.name}
                 </Text>
                 <Spacer />
-                <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
+                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />

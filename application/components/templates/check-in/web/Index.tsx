@@ -27,13 +27,13 @@ import in_array from "in_array";
 import { Platform } from 'react-native'
 import DateTimePicker from 'application/components/atoms/DateTimePicker'
 import UseEnvService from 'application/store/services/UseEnvService'
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT, GENERAL_TIME_FORMAT} from 'application/utils/Globals';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { GroupedHistory, History } from 'application/models/checkInOut/CheckInOut'
 import UseBannerService from 'application/store/services/UseBannerService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 
 const CheckinList = ({type, k, group}: any) => {
@@ -181,11 +181,9 @@ const Index = () => {
     FetchCheckInOut({showLoading:true});
   }, [])
   
-  const { banners, FetchBanners} = UseBannerService();
   const [tab, setTab] = React.useState<'event'| 'program' | 'group' | 'ticket' | ''>('');
   const [filteredHistory, setFilteredHistory] = React.useState<GroupedHistory[]>([]);
   const [selectedDate, setSelectedDate] = React.useState('');
-
 
   function setDefaultTab(){
     if (tab !==''){
@@ -313,9 +311,8 @@ const Index = () => {
                             <Text fontSize="xl" fontWeight={600}>{checkInOut?.status === 'check-in' ? event?.labels?.CHECK_IN_BUTTON : event?.labels?.CHECK_OUT_BUTTON}</Text>
                         </Button>
                     </HStack>
-							      </>:null}
-              </Box>:null}
-
+                    </>:null}
+                </Box>:null}
                 <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                   {checkInOut?.setting?.show_event_checkin_history ? <>
 									<Button onPress={() => { setTab('event') }} bg={tab === 'event' ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px"  w={'25%'} _text={{ fontWeight: '600' }}>Event</Button>

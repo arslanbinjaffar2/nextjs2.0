@@ -58,7 +58,6 @@ const Index = React.memo(() => {
     const [searchQuery, setSearch] = React.useState('')
 
     const { sponsors,labels, categories, FetchSponsors, category_id, query } = UseSponsorService();
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
         FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tabQueryParam == 'category-sponsor') ? categoryIdQueryParam : 0), query: '', screen: 'sponsors' });
