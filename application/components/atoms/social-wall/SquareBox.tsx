@@ -256,9 +256,9 @@ const SquareBox = ({ post, index }: AppProps) => {
             <HStack space="1" alignItems="center">
               <Text fontSize="sm">{post.comments_count} Comments</Text>
             </HStack>
-            <HStack space="1" alignItems="center">
+            {/* <HStack space="1" alignItems="center">
               <Text fontSize="sm">{post.comments_count} Shares</Text>
-            </HStack>
+            </HStack> */}
           </HStack>
         </HStack>
 
