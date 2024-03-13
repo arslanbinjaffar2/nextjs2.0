@@ -101,11 +101,14 @@ const Index = () => {
                 isOpen={activepopup}
                 onClose={() => { }}
               >
-                <Modal.Content maxW={['320px', '780px']} >
+                <Modal.Content maxHeight={'80%'} maxW={['320px','780px']} >
                   <Modal.Body p={0} justifyContent="flex-end">
-                    <Modal.CloseButton borderWidth={1} borderColor={'white'} rounded={'50%'} zIndex={999} onPress={() => { setactivepopup(false); setpopupdata(null) }} />
-                    <LoadImage width={'100%'} path={`${_env.eventcenter_base_url}/assets/imagegallery/${popupdata?.image}`} alt={popupdata?.info.find(info => info.name == 'image_title')?.value || ''} />
-                    <Text p="3" textAlign={'center'} fontSize={'md'}>{popupdata?.info.find(info => info.name == 'image_title')?.value || ''}</Text>
+                  <Modal.CloseButton nativeID='ebs-button-close' borderWidth={1} borderColor={'white'} rounded={'50%'} zIndex={999} onPress={() => {setactivepopup(false);setpopupdata(null)}}/>
+                    <HStack position={'relative'} zIndex={-1} w={'100%'}  space="3" alignItems="center" justifyContent={'center'}>
+                      <LoadImage width={'auto'} path={`${_env.eventcenter_base_url}/assets/imagegallery/${popupdata?.image}` } alt={popupdata?.info.find(info => info.name == 'image_title')?.value || ''} />
+                    </HStack>
+                    
+                    {popupdata?.info.find(info => info.name == 'image_title')?.value && <Text p="3" textAlign={'center'} fontSize={'md'}>{popupdata?.info.find(info => info.name == 'image_title')?.value || ''}</Text>}
                   </Modal.Body>
                 </Modal.Content>
               </Modal>
