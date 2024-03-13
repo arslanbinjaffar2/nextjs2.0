@@ -226,6 +226,12 @@ body {
 #ebs-button-close {
   z-index: 99 !important;
 }
+.css-3iigni-container {
+  width: 100%;
+}
+#zindex-9 {
+  z-index: 9 !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {
