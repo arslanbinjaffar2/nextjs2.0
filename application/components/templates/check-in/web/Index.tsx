@@ -31,7 +31,9 @@ import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT, GENERAL_TIME_FORMAT} from 'application/utils/Globals';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { GroupedHistory, History } from 'application/models/checkInOut/CheckInOut'
-
+import { Banner } from 'application/models/Banner';
+import UseBannerService from 'application/store/services/UseBannerService';
+import BannerAds from 'application/components/atoms/banners/BannerAds';
 
 const CheckinList = ({type, k, group}: any) => {
 	const [toggle, settoggle] = React.useState(false);
