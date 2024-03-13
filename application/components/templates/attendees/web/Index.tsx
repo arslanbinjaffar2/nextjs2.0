@@ -174,7 +174,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     {speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee)=>(attendee.alias == 'attendees'))?.name :  modules?.find((attendee)=>(attendee.alias == 'my-attendee-list'))?.name) : modules?.find((speaker)=>(speaker.alias == 'speakers'))?.name}
                 </Text>
                 <Spacer />
-                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
@@ -198,9 +198,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                    ALL
+                                {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
                             </Button>}
-                            <Button 
+                            <Button
                                 onPress={() => {
                                     setTab('my-attendee')
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
@@ -216,7 +216,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                MY ATTENDEES
+                                
+                                {modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
                             </Button>
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
                                 <Button 
@@ -234,7 +235,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
                                     _text={{ fontWeight: '600' }}
                                 >
-                                    GROUPS
+                                    {event?.labels?.ATTENDEE_LIST_BY_GROUP}
                                 </Button>
                         }
                     </HStack>}
@@ -347,6 +348,11 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                             <RectangleAttendeeView attendee={attendee} border={attendees.length > 0 && attendees[attendees.length - 1]?.id !== attendee?.id ? 1 : 0} speaker={speaker} />
                                         </React.Fragment>
                              )}
+                            {attendees.length <= 0 &&
+                              <Box p={3} mb="3"  rounded="lg" w="100%">
+                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              </Box>
+                            }
                         </Container>}
                         {(tab === 'group' || tab === 'sub-group') && <Container mb="3" pt={3} rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
@@ -361,6 +367,11 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     )}
                                 </React.Fragment>
                             )}
+                            {groups.length <= 0 &&
+                              <Box p={3} mb="3" rounded="lg" w="100%">
+                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              </Box>
+                            }
                         </Container>}
                         {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
@@ -369,8 +380,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p="3">
-                                    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                <Box p={3} mb="3" rounded="lg" w="100%">
+                                    <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                                 </Box>
                             }
                         </Container>}

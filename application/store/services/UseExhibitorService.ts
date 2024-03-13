@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { ExhibitorActions, SelectExhibitors, SelectExhibitorCategories, SelectExhibitorSettings, SelectExhibitorCategoryID, SelectExhibitorQuery, SelectExhibitorDetail, SelectOurExhibitors, SelectMyExhibitors } from 'application/store/slices/Exhibitor.Slice'
+import { ExhibitorActions, SelectExhibitors, SelectExhibitorCategories, SelectExhibitorSettings, SelectExhibitorCategoryID, SelectExhibitorQuery, SelectExhibitorDetail, SelectOurExhibitors, SelectMyExhibitors ,SelectSiteLabel} from 'application/store/slices/Exhibitor.Slice'
 
 import { Exhibitor } from 'application/models/exhibitor/Exhibitor'
 
@@ -16,6 +16,7 @@ export type ExhibitorServiceOperators = {
     exhibitors: Exhibitor[]
     our_exhibitors: Exhibitor[]
     my_exhibitors: Exhibitor[]
+    labels: any
     categories: ExhibitorCategory[]
     settings: ExhibitorSetting
     detail: ExhibitorDetail|null
@@ -38,6 +39,7 @@ export const UseExhibitorService = (): Readonly<ExhibitorServiceOperators> => {
 
     return {
         exhibitors: useAppSelector(SelectExhibitors),
+        labels: useAppSelector(SelectSiteLabel),
         our_exhibitors: useAppSelector(SelectOurExhibitors),
         my_exhibitors: useAppSelector(SelectMyExhibitors),
         categories: useAppSelector(SelectExhibitorCategories),

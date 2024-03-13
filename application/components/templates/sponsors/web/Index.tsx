@@ -51,7 +51,7 @@ const Index = React.memo(() => {
 
     const [searchQuery, setSearch] = React.useState('')
 
-    const { sponsors, categories, FetchSponsors, category_id, query } = UseSponsorService();
+    const { sponsors,labels, categories, FetchSponsors, category_id, query } = UseSponsorService();
 
     React.useEffect(() => {
         FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tabQueryParam == 'category-sponsor') ? categoryIdQueryParam : 0), query: '', screen: 'sponsors' });
@@ -86,7 +86,7 @@ const Index = React.memo(() => {
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
                         <Spacer />
-                        <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+                        <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                             search(text);
                             setSearch(text);
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
@@ -98,13 +98,13 @@ const Index = React.memo(() => {
                             FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
                             push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'name'))
                         }} 
-                        borderWidth="1px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>NAME</Button>}
+                        borderWidth="1px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_NAME}</Button>}
                        {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button onPress={() => {
                             setTab('category')
                             FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
                             push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'category'))
 
-                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
+                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_CATEGORY}</Button>}
                     </HStack>
                     )}
                     
@@ -154,23 +154,31 @@ const Index = React.memo(() => {
                             </Box>
                         }
                         {sponsors.length <= 0 &&
-                            <Box w="100%">
-                                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                            <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
+                                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                             </Box>
                         }
                     </>}
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'sponsors'} module_type={'listing'} />
                     </Box>
-                    {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
-                        <ScrollView h={'60%'} w={'100%'}>
-                            <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                {categories.length > 0 && categories.map((category: SponsorCategory, key: number) =>
-                                    <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
-                                )}
-                            </HStack>
-                        </ScrollView>
-                    </Box>}
+                    {tab === 'category' && (
+                      <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+                          {categories.length > 0 ? (
+                            <ScrollView h={'60%'} w={'100%'}>
+                                <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
+                                    {categories.map((category: SponsorCategory, key: number) => (
+                                      <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
+                                    ))}
+                                </HStack>
+                            </ScrollView>
+                          ) : (
+                            <Box p={3} >
+                                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                            </Box>
+                          )}
+                      </Box>
+                    )}
                     {/* <BannerView url={''} /> */}
                 </Container>
             )}

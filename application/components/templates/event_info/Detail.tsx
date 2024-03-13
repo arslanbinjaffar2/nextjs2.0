@@ -55,7 +55,7 @@ const Detail = (props: any) => {
                         <Box w="100%" bg="primary.box"  rounded="10">
                             {(page.image == '' && page.description == '' && page.pdf == '') &&(
                                 <>
-                                <Text p={4}>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                <Text p={3} mb="3" bg="primary.box" rounded="lg" w="100%">{event?.labels?.GENERAL_NO_RECORD}</Text>
                                 </>
                             )}
                             {page.image !== '' && page.image_position === 'top' && <HStack w="100%" ml={0} mb={5}>

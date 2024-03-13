@@ -33,7 +33,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                 <Box p="0">
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
                         <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
-                        <Text fontSize="sm">More info</Text>
+                        <Text fontSize="sm">{event.labels?.ATTENDEE_MORE_INFO}</Text>
                     </HStack>
                     <VStack px="3" py="4" w="100%" >
                         {
@@ -314,7 +314,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                 </Box>
             )}
             {detail?.sort_field_setting.length <= 0 && 
-                        <Text p={3} fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+              <Text p={3} mb="3" bg="primary.box" rounded="lg" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
             }
             
         </Box>

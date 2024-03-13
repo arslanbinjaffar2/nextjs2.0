@@ -14,13 +14,11 @@ const Index = () => {
     const { loading, scroll } = UseLoadingService();
 
     const { _env } = UseEnvService();
-  
-    const { event  } = UseEventService();
 
     const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords, skip } = UseNetworkInterestService();
     
     const { push } = useRouter()
-
+    const { event } = UseEventService();
     useEffect(() => {
         FetchNetworkInterests();
     }, [])
@@ -50,6 +48,7 @@ export default Index
 
 const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords:Keyword[], UpdatingMyKeywords:boolean, SaveMykerwords:(payload:any)=>void}) => {
     const [interestkeywords, setInterestKeywords] = useState(keywords);
+  const { event } = UseEventService();
   const [mykeywords, setMyKeywords] = useState(keywords?.reduce((ack:any, item:Keyword)=>{
     const childern = item?.children?.reduce((ack2:any, item2:any)=>{
       if(item2?.keywords?.length > 0){
@@ -159,7 +158,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                     ))}
                     </HStack>
                     <Box w="100%" mb="3">
-                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </Box>
                     <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
                     {filteredkeywords?.length > 0 ? filteredkeywords?.map((keyword:Keyword)=>(
