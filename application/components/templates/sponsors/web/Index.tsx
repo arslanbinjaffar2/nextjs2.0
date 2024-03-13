@@ -91,12 +91,9 @@ const Index = React.memo(() => {
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
     const module = modules.find((module) => module.alias === 'sponsors');
     const category = categories.find((category) => {
-        return category.id ===  Number(categoryIdQueryParam)
+        return category.id === Number(categoryIdQueryParam)
     })
     return (
         <>

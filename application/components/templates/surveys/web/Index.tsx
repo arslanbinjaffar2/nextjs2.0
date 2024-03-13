@@ -12,8 +12,8 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService'
 import { Banner } from 'application/models/Banner'
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
 

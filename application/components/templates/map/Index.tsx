@@ -16,7 +16,7 @@ const Index = () => {
     React.useEffect(()=>{
             FetchMap();
     },[])
-const module = modules.find((module) => module.alias === 'maps');
+    const module = modules.find((module) => module.alias === 'maps');
   return (
     <>
         {loading ? 

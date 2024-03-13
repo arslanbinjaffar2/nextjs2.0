@@ -129,14 +129,15 @@ const Detail = () => {
         
     }, [detail]);
 
-    const programModule = modules.find((module) => module.alias === 'agendas');
+    const module = modules.find((module) => module.alias === 'agendas');
+    
     return (
         <>
             {in_array('program-detail', processing) ? (
                 <WebLoading />
             ) : (
                 <>
-                    <NextBreadcrumbs module={programModule} title={detail?.program?.topic}/>
+                    <NextBreadcrumbs module={module} title={detail?.program?.topic}/>
 
                     {/* <HStack pt="2" w="100%" space="3" alignItems="center">
                         <Pressable onPress={()=> back() }>

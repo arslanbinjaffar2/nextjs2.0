@@ -33,7 +33,6 @@ import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT, GENERAL_TIME_FORMAT} from 
 import UseAuthService from 'application/store/services/UseAuthService';
 import { GroupedHistory, History } from 'application/models/checkInOut/CheckInOut'
 import UseBannerService from 'application/store/services/UseBannerService';
-import { Banner } from 'application/models/Banner';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 
@@ -183,22 +182,10 @@ const Index = () => {
   }, [])
   
   const { banners, FetchBanners} = UseBannerService();
-  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
   const [tab, setTab] = React.useState<'event'| 'program' | 'group' | 'ticket' | ''>('');
   const [filteredHistory, setFilteredHistory] = React.useState<GroupedHistory[]>([]);
   const [selectedDate, setSelectedDate] = React.useState('');
 
-  useEffect(()=>{
-    const filteredBanner=banners.filter((banner  : Banner)=>{
-      return banner.module_name == 'checkIn' && banner.module_type == 'listing'
-    })
-
-    setFilteredBanners(filteredBanner);
-  },[banners]);
-
-  React.useEffect(() => {
-    FetchBanners();
-  }, []);
 
   function setDefaultTab(){
     if (tab !==''){
