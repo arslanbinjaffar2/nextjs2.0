@@ -184,6 +184,8 @@ const Detail = ({ speaker }: Props) => {
                                         )}
 
                                     </Container>}
+                                    {event?.speaker_settings?.program === 1 && (
+                                        <>
                                         {tab === 'program' && <Container mb="3" rounded="10" bg={`${programs.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
                                         {in_array('programs', processing) && page === 1 ? (
                                             <SectionLoading />
@@ -196,7 +198,10 @@ const Detail = ({ speaker }: Props) => {
                                                             </>
                                                         )
                                         )}
-                                    </Container>}
+                                        </Container>}
+                                        </>
+                                    )}
+                                      
                                         {tab === 'category' && <Container mb="3" rounded="10" bg={`${detail?.detail?.categories.length > 0 ? "primary.box" :""}`} w="100%" maxW="100%">
                                         {detail?.detail?.categories.map((map: any, k: number) =>
                                             <React.Fragment key={`item-box-group-${k}`}>
