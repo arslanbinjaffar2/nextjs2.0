@@ -29,13 +29,13 @@ const MyDTPicker: FC<any> = (props: Props): any => {
       <div className="ebs-date-wrapper">
         {showTime && showDate && <HStack mb={3} space="2%" w="100%">
           
-          <Button bg={tab !== "time" ? 'primary.500' : 'primary.box'} w="48%" p="0">
+          <Button bg={tab !== "time" ? 'primary.500' : 'secondary.500'} w="48%" p="0">
             <label style={{width: '120px',padding: "10px 15px",boxSizing: 'border-box',textAlign: 'center'}}> <input style={{display: 'none'}} defaultChecked onChange={() => {textInput.current?.navigate('days');setTab('days')}} type="radio" name="calendar" />
               <Icon size="8" as={AntDesign} name="calendar" color="primary.text" />
               
             </label>
           </Button>
-         <Button bg={tab === "time" ? 'primary.500' : 'primary.box'}  w="48%" p="0">
+         <Button bg={tab === "time" ? 'primary.500' : 'secondary.500'}  w="48%" p="0">
           <label style={{width: '120px',padding: "10px 15px",boxSizing: 'border-box',textAlign: 'center'}} className='ebs-time'> <input style={{display: 'none'}}  onChange={() => {textInput.current?.navigate('time'); setTab('time')}} type="radio" name="calendar" />
             <Icon size="8" as={AntDesign} name="clockcircleo" color="primary.text" />
           </label>
@@ -50,14 +50,15 @@ const MyDTPicker: FC<any> = (props: Props): any => {
     return (
       <Box fontFamily={'Avenir'} w="100%">
         <label className={`label-input ${props.timeOnly ? 'ebs-time-icon' : ''}`}>
-          <Input rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} isReadOnly={true} {...props} placeholder={props.placeholder} />
+          <Input opacity={props.disabled ? '0.5' : 1} rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} isReadOnly={true} {...props} placeholder={props.placeholder} />
           <span>{props.required && <em className="req">*</em>}</span>
         </label>
       </Box>
     );
   }
 
-  return <Datetime locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue} ref={textInput} renderView={(mode:any, renderDefault:any) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={props.showtime ? false : true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={renderInput} />;
+  return <Datetime locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue}
+  ref={textInput} renderView={(mode:any, renderDefault:any) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={renderInput} />;
 };
 
 type DateTimeProps = {

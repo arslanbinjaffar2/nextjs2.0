@@ -9,29 +9,18 @@ import LoadImage from 'application/components/atoms/LoadImage';
 import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
     const { loading } = UseLoadingService();
     const { event, modules  } = UseEventService();
     const { _env } = UseEnvService();
-    const { banners, FetchBanners} = UseBannerService();
 
     const { map, FetchMap} = UseMapService()
     React.useEffect(()=>{
             FetchMap();
     },[])
-  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
-  useEffect(()=>{
-    const filteredBanner=banners.filter((banner  : Banner)=>{
-      return banner.module_name == 'maps' && banner.module_type == 'listing'
-    })
-
-    setFilteredBanners(filteredBanner);
-  },[banners]);
-  React.useEffect(() => {
-    FetchBanners();
-  }, []);
-  const module = modules.find((module) => module.alias === 'maps');
+    const module = modules.find((module) => module.alias === 'maps');
   return (
     <>
         {loading ? 
@@ -72,15 +61,7 @@ const Index = () => {
             </>
         }
       <Box width={"100%"} height={"5%"}>
-        {filteredBanners.map((banner, k) =>
-          <Image
-            key={k}
-            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-            alt="Image"
-            width="100%"
-            height="100%"
-          />
-        )}
+        <BannerAds module_name={'maps'} module_type={'listing'} />
       </Box>
     </>
     

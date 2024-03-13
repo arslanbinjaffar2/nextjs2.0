@@ -16,6 +16,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { Setting } from 'application/models/hd/Hd';
 import UseSocketService from 'application/store/services/UseSocketService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { id: string }
 
@@ -293,7 +294,9 @@ const Detail = () => {
                 </Box>}
                 
                 </Box>
-                
+                <Box width={"100%"} height={"5%"}>
+                    <BannerAds module_name={'help_desk'} module_type={'detail'} />
+                </Box>
             </Container>
             </>
         )

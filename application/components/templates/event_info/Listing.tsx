@@ -4,6 +4,7 @@ import RectangleView from 'application/components/atoms/event_info/RectangleView
 import UseInfoService from 'application/store/services/UseInfoService';
 import { Info } from 'application/models/Info';
 import UseEventService from 'application/store/services/UseEventService';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Listing = (props: any) => {
     
@@ -43,6 +44,9 @@ const Listing = (props: any) => {
                 ) : <Box padding={5}>
                 <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
             </Box>)} */}
+            </Box>
+            <Box width={"100%"} height={"5%"}>
+                <BannerAds module_name={'information_pages'} module_type={'listing'} />
             </Box>
         </>
     )

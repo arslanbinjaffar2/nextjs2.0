@@ -7,48 +7,22 @@ import UseEnvService from 'application/store/services/UseEnvService'
 import { Banner } from 'application/models/Banner'
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
+import PostListing from 'application/components/atoms/social-wall/PostListing';
 
 const Index = () => {
-  const { banners, FetchBanners } = UseBannerService();
-  const { _env } = UseEnvService()
-  const [filteredBanners, setFilteredBanners] = useState<Banner[]>([]);
 
-  useEffect(() => {
-    const filteredBanner = banners.filter((banner: Banner) => {
-      return banner.module_name == 'social_wall' && banner.module_type == 'listing'
-    });
-    setFilteredBanners(filteredBanner);
-  }, [banners]);
 
-  useEffect(() => {
-    FetchBanners();
-  }, []);
+    return (
+        <>
+          <AddPost />
+          <PostListing attendee_id={0} />  
+          <Box width={"100%"} height={"5%"}>
+            <BannerAds module_name={'social_wall'} module_type={'listing'} />
+          </Box>
+        </>
+    )
 
-  const { modules } = UseEventService();
-    const module = modules.find((module) => module.alias === 'social_wall');
-
-  return (
-    <>
-     <NextBreadcrumbs module={module} />
-      <AddPost />
-      <Box w="100%">
-        <SquareBox />
-        <SquareBox />
-        <SquareBox />
-      </Box>
-      <Box width={"100%"} height={"5%"}>
-        {filteredBanners.map((banner, k) =>
-          <Image
-            key={k}
-            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-            alt="Image"
-            width="100%"
-            height="100%"
-          />
-        )}
-      </Box>
-    </>
-  );
 }
 
 export default Index

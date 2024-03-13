@@ -11,6 +11,7 @@ import moment from 'moment';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
 
@@ -76,6 +77,9 @@ const Index = () => {
                 {groups?.length <= 0 && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
                   <Text>{event.labels?.EVENT_NORECORD_FOUND}</Text>
                 </Box>}
+              </Box>
+              <Box width={"100%"} height={"5%"}>
+                <BannerAds module_name={'help_desk'} module_type={'listing'} />
               </Box>
             </Container>
           </>
