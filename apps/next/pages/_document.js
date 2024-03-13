@@ -226,6 +226,9 @@ body {
 #ebs-button-close {
   z-index: 99 !important;
 }
+.css-3iigni-container{
+  width:100%;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {

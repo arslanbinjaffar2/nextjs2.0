@@ -51,7 +51,7 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
 const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
-      minHeight: '40px',
+      minHeight: '50px',
       padding:'3',
       width: '100%',
       maxWidth: '100%',
