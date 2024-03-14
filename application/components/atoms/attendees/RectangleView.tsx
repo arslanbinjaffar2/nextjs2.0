@@ -66,21 +66,20 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               {(attendee?.first_name || attendee?.last_name) && (
                 <>
                   <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
-                  {attendee?.info &&
-                    (attendee?.info.company_name ||
-                      attendee?.info.title) && (
-                      <>
-                        
-                          <Text lineHeight="22px" fontSize="lg">
-                            {attendee?.info?.title}{attendee?.info?.company_name &&
-                            attendee?.info?.title &&
-                            ", "}
-                            { attendee?.field_settings?.department.is_private == 0 && attendee?.info?.department && `${attendee?.info?.department} ${attendee?.info?.company_name && ', '}`}
-                            {attendee?.info?.company_name && attendee?.info?.company_name}
-                            </Text>
-                        
-                      </>
-                    )}
+                  {attendee?.info && (
+                    <>
+                      <Text lineHeight="22px" fontSize="lg">
+                        {attendee?.info?.title && attendee?.info?.title}
+                        {attendee?.info?.company_name &&
+                          attendee?.info?.title &&
+                          " "
+                        }
+                        {attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && `${attendee?.info?.department} `}
+                        {attendee?.info?.company_name && attendee?.info?.company_name}
+                      </Text>
+                    </>
+                  )}
+
                 </>
               )}
               {
