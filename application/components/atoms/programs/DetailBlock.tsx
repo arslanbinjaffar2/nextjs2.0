@@ -33,7 +33,7 @@ const DetailBlock = ({ children }: AppProps) => {
             h="160px"
             roundedTop="10"
             mb="5"
-            source={{ uri: `https://wallpaperaccess.com/full/31751.jpg` }}
+            source={{ uri: `${_env.eventcenter_base_url}/assets/programs/${detail?.program?.image}` }}
         />
         <Box w="100%" px="7">
             <HStack w="100%" mb="3" space="3" alignItems="flex-start">
