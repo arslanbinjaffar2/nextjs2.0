@@ -97,9 +97,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
-      minHeight: "40px",
+    //   minHeight: "40px",
       padding:"3px",
-    // minHeight:50,
+    minHeight:50,
       width: '100%',
       maxWidth: '100%',
 			minWidth: '100%',
@@ -1088,7 +1088,7 @@ const Selectstyles2 = {
                                                 </Center>
 
                                                 <Button w={180} px={4} py={3}leftIcon={<Icon as={Ionicons} color={'primary.text'} name="cloud-upload-outline" size="lg" />}
-                                                    isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                                    // isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                     onPress={()=>{
                                                         if(inputresumeFileRef.current){
                                                             inputresumeFileRef.current.click();
