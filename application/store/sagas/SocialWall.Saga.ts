@@ -23,6 +23,7 @@ function* OnFetchSocialWallPosts({
     const response: HttpResponse = yield call(getSocialWallApi, payload, state)
     yield put(SocialWallActions.update({ page:payload.page, last_page:response.data.data.posts.last_page, posts:response.data.data.posts.data!, filters:response.data.data.filters!}))
     yield put(LoadingActions.removeProcess({ process: 'social_wall_posts' }))
+    yield put(LoadingActions.removeProcess({ process: 'labels' }))
 }
 
 function* OnAddSocialWallPost({
