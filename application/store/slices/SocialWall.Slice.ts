@@ -14,7 +14,6 @@ export interface SocialWallState {
     last_page: number;
     posts: Post[];
     filters: any[];
-    labels: any[];
     sort_by: string;
 }
 
@@ -24,7 +23,6 @@ const initialState: SocialWallState = {
     filters: [],
     page: 1,
     last_page: 1,
-    labels: [],
     sort_by: 'id',
 }
 
@@ -34,12 +32,6 @@ export const socialWallSlice = createSlice({
     initialState,
     reducers: {
         FetchSocialWallPosts(state, action: PayloadAction<{ page: number, sort_by:string, attendee_id:number}>) {
-            state.page = action.payload.page;
-            if (action.payload.page === 1) {
-                state.posts = [];
-            }
-        },
-        FetchSocialWallLabel(state, action: PayloadAction<{ page: number, sort_by:string, attendee_id:number,labels}>) {
             state.page = action.payload.page;
             if (action.payload.page === 1) {
                 state.posts = [];
@@ -90,7 +82,6 @@ export const socialWallSlice = createSlice({
 export const SocialWallActions = {
     FetchSocialWallPosts:socialWallSlice.actions.FetchSocialWallPosts,
     update:socialWallSlice.actions.update,
-    FetchSocialWallLabel:socialWallSlice.actions.FetchSocialWallLabel,
     AddSocialWallPost:socialWallSlice.actions.AddSocialWallPost,
     SocialWallPostsUpdated:socialWallSlice.actions.SocialWallPostsUpdated,
     LikeSocialWallPost:socialWallSlice.actions.LikeSocialWallPost,

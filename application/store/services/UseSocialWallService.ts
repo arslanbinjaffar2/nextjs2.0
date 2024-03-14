@@ -43,12 +43,6 @@ export const useSocialWallService = (): Readonly<SocialWallServiceOperators> => 
             },
             [dispatch],
         ),
-        FetchSocialWallLabel: useCallback(
-          (payload: { page: number, sort_by:string, attendee_id:number,labels}) => {
-              dispatch(SocialWallActions.FetchSocialWallLabel(payload))
-          },
-          [dispatch],
-        ),
         AddSocialWallPost: useCallback(
             (payload: any) => {
                 dispatch(SocialWallActions.AddSocialWallPost(payload))
