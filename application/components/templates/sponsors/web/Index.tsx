@@ -7,14 +7,11 @@ import RectangleView from 'application/components/atoms/sponsors/RectangleView';
 import CategoryRectangleView from 'application/components/atoms/sponsors/categories/RectangleView';
 import BoxView from 'application/components/atoms/sponsors/BoxView';
 import { Sponsor } from 'application/models/sponsor/Sponsor'
-import BannerView from 'application/components/atoms/banners/RectangleView';
 import debounce from 'lodash.debounce';
 import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { SponsorCategory } from 'application/models/sponsor/SponsorCategory';
 import UseEventService from 'application/store/services/UseEventService';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useRouter } from 'solito/router'
@@ -52,7 +49,6 @@ const Index = React.memo(() => {
 
     const [tab, setTab] = React.useState(tabQueryParam !== null ? tabQueryParam : event?.sponsor_settings?.sponsor_list);
 
-    const { banners, FetchBanners} = UseBannerService();
     const [mode, setMode] = React.useState(modeQueryParam ? modeQueryParam : 'grid')
 
     const [searchQuery, setSearch] = React.useState('')
@@ -68,13 +64,7 @@ const Index = React.memo(() => {
     const updateTab = (tab: string) => {
         setTab(tab);
     }
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'sponsors' && banner.module_type == 'listing'
-        })
 
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
     React.useEffect(() => {
         return () => {
             search.cancel();
