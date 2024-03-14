@@ -45,7 +45,8 @@ import polls from 'application/assets/icons/polls';
 import attendee_authority from 'application/assets/icons/attendee_authority';
 import checkin_agendas from 'application/assets/icons/checkin_agendas';
 import business from 'application/assets/icons/IcoNetworkInterest';
-
+import documents from 'application/assets/icons/document'
+import download from 'application/assets/icons/download'
 type IconProps = {
     name?: string;
     color?: string;
@@ -54,7 +55,7 @@ type IconProps = {
     height?: number;
 };
 
-type IconType = 'IcoMyEvents' | 'logout' |'myevents' | 'myquestions' | 'editprofile'| 'emailmynotes'| 'mykeywords' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
+type IconType = 'IcoMyEvents' |'download' | 'logout' | 'myevents' |'documents' | 'myquestions' | 'editprofile'| 'emailmynotes'| 'mykeywords' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
 'mysponsers'| 'attendees' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'my_notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social_media' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'my_registrations' | 'business';
 
 type Props = {
@@ -66,7 +67,9 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
 
     const iconMap: Record<IconType, ComponentType<IconProps>> = {
         IcoMyEvents,
+        download,
         hdquestions,
+        documents,
         logout,
         editprofile,
         myexhibitors,
