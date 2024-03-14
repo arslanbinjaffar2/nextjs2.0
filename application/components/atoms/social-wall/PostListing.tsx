@@ -9,6 +9,7 @@ import in_array from "in_array";
 import { Post } from 'application/models/socialWall/SocialWall';
 import { Pressable } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import UseEventService from '../../../store/services/UseEventService'
 
 type AppProps = {
   attendee_id: number,
@@ -16,7 +17,7 @@ type AppProps = {
 
 const PostListing = ({ attendee_id }: AppProps) => {
     const { loading,scroll, processing } = UseLoadingService();
-  
+    const { event  } = UseEventService();
     const { FetchSocialWallPosts, posts, page, last_page, sort_by } = UseSocialWallService();
     const [sortBy, setSortBy] = React.useState<string>(sort_by);
 
@@ -83,7 +84,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
                         })}
                 </Box>
                 { posts.length === 0 ? (
-                  <Text>No Posts Found</Text>
+                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                 ): null}
               </>
             )
