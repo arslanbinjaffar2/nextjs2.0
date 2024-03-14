@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import BannerView from 'application/components/atoms/banners/RectangleView';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
-
+import UseEventService from 'application/store/services/UseEventService';
 type indexProps = {
   navigation: unknown
 }
@@ -25,6 +25,7 @@ const Index = ({ navigation }: indexProps) => {
   const { FetchInfo, info, ClearState, parent_folder_name } = UseInfoService();
 
   const cms = 'information-pages-sub';
+  const { event } = UseEventService();
 
   React.useEffect(() => {
     FetchInfo({ type: cms, id: id });
@@ -46,7 +47,7 @@ const Index = ({ navigation }: indexProps) => {
                { parent_folder_name }
             </Text>
             <Spacer />
-            <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+            <Input value={searchText} onChangeText={(text) => setSearchText(text)} rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder={event.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
           </HStack>
           <Listing rounded={10} cms={cms} searchText={searchText} />
           {/* <BannerView url={''} /> */}

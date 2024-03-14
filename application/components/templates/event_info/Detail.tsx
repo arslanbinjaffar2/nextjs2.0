@@ -10,6 +10,7 @@ import { getColorScheme } from 'application/styles/colors';
 import { createParam } from 'solito';
 import LoadImage from 'application/components/atoms/LoadImage';
 import ThemeColors from 'application/utils/ThemeColors';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -54,7 +55,7 @@ const Detail = (props: any) => {
                         <Box w="100%" bg="primary.box"  rounded="10">
                             {(page.image == '' && page.description == '' && page.pdf == '') &&(
                                 <>
-                                <Text p={4}>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                <Text p={3} mb="3" bg="primary.box" rounded="lg" w="100%">{event?.labels?.GENERAL_NO_RECORD}</Text>
                                 </>
                             )}
                             {page.image !== '' && page.image_position === 'top' && <HStack w="100%" ml={0} mb={5}>
@@ -121,6 +122,9 @@ const Detail = (props: any) => {
                     {/* <BannerView url={''} /> */}
                 </HStack>
             </View>}
+            <Box width={"100%"} height={"5%"}>
+                <BannerAds module_name={'information_pages'} module_type={'detail'} />
+            </Box>
         </>
     )
 

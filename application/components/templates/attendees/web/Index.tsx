@@ -21,8 +21,7 @@ import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
 import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';
 import { Category } from 'application/models/event/Category';
-import UseEnvService from 'application/store/services/UseEnvService'
-import { Banner } from 'application/models/Banner'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { slug: any }
 
@@ -30,13 +29,13 @@ const { useParam } = createParam<ScreenParams>()
 
 type Props = {
     speaker: number,
-    screen: string
+    screen: string,
+    banner_module?:string
 }
 
-const Index = ({ speaker, screen }: Props) => {
+const Index = ({ speaker, screen, banner_module }: Props) => {
 
     const { push, back } = useRouter()
-    const { _env } = UseEnvService()
 
     const pathname = usePathname()
     
@@ -62,7 +61,7 @@ const Index = ({ speaker, screen }: Props) => {
     const { response } = UseAuthService();
 
     const { event, modules } = UseEventService();
-    const { banners, FetchBanners} = UseBannerService();
+
     const [tab, setTab] = useState<string | null>(tabQueryParam !== null ? tabQueryParam : (speaker === 1 ?  (event?.speaker_settings?.default_display !== 'name' ? 'category' : 'attendee') :  (event?.attendee_settings?.default_display !== 'name' ? 'group' : 'attendee')));
 
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
@@ -74,7 +73,6 @@ const Index = ({ speaker, screen }: Props) => {
     const [searchQuery, setSearch] = React.useState('')
 
     const [slug] = useParam('slug');
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     useEffect(() => {
         const newTabQueryParam = searchParams.get('tab')
@@ -108,12 +106,6 @@ const Index = ({ speaker, screen }: Props) => {
             }
         }
     }, [tab, category_id]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'attendees' && banner.module_type == 'listing'
-        })
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
 
     useEffect(() => {
         mounted.current = true;
@@ -174,12 +166,7 @@ const Index = ({ speaker, screen }: Props) => {
             setTab('my-attendee');
         }
     }, [screen]);
-
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
-
-    console.log(screen);
+    
     return (
         <>
             <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
@@ -187,7 +174,7 @@ const Index = ({ speaker, screen }: Props) => {
                     {speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee)=>(attendee.alias == 'attendees'))?.name :  modules?.find((attendee)=>(attendee.alias == 'my-attendee-list'))?.name) : modules?.find((speaker)=>(speaker.alias == 'speakers'))?.name}
                 </Text>
                 <Spacer />
-                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
@@ -211,9 +198,9 @@ const Index = ({ speaker, screen }: Props) => {
                                 w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                    ALL
+                                {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
                             </Button>}
-                            <Button 
+                            <Button
                                 onPress={() => {
                                     setTab('my-attendee')
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
@@ -229,7 +216,8 @@ const Index = ({ speaker, screen }: Props) => {
                                 bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                MY ATTENDEES
+                                
+                                {modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
                             </Button>
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
                                 <Button 
@@ -247,7 +235,7 @@ const Index = ({ speaker, screen }: Props) => {
                                     w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
                                     _text={{ fontWeight: '600' }}
                                 >
-                                    GROUPS
+                                    {event?.labels?.ATTENDEE_LIST_BY_GROUP}
                                 </Button>
                         }
                     </HStack>}
@@ -360,6 +348,11 @@ const Index = ({ speaker, screen }: Props) => {
                                             <RectangleAttendeeView attendee={attendee} border={attendees.length > 0 && attendees[attendees.length - 1]?.id !== attendee?.id ? 1 : 0} speaker={speaker} />
                                         </React.Fragment>
                              )}
+                            {attendees.length <= 0 &&
+                              <Box p={3} mb="3"  rounded="lg" w="100%">
+                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              </Box>
+                            }
                         </Container>}
                         {(tab === 'group' || tab === 'sub-group') && <Container mb="3" pt={3} rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
@@ -374,6 +367,11 @@ const Index = ({ speaker, screen }: Props) => {
                                     )}
                                 </React.Fragment>
                             )}
+                            {groups.length <= 0 &&
+                              <Box p={3} mb="3" rounded="lg" w="100%">
+                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              </Box>
+                            }
                         </Container>}
                         {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
@@ -382,24 +380,19 @@ const Index = ({ speaker, screen }: Props) => {
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p="3">
-                                    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                <Box p={3} mb="3" rounded="lg" w="100%">
+                                    <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                                 </Box>
                             }
                         </Container>}
                     </>
                 )}
-                <Box width={"100%"} height={"5%"}>
-                    {filteredBanners.map((banner, k) =>
-                          <Image
-                            key={k}
-                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                            alt="Image"
-                            width="100%"
-                            height="100%"
-                          />
-                    )}
-                </Box>
+                {banner_module && 
+                    <Box width={"100%"} height={"5%"}>
+                        <BannerAds module_name={banner_module} module_type={'listing'} />
+                    </Box>
+                }
+                
             </>
             {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('category-listing', processing)) && page > 1 && (
                 <LoadMore />

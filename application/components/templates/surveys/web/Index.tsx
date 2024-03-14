@@ -10,9 +10,9 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import { Survey } from 'application/models/survey/Survey';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-import UseBannerService from 'application/store/services/UseBannerService'
 import UseEnvService from 'application/store/services/UseEnvService'
 import { Banner } from 'application/models/Banner'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
 
@@ -27,20 +27,8 @@ const Index = () => {
     const { FetchSurveys, surveys, completed_surveys, survey_labels } = UseSurveyService();
 
     const { event, modules  } = UseEventService();
-    const { banners, FetchBanners} = UseBannerService();
     const { _env } = UseEnvService()
     const { push } = useRouter()
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
-    useEffect(()=>{
-      const filteredBanner=banners.filter((banner  : Banner)=>{
-        return banner.module_name == 'polls' && banner.module_type == 'listing'
-      })
-
-      setFilteredBanners(filteredBanner);
-    },[query,banners]);
-    React.useEffect(() => {
-      FetchBanners();
-    }, []);
     useEffect(() => {
             FetchSurveys();
     }, []);
@@ -107,7 +95,7 @@ const Index = () => {
                                     {surveys && surveys.length > 0 ? (filteredPendingSurveys.length > 0 ? filteredPendingSurveys.map((survey:Survey)=>(
                                         <RectangleView key={survey.id} survey={survey} completed={false} />
                                     )) : <Box padding={5}>
-                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                                         </Box>
                                     ) : (
                                         <Box padding={5}>
@@ -124,7 +112,7 @@ const Index = () => {
                                     {completed_surveys && completed_surveys.length > 0 ? ( filteredCompletedSurveys.length > 0 ? filteredCompletedSurveys.map((survey:Survey)=>(
                                         <RectangleView key={survey.id} survey={survey} completed={true} />
                                     )) : <Box padding={5}>
-                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                                         </Box> 
                                     ) : (
                                         <Box padding={5}>
@@ -139,15 +127,7 @@ const Index = () => {
                 )
             }
           <Box width={"100%"} height={"5%"}>
-            {filteredBanners.map((banner, k) =>
-              <Image
-                key={k}
-                source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                alt="Image"
-                width="100%"
-                height="100%"
-              />
-            )}
+            <BannerAds module_name={'polls'} module_type={'listing'} />
           </Box>
         </>
         

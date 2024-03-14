@@ -14,6 +14,8 @@ import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleView from 'application/components/atoms/attendees/RectangleView';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
+
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -36,7 +38,7 @@ const Index = () => {
   return (
     <>
         {loading && <SectionLoading />}
-        {(!loading  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
+        {(!loading  && keywords.length <=0 ) && <Text>No keyword found</Text>} 
         {(!loading  && keywords.length > 0 ) && <ManageKeywords 
           keywords={keywords} 
           searchMatchAttendees={searchMatchAttendees} 
@@ -45,6 +47,9 @@ const Index = () => {
           showAttendees={showAttendees}
           setShowAttendees={setShowAttendees}
          />}
+          <Box width={"100%"} height={"5%"}>
+            <BannerAds module_name={'business'} module_type={'listing'} />
+          </Box>    
     </>
   )
 }
@@ -133,7 +138,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                           <RectangleView attendee={attendee} border={searchMatchAttendees.length - 1 == k ? 0 : 1 } speaker={0} disableMarkFavroute/>
                       )}
                     </Box>}              
-                    {!searchingAttendees && !searchMatchAttendees && <Box overflow="hidden" mb={3} bg="primary.box" w="100%" rounded="lg" padding={5}><Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text></Box>} 
+                    {!searchingAttendees && !searchMatchAttendees && <Box overflow="hidden" mb={3} bg="primary.box" w="100%" rounded="lg" padding={5}><Text textTransform="uppercase" fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text></Box>} 
                     {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
                       <Button
                           size="lg"
@@ -196,7 +201,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                     ))}
                     </HStack>
                     <Box w="100%" mb="3">
-                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </Box>
                     <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
                     {filteredkeywords?.length > 0 ? filteredkeywords?.map((keyword:Keyword)=>(
@@ -218,7 +223,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                             </Flex>
                         </React.Fragment>
                     )):(
-                      <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                      <Text textTransform="uppercase" fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
                     )
                   }
                     </Box>

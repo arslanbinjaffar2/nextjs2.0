@@ -11,9 +11,7 @@ import { Poll, Polls } from 'application/models/poll/Poll';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
-import UseEnvService from 'application/store/services/UseEnvService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
 
@@ -26,12 +24,9 @@ const Index = () => {
     const [query, setQuery] = React.useState('');
 
     const { event, modules  } = UseEventService();
-    const { banners, FetchBanners} = UseBannerService();
     const { push } = useRouter()
-    const { _env } = UseEnvService()
 
     const { FetchPolls, polls, completed_polls, poll_labels, polls_count } = UsePollService();
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
 
     useEffect(() => {
@@ -41,16 +36,6 @@ const Index = () => {
 
     const [filteredPendingPolls, setFilteredPendingPolls] = React.useState<string[]>([]);
     const [filteredCompletedPolls, setFilteredCompletedPolls] = React.useState<string[]>([]);
-    useEffect(()=>{
-      const filteredBanner=banners.filter((banner  : Banner)=>{
-        return banner.module_name == 'polls' && banner.module_type == 'listing'
-      })
-
-      setFilteredBanners(filteredBanner);
-    },[query,banners]);
-    React.useEffect(() => {
-      FetchBanners();
-    }, []);
     useEffect(() => {
         
         if(polls_count == 1 && (completed_polls && typeof completed_polls === 'object' && Object.keys(completed_polls).length == 0)){
@@ -120,8 +105,8 @@ const Index = () => {
                             <Input rounded="10" w={['100%',"60%"]} bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
-                            <Button onPress={() => setTab('pending')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>Not attended</Button>
-                            <Button onPress={() => setTab('completed')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>Completed</Button>
+                            <Button onPress={() => setTab('pending')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{poll_labels?.NATIVE_APP_SURVEY_NOT_ATTENDED}</Button>
+                            <Button onPress={() => setTab('completed')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{poll_labels?.NATIVE_APP_SURVEY_COMPLETED}</Button>
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
@@ -136,7 +121,7 @@ const Index = () => {
                                         </React.Fragment>
                                     )) : 
                                         <Box padding={5}>
-                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                                         </Box>
                                     ): (
                                         <Box padding={5}>
@@ -159,7 +144,7 @@ const Index = () => {
                                         </React.Fragment>
                                     )) : 
                                         <Box padding={5}>
-                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                                         </Box>
                                     ): (
                                         <Box padding={5}>
@@ -174,15 +159,7 @@ const Index = () => {
                 )
             }
           <Box width={"100%"} height={"5%"}>
-            {filteredBanners.map((banner, k) =>
-              <Image
-                key={k}
-                source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                alt="Image"
-                width="100%"
-                height="100%"
-              />
-            )}
+            <BannerAds module_name={'polls'} module_type={'listing'} />
           </Box>
         </>
         

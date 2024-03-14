@@ -12,6 +12,7 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
 import { DocumentActions } from '../slices/Document.Slice';
+import { SponsorActions } from 'application/store/slices/Sponsor.Slice'
 
 function* OnGetExhibitors({
     payload,
@@ -28,6 +29,7 @@ function* OnGetExhibitors({
         yield put(ExhibitorActions.updateMyExhibitors(response.data.data.exhibitors!))
     } else {
         yield put(ExhibitorActions.update(response.data.data.exhibitors!))
+        yield put(ExhibitorActions.updateSiteLabels(response.data.data.labels!))
     }
     yield put(ExhibitorActions.updateCategories(response.data.data.exhibitorCategories!))
     yield put(ExhibitorActions.updateSettings(response.data.data.settings!))

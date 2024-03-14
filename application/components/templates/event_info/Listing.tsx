@@ -4,6 +4,7 @@ import RectangleView from 'application/components/atoms/event_info/RectangleView
 import UseInfoService from 'application/store/services/UseInfoService';
 import { Info } from 'application/models/Info';
 import UseEventService from 'application/store/services/UseEventService';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Listing = (props: any) => {
     
@@ -36,13 +37,16 @@ const Listing = (props: any) => {
                 {((info && props?.searchText == '') || (info && props?.searchText == undefined) ) && (info.length > 0  ? info.map((row: any, key: number) =>
                     <RectangleView index={key} key={key} {...row} cms={props.cms} />
                 ): <Box padding={5}>
-                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
             </Box> )}
                 {/* {(filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
                     <RectangleView key={key} {...row} cms={props.cms} />
                 ) : <Box padding={5}>
-                <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
             </Box>)} */}
+            </Box>
+            <Box width={"100%"} height={"5%"}>
+                <BannerAds module_name={'information_pages'} module_type={'listing'} />
             </Box>
         </>
     )

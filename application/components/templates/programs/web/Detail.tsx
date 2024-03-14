@@ -50,11 +50,9 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import WebLoading from 'application/components/atoms/WebLoading';
-
-import UseBannerService from 'application/store/services/UseBannerService';
-import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { id: string }
 
@@ -83,11 +81,6 @@ const Detail = () => {
     const { FetchDocuments } = UseDocumentService();
 
     const { _env } = UseEnvService();
-
-    const { banners, FetchBanners } = UseBannerService();
-
-    const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
 
     React.useEffect(() => {
         if (mounted.current) {
@@ -120,22 +113,6 @@ const Detail = () => {
         return () => { mounted.current = false; };
     }, []);
 
-    React.useEffect(() => {
-
-        const filteredBanner = banners.filter((banner: any) => {
-            return _id == banner.agenda_id;
-        });
-        setFilteredBanner(filteredBanner);
-    }, [banners]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'agendas' && banner.module_type == 'detail'
-        })
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
     return (
         <>
             {in_array('program-detail', processing) ? (
@@ -225,10 +202,6 @@ const Detail = () => {
                             </HStack>
                         )}
 
-                            {filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>
-
-                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="" w="700px" h="100px" rounded={10} />
-                            )}
                         {in_array(tab, ['about']) && (
                             <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
                                 {modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && (
@@ -341,15 +314,7 @@ const Detail = () => {
                         )}
                     </Container>
                     <Box width={"100%"} height={"5%"}>
-                        {filteredBanners.map((banner, k) =>
-                          <Image
-                            key={k}
-                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                            alt="Image"
-                            width="100%"
-                            height="100%"
-                          />
-                        )}
+                        <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
                     </Box>
                     {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />

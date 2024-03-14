@@ -9,7 +9,7 @@ import UseSurveyService from 'application/store/services/UseSurveyService';
 import MobileLoading from 'application/components/atoms/MobileLoading';
 import { Survey } from 'application/models/survey/Survey';
 import {useFocusEffect } from '@react-navigation/native'
-
+import UseEventService from 'application/store/services/UseEventService';
 const Index = () => {
 
     const mounted = React.useRef(false);
@@ -21,6 +21,7 @@ const Index = () => {
     const [query, setQuery] = React.useState('');
     
     const { FetchSurveys, surveys, completed_surveys } = UseSurveyService();
+    const { event } = UseEventService();
 
 
     useFocusEffect(React.useCallback(() => {
@@ -38,7 +39,7 @@ const Index = () => {
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                             <Text textTransform="uppercase" fontSize="2xl">Surveys</Text>
                             <Spacer />
-                            <Input rounded="10" w="60%" bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                            <Input rounded="10" w="60%" bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
                             <Button onPress={() => setTab('pending')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.box' : 'primary.darkbox'} w="50%" _text={{ fontWeight: '600' }}>ACTIVE</Button>
