@@ -1,125 +1,24 @@
 import React from 'react'
-import { Box, Container, HStack, Pressable, Icon, Text, VStack, Button, Spacer } from 'native-base'
+import { Box, Container, HStack, Pressable, Icon, Text } from 'native-base';
 import { Detail } from 'application/models/attendee/Detail';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Linking } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
-import Icodocument from 'application/assets/icons/small/Icodocument';
-import Vcfcontact from 'application/assets/icons/small/vcfcontact';
 
 type AppProps = {
-    detail: Detail,
+  detail: Detail,
 }
 
 const ContactInfo = ({ detail }: AppProps) => {
 
-    const { event  } = UseEventService();
+  const { event } = UseEventService();
 
 
-  return (
-    <>
-      <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
-        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
-          <Icodocument width="15px" height="18px" />
-          <Text fontSize="lg">{event?.labels?.ATTENDEE_TAB_CONTACT_INFO}</Text>
-          <Spacer />
-          {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.attendee_type_name !='Attendee' ? (
-            <Pressable>
-              <Vcfcontact width="18px" height="20px" />
-            </Pressable>
-          ) : ''}
-        </HStack>
-        {detail?.attendee_tabs_settings?.map((row: any, key: number) => (
-          <React.Fragment key={key}>
-            {row?.tab_name === 'contact_info' && row?.status == 1 && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && (
-              <VStack px="3" py="2" w="100%" space="3">
-                {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && (
-                  <>
-                    {detail?.detail?.email && detail?.detail?.email !== '' && (
-                      <HStack space="0" alignItems="flex-start">
-                        <Box w="20%">
-                          <Icon size="md" as={AntDesign} name="mail" color={'primary.text'} />
-                        </Box>
-                        <Box w="70%" pl="1">
-                          <Text fontSize="14px">{detail?.detail?.email}</Text>
-                        </Box>
-                      </HStack>
-                    )}
-                    {detail?.detail?.phone && detail?.detail?.phone !== '' && (
-                      <HStack space="0" alignItems="flex-start">
-                        <Box w="20%">
-                          <Icon size="md" as={AntDesign} name="phone" color={'primary.text'} />
-                        </Box>
-                        <Box w="70%" pl="1">
-                          <Text fontSize="14px">{detail?.detail?.phone}</Text>
-                        </Box>
-                      </HStack>
-                    )}
-                  </>
-                )}
-              </VStack>
-            )}
-          </React.Fragment>
-        ))}
-        <Box py="3" px="4" w="100%">
-          <HStack p={2}>
-            {detail?.detail?.info?.facebook && detail?.detail?.info?.facebook && detail?.field_setting?.facebook && detail?.detail?.info?.facebook !== '' && detail?.detail?.info?.facebook !== 'http://' &&  detail?.detail?.info?.facebook !== 'https://' ? (
-              <Pressable
-                onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.facebook}`;
-                  const supported = await Linking.canOpenURL(url);
-                  if (supported) {
-                    await Linking.openURL(url);
-                  }
-                }}>
-                <Icon size="md" as={AntDesign} name="facebook-square" color={'primary.text'} />
-              </Pressable>
-            ) : ''}
-            {detail?.detail?.info?.twitter && detail?.detail?.info?.twitter !== '' && detail?.detail?.info?.twitter !== 'http://' &&  detail?.detail?.info?.twitter !== 'https://' ? (
-              <Pressable
-                onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.twitter}`;
-                  const supported = await Linking.canOpenURL(url);
-                  if (supported) {
-                    await Linking.openURL(url);
-                  }
-                }}>
-                <Icon ml={5} size="md" as={AntDesign} name="twitter" color={'primary.text'} />
-              </Pressable>
-            ) : ''}
-            {detail?.detail?.info?.linkedin && detail?.detail?.info?.linkedin !== '' && detail?.detail?.info?.linkedin !== 'http://' &&  detail?.detail?.info?.linkedin !== 'https://' ? (
-              <Pressable
-                onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.linkedin}`;
-                  const supported = await Linking.canOpenURL(url);
-                  if (supported) {
-                    await Linking.openURL(url);
-                  }
-                }}>
-                <Icon ml={5} size="md" as={AntDesign} name="linkedin-square" color={'primary.text'} />
-              </Pressable>
-            ) : ''}
-            {detail?.detail?.info?.website && detail?.detail?.info?.website !== '' && detail?.detail?.info?.website !== 'http://' &&  detail?.detail?.info?.website !== 'https://' ? (
-              <Pressable
-                onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.website}`;
-                  const supported = await Linking.canOpenURL(url);
-                  if (supported) {
-                    await Linking.openURL(url);
-                  }
-                }}>
-                <Icon ml={5} size="md" as={FontAwesome} name="tv" color={'primary.text'} />
-              </Pressable>
-            ) : ''}
-
-          </HStack>
-        </Box>
-      </Box>
-
-      {/* <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
-            <Box w="100%" p="4" py="5" rounded="10">
-                <HStack space={3}>
+    return (
+        <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%" >
+            <Box w="100%" p="4" py="5" rounded="10" >
+                <HStack space={5}>
                     {detail?.detail?.info?.facebook && detail?.field_setting?.facebook ? (
                         <Pressable
                             onPress={async () => {
@@ -129,7 +28,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                                     await Linking.openURL(url);
                                 }
                             }}>
-                            <IcoFacebook />
+                            <Icon size="md" as={AntDesign} name="facebook-square" color={'primary.secondary'} />
                         </Pressable>
                     ) : ''}
                     {detail?.detail?.info?.twitter && detail?.field_setting?.twitter ? (
@@ -141,7 +40,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                                     await Linking.openURL(url);
                                 }
                             }}>
-                            <IcoTwitterX />
+                            <Icon  size="md" as={AntDesign} name="twitter" color={'primary.secondary'} />
                         </Pressable>
                     ) : ''}
                     {detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin ? (
@@ -153,7 +52,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                                     await Linking.openURL(url);
                                 }
                             }}>
-                            <IcoLinkedIN />
+                            <Icon  size="md" as={AntDesign} name="linkedin-square" color={'primary.secondary'} />
                         </Pressable>
                     ) : ''}
                     {detail?.detail?.info?.website && detail?.field_setting?.website ? (
@@ -165,14 +64,13 @@ const ContactInfo = ({ detail }: AppProps) => {
                                     await Linking.openURL(url);
                                 }
                             }}>
-                            <IcoWebLink />
+                            <Icon  size="md" as={FontAwesome} name="tv" color={'primary.secondary'} />
                         </Pressable>
                     ) : ''}
 
-                </HStack>
-            </Box>
-        </Container> */}
-    </>
+        </HStack>
+      </Box>
+    </Container>
   )
 
 }
