@@ -29,7 +29,8 @@ const LeftBar = () => {
   const { setLoading, scroll } = UseLoadingService();
 
   return (
-    <Center nativeID='ebs-master-left-bar' overflow="auto" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
+    <Center nativeID='ebs-master-left-bar' overflow="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
+      <Center nativeID='ebs-master-left-bar-wrapper'>
       <Box pb="3">
         <Pressable
             w="100%"
@@ -123,6 +124,7 @@ const LeftBar = () => {
           </HStack>
         </Pressable>
       </VStack>
+    </Center>
     </Center>
   );
 
