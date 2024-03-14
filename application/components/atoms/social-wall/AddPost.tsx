@@ -17,7 +17,8 @@ import in_array from "in_array";
 const AddPost = () => {
 
     const { _env } = UseEnvService();
-    const { AddSocialWallPost } = UseSocialWallService();
+    const { AddSocialWallPost ,labels } = UseSocialWallService();
+    console.log(labels)
     const { processing } = UseLoadingService();
     const { response } = UseAuthService();
     const [postData, setpostData] = React.useState<NewPost>({
@@ -149,7 +150,7 @@ const AddPost = () => {
                     overflow="auto"
                     focusOutlineColor="transparent"
                     _focus={{ bg: 'transparent' }}
-                    borderWidth="0" fontSize="md" placeholder="What's on your mind?" autoCompleteType={undefined} />
+                    borderWidth="0" fontSize="md" placeholder={labels?.WHAT_IS_ON_YOUR_MIND} autoCompleteType={undefined} />
             </HStack>
             {/* show only if file is image */}
             {postData.type === 'image' && postData.file_url !== '' && (
