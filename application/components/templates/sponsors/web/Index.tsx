@@ -12,7 +12,6 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { SponsorCategory } from 'application/models/sponsor/SponsorCategory';
 import UseEventService from 'application/store/services/UseEventService';
-import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
@@ -89,9 +88,8 @@ const Index = React.memo(() => {
             {loading ? (
                 <WebLoading />
             ) : (
-
                 <>
-                <NextBreadcrumbs module={module} title={category?.name}/>
+                <NextBreadcrumbs module={module} title={category?.name} />
                 <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>

@@ -57,7 +57,7 @@ const Detail = React.memo(() => {
                 <WebLoading />
             ) : (
                 <>
-                    <NextBreadcrumbs module={module} title={detail?.detail?.name} />
+                   <NextBreadcrumbs module={module} title={detail?.detail?.name} />
                     <Container overflow="hidden" mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" rounded="10">
                         <Container  maxW="100%" w="100%"  rounded="10">
                             <DetailBox detail={detail} />

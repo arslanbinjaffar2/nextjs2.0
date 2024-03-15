@@ -31,10 +31,8 @@ import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT, GENERAL_TIME_FORMAT} from 'application/utils/Globals';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { GroupedHistory, History } from 'application/models/checkInOut/CheckInOut'
-import UseBannerService from 'application/store/services/UseBannerService';
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
-
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const CheckinList = ({type, k, group}: any) => {
 	const [toggle, settoggle] = React.useState(false);
@@ -181,6 +179,9 @@ const Index = () => {
     FetchCheckInOut({showLoading:true});
   }, [])
   
+  
+  const module = modules.find((module) => module.alias === 'checkIn');
+  
   const [tab, setTab] = React.useState<'event'| 'program' | 'group' | 'ticket' | ''>('');
   const [filteredHistory, setFilteredHistory] = React.useState<GroupedHistory[]>([]);
   const [selectedDate, setSelectedDate] = React.useState('');
@@ -238,7 +239,6 @@ const Index = () => {
     }
   }    
 
-  const module = modules.find((module) => module.alias === 'checkIn');
   return (
     <>
       {

@@ -14,14 +14,12 @@ const Index = () => {
 
   const { FetchFloorPlans, floor_plans } = UseFloorPlanService();
   const { event, modules } = UseEventService();
-
-  useEffect(()=>{
-      FetchFloorPlans();
-  },[]);
-
   const module = modules.find((module) => {
     return module.alias === 'plans'
   })
+  useEffect(()=>{
+      FetchFloorPlans();
+  },[]);
 
   return (
     <>

@@ -10,8 +10,8 @@ import LoadMore from 'application/components/atoms/LoadMore';
 import LoadImage from 'application/components/atoms/LoadImage';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
   const { loading, scroll, processing } = UseLoadingService();
