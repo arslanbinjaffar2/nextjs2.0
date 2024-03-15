@@ -14,6 +14,7 @@ export interface SocialWallState {
     last_page: number;
     posts: Post[];
     filters: any[];
+    labels: any[];
     sort_by: string;
 }
 
@@ -22,6 +23,7 @@ const initialState: SocialWallState = {
     posts: [],
     filters: [],
     page: 1,
+    labels:[],
     last_page: 1,
     sort_by: 'id',
 }
@@ -41,6 +43,9 @@ export const socialWallSlice = createSlice({
             const existed: any = current(state.posts);
             state.last_page=action.payload.last_page;
             state.posts = action.payload.page === 1 ? action.payload.posts : [...existed, ...action.payload.posts];
+        },
+        updatelabels(state, action: PayloadAction<any>) {
+            state.labels = action.payload;
         },
         AddSocialWallPost(state, action: PayloadAction<any>){
             
@@ -82,6 +87,7 @@ export const socialWallSlice = createSlice({
 export const SocialWallActions = {
     FetchSocialWallPosts:socialWallSlice.actions.FetchSocialWallPosts,
     update:socialWallSlice.actions.update,
+    labels:socialWallSlice.actions.updatelabels,
     AddSocialWallPost:socialWallSlice.actions.AddSocialWallPost,
     SocialWallPostsUpdated:socialWallSlice.actions.SocialWallPostsUpdated,
     LikeSocialWallPost:socialWallSlice.actions.LikeSocialWallPost,
@@ -101,6 +107,7 @@ export const SelectSocialWallPostDetail = (state: RootState) => state.socialWall
 export const SelectSocialWallFilters = (state: RootState) => state.socialWall.filters
 
 export const SelectPage = (state: RootState) => state.socialWall.page
+export const selectlabels = (state: RootState) => state.socialWall.labels
 export const SelectLastPage = (state: RootState) => state.socialWall.last_page
 export const SelectSortBy = (state: RootState) => state.socialWall.sort_by
 
