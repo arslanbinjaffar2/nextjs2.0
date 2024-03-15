@@ -16,6 +16,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
 import BannerAds from 'application/components/atoms/banners/BannerAds';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 const Index = React.memo(() => {
 
