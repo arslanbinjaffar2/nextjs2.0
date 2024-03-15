@@ -196,6 +196,7 @@ const AddPost = () => {
                         right="25px"
                         top="10px"
                         zIndex="99"
+                        nativeID='zindex-9'
                         rounded="100%"
                         variant="solid"
                         bg={'white'}

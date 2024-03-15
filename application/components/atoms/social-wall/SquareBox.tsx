@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Avatar, Box, HStack, VStack, Text, Image, Spacer, Button, Divider, Center, Menu, Icon, Pressable, Modal, Popover, ScrollView } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
@@ -30,7 +30,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
   const { event } = UseEventService();
-  const { LikeSocialWallPost,labels, SaveSocialWallComment, LikeSocialWallComment, DeleteSocialWallPost } = useSocialWallService();
+  const { LikeSocialWallPost, labels, SaveSocialWallComment, LikeSocialWallComment, DeleteSocialWallPost } = useSocialWallService();
 
   const [activepopup, setactivepopup] = React.useState(false);
   const [modalImage, setModalImage] = useState<string>("")
@@ -101,6 +101,15 @@ const SquareBox = ({ post, index }: AppProps) => {
 
   const handleCommentsSortBy = (sortBy: string) => {
     setCommentsSortBy(sortBy);
+  };
+
+  const commentBoxRef = useRef(null);
+
+  const handleSomeAction = () => {
+    console.log("🚀 ~ handleSomeAction ~ commentBoxRef:", commentBoxRef)
+    if (commentBoxRef.current) {
+      commentBoxRef.current.focusInput();
+    }
   };
 
   return (
@@ -287,9 +296,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                 px={1}
                 py={0}
                 leftIcon={<IcoMessage width="18px" height="18px" />}
-                onPress={() => {
-                  console.log('hello')
-                }}
+                onPress={handleSomeAction}
 
               >
                 {labels?.SOCIAL_WALL_COMMENTS}
@@ -369,12 +376,9 @@ const SquareBox = ({ post, index }: AppProps) => {
 
         <VStack overflowY={'auto'} maxHeight={'250px'}>
           {sortedComments.map((comment: Comment) => {
-            console.log("🚀 ~ comment:", comment)
             const totalReplies: number = comment.replies.length ? comment.replies.length : 0;
             const visibleReplies = toggleReplay && commnetid === comment.id ? comment.replies.length : hiddenReplies[comment.id] ?? 1;
-            console.log("🚀 ~ {sortedComments.map ~ visibleReplies:", visibleReplies)
             const remainingReplies = totalReplies > 0 ? totalReplies - visibleReplies : 0;
-            console.log("🚀 ~ {sortedComments.map ~ remainingReplies:", remainingReplies)
 
             return <React.Fragment key={comment.id}>
               <Box overflow={'hidden'} w={'100%'}>
@@ -398,7 +402,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                     </Avatar>
                   </Center>
                   <Center w={'calc(100% - 45px)'}>
-                    <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} labels={labels}/>
+                    <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} labels={labels} />
                   </Center>
 
                 </HStack>}
@@ -423,7 +427,7 @@ const SquareBox = ({ post, index }: AppProps) => {
           {/* <Text fontSize="md" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text> */}
           {/* add a input with button */}
           <Center w={'calc(100% - 60px)'}>
-            <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} labels={labels}/>
+            <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} labels={labels} ref={commentBoxRef}/>
           </Center>
 
         </HStack>
