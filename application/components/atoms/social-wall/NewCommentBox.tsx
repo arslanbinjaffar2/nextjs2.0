@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, RefObject } from 'react'
+import React, { useImperativeHandle, ForwardedRef } from 'react'
 import { HStack, Button, Text, Input, Icon, Pressable } from 'native-base'
 import { NewComment } from 'application/models/socialWall/SocialWall'
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -16,7 +16,7 @@ interface NewCommentBoxHandles {
 }
 
 
-const NewCommentBox = ({ post_id, parent_id, saveComment, labels }: AppProps, ref: RefObject<NewCommentBoxHandles>) => {
+const NewCommentBox = ({ post_id, parent_id, saveComment, labels }: AppProps, ref: ForwardedRef<NewCommentBoxHandles>) => {
 
   const [commentData, setCommentData] = React.useState<NewComment>({
     post_id: post_id,
