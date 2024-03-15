@@ -9,6 +9,7 @@ import in_array from "in_array";
 import { Post } from 'application/models/socialWall/SocialWall';
 import { Pressable } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { colorText } from 'application/styles/colors';
 
 type AppProps = {
   attendee_id: number,
