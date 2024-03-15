@@ -103,12 +103,11 @@ const SquareBox = ({ post, index }: AppProps) => {
     setCommentsSortBy(sortBy);
   };
 
-  const commentBoxRef = useRef(null);
+  const commentBoxRef = useRef<{ focusInput: () => void }>(null);
 
   const handleSomeAction = () => {
-    console.log("🚀 ~ handleSomeAction ~ commentBoxRef:", commentBoxRef)
     if (commentBoxRef.current) {
-      commentBoxRef.current.focusInput();
+      commentBoxRef.current?.focusInput();
     }
   };
 
