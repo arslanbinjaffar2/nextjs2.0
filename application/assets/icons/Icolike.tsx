@@ -3,6 +3,7 @@ import Svg, { SvgProps, Defs, ClipPath, Rect, G, Path } from 'react-native-svg';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
 
+
 const IcoLike = (props: SvgProps) => {
   
   const { event } = UseEventService()
