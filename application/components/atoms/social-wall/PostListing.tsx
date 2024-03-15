@@ -57,7 +57,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
                   trigger={triggerProps => {
                 return <Pressable accessibilityLabel="More options menu" {...triggerProps}>
                           <HStack  space="2" alignItems="center">
-                            <Text fontSize="md"> {sortBy === 'id' ? 'Latest Posts' : sortBy === 'comments_count' ? 'Most Discussed Posts' : 'Most Liked Posts'}</Text>
+                            <Text fontSize="md"> {sortBy === 'id' ? labels?.SOCIAL_WALL_LATEST_POSTS : sortBy === 'comments_count' ? 'Most Discussed Posts' : 'Most Liked Posts'}</Text>
                             <Icon as={AntDesign} name="caretdown" color={'primary.text'}  />
                           </HStack>
                       </Pressable>;
