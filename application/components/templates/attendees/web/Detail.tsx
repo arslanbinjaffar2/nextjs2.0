@@ -26,6 +26,7 @@ import ListingLayout2 from 'application/components/molecules/documents/ListingLa
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { Platform } from 'react-native';
 
@@ -61,6 +62,7 @@ const Detail = ({ speaker }: Props) => {
     React.useEffect(() => {
         if (_id) {
             FetchAttendeeDetail({ id: Number(_id), speaker: speaker! });
+         
         }
     }, [_id]);
 
@@ -95,20 +97,22 @@ const Detail = ({ speaker }: Props) => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
-
+    const programModule = modules.find((module) => module.alias === (speaker ? "speakers" : "attendees"));
+    const title = (detail.detail as any)?.full_name || '';
     return (
         <>
             {in_array('attendee-detail', processing) ? (
                 <WebLoading />
             ) : (
                 <>
+                    <NextBreadcrumbs module={programModule} title={title}/>
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Pressable onPress={()=> back() }>
+                            {/* <Pressable onPress={()=> back() }>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                                     <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
                                 </HStack>
-                            </Pressable>
+                            </Pressable> */}
                         <Spacer />
                         <Search tab={tab} />
                     </HStack>

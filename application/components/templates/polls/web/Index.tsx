@@ -11,6 +11,10 @@ import { Poll, Polls } from 'application/models/poll/Poll';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
+import { Banner } from 'application/models/Banner'
+import UseBannerService from 'application/store/services/UseBannerService'
+import UseEnvService from 'application/store/services/UseEnvService'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
@@ -90,7 +94,7 @@ const Index = () => {
         
 
     },[query, completed_polls, polls]);
-    
+    const module = modules.find((module) => module.alias === 'polls');
 
     return (
         <>
@@ -98,6 +102,9 @@ const Index = () => {
                 in_array('poll-listing', processing) ? (
                     <WebLoading />
                 ):(
+
+                    <>
+                    <NextBreadcrumbs module={module} />
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="0" alignItems="center">
                             <Text textTransform="uppercase" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Text>
@@ -156,6 +163,7 @@ const Index = () => {
                             )
                         }
                     </Container>
+                    </>
                 )
             }
           <Box width={"100%"} height={"5%"}>

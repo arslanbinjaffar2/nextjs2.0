@@ -10,6 +10,7 @@ import UseAlertService from 'application/store/services/UseAlertService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Poll } from 'application/models/poll/Poll';
 import { Alert } from 'application/models/alert/Alert';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
@@ -22,7 +23,7 @@ const Index = () => {
     
     const { FetchAlerts, alerts, markAlertRead} = UseAlertService();
 
-
+    const module = modules.find((module) => module.alias === 'alerts');
     useEffect(() => {
             FetchAlerts();
     }, []);
@@ -40,6 +41,8 @@ const Index = () => {
                 loading ? (
                     <WebLoading />
                 ):(
+                    <>
+                    <NextBreadcrumbs module={module} />
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                             <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
@@ -52,6 +55,7 @@ const Index = () => {
                                     ))}
                             </Box>
                     </Container>
+                    </>
                 )
             }
             <Box width={"100%"} height={"5%"}>

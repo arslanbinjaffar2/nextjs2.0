@@ -18,6 +18,7 @@ import in_array from 'in_array'
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseEnvService from 'application/store/services/UseEnvService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 
@@ -35,7 +36,7 @@ const Detail = React.memo(() => {
     
     const { clearState, documents } = UseDocumentService();
 
-    const { event } = UseEventService();
+    const { event, modules } = UseEventService();
 
     const { back } = useRouter();
 
@@ -49,22 +50,14 @@ const Detail = React.memo(() => {
             clearState();
         }
     }, [id]);
-
+    const module = modules.find((module) => module.alias === "sponsors");
     return (
         <>
             {loading ? (
                 <WebLoading />
             ) : (
                 <>
-                     <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
-                            <Pressable onPress={()=> back() }>
-                                <HStack space="3" alignItems="center">
-                                    <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                                    <Text fontSize="2xl">{event.labels?.GENERAL_BACK}</Text>
-                                </HStack>
-                            </Pressable>
-                        <Spacer />
-                    </HStack>
+                   <NextBreadcrumbs module={module} title={detail?.detail?.name} />
                     <Container overflow="hidden" mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" rounded="10">
                         <Container  maxW="100%" w="100%"  rounded="10">
                             <DetailBox detail={detail} />
