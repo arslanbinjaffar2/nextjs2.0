@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, Container, HStack, Image, Pressable, Spacer, Text } from 'native-base'
+import { Box, Button, Container, HStack, Image, Pressable, Spacer, Text, Icon, } from 'native-base'
 import { useEffect, useState } from 'react'
 import Search from 'application/components/atoms/programs/Search';
 import SlideView from 'application/components/molecules/programs/SlideView';
@@ -12,16 +12,17 @@ import TrackRectangleDetailView from 'application/components/atoms/programs/trac
 import LoadMore from 'application/components/atoms/LoadMore';
 import UseEventService from 'application/store/services/UseEventService';
 import { Platform, useWindowDimensions } from 'react-native';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
     
     const mounted = React.useRef(false);
-    
+
     const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track, parent_track, ResetTracks } = UseProgramService();
-    
+
     const { loading, scroll, processing } = UseLoadingService();
-    
+
     const { response } = UseAuthService();
     const { event, modules  } = UseEventService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
@@ -31,7 +32,7 @@ const Index = () => {
         if (mounted.current) {
             if (in_array(tab, ['program', 'my-program'])) {
                 FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
-                FetchPrograms({ page: 1, query: '', screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: track_id });                
+                FetchPrograms({ page: 1, query: '', screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: track_id });
             } else if (tab === "track") {
                 FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
             }
@@ -57,23 +58,27 @@ const Index = () => {
     }
 
     React.useEffect(() => {
-        if(event?.agenda_settings?.agenda_list == 1){
+        if (event?.agenda_settings?.agenda_list == 1) {
             FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
-        }else{
+        } else {
             FetchPrograms({ query: '', page: 1, screen: tab, id: 0, track_id: 0 });
         }
     }, []);
-
+    const module = modules.find((module) => module.alias === 'agendas');
     return (
         <>
+            <NextBreadcrumbs module={module} />
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 {width > 480 &&
-                <>
-                <Text textTransform="uppercase" fontSize="2xl">{modules?.find((programTitle)=>(programTitle.alias == 'agendas'))?.name ?? ''}</Text>
-                <Spacer />
-                </>}
+                    <>
+                        <Text textTransform="uppercase" fontSize="2xl">{modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}</Text>
+                        <Spacer />
+                    </>}
                 {event?.eventsite_settings?.agenda_search_filter == 1 && <Search tab={tab} />}
             </HStack>
+          
+            
+
             <HStack mb="3" space={1} justifyContent="center" w="100%">
                 {(event?.agenda_settings?.agenda_list == 0 || event?.agenda_settings?.agenda_tab == 1) && <Button onPress={() => {
                     ResetTracks();
@@ -87,12 +92,12 @@ const Index = () => {
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack mb="3" pt="2" w="100%" space="3">
-                    <Text flex="1" textTransform="uppercase" fontSize="xs">{track.parent_id !== 0 ?  `${parent_track.name}   >   ${track?.name}` : track?.name}</Text>
+                    <Text flex="1" textTransform="uppercase" fontSize="xs">{track.parent_id !== 0 ? `${parent_track.name}   >   ${track?.name}` : track?.name}</Text>
                     <Pressable
                         onPress={async () => {
                             if (in_array(tab, ['track', 'track-program', 'sub-track'])) {
                                 FetchTracks({ page: 1, query: '', screen: tab, track_id: (track?.parent_id !== undefined ? track?.parent_id : 0) });
-                                if(tab === 'track-program'){
+                                if (tab === 'track-program') {
                                     setTab('sub-track');
                                 }
                             } else {
