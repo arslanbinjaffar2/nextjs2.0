@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, FormControl } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, FormControl, Pressable } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images } from 'application/styles';
@@ -10,8 +10,10 @@ import { useRouter } from 'solito/router'
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import validateEmail from 'application/utils/validations/ValidateEmail'
 import AuthLayout from 'application/screens/web/layouts/AuthLayout';
-import { Link } from 'solito/link'
 import UseEnvService from 'application/store/services/UseEnvService';
+import { color } from 'native-base/lib/typescript/theme/styled-system';
+import { Link } from 'solito/link'
+
 
 type Inputs = {
     email: string,
@@ -40,7 +42,7 @@ const ResetPasswordRequest = ({ props }: any) => {
             push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
         }
     }, [response.redirect])
-
+    console.log(event)
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
@@ -70,8 +72,11 @@ const ResetPasswordRequest = ({ props }: any) => {
                                     : (error ? error : errors.email?.message)}
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <Link href={`/${event.url}/auth/login`}>
-                            <Text textDecorationLine={'underline'}  w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
+                        <Link  href={`/${event.url}/auth/login`}
+                            className='css-reset-4rbku5'
+                            style={{ color:"white" }}
+                        >
+                                {event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO}{event?.labels?.DESKTOP_APP_LABEL_LOGIN}                
                         </Link>
                         <Button
                             width={'100%'}
