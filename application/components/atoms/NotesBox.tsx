@@ -5,9 +5,10 @@ import UseNoteService from 'application/store/services/UseNoteService';
 import DynamicIcon from 'application/utils/DynamicIcon';
 type AppProps = {
     note_type: string,
-    note_type_id: any
+    note_type_id: any,
+    children?: React.ReactNode
 }
-const NotesBox = ({note_type,note_type_id}:AppProps) => {
+const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
   const { my_note,saving_notes, SaveNote,GetNote,UpdateNote } = UseNoteService();
   const [note, setNote] = React.useState('')
   const [isNewNote, setIsNewNote] = React.useState(true)
@@ -39,7 +40,7 @@ const NotesBox = ({note_type,note_type_id}:AppProps) => {
 
   return (
     <>
-        <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
+        <Box p="0" w="100%" bg={'primary.box'} mb={children ? 0 : 5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
                 <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
                 <Text fontSize="lg">Notes</Text>
@@ -53,9 +54,10 @@ const NotesBox = ({note_type,note_type_id}:AppProps) => {
                 value={note}
                 onChangeText={(text)=>setNote(text)}
                 borderWidth="0" fontSize="md" placeholder="Take note" autoCompleteType={undefined} />
-                <Box justifyContent={'flex-end'} alignItems={'flex-end'}>
+                <HStack justifyContent={'flex-end'} alignItems={'flex-end'} space={2}>
+                    {children}
                     <Pressable onPress={() => save()}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
-                </Box>
+                </HStack>
             </Box>
         </Box>
     </>

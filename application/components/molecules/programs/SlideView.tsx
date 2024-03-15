@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box } from 'native-base';
+import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack } from 'native-base';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
 import WorkshopCollapsableView from 'application/components/atoms/programs/WorkshopCollapsableView';
@@ -10,6 +10,7 @@ import { Platform } from 'react-native';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
+import moment from 'moment';
 
 type AppProps = {
     programs: Program[],
@@ -49,6 +50,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
     }, [currentIndex]);
     
     React.useEffect(() => {
+        console.log(programs, 'programs')
         if(currentIndex !== undefined){
             setDates(programs[currentIndex]);
         }
@@ -58,40 +60,27 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
         
         return (
             <>
+                {programs.length > 0 && <Box mt={'4'} bg={'primary.darkbox'}w={'100%'} p={4}>
+                <HStack space={3} w={'100%'}>
+                    {programs?.map((item: any, index: any) => 
+                        <Pressable key={index} onPress={() => {
+                            setCurrentIndex(index);
+                            setDates(programs[index]);
+                        }}>
+                            <Box justifyContent={'center'} display={'flex'} alignItems={'center'} w={'80px'} h={'80px'} px={2} bg={currentIndex === index ? "secondary.500" : "primary.box"} rounded="md">
+                                <VStack  space="1">
+                                <Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
+                                <Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('D')}</Text>
+                                </VStack>
+                                
+                            </Box>
+                        </Pressable>
+                    )
+                    }
+                </HStack>
+                </Box>}
                 {dates?.length > 0 && currentIndex !== undefined && <>
-                    <HStack my={my !== undefined ? my : 3} py="2" w="100%" bg="primary.darkbox" space="0" alignItems="center">
-                        <Center alignItems="flex-start" w="10%">
-                            {currentIndex > 0 && 
-                                <IconButton
-                                    p="0"
-                                    w="40px"
-                                    variant="transparent"
-                                    icon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
-                                    onPress={() => {
-                                        setCurrentIndex(currentIndex - 1);
-                                        setDates(programs[currentIndex - 1]);
-                                    }}
-                                />
-                            }
-                        </Center>
-                        <Center w="80%">
-                            <Heading fontWeight={500} fontSize="lg">{dates[0]?.heading_date}</Heading>
-                        </Center>
-                        <Center alignItems="flex-end" w="10%">
-                            {(currentIndex < (programs.length - 1)) &&  programs.length > 1 && 
-                                <IconButton
-                                    p="0"
-                                    w="40px"
-                                    variant="transparent"
-                                    icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
-                                    onPress={() => {
-                                        setCurrentIndex(currentIndex + 1);
-                                        setDates(programs[currentIndex + 1]);
-                                    }}
-                                />
-                            }
-                        </Center>
-                    </HStack>
+                    
                     {dates?.map((program: Program, key: number) => {
                         if(program.workshop_programs?.length > 0){
                             let newProgram ={ ...program};
