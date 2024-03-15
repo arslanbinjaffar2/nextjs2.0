@@ -58,7 +58,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
               }}>
               <HStack space="2" alignItems="center">
                 <IcoDashboard width="18" height="18" color={'gray.500'} />
-                <Text color={'gray.500'}>{breadcrumb.label}</Text>
+                <Text>{breadcrumb.label}</Text>
               </HStack>
             </Pressable>
           ) : (
