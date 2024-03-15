@@ -32,7 +32,7 @@ import {GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT, GENERAL_TIME_FORMAT} from 
 import UseAuthService from 'application/store/services/UseAuthService';
 import { GroupedHistory, History } from 'application/models/checkInOut/CheckInOut'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
-
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const CheckinList = ({type, k, group}: any) => {
 	const [toggle, settoggle] = React.useState(false);
@@ -179,6 +179,9 @@ const Index = () => {
     FetchCheckInOut({showLoading:true});
   }, [])
   
+  
+  const module = modules.find((module) => module.alias === 'checkIn');
+  
   const [tab, setTab] = React.useState<'event'| 'program' | 'group' | 'ticket' | ''>('');
   const [filteredHistory, setFilteredHistory] = React.useState<GroupedHistory[]>([]);
   const [selectedDate, setSelectedDate] = React.useState('');
@@ -243,6 +246,7 @@ const Index = () => {
             <WebLoading />
         ):(
             <Container pt="1" maxW="100%" w="100%">
+              <NextBreadcrumbs module={module} />
 							<Box flexDirection="row" w={'100%'} alignItems="center">
 								<HStack mb={3} w={'100%'} space="0" alignItems="center" justifyContent={'center'} pt={4}>
                 <Text mb="0" textTransform="uppercase" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>

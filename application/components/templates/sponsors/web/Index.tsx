@@ -13,6 +13,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { SponsorCategory } from 'application/models/sponsor/SponsorCategory';
 import UseEventService from 'application/store/services/UseEventService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
@@ -22,7 +23,7 @@ const Index = React.memo(() => {
     const { push, back } = useRouter()
 
     const pathname = usePathname()
-    
+
     const searchParams = useSearchParams()
 
     const tabQueryParam = searchParams.get('tab')
@@ -33,10 +34,10 @@ const Index = React.memo(() => {
 
     const createQueryString = React.useCallback(
         (name: string, value: string) => {
-          const params = new URLSearchParams(searchParams.toString())
-          params.set(name, value)
-     
-          return params.toString()
+            const params = new URLSearchParams(searchParams.toString())
+            params.set(name, value)
+
+            return params.toString()
         },
         [searchParams]
     )
@@ -57,7 +58,7 @@ const Index = React.memo(() => {
         FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tabQueryParam == 'category-sponsor') ? categoryIdQueryParam : 0), query: '', screen: 'sponsors' });
         setTab(tabQueryParam !== null ? tabQueryParam : event?.sponsor_settings?.sponsor_list)
     }, [tabQueryParam]);
-    
+
 
     const updateTab = (tab: string) => {
         setTab(tab);
@@ -77,11 +78,17 @@ const Index = React.memo(() => {
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
+    const module = modules.find((module) => module.alias === 'sponsors');
+    const category = categories.find((category) => {
+        return category.id === Number(categoryIdQueryParam)
+    })
     return (
         <>
             {loading ? (
                 <WebLoading />
             ) : (
+                <>
+                <NextBreadcrumbs module={module} title={category?.name} />
                 <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
@@ -181,6 +188,7 @@ const Index = React.memo(() => {
                     )}
                     {/* <BannerView url={''} /> */}
                 </Container>
+                </>
             )}
         </>
     )
