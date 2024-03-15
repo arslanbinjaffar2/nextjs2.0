@@ -18,7 +18,7 @@ type AppProps = {
 const PostListing = ({ attendee_id }: AppProps) => {
     const { loading,scroll, processing } = UseLoadingService();
     const { event  } = UseEventService();
-    const { FetchSocialWallPosts, posts, page, last_page, sort_by } = UseSocialWallService();
+    const { FetchSocialWallPosts,labels, posts, page, last_page, sort_by } = UseSocialWallService();
     const [sortBy, setSortBy] = React.useState<string>(sort_by);
 
     useEffect(()=>{
@@ -62,9 +62,9 @@ const PostListing = ({ attendee_id }: AppProps) => {
                           </HStack>
                       </Pressable>;
               }}>
-                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>Latest Posts</Menu.Item>
-                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>Most Discussed Posts</Menu.Item>
-                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>Most Liked Posts</Menu.Item>
+                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>{labels?.SOCIAL_WALL_LATEST_POSTS}</Menu.Item>
+                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>{labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS}</Menu.Item>
+                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>{labels?.SOCIAL_WALL_MOST_LIKES}</Menu.Item>
                 </Menu>
               </Box>
             </HStack>
