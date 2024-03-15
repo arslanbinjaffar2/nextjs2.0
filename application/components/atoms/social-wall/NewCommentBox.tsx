@@ -8,8 +8,9 @@ type AppProps = {
   post_id: number,
   parent_id: number,
   saveComment: Function,
+  labels?: { SOCIAL_WALL_WRITE_A_REPLY: string };
 }
-const NewCommentBox = ({ post_id,parent_id,saveComment }: AppProps) => {
+const NewCommentBox = ({ post_id,parent_id,saveComment,labels}: AppProps) => {
 
     const [commentData, setCommentData] = React.useState<NewComment>({
         post_id: post_id,
@@ -47,7 +48,7 @@ const NewCommentBox = ({ post_id,parent_id,saveComment }: AppProps) => {
                     }
                   }}
                 ref={inputCommentRef}
-                placeholder={parent_id === 0 ? 'Add New comment' : 'Reply to this comment'}
+                placeholder={parent_id === 0 ? 'Add New comment' : labels?.SOCIAL_WALL_WRITE_A_REPLY}
               />
               {/* <Button
                 variant="unstyled"

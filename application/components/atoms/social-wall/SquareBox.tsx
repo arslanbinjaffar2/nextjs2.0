@@ -398,7 +398,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                     </Avatar>
                   </Center>
                   <Center w={'calc(100% - 45px)'}>
-                    <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} />
+                    <NewCommentBox post_id={post.id} parent_id={comment.id} saveComment={saveComment} labels={labels}/>
                   </Center>
 
                 </HStack>}
@@ -423,7 +423,7 @@ const SquareBox = ({ post, index }: AppProps) => {
           {/* <Text fontSize="md" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text> */}
           {/* add a input with button */}
           <Center w={'calc(100% - 60px)'}>
-            <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} />
+            <NewCommentBox post_id={post.id} parent_id={0} saveComment={saveComment} labels={labels}/>
           </Center>
 
         </HStack>

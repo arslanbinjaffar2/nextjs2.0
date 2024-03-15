@@ -43,7 +43,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
         <>
         <Box w={'100%'}>
             <HStack px={3} py={1} bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
-              <Text fontSize="md" textTransform={'uppercase'}>Post</Text>
+              <Text fontSize="md" textTransform={'uppercase'}>{labels?.SOCIAL_WALL_POST}</Text>
               <Spacer />
               <Box>
                 <Menu
@@ -57,7 +57,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
                   trigger={triggerProps => {
                 return <Pressable accessibilityLabel="More options menu" {...triggerProps}>
                           <HStack  space="2" alignItems="center">
-                            <Text fontSize="md"> {sortBy === 'id' ? labels?.SOCIAL_WALL_LATEST_POSTS : sortBy === 'comments_count' ? 'Most Discussed Posts' : 'Most Liked Posts'}</Text>
+                            <Text fontSize="md"> {sortBy === 'id' ? labels?.SOCIAL_WALL_LATEST_POSTS : sortBy === 'comments_count' ? labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS : labels?.SOCIAL_WALL_MOST_LIKES}</Text>
                             <Icon as={AntDesign} name="caretdown" color={'primary.text'}  />
                           </HStack>
                       </Pressable>;
