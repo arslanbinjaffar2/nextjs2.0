@@ -147,7 +147,6 @@ const Index = React.memo(() => {
                                         setMode('grid')
                                         push(`/${event.url}/sponsors` + '?' + createQueryString('mode', 'grid'))
                                     }}
-
                                 />
                             </HStack>
                             )}
