@@ -24,6 +24,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
+import { Submit_text } from 'application/utils/Globals';
 
 
 type ScreenParams = { id: string }
@@ -47,7 +48,7 @@ const Detail = () => {
 
   const { push } = useRouter()
 
-  const { mySubReg, FetchMySubRegistration, SaveSubRegistration, submitting, skip, setSkip } = UseSubRegistrationService();
+  const { mySubReg, FetchMySubRegistration, SaveSubRegistration, submitting,sucess_message, skip, setSkip } = UseSubRegistrationService();
 
     React.useEffect(() => {
             FetchMySubRegistration();
@@ -58,6 +59,7 @@ const Detail = () => {
 
   return (
     <>
+     
       {(firstLoad||loading || mySubReg == null) ? (
                 <WebLoading />
             ) : (
@@ -65,12 +67,14 @@ const Detail = () => {
               mySubReg={mySubReg}
               SaveSubRegistration={SaveSubRegistration}
               submitting={submitting}
+              sucess_message={sucess_message}
               skip={skip}
               setSkip={setSkip}
               event={event}
               setting_modules={setting_modules}
             />
       )}
+
     </>
   );
 };
@@ -78,7 +82,7 @@ const Detail = () => {
 export default Detail;
 
 
-function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, event, setting_modules}:any) {
+function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, event, setting_modules, sucess_message }:any) {
 
   const [formData, setFormData] = useState<FormData>(mySubReg?.questions?.question
     .reduce(
@@ -118,7 +122,6 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
   const [errors, setErrors] = useState<FormData>({});
   const [updates, setUpdates] = useState(0);
   const [submitcount, setsubmitcount] = useState(0);
-
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
 
   
@@ -307,12 +310,15 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
   }
   return (
     <Container mb="3" maxW="100%" w="100%">
+
+      
     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
       <Text isTruncated pr="6" fontSize="lg">{setting_modules?.find((module: { alias: string; })=>(module.alias == 'subregistration'))?.name ?? 'Subregistration'}</Text>
     </HStack>
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
       <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
     </HStack>
+    {}
      <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
       {mySubReg?.questions?.question.length! > 0 &&  mySubReg?.questions?.question.map((item:any, index:any)=>(
           <React.Fragment key={item.id}>
@@ -328,19 +334,22 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
       )) }
       <Box py="0" px="4" w="100%">
         <Divider mb="15" opacity={0.27} bg="primary.text" />
-        <HStack mb="3" space="3" alignItems="center" justifyContent={'center'}>
+        <HStack mb="3" space="3" alignItems="center" justifyContent={'center'} position={'relative'}>
 
             {mySubReg?.settings?.answer === 1 && mySubReg?.show_save === 1 && <Button
-              w="48px"
+              w="90px"
               py="3"
-              px="1"
-              leftIcon={<IcoLongArrow />}
+              px="3"
+              textTransform={'capitalize'}
+              rightIcon={<IcoLongArrow />}
               colorScheme="primary"
               isLoading={submitting}
               onPress={() => {
                onSubmit();
               }}
-            />}
+            />  
+              }
+            {sucess_message && <Text fontSize="lg" position={'absolute'} right={'0'}>successfully Submit</Text>}
         </HStack>
       </Box>
     </Box>
