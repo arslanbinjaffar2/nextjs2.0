@@ -30,7 +30,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
   const { event } = UseEventService();
-  const { LikeSocialWallPost, SaveSocialWallComment, LikeSocialWallComment, DeleteSocialWallPost } = useSocialWallService();
+  const { LikeSocialWallPost,labels, SaveSocialWallComment, LikeSocialWallComment, DeleteSocialWallPost } = useSocialWallService();
 
   const [activepopup, setactivepopup] = React.useState(false);
   const [modalImage, setModalImage] = useState<string>("")
@@ -146,7 +146,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                   }}
 
                 >
-                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>Edit</Menu.Item>
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{labels?.SOCIAL_WALL_LIKE}</Menu.Item>
                   <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>Delete</Menu.Item>
                 </Menu>
               </HStack>
@@ -253,7 +253,7 @@ const SquareBox = ({ post, index }: AppProps) => {
           <Spacer />
           <HStack space="3" alignItems="center" key="commentbtn">
             <HStack space="1" alignItems="center">
-              <Text fontSize="sm">{post.comments_count} Comments</Text>
+              <Text fontSize="sm">{post.comments_count} {labels?.SOCIAL_WALL_COMMENT}</Text>
             </HStack>
             {/* <HStack space="1" alignItems="center">
               <Text fontSize="sm">{post.comments_count} Shares</Text>
@@ -275,7 +275,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                   likePost()
                 }}
               >
-                <Text color={isLiked ? 'primary.500' : 'primary.text'}>Like</Text>
+                <Text color={isLiked ? 'primary.500' : 'primary.text'}>{labels?.SOCIAL_WALL_LIKE}</Text>
 
               </Button>
             </Center>
@@ -292,7 +292,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                 }}
 
               >
-                Comments
+                {labels?.SOCIAL_WALL_COMMENTS}
               </Button>
             </Center>
             {/* <Center flex={1} alignItems={'flex-end'}>
