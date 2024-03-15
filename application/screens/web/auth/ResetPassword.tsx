@@ -60,7 +60,7 @@ const ResetPassword = ({ props }: any) => {
             push(`/${event.url}/dashboard`)
         }
     }, [response.redirect])
-
+    console.log(event.labels.DESKTOP_APP_LABEL_GO_BACK_TO,"label")
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
@@ -98,7 +98,7 @@ const ResetPassword = ({ props }: any) => {
                         </FormControl.ErrorMessage>
                     </FormControl>
                     <Link href={`/${event.url}/auth/login`}>
-                        <Text textDecorationLine={'underline'}  fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
+                        <Text textDecorationLine={'underline'} fontSize='md' lineHeight='sm'>{`${event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO} ${event?.labels?.DESKTOP_APP_LABEL_LOGIN}`}</Text>
                     </Link>
                     <Button
                         isLoading={processing}
