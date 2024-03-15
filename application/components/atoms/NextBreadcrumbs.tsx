@@ -41,7 +41,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
     push(`/${event.url}/${alias}`);
   };
 
-  const color = title ? 'gray.500' : 'primary.text';
+  const color = title ? 'primary.text' : 'primary.text';
 
   return (
     <HStack w={'100%'} py={2} alignItems="center">
@@ -57,7 +57,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
                 handlePress(breadcrumb.alias);
               }}>
               <HStack space="2" alignItems="center">
-                <IcoDashboard width="18" height="18" color={'gray.500'} />
+                <IcoDashboard width="18" height="18" color={'primary.text'} />
                 <Text>{breadcrumb.label}</Text>
               </HStack>
             </Pressable>
