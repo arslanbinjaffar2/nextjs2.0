@@ -1,0 +1,170 @@
+{
+  "settings": {
+    "title": "Shopping mall",
+    "csv": "",
+    "height": 900,
+    "hoverTooltip": true,
+    "deeplinking": true,
+    "scope": "#container",
+    "sidebar": false,
+    "rightSidebar": true,
+    "toggleSidebar": true,
+    "thumbnails": true,
+    "sidebarWidth": "300px",
+    "sidebarClosed": false,
+    "ordered": true,
+    "orderBy": "title",
+    "portrait": 480,
+    "maxZoom": 4,
+    "mapWidth": 1000,
+    "mapHeight": 900,
+    "animations": false,
+    "filters": true,
+    "filtersOpened": false,
+    "layer": "first",
+    "location": null,
+    "searchdescription": true,
+    "searcheverywhere": true,
+    "searchfields": ["title", "about", "category", "type"],
+    "css": ".mapplic-thumbnail > img {\r\n\tfilter: grayscale(100%);\r\n\topacity: 0.5;\r\n}\r\n\r\n.mapplic-dir-item:hover .mapplic-thumbnail img,\r\n.mapplic-dir-item.mapplic-active .mapplic-thumbnail img {\r\n\tfilter: grayscale(0%);\r\n\topacity: 1;\r\n}\r\n\r\n.mapplic-thumbnail > img {\r\n    object-fit: contain;\r\n}\r\n\r\n.mapplic-popup-image > img {\r\n    object-fit: contain;\r\n    padding: 8px;\r\n    box-sizing: border-box;\r\n}",
+    "primaryColor": "#1476FF",
+    "fullscreen": "bottom-left",
+    "layerSwitcher": "top-right",
+    "resetButton": "bottom-right",
+    "zoomButtons": "bottom-right",
+    "zoom": true,
+    "geo": false,
+    "groupBy": true,
+    "filtersAlwaysVisible": false,
+    "csvEnabled": false,
+    "moreText": "Visit",
+    "mouseWheel": true,
+    "wayfinding": false,
+    "wayfindingSpeed": 3,
+    "wayfindingAccessibility": false,
+    "wayfindingControls": "top-left",
+    "wayfindingSmoothing": 4,
+    "wayfindingLineColor": "#e62051",
+    "wayfindingOpened": false,
+    "hoverAbout": false,
+    "wayfindingFixedFrom": "",
+    "iconfile": "https://stage.eventbuizz.com/_admin_assets/js/mapplic/images/icons.svg"
+  },
+  "layers": [
+    {
+      "id": "first",
+      "name": "First Floor",
+      "file": "https://stage.eventbuizz.com/assets/floorplans/image_11062163731677755347.png",
+      "mapWidth": 2000,
+      "mapHeight": 2000
+    }
+  ],
+  "locations": [
+    {
+      "image": "https://stage.eventbuizz.com/_admin_assets/images/sponsor-placeholder.png",
+      "group": "goldsponsor-1433,mediapartners-1438",
+      "id": "s205",
+      "cat_type": "sponsor",
+      "title": "L-Charge",
+      "color": "#002F65",
+      "zoom": "7.5113",
+      "layer": "first",
+      "desc": "<p class='ebs-category-json'><em class='rounded-circle d-inline-block' style='background-color: #6e40db;width: 10px; height: 10px;'></em>Silver Sponsors</p>",
+      "coord": [0.4535, 0.3676],
+      "about": "44",
+      "link": "https://stage.eventbuizz.com/_admin_assets/images/sponsor-placeholder.png",
+      "style": "marker",
+      "type": "pin2"
+    },
+    {
+      "image": "https://stage.eventbuizz.com/assets/sponsors/124754_image_14525462391685710002.png",
+      "group": "goldsponsor-1434,mediapartners-2",
+      "id": "s206",
+      "cat_type": "exhibitor",
+      "title": "L-Charge exhibitor",
+      "color": "#000000",
+      "zoom": "7.5113",
+      "layer": "first",
+      "desc": "<p class='ebs-category-json'><em class='rounded-circle d-inline-block' style='background-color: #6e40db;width: 10px; height: 10px;'></em>Silver Sponsors</p>",
+      "coord": [0.3535, 0.3676],
+      "about": "44",
+      "link": "https://stage.eventbuizz.com/assets/sponsors/124754_image_14525462391685710002.png",
+      "style": "marker",
+      "type": "pin2"
+    }
+  ],
+  "styles": [
+    {
+      "class": "anchor",
+      "svg": true,
+      "hover-color": "#666",
+      "base-color": "#888",
+      "active-color": "#555"
+    },
+    {
+      "class": "store",
+      "stroke-width": 1,
+      "hover-color": "#fafafa",
+      "active-color": "#ffffff",
+      "svg": true,
+      "active-stroke": "#6082cc",
+      "base-color": "#e8e8e8",
+      "hover-stroke": "#a0b5e2"
+    }
+  ],
+  "groups": [
+    {
+      "id": "goldsponsor-1433",
+      "name": "Gold Sponsor",
+      "color": "#002F65",
+      "type": "sponsor"
+    },
+    {
+      "id": "mediapartners",
+      "name": "Department Store",
+      "color": "#002F65",
+      "type": "sponsor"
+    },
+    {
+      "id": "goldsponsor-1434",
+      "name": "Gold Sponsor",
+      "color": "#002F65",
+      "type": "exhibitor"
+    },
+    {
+      "id": "mediapartners-2",
+      "name": "Department Store",
+      "color": "#002F65",
+      "type": "exhibitor"
+    }
+  ],
+  "breakpoints": [
+    {
+      "name": "all-screens",
+      "below": 8000,
+      "portrait": false,
+      "type": "list",
+      "column": 1,
+      "sidebar": 280,
+      "container": 900
+    },
+    {
+      "name": "tablet",
+      "below": 860,
+      "portrait": true,
+      "column": 3,
+      "sidebar": 200,
+      "container": 400,
+      "type": "grid"
+    },
+    {
+      "name": "mobile",
+      "below": 480,
+      "portrait": true,
+      "container": 460
+    }
+  ],
+  "filters": [
+   
+  ]
+}
