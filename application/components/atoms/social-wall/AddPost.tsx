@@ -9,6 +9,7 @@ import UseSocialWallService from 'application/store/services/UseSocialWallServic
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEnvService from 'application/store/services/UseEnvService';
+import WebLoading from 'application/components/atoms/WebLoading';
 
 
 import in_array from "in_array";
@@ -110,6 +111,7 @@ const AddPost = () => {
     const inputContentRef = React.useRef<HTMLInputElement | null>(null);
 
     return (
+			<>
         <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
             {/* <IconButton
                 w="30px"
@@ -281,10 +283,13 @@ const AddPost = () => {
                     </Button>
                 </Center>
             </HStack>
-            {(in_array('social_wall_save_post', processing)) && (
-                <Text>Posting....</Text>
-            )}
         </Box>
+            {(in_array('social_wall_save_post', processing)) && (
+							<Box justifyContent={'center'} alignItems={'center'} mb={3}>
+                <WebLoading />
+							</Box>
+            )}
+			</>
     )
 
 }
