@@ -889,11 +889,12 @@ const Selectstyles2 = {
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.SPOKEN_LANGUAGE}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
+                                {console.log(setting.is_editable)}
                             <DropDown
                                 label={labels?.SPOKEN_LANGUAGE}
                                 listitems={languages}
                                 required={false}
-                                isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                isDisabled={setting.is_editable === 1 ? false : true}
                                 isMulti={true}
                                 selected={
                                     attendeeData.SPOKEN_LANGUAGE &&

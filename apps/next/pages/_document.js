@@ -202,6 +202,9 @@ body {
   border-color: transparent !important;
   color: #fff !important;
 }
+.wrapper-select.isDisabled {
+  pointer-events: none;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {
