@@ -64,7 +64,7 @@ const SocketHandler = () => {
           })
       });
       
-      socketConnect.on(`event-buizz:news_and_updates_alert_${event?.id}`, function (data:any):any {
+      socketConnect.on(`event-buizz:news_and_updates_alert_${event?.id}_${response?.attendee_detail?.id}`, function (data:any):any {
           console.log(data, 'data');
           AddNotification({
               notification:{
