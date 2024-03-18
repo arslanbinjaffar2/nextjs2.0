@@ -43,35 +43,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
     return (
         <>
         <Box w={'100%'}>
-            <HStack px={3} py={1} bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
-              <Text fontSize="md" textTransform={'uppercase'}>{labels?.SOCIAL_WALL_POST}</Text>
-              <Spacer />
-              <Box>
-                <Menu
-                  placement="bottom right"
-                  bg="primary.boxsolid"
-                  borderWidth={1}
-                  borderColor="#707070"
-                  shouldFlip={true}
-                  w={180}
-                  crossOffset={0}
-                  trigger={triggerProps => {
-                return <Pressable accessibilityLabel="More options menu" {...triggerProps}>
-                          <HStack  space="2" alignItems="center">
-                            <Text fontSize="md"> {sortBy === 'id' ? labels?.SOCIAL_WALL_LATEST_POSTS : sortBy === 'comments_count' ? labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS : labels?.SOCIAL_WALL_MOST_LIKES}</Text>
-                            <Icon as={AntDesign} name="caretdown" color={'primary.text'}  />
-                          </HStack>
-                      </Pressable>;
-              }}>
-                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>{labels?.SOCIAL_WALL_LATEST_POSTS}</Menu.Item>
-                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>{labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS}</Menu.Item>
-                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>{labels?.SOCIAL_WALL_MOST_LIKES}</Menu.Item>
-                </Menu>
-              </Box>
-            </HStack>
-            
-            
-            {(in_array('social_wall_posts', processing)) && page === 1 ? (
+            {(in_array('social_wall_posts', processing)) && page === 0 ? (
                 <Box  w={'100%'} p="4" rounded="lg">
                   <WebLoading />
                 </Box>
@@ -110,8 +82,8 @@ const PostListing = ({ attendee_id }: AppProps) => {
                         return <SquareBox index={i} key={post.id} post={post} />
                         })}
                 </Box>
-                { posts.length === 0 ? (
-                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                { posts.length ===  0 ? (
+                  <Text bg={'primary.box'} rounded={8} p={3}>{event?.labels?.GENERAL_NO_RECORD}</Text>
                 ): null}
               </>
             )}
