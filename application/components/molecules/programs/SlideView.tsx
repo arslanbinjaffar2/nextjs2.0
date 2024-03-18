@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack } from 'native-base';
-import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
+import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack, View, Spacer } from 'native-base';
+import Slider from "react-slick";
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
 import WorkshopCollapsableView from 'application/components/atoms/programs/WorkshopCollapsableView';
 import WorkshopRectangleDetailView from 'application/components/atoms/programs/workshops/RectangleDetailView';
 import { Program } from 'application/models/program/Program'
 import UseLoadingService from 'application/store/services/UseLoadingService';
-import { Platform } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
@@ -29,7 +30,28 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
     const [dates, setDates] = React.useState<any>([]);
     const [currentIndex, setCurrentIndex] = React.useState<number>();
     const router = useRouter();
-   
+    const {width} = useWindowDimensions();
+    const sliderRef = React.useRef<Slider>(null);
+    const settings = {
+        dots: false,
+        arrows: false,
+        infinite: false,
+        speed: 500,
+        swipe: true,
+        slidesToShow: 6,
+        slidesToScroll: 3,
+        swipeToSlide: false,
+        responsive: [
+            {
+            breakpoint: 600,
+            settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            initialSlide:12
+                }
+            },
+        ]
+    };
     React.useEffect(() => {
         let indexFromQuery= router.asPath.split('currentIndex=')[1];
         const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
@@ -61,22 +83,57 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
         return (
             <>
                 {programs.length > 0 && <Box mt={'4'} bg={'primary.darkbox'}w={'100%'} p={4}>
-                <HStack space={3} w={'100%'}>
-                    {programs?.map((item: any, index: any) => 
-                        <Pressable key={index} onPress={() => {
-                            setCurrentIndex(index);
-                            setDates(programs[index]);
-                        }}>
-                            <Box justifyContent={'center'} display={'flex'} alignItems={'center'} w={'80px'} h={'80px'} px={2} bg={currentIndex === index ? "secondary.500" : "primary.box"} rounded="md">
-                                <VStack  space="1">
-                                <Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
-                                <Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('D')}</Text>
-                                </VStack>
-                                
-                            </Box>
-                        </Pressable>
-                    )
-                    }
+                <HStack w={['100%']}>
+                    <View  w={[width - 120,width - 120,'calc(100% - 70px)']}>
+                        <Slider
+                            ref={sliderRef}
+                            {...settings}>
+                        {programs?.map((item: any, index: any) => 
+                            <Pressable key={index} onPress={() => {
+                                setCurrentIndex(index);
+                                setDates(programs[index]);
+                            }}>
+                                <Box justifyContent={'center'} display={'flex'} alignItems={'center'} w={'60px'} h={'60px'} px={2} bg={currentIndex === index ? "secondary.500" : "primary.box"} rounded="md">
+                                    <VStack  space="1">
+                                    <Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
+                                    <Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? "primary.text" : "primary.text"} fontWeight={500}>{moment(item[0]?.date).format('D')}</Text>
+                                    </VStack>
+                                    
+                                </Box>
+                            </Pressable>
+                        )
+                        }
+                    </Slider>
+                </View>
+                <Spacer />
+                {programs.length > 6 && <HStack space="0" alignItems="center">
+                    <Center>
+                        <IconButton
+                            variant="unstyled"
+                            p={1}
+                            icon={<Icon size="md" as={AntDesign} name="left" color="primary.text" />}
+                            onPress={()=>{
+                            if (sliderRef.current) {
+                                sliderRef.current.slickPrev();
+                            }
+                            }}
+                        />
+                    </Center>
+                    <Center>
+                         <IconButton
+                            variant="unstyled"
+                             p={1}
+                            icon={<Icon size="md" as={AntDesign} name="right" color="primary.text" />}
+                            onPress={()=>{
+                            if (sliderRef.current) {
+                                sliderRef.current.slickNext();
+                            }
+                            }}
+                        />
+                    </Center>
+                   
+                  </HStack>}
+                
                 </HStack>
                 </Box>}
                 {dates?.length > 0 && currentIndex !== undefined && <>
