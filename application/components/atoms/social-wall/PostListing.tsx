@@ -9,7 +9,8 @@ import in_array from "in_array";
 import { Post } from 'application/models/socialWall/SocialWall';
 import { Pressable } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import UseEventService from '../../../store/services/UseEventService'
+import UseEventService from 'application/store/services/UseEventService'
+import { colorText } from 'application/styles/colors';
 
 type AppProps = {
   attendee_id: number,
@@ -42,35 +43,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
     return (
         <>
         <Box w={'100%'}>
-            <HStack px={3} py={1} bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
-              <Text fontSize="md" textTransform={'uppercase'}>Post</Text>
-              <Spacer />
-              <Box>
-                <Menu
-                  placement="bottom right"
-                  bg="primary.boxsolid"
-                  borderWidth={1}
-                  borderColor="#707070"
-                  shouldFlip={true}
-                  w={180}
-                  crossOffset={0}
-                  trigger={triggerProps => {
-                return <Pressable accessibilityLabel="More options menu" {...triggerProps}>
-                          <HStack  space="2" alignItems="center">
-                            <Text fontSize="md"> {sortBy === 'id' ? 'Latest Posts' : sortBy === 'comments_count' ? 'Most Discussed Posts' : 'Most Liked Posts'}</Text>
-                            <Icon as={AntDesign} name="caretdown" color={'primary.text'}  />
-                          </HStack>
-                      </Pressable>;
-              }}>
-                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>Latest Posts</Menu.Item>
-                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>Most Discussed Posts</Menu.Item>
-                  <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>Most Liked Posts</Menu.Item>
-                </Menu>
-              </Box>
-            </HStack>
-            
-            
-            {(in_array('social_wall_posts', processing)) && page === 1 ? (
+            {(in_array('social_wall_posts', processing)) && page === 0 ? (
                 <Box  w={'100%'} p="4" rounded="lg">
                   <WebLoading />
                 </Box>
@@ -78,17 +51,42 @@ const PostListing = ({ attendee_id }: AppProps) => {
             ):
             (
               <>
+                <HStack px={3} py={1} bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
+                    <Text fontSize="md" textTransform={'uppercase'}>Post</Text>
+                    <Spacer />
+                    <Box>
+                      <Menu
+                        placement="bottom right"
+                        bg="primary.boxsolid"
+                        borderWidth={1}
+                        borderColor="#707070"
+                        shouldFlip={true}
+                        w={180}
+                        crossOffset={0}
+                        trigger={triggerProps => {
+                      return <Pressable accessibilityLabel="More options menu" {...triggerProps}>
+                                <HStack  space="2" alignItems="center">
+                                  <Text fontSize="md"> {sortBy === 'id' ? 'Latest Posts' : sortBy === 'comments_count' ? 'Most Discussed Posts' : 'Most Liked Posts'}</Text>
+                                  <Icon as={AntDesign} name="caretdown" color={'primary.text'}  />
+                                </HStack>
+                            </Pressable>;
+                    }}>
+                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>Latest Posts</Menu.Item>
+                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>Most Discussed Posts</Menu.Item>
+                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>Most Liked Posts</Menu.Item>
+                      </Menu>
+                    </Box>
+                  </HStack>
                 <Box w="100%" key='post-lising'>
                     {posts.map((post:Post, i: number)=>{
                         return <SquareBox index={i} key={post.id} post={post} />
                         })}
                 </Box>
-                { posts.length === 0 ? (
-                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                { posts.length ===  0 ? (
+                  <Text bg={'primary.box'} rounded={8} p={3}>{event?.labels?.GENERAL_NO_RECORD}</Text>
                 ): null}
               </>
-            )
-            }
+            )}
             {(in_array('social_wall_posts', processing)) && page > 1 && (
               <LoadMore />
             )}
