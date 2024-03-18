@@ -11,12 +11,12 @@ import { Linking } from 'react-native';
 import UseEnvService from 'application/store/services/UseEnvService';
 import FileIconByType from 'application/components/atoms/documents/FileIconByType';
 import moment from 'moment';
+import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
 import NotesBoxGeneral from 'application/components/atoms/NotesBox';
 import UseEventService from 'application/store/services/UseEventService';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import DocumentNotesBox from 'application/components/atoms/documents/DocumentNotesBox';
-import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
 
 type AppProps = {
     document: Document,

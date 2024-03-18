@@ -119,6 +119,7 @@ const Detail = () => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
+    const module = modules.find((module) => module.alias === 'agendas');
 
     React.useEffect(() => {
         const showSpeaker=modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && detail?.program?.program_speakers!?.length > 0;
@@ -129,8 +130,6 @@ const Detail = () => {
         
     }, [detail]);
 
-    const module = modules.find((module) => module.alias === 'agendas');
-    
     return (
         <>
             {in_array('program-detail', processing) ? (
