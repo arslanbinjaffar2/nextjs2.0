@@ -97,9 +97,11 @@ const ResetPassword = ({ props }: any) => {
                                 : errors.password_confirmation?.message}
                         </FormControl.ErrorMessage>
                     </FormControl>
+                    <Text nativeID='css-reset-4rbku5' fontSize="md">
                     <Link href={`/${event.url}/auth/login`}>
-                        <Text textDecorationLine={'underline'} fontSize='md' lineHeight='sm'>{`${event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO} ${event?.labels?.DESKTOP_APP_LABEL_LOGIN}`}</Text>
+                       {`${event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO} ${event?.labels?.DESKTOP_APP_LABEL_LOGIN}`}
                     </Link>
+                    </Text>
                     <Button
                         isLoading={processing}
                         onPress={handleSubmit(onSubmit)}

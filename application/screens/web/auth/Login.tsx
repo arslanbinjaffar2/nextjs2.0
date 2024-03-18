@@ -120,10 +120,11 @@ const Login = ({ props }: any) => {
                                         <Text w={'100%'} fontSize='md' lineHeight='sm'>{event.labels.EVENTSITE_DEFAULT_PASSWORD} {event.attendee_settings?.default_password}</Text>
                                     )}
                                     {event.attendee_settings?.hide_password === 0 && event.attendee_settings?.forgot_link === 0 && event.attendee_settings?.authentication === 0 && (
-            
+                                        <Text nativeID='css-reset-4rbku5' fontSize="md" >    
                                         <Link href={`/${event.url}/auth/reset-password-request`} >
                                             {event.labels.EVENTSITE_FORGOT_PASSWORD}
                                         </Link>
+                                        </Text>
                                     )}
                                     <Button
                                         isLoading={processing}

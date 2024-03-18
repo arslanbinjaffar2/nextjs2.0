@@ -13,6 +13,7 @@ import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import UseEnvService from 'application/store/services/UseEnvService';
 import { color } from 'native-base/lib/typescript/theme/styled-system';
 import { Link } from 'solito/link'
+import { getColorScheme } from 'application/styles/colors';
 
 
 type Inputs = {
@@ -42,7 +43,8 @@ const ResetPasswordRequest = ({ props }: any) => {
             push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
         }
     }, [response.redirect])
-    console.log(event)
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+    console.log(colors)
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
@@ -72,12 +74,14 @@ const ResetPasswordRequest = ({ props }: any) => {
                                     : (error ? error : errors.email?.message)}
                             </FormControl.ErrorMessage>
                         </FormControl>
+                        <Text nativeID='css-reset-4rbku5' fontSize="md">
                         <Link  href={`/${event.url}/auth/login`}
-                            className='css-reset-4rbku5'
-                            style={{ color:"white" }}
+                        style={{ color:colors.primary }}
+                           
                         >
                                 {event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO}{event?.labels?.DESKTOP_APP_LABEL_LOGIN}                
                         </Link>
+                        </Text>
                         <Button
                             width={'100%'}
                             isLoading={processing}
