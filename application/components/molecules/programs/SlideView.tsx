@@ -67,10 +67,10 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
                             setCurrentIndex(index);
                             setDates(programs[index]);
                         }}>
-                            <Box justifyContent={'center'} display={'flex'} alignItems={'center'} w={'80px'} h={'80px'} px={2} bg={currentIndex === index ? "secondary.500" : "primary.box"} rounded="md">
+                            <Box justifyContent={'center'} display={'flex'} alignItems={'center'} w={'60px'} h={'60px'} px={2} bg={currentIndex === index ? "secondary.500" : "primary.box"} rounded="md">
                                 <VStack  space="1">
                                 <Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
-                                <Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('D')}</Text>
+                                <Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? "primary.text" : "primary.text"} fontWeight={500}>{moment(item[0]?.date).format('D')}</Text>
                                 </VStack>
                                 
                             </Box>
