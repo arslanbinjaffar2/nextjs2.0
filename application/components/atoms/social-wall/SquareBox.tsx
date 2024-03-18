@@ -88,7 +88,12 @@ const SquareBox = ({ post, index }: AppProps) => {
       }
     });
     setSortedComments(sortedComments)
-  }, [post.comments, commentsSortBy]);
+
+    if (showCommentBox && commentBoxRef.current) {
+      commentBoxRef.current.focusInput();
+    }
+    
+  }, [post.comments, commentsSortBy, showCommentBox]);
 
 
   const handleToggleReplies = (commentId: number) => {
@@ -112,10 +117,10 @@ const SquareBox = ({ post, index }: AppProps) => {
   const commentBoxRef = useRef<{ focusInput: () => void }>(null);
 
   const handleSomeAction = () => {
+    // if (commentBoxRef.current) {
+    //   commentBoxRef.current?.focusInput();
+    // }
     setShowCommentBox(current => !current);
-    if (commentBoxRef.current) {
-      commentBoxRef.current?.focusInput();
-    }
   };
 
   return (
