@@ -11,6 +11,7 @@ import { createParam } from 'solito';
 import LoadImage from 'application/components/atoms/LoadImage';
 import ThemeColors from 'application/utils/ThemeColors';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -89,10 +90,11 @@ const Detail = (props: any) => {
                             {page.pdf && (
                                 <Box mb="3" w="100%"  py="4" borderBottomRadius="10">
                                     <HStack mb="3" bg="primary.darkbox" py="1" px="4" space="2" alignItems="center">
-                                        <Icon color={'primary.text'} as={AntDesign} name="file1" size="md" />
+                                        <DynamicIcon iconType="documents" iconProps={{ width: 23, height: 23 }} />
+                                        {/* <Icon color={'primary.text'} as={AntDesign} name="file1" size="md" /> */}
                                         <Text fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
                                     </HStack>
-                                    <Pressable px="6" w="100%"
+                                    <Pressable px="4" w="100%"
                                         onPress={async () => {
                                             const url = `${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.pdf}`;
                                             const supported = await Linking.canOpenURL(url);
@@ -101,13 +103,14 @@ const Detail = (props: any) => {
                                             }
                                         }}>
 
-                                        <HStack  w="100%" px="4" py="1" space="3" alignItems="center">
+                                        <HStack  w="100%" px="0" py="1" space="3" alignItems="center">
                                             <Icon color={'primary.text'} as={AntDesign} name="pdffile1" size="md" />
                                             <VStack space="0" w={'calc(100% - 100px)'}>
                                                 <Text fontSize="md">{page?.pdf_title ? page?.pdf_title : event?.labels?.PRACTICAL_INFORMATION_VIEW_DOCUMENT}</Text>
                                             </VStack>
                                             <Spacer />
-                                            <Icon as={AntDesign} name="download" size="md" color="primary.text" />
+                                            <DynamicIcon iconType="download" iconProps={{ width: 18, height: 22 }} />
+                                            {/* <Icon as={AntDesign} name="download" size="md" color="primary.text" /> */}
                                         </HStack>
                                     </Pressable>
                                 </Box>
