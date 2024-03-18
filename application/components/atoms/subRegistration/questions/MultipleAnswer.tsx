@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Heading, Text, TextArea, VStack } from 'native-base';
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData, Answer, Settings, Allprogram } from 'application/models/subRegistration/SubRegistration';
 import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
+import {GENERAL_DATE_FORMAT} from 'application/utils/Globals';
+import Comments from 'application/components/atoms/subRegistration/questions/Comments';
 
 type PropTypes = {
   updates:number,
+  onsubmit:number,
   question: Question,
   formData: FormData,
   updateFormData: (question_id:number, type:string, answer:any, index?:number) => void
@@ -16,10 +19,18 @@ type PropTypes = {
   programs:Allprogram[]
 }
 
-const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, programs, canChangeAnswer}: PropTypes) => {
-  const { event } = UseEventService()
+const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, programs, canChangeAnswer, onsubmit}: PropTypes) => {
+  const { event } = UseEventService();
+  const refElement = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (error) {
+      if (refElement.current) {
+        refElement.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "start"  });
+      }
+    }
+  }, [onsubmit])
   return (
-    <Center maxW="100%" w="100%" mb="0">
+    <Center ref={refElement} maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{Number(question?.required_question) === 1 && <Text color="red.500">*</Text>} {question?.info?.[0]?.value}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
@@ -34,25 +45,7 @@ const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, 
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
       </Box>}
-      {Number(question.enable_comments) === 1 &&
-        <>
-        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-          <Icodocument width="15px" height="18px" />
-          <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
-        </HStack>
-        <Box py="3" px="4" w="100%">
-          <TextArea
-            p="3"
-            mb={1}
-            h="100px"
-            bg={'primary.darkbox'}
-            isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false }
-            onChange={(e) => updateFormData(question.id, 'comment', e.currentTarget.valueOf)}
-            onChangeText={(text) => updateFormData(question.id, 'comment', text)}
-            borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
-        </Box>
-        </>
-      }
+      {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
 }
@@ -77,12 +70,13 @@ const checkIfProgramdisabled =  (answer:Answer, result:any[], settings:Settings,
       let thisPrograms = programs.find((item)=>(item.id == pId))!;
       let start_time2:any = thisPrograms.start_time;
       let end_time2:any = thisPrograms.end_time;
-      start_time1 = moment(start_time1,'HH:mm');
-      end_time1 = moment(end_time1, 'HH:mm');
-      start_time2 = moment(start_time2, 'HH:mm');
-      end_time2 = moment(end_time2, 'HH:mm');
-      if(pId != answer.link_to && (moment(thisPrograms.date, 'DD-MM-YYYY').isSame(moment(selectedProgram.date, 'DD-MM-YYYY'))) == true ){
-          if ((start_time1 >= start_time2 && start_time1 < end_time2) || (start_time2 >= start_time1 && start_time2 < end_time1)) {
+      start_time1 = moment(start_time1,'HH:mm:ss');
+      end_time1 = moment(end_time1, 'HH:mm:ss');
+      start_time2 = moment(start_time2, 'HH:mm:ss');
+      end_time2 = moment(end_time2, 'HH:mm:ss');
+      
+      if(pId != answer.link_to && (moment(thisPrograms.date, GENERAL_DATE_FORMAT).isSame(moment(selectedProgram.date, GENERAL_DATE_FORMAT))) == true ){
+          if ((start_time1 >= start_time2 && start_time1 <= end_time2) || (start_time2 >= start_time1 && start_time2 <= end_time1)) {
                   disabled = true;
 
           }

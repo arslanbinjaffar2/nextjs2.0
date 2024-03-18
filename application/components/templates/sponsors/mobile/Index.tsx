@@ -12,6 +12,7 @@ import BannerView from 'application/components/atoms/banners/RectangleView';
 import debounce from 'lodash.debounce';
 import MobileLoading from 'application/components/atoms/MobileLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import UseEventService from 'application/store/services/UseEventService';
 import { Keyboard } from 'react-native';
 
 const Index = React.memo(() => {
@@ -23,7 +24,7 @@ const Index = React.memo(() => {
     const [mode, setMode] = React.useState('grid')
 
     const [searchQuery, setSearch] = React.useState('')
-
+    const { event, modules } = UseEventService();
     const { sponsors, categories, FetchSponsors, category_id, query } = UseSponsorService();
 
     const updateTab = (tab: string) => {
@@ -51,7 +52,7 @@ const Index = React.memo(() => {
         <>
             <Container maxW="100%" h={'93%'} w="100%">
                 <HStack mb="3" w="100%" alignItems="center">
-                    <Input rounded="10" bg="primary.box" borderWidth={0} value={searchQuery} placeholder="Search" onChangeText={(text: string) => {
+                    <Input rounded="10" bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                         search(text);
                         setSearch(text);
                     }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />

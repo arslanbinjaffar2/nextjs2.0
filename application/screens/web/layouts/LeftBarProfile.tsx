@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Center, HStack, Pressable, Text } from 'native-base';
+import { Center, HStack, Pressable, Text, VStack } from 'native-base';
 
 import { useWindowDimensions } from 'react-native';
 
@@ -20,8 +20,9 @@ const LeftBarProfile = () => {
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
-      <Center px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
+      <VStack space={1} px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
         {setting_modules?.map((row: any, key: any) =>
+
           <Pressable
             key={key}
             w="100%"
@@ -33,15 +34,16 @@ const LeftBarProfile = () => {
             onPress={() => {
               router.push(`/${event.url}/settings/${row?.alias}`)
             }}>
+
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <DynamicIcon iconType={'attendees'} iconProps={{ width: 24, height: 21 }} />
+                <DynamicIcon iconType={row?.alias.replace('-','_')} iconProps={{ width: 24, height: 21 }} />
               </Center>
-              <Text fontSize={'lg'} color="primary.text">{row?.name}</Text>
+              <Text fontSize={'lg'} color="primary.text">{row?.name.replace('label','')}</Text>
             </HStack>
           </Pressable>
         )}
-      </Center>
+      </VStack>
     </Center>
   );
 

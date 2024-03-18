@@ -20,7 +20,7 @@ const Index = ({ navigation }: indexProps) => {
 
     const { my_exhibitors, FetchMyExhibitors} = UseExhibitorService();
     const { loading } = UseLoadingService();
-    const { event } = UseEventService();
+    const { event,setting_modules } = UseEventService();
 
     React.useEffect(() => {
         FetchMyExhibitors();
@@ -28,6 +28,9 @@ const Index = ({ navigation }: indexProps) => {
 
     return (
       <>
+        <Box>
+          <Text mb="3" pt="2" w="100%" alignItems="center" fontSize="2xl">{setting_modules?.find((module)=>(module.alias == 'myexhibitors'))?.name ?? 'My exhibitors'}</Text>
+        </Box>
         <Box w="100%">
           <ScrollView h={'53%'} w={'100%'}>
             <HStack
@@ -45,7 +48,7 @@ const Index = ({ navigation }: indexProps) => {
         </Box>
         {!loading && my_exhibitors.length <= 0 && (
           <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
           </Box>
         )}
       </>

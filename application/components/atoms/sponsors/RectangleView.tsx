@@ -7,13 +7,14 @@ import UseSponsorService from 'application/store/services/UseSponsorService';
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
+import { colorText } from 'application/styles/colors';
 
 type AppProps = {
     sponsor: Sponsor,
-    k: number
+    border: number
 }
 
-const RectangleView = ({ k, sponsor }: AppProps) => {
+const RectangleView = ({ border, sponsor }: AppProps) => {
 
     const { settings, MakeFavourite } = UseSponsorService();
 
@@ -22,7 +23,7 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
     const { event } = UseEventService()
 
     return (
-        <Box w="100%" borderBottomWidth={1} borderColor="primary.bordercolor" py="3">
+        <Box w="100%" borderBottomWidth={border} borderColor="primary.bordercolor" py="3">
             <Pressable
                 onPress={async () => {
                     if(sponsor?.url && sponsor?.url !== '' && sponsor.url !== 'http://' && sponsor.url !== 'https://'){
@@ -35,7 +36,7 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
                         push(`/${event.url}/sponsors/detail/${sponsor.id}`)
                     }
                 }}>
-                <HStack pl={["15px",'15px', '30px']} alignItems="center" minH="55px" space={0} justifyContent="flex-start">
+                <HStack pl={["15px",'15px', '25px']} alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                     {/* {event?.sponsor_settings?.catTab == 1 && <Box position="absolute" left="0" top="0" w="15px">
                         <ZStack>
                             {sponsor.categories.length > 0 && sponsor.categories.map((category: Category, i: number) =>
@@ -52,7 +53,7 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
 														<HStack flexWrap={'wrap'} mt="2" space={1}>
 																{settings?.catTab == 1 &&  sponsor.categories.length > 0 && sponsor.categories.slice(0, 3).map((category: Category, i: number) =>(
 																		<Box borderWidth={1} borderColor={'primary.box'} mb="5px" key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
-																				<Text fontSize="sm">{`${category.info.name}`}</Text>
+																				<Text color={colorText(category?.color)} fontSize="sm">{`${category.info.name}`}</Text>
 																		</Box>
 																))}
                             {settings?.catTab == 1 &&  sponsor.categories.length > 3 &&
@@ -71,13 +72,13 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
 																				<Text  fontSize="sm">{`+${ sponsor.categories.length - 3}`}</Text>
 																			</Button>
 																		}}>
-																<Popover.Content bgColor={'primary.500'}>
-																	<Popover.Arrow bgColor={'primary.500'} />
+																<Popover.Content borderColor={'primary.500'}  bgColor={'primary.500'}>
+																	<Popover.Arrow borderColor={'primary.500'}  bgColor={'primary.500'} />
 																	<Popover.Body borderTopWidth="0" bgColor={'primary.500'}>
 																	<HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
-																		{sponsor.categories.length > 3 && sponsor.categories.slice(3).map((category: Category, i: number) =>(
+																		{sponsor.categories.length > 3 && sponsor.categories.map((category: Category, i: number) =>(
                                         <Box borderWidth={1} borderColor={'primary.box'} mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
-                                             <Text  fontSize="sm">{`${category.info.name}`}</Text>
+                                             <Text color={colorText(category?.color)} fontSize="sm">{`${category.info.name}`}</Text>
                                         </Box>
                              				))}
 																	</HStack>
@@ -90,25 +91,27 @@ const RectangleView = ({ k, sponsor }: AppProps) => {
                         </HStack>}
 												</VStack>
              
-                        <HStack  pr="3" space="5" alignItems="center">
+                        <HStack  pr="3" space="4" alignItems="center">
                             {sponsor.booth && (
                                 <Button
-                                    p="1"
+                                    p="0"
                                     leftIcon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 16, height: 16 }} />}
                                     bg="transparent"
                                     onPress={() => {
                                         console.log('hello')
                                     }}
                                 >
-                                    {sponsor.booth}
+                                    <Text isTruncated maxW={'80px'}>{sponsor.booth}</Text>
+																		
                                 </Button>
                             )}
                             {settings?.mark_favorite === 1 && (
                                 <IconButton
                                     bg="transparent"
                                     p="1"
-                                    _hover={{ bg: 'primary.500' }}
-                                    icon={<Icon size="xl" as={Ionicons} name={sponsor.attendee_sponsors.length > 0 ? 'heart' : 'heart-outline'} color="primary.text" />}
+																		rounded={'full'}
+                                    _hover={{ bg: 'transparent', _icon: { color: sponsor.attendee_sponsors.length > 0 ? "primary.text" : "secondary.500",name:  sponsor.attendee_sponsors.length > 0  ? 'heart-outline' : 'heart' } }}
+                                    icon={<Icon size="xl" as={Ionicons} name={sponsor.attendee_sponsors.length > 0 ? 'heart' : 'heart-outline'} color={sponsor.attendee_sponsors.length > 0 ? "secondary.500" :"primary.text" }/>}
                                     onPress={() => {
                                         MakeFavourite({ sponsor_id: sponsor.id, screen: 'listing' });
                                     }}

@@ -28,7 +28,6 @@ const LeftBarMobile = () => {
 
   const { setLoading } = UseLoadingService();
 
-
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
       <Box borderBottomWidth={1} mb="3" w="100%" borderBottomColor={'primary.bordercolor'} pb="3" px="3">
@@ -44,11 +43,12 @@ const LeftBarMobile = () => {
         </Flex>
       </Box>
       <ScrollView w={'100%'} h={height - 150}>
-        <Center px={'0'} w="100%" maxW="100%" >
+        <VStack space={1} px={'0'} w="100%" maxW="100%" >
           <Pressable
             w="100%"
             px="4"
             py="2"
+            bg={`${ router.asPath.includes('/dashboard') && 'primary.500'}`}
             _hover={{ bg: 'primary.500' }}
             borderRadius="4"
             onPress={() => {
@@ -75,8 +75,14 @@ const LeftBarMobile = () => {
                   // setLoading(true);
                   router.push(`/${event.url}/${row?.alias}/event-info/0`)
                 } else if (in_array(row?.alias, ['information_pages'])) {
-                  // setLoading(true);
-                  router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
+                  // setLoading(true); 
+                  
+                  if(row?.section_type === 'link') {
+                    router.push(`${row?.url}`)
+                  } else {
+                    router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
+                  }
+                  
                 } else if (row?.alias === 'my-registrations') {
                   router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
                 } else {
@@ -107,7 +113,7 @@ const LeftBarMobile = () => {
               <Text fontSize={'lg'} color="primary.text">Logout</Text>
             </HStack>
           </Pressable>
-        </Center>
+        </VStack>
     </ScrollView>
     </Center>
   );

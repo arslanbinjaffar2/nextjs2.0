@@ -14,13 +14,16 @@ import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleView from 'application/components/atoms/attendees/RectangleView';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
+
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
 
     const { _env } = UseEnvService();
   
-    const { event  } = UseEventService();
+    const { event, modules  } = UseEventService();
 
     const [showAttendees, setShowAttendees] = useState(false);
 
@@ -36,7 +39,7 @@ const Index = () => {
   return (
     <>
         {loading && <SectionLoading />}
-        {(!loading  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
+        {(!loading  && keywords.length <=0 ) && <Text>No keyword found</Text>} 
         {(!loading  && keywords.length > 0 ) && <ManageKeywords 
           keywords={keywords} 
           searchMatchAttendees={searchMatchAttendees} 
@@ -45,6 +48,9 @@ const Index = () => {
           showAttendees={showAttendees}
           setShowAttendees={setShowAttendees}
          />}
+          <Box width={"100%"} height={"5%"}>
+            <BannerAds module_name={'business'} module_type={'listing'} />
+          </Box>    
     </>
   )
 }
@@ -55,7 +61,7 @@ export default Index
 
 const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, FetchSearchMatchAttendees, showAttendees, setShowAttendees }:{keywords:Keyword[],searchMatchAttendees:Attendee[]|null, searchingAttendees:boolean, FetchSearchMatchAttendees:(payload:any)=>void, showAttendees:boolean, setShowAttendees:React.Dispatch<React.SetStateAction<boolean>>}) => {
   
-  const { event } = UseEventService();
+  const { event, modules } = UseEventService();
   const { _env } = UseEnvService();
 
   const [interestkeywords, setInterestKeywords] = useState(keywords);
@@ -117,15 +123,16 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
   }
 
   const { push } = useRouter()
-
+  const module = modules.find((module) => module.alias === 'business');
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
   return (
     <>
+    <NextBreadcrumbs module={module} />
                 {showAttendees ? (
                     <Container  pt="2" maxW="100%" w="100%" >
                       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                      <Text textTransform="uppercase" fontSize="2xl">Attendees</Text>
+                      <Text textTransform="uppercase" fontSize="2xl">{modules?.find((attendees)=>(attendees.alias == 'attendees'))?.name ?? ""}</Text>
                     </HStack>
                     {searchingAttendees && <SectionLoading/>}
                     {searchMatchAttendees && <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
@@ -133,7 +140,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                           <RectangleView attendee={attendee} border={searchMatchAttendees.length - 1 == k ? 0 : 1 } speaker={0} disableMarkFavroute/>
                       )}
                     </Box>}              
-                    {!searchingAttendees && !searchMatchAttendees && <Box overflow="hidden" mb={3} bg="primary.box" w="100%" rounded="lg" padding={5}><Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text></Box>} 
+                    {!searchingAttendees && !searchMatchAttendees && <Box overflow="hidden" mb={3} bg="primary.box" w="100%" rounded="lg" padding={5}><Text textTransform="uppercase" fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text></Box>} 
                     {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
                       <Button
                           size="lg"
@@ -155,7 +162,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
 
                  )  : (<Container pt="2" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="uppercase" fontSize="2xl">Network interest</Text>
+                    <Text textTransform="uppercase" fontSize="2xl">{modules?.find((network)=>(network.alias == 'business'))?.name ?? ""}</Text>
                     </HStack>
                     <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
                     <Center mb="3" px="1">
@@ -196,7 +203,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                     ))}
                     </HStack>
                     <Box w="100%" mb="3">
-                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </Box>
                     <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
                     {filteredkeywords?.length > 0 ? filteredkeywords?.map((keyword:Keyword)=>(
@@ -218,7 +225,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                             </Flex>
                         </React.Fragment>
                     )):(
-                      <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                      <Text textTransform="uppercase" fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
                     )
                   }
                     </Box>

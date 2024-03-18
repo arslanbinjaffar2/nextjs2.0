@@ -6,9 +6,13 @@ import debounce from 'lodash.debounce';
 import { Keyboard } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
 
+type AppProps = {
+    w?: string,
+}
 
 
-const Search = () => {
+
+const Search = ({  w }: AppProps) => {
 
     const { FilterDocuments, query, documents, document_id } = UseDocumentService();
     const { event, modules  } = UseEventService();
@@ -37,7 +41,7 @@ const Search = () => {
     }, [query])
 
     return (
-        <Input rounded="10" ref={searchInputRef} bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} onChangeText={(text: string) => {
+        <Input w={['100%',w ? w : '60%']}  rounded="10" ref={searchInputRef} bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} onChangeText={(text: string) => {
             search(text, (documents.length > 0 ? (documents[0]?.directory_id !== undefined ? documents[0]?.directory_id : documents[0]?.parent_id) : document_id));
         }} />
     )

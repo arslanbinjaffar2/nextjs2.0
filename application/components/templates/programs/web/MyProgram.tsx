@@ -9,6 +9,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import LoadMore from 'application/components/atoms/LoadMore';
 import UseEventService from 'application/store/services/UseEventService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const MyProgram = () => {
 
@@ -37,10 +38,13 @@ const MyProgram = () => {
         FetchPrograms({ query: '', page: 1, screen: 'my-program', id: response?.data?.user?.id, track_id: 0 });
     }, []);
 
+    const module = modules.find((module) => module.alias === 'myprograms');
+
     return (
         <>
+            <NextBreadcrumbs module={module} />
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'myprograms'))?.name ?? 'My programs'}</Text>
+                <Text textTransform="uppercase" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'myprograms'))?.name ?? ''}</Text>
                 <Spacer />
                 <Search tab={'my-program'} />
             </HStack>

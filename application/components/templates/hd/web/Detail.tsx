@@ -15,6 +15,8 @@ import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { Setting } from 'application/models/hd/Hd';
 import UseSocketService from 'application/store/services/UseSocketService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { id: string }
 
@@ -26,7 +28,7 @@ const Detail = () => {
     const { processing, loading } = UseLoadingService();
     const { _env } = UseEnvService();
 
-    const { event } = UseEventService();
+    const { event, modules } = UseEventService();
 
     const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' >('popular')
 
@@ -129,24 +131,16 @@ const Detail = () => {
         setSpeaker(null);
   
       }
-
+      const module = modules.find((module) => module.alias === 'help_desk');
   return (
     <>
     {
         in_array('hd-detail', processing) ? (
             <WebLoading />
         ):(
+            <>
+            <NextBreadcrumbs module={module} title={hdDetails?.group?.info?.name}/>
             <Container overflow="hidden" mb="4" maxW="100%" w="100%">
-                <HStack mb="1" pt="2" w="100%" space="3" alignItems="center">
-                    <Pressable onPress={()=>{
-                        push(`/${event.url}/help_desk`)
-                    }}>
-                        <HStack  space="3" alignItems="center">
-                            <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text"  />
-                            <Text  fontSize="2xl">BACK</Text>
-                        </HStack>
-                    </Pressable>
-                </HStack>
                 <HStack width={"100%"}  alignItems="center" mb={1}  space={0} justifyContent="flex-start">
                     <Text fontSize="2xl" w={'100%'} textAlign={'center'}  textBreakStrategy='simple' >
                         {hdDetails?.group?.info?.name}
@@ -188,7 +182,7 @@ const Detail = () => {
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
-                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.darkbox' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
+                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
                         ))}
                     </HStack>
                     <Box mb="10" px="5" w="100%" position="relative">
@@ -277,7 +271,7 @@ const Detail = () => {
                                     </HStack>
                                     <HStack space="3" alignItems="flex-start" justifyContent={'space-between'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <div style={{color:'#fff', flex: 1}} dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
+                                            <div className='ebs-iframe-content' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                             {hdSettings.up_vote == 1 && <HStack alignItems={'center'}> 
                                                 <IconButton
                                                     variant="transparent"
@@ -300,8 +294,11 @@ const Detail = () => {
                 </Box>}
                 
                 </Box>
-                
+                <Box width={"100%"} height={"5%"}>
+                    <BannerAds module_name={'help_desk'} module_type={'detail'} />
+                </Box>
             </Container>
+            </>
         )
     }
     </>

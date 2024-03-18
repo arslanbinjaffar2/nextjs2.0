@@ -27,33 +27,32 @@ const DetailBlock = ({ children }: AppProps) => {
 
     return <Container mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
         <Image
-            alt="Alternate Text"
+            alt=""
             size="full"
             w="100%"
             h="160px"
             roundedTop="10"
             mb="5"
-            source={{ uri: `https://wallpaperaccess.com/full/31751.jpg` }}
+            source={{ uri: `${_env.eventcenter_base_url}/assets/programs/${detail?.program?.image}` }}
         />
         <Box w="100%" px="7">
             <HStack w="100%" mb="3" space="3" alignItems="flex-start">
-                <Text maxW="80%" fontSize="xl">{detail?.program?.topic}</Text>
-                <Spacer />
+                <Text maxW="100%" fontSize="xl">{detail?.program?.topic}</Text>
+                {/* <Spacer />
                 {(event?.agenda_settings?.qa == 1 || detail?.program?.qa == 1) && <Pressable
                         onPress={() => {
                             push(`/${event.url}/qa/detail/${detail?.program?.id}`)
                         }}>
 
                             <DynamicIcon iconType="qa" iconProps={{ width: 25, height: 24 }} />
-                        </Pressable>
-                }
+                        </Pressable>} */}
             </HStack>
             <HStack w="100%" mb="3" space="10" alignItems="center">
                 {detail?.program?.start_time && detail?.program?.end_time  && event.agenda_settings?.agenda_display_time == 1 && detail?.program?.hide_time == 0 && (
                     <Text fontSize="md">{moment(`${detail?.program?.date} ${detail?.program?.start_time}`).format('HH:mm')} - {moment(`${detail?.program?.date} ${detail?.program?.end_time}`).format('HH:mm')}</Text>
                 )}
                 {detail?.program?.location && (
-                    <HStack space="3" alignItems="center">
+                    <HStack space="2" alignItems="center">
                         <Icon color="primary.text" size="md" as={Ionicons} name="ios-location-sharp" />
                         <Text pt="2px" fontSize="md">{detail?.program?.location}</Text>
                     </HStack>
@@ -65,7 +64,7 @@ const DetailBlock = ({ children }: AppProps) => {
                         <>
                             <Text mb="3" fontSize="md">Track:
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
-                                        <Box rounded={'full'} mx={2} my={1} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
+                                        <Box rounded={'full'} mx={1} my={1} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
                                     
                                 ))}
                             </Text>

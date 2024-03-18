@@ -10,6 +10,7 @@ import { getColorScheme } from 'application/styles/colors';
 import { createParam } from 'solito';
 import LoadImage from 'application/components/atoms/LoadImage';
 import ThemeColors from 'application/utils/ThemeColors';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -50,14 +51,14 @@ const Detail = (props: any) => {
         <>
             {page && <View w="100%">
                 <ScrollView h={'68%'}>
-                    <HStack borderTopRadius="7" space={0} alignItems="center" w="100%" bg="primary.box" >
-                        <Box w="100%" bg="primary.box" py="4" borderTopRadius="10">
+                    <HStack rounded="10" space={0} alignItems="center" w="100%" bg="primary.box" >
+                        <Box w="100%" bg="primary.box"  rounded="10">
                             {(page.image == '' && page.description == '' && page.pdf == '') &&(
                                 <>
-                                <Text px={4}>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                <Text p={3} mb="3" bg="primary.box" rounded="lg" w="100%">{event?.labels?.GENERAL_NO_RECORD}</Text>
                                 </>
                             )}
-                            {page.image !== '' && page.image_position === 'top' && <HStack w="90%" ml={5} mb={5}>
+                            {page.image !== '' && page.image_position === 'top' && <HStack w="100%" ml={0} mb={5}>
                                 <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%"  />
                             </HStack>}
                             {page?.description != "" && (Platform.OS === 'web' ? (
@@ -86,7 +87,7 @@ const Detail = (props: any) => {
                                 />
                             ))}
                             {page.pdf && (
-                                <Box mb="3" w="100%" bg="primary.box" py="4" borderBottomRadius="10">
+                                <Box mb="3" w="100%"  py="4" borderBottomRadius="10">
                                     <HStack mb="3" bg="primary.darkbox" py="1" px="4" space="2" alignItems="center">
                                         <Icon color={'primary.text'} as={AntDesign} name="file1" size="md" />
                                         <Text fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
@@ -103,7 +104,7 @@ const Detail = (props: any) => {
                                         <HStack  w="100%" px="4" py="1" space="3" alignItems="center">
                                             <Icon color={'primary.text'} as={AntDesign} name="pdffile1" size="md" />
                                             <VStack space="0" w={'calc(100% - 100px)'}>
-                                                <Text fontSize="md">{event?.labels?.PRACTICAL_INFORMATION_VIEW_DOCUMENT}</Text>
+                                                <Text fontSize="md">{page?.pdf_title ? page?.pdf_title : event?.labels?.PRACTICAL_INFORMATION_VIEW_DOCUMENT}</Text>
                                             </VStack>
                                             <Spacer />
                                             <Icon as={AntDesign} name="download" size="md" color="primary.text" />
@@ -121,6 +122,9 @@ const Detail = (props: any) => {
                     {/* <BannerView url={''} /> */}
                 </HStack>
             </View>}
+            <Box width={"100%"} height={"5%"}>
+                <BannerAds module_name={'information_pages'} module_type={'detail'} />
+            </Box>
         </>
     )
 

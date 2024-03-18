@@ -26,10 +26,11 @@ const LeftBar = () => {
 
   const { _env } = UseEnvService();
 
-  const { setLoading } = UseLoadingService();
+  const { setLoading, scroll } = UseLoadingService();
 
   return (
-    <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
+    <Center nativeID='ebs-master-left-bar' overflow="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
+      <Center nativeID='ebs-master-left-bar-wrapper'>
       <Box pb="3">
         <Pressable
             w="100%"
@@ -51,11 +52,12 @@ const LeftBar = () => {
             </Flex>
         </Pressable>
       </Box>
-      <Center px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
+      <VStack space={1} px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
         <Pressable
           w="100%"
           px="4"
           py="2"
+          bg={`${ router.asPath.includes('/dashboard') && 'primary.500'}`}
           _hover={{ bg: 'primary.500' }}
           borderRadius="4"
           onPress={() => {
@@ -83,7 +85,14 @@ const LeftBar = () => {
                 router.push(`/${event.url}/${row?.alias}/event-info/0`)
               } else if (in_array(row?.alias, ['information_pages'])) {
                 // setLoading(true);
-                router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
+                
+                if(row?.section_type === 'link') {
+                  router.push(`${row?.url}`)
+                }else if(row?.section_type === 'page') {
+                  router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
+                } else {
+                  router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
+                }
               } else if (row?.alias === 'my-registrations') {
                 router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
               } else {
@@ -114,7 +123,8 @@ const LeftBar = () => {
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Logout</Text>}
           </HStack>
         </Pressable>
-      </Center>
+      </VStack>
+    </Center>
     </Center>
   );
 

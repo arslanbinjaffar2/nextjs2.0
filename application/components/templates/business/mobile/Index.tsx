@@ -135,9 +135,9 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                                         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
                                           <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
                                             {attendee?.image ? (
-                                              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="Alternate Text" w="50px" h="50px" />
+                                              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
                                             ) : (
-                                              <Image rounded="25" size="5" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="Alternate Text" w="50px" h="50px" />
+                                              <Image rounded="25" size="5" source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }} alt="" w="50px" h="50px" />
                                             )}
                                             <VStack maxW={['62%', '70%', '40%']} space="0">
                                               {(attendee?.first_name || attendee?.last_name) && (
@@ -158,7 +158,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                                   </React.Fragment>
                           </React.Fragment>
                       )}
-                      {!searchingAttendees && !searchMatchAttendees && <Text textTransform="uppercase" fontSize="xl">{event.labels.EVENT_NORECORD_FOUND}</Text>} 
+                      {!searchingAttendees && !searchMatchAttendees && <Text textTransform="uppercase" fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>} 
                     </Box>
                     {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
                       <Button
@@ -222,7 +222,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                     ))}
                     </HStack>
                     <Box w="100%" mb="3">
-                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </Box>
                     <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
                     {filteredkeywords?.length > 0 ? filteredkeywords?.map((keyword:Keyword)=>(

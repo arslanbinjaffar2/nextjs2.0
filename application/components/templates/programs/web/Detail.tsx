@@ -50,10 +50,11 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import WebLoading from 'application/components/atoms/WebLoading';
-
-import UseBannerService from 'application/store/services/UseBannerService';
-import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService';
+import IcoDashboard from 'application/assets/icons/IcoDashboard';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
+
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { id: string }
 
@@ -83,10 +84,8 @@ const Detail = () => {
 
     const { _env } = UseEnvService();
 
-    const { banners, FetchBanners } = UseBannerService();
-
-    const [filteredBanner, setFilteredBanner] = React.useState<Banner[]>([]);
-    const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
+    const [showSpeakers, setshowSpeakers] = React.useState<Boolean>(false);
+    const [showPolls, setshowPolls] = React.useState<Boolean>(false);
 
     React.useEffect(() => {
         if (mounted.current) {
@@ -120,29 +119,24 @@ const Detail = () => {
     }, []);
 
     React.useEffect(() => {
+        const showSpeaker=modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && detail?.program?.program_speakers!?.length > 0;
+        setshowSpeakers(showSpeaker == undefined ? false : showSpeaker);
 
-        const filteredBanner = banners.filter((banner: any) => {
-            return _id == banner.agenda_id;
-        });
-        setFilteredBanner(filteredBanner);
-    }, [banners]);
-    useEffect(()=>{
-        const filteredBanner=banners.filter((banner  : Banner)=>{
-            return banner.module_name == 'agendas' && banner.module_type == 'detail'
-        })
-        console.log('hamza hre',filteredBanner)
-        setFilteredBanners(filteredBanner);
-    },[query,banners]);
-    React.useEffect(() => {
-        FetchBanners();
-    }, []);
+        const showPolls=modules?.find((polls)=>(polls.alias == 'polls')) && detail?.polls_count! > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0;
+        setshowPolls(showPolls == undefined ? false : showPolls);
+        
+    }, [detail]);
+
+    const module = modules.find((module) => module.alias === 'agendas');
     return (
         <>
             {in_array('program-detail', processing) ? (
                 <WebLoading />
             ) : (
                 <>
-                    <HStack pt="2" w="100%" space="3" alignItems="center">
+                    <NextBreadcrumbs module={module} title={detail?.program?.topic}/>
+
+                    {/* <HStack pt="2" w="100%" space="3" alignItems="center">
                         <Pressable onPress={()=> back() }>
                         <HStack space="3" alignItems="center">
                                 <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
@@ -150,24 +144,22 @@ const Detail = () => {
                         </HStack>
                         </Pressable>
                         <Spacer />
-                        {/* <Text isTruncated pr="6" fontSize="lg">{detail?.topic}</Text> */}
-                    </HStack>
-                        <DetailBlock>
-                                <Text>
-                                    <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
-                                </Text>
-                                
-                        </DetailBlock>
+                    </HStack> */}
+                    <DetailBlock>
+                        <Text>
+                            <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
+                        </Text>
+                    </DetailBlock>
                     <Container mb="3" maxW="100%" w="100%">
                         <HStack mb="3" space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
-                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 &&<Button rounded={0} minW={'50%'} flex={1} onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>ABOUT</Button>}
+                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 && (showSpeakers || showPolls) &&<Button rounded={0} minW={'50%'} flex={1} onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>ABOUT</Button>}
                             {event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0 && (
-                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'group' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>GROUPS</Button>
+                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>GROUPS</Button>
                             )}
-                            {modules?.find((polls)=>(polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 && (
-                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'attendee' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>ATTENDEES</Button>
+                            {modules?.find((polls) => (polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 && (
+                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'attendee' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ATTENDEES</Button>
                             )}
-                            {modules?.find((polls)=>(polls.alias == 'documents')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 && (
+                            {modules?.find((polls)=>(polls.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 && (
                                 <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'documents' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>DOCUMENTS</Button>
                             )}
                         </HStack>
@@ -185,13 +177,9 @@ const Detail = () => {
                             </HStack>
                         )}
 
-                            {filteredBanner?.length > 0 && filteredBanner.map((banner: any, key: number) =>
-
-                                <Image source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }} alt="Alternate Text" w="700px" h="100px" rounded={10} />
-                            )}
                         {in_array(tab, ['about']) && (
                             <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
-                                {modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && (
+                                {showSpeakers && (
                                     <>
                                         {detail?.program?.program_speakers!?.length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="speakers" iconProps={{ width: 12, height: 18 }} />
@@ -202,7 +190,7 @@ const Detail = () => {
                                         )}
                                     </>
                                 )}
-                                {modules?.find((polls)=>(polls.alias == 'polls')) && detail?.polls_count! > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
+                                {showPolls && (
                                     <>
                                         {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
@@ -224,16 +212,16 @@ const Detail = () => {
                                                     </HStack>
                                                 </Box>
                                             </Pressable>
-                                        ) 
-                                        // : (
-                                        //     <Box w="100%" py="4">
-                                        //         <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
-                                        //             <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                        //                 <Text fontSize="md">No poll found</Text>
-                                        //             </VStack>
-                                        //         </HStack>
-                                        //     </Box>
-                                        // )
+                                        )
+                                            // : (
+                                            //     <Box w="100%" py="4">
+                                            //         <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                                            //             <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
+                                            //                 <Text fontSize="md">No poll found</Text>
+                                            //             </VStack>
+                                            //         </HStack>
+                                            //     </Box>
+                                            // )
                                         }
                                     </>
                                 )}
@@ -285,7 +273,7 @@ const Detail = () => {
                                 {tab === 'group' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                                     {groups.map((map: any, k: number) =>
                                         <React.Fragment key={`item-box-group-${k}`}>
-                                                <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
+                                            <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
                                             {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
                                                     <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
@@ -301,15 +289,7 @@ const Detail = () => {
                         )}
                     </Container>
                     <Box width={"100%"} height={"5%"}>
-                        {filteredBanners.map((banner, k) =>
-                          <Image
-                            key={k}
-                            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-                            alt="Image"
-                            width="100%"
-                            height="100%"
-                          />
-                        )}
+                        <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
                     </Box>
                     {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />

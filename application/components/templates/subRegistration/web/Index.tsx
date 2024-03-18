@@ -26,8 +26,7 @@ import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 import { error } from 'application/store/slices/Auth.Slice';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 
 type ScreenParams = { id: string }
@@ -59,12 +58,9 @@ const Detail = () => {
   const [formData, setFormData] = useState<FormData>({});
   const [errors, setErrors] = useState<FormData>({});
   const [updates, setUpdates] = useState(0);
-
+  const [submitcount, setsubmitcount] = useState(0);
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
-  const { banners, FetchBanners} = UseBannerService();
-
-  const [filteredBanners, setFilteredBanners] = React.useState<Banner[]>([]);
-
+  const refElement = React.useRef<HTMLDivElement>(null);
   const updateFormData = (question_id:number, type:string, answer:any, index?:number, agendaId?:number) => {
     
     let newErrors = errors;
@@ -134,29 +130,20 @@ const Detail = () => {
           }
       }
     }, [skip]);
-    useEffect(()=>{
-      const filteredBanner=banners.filter((banner  : Banner)=>{
-        return banner.module_name == 'subregistration' && banner.module_type == 'listing'
-      })
 
-      setFilteredBanners(filteredBanner);
-    },[banners]);
-    React.useEffect(() => {
-      FetchBanners();
-    }, []);
     const validate = async () => {
       let error = false;
       let newFormData = errors;
         for(const activeQuestion of afterLogin?.questions?.question!){
         if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!]?.answer !== undefined && formData[activeQuestion?.id!]?.answer !== null)){
           if(activeQuestion?.question_type === 'multiple'){
-            if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer.length <= 0){
+            if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!]?.answer.length <= 0)){
               newFormData[activeQuestion.id!] = {
                   error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
                 };
               error  = true;
             }
-            else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!]?.answer.length < activeQuestion.min_options){
+            else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length !== 0 && formData[activeQuestion?.id!]?.answer.length < activeQuestion.min_options){
               newFormData[activeQuestion.id!] = {
                   error: afterLogin?.labels?.SUB_REGISTRATION_MIN_SELECTION_ERROR
                   .replace(/%q/g, activeQuestion?.info[0]?.value)
@@ -164,7 +151,7 @@ const Detail = () => {
                 };
                 error  = true;
             }
-            else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!]?.answer.length > activeQuestion.max_options){
+            else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length !== 0 && formData[activeQuestion?.id!]?.answer.length > activeQuestion.max_options){
               newFormData[activeQuestion.id!] = {
                   error:afterLogin?.labels?.SUB_REGISTRATION_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString())
                 };
@@ -209,10 +196,12 @@ const Detail = () => {
        }
        setErrors(newFormData);
        setUpdates(updates + 1);
+       setsubmitcount(submitcount + 1);
        return error;
   }
 
     const onSubmit = async ( ) => {
+
       const isError = await validate();
 
       console.log(isError);
@@ -285,25 +274,25 @@ const Detail = () => {
       {loading ? (
                 <WebLoading />
             ) : (
-            <Container mb="3" maxW="100%" w="100%">
+            <Container ref={refElement} mb="3" maxW="100%" w="100%">
+            
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text isTruncated pr="6" fontSize="lg">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
+                <Text isTruncated  fontSize="2xl">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
               </HStack>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Spacer />
-                <Text isTruncated pr="6" fontSize="lg">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
+                <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
               </HStack>
               {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
                 {afterLogin?.questions?.question.length! > 0 &&  afterLogin?.questions?.question.map((item, index)=>(
                     <React.Fragment key={item.id}>
-                    {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
-                    {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer settings={afterLogin.settings!} programs={afterLogin.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'single' && item.display_question === "yes" && <SingleAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'dropdown' && item.display_question === "yes" && <DropdownAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-                    {item.question_type === 'open' && <OpenQuestionAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-                    {item.question_type === 'number' && <NumberAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-                    {item.question_type === 'date' && <DateAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-                    {item.question_type === 'date_time' && <DateTimeAnswer  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
+                    {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer onsubmit={submitcount} settings={afterLogin.settings!} programs={afterLogin.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'single' && item.display_question === "yes" && <SingleAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'dropdown' && item.display_question === "yes" && <DropdownAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'open' && <OpenQuestionAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+                    {item.question_type === 'number' && <NumberAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'date' && <DateAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+                    {item.question_type === 'date_time' && <DateTimeAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
                   </React.Fragment>
                 )) }
                 <Box py="0" px="4" w="100%">
@@ -341,15 +330,7 @@ const Detail = () => {
             </Container>
       )}
       <Box width={"100%"} height={"5%"}>
-        {filteredBanners.map((banner, k) =>
-          <Image
-            key={k}
-            source={{ uri: `${_env.eventcenter_base_url}/assets/banners/${banner.image}` }}
-            alt="Image"
-            width="100%"
-            height="100%"
-          />
-        )}
+        <BannerAds module_name={'subregistration'} module_type={'listing'} />
       </Box>
     </>
   );

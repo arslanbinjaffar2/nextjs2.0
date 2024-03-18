@@ -28,10 +28,9 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
     }
 
     const { event  } = UseEventService();
-
     return (
-        <View w="100%" h="80%">
-            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" flexWrap={'wrap'}>
+        <View w="100%">
+            {!disableTitle && <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" flexWrap={'wrap'}>
                 {!disableTitle && <Pressable
                     onPress={async () => {
                         FilterDocuments({ document_id: 0, query: '' });
@@ -48,15 +47,15 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                                 setBreadCrumbs(FindPath(data, breadcrumb.id));
                             }}>
                             <Center maxW="250px">
-															<Text textTransform="uppercase" fontSize="md" isTruncated>{breadcrumb.name}</Text>
-														</Center>
+                                    <Text textTransform="uppercase" fontSize="md" isTruncated>{breadcrumb.name}</Text>
+                                </Center>
 														
                         </Pressable>
                     </React.Fragment>
                 )}
-            </HStack>
+            </HStack>}
             {Platform.OS === 'web' ? (
-                <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
+                <Box overflow="hidden" w="100%" bg={disableTitle ? "" : "primary.box"} p="0" rounded="10">
                     {filteredDocuments.map((document: Document, key: number) => {
                                return <React.Fragment key={key}>
                                     <RectangleViewLayout2 length={filteredDocuments.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
@@ -65,12 +64,12 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                     )}
                     { filteredDocuments.length <= 0 &&
                         <Box p="3">
-                            <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                            <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                         </Box>
                     }
                 </Box>
             ) : (
-                <Container w="100%" h="90%" bg="primary.box" p="0" rounded="10" maxW={'100%'}>
+                <Container w="100%"  bg={disableTitle ? "" : "primary.box"} p="0" rounded="10" maxW={'100%'}>
                     <ScrollView w={'100%'}>
                         <Box overflow="hidden" w="100%">
                             {filteredDocuments.map((document: Document, key: number) =>

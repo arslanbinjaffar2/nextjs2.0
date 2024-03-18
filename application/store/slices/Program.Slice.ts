@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Program } from 'application/models/program/Program'
+import { Program, ProgramRating } from 'application/models/program/Program'
 
 import { Track } from 'application/models/program/Track'
 
@@ -21,10 +21,12 @@ export interface ProgramState {
     query: string,
     screen: string,
     page: number,
+    total_pages: number,
     id: number,
     track_id: number,
     favouriteProgramError:string,
     agendas_attached_via_group:number[],
+    rating: ProgramRating|null,
 }
 
 const initialState: ProgramState = {
@@ -36,10 +38,12 @@ const initialState: ProgramState = {
     query: '',
     screen: '',
     page: 1,
+    total_pages: 1,
     id: 0,
     track_id: 0,
     favouriteProgramError:'',
     agendas_attached_via_group:[],
+    rating: null,
 }
 
 // Slices
@@ -58,7 +62,7 @@ export const ProgramSlice = createSlice({
                 state.track = {};
             }
         },
-        update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track , agendas_attached_via_group:number[]}>) {
+        update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track , agendas_attached_via_group:number[],total_pages:number}>) {
             const existed: any = current(state.programs);
             console.log(action.payload.programs.reduce((ack, item:any)=>{
                 let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
@@ -81,6 +85,7 @@ export const ProgramSlice = createSlice({
             }, [...existed]);
             state.track = action.payload.track;
             state.agendas_attached_via_group = action.payload.agendas_attached_via_group;
+            state.total_pages = action.payload.total_pages;
         },
         FetchTracks(state, action: PayloadAction<{ query: string, page: number, screen: string, track_id: number }>) {
             state.query = action.payload.query;
@@ -114,6 +119,56 @@ export const ProgramSlice = createSlice({
             state.track = {};
             state.parent_track = {};
         },
+        ToggleFavourite(state, action: PayloadAction<{ program_id: number }>) {
+            const updatedPrograms: any = [...state.programs];
+            let updatedProgram: Program | null = null;
+            let groupIndex: number | null = null;
+            let programIndex: number | null = null;
+
+            for (let i = 0; i < updatedPrograms.length; i++) {
+                const group: Program[] = updatedPrograms[i] as Program[];
+                const foundProgramIndex: number = group.findIndex(program => program.id === action.payload.program_id);
+                if (foundProgramIndex !== -1) {
+                    groupIndex = i;
+                    programIndex = foundProgramIndex;
+                    updatedProgram = { ...group[foundProgramIndex] }; // Create a copy of the found program object
+                    break; // Break out of the loop once the program is found
+                }
+            }
+
+            if (updatedProgram && updatedProgram.program_attendees_attached.length > 0) {
+                updatedProgram = { ...updatedProgram, program_attendees_attached: [] }; // Create a new object with the updated property
+            } else {
+                updatedProgram = {
+                    ...updatedProgram!,
+                    program_attendees_attached: [{ id: 0, attendee_id: 0, agenda_id: action.payload.program_id , added_by: 0, linked_from: '', link_id: 0, created_at: '', updated_at: '', deleted_at: ''}]
+                }; // Create a new object with the updated property
+            }
+
+            if (updatedProgram && groupIndex !== null && programIndex !== null) {
+                // Create a new copy of the group containing the updated program
+                const updatedGroup: Program[] = [...updatedPrograms[groupIndex]];
+                updatedGroup[programIndex] = updatedProgram; // Assign updated program to the found index in the group
+
+                // Create a new copy of the updatedPrograms array with the updated group
+                updatedPrograms[groupIndex] = updatedGroup;
+
+                // Update updatedPrograms with the new array
+                state.programs = updatedPrograms;
+            }
+        },
+        FetchRating(state, action: PayloadAction<{ program_id: number }>) {
+        },
+        SaveRating(state, action: PayloadAction<{ program_id: number, rate:number,comment:string }>) {
+        },
+        UpdateRating(state, action: PayloadAction<{ rating: ProgramRating }>) {
+            if(action.payload.rating){
+                state.rating = action.payload.rating;
+            }else{
+                state.rating = null;
+            }
+        }
+        
     },
 })
 
@@ -128,6 +183,11 @@ export const ProgramActions = {
     UpdateDetail: ProgramSlice.actions.UpdateDetail,
     SetFavouriteProgramError: ProgramSlice.actions.SetFavouriteProgramError,
     ResetTracks: ProgramSlice.actions.ResetTracks,
+    ToggleFavourite: ProgramSlice.actions.ToggleFavourite,
+    FetchRating: ProgramSlice.actions.FetchRating,
+    SaveRating: ProgramSlice.actions.SaveRating,
+    UpdateRating: ProgramSlice.actions.UpdateRating,
+    
 }
 
 export const SelectMyPrograms = (state: RootState) => state.programs.programs
@@ -135,6 +195,8 @@ export const SelectMyPrograms = (state: RootState) => state.programs.programs
 export const SelectQuery = (state: RootState) => state.programs.query
 
 export const SelectPage = (state: RootState) => state.programs.page
+
+export const SelectTotalPages = (state: RootState) => state.programs.total_pages
 
 export const SelectID = (state: RootState) => state.programs.id
 
@@ -151,6 +213,8 @@ export const SelectProgramDetail = (state: RootState) => state.programs.detail
 export const SelectFavouriteProgramError = (state: RootState) => state.programs.favouriteProgramError
 
 export const SelectAgendasAttachedViaGroup = (state: RootState) => state.programs.agendas_attached_via_group
+
+export const SelectRating = (state: RootState) => state.programs.rating
 
 // Reducer
 export default ProgramSlice.reducer

@@ -41,7 +41,7 @@ const Detail = () => {
 
   const { _env } = UseEnvService();
 
-  const { event  } = UseEventService();
+  const { event,setting_modules  } = UseEventService();
 
   const { response  } = UseAuthService();
 
@@ -68,6 +68,7 @@ const Detail = () => {
               skip={skip}
               setSkip={setSkip}
               event={event}
+              setting_modules={setting_modules}
             />
       )}
     </>
@@ -77,7 +78,7 @@ const Detail = () => {
 export default Detail;
 
 
-function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, event}:any) {
+function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, event, setting_modules}:any) {
 
   const [formData, setFormData] = useState<FormData>(mySubReg?.questions?.question
     .reduce(
@@ -116,6 +117,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
     },{}));
   const [errors, setErrors] = useState<FormData>({});
   const [updates, setUpdates] = useState(0);
+  const [submitcount, setsubmitcount] = useState(0);
 
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
 
@@ -176,13 +178,13 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
       for(const activeQuestion of mySubReg?.questions?.question!){
       if(Number(activeQuestion?.required_question) === 1 || (formData[activeQuestion?.id!]?.answer !== undefined && formData[activeQuestion?.id!]?.answer !== null)){
         if(activeQuestion?.question_type === 'multiple'){
-          if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0){
+          if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer.length <= 0)){
             newFormData[activeQuestion.id!] = {
                 error:event.labels.REGISTRATION_FORM_FIELD_REQUIRED
               };
             error  = true;
           }
-          else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
+          else if(activeQuestion.min_options > 0 && formData[activeQuestion?.id!].answer.length !== 0 && formData[activeQuestion?.id!].answer.length < activeQuestion.min_options){
             newFormData[activeQuestion.id!] = {
                 error: mySubReg?.labels?.SUB_REGISTRATION_MIN_SELECTION_ERROR
                 .replace(/%q/g, activeQuestion?.info[0]?.value)
@@ -190,7 +192,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
               };
               error  = true;
           }
-          else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
+          else if(activeQuestion.max_options > 0 && formData[activeQuestion?.id!].answer.length !== 0 && formData[activeQuestion?.id!].answer.length > activeQuestion.max_options){
             newFormData[activeQuestion.id!] = {
                 error:mySubReg?.labels?.SUB_REGISTRATION_MAX_SELECTION_ERROR.replace(/%s/g, activeQuestion.max_options.toString())
               };
@@ -235,6 +237,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
      }
      setErrors(newFormData);
      setUpdates(updates + 1);
+     setsubmitcount(submitcount + 1);
      return error;
 }
 
@@ -305,20 +308,22 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
   return (
     <Container mb="3" maxW="100%" w="100%">
     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-      <Spacer />
-      <Text isTruncated pr="6" fontSize="lg">Subregistration</Text>
+      <Text isTruncated pr="6" fontSize="lg">{setting_modules?.find((module: { alias: string; })=>(module.alias == 'subregistration'))?.name ?? 'Subregistration'}</Text>
+    </HStack>
+      <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+      <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
     </HStack>
      <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
       {mySubReg?.questions?.question.length! > 0 &&  mySubReg?.questions?.question.map((item:any, index:any)=>(
           <React.Fragment key={item.id}>
-          {item.question_type === 'matrix' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MatrixAnswer canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
-          {item.question_type === 'multiple' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MultipleAnswer canChangeAnswer={mySubReg?.show_save} settings={mySubReg.settings!} programs={mySubReg.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-          {item.question_type === 'single' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <SingleAnswer canChangeAnswer={mySubReg?.show_save}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-          {item.question_type === 'dropdown' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DropdownAnswer canChangeAnswer={mySubReg?.show_save}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-          {item.question_type === 'open' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <OpenQuestionAnswer canChangeAnswer={mySubReg?.show_save}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
-          {item.question_type === 'number' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <NumberAnswer  canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-          {item.question_type === 'date' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DateAnswer canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
-          {item.question_type === 'date_time' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DateTimeAnswer canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'matrix' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MatrixAnswer onsubmit={submitcount} canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
+          {item.question_type === 'multiple' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MultipleAnswer onsubmit={submitcount} canChangeAnswer={mySubReg?.show_save} settings={mySubReg.settings!} programs={mySubReg.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+          {item.question_type === 'single' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <SingleAnswer onsubmit={submitcount} canChangeAnswer={mySubReg?.show_save}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+          {item.question_type === 'dropdown' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DropdownAnswer onsubmit={submitcount} canChangeAnswer={mySubReg?.show_save}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'open' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <OpenQuestionAnswer onsubmit={submitcount} canChangeAnswer={mySubReg?.show_save}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error}  />}
+          {item.question_type === 'number' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <NumberAnswer  onsubmit={submitcount} canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'date' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DateAnswer onsubmit={submitcount} canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
+          {item.question_type === 'date_time' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <DateTimeAnswer onsubmit={submitcount} canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
         </React.Fragment>
       )) }
       <Box py="0" px="4" w="100%">

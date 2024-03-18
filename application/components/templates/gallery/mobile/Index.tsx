@@ -7,6 +7,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import MobileLoading from 'application/components/atoms/MobileLoading';
 import {useFocusEffect } from '@react-navigation/native'
 import { GalleryImage } from 'application/models/gallery/GalleryImage';
+import UseEventService from 'application/store/services/UseEventService';
 
 const Index = () => {
   const { loading } = UseLoadingService();
@@ -15,7 +16,7 @@ const Index = () => {
 
   const { FetchGalleryImages, gallery_images } = UseGalleryService();
   const { _env } = UseEnvService();
-
+  const { event} = UseEventService();
 
   useFocusEffect(React.useCallback(() => {
     FetchGalleryImages();
@@ -33,7 +34,7 @@ const Index = () => {
                 <Text textTransform="uppercase" fontSize="2xl">Gallery Mobile</Text>
               </HStack>
               <Box w="100%" bg="primary.box" overflow="hidden" rounded="10px">
-                <Input bg="transparent" rounded="0" w="100%" borderWidth={0} value={query} onChangeText={setQuery} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                <Input bg="transparent" rounded="0" w="100%" borderWidth={0} value={query} onChangeText={setQuery} placeholder={event.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                 <Divider w="100%" bg="primary.text" h="1px" />
                 <VStack mb="10" w="100%" space="0">
                 <Stack direction="row" mb="2.5" mt="1.5" space={3}>
@@ -48,7 +49,7 @@ const Index = () => {
                     }).map((gallery_image:GalleryImage)=>(
                       <Image source={{
                         uri:  `${_env.eventcenter_base_url}/assets/imagegallery/${gallery_image.image}` 
-                      }} alt="Alternate Text" size="xl" key={gallery_image.id} />
+                      }} alt="" size="xl" key={gallery_image.id} />
                     ))}
                   </Stack>
                 </VStack>

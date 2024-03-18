@@ -51,12 +51,13 @@ const DropDown = ({ label, listitems, required, className, onChange, isSearchabl
 const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
-      minHeight: 50,
+      minHeight: '40px',
+      padding:'3',
       width: '100%',
       maxWidth: '100%',
 			minWidth: '256px',
       marginBottom: 10,
-			background: `rgba(${colors.box},1)`,
+			background: `rgba(0,0,0,0.2)`,
 			color: '#eaeaea',
 			fontFamily: 'Avenir',
 			boxShadow: 'none',

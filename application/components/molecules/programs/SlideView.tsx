@@ -9,6 +9,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import { Platform } from 'react-native';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
+import { useRouter } from 'next/router';
 
 type AppProps = {
     programs: Program[],
@@ -20,17 +21,32 @@ type AppProps = {
 
 const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 
-    const { setScrollCounter, scroll } = UseLoadingService();
+    const { setScrollCounter, scroll, processing } = UseLoadingService();
     
     const { event, modules  } = UseEventService();
 
     const [dates, setDates] = React.useState<any>([]);
     const [currentIndex, setCurrentIndex] = React.useState<number>();
+    const router = useRouter();
    
     React.useEffect(() => {
-        setDates(programs[0]);
-        setCurrentIndex(0);
-      }, [])
+        let indexFromQuery= router.asPath.split('currentIndex=')[1];
+        const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
+        setDates(programs[currentIndex]);
+        setCurrentIndex(currentIndex);
+    }, [])
+
+    React.useEffect(() => {
+        if (currentIndex !== undefined) {
+            const queryParams = { ...router.query, ['currentIndex']: currentIndex };
+
+            router.push({
+              pathname: router.pathname,
+              query: queryParams,
+            });
+
+        }
+    }, [currentIndex]);
     
     React.useEffect(() => {
         if(currentIndex !== undefined){
@@ -82,10 +98,10 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
                             if(dashboard == true){
                                 newProgram.workshop_programs = dates.length <= 5 ? program.workshop_programs.slice(0, (5 - (dates.length - 1))) : (dates.length > 5 ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
                             }
-                           return <WorkshopCollapsableView section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+                           return <WorkshopCollapsableView  section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
                         }
                         else{
-                           return <RectangleDetailView section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+                           return <RectangleDetailView workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
                         }
                     }
                     )}
@@ -116,7 +132,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
                              {programs.length <= 0 && 
                                 <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                                     <Box padding={5}>
-                                            <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                                         </Box>
                                 </Box>
                              }

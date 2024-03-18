@@ -161,7 +161,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                   w={180}
                   crossOffset={0}
                   trigger={(triggerProps) => {
-                    return <Button w={'30px'} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal" />
+                    return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal" />
                     </Button>
                   }}
 
@@ -299,7 +299,8 @@ const SquareBox = ({ post, index }: AppProps) => {
 
               </Button>
             </Center>
-            <Center flex={1} alignItems={'flex-center'}>
+            <Spacer />
+            <Center  alignItems={'flex-center'}>
               <Button
                 colorScheme="unstyled"
                 bg={'transparent'}

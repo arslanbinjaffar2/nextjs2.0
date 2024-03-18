@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getSponsorApi, makeFavouriteApi, getSponsorDetailApi, getMySponsorsApi, getOurSponsorsApi } from 'application/store/api/Sponsor.api';
+import { getSponsorApi, makeFavouriteApi, getSponsorDetailApi, getMySponsorsApi, getOurSponsorsApi,getContactSponsorApi } from 'application/store/api/Sponsor.api';
 
 import { SponsorActions } from 'application/store/slices/Sponsor.Slice'
 
@@ -28,6 +28,7 @@ function* OnGetSponsors({
         yield put(SponsorActions.updateMySponsors(response.data.data.sponsors!))
     }else{
         yield put(SponsorActions.update(response.data.data.sponsors!))
+        yield put(SponsorActions.updateSiteLabels(response.data.data.labels!))
     }
     
     yield put(SponsorActions.updateCategories(response.data.data.sponsorCategories!))
@@ -91,12 +92,26 @@ function* OnGetSponsorDetail({
     yield put(DocumentActions.update(response.data.data.documents!))
     yield put(LoadingActions.set(false));
 }
+function* OnGetSponsorContact({
+    payload,
+}: {
+    type: typeof SponsorActions.FetchSponsorContact
+    payload: { id: number }
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getSponsorDetailApi, payload, state)
+    yield put(SponsorActions.updateSponsorDetail(response.data.data!))
+    yield put(DocumentActions.update(response.data.data.documents!))
+    yield put(LoadingActions.set(false));
+}
 
 // Watcher Saga
 export function* SponsorWatcherSaga(): SagaIterator {
     yield takeEvery(SponsorActions.FetchSponsors.type, OnGetSponsors)
     yield takeEvery(SponsorActions.FetchMySponsors.type, OnGetMySponsors)
     yield takeEvery(SponsorActions.FetchSponsorDetail.type, OnGetSponsorDetail)
+    yield takeEvery(SponsorActions.FetchSponsorContact.type, OnGetSponsorContact)
     yield takeEvery(SponsorActions.MakeFavourite.type, OnMakeFavourite)
     yield takeEvery(SponsorActions.FetchOurSponsors.type, OnGetOurSponsors)
 }
