@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectSubRegistrationAfterLogin,  SelectSubRegistrationMySubreg,  SelectSubRegistrationSkip,  SelectSubRegistrationSubmitting,  SubRegistrationActions,  } from 'application/store/slices/SubRegistration.Slice'
+import { SelectSubRegistrationAfterLogin,  SelectSubRegistrationMySubreg,  SelectSubRegistrationSkip,  SelectSubRegistrationSubmitting,  SubRegistrationActions, sucessMessageSubmitting,  } from 'application/store/slices/SubRegistration.Slice'
 
 import {  AfterLogin, Allprogram, Questions, Settings } from 'application/models/subRegistration/SubRegistration'
 
@@ -22,6 +22,7 @@ export type SubRegistrationServiceOperators = {
     },
     mySubReg:any,
     submitting:boolean,
+    sucess_message:boolean,
     skip:boolean,
     FetchSubRegistrationAfterLogin: () => void
     FetchMySubRegistration: () => void
@@ -42,6 +43,7 @@ export const UseSubRegistrationService = (): Readonly<SubRegistrationServiceOper
         afterLogin: useAppSelector(SelectSubRegistrationAfterLogin),
         mySubReg: useAppSelector(SelectSubRegistrationMySubreg),
         submitting: useAppSelector(SelectSubRegistrationSubmitting),
+        sucess_message: useAppSelector(sucessMessageSubmitting),
         skip: useAppSelector(SelectSubRegistrationSkip),
         FetchSubRegistrationAfterLogin: useCallback(
             () => {

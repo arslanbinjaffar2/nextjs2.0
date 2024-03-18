@@ -26,6 +26,7 @@ export interface SubRegistrationState {
     },
     mySubReg:any,
     submitting:boolean;
+    sucess_message:boolean;
     redirect:string,
     skip:boolean,
 }
@@ -45,6 +46,7 @@ const initialState: SubRegistrationState = {
         show_skip_button:false,
     },
     submitting:false,
+    sucess_message:false,
     redirect:'',
     skip:false,
     mySubReg:null,
@@ -77,6 +79,7 @@ export const SubRegistrationSlice = createSlice({
         },
         SubmitSuccess(state){
             state.submitting = false;
+            state.sucess_message=true;
             if (Platform.OS === 'web') {
                 localStorage.setItem('skip_sub_reg', 'true');
             } else {
@@ -106,6 +109,7 @@ export const SubRegistrationSlice = createSlice({
                 show_skip_button:false,
             };
             state.submitting=false;
+            state.sucess_message=false
             state.redirect='';
             state.skip=false;
             state.mySubReg=null;
@@ -132,6 +136,7 @@ export const SubRegistrationActions = {
 export const SelectSubRegistrationAfterLogin = (state: RootState) => state.subRegistration.afterLogin
 export const SelectSubRegistrationMySubreg = (state: RootState) => state.subRegistration.mySubReg
 export const SelectSubRegistrationSubmitting = (state: RootState) => state.subRegistration.submitting
+export const sucessMessageSubmitting = (state: RootState) => state.subRegistration.sucess_message
 export const SelectSubRegistrationSkip = (state: RootState) => state.subRegistration.skip
 
 
