@@ -57,7 +57,7 @@ const ContactInfo = () => {
                     </Box>
                 </HStack>}
             </VStack>}
-            <HStack space={3} p={3} pt={0} pb={4} w={'100%'} alignItems={'flex-start'}>
+                  <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'center'} alignItems={'center'} mt={'1'}>
                         {detail?.detail?.facebook && detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://' ? (
                             <Pressable
                                 onPress={async () => {
