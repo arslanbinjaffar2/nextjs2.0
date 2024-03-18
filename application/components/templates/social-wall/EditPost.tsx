@@ -26,6 +26,8 @@ const EditPost = () => {
     const { UpdateSocialWallPost,DetailSocialWallPost, post_detail } = UseSocialWallService();
     const { processing } = UseLoadingService();
     const { response } = UseAuthService();
+
+    const [mediaRemoved, setMediaRemoved] = React.useState(false);
    
     const [postData, setpostData] = React.useState<NewPost>({
             file: null,
@@ -50,7 +52,7 @@ const EditPost = () => {
             file_url: `${_env.eventcenter_base_url}/assets/social_wall/${post_detail?.image}`,
         });
         if(inputContentRef.current){
-            inputContentRef.current.value = post_detail?.content;
+            inputContentRef.current.value = post_detail?.content ?? '';
         }
     }, [post_detail]);
 
@@ -59,12 +61,15 @@ const EditPost = () => {
             alert('Please write something or select image/video to post');
             return false;
         }
-        UpdateSocialWallPost({ ...{id: Number(id)}, ...postData });
+        UpdateSocialWallPost({ ...{id: Number(id)}, ...postData, mediaRemoved });
 
         setpostData({
             ...postData,
             file: null,
         });
+
+        // Reset mediaRemoved flag
+        setMediaRemoved(false);
 
         if(inputImageRef.current){
             inputImageRef.current.value = '';
@@ -117,6 +122,8 @@ const EditPost = () => {
             file_url: '',
             type: null
         });
+
+        setMediaRemoved(true);
 
         // clear input file
         if(inputImageRef.current){
