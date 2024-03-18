@@ -213,18 +213,18 @@ const EditPost = () => {
             {postData.type === 'video' && postData.file_url !== '' && (
                 <Box w="100%" h="200px" overflow="hidden">
                     {/* add remove video buttton before the video element*/}
-                    <IconButton
-                        w="30px"
-                        h="30px"
+                   <IconButton
+                        w="24px"
+                        h="24px"
                         p="1"
-                        // position="absolute"
-                        ml="auto"
-                        // mr="auto"
-                        // top="15px"
+                        position="absolute"
+                        right="25px"
+                        top="10px"
                         zIndex="99"
                         rounded="100%"
-                        variant="unstyled"
-                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color="primary.text" />}
+                        variant="solid"
+                        bg={'white'}
+                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color="black" />}
                         onPress={() => {
                             removeFile()
                         }}

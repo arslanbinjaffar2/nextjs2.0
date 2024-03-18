@@ -408,7 +408,8 @@ const SquareBox = ({ post, index }: AppProps) => {
             </React.Fragment>
           })}
         </VStack>
-        <HStack w={'100%'} px={4} py={3} borderTopWidth={0} borderTopColor={'primary.bordercolor'} space="3" >
+      </VStack>
+        <HStack w={'100%'} pt={0} px={4} py={3} borderTopWidth={0} borderTopColor={'primary.bordercolor'} space="3" >
           <Center>
             <Avatar
               borderWidth={1}
@@ -428,7 +429,6 @@ const SquareBox = ({ post, index }: AppProps) => {
           </Center>
 
         </HStack>
-      </VStack>
     </Box>
   )
 
