@@ -105,6 +105,9 @@ const Index = ({ speaker, screen }: Props) => {
                 FetchCategories({ parent_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), query: query, page: 1, cat_type: 'speakers' })
             } else if (in_array(tab, ['sub-group'])) {
                 FetchGroups({ query: query, group_id: (Number((searchParams.get('group_id') !== null ? searchParams.get('group_id') : 0))), page: 1, attendee_id: 0, program_id: 0 });
+            }else{
+                UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
+                setTab('attendee');
             }
         }
     }, [tab, category_id]);
