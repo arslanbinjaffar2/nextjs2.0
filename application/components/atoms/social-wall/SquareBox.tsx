@@ -40,6 +40,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   const [hiddenReplies, setHiddenReplies] = useState<{ [commentId: number]: number }>({});
   const [commentsSortBy, setCommentsSortBy] = useState<string>('top');
   const [sortedComments, setSortedComments] = useState<any>([]);
+  const [showCommentBox, setShowCommentBox] = useState(false);
 
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some(like => like.attendee_id === response?.data?.user?.id)
@@ -111,6 +112,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   const commentBoxRef = useRef<{ focusInput: () => void }>(null);
 
   const handleSomeAction = () => {
+    setShowCommentBox(current => !current);
     if (commentBoxRef.current) {
       commentBoxRef.current?.focusInput();
     }
@@ -415,6 +417,7 @@ const SquareBox = ({ post, index }: AppProps) => {
             </React.Fragment>
           })}
         </VStack>
+        {showCommentBox && (
         <HStack w={'100%'} px={4} py={3} borderTopWidth={0} borderTopColor={'primary.bordercolor'} space="3" >
           <Center>
             <Avatar
@@ -435,6 +438,7 @@ const SquareBox = ({ post, index }: AppProps) => {
           </Center>
 
         </HStack>
+        )}
       </VStack>
     </Box>
   )
