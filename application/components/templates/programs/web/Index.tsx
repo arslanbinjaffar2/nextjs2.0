@@ -15,6 +15,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Platform, useWindowDimensions } from 'react-native';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import UseEnvService from 'application/store/services/UseEnvService';
 
 const Index = () => {
     
@@ -27,11 +28,7 @@ const Index = () => {
     const { response } = UseAuthService();
     const { _env } = UseEnvService()
 
-    const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track, parent_track, ResetTracks } = UseProgramService();
-
-    const { loading, scroll, processing } = UseLoadingService();
-
-    const { response } = UseAuthService();
+    
     const { event, modules  } = UseEventService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
     const { width } = useWindowDimensions();
