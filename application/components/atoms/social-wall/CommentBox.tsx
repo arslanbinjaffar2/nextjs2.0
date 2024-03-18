@@ -94,7 +94,7 @@ const handleClick = () => {
         </VStack>
         
       </HStack>
-      {hiddenReplies && hiddenReplies > 1 ?
+      {hiddenReplies && hiddenReplies > 0 ?
         <HStack pb={3} position={'relative'} space="3" px={5} pl={secondlevel ? '55px' : '5'} alignItems="center">
           {secondlevel && <Divider w={'5'} position={'absolute'} left={'35px'} top={3} bg={'primary.bordercolor'} />}
             <IcoSendMore />
