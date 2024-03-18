@@ -52,7 +52,7 @@ const EditPost = () => {
             file_url: `${_env.eventcenter_base_url}/assets/social_wall/${post_detail?.image}`,
         });
         if(inputContentRef.current){
-            inputContentRef.current.value = post_detail?.content;
+            inputContentRef.current.value = post_detail?.content ?? '';
         }
     }, [post_detail]);
 
