@@ -91,10 +91,15 @@ const SquareBox = ({ post, index }: AppProps) => {
 
 
   const handleToggleReplies = (commentId: number) => {
-    setHiddenReplies(prevState => ({
-      ...prevState,
-      [commentId]: post.comments.find(comment => comment.id === commentId)?.replies.length ?? 0
-    }));
+    setHiddenReplies((prevState) => {
+      const currentSetting = prevState[commentId] ?? 1; // Use nullish coalescing operator
+      const totalReplies = post.comments.find((comment) => comment.id === commentId)?.replies.length ?? 0;
+      
+      return {
+        ...prevState,
+        [commentId]: currentSetting === 1 ? totalReplies : 1,
+      };
+    });
   };
 
 
@@ -375,9 +380,9 @@ const SquareBox = ({ post, index }: AppProps) => {
 
         <VStack overflowY={'auto'} maxHeight={'250px'}>
           {sortedComments.map((comment: Comment) => {
-            const totalReplies: number = comment.replies.length ? comment.replies.length : 0;
-            const visibleReplies = toggleReplay && commnetid === comment.id ? comment.replies.length : hiddenReplies[comment.id] ?? 1;
-            const remainingReplies = totalReplies > 0 ? totalReplies - visibleReplies : 0;
+             const totalReplies: number = comment.replies.length;
+             const visibleReplies = toggleReplay && commnetid === comment.id ? comment.replies.length : (hiddenReplies[comment.id] ?? 1);
+             const remainingReplies = totalReplies - visibleReplies;
 
             return <React.Fragment key={comment.id}>
               <Box overflow={'hidden'} w={'100%'}>
