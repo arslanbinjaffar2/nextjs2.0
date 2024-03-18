@@ -91,7 +91,7 @@ const Header = ({ width }: any) => {
             <HStack space="10">
               <Box><Pressable onPress={() => { router.push(`/${event.url}/settings/editprofile`) }}><Icosettings width={32} height={32} /></Pressable></Box>
               <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={34} height={34} /></Pressable></Box>
-              <Notification />
+              {/* <Notification /> */}
             </HStack>
           </Center>
         </HStack>
