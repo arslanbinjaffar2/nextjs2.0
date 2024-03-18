@@ -95,6 +95,7 @@ interface Setting {
 interface FieldSetting {
     id?: number;
     website?: number;
+    contact_vcf?: number;
     linkedin?: number;
     facebook?: number;
     twitter?: number;

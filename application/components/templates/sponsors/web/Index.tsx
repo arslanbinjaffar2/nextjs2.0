@@ -13,11 +13,12 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { SponsorCategory } from 'application/models/sponsor/SponsorCategory';
 import UseEventService from 'application/store/services/UseEventService';
+import UseEnvService from 'application/store/services/UseEnvService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 const Index = React.memo(() => {
 
     const { push, back } = useRouter()
@@ -45,6 +46,7 @@ const Index = React.memo(() => {
     const { event, modules } = UseEventService()
 
     const { loading } = UseLoadingService();
+    const { _env } = UseEnvService()
 
     const [tab, setTab] = React.useState(tabQueryParam !== null ? tabQueryParam : event?.sponsor_settings?.sponsor_list);
 
@@ -63,6 +65,7 @@ const Index = React.memo(() => {
     const updateTab = (tab: string) => {
         setTab(tab);
     }
+
     React.useEffect(() => {
         return () => {
             search.cancel();
@@ -104,18 +107,19 @@ const Index = React.memo(() => {
                             setTab('name')
                             FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
                             push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'name'))
-                        }} 
-                        borderWidth="1px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_NAME}</Button>}
+                        }}
+                        borderWidth="1px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_NAME || "Name"}</Button>}
                        {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button onPress={() => {
                             setTab('category')
                             FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
                             push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'category'))
 
-                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_CATEGORY}</Button>}
+                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_CATEGORY || "Category"}</Button>}
                     </HStack>
                     )}
-                    
+
                     {(tab === 'name' || tab === 'category-sponsor') && <>
+                    {sponsors.length > 0 &&
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
                             <IconButton
                                 opacity={mode === "list" ? 100 : 50}
@@ -140,6 +144,7 @@ const Index = React.memo(() => {
 
                             />
                         </HStack>
+                    }
                         {mode === "list" &&
                             <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.box">
                                 <ScrollView h={'53%'}>
@@ -166,9 +171,7 @@ const Index = React.memo(() => {
                             </Box>
                         }
                     </>}
-                    <Box width={"100%"} height={"5%"}>
-                        <BannerAds module_name={'sponsors'} module_type={'listing'} />
-                    </Box>
+
                     {tab === 'category' && (
                       <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
                           {categories.length > 0 ? (
@@ -186,7 +189,9 @@ const Index = React.memo(() => {
                           )}
                       </Box>
                     )}
-                    {/* <BannerView url={''} /> */}
+                    <Box width={"100%"} height={"5%"}>
+                        <BannerAds module_name={'sponsors'} module_type={'listing'} />
+                    </Box>
                 </Container>
                 </>
             )}

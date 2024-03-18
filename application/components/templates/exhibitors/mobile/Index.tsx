@@ -15,6 +15,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEventService from 'application/store/services/UseEventService';
 import { Keyboard } from 'react-native';
 
+
 const Index = React.memo(() => {
 
     const { loading } = UseLoadingService();
@@ -22,10 +23,10 @@ const Index = React.memo(() => {
     const [tab, setTab] = React.useState('name')
 
     const [mode, setMode] = React.useState('grid')
-    const { event} = UseEventService();
     const [searchQuery, setSearch] = React.useState('')
 
     const { exhibitors, categories, FetchExhibitors, category_id, query } = UseExhibitorService();
+    const { event } = UseEventService()
 
     const updateTab = (tab: string) => {
         setTab(tab);

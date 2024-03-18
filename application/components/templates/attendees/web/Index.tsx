@@ -64,7 +64,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     const { response } = UseAuthService();
 
     const { event, modules } = UseEventService();
-
     const [tab, setTab] = useState<string | null>(tabQueryParam !== null ? tabQueryParam : (speaker === 1 ?  (event?.speaker_settings?.default_display !== 'name' ? 'category' : 'attendee') :  (event?.attendee_settings?.default_display !== 'name' ? 'group' : 'attendee')));
 
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
