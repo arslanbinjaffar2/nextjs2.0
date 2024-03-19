@@ -22,6 +22,7 @@ const Index = () => {
     const { event, modules  } = UseEventService();
     
     const { FetchAlerts, alerts, markAlertRead} = UseAlertService();
+    console.log("🚀 ~ Index ~ alerts:", alerts)
 
     const module = modules.find((module) => module.alias === 'alerts');
     useEffect(() => {
@@ -51,7 +52,7 @@ const Index = () => {
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                                     {alerts.map((alert:Alert, i:Number)=>(
                   
-                                        <RectangleView key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date_time={alert.display_alert_date} is_last_item={(alerts.length-1 === i) ? true : false}  />
+                                        <RectangleView key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.created_at} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false}  />
                                     ))}
                             </Box>
                     </Container>
