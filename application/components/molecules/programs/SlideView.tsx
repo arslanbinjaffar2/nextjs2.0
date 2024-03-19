@@ -32,6 +32,28 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
     const router = useRouter();
     const {width} = useWindowDimensions();
 
+    const sliderRef = React.useRef<Slider>(null);
+    const settings = {
+        dots: false,
+        arrows: false,
+        infinite: false,
+        speed: 500,
+        swipe: true,
+        slidesToShow: 7,
+        slidesToScroll: 3,
+        swipeToSlide: true,
+        responsive: [
+            {
+                breakpoint: 600,
+                settings: {
+                infinite: false,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+             }
+            },
+        ]
+    };
+
     React.useEffect(() => {
         let indexFromQuery= router.asPath.split('currentIndex=')[1];
         const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
@@ -58,87 +80,12 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
         }
       }, [programs])
 
+      
     const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard }: any) => {
-    const sliderRef = React.useRef<Slider>(null);
-    const settings = {
-        dots: false,
-        arrows: false,
-        infinite: programs.length > 7 ? true : false,
-        speed: 500,
-        swipe: true,
-        initialSlide: currentIndex || 0,
-        slidesToShow: 7,
-        slidesToScroll: 3,
-        swipeToSlide: true,
-        responsive: [
-            {
-                breakpoint: 600,
-                settings: {
-                infinite: programs.length > 3 ? true : false,
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                initialSlide: currentIndex || 0,
-             }
-            },
-        ]
-    };
+
         return (
             <>
-                {programs.length > 0 && <Box mt={'4'} mb={1} bg={'primary.darkbox'}w={'100%'} p={4}>
-                <HStack w={['100%']}>
-                    <View  w={[width - 120,width - 120,'calc(100% - 70px)']}>
-                        <Slider
-                            ref={sliderRef}
-                            {...settings}>
-                        {programs?.map((item: any, index: any) => 
-                            <Pressable key={index} onPress={() => {
-                                setCurrentIndex(index);
-                                setDates(programs[index]);
-                                
-                            }}>
-                                <Box justifyContent={'center'} display={'flex'} alignItems={'center'} w={'60px'} h={'60px'} px={2} bg={currentIndex === index ? "secondary.500" : "primary.box"} rounded="md">
-                                    <VStack  space="1">
-                                        <Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
-                                        <Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? "primary.text" : "primary.text"} fontWeight={500}>{moment(item[0]?.date).format('D')}</Text>
-                                    </VStack>
-                                    
-                                </Box>
-                            </Pressable>
-                        )
-                        }
-                    </Slider>
-                </View>
-                <Spacer />
-                {(width > 600 && programs.length > 7) || (width < 600 && programs.length > 3) && <HStack space="0" alignItems="center">
-                    <Center>
-                        <IconButton
-                            variant="unstyled"
-                            p={1}
-                            icon={<Icon size="md" as={AntDesign} name="left" color="primary.text" />}
-                            onPress={()=>{
-                            if (sliderRef.current) {
-                                sliderRef.current.slickPrev();
-                            }
-                            }}
-                        />
-                    </Center>
-                    <Center>
-                         <IconButton
-                            variant="unstyled"
-                             p={1}
-                            icon={<Icon size="md" as={AntDesign} name="right" color="primary.text" />}
-                            onPress={()=>{
-                            if (sliderRef.current) {
-                                sliderRef.current.slickNext();
-                            }
-                            }}
-                        />
-                    </Center>
-                   
-                  </HStack>}
                 
-                </HStack>
-                </Box>}
                 {dates?.length > 0 && currentIndex !== undefined && <>
                     
                     {dates?.map((program: Program, key: number) => {
@@ -164,7 +111,67 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
         programs.forEach((program: any) => total += program.length);
         return total;
     }
-
+		const LazySlider = () => {
+			return (
+				<>
+				{programs.length > 0 && <Box mt={'4'} mb={1} bg={'primary.darkbox'}w={'100%'} p={4}>
+					<HStack w={['100%']}>
+							<View  w={[width - 120,width - 120,'calc(100% - 70px)']}>
+									<Slider
+											ref={sliderRef}
+											{...settings}>
+									{programs?.map((item: any, index: any) => 
+											<Pressable key={index} onPress={() => {
+													setCurrentIndex(index);
+													setDates(programs[index]);
+													
+											}}>
+													<Box justifyContent={'center'} display={'flex'} alignItems={'center'} w={'60px'} h={'60px'} px={2} bg={currentIndex === index ? "secondary.500" : "primary.box"} rounded="md">
+															<VStack  space="1">
+																	<Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
+																	<Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? "primary.text" : "primary.text"} fontWeight={500}>{moment(item[0]?.date).format('D')}</Text>
+															</VStack>
+															
+													</Box>
+											</Pressable>
+									)
+									}
+							</Slider>
+					</View>
+					<Spacer />
+					{programs.length > 7 && <HStack space="0" alignItems="center">
+							<Center>
+									<IconButton
+											variant="unstyled"
+											p={1}
+											icon={<Icon size="md" as={AntDesign} name="left" color="primary.text" />}
+											onPress={()=>{
+											if (sliderRef.current) {
+													sliderRef.current.slickPrev();
+											}
+											}}
+									/>
+							</Center>
+							<Center>
+									<IconButton
+											variant="unstyled"
+											p={1}
+											icon={<Icon size="md" as={AntDesign} name="right" color="primary.text" />}
+											onPress={()=>{
+											if (sliderRef.current) {
+													sliderRef.current.slickNext();
+											}
+											}}
+									/>
+							</Center>
+						
+						</HStack>}
+					
+					</HStack>
+				</Box>}
+				</>
+			)
+		}
     return (
         <>
             {in_array(section, ['program', 'my-program', 'track-program']) && (
@@ -177,6 +184,8 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
                                 </React.Fragment>
                             )} */}
                             
+
+														<LazySlider />
                              {programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
                              {programs.length <= 0 && 
                                 <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
@@ -194,6 +203,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
                             renderItem={({ item }: any) => {
                                 return (
                                     <>
+																				<LazySlider />
                                         <RenderPrograms programs={item} />
                                     </>
                                 );
