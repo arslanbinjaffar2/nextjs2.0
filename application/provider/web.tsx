@@ -75,6 +75,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     box: `rgba(${colors.darkbox},0.3)`,
                     boxbutton: `rgba(${colors.darkbox},0.6)`,
                     boxsolid: `rgba(${colors.darkbox},1)`,
+                    boxsolidtext: `${colors.darkboxtext}`,
                     darkbox: `rgba(0,0,0,0.2)`,
                     primarycolor : `rgba(${[...rgb]},0.2)`,
                     boxTransparent: `rgba(${colors.box},0.5)`,
