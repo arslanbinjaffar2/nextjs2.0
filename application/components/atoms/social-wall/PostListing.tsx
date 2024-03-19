@@ -44,7 +44,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
         <>
         <Box w={'100%'}>
         <HStack px={3} py={1} bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
-                    <Text fontSize="md" textTransform={'uppercase'}>{labels?.SOCIAL_WALL_POST}</Text>
+                    <Text fontSize="md">{labels?.SOCIAL_WALL_POST}</Text>
                     <Spacer />
                     <Box>
                       <Menu
