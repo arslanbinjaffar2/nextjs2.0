@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, Text, Button, Select, CheckIcon, HStack, Center, Menu, Spacer, Icon } from 'native-base'
+import { Box, Text, Button, Select, CheckIcon, HStack, Center, Menu, Spacer, Icon} from 'native-base'
 import SquareBox from 'application/components/atoms/social-wall/SquareBox';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseSocialWallService from 'application/store/services/UseSocialWallService';
@@ -17,27 +17,27 @@ type AppProps = {
 }
 
 const PostListing = ({ attendee_id }: AppProps) => {
-  const { loading, scroll, processing } = UseLoadingService();
-  const { event } = UseEventService();
-  const { FetchSocialWallPosts, labels, posts, page, last_page, sort_by } = UseSocialWallService();
-  const [sortBy, setSortBy] = React.useState<string>(sort_by);
+    const { loading,scroll, processing } = UseLoadingService();
+    const { event  } = UseEventService();
+    const { FetchSocialWallPosts,labels, posts, page, last_page, sort_by } = UseSocialWallService();
+    const [sortBy, setSortBy] = React.useState<string>(sort_by);
 
-  useEffect(() => {
-    FetchSocialWallPosts({ page: 1, sort_by: sortBy, attendee_id: attendee_id });
-  }, []);
+    useEffect(()=>{
+        FetchSocialWallPosts({page:1,sort_by:sortBy,attendee_id:attendee_id});
+    },[]);
+  
+    React.useEffect(() => {
+      if(page<last_page){
+        FetchSocialWallPosts({page:page+1,sort_by:sortBy,attendee_id:attendee_id});
+      }
+    }, [scroll]);
 
-  React.useEffect(() => {
-    if (page < last_page) {
-      FetchSocialWallPosts({ page: page + 1, sort_by: sortBy, attendee_id: attendee_id });
-    }
-  }, [scroll]);
-
-  useEffect(() => {
-    getPosts()
-  }, [sortBy]);
-
+    useEffect(()=>{
+      getPosts()
+    },[sortBy]);
+  
   function getPosts() {
-    FetchSocialWallPosts({ page: 1, sort_by: sortBy, attendee_id: attendee_id });
+    FetchSocialWallPosts({page:1,sort_by:sortBy,attendee_id:attendee_id});
   }
   
     return (
