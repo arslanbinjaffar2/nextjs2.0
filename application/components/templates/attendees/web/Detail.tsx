@@ -26,8 +26,9 @@ import ListingLayout2 from 'application/components/molecules/documents/ListingLa
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService'
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
+import { Platform } from 'react-native';
 
 type ScreenParams = { id: string }
 
@@ -242,10 +243,11 @@ const Detail = ({ speaker }: Props) => {
                                 </Container>
                             )}
                             {((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) &&
-                              <Box display={["","none"]} width={"100%"}>
-                                  <ContactInfo detail={detail!} />
-                              </Box>
+                            <Box display={["","none"]} width={"100%"}>
+                                <ContactInfo detail={detail!} />
+                            </Box>
                             }
+                            
                             <Box width={"100%"} height={"5%"}>
                                 <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
                             </Box>

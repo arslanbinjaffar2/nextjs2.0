@@ -22,7 +22,6 @@ const Index = React.memo(() => {
     const [tab, setTab] = React.useState('name')
 
     const [mode, setMode] = React.useState('grid')
-    const { event} = UseEventService();
     const [searchQuery, setSearch] = React.useState('')
 
     const { exhibitors, categories, FetchExhibitors, category_id, query } = UseExhibitorService();

@@ -10,27 +10,22 @@ import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBo
 import SponsorContactInfo from 'application/components/atoms/sponsors/contact-info/ContactInfo';
 import { useRouter as UseNextRouter } from 'next/router';
 import UseEventService from 'application/store/services/UseEventService';
+import UseAttendeeService from 'application/store/services/UseAttendeeService';
+import ContactInfo from 'application/components/atoms/attendees/detail/ContactInfo';
 import SessionRating from 'application/components/atoms/programs/SessionRating';
 import { useEffect } from 'react'
 import UseBannerService from 'application/store/services/UseBannerService'
 import UseSponsorService from 'application/store/services/UseSponsorService'
 import UseDocumentService from 'application/store/services/UseDocumentService'
-import UseAttendeeService from 'application/store/services/UseAttendeeService'
 import UseEnvService from 'application/store/services/UseEnvService'
-import ContactInfo from 'application/components/atoms/attendees/detail/ContactInfo';
-
 type ScreenParams = { id: string, cms: string | undefined }
-
-// const id = urlParams.get('id');
-// useEffect(React.useCallback(() => {
-//   FetchSponsorContact();
-// }, []);
 
 const RightBar = () => {
   const { _env } = UseEnvService()
   const { clearState, documents } = UseDocumentService();
   // const { sponsors, FetchSponsorContact } = UseSponsorService();
   const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
+  const { sponsors, FetchSponsorContact } = UseSponsorService();
   // const handleSponsorContactClick = (attendeeId: any) => {
   //   console.log(attendeeId,'here');
   //     FetchSponsorContact({ id: Number(attendeeId) });
