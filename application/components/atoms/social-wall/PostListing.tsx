@@ -43,15 +43,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
     return (
         <>
         <Box w={'100%'}>
-            {(in_array('social_wall_posts', processing)) && page === 0 ? (
-                <Box  w={'100%'} p="4" rounded="lg">
-                  <WebLoading />
-                </Box>
-                
-            ):
-            (
-              <>
-                <HStack px={3} py={1} bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
+        <HStack px={3} py={1} bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
                     <Text fontSize="md" textTransform={'uppercase'}>Post</Text>
                     <Spacer />
                     <Box>
@@ -76,7 +68,15 @@ const PostListing = ({ attendee_id }: AppProps) => {
                         <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>Most Liked Posts</Menu.Item>
                       </Menu>
                     </Box>
-                  </HStack>
+                  </HStack>      
+            {(in_array('social_wall_posts', processing)) && page === 1 ? (
+                <Box  w={'100%'} p="4" rounded="lg">
+                  <WebLoading />
+                </Box>
+                
+            ):
+            (
+              <>
                 <Box w="100%" key='post-lising'>
                     {posts.map((post:Post, i: number)=>{
                         return <SquareBox index={i} key={post.id} post={post} />
