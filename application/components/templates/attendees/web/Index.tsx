@@ -319,15 +319,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     )}
                 </>
             )}
-            {speaker === 0 && <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
-                {alphabet && alphabet.map((item, k) =>
+            {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
+              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
+                  {alphabet.map((item, k) =>
                     <React.Fragment key={k}>
-                        {item && (
-                            <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
-                        )}
+                        <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
                     </React.Fragment>
-                )}
-            </VStack>}
+                  )}
+              </VStack>
+            )}
             <>
                 {(in_array('attendee-listing', processing) || in_array('category-listing', processing) || in_array('groups', processing)) && page === 1 ? (
                     <SectionLoading />
