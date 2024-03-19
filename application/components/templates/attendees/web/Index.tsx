@@ -264,7 +264,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                {event?.labels?.GENERAL_ALL}
+                                {event?.labels?.SPEAKER_NAME}
                             </Button>
                         }
                         {( event?.speaker_settings?.tab == 1) &&
@@ -283,7 +283,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                CATEGORIES
+                                {event?.labels?.SPEAKER_CATEGORY}
                             </Button>
                         }
                     </HStack>}
