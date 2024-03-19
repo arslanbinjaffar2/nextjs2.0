@@ -241,6 +241,8 @@ body {
 }
 .css-reset-4rbku5:hover{
   color:green !important;
+.wrapper-select.isDisabled {
+  pointer-events: none;
 }
 `;
 
