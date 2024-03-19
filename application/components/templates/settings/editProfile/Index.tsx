@@ -1023,7 +1023,7 @@ const Selectstyles2 = {
                                     </HStack>
                             </HStack>
                     )}
-                    {setting?.name === 'resume' && (
+                    {setting?.name === 'resume' && setting?.is_editable === 1 && (
                             <HStack mb="3" alignItems="start" px="3"  w="100%" >
                             
                                 <HStack mb="3" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
