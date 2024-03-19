@@ -909,7 +909,7 @@ const Selectstyles2 = {
                                     minWidth="64"
                                     w="100%"
                                     h="50px"
-                                    isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                    isDisabled={setting.is_editable === 1 ? false : true}
                                     opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     selectedValue={attendeeData?.info?.country}
                                     onValueChange={answer => updateInfoSelect({ answer, name: "country" })}
@@ -925,13 +925,13 @@ const Selectstyles2 = {
                             <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.SPOKEN_LANGUAGE}</Text>
                             </Center>
-                            <Center  justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']} >
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                             <DropDown
                                 label={labels?.SPOKEN_LANGUAGE}
                                 listitems={languages}
                                 required={false}
-                                isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                 opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
+                                isDisabled={setting.is_editable === 1 ? false : true}
                                 isMulti={true}
                                 selected={
                                     attendeeData.SPOKEN_LANGUAGE &&
