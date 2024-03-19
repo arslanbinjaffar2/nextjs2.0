@@ -52,7 +52,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
             (
               <>
                 <HStack px={3} py={1} bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
-                    <Text fontSize="md" textTransform={'uppercase'}>Post</Text>
+                    <Text fontSize="md" textTransform={'uppercase'}>{labels?.SOCIAL_WALL_POST}</Text>
                     <Spacer />
                     <Box>
                       <Menu
@@ -66,14 +66,14 @@ const PostListing = ({ attendee_id }: AppProps) => {
                         trigger={triggerProps => {
                       return <Pressable accessibilityLabel="More options menu" {...triggerProps}>
                                 <HStack  space="2" alignItems="center">
-                                  <Text fontSize="md"> {sortBy === 'id' ? 'Latest Posts' : sortBy === 'comments_count' ? 'Most Discussed Posts' : 'Most Liked Posts'}</Text>
+                                  <Text fontSize="md"> {sortBy === 'id' ? labels?.SOCIAL_WALL_LATEST_POSTS : sortBy === 'comments_count' ? labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS : labels?.SOCIAL_WALL_MOST_LIKES}</Text>
                                   <Icon as={AntDesign} name="caretdown" color={'primary.text'}  />
                                 </HStack>
                             </Pressable>;
                     }}>
-                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>Latest Posts</Menu.Item>
-                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>Most Discussed Posts</Menu.Item>
-                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>Most Liked Posts</Menu.Item>
+                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>{labels?.SOCIAL_WALL_LATEST_POSTS}</Menu.Item>
+                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>{labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS}</Menu.Item>
+                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>{labels?.SOCIAL_WALL_MOST_LIKES}</Menu.Item>
                       </Menu>
                     </Box>
                   </HStack>

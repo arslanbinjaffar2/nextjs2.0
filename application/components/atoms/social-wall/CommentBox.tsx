@@ -21,7 +21,7 @@ const CommentBox = ({ comment, secondlevel, hiddenReplies, onChildClick, toggleH
   const { _env } = UseEnvService();
   const { response } = UseAuthService();
   const { processing } = UseLoadingService();
-  const { LikeSocialWallComment } =useSocialWallService();
+  const { LikeSocialWallComment ,labels } =useSocialWallService();
   const [isLiked, setIsLiked] = useState<boolean>(
     comment.likes.some(like => like.attendee_id === response?.data?.user?.id)
   );
@@ -79,7 +79,7 @@ const handleClick = () => {
               }}
             
             >
-              <Text fontWeight={500}  fontSize={'sm'} color={isLiked ? 'primary.500' : 'primary.text'}>Like</Text>
+              <Text fontWeight={500}  fontSize={'sm'} color={isLiked ? 'primary.500' : 'primary.text'}>{labels?.SOCIAL_WALL_LIKE}</Text>
             </Pressable>
              
           {!secondlevel &&  <Pressable
@@ -88,7 +88,7 @@ const handleClick = () => {
               onPress={handleClick}
             
             >
-              <Text fontWeight={500} fontSize={'sm'}>Reply</Text>
+              <Text fontWeight={500} fontSize={'sm'}>{labels?.SOCIAL_WALL_REPLY}</Text>
             </Pressable>}
           </HStack>
         </VStack>
