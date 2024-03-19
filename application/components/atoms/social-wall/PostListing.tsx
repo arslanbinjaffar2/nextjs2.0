@@ -71,9 +71,9 @@ const PostListing = ({ attendee_id }: AppProps) => {
                                 </HStack>
                             </Pressable>;
                     }}>
-                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>Latest Posts</Menu.Item>
-                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>Most Discussed Posts</Menu.Item>
-                        <Menu.Item  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>Most Liked Posts</Menu.Item>
+                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>Latest Posts</Menu.Item>
+                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>Most Discussed Posts</Menu.Item>
+                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>Most Liked Posts</Menu.Item>
                       </Menu>
                     </Box>
                   </HStack>
