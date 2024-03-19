@@ -6,9 +6,7 @@ import { GENERAL_DATE_FORMAT, GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'applic
 
 const RectangleView = ({ title, description, date, time, is_last_item }: { title: string, description: string, date: string, time: string, is_last_item: boolean }) => {
 
-  // Function to format the date_time based on the current time
   const formatDateTime = (alertTime: string, alertDate: string) => {
-
     const combinedDateTime = moment(`${alertDate} ${alertTime}`, "DD-MM-YYYY HH:mm:ss");
     const now = moment();
     const duration = moment.duration(now.diff(combinedDateTime));
