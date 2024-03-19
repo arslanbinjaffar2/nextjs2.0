@@ -26,6 +26,12 @@ const LazySlider = ({ programs, onChange }: any) => {
 	const { width } = useWindowDimensions();
 	const [currentIndex, setCurrentIndex] = React.useState<number>(0);
 	const sliderRef = React.useRef<Slider>(null);
+	const router = useRouter();
+	React.useEffect(() => {
+		let indexFromQuery = router.asPath.split('currentIndex=')[1];
+		const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
+		setCurrentIndex(currentIndex);
+	}, [])
 	const settings = {
 		dots: false,
 		arrows: false,
