@@ -22,7 +22,6 @@ const Index = () => {
     const { event, modules  } = UseEventService();
     
     const { FetchAlerts, alerts, markAlertRead} = UseAlertService();
-    console.log("🚀 ~ Index ~ alerts:", alerts)
 
     const module = modules.find((module) => module.alias === 'alerts');
     useEffect(() => {

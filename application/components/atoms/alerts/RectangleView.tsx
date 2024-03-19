@@ -13,7 +13,7 @@ const RectangleView = ({ title, description, date, time, is_last_item }: { title
 
     if (duration.asHours() < 1) {
       // Less than an hour
-      return `${Math.round(duration.asMinutes())} minute(s) ago`;
+      return `${Math.round(duration.asMinutes())} minutes ago`;
     } else if (duration.asHours() >= 1 && duration.asHours() < 24) {
       // Between 1 hour and 24 hours
       return combinedDateTime.format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS);
