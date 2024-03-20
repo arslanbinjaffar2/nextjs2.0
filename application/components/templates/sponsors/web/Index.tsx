@@ -94,7 +94,7 @@ const Index = React.memo(() => {
     }, []);
     return (
         <>
-            <Container h="100%" pt="4" maxW="100%" w="100%">
+            <Container h="100%" pt="4" maxW="100%" w="100%">  
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                     <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
                     <Spacer />
@@ -121,7 +121,7 @@ const Index = React.memo(() => {
                 )}
 
                 {loading ? (
-                    <WebLoading />
+                    <WebLoading />  
                 ) : (
                     <>
                         {(tab === 'name' || tab === 'category-sponsor') && <>
