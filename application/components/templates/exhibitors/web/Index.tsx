@@ -163,7 +163,8 @@ const Index = React.memo(() => {
                             </Box>
                         }
                     </>}
-                            {tab === 'category' && <Box w="100%" rounded="10" bg={categories.length > 0 ?"primary.box":""} borderWidth="0" borderColor="primary.bdBox">
+
+                    {tab === 'category' && <Box w="100%" rounded="10" bg={categories.length > 0 ?"primary.box":""} borderWidth="0" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
                             <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
                                 {categories.length > 0 &&

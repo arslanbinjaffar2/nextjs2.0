@@ -168,7 +168,7 @@ const Index = React.memo(() => {
                                 <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                             </Box>
                         }
-                        </>}
+                    </>}
                    
                     {tab === 'category' && (
                         <Box w="100%" rounded="10" bg="primary.box" borderWidth={categories.length > 0 ? "1":"0"} borderColor="primary.bdBox">
