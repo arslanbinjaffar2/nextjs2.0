@@ -167,7 +167,7 @@ const SquareBox = ({ post, index }: AppProps) => {
 
                 >
                   <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{labels?.SOCIAL_WALL_LIKE}</Menu.Item>
-                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>Delete</Menu.Item>
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>{labels?.GENERAL_DELETE}</Menu.Item>
                 </Menu>
               </HStack>
 
@@ -241,7 +241,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                   <Box bg={'primary.boxsolid'} py={3} borderWidth="0" borderColor="primary.box">
                     <HStack width={'100%'} px={3} mb={2} space="1" alignItems="center">
                       <Icolikealt width={20} height={20} />
-                      <Text fontSize="md" fontWeight={500}>  Liked by</Text>
+                      <Text fontSize="md" fontWeight={500}>{labels?.SOCIAL_WALL_LIKES}</Text>
                     </HStack>
 
 
@@ -363,7 +363,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                         <Pressable accessibilityLabel="More options menu" {...triggerProps}>
                           <HStack space="2" alignItems="center">
                             <Text fontSize="md">
-                              {commentsSortBy === 'top' ? 'Top Comments' : commentsSortBy === 'newest' ? 'Newest' : 'Most Liked Comments'}
+                              {commentsSortBy === 'top' ? labels?.SOCIAL_WALL_TOP_COMMENTS : commentsSortBy === 'newest' ? labels?.SOCIAL_WALL_NEWEST : labels?.SOCIAL_WALL_MOST_LIKED_COMMNETS}
                             </Text>
                             <Icon as={AntDesign} name="caretdown" color={'primary.text'} />
                           </HStack>
@@ -372,7 +372,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                     }}
                   >
                     <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
-                      Top Comments
+                      {labels?.SOCIAL_WALL_TOP_COMMENTS}
                     </Menu.Item>
                     <Menu.Item
                       _focus={{ bg: '' }}
@@ -380,7 +380,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                       textValue="comments_newest"
                       onPress={() => handleCommentsSortBy('newest')}
                     >
-                      Newest
+                      {labels?.SOCIAL_WALL_NEWEST}
                     </Menu.Item>
                   </Menu>
                 </Box>
