@@ -80,12 +80,8 @@ const Index = React.memo(() => {
     })
     return (
         <>
-            {loading ? (
-                <WebLoading />
-            ) : (
-                <>
-                <NextBreadcrumbs module={module} title={category?.name}/>
-            <Container h="100%" pt="4" maxW="100%" w="100%">
+            <NextBreadcrumbs module={module} title={category?.name}/>
+            <Container h="100%" pt="4" maxW="100%" w="100%">  
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias == 'exhibitors'))?.name ?? ""}</Text>
                         <Spacer />
@@ -109,7 +105,10 @@ const Index = React.memo(() => {
                         }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
                     </HStack>
                     )}
-                    
+                    {loading ? (  
+                        <WebLoading />
+                    ) : ( 
+                    <> 
                     {(tab === 'name' || tab === 'category-exhibitors') && <>
                         {exhibitors.length > 0 &&
                         <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
@@ -188,9 +187,9 @@ const Index = React.memo(() => {
                         <BannerAds module_name={'exhibitors'} module_type={'listing'} />
                     </Box>
                     {/* <BannerView url={''} /> */}
+                    </> 
+                    )} 
             </Container>
-        </>
-            )}
         </>
     )
 
