@@ -166,7 +166,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                   w={180}
                   crossOffset={0}
                   trigger={(triggerProps) => {
-                    return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'primary.boxsolidtext'} as={Entypo} name="dots-three-horizontal" />
+                    return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'primary.text'} as={Entypo} name="dots-three-horizontal" />
                     </Button>
                   }}
 
@@ -245,8 +245,8 @@ const SquareBox = ({ post, index }: AppProps) => {
                 <Popover.Body bg={'primary.boxsolid'} borderTopWidth="0" p={0} rounded={6}>
                   <Box bg={'primary.boxsolid'} py={3} borderWidth="0" borderColor="primary.box">
                     <HStack width={'100%'} px={3} space="1" alignItems="center">
-                      <Icolikealt width={20} height={20} />
-                      <Text fontSize="md" fontWeight={500}>{labels?.SOCIAL_WALL_LIKES}</Text>
+                      <Icon color={'primary.boxsolidtext'} as={AntDesign} name="like1" size={'md'} />
+                      <Text color={'primary.boxsolidtext'} fontSize="md" fontWeight={500}>  {labels?.SOCIAL_WALL_LIKES}</Text>
                     </HStack>
 
 
