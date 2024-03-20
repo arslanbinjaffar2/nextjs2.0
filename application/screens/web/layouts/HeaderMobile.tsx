@@ -80,7 +80,7 @@ const [open, setOpen] = React.useState(false)
       </Container>
       
       <Drawer isOpen={open} placement='left'>
-        <Container   alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
+        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
             <Center w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
               <Pressable
                 alignItems={'flex-end'}
@@ -100,7 +100,7 @@ const [open, setOpen] = React.useState(false)
         </Container>
         
       </Drawer>
-      <HStack w={'100%'} space={'3'} flexDirection={'row'} justifyContent={'center'} alignItems={'center'} >
+      <HStack w={'100%'} space={'3'} flexDirection={'row'} justifyContent={'center'} alignItems={'center'} px={'1.5'}>
         <Box width={'50%'}>
         <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
         </Box>
