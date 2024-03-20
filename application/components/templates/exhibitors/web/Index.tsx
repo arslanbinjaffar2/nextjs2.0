@@ -90,7 +90,7 @@ const Index = React.memo(() => {
     }, []);
     return (
         <>
-            <Container h="100%" pt="4" maxW="100%" w="100%">
+            <Container h="100%" pt="4" maxW="100%" w="100%">  
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias == 'exhibitors'))?.name ?? ""}</Text>
                         <Spacer />
@@ -114,7 +114,7 @@ const Index = React.memo(() => {
                         }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>CATEGORY</Button>}
                     </HStack>
                     )}
-                    {loading ? (
+                    {loading ? (  
                         <WebLoading />
                     ) : (
                     <>
