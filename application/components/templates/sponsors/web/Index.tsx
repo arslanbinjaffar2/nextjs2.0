@@ -123,7 +123,7 @@ const Index = React.memo(() => {
                 {loading ? (
                     <WebLoading />  
                 ) : (
-                    <>
+                    <> 
                         {(tab === 'name' || tab === 'category-sponsor') && <>
                             {sponsors.length > 0 && (
                             <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
@@ -197,8 +197,8 @@ const Index = React.memo(() => {
                             )}
                         </Box>
                         {/* <BannerView url={''} /> */}
-                    </>
-                )}
+                    </> 
+                )} 
             </Container>
         </>
     )
