@@ -17,6 +17,7 @@ import { useRouter } from 'solito/router';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { GalleryImage } from 'application/models/gallery/GalleryImage';
+import WebLoading from 'application/components/atoms/WebLoading';
 
 
 type AppProps = {
@@ -33,6 +34,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   const { LikeSocialWallPost, labels, SaveSocialWallComment, LikeSocialWallComment, DeleteSocialWallPost } = useSocialWallService();
 
   const [activepopup, setactivepopup] = React.useState(false);
+  const [deleteprocessing, setdeleteprocessing] = React.useState(false);
   const [modalImage, setModalImage] = useState<string>("")
 
   const [toggleReplay, settoggleReplay] = useState(null)
@@ -56,6 +58,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   }
 
   function deletePost() {
+    setdeleteprocessing(true)
     DeleteSocialWallPost({ id: post.id })
   }
 
@@ -124,7 +127,9 @@ const SquareBox = ({ post, index }: AppProps) => {
   };
 
   return (
-    <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="1" borderColor="primary.box">
+    <>
+       {deleteprocessing && <Box mb={3}><WebLoading /></Box>}
+      {!deleteprocessing && <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="1" borderColor="primary.box">
       <VStack space="3">
 
 
@@ -389,8 +394,9 @@ const SquareBox = ({ post, index }: AppProps) => {
 
             <VStack overflowY={'auto'} maxHeight={'250px'}>
               {sortedComments.map((comment: Comment) => {
-                const totalReplies: number = comment.replies.length;
+                const totalReplies: number = comment.replies.length ? comment.replies.length : 0;
                 const visibleReplies = toggleReplay && commnetid === comment.id ? comment.replies.length : (hiddenReplies[comment.id] ?? 1);
+                
                 const remainingReplies = totalReplies - visibleReplies;
 
                 return <React.Fragment key={comment.id}>
@@ -447,7 +453,8 @@ const SquareBox = ({ post, index }: AppProps) => {
             </HStack>
           </>}
       </VStack>
-    </Box>
+    </Box>}
+    </>
   )
 
 }
