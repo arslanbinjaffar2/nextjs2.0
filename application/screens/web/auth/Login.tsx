@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Heading, FormControl } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Heading, FormControl, Pressable } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images } from 'application/styles';
@@ -26,7 +26,8 @@ const Login = ({ props }: any) => {
 
     const { isLoggedIn, processing, login, error, response } = UseAuthService();
 
-    const { push } = useRouter();
+    const  { push } = useRouter();
+		  const router = useRouter();
 
     const nativeButton = React.useRef<HTMLElement | null>(null)
 
@@ -120,10 +121,22 @@ const Login = ({ props }: any) => {
                                         <Text w={'100%'} fontSize='md' lineHeight='sm'>{event.labels.EVENTSITE_DEFAULT_PASSWORD} {event.attendee_settings?.default_password}</Text>
                                     )}
                                     {event.attendee_settings?.hide_password === 0 && event.attendee_settings?.forgot_link === 0 && event.attendee_settings?.authentication === 0 && (
-                                        <Text nativeID='css-reset-4rbku5' fontSize="md" >    
-                                        <Link href={`/${event.url}/auth/reset-password-request`} >
-                                            {event.labels.EVENTSITE_FORGOT_PASSWORD}
-                                        </Link>
+                                        <Text fontSize="md" > 
+																					<Button
+																						p="0"
+																						bg={'transparent'}
+																						borderWidth="0"
+																						textDecorationLine={'underline'}
+																						variant={'unstyled'}
+																						_hover={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+																						_pressed={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+																						onPress={()=>{
+																							router.push(`/${event.url}/auth/reset-password-request`)
+																						}}
+																					
+																					>
+																						{event.labels.EVENTSITE_FORGOT_PASSWORD}
+																					</Button>
                                         </Text>
                                     )}
                                     <Button

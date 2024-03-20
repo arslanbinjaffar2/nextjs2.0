@@ -30,6 +30,8 @@ const ResetPasswordRequest = ({ props }: any) => {
 
     const { push } = useRouter();
 
+    const router = useRouter();
+
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = input => {
@@ -48,7 +50,7 @@ const ResetPasswordRequest = ({ props }: any) => {
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="1px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
-                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: ((event.settings?.header_logo !== undefined && event.settings?.header_logo !== '') ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` : images.Logo) }} w="180px" h="61px" alignSelf={'center'} />
+                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: ((event.settings?.header_logo !== undefined && event.settings?.header_logo !== '') ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` : images.Logo) }} w="180px" h={(event.settings?.header_logo !== undefined && event.settings?.header_logo !== '') ? '61px' : '38px'} alignSelf={'center'} />
                 <VStack w={'100%'} alignItems={'center'} space='4'>
                     <VStack space="20px" width={'100%'}>
                     <Text w={'100%'} fontSize='lg' lineHeight='sm' textAlign={'center'}>{event?.labels?.EVENTSITE_FORGOT_PASSWORD}</Text>
@@ -74,13 +76,22 @@ const ResetPasswordRequest = ({ props }: any) => {
                                     : (error ? error : errors.email?.message)}
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <Text nativeID='css-reset-4rbku5' fontSize="md">
-                        <Link  href={`/${event.url}/auth/login`}
-                        style={{ color:colors.primary }}
-                           
-                        >
-                                {event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO}{event?.labels?.DESKTOP_APP_LABEL_LOGIN}                
-                        </Link>
+                          <Text fontSize="md" > 
+                            <Button
+                                p="0"
+                                bg={'transparent'}
+                                borderWidth="0"
+                                textDecorationLine={'underline'}
+                                variant={'unstyled'}
+                                _hover={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+                                _pressed={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+                                onPress={()=>{
+                                    router.push(`/${event.url}/auth/login`)
+                                }}
+                            
+                            >
+                                {event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO}{event?.labels?.DESKTOP_APP_LABEL_LOGIN}
+                            </Button>
                         </Text>
                         <Button
                             width={'100%'}
