@@ -17,6 +17,7 @@ import { useRouter } from 'solito/router';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { GalleryImage } from 'application/models/gallery/GalleryImage';
+import WebLoading from 'application/components/atoms/WebLoading';
 
 
 type AppProps = {
@@ -33,6 +34,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   const { LikeSocialWallPost, labels, SaveSocialWallComment, LikeSocialWallComment, DeleteSocialWallPost } = useSocialWallService();
 
   const [activepopup, setactivepopup] = React.useState(false);
+  const [deleteprocessing, setdeleteprocessing] = React.useState(false);
   const [modalImage, setModalImage] = useState<string>("")
 
   const [toggleReplay, settoggleReplay] = useState(null)
@@ -56,6 +58,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   }
 
   function deletePost() {
+    setdeleteprocessing(true)
     DeleteSocialWallPost({ id: post.id })
   }
 
@@ -124,7 +127,9 @@ const SquareBox = ({ post, index }: AppProps) => {
   };
 
   return (
-    <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="1" borderColor="primary.box">
+    <>
+       {deleteprocessing && <Box mb={3}><WebLoading /></Box>}
+      {!deleteprocessing && <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="1" borderColor="primary.box">
       <VStack space="3">
 
 
@@ -161,13 +166,13 @@ const SquareBox = ({ post, index }: AppProps) => {
                   w={180}
                   crossOffset={0}
                   trigger={(triggerProps) => {
-                    return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal" />
+                    return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'primary.text'} as={Entypo} name="dots-three-horizontal" />
                     </Button>
                   }}
 
                 >
-                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{labels?.SOCIAL_WALL_LIKE}</Menu.Item>
-                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>{labels?.GENERAL_DELETE}</Menu.Item>
+                  <Menu.Item _text={{color: 'primary.boxsolidtext'}} _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{labels?.SOCIAL_WALL_LIKE}</Menu.Item>
+                  <Menu.Item _text={{color: 'primary.boxsolidtext'}} _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>{labels?.GENERAL_DELETE}</Menu.Item>
                 </Menu>
               </HStack>
 
@@ -236,23 +241,23 @@ const SquareBox = ({ post, index }: AppProps) => {
               }}
 
             >
-              <Popover.Content bg={'primary.boxsolid'}>
+              <Popover.Content p={0}   minW={220} maxW={260} bg={'primary.boxsolid'}>
                 <Popover.Body bg={'primary.boxsolid'} borderTopWidth="0" p={0} rounded={6}>
                   <Box bg={'primary.boxsolid'} py={3} borderWidth="0" borderColor="primary.box">
-                    <HStack width={'100%'} px={3} mb={2} space="1" alignItems="center">
-                      <Icolikealt width={20} height={20} />
-                      <Text fontSize="md" fontWeight={500}>{labels?.SOCIAL_WALL_LIKES}</Text>
+                    <HStack width={'100%'} px={3} space="1" alignItems="center">
+                      <Icon color={'primary.boxsolidtext'} as={AntDesign} name="like1" size={'md'} />
+                      <Text color={'primary.boxsolidtext'} fontSize="md" fontWeight={500}>  {labels?.SOCIAL_WALL_LIKES}</Text>
                     </HStack>
 
 
                     <ScrollView maxHeight={200}>
                       {post.likes.map((like) => (
                         <>
-                          <Divider bg={'primary.bordercolor'} />
-                          <HStack key={like.id} alignItems="center" px={3} mt={3}>
+                          <Divider  my={3} bg={'primary.bordercolor'} />
+                          <HStack key={like.id} alignItems="center" px={3}>
                             <Avatar
                               borderWidth={1}
-                              borderColor="primary.text"
+                              borderColor="primary.boxsolidtext"
                               size="sm"
                               source={{
                                 uri: `${_env.eventcenter_base_url}/assets/attendees/${like.attendee.image}`,
@@ -260,7 +265,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                             >
                               SS
                             </Avatar>
-                            <Text fontSize="md" ml={3}>{like.attendee.full_name}</Text>
+                            <Text color={'primary.boxsolidtext'} fontSize="md" ml={3}>{like.attendee.full_name}</Text>
                           </HStack>
                         </>
                       ))}
@@ -372,7 +377,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                     }}
                   >
                     <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
-                      Top Comments
+                      {labels?.SOCIAL_WALL_TOP_COMMENTS}
                     </Menu.Item>
                     <Menu.Item
                       _focus={{ bg: '' }}
@@ -380,7 +385,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                       textValue="comments_newest"
                       onPress={() => handleCommentsSortBy('newest')}
                     >
-                      Newest
+                      {labels?.SOCIAL_WALL_NEWEST}
                     </Menu.Item>
                   </Menu>
                 </Box>
@@ -389,8 +394,9 @@ const SquareBox = ({ post, index }: AppProps) => {
 
             <VStack overflowY={'auto'} maxHeight={'250px'}>
               {sortedComments.map((comment: Comment) => {
-                const totalReplies: number = comment.replies.length;
+                const totalReplies: number = comment.replies.length ? comment.replies.length : 0;
                 const visibleReplies = toggleReplay && commnetid === comment.id ? comment.replies.length : (hiddenReplies[comment.id] ?? 1);
+                
                 const remainingReplies = totalReplies - visibleReplies;
 
                 return <React.Fragment key={comment.id}>
@@ -447,7 +453,8 @@ const SquareBox = ({ post, index }: AppProps) => {
             </HStack>
           </>}
       </VStack>
-    </Box>
+    </Box>}
+    </>
   )
 
 }

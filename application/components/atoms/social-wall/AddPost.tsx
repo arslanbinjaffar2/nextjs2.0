@@ -279,7 +279,7 @@ const AddPost = () => {
                            createPost();
                         }}
                     >
-                        POST
+                        {labels?.SOCIAL_WALL_POST}
                     </Button>
                 </Center>
             </HStack>

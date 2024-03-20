@@ -241,8 +241,12 @@ body {
 }
 .css-reset-4rbku5:hover{
   color:green !important;
+}
 .wrapper-select.isDisabled {
   pointer-events: none;
+}
+#ebs-navigation-slider .slick-list .slick-track {
+  margin: auto;
 }
 `;
 

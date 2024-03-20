@@ -59,7 +59,7 @@ const ContactInfo = () => {
                     </Box>
                 </HStack>}
             </VStack>}
-                  <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'center'} alignItems={'center'} mt={'1'}>
+                  <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
                         {detail?.detail?.facebook && detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://' ? (
                             <Pressable
                                 onPress={async () => {
