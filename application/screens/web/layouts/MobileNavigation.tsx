@@ -35,9 +35,9 @@ const MobileNavigation = () => {
         console.log('first')
       },
       afterChange: (currentSlide: any) => {
-        if (sliderRef.current) {
-          setrightArrow(sliderRef?.current?.innerSlider?.state?.slideCount - (currentSlide+4) )
-        }
+     
+          setrightArrow((modules.length+1) - (currentSlide+4) )
+        
         setleftArrow(currentSlide)
     }
     };
