@@ -20,6 +20,12 @@ export interface Alert {
   display_alert_date: string;
 }
 
+export interface AlertSetting {
+  id: number;
+  event_id: number;
+  display_in_dashboard: number;
+}
+
 export interface Alertdetail {
   title: string;
   description: string;

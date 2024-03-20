@@ -91,7 +91,7 @@ const MobileNavigation = () => {
                       }
                     }}
                   >
-                    <DynamicIcon iconType={module?.alias.replace('-', '_')} iconProps={{ width: 24, height: 21 }} />
+                    <DynamicIcon iconType={module?.alias.replace(/-/g, '_')} iconProps={{ width: 24, height: 21 }} />
                     <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name}</Text>
                   </Pressable>
                 )}
