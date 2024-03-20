@@ -32,6 +32,15 @@ const ContactInfo = () => {
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" roundedTop={8} space="3" alignItems="center">
                 <Icodocument width="15px" height="18px" />
                 <Text fontSize="lg">{event?.labels?.ATTENDEE_CONTACT_INFO}</Text>
+              <Spacer />
+              <IconButton
+                variant="unstyled"
+                p={0}
+                icon={<IcoVCF />}
+                onPress={()=>{
+                  console.log('hello')
+                }}
+              />
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
@@ -51,7 +60,7 @@ const ContactInfo = () => {
                     </Box>
                 </HStack>}
             </VStack>}
-                  <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
+            <HStack space={3} p={3} pt={0} pb={4} w={'100%'} alignItems={'flex-start'}>
                         {detail?.detail?.facebook && detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://' ? (
                             <Pressable
                                 onPress={async () => {
