@@ -46,7 +46,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
         }
         MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
     }
-
+   const [isOpen,setIsOpen]=useState(false)
     return (
         <>
             <Box w={w ? w : '49%'}>
@@ -94,11 +94,50 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
                                 <Center alignItems="flex-start" w='120px'  p="0">
                                     <ZStack position={'relative'} reversed>
                                         {sponsor?.categories.length > 0 && sponsor?.categories.slice(0,3).map((cat, i)=>(
-                                            <Box key={cat.id} bg={cat.color} borderWidth="1"  borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(sponsor?.categories[0]?.info.name, 14)) + 16 + (i * 10)}px`} px="2">
-                                                {i== 0 && <Text color={colorText(cat.color)} isTruncated lineHeight={25}  fontSize="sm">{cat?.info?.name}</Text>}
+                                            <Box
+                                        
+                                            key={cat.id} bg={cat.color} borderWidth="1"  borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(sponsor?.categories[0]?.info.name, 14)) + 16 + (i * 10)}px`} px="2">
+                                                {i== 0 && <Text color={colorText(cat.color)} isTruncated lineHeight={25}  fontSize="sm" onPress={()=>setIsOpen(true)}>{cat?.info?.name}</Text>}
                                             </Box>
                                         ))}
-
+                                            {sponsor?.categories.length<=3 &&<Popover
+                                                isOpen={isOpen}
+                                                placement='top'
+                                                
+                                                onClose={()=>setIsOpen(false)}
+                                                trigger={(triggerProps) => {
+                                                    return <Button
+                                                        bg={'transparent'}
+                                                        px={1}
+                                                        py={0}
+                                                        mr={2}
+                                                        position={'relative'}
+                                                        top={'1'}
+                                                        // left={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 : measureText(sponsor?.categories[0]?.info.name, 14)) + 28 + (1 * 10)}px`}
+                                                        rounded={'full'}
+                                                        {...triggerProps}
+                                                    >
+                                                        {/* {sponsor?.categories.length > 0 && sponsor?.categories.slice(0, 3).map((cat, i) => (
+                                                            <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1" 
+                                                            w={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 : measureText(sponsor?.categories[0]?.info.name, 14)) + 16 + (i * 10)}px`} px="2">
+                                                                {i == 0 && <Text color={colorText(cat.color)} isTruncated lineHeight={25} fontSize="sm">{cat?.info?.name}</Text>}
+                                                            </Box>
+                                                        ))} */}
+                                                    </Button>
+                                                }}>
+                                                <Popover.Content borderColor={'primary.500'} bgColor={'primary.500'}>
+                                                    <Popover.Arrow borderColor={'primary.500'} bgColor={'primary.500'} />
+                                                    <Popover.Body borderTopWidth="0" borderColor={'primary.500'} bgColor={'primary.500'}>
+                                                        <HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
+                                                            {sponsor.categories.map((category: Category, i: number) => (
+                                                                <Box mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
+                                                                    <Text color={colorText(category.color)} fontSize="sm">{`${category.info.name}`}</Text>
+                                                                </Box>
+                                                            ))}
+                                                        </HStack>
+                                                    </Popover.Body>
+                                                </Popover.Content>
+                                            </Popover>}
 																			{settings?.catTab == 1 &&  sponsor.categories.length > 3 &&
 																				<>
 																				<Spacer />
@@ -163,3 +202,46 @@ function measureText(str:string, fontSize:number) {
     (acc, cur) => acc + (widths[cur.charCodeAt(0)] ?? avg), 0
   ) * fontSize
 }
+
+
+
+
+// function PopUp({children}:{children:React.ReactChildren}){
+// return(
+//     <>
+//         <Popover
+//             trigger={(triggerProps) => {
+//                 return <Button
+//                     bg={'transparent'}
+//                     px={1}
+//                     py={0}
+//                     mr={2}
+//                     position={'relative'}
+//                     // left={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 : measureText(sponsor?.categories[0]?.info.name, 14)) + 28 + (1 * 10)}px`}
+//                     rounded={'full'}
+//                     {...triggerProps}
+//                 >
+//                     {sponsor?.categories.length > 0 && sponsor?.categories.slice(0, 3).map((cat, i) => (
+//                         <Box key={cat.id} bg={cat.color} borderWidth="1" borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"
+//                             w={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 : measureText(sponsor?.categories[0]?.info.name, 14)) + 16 + (i * 10)}px`} px="2">
+//                             {i == 0 && <Text color={colorText(cat.color)} isTruncated lineHeight={25} fontSize="sm">{cat?.info?.name}</Text>}
+//                         </Box>
+//                     ))}
+//                 </Button>
+//             }}>
+//             <Popover.Content borderColor={'primary.500'} bgColor={'primary.500'}>
+//                 <Popover.Arrow borderColor={'primary.500'} bgColor={'primary.500'} />
+//                 <Popover.Body borderTopWidth="0" borderColor={'primary.500'} bgColor={'primary.500'}>
+//                     <HStack flexWrap={'wrap'} maxW={350} minW={240} space={1}>
+//                         {sponsor.categories.map((category: Category, i: number) => (
+//                             <Box mb="5px" display={'block'} flexShrink={1} key={i} px={3} py={1} bg={category?.color} rounded={'full'}>
+//                                 <Text color={colorText(category.color)} fontSize="sm">{`${category.info.name}`}</Text>
+//                             </Box>
+//                         ))}
+//                     </HStack>
+//                 </Popover.Body>
+//             </Popover.Content>
+//         </Popover>
+//     </>
+// )
+// }
