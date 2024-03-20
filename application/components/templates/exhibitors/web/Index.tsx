@@ -138,7 +138,7 @@ const Index = React.memo(() => {
                         </HStack>
                         }
                         {mode === "list" &&
-                            <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.box">
+                                    <Box w="100%" rounded="10" bg="primary.box" borderWidth={exhibitors.length > 0?"1":"0"} borderColor="primary.box">
                                 <ScrollView h={'53%'}>
                                     {exhibitors.length > 0 && exhibitors.map((exhibitor: Exhibitor, key: number) =>
                                         <RectangleView exhibitor={exhibitor} border={exhibitors.length === 0 ? 0 : exhibitors.length > 0 && key === exhibitors.length-1 ? 0 : 1} key={key} />
@@ -163,13 +163,18 @@ const Index = React.memo(() => {
                             </Box>
                         }
                     </>}
-                    
-                    {tab === 'category' && <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+
+                    {tab === 'category' && <Box w="100%" rounded="10" bg={categories.length > 0 ?"primary.box":""} borderWidth="0" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
                             <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                {categories.length > 0 && categories.map((category: ExhibitorCategory, key: number) =>
+                                {categories.length > 0 ?
+                                 categories.map((category: ExhibitorCategory, key: number) =>
                                     <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
-                                )}
+                                )
+                                 : <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
+                                                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                            </Box>
+                            }
                             </HStack>
                         </ScrollView>
                     </Box>}

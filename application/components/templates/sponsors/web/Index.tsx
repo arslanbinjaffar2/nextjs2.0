@@ -146,7 +146,7 @@ const Index = React.memo(() => {
                         </HStack>
                         )}
                         {mode === "list" &&
-                            <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.box">
+                                    <Box w="100%" rounded="10" bg="primary.box" borderWidth={sponsors.length > 0 ?"1":"0"} borderColor="primary.box">
                                 <ScrollView h={'53%'}>
                                     {sponsors.length > 0 && sponsors.map((sponsor: Sponsor, key: number) =>
                                         <RectangleView border={sponsors.length === 0 ? 0 : sponsors.length > 0 && key === sponsors.length-1 ? 0 : 1} sponsor={sponsor}  key={key} />
@@ -171,9 +171,9 @@ const Index = React.memo(() => {
                             </Box>
                         }
                     </>}
-
+                   
                     {tab === 'category' && (
-                      <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+                                <Box w="100%" rounded="10" bg="primary.box" borderWidth={categories.length > 0 ? "1":"0"} borderColor="primary.bdBox">
                           {categories.length > 0 ? (
                             <ScrollView h={'60%'} w={'100%'}>
                                 <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
@@ -183,7 +183,7 @@ const Index = React.memo(() => {
                                 </HStack>
                             </ScrollView>
                           ) : (
-                            <Box p={3} >
+                            <Box p={3}>
                                 <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                             </Box>
                           )}
