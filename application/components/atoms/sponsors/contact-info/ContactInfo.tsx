@@ -12,9 +12,11 @@ import { Linking } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseSponsorService from 'application/store/services/UseSponsorService';
+import UseEventService from '../../../../store/services/UseEventService'
 
 const ContactInfo = () => {
   const { detail } = UseSponsorService();
+  const { event  } = UseEventService();
   return (
     <>
         {detail && (
@@ -26,6 +28,8 @@ const ContactInfo = () => {
             || (detail?.detail?.website !== '' && detail?.detail?.website !== 'http://' &&  detail?.detail?.linkedin !== 'https://')
         ) && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" roundedTop={8} alignItems="center">
+                <Icodocument width="15px" height="18px" />
+              <Text fontSize="lg">{event?.labels?.ATTENDEE_CONTACT_INFO}</Text>
                 <Icouser width="18px" height="18px" />
                 <Text fontSize="lg">Contact Info</Text>
 								<Spacer />
@@ -36,10 +40,10 @@ const ContactInfo = () => {
 									onPress={()=>{
 									console.log('hello')
 									}}
-									
+
 								/>
-								
-								
+
+
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
