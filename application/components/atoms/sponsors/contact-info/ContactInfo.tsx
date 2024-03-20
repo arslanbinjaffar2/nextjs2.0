@@ -13,7 +13,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseSponsorService from 'application/store/services/UseSponsorService';
 import UseEventService from '../../../../store/services/UseEventService'
-
+import Icodocument from 'application/assets/icons/small/Icodocument';
 const ContactInfo = () => {
   const { detail } = UseSponsorService();
   const { event  } = UseEventService();
@@ -29,9 +29,7 @@ const ContactInfo = () => {
         ) && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" roundedTop={8} alignItems="center">
                 <Icodocument width="15px" height="18px" />
-              <Text fontSize="lg">{event?.labels?.ATTENDEE_CONTACT_INFO}</Text>
-                <Icouser width="18px" height="18px" />
-                <Text fontSize="lg">Contact Info</Text>
+                <Text fontSize="lg">{event?.labels?.ATTENDEE_CONTACT_INFO}</Text>
 								<Spacer />
 								<IconButton
 									variant="unstyled"
