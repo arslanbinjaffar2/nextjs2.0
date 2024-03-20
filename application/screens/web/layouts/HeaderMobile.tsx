@@ -9,6 +9,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
 import UseNotificationService from 'application/store/services/UseNotificationService';
+import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 
 const HeaderMobile = ({ width }: any) => {
   const { _env } = UseEnvService();
@@ -99,6 +100,14 @@ const [open, setOpen] = React.useState(false)
         </Container>
         
       </Drawer>
+      <HStack space={'6'} flexDirection={'row'} alignItems={'center'}>
+        <Box>
+        <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+        </Box>
+        <Box>
+          <UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled " location="Room 242" date="11-03-2022" time="11-00"  />
+        </Box>
+      </HStack>
     </>
   );
 }
