@@ -67,35 +67,37 @@ const MobileNavigation = () => {
               </Pressable>
             </Box>
             {modules.map((module, index) => (
-              <Box key={index}>
-                {module.show_on_dashboard === 1 && (
-                  <Pressable
-                    p="0"
-                    display={'flex'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    borderWidth="0"
-                    onPress={() => {
-                      if (in_array(module?.alias, ['practical-info', 'general-info', 'additional-info'])) {
-                        router.push(`/${event.url}/${module?.alias}/event-info/0`)
-                      } else if (in_array(module?.alias, ['information_pages'])) {
-                        if(module?.section_type === 'link') {
-                          push(`${event.url}`)
+              <>
+                {(module.show_on_dashboard && module.show_on_dashboard === 1) ? (
+                  <Box key={index}>
+                    <Pressable
+                      p="0"
+                      display={'flex'}
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                      borderWidth="0"
+                      onPress={() => {
+                        if (in_array(module?.alias, ['practical-info', 'general-info', 'additional-info'])) {
+                          router.push(`/${event.url}/${module?.alias}/event-info/0`)
+                        } else if (in_array(module?.alias, ['information_pages'])) {
+                          if(module?.section_type === 'link') {
+                            push(`${event.url}`)
+                          } else {
+                            router.push(`/${event.url}/information-pages${module?.section_type === 'child_section' ? '/sub' : ''}/${module?.id}`)
+                          }
+                        } else if (module?.alias === 'my-registrations') {
+                          push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
                         } else {
-                          router.push(`/${event.url}/information-pages${module?.section_type === 'child_section' ? '/sub' : ''}/${module?.id}`)
+                          router.push(`/${event.url}/${module?.alias}`)
                         }
-                      } else if (module?.alias === 'my-registrations') {
-                        push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
-                      } else {
-                        router.push(`/${event.url}/${module?.alias}`)
-                      }
-                    }}
-                  >
-                    <DynamicIcon iconType={module?.alias.replace(/-/g, '_')} iconProps={{ width: 24, height: 21 }} />
-                    <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name}</Text>
-                  </Pressable>
-                )}
-              </Box>
+                      }}
+                    >
+                      <DynamicIcon iconType={module?.alias.replace(/-/g, '_')} iconProps={{ width: 24, height: 21 }} />
+                      <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name}</Text>
+                    </Pressable>
+                  </Box>
+                ): null}
+              </>
             ))}
           </Slider>
       </View>
