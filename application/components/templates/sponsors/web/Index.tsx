@@ -190,10 +190,12 @@ const Index = React.memo(() => {
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'sponsors'} module_type={'listing'} />
                     </Box>
-                </>
+                    </> 
                 )}
-            </Container>
-        </>
-)})
+                
+                </Container>
+                </>
+    )
+})
 
 export default Index
