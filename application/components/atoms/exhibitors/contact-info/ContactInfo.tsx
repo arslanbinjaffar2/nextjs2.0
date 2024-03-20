@@ -12,9 +12,13 @@ import { Linking } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
+import UseEventService from '../../../../store/services/UseEventService'
+import Icodocument from 'application/assets/icons/small/Icodocument';
 
 const ContactInfo = () => {
   const { detail } = UseExhibitorService();
+  const { event  } = UseEventService();
+
   return (
     <>
         {detail && (
@@ -26,18 +30,8 @@ const ContactInfo = () => {
             || (detail?.detail?.website !== '' && detail?.detail?.website !== 'http://' &&  detail?.detail?.linkedin !== 'https://')
         ) && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" roundedTop={8} space="3" alignItems="center">
-                <Icouser width="18px" height="18px" />
-                <Text fontSize="lg">Contact Info</Text>
-                <Spacer />
-                <IconButton
-                    variant="unstyled"
-                    p={0}
-                    icon={<IcoVCF />}
-                    onPress={()=>{
-                    console.log('hello')
-                    }}
-                    
-                />
+                <Icodocument width="15px" height="18px" />
+                <Text fontSize="lg">{event?.labels?.ATTENDEE_CONTACT_INFO}</Text>
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
