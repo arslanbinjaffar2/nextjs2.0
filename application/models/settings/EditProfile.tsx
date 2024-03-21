@@ -177,6 +177,10 @@ export interface Language {
 export interface Attendee {
   id: number;
   email: string;
+  title: string;
+  about: string;
+  network_group: string;
+  industry: string;
   ss_number: string;
   first_name: string;
   last_name: string;
