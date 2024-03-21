@@ -12,7 +12,7 @@ import { Linking } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
-import UseEventService from '../../../../store/services/UseEventService'
+import UseEventService from 'application/store/services/UseEventService'
 import Icodocument from 'application/assets/icons/small/Icodocument';
 
 const ContactInfo = () => {
@@ -32,15 +32,16 @@ const ContactInfo = () => {
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" roundedTop={8} space="3" alignItems="center">
                 <Icodocument width="15px" height="18px" />
                 <Text fontSize="lg">{event?.labels?.ATTENDEE_CONTACT_INFO}</Text>
-              <Spacer />
-              <IconButton
-                variant="unstyled"
-                p={0}
-                icon={<IcoVCF />}
-                onPress={()=>{
-                  console.log('hello')
-                }}
-              />
+                <Spacer />
+                <IconButton
+                    variant="unstyled"
+                    p={0}
+                    icon={<IcoVCF />}
+                    onPress={()=>{
+                    console.log('hello')
+                    }}
+                    
+                />
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">

@@ -8,7 +8,6 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import { Attendee } from 'application/models/attendee/Attendee';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEventService from 'application/store/services/UseEventService';
-import UseBannerService from 'application/store/services/UseBannerService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import debounce from 'lodash.debounce';
 import LoadMore from 'application/components/atoms/LoadMore';
