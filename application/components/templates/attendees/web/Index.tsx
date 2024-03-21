@@ -8,7 +8,6 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import { Attendee } from 'application/models/attendee/Attendee';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEventService from 'application/store/services/UseEventService';
-import UseBannerService from 'application/store/services/UseBannerService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import debounce from 'lodash.debounce';
 import LoadMore from 'application/components/atoms/LoadMore';
@@ -21,8 +20,6 @@ import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
 import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';
 import { Category } from 'application/models/event/Category';
-import UseEnvService from 'application/store/services/UseEnvService'
-import { Banner } from 'application/models/Banner'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 

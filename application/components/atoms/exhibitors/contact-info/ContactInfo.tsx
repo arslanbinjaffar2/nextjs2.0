@@ -13,7 +13,8 @@ import { Linking } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
-import UseEventService from '../../../../store/services/UseEventService'
+import UseEventService from 'application/store/services/UseEventService'
+import Icodocument from 'application/assets/icons/small/Icodocument';
 
 const ContactInfo = () => {
   const { detail } = UseExhibitorService();
