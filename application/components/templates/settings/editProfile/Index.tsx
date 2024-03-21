@@ -652,7 +652,7 @@ const Selectstyles2 = {
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.delegate}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}
-                            
+
                             >
                                 <Input w="100%"
 									h={'50px'}
@@ -813,12 +813,12 @@ const Selectstyles2 = {
                                     
                                 <Radio.Group space="5"   value={gender} name="MyRadioGroup" onChange={(gender) => { setGender(gender); }}>
                                     <HStack space="3" alignItems="center">
-                                        <Radio  
-                                        isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} 
-                                        value={'male'} 
+                                        <Radio
+                                        isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                        value={'male'}
                                         opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> Male </Radio>
-                                        <Radio  
-                                        isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} 
+                                        <Radio
+                                        isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                         value={'female'}
                                         opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> Female </Radio>
                                     </HStack>
@@ -1062,8 +1062,8 @@ const Selectstyles2 = {
                                     </HStack>
                             </HStack>
                     )}
-                    {setting?.name === 'resume' && (
-                            <HStack mb="3" alignItems="start" px="6"  w="100%" >
+                    {setting?.name === 'resume' && setting?.is_editable === 1 && (
+                            <HStack mb="3" alignItems="start" px="3"  w="100%" >
                             
                                 <HStack mb="3" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
                                     <Center alignItems="flex-start" width={'225px'}  pb={[2,0]} maxW={["100%","225px"]}>
@@ -1088,7 +1088,7 @@ const Selectstyles2 = {
                                                 </Center>
 
                                                 <Button w={180} px={4} py={3}leftIcon={<Icon as={Ionicons} color={'primary.text'} name="cloud-upload-outline" size="lg" />}
-                                                    // isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                                    isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                     onPress={()=>{
                                                         if(inputresumeFileRef.current){
                                                             inputresumeFileRef.current.click();
@@ -1197,7 +1197,7 @@ const Selectstyles2 = {
             </HStack>}
             </VStack>
             ))}
-            
+
             {<HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                     <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
