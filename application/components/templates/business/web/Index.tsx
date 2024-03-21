@@ -34,11 +34,12 @@ const Index = () => {
         FetchNetworkInterests();
     }, [])
 
-
+    const module = modules.find((module) => module.alias === 'business');
   return (
     <>
+        <NextBreadcrumbs module={module} />
         {loading && <SectionLoading />}
-        {(!loading  && keywords.length <=0 ) && <Text>No keyword found</Text>} 
+        {(!loading  && keywords.length <=0 ) && <Text pt={5}>No keyword found</Text>} 
         {(!loading  && keywords.length > 0 ) && <ManageKeywords 
           keywords={keywords} 
           searchMatchAttendees={searchMatchAttendees} 
