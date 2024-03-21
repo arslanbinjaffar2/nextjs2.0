@@ -26,7 +26,6 @@ const Index = ({ navigation }: indexProps) => {
   const router = useRouter();
 
   const id: any = router.query['id'];
-  console.log("🚀 ~ Index ~ id:", id)
 
   const { FetchInfo, info, ClearState } = UseInfoService();
 
