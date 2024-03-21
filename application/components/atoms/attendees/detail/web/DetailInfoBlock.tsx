@@ -245,10 +245,10 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     
-                                    {setting.name === 'pa_country' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.country! && (
+                                    {setting.name === 'pa_country' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_country_display_name! && (
                                         <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
-                                                <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.country}:</Heading>
+                                                <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{event?.labels?.ATTENDEE_PRIVATE_COUNTRY}:</Heading>
                                             </Box>
                                             <Box pl="1" w="calc(100% - 200px)">
                                                 <Text fontSize="sm">{detail?.detail?.info?.private_country_display_name}</Text>
