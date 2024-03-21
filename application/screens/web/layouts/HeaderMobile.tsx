@@ -101,13 +101,29 @@ const [open, setOpen] = React.useState(false)
         
       </Drawer>
        <HStack w={'100%'} space={'3'} flexDirection={'row'}
-       flexWrap={'wrap'}
-       justifyContent={'center'} alignItems={'center'} mx={'1.5'}>
-        <Box flex={'1'} width={'50%'} overflowY={'scroll'} h={'150px'}>
-        <UpcomingBlock title="UPCOMING SESSION" desc='gghgh' location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+      //  flexWrap={'wrap'}
+      alignItems={'center'}>
+        <Box width={'40%'}
+          height={"129px"} 
+       
+        >
+        <UpcomingBlock
+            px="3"
+            py="4"
+            h='100%'
+            title="UPCOMING SESSION" desc='Talk on w' location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
         </Box>
-        <Box flex={'1'} width={'50%'} overflowY={'scroll'} h={'150px'}>
-          <UpcomingBlock title="NOTIFICATIONS" desc="Talk on w " location="..." date="11-03-2022" time="11-00"  />
+        <Box width={'40%'}
+          height={"129px"}
+
+
+        >
+          
+          <UpcomingBlock 
+            px="3"
+            py="4"
+            h='100%'
+          title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
         </Box>
       </HStack> 
     </>
