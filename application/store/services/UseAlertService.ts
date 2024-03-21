@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectAlerts, SelectAttendeeAlerts, AlertActions,  } from 'application/store/slices/Alert.Slice'
+import { SelectAlerts, SelectAttendeeAlerts, AlertActions  } from 'application/store/slices/Alert.Slice'
 
 import {  Alert } from 'application/models/alert/Alert'
 
@@ -10,6 +10,7 @@ export type AlertServiceOperators = {
     alerts: Alert[],
     attendee_alerts: "" | number[],
     FetchAlerts: () => void,
+    FetchAlertDetail: (payload: { id: number }) => void,
     markAlertRead: (payload:{alertIds:string}) => void,
 }
 
@@ -28,6 +29,12 @@ export const UseAlertService = (): Readonly<AlertServiceOperators> => {
         FetchAlerts: useCallback(
             () => {
                 dispatch(AlertActions.FetchAlerts())
+            },
+            [dispatch],
+        ),
+        FetchAlertDetail: useCallback(
+            (payload: { id: number }) => {
+                dispatch(AlertActions.fetchAlertDetail(payload))
             },
             [dispatch],
         ),

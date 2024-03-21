@@ -1,11 +1,14 @@
 import React from 'react';
 import moment from 'moment';
+import { useRouter } from 'next/router';
+import UseEventService from '../../../store/services/UseEventService'
 import { Box, HStack, Spacer, Text, VStack, Pressable, Icon, Center, Badge } from 'native-base'
 import IcoBell from 'application/assets/icons/IcoBell';
 import { GENERAL_DATE_FORMAT, GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals'
 
-const RectangleView = ({ title, description, date, time, is_last_item }: { title: string, description: string, date: string, time: string, is_last_item: boolean }) => {
-
+const RectangleView = ({ id, title, description, date, time, is_last_item }: { id: number, title: string, description: string, date: string, time: string, is_last_item: boolean }) => {
+  const router = useRouter();
+  const { event } = UseEventService();
   const formatDateTime = (alertTime: string, alertDate: string) => {
     const combinedDateTime = moment(`${alertDate} ${alertTime}`, "DD-MM-YYYY HH:mm:ss");
     const now = moment();
@@ -23,10 +26,15 @@ const RectangleView = ({ title, description, date, time, is_last_item }: { title
     }
   };
 
+  const navigateToDetail = () => {
+    router.push(`/${event.url}/alerts/detail/${id}`);
+  };
+
   return (
     <Pressable
       p="0"
       w="100%"
+      onPress={navigateToDetail}
       _hover={{ bg: 'primary.500' }}>
       <Box w="100%" borderBottomWidth='1' borderColor="primary.bordercolor" py="3">
         <HStack px="3" w="100%" space="2" alignItems="flex-start" justifyContent={'space-between'}>
