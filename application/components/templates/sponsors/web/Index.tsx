@@ -194,7 +194,6 @@ const Index = React.memo(() => {
                 )}
 
                 </Container>
-            )}
         </>
     )
 
