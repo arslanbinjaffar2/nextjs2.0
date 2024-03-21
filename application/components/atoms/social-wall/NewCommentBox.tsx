@@ -60,7 +60,7 @@ const NewCommentBox = ({ post_id, parent_id, saveComment, labels }: AppProps, re
           }
         }}
         ref={inputCommentRef}
-        placeholder={parent_id === 0 ? 'Add New comment' : labels?.SOCIAL_WALL_WRITE_A_REPLY}
+        placeholder={parent_id === 0 ? labels?.SOCIAL_WALL_WRITE_A_REPLY : labels?.SOCIAL_WALL_WRITE_A_REPLY}
       />
       {/* <Button
                 variant="unstyled"

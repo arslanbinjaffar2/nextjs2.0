@@ -12,9 +12,11 @@ import { Linking } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseSponsorService from 'application/store/services/UseSponsorService';
-
+import UseEventService from '../../../../store/services/UseEventService'
+import Icodocument from 'application/assets/icons/small/Icodocument';
 const ContactInfo = () => {
   const { detail } = UseSponsorService();
+  const { event  } = UseEventService();
   return (
     <>
         {detail && (
@@ -26,8 +28,8 @@ const ContactInfo = () => {
             || (detail?.detail?.website !== '' && detail?.detail?.website !== 'http://' &&  detail?.detail?.linkedin !== 'https://')
         ) && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" roundedTop={8} alignItems="center">
-                <Icouser width="18px" height="18px" />
-                <Text fontSize="lg">Contact Info</Text>
+                <Icodocument width="15px" height="18px" />
+                <Text fontSize="lg">{event?.labels?.ATTENDEE_CONTACT_INFO}</Text>
 								<Spacer />
 								<IconButton
 									variant="unstyled"
@@ -36,10 +38,10 @@ const ContactInfo = () => {
 									onPress={()=>{
 									console.log('hello')
 									}}
-									
+
 								/>
-								
-								
+
+
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
@@ -59,7 +61,7 @@ const ContactInfo = () => {
                     </Box>
                 </HStack>}
             </VStack>}
-            <HStack space={3} p={3} pt={0} pb={4} alignItems={'flex-start'} w={'100%'}>
+                  <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
                         {detail?.detail?.facebook && detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://' ? (
                             <Pressable
                                 onPress={async () => {

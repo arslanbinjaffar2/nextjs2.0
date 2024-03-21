@@ -9,7 +9,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
-
+import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
 
 type boxItemProps = {
   attendee: Attendee
@@ -29,6 +29,17 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   const { push } = useRouter()
 
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
+
+  const [isFav, setIsFav] = React.useState<boolean>(false);
+
+  React.useMemo(() => {
+    setIsFav(attendee?.favourite == 1 ? true : false)
+  }, [attendee?.favourite])
+
+  function toggleFav(){
+    setIsFav(!isFav);
+    MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
+  }
 
 
   return (
@@ -51,7 +62,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
           }
         }}>
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-          <HStack  w="100%" space="5" alignItems="center" justifyContent="space-between">
+          <HStack pt="2" w="100%" space="5" alignItems="center" justifyContent="space-between">
             {attendee?.image ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
@@ -93,10 +104,8 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               <HStack space="4" alignItems="center">
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
-                  onPress={() => {
-                    MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
-                  }}>
-                  <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.secondary_color : ''} />
+                  onPress={() => toggleFav()}>
+                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
                 </Pressable>
                 )}
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
