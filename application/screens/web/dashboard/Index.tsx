@@ -134,31 +134,36 @@ const Index = ({ navigation }: indexProps) => {
               loading ? (
                 <WebLoading />
               ):(
-                <Container pt="2" maxW="100%" w="100%">
-                  <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
-                    <Spacer />
-                  </HStack>
-                  
-                   {/*{alert_setting && alert_setting[0]?.display_in_dashboard === 1 && alerts.length > 0 ? (*/}
-                    <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                      {alerts.slice(0, 5).map((alert:Alert, i:Number)=>(
-                        <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false}  />
-                      ))}
-                    </Box>
-                  {/*) : (*/}
-                  {/*  <Box p="3">*/}
-                  {/*    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>*/}
-                  {/*  </Box>*/}
-                  {/*)}*/}
-                  <Center py="3" px="2" w="100%" alignItems="flex-end">
-                    <Button onPress={() => {
-                      push(`/${event.url}/alerts`)
-                    }} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                      Show all
-                    </Button>
-                  </Center>
-                </Container>
+                <>
+                  {alert_setting && (alert_setting as any).display_in_dashboard === 1 &&
+                  <Container pt="2" maxW="100%" w="100%">
+                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                      <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
+                      <Spacer />
+                    </HStack>
+                    
+                    
+                      <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
+                        {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
+                          <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false}  />
+                        ))}
+                      </Box>
+                    
+                    {/*) : (*/}
+                    {/*  <Box p="3">*/}
+                    {/*    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>*/}
+                    {/*  </Box>*/}
+                    {/*)}*/}
+                    <Center py="3" px="2" w="100%" alignItems="flex-end">
+                      <Button onPress={() => {
+                        push(`/${event.url}/alerts`)
+                      }} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                        Show all
+                      </Button>
+                    </Center>
+                  </Container>
+                  }
+                </>
               )
             }
           </>
