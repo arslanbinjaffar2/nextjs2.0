@@ -10,6 +10,7 @@ import { createParam } from 'solito';
 import UseEventService from 'application/store/services/UseEventService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { id: any, cms: any }
 
@@ -22,6 +23,7 @@ const PageDetail = (props: any) => {
   const { page, FetchPage, parent_folder, ClearState } = UseInfoService();
 
   const { push, back } = useRouter()
+  const { modules } = UseEventService();
 
   const [cms] = useParam('cms');
 
@@ -37,6 +39,7 @@ const PageDetail = (props: any) => {
         ClearState();
     }
   }, [id, cms]);
+  const module = modules.find((module) => module.alias === cms);
 
   return (
     <>
@@ -44,20 +47,7 @@ const PageDetail = (props: any) => {
         <SectionLoading />
       ) : (
       <Container pt="2" maxW="100%" w="100%">
-        <HStack mb="1" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
-          <HStack space="3" alignItems="center">
-            <Pressable
-              onPress={() => {
-                back();
-              }}
-            >
-              <HStack alignItems={'center'} space={3}>
-                <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                <Text fontSize="2xl">BACK</Text>
-              </HStack>
-            </Pressable>
-          </HStack>
-        </HStack>
+        <NextBreadcrumbs module={module} title={page.name}/>
          <Text w={'100%'} mb={2} fontSize="2xl" textAlign={'center'} textBreakStrategy='simple'>{page.name}</Text>
         <Detail />
       </Container>
