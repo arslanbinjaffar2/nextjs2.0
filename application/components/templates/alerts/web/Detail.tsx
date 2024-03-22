@@ -8,13 +8,6 @@ const { useParam } = createParam<ScreenParams>()
 
 const Detail = () => {
     const [_id] = useParam('id');
-    const { FetchAlertDetail, detail} = UseAlertService();
-
-    React.useEffect(() => {
-        if (_id) {
-            FetchAlertDetail({ id: Number(_id) });
-        }
-    }, [_id]);
     
   return (
       <></>
