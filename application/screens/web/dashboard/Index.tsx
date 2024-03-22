@@ -172,7 +172,7 @@ const Index = ({ navigation }: indexProps) => {
                 <WebLoading />
               ):(
                 <>
-                  {alert_setting && (alert_setting as any).display_in_dashboard === 1 &&
+                  {alert_setting && (alert_setting as any).display_in_dashboard === 1 && alerts.length > 0 &&
                   <Container pt="2" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                       <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
