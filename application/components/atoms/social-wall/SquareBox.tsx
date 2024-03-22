@@ -31,7 +31,6 @@ const SquareBox = ({ post, index }: AppProps) => {
   const { response } = UseAuthService();
   const { event } = UseEventService();
   const { LikeSocialWallPost, labels, SaveSocialWallComment, LikeSocialWallComment, DeleteSocialWallPost } = useSocialWallService();
-  console.log("🚀 ~ SquareBox ~ labels:", labels)
 
   const [activepopup, setactivepopup] = React.useState(false);
   const [modalImage, setModalImage] = useState<string>("")
@@ -90,9 +89,9 @@ const SquareBox = ({ post, index }: AppProps) => {
     });
     setSortedComments(sortedComments)
 
-    if (showCommentBox && commentBoxRef.current) {
-      commentBoxRef.current.focusInput();
-    }
+    // if (showCommentBox && commentBoxRef.current) {
+    //   commentBoxRef.current.focusInput();
+    // }
 
   }, [post.comments, commentsSortBy, showCommentBox]);
 
@@ -118,10 +117,13 @@ const SquareBox = ({ post, index }: AppProps) => {
   const commentBoxRef = useRef<{ focusInput: () => void }>(null);
 
   const handleSomeAction = () => {
-    // if (commentBoxRef.current) {
-    //   commentBoxRef.current?.focusInput();
-    // }
-    setShowCommentBox(current => !current);
+    setShowCommentBox(current => {
+      if (!current) {
+        // When showing the comment box, focus the input.
+        setTimeout(() => commentBoxRef.current?.focusInput(), 0);
+      }
+      return !current;
+    });
   };
 
   return (
