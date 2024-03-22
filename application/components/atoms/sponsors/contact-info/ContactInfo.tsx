@@ -13,7 +13,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseSponsorService from 'application/store/services/UseSponsorService';
 import UseEventService from 'application/store/services/UseEventService'
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import IcouserFilled from 'application/assets/icons/small/IcouserFilled';
 
 const ContactInfo = () => {
   const { detail } = UseSponsorService();
@@ -29,7 +29,7 @@ const ContactInfo = () => {
             || (detail?.detail?.website !== '' && detail?.detail?.website !== 'http://' &&  detail?.detail?.linkedin !== 'https://')
         ) && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" roundedTop={8} alignItems="center">
-                <Icodocument width="15px" height="18px" />
+                <IcouserFilled width="18px" height="18px" />
                 <Text fontSize="lg">{event?.labels?.ATTENDEE_CONTACT_INFO}</Text>
                 <Spacer />
                 <IconButton
@@ -63,7 +63,7 @@ const ContactInfo = () => {
                 </HStack>}
             </VStack>}
                   <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
-                        {detail?.detail?.facebook && detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://' ? (
+                        {detail?.detail?.facebook && detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://' && (
                             <Pressable
                                 onPress={async () => {
                                     const url: any = `${detail?.detail?.facebook}`;
@@ -74,8 +74,8 @@ const ContactInfo = () => {
                                 }}>
                                 <IcoFacebook width={30} height={30} />
                             </Pressable>
-                        ) : ''}
-                        {detail?.detail?.twitter && detail?.detail?.twitter !== '' && detail?.detail?.twitter !== 'http://' &&  detail?.detail?.twitter !== 'https://' ? (
+                        )}
+                        {detail?.detail?.twitter && detail?.detail?.twitter !== '' && detail?.detail?.twitter !== 'http://' &&  detail?.detail?.twitter !== 'https://' && (
                             <Pressable
                                 onPress={async () => {
                                     const url: any = `${detail?.detail?.twitter}`;
@@ -86,8 +86,8 @@ const ContactInfo = () => {
                                 }}>
                                 <IcoTwitterX width={30} height={30} />
                             </Pressable>
-                        ) : ''}
-                        {detail?.detail?.linkedin && detail?.detail?.linkedin !== '' && detail?.detail?.linkedin !== 'http://' &&  detail?.detail?.linkedin !== 'https://' ? (
+                        )}
+                        {detail?.detail?.linkedin && detail?.detail?.linkedin !== '' && detail?.detail?.linkedin !== 'http://' &&  detail?.detail?.linkedin !== 'https://' && (
                             <Pressable
                                 onPress={async () => {
                                     const url: any = `${detail?.detail?.linkedin}`;
@@ -98,8 +98,8 @@ const ContactInfo = () => {
                                 }}>
                                 <IcoLinkedIN width={30} height={30} />
                             </Pressable>
-                        ) : ''}
-                        {detail?.detail?.website && detail?.detail?.website !== '' && detail?.detail?.website !== 'http://' &&  detail?.detail?.website !== 'https://' ? (
+                        )}
+                        {detail?.detail?.website && detail?.detail?.website !== '' && detail?.detail?.website !== 'http://' &&  detail?.detail?.website !== 'https://' && (
                             <Pressable
                                 onPress={async () => {
                                     const url: any = `${detail?.detail?.website}`;
@@ -110,7 +110,7 @@ const ContactInfo = () => {
                                 }}>
                                 <IcoWebLink width={30} height={30} />
                             </Pressable>
-                        ) : ''}
+                        )}
 
                     </HStack>
     

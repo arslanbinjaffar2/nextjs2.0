@@ -9,7 +9,9 @@ import IcoFacebook from 'application/assets/icons/small/IcoFacebook';
 import IcoTwitterX from 'application/assets/icons/small/IcoTwitterX';
 import IcoLinkedIN from 'application/assets/icons/small/IcoLinkedIN';
 import IcoWebLink from 'application/assets/icons/small/IcoWebLink';
-import Icodocument from 'application/assets/icons/small/Icodocument';
+import IcoEnvelope from 'application/assets/icons/small/IcoEnvelope';
+import IcoPhone from 'application/assets/icons/small/IcoPhone';
+import IcouserFilled from 'application/assets/icons/small/IcouserFilled';
 import Vcfcontact from 'application/assets/icons/small/vcfcontact';
 import DynamicIcon from 'application/utils/DynamicIcon';
 
@@ -25,8 +27,8 @@ const ContactInfo = ({ detail }: AppProps) => {
   return (
     <>
       <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
-        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
-          <Icodocument width="15px" height="18px" />
+        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="2" alignItems="center" roundedTop={8}>
+          <IcouserFilled width="18px" height="18px" />
           <Text fontSize="lg">{event?.labels?.ATTENDEE_TAB_CONTACT_INFO}</Text>
           <Spacer />
           {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.attendee_type_name !='Attendee' ? (
@@ -38,26 +40,26 @@ const ContactInfo = ({ detail }: AppProps) => {
         {detail?.attendee_tabs_settings?.map((row: any, key: number) => (
           <React.Fragment key={key}>
             {row?.tab_name === 'contact_info' && row?.status == 1 && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && (
-              <VStack px="3" py="2" w="100%" space="3">
+              <VStack p="3" w="100%" space="3">
                 {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && (
                   <>
                     {detail?.detail?.email && detail?.detail?.email !== '' && (
-                      <HStack space="0" alignItems="flex-start">
-                        <Box w="20%">
-                          <Icon size="md" as={AntDesign} name="mail" color={'primary.text'} />
+                      <HStack space="1" alignItems="center">
+                        <Box>
+                        <IcoEnvelope />
                         </Box>
-                        <Box w="70%" pl="1">
-                          <Text fontSize="14px">{detail?.detail?.email}</Text>
+                        <Box pl="1">
+                            <Text fontSize="14px">{detail?.detail?.email}</Text>
                         </Box>
                       </HStack>
                     )}
                     {detail?.detail?.phone && detail?.detail?.phone !== '' && (
-                      <HStack space="0" alignItems="flex-start">
-                        <Box w="20%">
-                          <Icon size="md" as={AntDesign} name="phone" color={'primary.text'} />
+                      <HStack space="1" alignItems="center">
+                       <Box>
+                        <IcoPhone />
                         </Box>
-                        <Box w="70%" pl="1">
-                          <Text fontSize="14px">{detail?.detail?.phone}</Text>
+                        <Box pl="1">
+                            <Text fontSize="14px">{detail?.detail?.phone}</Text>
                         </Box>
                       </HStack>
                     )}
@@ -67,9 +69,9 @@ const ContactInfo = ({ detail }: AppProps) => {
             )}
           </React.Fragment>
         ))}
-        <Box py="3" px="4" w="100%">
-          <HStack p={2}>
-            {detail?.detail?.info?.facebook && detail?.detail?.info?.facebook && detail?.field_setting?.facebook && detail?.detail?.info?.facebook !== '' && detail?.detail?.info?.facebook !== 'http://' &&  detail?.detail?.info?.facebook !== 'https://' ? (
+        <Box py="0" px="0" w="100%">
+          <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
+            {detail?.detail?.info?.facebook && detail?.detail?.info?.facebook && detail?.field_setting?.facebook && detail?.detail?.info?.facebook !== '' && detail?.detail?.info?.facebook !== 'http://' &&  detail?.detail?.info?.facebook !== 'https://' && (
               <Pressable
                 onPress={async () => {
                   const url: any = `${detail?.detail?.info?.facebook}`;
@@ -78,10 +80,10 @@ const ContactInfo = ({ detail }: AppProps) => {
                     await Linking.openURL(url);
                   }
                 }}>
-                <Icon size="md" as={AntDesign} name="facebook-square" color={'primary.text'} />
+                <IcoFacebook width={30} height={30} />
               </Pressable>
-            ) : ''}
-            {detail?.detail?.info?.twitter && detail?.detail?.info?.twitter !== '' && detail?.detail?.info?.twitter !== 'http://' &&  detail?.detail?.info?.twitter !== 'https://' ? (
+            )}
+            {detail?.detail?.info?.twitter && detail?.detail?.info?.twitter !== '' && detail?.detail?.info?.twitter !== 'http://' &&  detail?.detail?.info?.twitter !== 'https://' && (
               <Pressable
                 onPress={async () => {
                   const url: any = `${detail?.detail?.info?.twitter}`;
@@ -90,10 +92,10 @@ const ContactInfo = ({ detail }: AppProps) => {
                     await Linking.openURL(url);
                   }
                 }}>
-                <Icon ml={5} size="md" as={AntDesign} name="twitter" color={'primary.text'} />
+                <IcoTwitterX width={30} height={30} />
               </Pressable>
-            ) : ''}
-            {detail?.detail?.info?.linkedin && detail?.detail?.info?.linkedin !== '' && detail?.detail?.info?.linkedin !== 'http://' &&  detail?.detail?.info?.linkedin !== 'https://' ? (
+            )}
+            {detail?.detail?.info?.linkedin && detail?.detail?.info?.linkedin !== '' && detail?.detail?.info?.linkedin !== 'http://' &&  detail?.detail?.info?.linkedin !== 'https://' && (
               <Pressable
                 onPress={async () => {
                   const url: any = `${detail?.detail?.info?.linkedin}`;
@@ -102,10 +104,10 @@ const ContactInfo = ({ detail }: AppProps) => {
                     await Linking.openURL(url);
                   }
                 }}>
-                <Icon ml={5} size="md" as={AntDesign} name="linkedin-square" color={'primary.text'} />
+                <IcoLinkedIN width={30} height={30} />
               </Pressable>
-            ) : ''}
-            {detail?.detail?.info?.website && detail?.detail?.info?.website !== '' && detail?.detail?.info?.website !== 'http://' &&  detail?.detail?.info?.website !== 'https://' ? (
+            )}
+            {detail?.detail?.info?.website && detail?.detail?.info?.website !== '' && detail?.detail?.info?.website !== 'http://' &&  detail?.detail?.info?.website !== 'https://' && (
               <Pressable
                 onPress={async () => {
                   const url: any = `${detail?.detail?.info?.website}`;
@@ -114,9 +116,9 @@ const ContactInfo = ({ detail }: AppProps) => {
                     await Linking.openURL(url);
                   }
                 }}>
-                <Icon ml={5} size="md" as={FontAwesome} name="tv" color={'primary.text'} />
+                <IcoWebLink width={30} height={30} />
               </Pressable>
-            ) : ''}
+            )}
 
           </HStack>
         </Box>
