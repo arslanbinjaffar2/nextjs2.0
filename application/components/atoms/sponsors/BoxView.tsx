@@ -92,18 +92,21 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
                             {settings?.catTab == 1 && sponsor?.categories.length > 0 && 
                             <HStack alignItems="flex-start" minH={'25px'}  position={'relative'}>
                                 <Center alignItems="flex-start" w='120px'  p="0">
-                                    <ZStack position={'relative'} reversed>
+                                        <ZStack bg={'primary.400'} minH={'25px'}  position={'relative'} reversed >
                                         {sponsor?.categories.length > 0 && sponsor?.categories.slice(0,3).map((cat, i)=>(
+                                            <Pressable
+                                            onPress={()=>setIsOpen(true)}
+                                            >                                        
                                             <Box
                                         
                                             key={cat.id} bg={cat.color} borderWidth="1"  borderColor="primary.bdBox" borderRightRadius="10" h={'25px'} shadow="1"  w={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(sponsor?.categories[0]?.info.name, 14)) + 16 + (i * 10)}px`} px="2">
-                                                {i== 0 && <Text color={colorText(cat.color)} isTruncated lineHeight={25}  fontSize="sm" onPress={()=>setIsOpen(true)}>{cat?.info?.name}</Text>}
+                                                {i== 0 && <Text color={colorText(cat.color)} isTruncated lineHeight={25}  fontSize="sm" >{cat?.info?.name}</Text>}
                                             </Box>
+                                            </Pressable>
                                         ))}
                                             {sponsor?.categories.length<=3 &&<Popover
                                                 isOpen={isOpen}
                                                 placement='top'
-                                                
                                                 onClose={()=>setIsOpen(false)}
                                                 trigger={(triggerProps) => {
                                                     return <Button
