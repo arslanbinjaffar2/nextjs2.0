@@ -431,7 +431,7 @@ const SquareBox = ({ post, index }: AppProps) => {
               })}
             </VStack>
 
-            <HStack w={'100%'} px={4} py={3} borderTopWidth={0} borderTopColor={'primary.bordercolor'} space="3" >
+            <HStack w={'100%'} pt={0} px={4} py={3} borderTopWidth={0} borderTopColor={'primary.bordercolor'} space="3" >
               <Center>
                 <Avatar
                   borderWidth={1}
