@@ -29,21 +29,17 @@ const Listing = (props: any) => {
     React.useEffect(() => {
         setFilteredInfo(filteredData);
     }, [props.searchText,info])
+     
     
-
+    const checkInfo=info?info:[]
     return (
         <>
-            <Box mb="3" bg="primary.box" p="0" w="100%" rounded={props.rounded} overflow="hidden">
-                {((info && props?.searchText == '') || (info && props?.searchText == undefined) ) && (info.length > 0  ? info.map((row: any, key: number) =>
+            <Box mb="3" bg={`${checkInfo.length > 0 ? "primary.box" : ""}`} p="0" w="100%" rounded={props.rounded} overflow="hidden">
+                {(filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
                     <RectangleView index={key} key={key} {...row} cms={props.cms} />
-                ): <Box padding={5}>
-                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-            </Box> )}
-                {/* {(filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
-                    <RectangleView key={key} {...row} cms={props.cms} />
-                ) : <Box padding={5}>
-                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-            </Box>)} */}
+                ) : <Box padding={5} bg={"primary.500"}>
+                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                </Box>)}
             </Box>
             <Box width={"100%"} height={"5%"}>
                 <BannerAds module_name={'information_pages'} module_type={'listing'} />
