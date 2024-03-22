@@ -106,13 +106,13 @@ const Index = ({ navigation }: indexProps) => {
           </Container>
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
 
-            <Container overflow={'hidden'} mb="1" w="100%" maxW="100%">
+            <Container overflow={'hidden'} mb="3" w="100%" maxW="100%">
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
               <ScrollView w={[width - 30,'100%']} pb={2} showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
-                <HStack pt="1" space="2" alignItems="flex-start" justifyContent="space-between">
+                <HStack pt="0" space="2" alignItems="flex-start" justifyContent="space-between">
                   {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
                     <RoundedView attendee={attendee} />
-                    <Text isTruncated pt="2" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
+                    <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
                   </VStack>)}
                 </HStack>
               </ScrollView>

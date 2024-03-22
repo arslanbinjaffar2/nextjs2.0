@@ -70,8 +70,8 @@ const [open, setOpen] = React.useState(false)
           <Divider bg={'primary.text'} w={'90px'} mx={'auto'} mb={4} />
           
            <VStack pb="0" space={0} w="100%">
-              <Heading textAlign={'center'} textTransform={'uppercase'} fontWeight={500} fontSize="3xl">{event.name}</Heading>
-              <Heading textAlign={'center'} textTransform={'uppercase'} fontWeight={500} pb="1" fontSize="xl">{event.detail?.location_name} {" "} {event?.calendar_date}</Heading>
+              <Heading textAlign={'center'} textTransform={'capitalize'} fontWeight={500} fontSize="3xl">{event.name}</Heading>
+              <Heading textAlign={'center'} textTransform={'capitalize'} fontWeight={500} pb="1" fontSize="xl">{event.detail?.location_name} {" "} {event?.calendar_date}</Heading>
               <Heading textAlign={'center'} fontWeight={600} fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
         </Box>}
@@ -102,7 +102,7 @@ const [open, setOpen] = React.useState(false)
       </Drawer>
       <HStack w={'100%'} space={'3'} flexDirection={'row'} justifyContent={'center'} alignItems={'center'} >
         <Box width={'50%'}>
-        <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+        <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path is reschedul" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
         </Box>
         <Box width={'50%'}>
           <UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled " location="..." date="11-03-2022" time="11-00"  />
