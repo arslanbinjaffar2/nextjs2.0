@@ -52,8 +52,8 @@ const Detail = (props: any) => {
         <>
             {page && <View w="100%">
                 <ScrollView h={'68%'}>
-                    <HStack rounded="10" space={0} alignItems="center" w="100%" bg="primary.box" >
-                        <Box w="100%" bg="primary.box"  rounded="10">
+                    <HStack rounded="10" space={0} alignItems="center" w="100%"  bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"}>
+                        <Box w="100%" rounded="10" bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"}>
                             {(page.image == '' && page.description == '' && page.pdf == '') &&(
                                 <>
                                 <Text p={3} mb="3" bg="primary.box" rounded="lg" w="100%">{event?.labels?.GENERAL_NO_RECORD}</Text>
