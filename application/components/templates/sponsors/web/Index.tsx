@@ -90,7 +90,7 @@ const Index = React.memo(() => {
             <NextBreadcrumbs module={module} title={category?.name} />
             <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">  
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
+                    <Text textTransform="capitalize" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
                     <Spacer />
                     <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels.GENERAL_SEARCH} onChangeText={(text: string) => {
                         search(text);
