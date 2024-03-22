@@ -87,6 +87,9 @@ const Detail = (props: any) => {
                                     injectedJavaScript='window.ReactNativeWebView.postMessage(document.body.scrollHeight)'
                                 />
                             ))}
+                            {page.image !== '' && page.image_position !== 'top' && <HStack w="100%" px={5}>
+                                <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%" />
+                            </HStack>}
                             {page.pdf && (
                                 <Box mb="3" w="100%"  py="4" borderBottomRadius="10">
                                     <HStack mb="3" bg="primary.darkbox" py="1" px="4" space="2" alignItems="center">
@@ -115,9 +118,7 @@ const Detail = (props: any) => {
                                     </Pressable>
                                 </Box>
                             )}
-                            {page.image !== '' && page.image_position !== 'top' && <HStack w="100%" px={5}>
-                                <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%"  />
-                            </HStack>}
+                          
                         </Box>
                     </HStack>
                 </ScrollView>
