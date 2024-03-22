@@ -47,8 +47,8 @@ const Index = () => {
       <NextBreadcrumbs module={module} />
       <AddPost />
       {showNewPostButton && (
-        <HStack w={'100%'} mb={3} alignItems={'center'} justifyContent={'center'}>
-          <Button rounded={'full'} leftIcon={<Icon size="md" as={AntDesign} name="arrowup" color="primary.text" />} px={3} py={2} size={'md'} onPress={handleNewPostClick} >{labels?.SOCIAL_WALL_NEW_FEEDS}</Button>
+        <HStack nativeID='button-reload-post' w={'100%'} mb={3} alignItems={'center'} justifyContent={'center'} position={'sticky'} top={5} left={0}>
+          <Button rounded={'full'} leftIcon={<Icon size="md" as={AntDesign} name="arrowup" color="primary.text" />} px={3} py={2} size={'md'} onPress={handleNewPostClick} >New Post</Button>
         </HStack>
         
       )}

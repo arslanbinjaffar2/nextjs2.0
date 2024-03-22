@@ -229,7 +229,7 @@ body {
 .css-3iigni-container {
   width: 100%;
 }
-#zindex-9 {
+#zindex-9,#button-reload-post {
   z-index: 9 !important;
 }
 .css-reset-4rbku5{
