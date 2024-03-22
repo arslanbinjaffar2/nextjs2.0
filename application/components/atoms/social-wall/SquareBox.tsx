@@ -31,6 +31,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   const { response } = UseAuthService();
   const { event } = UseEventService();
   const { LikeSocialWallPost, labels, SaveSocialWallComment, LikeSocialWallComment, DeleteSocialWallPost } = useSocialWallService();
+  console.log("🚀 ~ SquareBox ~ labels:", labels)
 
   const [activepopup, setactivepopup] = React.useState(false);
   const [modalImage, setModalImage] = useState<string>("")
@@ -240,8 +241,14 @@ const SquareBox = ({ post, index }: AppProps) => {
                 <Popover.Body bg={'primary.boxsolid'} borderTopWidth="0" p={0} rounded={6}>
                   <Box bg={'primary.boxsolid'} py={3} borderWidth="0" borderColor="primary.box">
                     <HStack width={'100%'} px={3} mb={2} space="1" alignItems="center">
-                      <Icolikealt width={20} height={20} />
-                      <Text fontSize="md" fontWeight={500}>{labels?.SOCIAL_WALL_LIKES}</Text>
+                    {post.likes.length > 0 ? (
+                        <>
+                        <Icolikealt width={20} height={20} />
+                        <Text fontSize="md" fontWeight={500}>{labels?.SOCIAL_WALL_LIKES}</Text>
+                        </>
+                      ) : (
+                        <Text fontSize="md" fontWeight={500}>{labels?.SOCIAL_WALL_NO_LIKES_FOR_POST}</Text>
+                      )}
                     </HStack>
 
 
