@@ -70,6 +70,8 @@ const LeftBar = () => {
           </HStack>
         </Pressable>
         {modules.map((row: any, key: any) =>
+
+        (row.alias !== 'information_pages' || row.is_page_empty !== true ? (
           <Pressable
             key={key}
             w="100%"
@@ -104,7 +106,8 @@ const LeftBar = () => {
               {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
             </HStack>
           </Pressable>
-        )}
+          ) : null
+        ))}
         <Pressable
           w="100%"
           px="4"
