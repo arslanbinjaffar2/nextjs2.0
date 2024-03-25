@@ -30,7 +30,8 @@ export interface AttendeeState {
     category_name: string,
     total: number,
     program_id: number,
-    hotels:any
+    hotels:any,
+    last_page:number
 }
 
 const initialState: AttendeeState = {
@@ -61,7 +62,8 @@ const initialState: AttendeeState = {
     category_name: '',
     total: 0,
     program_id: 0,
-    hotels:null
+    hotels:null,
+    last_page:1
 }
 
 // Slice
@@ -95,13 +97,14 @@ export const AttendeeSlice = createSlice({
                 state.groups = []
             }
         },
-        Update(state, action: PayloadAction<{ attendee: Attendee[], group_id: number, query: string, page: number, group_name: string, screen: string, total: number }>) {
+        Update(state, action: PayloadAction<{ attendee: Attendee[], group_id: number, query: string, page: number, group_name: string, screen: string, total: number, last_page:number }>) {
             const existed: any = current(state.attendees);
             if (action.payload.screen === "dashboard-my-speakers") {
                 state.my_attendees = action.payload.page === 1 ? action.payload.attendee : [...existed, ...action.payload.attendee];
             } else {
                 state.attendees = action.payload.page === 1 ? action.payload.attendee : [...existed, ...action.payload.attendee];
                 state.total = action.payload.total;
+                state.last_page = action.payload.last_page;
             }
             state.group_name = action.payload.group_name;
         },
@@ -183,6 +186,8 @@ export const SelectCategories = (state: RootState) => state.attendees.categories
 export const SelectCategoryName = (state: RootState) => state.attendees.category_name
 
 export const SelectHotels = (state: RootState) => state.attendees.hotels
+
+export const SelectLastPage = (state: RootState) => state.attendees.last_page
 
 // Reducer
 export default AttendeeSlice.reducer

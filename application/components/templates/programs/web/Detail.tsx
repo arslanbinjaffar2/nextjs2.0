@@ -78,7 +78,7 @@ const Detail = () => {
 
     const { push, back } = useRouter()
 
-    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name } = UseAttendeeService();
+    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, last_page } = UseAttendeeService();
 
     const { FetchDocuments } = UseDocumentService();
 
@@ -89,7 +89,7 @@ const Detail = () => {
 
     React.useEffect(() => {
         if (mounted.current) {
-            if (in_array(tab, ['attendee'])) {
+            if (in_array(tab, ['attendee']) && page < last_page ) {
                 FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: 0, speaker: 0, category_id: category_id, screen: 'program-attendees', program_id: Number(_id) });
             }
         }
