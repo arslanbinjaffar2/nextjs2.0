@@ -4,7 +4,7 @@ import IcoMyEvents from 'application/assets/icons/IcoMyEvents';
 import attendees from 'application/assets/icons/attendees';
 import fav_sponsors from 'application/assets/icons/mysponsers'
 import message from 'application/assets/icons/chat';
-import checkIn from 'application/assets/icons/checkIn';
+import qrcode from 'application/assets/icons/checkIn';
 import ddirectory from 'application/assets/icons/ddirectory';
 import exhibitors from 'application/assets/icons/exhibitors';
 import plans from 'application/assets/icons/plans';
@@ -86,7 +86,7 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         attendees,
         message,
         fav_sponsors,
-        checkIn,
+        qrcode,
         ddirectory,
         exhibitors,
         plans,
