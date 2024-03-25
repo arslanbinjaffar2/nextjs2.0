@@ -71,7 +71,8 @@ const ContactInfo = ({ detail }: AppProps) => {
         ))}
         <Box py="0" px="0" w="100%">
           <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
-            {detail?.detail?.info?.facebook && detail?.detail?.info?.facebook && detail?.field_setting?.facebook && detail?.detail?.info?.facebook !== '' && detail?.detail?.info?.facebook !== 'http://' &&  detail?.detail?.info?.facebook !== 'https://' ? (
+
+            {detail?.detail?.info?.facebook && detail?.detail?.info?.facebook  && detail?.sort_field_setting.find(item => item.name === 'facebook') && detail?.detail?.info?.facebook !== '' && detail?.detail?.info?.facebook !== 'http://' &&  detail?.detail?.info?.facebook !== 'https://' ? (
               <Pressable
                 onPress={async () => {
                   const url: any = `${detail?.detail?.info?.facebook}`;
@@ -82,8 +83,8 @@ const ContactInfo = ({ detail }: AppProps) => {
                 }}>
                 <IcoFacebook width={30} height={30} />
               </Pressable>
-            ) : ''}
-            {detail?.detail?.info?.twitter && detail?.detail?.info?.twitter !== '' && detail?.detail?.info?.twitter !== 'http://' &&  detail?.detail?.info?.twitter !== 'https://' && (
+            ) : ' '}
+            {detail?.detail?.info?.twitter && detail?.sort_field_setting.find(item => item.name === 'twitter') && detail?.detail?.info?.twitter !== '' && detail?.detail?.info?.twitter !== 'http://' &&  detail?.detail?.info?.twitter !== 'https://' ? (
               <Pressable
                 onPress={async () => {
                   const url: any = `${detail?.detail?.info?.twitter}`;
@@ -94,8 +95,8 @@ const ContactInfo = ({ detail }: AppProps) => {
                 }}>
                 <IcoTwitterX width={30} height={30} />
               </Pressable>
-            )}
-            {detail?.detail?.info?.linkedin && detail?.detail?.info?.linkedin !== '' && detail?.detail?.info?.linkedin !== 'http://' &&  detail?.detail?.info?.linkedin !== 'https://' ? (
+            ) : ' '}
+            {detail?.detail?.info?.linkedin && detail?.sort_field_setting.find(item => item.name === 'linkedin') && detail?.detail?.info?.linkedin !== '' && detail?.detail?.info?.linkedin !== 'http://' &&  detail?.detail?.info?.linkedin !== 'https://' ? (
               <Pressable
                 onPress={async () => {
                   const url: any = `${detail?.detail?.info?.linkedin}`;
@@ -106,8 +107,8 @@ const ContactInfo = ({ detail }: AppProps) => {
                 }}>
                 <IcoLinkedIN width={30} height={30} />
               </Pressable>
-            ) : ''}
-            {detail?.detail?.info?.website && detail?.detail?.info?.website !== '' && detail?.detail?.info?.website !== 'http://' &&  detail?.detail?.info?.website !== 'https://' ? (
+            ) : ' '}
+            {detail?.detail?.info?.website && detail?.sort_field_setting.find(item => item.name === 'website') && detail?.detail?.info?.website !== '' && detail?.detail?.info?.website !== 'http://' &&  detail?.detail?.info?.website !== 'https://' ? (
               <Pressable
                 onPress={async () => {
                   const url: any = `${detail?.detail?.info?.website}`;
