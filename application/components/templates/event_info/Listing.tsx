@@ -11,7 +11,6 @@ const Listing = (props: any) => {
     const { event  } = UseEventService();
 
     const { info } = UseInfoService();
-    console.log("🚀 ~ Listing ~ info:", info)
 
     const [filteredInfo, setFilteredInfo] = React.useState<Info[]>([]);
 
