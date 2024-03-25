@@ -30,7 +30,6 @@ export const UseAlertService = (): Readonly<AlertServiceOperators> => {
         alerts: useAppSelector(SelectAlerts),
         alert_setting: useAppSelector(SelectAlertSetting),
         attendee_alerts: useAppSelector(SelectAttendeeAlerts),
-        alert_setting: useAppSelector(SelectAlertSetting),
         FetchAlerts: useCallback(
             () => {
                 dispatch(AlertActions.FetchAlerts())
