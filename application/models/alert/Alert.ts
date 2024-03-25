@@ -18,6 +18,7 @@ export interface Alert {
   deleted_at: string;
   alert_detail: Alertdetail;
   display_alert_date: string;
+  is_read: boolean;
 }
 
 export interface Alertdetail {
