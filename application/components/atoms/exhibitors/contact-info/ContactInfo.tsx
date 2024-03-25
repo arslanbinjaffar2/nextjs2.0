@@ -31,7 +31,7 @@ const ContactInfo = () => {
         ) && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" roundedTop={8} space="2" alignItems="center">
                 <IcouserFilled width="18px" height="18px" />
-                <Text fontSize="lg">{event?.labels?.ATTENDEE_CONTACT_INFO}</Text>
+                <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
                 <Spacer />
                 <IconButton
                     variant="unstyled"

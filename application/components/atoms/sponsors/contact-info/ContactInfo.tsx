@@ -21,7 +21,7 @@ const ContactInfo = () => {
   return (
     <>
         {detail && (
-            detail?.detail?.email !== '' 
+            detail?.detail?.email !== ''
             || detail?.detail?.phone_number !== ''
             || (detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://')
             || (detail?.detail?.twitter !== '' && detail?.detail?.twitter !== 'http://' &&  detail?.detail?.twitter !== 'https://')
@@ -30,7 +30,7 @@ const ContactInfo = () => {
         ) && <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" roundedTop={8} alignItems="center">
                 <IcouserFilled width="18px" height="18px" />
-                <Text fontSize="lg">{event?.labels?.ATTENDEE_CONTACT_INFO}</Text>
+                <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
                 <Spacer />
                 <IconButton
                     variant="unstyled"
@@ -39,10 +39,10 @@ const ContactInfo = () => {
                     onPress={()=>{
                     console.log('hello')
                     }}
-                    
+
                 />
-								
-								
+
+
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
@@ -113,7 +113,7 @@ const ContactInfo = () => {
                         )}
 
                     </HStack>
-    
+
         </Box>}
     </>
   )
