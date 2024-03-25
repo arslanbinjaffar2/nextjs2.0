@@ -103,7 +103,7 @@ const LeftBar = () => {
             <HStack space="4" alignItems="center">
               <Center w="30px">
                 {/* <Text>{row.icon}</Text> */}
-                <DynamicIcon iconType={row?.icon?.replace('.png', '') || row?.alias.replace(/-/g,'_')} iconProps={{ width: 24, height: 21 }} />
+                <DynamicIcon iconType={row?.icon?.replace('-icon','').replace('-','_').replace('.png', '') || row?.alias.replace('-','_')} iconProps={{ width: 24, height: 21 }} />
               </Center>
               {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
             </HStack>
