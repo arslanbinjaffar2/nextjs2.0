@@ -175,6 +175,7 @@ const Index = React.memo(() => {
                                             </Box>
                             }
                             </HStack>
+                            
                         </ScrollView>
                     </Box>}
                     <Box width={"100%"} height={"5%"}>
