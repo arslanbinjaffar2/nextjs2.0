@@ -182,7 +182,7 @@ const Index = ({ navigation }: indexProps) => {
                     
                       <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                         {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
-                          <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false}  />
+                          <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
                         ))}
                       </Box>
                     
