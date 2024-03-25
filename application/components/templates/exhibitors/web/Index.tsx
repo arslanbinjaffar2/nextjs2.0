@@ -176,11 +176,6 @@ const Index = React.memo(() => {
                             </HStack>
                         </ScrollView>
                     </Box>}
-                    {tab === 'category' && categories.length <= 0 &&
-                        <Box  p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                            <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
-                        </Box>
-                    }
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'exhibitors'} module_type={'listing'} />
                     </Box>
