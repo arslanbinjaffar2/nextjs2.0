@@ -11,6 +11,7 @@ const Listing = (props: any) => {
     const { event  } = UseEventService();
 
     const { info } = UseInfoService();
+    console.log("🚀 ~ Listing ~ info:", info)
 
     const [filteredInfo, setFilteredInfo] = React.useState<Info[]>([]);
 
@@ -18,7 +19,7 @@ const Listing = (props: any) => {
         if(info == null) return [];
         var infos=info
         var filteredInfos = infos.filter((i) => {
-            if (i?.type === "page" || (i?.type === "folder" && ((i?.subItems && i.subItems.length > 0) || (i?.subMenuItems && i.subMenuItems.length > 0)))) {
+            if (i?.type === "page" || i?.type === "link" || (i?.type === "folder" && ((i?.subItems && i.subItems.length > 0) || (i?.subMenuItems && i.subMenuItems.length > 0)))) {
                 return true;
             }
         });
