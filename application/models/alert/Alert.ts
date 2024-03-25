@@ -21,6 +21,12 @@ export interface Alert {
   is_read: boolean;
 }
 
+export interface AlertSetting {
+  id: number;
+  event_id: number;
+  display_in_dashboard: number;
+}
+
 export interface Alertdetail {
   title: string;
   description: string;

@@ -44,7 +44,7 @@ const RectangleView = ({ id, title, description, date, time, is_last_item, is_re
 
           <VStack bg="red" width={'calc(100% - 60px)'} space="1">
             <Text fontSize="lg" fontWeight={500}>{title}</Text>
-            <Text fontSize="md">{description}</Text>
+            <Text fontSize="md" isTruncated numberOfLines={3}>{description}</Text>
             <Text fontSize="md">{formatDateTime(time, date)}</Text>
           </VStack>
           <Spacer />
