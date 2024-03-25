@@ -71,6 +71,8 @@ const LeftBar = () => {
           </HStack>
         </Pressable>
         {modules.map((row: any, key: any) =>
+
+        (row.alias !== 'information_pages' || row.is_page_empty !== true ? (
           <Pressable
             key={key}
             w="100%"
@@ -85,14 +87,13 @@ const LeftBar = () => {
                 router.push(`/${event.url}/${row?.alias}/event-info/0`)
               } else if (in_array(row?.alias, ['information_pages'])) {
                 // setLoading(true);
-                
-                if(row?.section_type === 'link') {
-                  router.push(`${row?.url}`)
-                }else if(row?.section_type === 'page') {
-                  router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
-                } else {
+                // if(row?.section_type === 'link') {
+                //   router.push(`${row?.url}`)
+                //  if(row?.section_type === 'page') {
+                //   router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
+                // } else {
                   router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
-                }
+                // }
               } else if (row?.alias === 'my-registrations') {
                 router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
               } else {
@@ -106,7 +107,8 @@ const LeftBar = () => {
               {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
             </HStack>
           </Pressable>
-        )}
+          ) : null
+        ))}
         <Pressable
           w="100%"
           px="4"
