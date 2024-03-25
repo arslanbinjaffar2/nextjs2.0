@@ -102,7 +102,7 @@ const Index = React.memo(() => {
                             setTab('category')
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'))
-                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
+                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
                     </HStack>
                     )}
                     {loading ? (  
@@ -163,7 +163,6 @@ const Index = React.memo(() => {
                             </Box>
                         }
                     </>}
-
                     {tab === 'category' && <Box w="100%" rounded="10" bg={categories.length > 0 ?"primary.box":""} borderWidth="0" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
                             <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
