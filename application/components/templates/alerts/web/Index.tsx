@@ -10,6 +10,7 @@ import UseAlertService from 'application/store/services/UseAlertService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Poll } from 'application/models/poll/Poll';
 import { Alert } from 'application/models/alert/Alert';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 
@@ -38,9 +39,7 @@ const Index = () => {
     return (
         <>
             {
-                loading ? (
-                    <WebLoading />
-                ):(
+               loading || !alerts ? <SectionLoading /> :
                     <>
                     <NextBreadcrumbs module={module} />
                     <Container pt="2" maxW="100%" w="100%">
@@ -56,7 +55,6 @@ const Index = () => {
                             </Box>
                     </Container>
                     </>
-                )
             }
             <Box width={"100%"} height={"5%"}>
                 <BannerAds module_name={'alerts'} module_type={'listing'} />
