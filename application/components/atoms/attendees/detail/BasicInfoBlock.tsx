@@ -28,14 +28,13 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     const { push } = useRouter();
 
     const isPrivate = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s.is_private}),{});
-
     console.log(showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1), 'show_hotel')
 
     return (
         <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
             <Box w="100%" p="4" py="5" rounded="10">
                 <HStack mb="4" space="5">
-                    {detail?.detail?.image ? (
+                    {detail?.detail?.image && isPrivate.profile_picture === 0 ? (
                         <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
                     ) : (
                         <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={UserPlaceholderImage} alt="" w="50px" h="50px" />

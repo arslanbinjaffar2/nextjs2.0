@@ -53,7 +53,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
         }}>
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
           <HStack  w="100%" space="5" alignItems="center" justifyContent="space-between">
-            {attendee?.image && attendee.field_settings.profile_picture.is_private == 1 ? (
+            {attendee?.image && attendee.field_settings.profile_picture.is_private == 0 ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar
@@ -63,7 +63,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   >{ attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}</Avatar>
             )}
             <VStack w={'calc(100% - 165px)'} space="0">
-              {(attendee?.first_name || attendee?.last_name) && (
+              {attendee?.first_name || attendee?.last_name ? (
                 <>
                   <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
                   {attendee?.info && (
@@ -74,14 +74,15 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                           attendee?.info?.title &&
                           " "
                         }
-                        {attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && `${attendee?.info?.department} `}
                         {attendee?.info?.company_name && attendee?.info?.company_name}
+                        {attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && attendee?.info?.company_name} {" "}
+                        {attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && `${attendee?.info?.department} `}
                       </Text>
                     </>
                   )}
-
                 </>
-              )}
+              ) : null}
+
               {
                 <Text pt="1" lineHeight="22px" fontSize="md"> 
                   {getPrivateFields(attendee)}
