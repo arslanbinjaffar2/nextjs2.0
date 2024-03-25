@@ -13,6 +13,7 @@ export type AlertServiceOperators = {
     FetchAlerts: () => void,
     markAlertRead: (payload:{alertIds:string}) => void,
     FetchAlertDetails: (payload:{alertId:number}) => void,
+    MarkAlertAsRead: (payload:{alertId:number}) => void,
 }
 
 /**
@@ -42,6 +43,12 @@ export const UseAlertService = (): Readonly<AlertServiceOperators> => {
         FetchAlertDetails: useCallback(
             (payload:{alertId:number}) => {
               dispatch(AlertActions.FetchAlertDetails(payload));
+            },
+            [dispatch],
+          ),
+        MarkAlertAsRead: useCallback(
+            (payload:{alertId:number}) => {
+              dispatch(AlertActions.MarkAlertAsRead(payload));
             },
             [dispatch],
           ),

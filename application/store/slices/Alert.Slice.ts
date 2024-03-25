@@ -31,9 +31,8 @@ export const AlertSlice = createSlice({
             state.attendee_alerts = action.payload.attendee_alerts;
         },
         markAlertRead(state, action: PayloadAction<{ alertIds: string,}>) {},
-        FetchAlertDetails(state, action: PayloadAction<{ alertId: number}>) {
-            
-        },
+        FetchAlertDetails(state, action: PayloadAction<{ alertId: number}>) {},
+        MarkAlertAsRead(state, action: PayloadAction<{ alertId: number}>) {},
         UpdateDetail(state, action: PayloadAction<{ detail: Alert }>) {
             state.detail = action.payload.detail;
         },
@@ -47,6 +46,7 @@ export const AlertActions = {
     UpdateDetail:AlertSlice.actions.UpdateDetail,
     markAlertRead:AlertSlice.actions.markAlertRead,
     FetchAlertDetails:AlertSlice.actions.FetchAlertDetails,
+    MarkAlertAsRead:AlertSlice.actions.MarkAlertAsRead,
 }
 
 export const SelectAlerts = (state: RootState) => state.alerts.alerts
