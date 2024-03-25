@@ -154,6 +154,7 @@ const Index = ({ navigation }: indexProps) => {
                     {/*    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>*/}
                     {/*  </Box>*/}
                     {/*)}*/}
+                    {alerts.length > 3 &&
                     <Center py="3" px="2" w="100%" alignItems="flex-end">
                       <Button onPress={() => {
                         push(`/${event.url}/alerts`)
@@ -161,6 +162,7 @@ const Index = ({ navigation }: indexProps) => {
                         Show all
                       </Button>
                     </Center>
+                    }
                   </Container>
                   }
                 </>
