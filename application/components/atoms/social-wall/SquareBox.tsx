@@ -174,8 +174,8 @@ const SquareBox = ({ post, index }: AppProps) => {
                   }}
 
                 >
-                  <Menu.Item _text={{color: 'primary.boxsolidtext'}} _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{labels?.SOCIAL_WALL_LIKE}</Menu.Item>
-                  <Menu.Item _text={{color: 'primary.boxsolidtext'}} _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>{labels?.GENERAL_DELETE}</Menu.Item>
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{event?.labels?.GENERAL_EDIT}</Menu.Item>
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>{event?.labels?.GENERAL_DELETE}</Menu.Item>
                 </Menu>
               </HStack>
 
@@ -440,7 +440,7 @@ const SquareBox = ({ post, index }: AppProps) => {
               })}
             </VStack>
 
-            <HStack w={'100%'} px={4} py={3} borderTopWidth={0} borderTopColor={'primary.bordercolor'} space="3" >
+            <HStack w={'100%'} pt={0} px={4} py={3} borderTopWidth={0} borderTopColor={'primary.bordercolor'} space="3" >
               <Center>
                 <Avatar
                   borderWidth={1}

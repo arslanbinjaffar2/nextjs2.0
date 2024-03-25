@@ -83,7 +83,7 @@ const Index = React.memo(() => {
             <NextBreadcrumbs module={module} title={category?.name}/>
             <Container h="100%" pt="4" maxW="100%" w="100%">  
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                        <Text textTransform="uppercase" fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias == 'exhibitors'))?.name ?? ""}</Text>
+                        <Text textTransform="capitalize" fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias == 'exhibitors'))?.name ?? ""}</Text>
                         <Spacer />
                         <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                             search(text);
@@ -102,7 +102,7 @@ const Index = React.memo(() => {
                             setTab('category')
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'))
-                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
+                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
                     </HStack>
                     )}
                     {loading ? (  
@@ -163,24 +163,21 @@ const Index = React.memo(() => {
                             </Box>
                         }
                     </>}
-
                     {tab === 'category' && <Box w="100%" rounded="10" bg={categories.length > 0 ?"primary.box":""} borderWidth="0" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
-                            <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                {categories.length > 0 &&
-                                 categories.map((category: ExhibitorCategory, key: number) =>
-                                    <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
-                                )
-                                 
-                            }
-                            </HStack>
+                                <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
+                                    {categories.length > 0 ?
+                                     categories.map((category: ExhibitorCategory, key: number) =>
+                                        <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
+                                    )
+                                     : <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
+                                                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                                </Box>
+                                }
+                                </HStack>
+                            
                         </ScrollView>
                     </Box>}
-                    {tab === 'category' && categories.length <= 0 &&
-                        <Box  p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                            <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
-                        </Box>
-                    }
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'exhibitors'} module_type={'listing'} />
                     </Box>

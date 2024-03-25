@@ -46,7 +46,7 @@ const Index = () => {
 
             <Container pt="2" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text textTransform="uppercase" fontSize="2xl">Ask a question</Text>
+                <Text textTransform="capitalize" fontSize="2xl">Ask a question</Text>
               </HStack>
               <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
                 {groups?.length > 0 && groups?.map((group, k) =>
