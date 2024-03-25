@@ -20,7 +20,7 @@ import maps from 'application/assets/icons/maps';
 import my_attendee_list from 'application/assets/icons/myattendeelist';
 import my_registrations from 'application/assets/icons/my_registrations';
 import mydocuments from 'application/assets/icons/mydocuments';
-import my_notes from 'application/assets/icons/my_notes';
+import notes from 'application/assets/icons/my_notes';
 import myprograms from 'application/assets/icons/myprograms';
 import alerts from 'application/assets/icons/alerts';
 import hdquestions from 'application/assets/icons/hdquestions'
@@ -59,8 +59,8 @@ type IconProps = {
     height?: number;
 };
 
-type IconType = 'floorplan_basic'|'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
-'fav_sponsors'| 'attendees' | 'message' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'my_notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin'| 'my_registrations' | 'business' | any;
+type IconType ='qrcode'| 'floorplan_basic'|'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
+'fav_sponsors'| 'attendees' | 'message' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin'| 'my_registrations' | 'business' | any;
 // type IconType =' floorplan_basic'| 'IcoMyEvents' |'download' | 'logout' | 'myevents' |'documents' | 'myquestions' | 'editprofile'| 'emailmynotes'| 'mykeywords' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
 // 'mysponsers'| 'attendees' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'my_notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social_media' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'my_registrations' | 'business' | any;
 
@@ -105,7 +105,7 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         maps,
         my_attendee_list,
         mydocuments,
-        my_notes,
+        notes,
         myprograms,
         alerts,
         agendas,
