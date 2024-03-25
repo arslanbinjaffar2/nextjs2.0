@@ -67,7 +67,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
     const alphabet = alpha.map((x) => String.fromCharCode(x));
 
-    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory } = UseAttendeeService();
+    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory, last_page } = UseAttendeeService();
 
     const [searchQuery, setSearch] = React.useState('')
 
@@ -84,7 +84,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
     useEffect(() => {
         if (mounted.current) {
-            if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) { console.log('call 1')
+            if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee']) && page < last_page ) {
                 FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }
