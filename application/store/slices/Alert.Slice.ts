@@ -10,11 +10,13 @@ import {
 
 export interface AlertState {
     alerts: Alert[],
+    detail: Alert | null,
     attendee_alerts: "" | number[],
 }
 
 const initialState: AlertState = {
     alerts: [],
+    detail: null,
     attendee_alerts: []
 }
 
@@ -28,7 +30,13 @@ export const AlertSlice = createSlice({
             state.alerts = action.payload.alerts;
             state.attendee_alerts = action.payload.attendee_alerts;
         },
-        markAlertRead(state, action: PayloadAction<{ alertIds: string,}>) {}
+        markAlertRead(state, action: PayloadAction<{ alertIds: string,}>) {},
+        FetchAlertDetails(state, action: PayloadAction<{ alertId: number}>) {
+            
+        },
+        UpdateDetail(state, action: PayloadAction<{ detail: Alert }>) {
+            state.detail = action.payload.detail;
+        },
     },
 })
 
@@ -36,12 +44,16 @@ export const AlertSlice = createSlice({
 export const AlertActions = {
     FetchAlerts:AlertSlice.actions.FetchAlerts,
     update:AlertSlice.actions.update,
+    UpdateDetail:AlertSlice.actions.UpdateDetail,
     markAlertRead:AlertSlice.actions.markAlertRead,
+    FetchAlertDetails:AlertSlice.actions.FetchAlertDetails,
 }
 
 export const SelectAlerts = (state: RootState) => state.alerts.alerts
 
 export const SelectAttendeeAlerts = (state: RootState) => state.alerts.attendee_alerts
+
+export const SelectAlertDetail = (state: RootState) => state.alerts.detail
 
 
 
