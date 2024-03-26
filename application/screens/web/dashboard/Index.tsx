@@ -47,6 +47,7 @@ const Index = ({ navigation }: indexProps) => {
   const { event, modules } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
+  console.log("🚀 ~ Index ~ banners:", banners)
   const { FetchAlerts, alerts, markAlertRead, alert_setting} = UseAlertService();
   const { loading } = UseLoadingService();
   const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track } = UseProgramService();
@@ -108,7 +109,7 @@ const Index = ({ navigation }: indexProps) => {
             </Container>
           ) : <></>}
 
-          {banners && <BannerSlider banners={banners} />}
+          {banners && banners?.length > 0 && <BannerSlider banners={banners} />}
 
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
 
