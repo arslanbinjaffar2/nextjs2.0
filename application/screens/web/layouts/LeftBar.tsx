@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack } from 'native-base';
+import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack, Badge } from 'native-base';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 import IcoLogin from 'application/assets/icons/IcoLogin';
 import { useWindowDimensions } from 'react-native';
@@ -104,7 +104,16 @@ const LeftBar = () => {
                 <DynamicIcon iconType={row?.alias.replace('-', '_')} iconProps={{ width: 24, height: 21 }} />
               </Center>
               {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
+              {row?.alias === 'alerts' && 
+                <Badge // bg="red.400"
+                  bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid" alignSelf="flex-end" _text={{
+                  fontSize: 12
+                }}>
+                    {row?.alerts}
+                </Badge>
+              }
             </HStack>
+            
           </Pressable>
         )}
         <Pressable
