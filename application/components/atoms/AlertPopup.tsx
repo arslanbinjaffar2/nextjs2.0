@@ -6,7 +6,7 @@ const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, tit
 
     return <AlertDialog  size={'lg'} leastDestructiveRef={cancelRef} isOpen={isOpen} onClose={onClose}>
           <AlertDialog.Content nativeID="ebs-alert-dialog" bg={'primary.box'}>
-            <AlertDialog.Header borderColor={'primary.bdColor'} bg={'transparent'} fontWeight={600}>
+            <AlertDialog.Header borderColor={'primary.bordercolor'} bg={'transparent'} fontWeight={600}>
               <HStack  space="0" alignItems="center">
                <Center w="40px">
                 <IcoNewsUpdate width={25} height={22} /> 
@@ -21,7 +21,7 @@ const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, tit
               <Text  fontSize="md">{text}</Text>
               
             </AlertDialog.Body>}
-            <AlertDialog.Footer borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0} bg={'transparent'}>
+            <AlertDialog.Footer borderColor={'primary.bordercolor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0} bg={'transparent'}>
               <Button.Group variant={'unstyled'} space={0}>
                 {btnRightText && <Center w="50%">
                   <Button  _text={{fontSize: 'xl',textTransform: 'uppercase'}} fontWeight={500} bg={'none'} w="100%" rounded={0} variant="unstyled"  onPress={btnRightFunc}>
@@ -29,7 +29,7 @@ const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, tit
                   </Button>
                 </Center>
                 }
-              {btnLeftText  && <Container borderLeftWidth={1} borderLeftColor={'primary.bdColor'} w="50%">
+              {btnLeftText  && <Container borderLeftWidth={1} borderLeftColor={'primary.bordercolor'} w="50%">
                 <Button _text={{fontSize: 'xl',textTransform: 'uppercase'}}  bg={'none'} w="100%" rounded={0} variant="unstyled"  fontWeight={500} onPress={btnLeftFunc} ref={cancelRef}>
                   {btnLeftText}
                 </Button>
