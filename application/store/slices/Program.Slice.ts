@@ -97,13 +97,14 @@ export const ProgramSlice = createSlice({
                 state.track = {};
             }
         },
-        UpdateTracks(state, action: PayloadAction<{ tracks: Track[], query: string, page: number, track: Track }>) {
-            const existed: any = current(state.programs);
-            state.tracks = action.payload.page === 1 ? action.payload.tracks : [...existed, ...action.payload.tracks];
+        UpdateTracks(state, action: PayloadAction<{ tracks: Track[], query: string, page: number, track: Track, total_pages:number }>) {
+            const existed: any = current(state.tracks);
+            state.tracks = action.payload.page === 1 ? action.payload.tracks : existed.concat(action.payload.tracks);
             if(action.payload.track.parent_id == 0){
                 state.parent_track = action.payload.track;
             }
             state.track = action.payload.track;
+            state.total_pages = action.payload.total_pages;
         },
         MakeFavourite(state, action: PayloadAction<{ program_id: number, screen: string }>) { },
         FetchProgramDetail(state, action: PayloadAction<{ id: number }>) { },

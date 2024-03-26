@@ -71,7 +71,7 @@ function* OnGetTracks({
     yield put(LoadingActions.addProcess({ process: 'tracks' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getTrackApi, payload, state)
-    yield put(ProgramActions.UpdateTracks({ tracks: response.data.data.tracks!, query: payload.query, page: payload.page, track: response.data.data.track! }))
+    yield put(ProgramActions.UpdateTracks({ tracks: response.data.data.tracks!, query: payload.query, page: payload.page, track: response.data.data.track!, total_pages: response.data.data.total_pages!}))
     yield put(LoadingActions.removeProcess({ process: 'tracks' }))
 }
 
