@@ -45,7 +45,7 @@ const Header = ({ width }: any) => {
       markAlertRead({alertIds:`${alertData.id};`})
     }
     if(alertData.url !== undefined){
-      router.push(`/${event.url}${alertData.url}`)
+      router.push(`/${event.url}/alerts/detail/${alertData.id}`)
     }
     clearCurrentPopup();
     onClose();
