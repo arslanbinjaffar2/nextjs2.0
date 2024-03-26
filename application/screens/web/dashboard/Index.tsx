@@ -185,12 +185,7 @@ const Index = ({ navigation }: indexProps) => {
                           <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
                         ))}
                       </Box>
-                    
-                    {/*) : (*/}
-                    {/*  <Box p="3">*/}
-                    {/*    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>*/}
-                    {/*  </Box>*/}
-                    {/*)}*/}
+                      
                     {alerts.length > 3 &&
                     <Center py="3" px="2" w="100%" alignItems="flex-end">
                       <Button onPress={() => {
