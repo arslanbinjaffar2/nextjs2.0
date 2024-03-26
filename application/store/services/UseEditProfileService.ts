@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { EditProfileActions, SelectAttendee, SelectCountries, SelectEventLanguageDetails, SelectCallingCodes, SelectEventFoodDisclaimers, SelectAttendeeFeildSettings, SelectCustomFields, SelectLanguages, SelectEnableCancel, SelectOrderAttendeeCount, SelectSettings, SelectLabels, SelectUpdatingAttendee,  } from 'application/store/slices/EditProfile.Slice'
+import { EditProfileActions, SelectAttendee, SelectCountries, SelectEventLanguageDetails, SelectCallingCodes, SelectEventFoodDisclaimers, SelectAttendeeFeildSettings, SelectCustomFields, SelectLanguages, SelectEnableCancel, SelectOrderAttendeeCount, SelectSettings, SelectLabels, SelectUpdatingAttendee, Selectsuccess_message,  } from 'application/store/slices/EditProfile.Slice'
 
 import { Language } from 'application/models/settings/EditProfile'
 
@@ -21,8 +21,10 @@ export type EditProfileServiceOperators = {
     settings: Setting[] | null;
     labels: Labels | null;
     updatingAttendee:boolean;
+    success_message:boolean;
     FetchEditProfiles: () => void;
     UpdateAttendee: (data:any) => void;
+    UpdateSuccess: (data:any) => void;
 }
 
 /**
@@ -48,6 +50,7 @@ export const UseEditProfileService = (): Readonly<EditProfileServiceOperators> =
         settings: useAppSelector(SelectSettings),
         labels: useAppSelector(SelectLabels),
         updatingAttendee: useAppSelector(SelectUpdatingAttendee),
+        success_message: useAppSelector(Selectsuccess_message),
         FetchEditProfiles: useCallback(
             () => {
                 dispatch(EditProfileActions.FetchEditProfileData())
@@ -57,6 +60,12 @@ export const UseEditProfileService = (): Readonly<EditProfileServiceOperators> =
         UpdateAttendee: useCallback(
             (payload:any) => {
                 dispatch(EditProfileActions.UpdateAttendee(payload))
+            },
+            [dispatch],
+        ),
+        UpdateSuccess: useCallback(
+            (payload:any) => {
+                dispatch(EditProfileActions.UpdateSuccess(payload))
             },
             [dispatch],
         ),

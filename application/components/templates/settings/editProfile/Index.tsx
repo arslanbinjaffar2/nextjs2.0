@@ -41,7 +41,7 @@ import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
 
 const index = () => {
 
-    const { FetchEditProfiles, settings, labels, attendee, languages, callingCodes, countries, customFields, attendee_feild_settings, UpdateAttendee, updatingAttendee } = UseEditProfileService();
+    const { FetchEditProfiles, settings, labels, attendee, languages, callingCodes, countries, customFields, attendee_feild_settings, UpdateAttendee, updatingAttendee, success_message, UpdateSuccess } = UseEditProfileService();
 
     const { loading, scroll } = UseLoadingService();
 
@@ -51,12 +51,24 @@ const index = () => {
     React.useEffect(() => {
         FetchEditProfiles();
     }, [])
-
+    console.log(success_message)
     return (
         <>
             {loading ? (
                 <WebLoading />
             ) : (
+                <>
+                <Pressable
+                    p="2"
+                    borderWidth="1"
+                    onPress={()=>{
+                       UpdateSuccess(false)
+                    }}
+                
+                >
+                    <Text>Hello World!</Text>
+                </Pressable>
+                
                 <EditProfileFrom
                     attendee={attendee!}
                     languages={languages}
@@ -70,6 +82,7 @@ const index = () => {
                     updateAttendee={UpdateAttendee}
                     updatingAttendee={updatingAttendee}
                 />
+                </>
             )}
         </>
     )

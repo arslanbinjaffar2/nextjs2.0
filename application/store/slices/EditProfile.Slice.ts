@@ -21,7 +21,8 @@ export interface EditProfileState {
     order_attendee_count: number;
     settings: Setting[] | null;
     labels: Labels | null;
-    updatingAttendee:boolean
+    updatingAttendee:boolean,
+    success_message: boolean,
 }
 
 const initialState: EditProfileState = {
@@ -37,7 +38,8 @@ const initialState: EditProfileState = {
     order_attendee_count: 0,
     settings: [],
     labels: null,
-    updatingAttendee:false
+    updatingAttendee:false,
+    success_message:false
 }
 
 // Slice
@@ -63,8 +65,12 @@ export const EditProfileSlice = createSlice({
         UpdateAttendee(state, action: PayloadAction<any>){
             state.updatingAttendee = true
         },
+        UpdateSuccess(state, action: PayloadAction<any>){
+            state.success_message = false;
+        },
         AttendeeUpdatedSuccessfully(state){
-            state.updatingAttendee = false
+            state.updatingAttendee = false;
+            state.success_message = true;
         },
 
     },
@@ -75,6 +81,7 @@ export const EditProfileActions = {
     FetchEditProfileData:EditProfileSlice.actions.FetchEditProfileData,
     update:EditProfileSlice.actions.update,
     UpdateAttendee:EditProfileSlice.actions.UpdateAttendee,
+    UpdateSuccess:EditProfileSlice.actions.UpdateSuccess,
     AttendeeUpdatedSuccessfully:EditProfileSlice.actions.AttendeeUpdatedSuccessfully,
 }
 
@@ -91,6 +98,7 @@ export const SelectOrderAttendeeCount = (state: RootState) => state.editProfiles
 export const SelectSettings = (state: RootState) => state.editProfiles.settings
 export const SelectLabels = (state: RootState) => state.editProfiles.labels
 export const SelectUpdatingAttendee = (state: RootState) => state.editProfiles.updatingAttendee
+export const Selectsuccess_message = (state: RootState) => state.editProfiles.success_message
 
 
 // Reducer
