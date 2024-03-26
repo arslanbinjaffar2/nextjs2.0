@@ -12,19 +12,28 @@ const EmailSend = ({id}:{id:any}) => {
             );
         const [loading,setLoading]=useState(false)
         const [alert,setAlert]=useState<any>()
-        const validateForm=()=>{
-            if(errors.email.trim()=="" && errors.email.length>0){
-                return setErrors({...errors,email:"email is required"})
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const validateForm = () => {
+            if (emailData.email.trim() === "") {
+                return setErrors({...errors, email: "Email is required"});
+            }else if(!emailRegex.test(emailData.email.trim())) {
+                return setErrors({...errors, email: "Please enter a valid email"});
             }
-        }
+             else if (emailData.subject.trim() === "") {
+                return setErrors({...errors, subject: "Subject is required"});
+            } else if (emailData.comments.trim() === "") {
+                return setErrors({...errors, comments: "Comments are required"});
+            } else {
+                sendEmail();
+                setErrors(      { email: '',  subject: '', comments: '' }  )
+            }
+        };
     async function sendEmail() {     
         const mystate=store.getState()
         setLoading(true);
         try {
         const {data}=await sendDocumentEmailApi({...emailData,document_id:id}, mystate); // Call the API function
         setLoading(false);
-        setAlert(data.message)
-        console.log(data)
          setEmailData( { email: '',  subject: '', comments: '' })
         } catch (error:any) {
           console.log('error', error);
@@ -47,8 +56,7 @@ const EmailSend = ({id}:{id:any}) => {
     <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%" p={2}>
         <HStack mb="3" alignItems={["flex-start","center"]} p   ="6" flexDirection={['column', 'row']}  w="100%">
                             <FormControl isRequired isInvalid={emailData.email.trim().length < 3 && emailData.email.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
-                                <FormControl.Label  fontWeight="500" fontSize="16px" textTransform={'capitalize'}
-                                
+                                <FormControl.Label  fontWeight="500" fontSize="16px" textTransform={'capitalize'}                            
                                 >{'Email'}</FormControl.Label>
                             </FormControl>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -60,7 +68,7 @@ const EmailSend = ({id}:{id:any}) => {
                                     value={emailData.email}
                                     h={'50px'}
                                 />
-                                
+                                {!emailRegex.test(emailData.email.trim())  && errors.email && <Text color={'red.400'}>{errors.email}</Text>}
                             </Center>
                         </HStack>
                         <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
@@ -77,6 +85,7 @@ const EmailSend = ({id}:{id:any}) => {
                                 value={emailData.subject}
 
                                 />
+                                      {emailData.subject=='' && errors.subject && <Text color={'red.400'}>{errors.subject}</Text>}
                             </Center>
                         </HStack>
                         <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
@@ -95,6 +104,7 @@ const EmailSend = ({id}:{id:any}) => {
                                                         value={emailData.comments}
                                 />
                             </Center>
+                                  {emailData.comments=='' && errors.comments && <Text color={'red.400'}>{errors.comments}</Text>}
                         </HStack>
                         <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
@@ -119,7 +129,7 @@ const EmailSend = ({id}:{id:any}) => {
                   
                     isLoading={loading}
                     colorScheme="primary"
-                    onPress={()=>sendEmail()}
+                    onPress={()=>validateForm()}
                   
                 >
                     <Text fontSize="2xl" fontWeight={600}>Send E-mail</Text>
