@@ -52,7 +52,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                           <Avatar
                             borderWidth={1}
                             borderColor="primary.darkbox"
-                            bg={AvatarColors()}
+                            bg={'#a5a5a5'}
                           >{ detail?.detail?.first_name && detail?.detail?.last_name ? detail?.detail?.first_name?.substring(0,1) + detail?.detail?.last_name?.substring(0,1) : detail?.detail?.first_name?.substring(0,1)}</Avatar>
                         )}
                         <VStack w="calc(100% - 140px)" space="0">
