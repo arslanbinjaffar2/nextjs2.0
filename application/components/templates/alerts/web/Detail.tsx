@@ -21,7 +21,9 @@ const Detail = () => {
   const { modules } = UseEventService();
 
   React.useEffect(() => {
-    MarkAlertAsRead({ alertId: Number(_id) });
+    // if (detail && detail.is_read === false) {
+      MarkAlertAsRead({ alertId: Number(_id) });
+    // }
     FetchAlertDetails({ alertId: Number(_id) });
   }, []);
   const module = modules.find((module) => module.alias === 'alerts');
