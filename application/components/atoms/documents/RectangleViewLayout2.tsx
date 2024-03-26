@@ -19,6 +19,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import DocumentNotesBox from 'application/components/atoms/documents/DocumentNotesBox';
 import { store } from 'application/store/Index'
 import { sendDocumentEmailApi } from 'application/store/api/DocumentApi';
+import { useRouter } from 'solito/router';
 
 
 type AppProps = {
@@ -70,7 +71,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
     React.useEffect(() => {
         setEmailAlert('');
     }, [emailData]);
-
+  const {push}=useRouter()
     return (
         <>
             {
@@ -110,11 +111,11 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                     <HStack  space="3" alignItems="center" justifyContent={'flex-end'}>
                                     <Pressable
                                         onPress={async () => {
-                                            setIsEmailBoxOpen(true);
+                                            push(`/${event.url}/document-send-email/detail/${document.id}`)
                                         }}>
                                         <DynamicIcon iconType={'emailmynotes'} iconProps={{ width: 15, height: 18 }} />
                                     </Pressable>
-                                    <Modal
+                                    {/* <Modal
                                         isOpen={isEmailBoxOpen}
                                         onClose={()=>{
                                         setIsEmailBoxOpen(false);
@@ -155,7 +156,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                                 <Pressable onPress={() => setIsEmailBoxOpen(false)}><Icon as={FontAwesome} name="close" size={'lg'} color={'primary.text'} /></Pressable>
                                             </Modal.Body>
                                         </Modal.Content>
-                                    </Modal>
+                                    </Modal> */}
                                     {event.document_settings?.show_documents_notes == 1 && 
                                         <>
                                          <Pressable

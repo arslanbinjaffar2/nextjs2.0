@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Box, Button, HStack, Image, Icon } from 'native-base';
 import SquareBox from 'application/components/atoms/social-wall/SquareBox';
 import AddPost from 'application/components/atoms/social-wall/AddPost';
@@ -22,7 +22,7 @@ const Index = () => {
 
   const [showNewPostButton, setShowNewPostButton] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-
+  const topRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (socket !== null) {
       socket?.on(`event-buizz:social_wall_post_updated_${event.id}`, () => {
@@ -39,11 +39,16 @@ const Index = () => {
 
 
   const handleNewPostClick = () => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "start"  });
+    }
+    setRefreshKey(refreshKey => refreshKey + 1);
     setShowNewPostButton(false);
   };
 
   return (
     <>
+      <div ref={topRef}></div>
       <NextBreadcrumbs module={module} />
       <AddPost />
       {showNewPostButton && (
