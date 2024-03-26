@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 interface Module {
   alias: string;
   name: string;
+  id?: number;
 }
 
 interface NextBreadcrumb {
@@ -38,7 +39,18 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
   const breadcrumbs = generateBreadcrumbs(module || { alias: '', name: '' });
 
   const handlePress = (alias: string) => {
-    push(`/${event.url}/${alias}`);
+    let url = `/${event.url}/${alias}`;
+  
+    if (alias === 'information_pages') {
+      alias = alias.replace(/_/g, '-');
+      if (module && module.alias === 'information_pages' && module.id) {
+        url = `/${event.url}/${alias}/${module.id}`;
+      } else {
+        url = `/${event.url}/${alias}`;
+      }
+    }
+  
+    push(url);
   };
 
   const color = title ? 'primary.text' : 'primary.text';
