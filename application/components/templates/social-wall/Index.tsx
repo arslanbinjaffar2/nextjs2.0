@@ -5,6 +5,7 @@ import AddPost from 'application/components/atoms/social-wall/AddPost';
 import UseBannerService from 'application/store/services/UseBannerService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import { Banner } from 'application/models/Banner';
+import useSocialWallService from 'application/store/services/UseSocialWallService'
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds';
@@ -15,6 +16,7 @@ import UseSocketService from 'application/store/services/UseSocketService';
 const Index = () => {
   const { socket } = UseSocketService();
   const { event } = UseEventService();
+  const { labels } = useSocialWallService();
 
   const [showNewPostButton, setShowNewPostButton] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -47,7 +49,7 @@ const Index = () => {
       <AddPost />
       {showNewPostButton && (
         <HStack nativeID='button-reload-post' w={'100%'} mb={3} alignItems={'center'} justifyContent={'center'} position={'sticky'} top={5} left={0}>
-          <Button rounded={'full'} leftIcon={<Icon size="md" as={AntDesign} name="arrowup" color="primary.text" />} px={3} py={2} size={'md'} onPress={handleNewPostClick} >New Post</Button>
+          <Button rounded={'full'} leftIcon={<Icon size="md" as={AntDesign} name="arrowup" color="primary.text" />} px={3} py={2} size={'md'} onPress={handleNewPostClick}>{labels.SOCIAL_WALL_NEW_FEEDS}</Button>
         </HStack>
         
       )}
