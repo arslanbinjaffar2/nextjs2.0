@@ -5,7 +5,6 @@ import AddPost from 'application/components/atoms/social-wall/AddPost';
 import UseBannerService from 'application/store/services/UseBannerService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import { Banner } from 'application/models/Banner';
-import useSocialWallService from 'application/store/services/UseSocialWallService'
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds';
@@ -16,11 +15,10 @@ import UseSocialWallService from 'application/store/services/UseSocialWallServic
 
 const Index = () => {
   const { modules  } = UseEventService();
-  const {labels } = UseSocialWallService();
+  const { labels } = UseSocialWallService();
   const module = modules.find((module) => module.alias === 'social_wall');
   const { socket } = UseSocketService();
   const { event } = UseEventService();
-  const { labels } = useSocialWallService();
 
   const [showNewPostButton, setShowNewPostButton] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
