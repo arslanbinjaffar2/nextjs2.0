@@ -27,7 +27,7 @@ const Detail = ({ id, title, description, date, time }: { id: number, title: str
     };
 
     return (
-        <Box w="100%" borderBottomWidth='1' borderColor="primary.bordercolor" py="3">
+        <Box w="100%" py="3">
             <HStack px="3" w="100%" space="2" alignItems="flex-start" justifyContent={'space-between'}>
 
                 <VStack bg="red" width={'calc(100% - 60px)'} space="1">
