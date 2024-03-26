@@ -1,12 +1,13 @@
 import React from 'react';
 import moment from 'moment';
 import { useRouter } from 'next/router';
-import UseEventService from '../../../store/services/UseEventService'
 import { Box, HStack, Spacer, Text, VStack, Pressable, Icon, Center, Badge } from 'native-base'
+import { Survey } from 'application/models/survey/Survey';
+import UseEventService from 'application/store/services/UseEventService';
 import IcoBell from 'application/assets/icons/IcoBell';
 import { GENERAL_DATE_FORMAT, GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals'
 
-const RectangleView = ({ id, title, description, date, time, is_last_item }: { id: number, title: string, description: string, date: string, time: string, is_last_item: boolean }) => {
+const RectangleView = ({ id, title, description, date, time, is_last_item, is_read }: { id: number, title: string, description: string, date: string, time: string, is_last_item: boolean, is_read: boolean }) => {
   const router = useRouter();
   const { event } = UseEventService();
   const formatDateTime = (alertTime: string, alertDate: string) => {
@@ -49,7 +50,9 @@ const RectangleView = ({ id, title, description, date, time, is_last_item }: { i
           </VStack>
           <Spacer />
         </HStack>
-        <Badge position="absolute" right="15px" top="20px" bg="secondary.500" shadow="1" w="14px" h="14px" p="0" rounded="100%" />
+        {!is_read &&
+         <Badge position="absolute" right="15px" top="20px" bg="secondary.500" shadow="1" w="14px" h="14px" p="0" rounded="100%" />
+        }
       </Box>
     </Pressable>
   )

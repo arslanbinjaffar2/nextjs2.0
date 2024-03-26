@@ -94,7 +94,7 @@ const Index = ({ navigation }: indexProps) => {
               <Center py="3" px="2" w="100%" alignItems="flex-end">
                 <Button onPress={() => {
                   push(`/${event.url}/agendas`)
-                }} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                }} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" color={'primary.500'}/>}>
                   Show all
                 </Button>
               </Center>
@@ -190,7 +190,7 @@ const Index = ({ navigation }: indexProps) => {
                     
                       <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                         {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
-                          <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false}  />
+                          <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
                         ))}
                       </Box>
                     
@@ -199,6 +199,7 @@ const Index = ({ navigation }: indexProps) => {
                     {/*    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>*/}
                     {/*  </Box>*/}
                     {/*)}*/}
+                    {alerts.length > 3 &&
                     <Center py="3" px="2" w="100%" alignItems="flex-end">
                       <Button onPress={() => {
                         push(`/${event.url}/alerts`)
@@ -206,6 +207,7 @@ const Index = ({ navigation }: indexProps) => {
                         Show all
                       </Button>
                     </Center>
+                    }
                   </Container>
                   }
                 </>

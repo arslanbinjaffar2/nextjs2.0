@@ -38,7 +38,7 @@ const Listing = (props: any) => {
                 {(filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
                     <RectangleView index={key} key={key} {...row} cms={props.cms} />
                 ) : <Box padding={5} bg={"primary.500"}>
-                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                 </Box>)}
             </Box>
             <Box width={"100%"} height={"5%"}>

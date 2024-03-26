@@ -10,6 +10,7 @@ import UseAlertService from 'application/store/services/UseAlertService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Poll } from 'application/models/poll/Poll';
 import { Alert } from 'application/models/alert/Alert';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
@@ -39,9 +40,7 @@ const Index = () => {
     return (
         <>
             {
-                loading ? (
-                    <WebLoading />
-                ):(
+               loading || !alerts ? <SectionLoading /> :
                     <>
                     <NextBreadcrumbs module={module} />
                     <Container pt="2" maxW="100%" w="100%">
@@ -53,7 +52,7 @@ const Index = () => {
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                                     {alerts.map((alert:Alert, i:Number)=>(
                   
-                                        <RectangleView key={alert.id} id={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false}  />
+                                        <RectangleView key={alert.id} id={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false}  is_read={alert.is_read} />
                                     ))}
                             </Box>
                         ) : (
@@ -63,8 +62,6 @@ const Index = () => {
                         )}
                     </Container>
                     </>
-                )
-
             }
             <Box width={"100%"} height={"5%"}>
                 <BannerAds module_name={'alerts'} module_type={'listing'} />
