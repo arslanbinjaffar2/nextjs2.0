@@ -9,7 +9,6 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
-import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
 import AvatarColors from 'application/utils/AvatarColors'
 
 type AppProps = {
