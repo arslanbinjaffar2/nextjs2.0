@@ -34,6 +34,7 @@ const Index = () => {
   }, [socket, event.id]);
 
   const handleNewPostClick = () => {
+    setRefreshKey(refreshKey => refreshKey + 1);
     setShowNewPostButton(false);
   };
 
