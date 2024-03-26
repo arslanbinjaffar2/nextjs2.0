@@ -49,7 +49,7 @@ function* OnPollSubmit({
 }): SagaIterator {
     const state = yield select(state => state);
     const response: HttpResponse = yield call(submitPollApi, payload, state)
-    console.log(response);
+    console.log(payload);
     if (response?.status === 200) {
         yield put(PollActions.PollSubmitSuccess())
     }
