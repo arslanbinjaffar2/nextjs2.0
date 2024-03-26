@@ -53,7 +53,7 @@ const Detail = (props: any) => {
             {page && <View w="100%">
                 <ScrollView h={'68%'}>
                     <HStack rounded="10" space={0} alignItems="center" w="100%" bg="primary.box" >
-                        <Box w="100%" bg="primary.box"  rounded="10">
+                        <Box p={4} w="100%" bg="primary.box"  rounded="10">
                             {(page.image == '' && page.description == '' && page.pdf == '') &&(
                                 <>
                                 <Text p={3} mb="3" bg="primary.box" rounded="lg" w="100%">{event?.labels?.GENERAL_NO_RECORD}</Text>
@@ -83,11 +83,11 @@ const Detail = (props: any) => {
                                     javaScriptEnabled={true}
                                     scrollEnabled={false}
                                     source={{ html:page?.description }}
-                                    style={{ flex: 1, backgroundColor: ThemeColors.primary.box, height: web_height, color:'#fff' }}
+                                    style={{ flex: 1, backgroundColor: ThemeColors.primary.box, height: web_height+50, color:'#fff' }}
                                     injectedJavaScript='window.ReactNativeWebView.postMessage(document.body.scrollHeight)'
                                 />
                             ))}
-                            {page.image !== '' && page.image_position !== 'top' && <HStack w="100%" px={5}>
+                            {page.image !== '' && page.image_position !== 'top' && <HStack w="100%">
                                 <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%" />
                             </HStack>}
                             {page.pdf && (

@@ -37,6 +37,7 @@ const LeftBarProfile = () => {
 
             <HStack space="4" alignItems="center">
               <Center w="30px">
+                {console.log(row?.icon)}
                 <DynamicIcon iconType={row?.icon?.replace("-icon", "").replace("-","_").replace('.png','') } iconProps={{ width: 24, height: 21 }} />
               </Center>
               <Text fontSize={'lg'} color="primary.text">
