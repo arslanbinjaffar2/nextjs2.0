@@ -139,6 +139,9 @@ const Index = ({ navigation }: indexProps) => {
             </Box>
           </Container>
           {/*  */}
+
+          {banners && banners?.length > 0 && <BannerSlider banners={banners} />}
+
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
           <Container mt={4} w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
