@@ -47,7 +47,6 @@ const Index = ({ navigation }: indexProps) => {
   const { event, modules } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
-  console.log("🚀 ~ Index ~ banners:", banners)
   const { FetchAlerts, alerts, markAlertRead, alert_setting} = UseAlertService();
   const { loading } = UseLoadingService();
   const { FetchPrograms, programs, page, id, query, track_id, tracks, FetchTracks, track } = UseProgramService();
