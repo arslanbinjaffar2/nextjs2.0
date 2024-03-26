@@ -11,7 +11,7 @@ const EmailSend = ({id}:{id:any}) => {
             { email: '',  subject: '', comments: '' }    
             );
         const [loading,setLoading]=useState(false)
-        const [alert,setAlert]=useState("")
+        const [alert,setAlert]=useState<any>()
         const validateForm=()=>{
             if(errors.email.trim()=="" && errors.email.length>0){
                 return setErrors({...errors,email:"email is required"})
@@ -21,13 +21,15 @@ const EmailSend = ({id}:{id:any}) => {
         const mystate=store.getState()
         setLoading(true);
         try {
-        await sendDocumentEmailApi({...emailData,document_id:id}, mystate); // Call the API function
+        const {data}=await sendDocumentEmailApi({...emailData,document_id:id}, mystate); // Call the API function
         setLoading(false);
-        setAlert('Email sent successfully');
+        setAlert(data.message)
+        console.log(data)
          setEmailData( { email: '',  subject: '', comments: '' })
-        } catch (error) {
+        } catch (error:any) {
           console.log('error', error);
          setEmailData( { email: '',  subject: '', comments: '' })
+         setAlert(error)
 
         }
     }
@@ -114,13 +116,14 @@ const EmailSend = ({id}:{id:any}) => {
                     px="9"
                     mx={'auto'}
 					shadow={3}
+                  
                     isLoading={loading}
                     colorScheme="primary"
                     onPress={()=>sendEmail()}
                   
                 >
                     <Text fontSize="2xl" fontWeight={600}>Send E-mail</Text>
-                    {alert && <Text fontSize="md" color={'primary.text'} fontWeight={600}>{alert}</Text>}
+                    {alert && <Text fontSize="md" color={`${alert.includes('errors')}?''red.400'':'primary.text'`} fontWeight={600}>{alert}</Text>}
                 </Button>
     </>
 
