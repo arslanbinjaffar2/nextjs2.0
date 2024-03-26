@@ -27,7 +27,7 @@ const LeftBar = () => {
   const { _env } = UseEnvService();
 
   const { setLoading, scroll } = UseLoadingService();
-
+   console.log(modules)
   return (
     <Center nativeID='ebs-master-left-bar' overflow="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Center nativeID='ebs-master-left-bar-wrapper'>
@@ -102,9 +102,16 @@ const LeftBar = () => {
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <DynamicIcon iconType={row?.alias.replace('-', '_')} iconProps={{ width: 24, height: 21 }} />
+                {/* <Text>{row.icon}</Text> */}
+                <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') }
+                
+                iconProps={{ width: 24, height: 21 }} />
+                {/* <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} /> */}
               </Center>
-              {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
+              {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">
+         {/* {     row?.icon?.replace('-','_').replace('.png', '') } */}
+                {row?.name}
+                </Text>}
             </HStack>
           </Pressable>
           ) : null
