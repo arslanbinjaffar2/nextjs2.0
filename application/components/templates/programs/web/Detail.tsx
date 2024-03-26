@@ -137,16 +137,6 @@ const Detail = () => {
             ) : (
                 <>
                     <NextBreadcrumbs module={module} title={detail?.program?.topic}/>
-
-                    {/* <HStack pt="2" w="100%" space="3" alignItems="center">
-                        <Pressable onPress={()=> back() }>
-                        <HStack space="3" alignItems="center">
-                                <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                                <Text fontSize="2xl">BACK</Text>
-                        </HStack>
-                        </Pressable>
-                        <Spacer />
-                    </HStack> */}
                     <DetailBlock>
                         <Text>
                             <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
