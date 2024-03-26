@@ -13,7 +13,7 @@ export const getPollDetailApi = (payload: any, state: any): Promise<HttpResponse
 }
 
 export const submitPollApi = (payload: any, state: any): Promise<HttpResponse> => {
-    return makeApi(`${state?.env?.api_gateway_url}`).post(`/v2/save-polls`, { ...payload });
+    return makeApi(`${state?.env?.api_gateway_url}`).post(`https://apidev.eventbuizz.com/mobile/event/checking-clone-3479/save-polls`, { ...payload });
 }
 
 export const getMyPollResultApi = (payload: any, state: any): Promise<HttpResponse> => {

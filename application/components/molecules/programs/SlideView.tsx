@@ -155,7 +155,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 
 		return (
 			<>
-
+				
 				{dates?.length > 0 && currentIndex !== undefined && <>
 
 					{dates?.map((program: Program, key: number) => {
@@ -191,13 +191,6 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				<>
 					{Platform.OS === 'web' ? (
 						<>
-							{/* {programs?.map((item: any, index: any) =>
-                                <React.Fragment key={index}>
-                                    <RenderPrograms dates={item} />
-                                </React.Fragment>
-                            )} */}
-
-
 							<LazySlider onChange={handleChange} programs={programs} />
 							{programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
 							{programs.length <= 0 &&

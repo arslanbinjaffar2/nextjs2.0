@@ -9,7 +9,6 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
-import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
 import AvatarColors from 'application/utils/AvatarColors'
 
 type AppProps = {
@@ -53,7 +52,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                           <Avatar
                             borderWidth={1}
                             borderColor="primary.darkbox"
-                            bg={AvatarColors()}
+                            bg={'#a5a5a5'}
                           >{ detail?.detail?.first_name && detail?.detail?.last_name ? detail?.detail?.first_name?.substring(0,1) + detail?.detail?.last_name?.substring(0,1) : detail?.detail?.first_name?.substring(0,1)}</Avatar>
                         )}
                         <VStack w="calc(100% - 140px)" space="0">

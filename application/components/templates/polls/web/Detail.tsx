@@ -8,7 +8,7 @@ import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { createParam } from 'solito';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UsePollService from 'application/store/services/UsePollService';
-import { FormData } from 'application/models/poll/Detail';
+import { FormData, Question } from 'application/models/poll/Detail';
 import WebLoading from 'application/components/atoms/WebLoading';
 import MultipleAnswer from 'application/components/atoms/polls/questions/MultipleAnswer';
 import SingleAnswer from 'application/components/atoms/polls/questions/SingleAnswer';
@@ -233,7 +233,12 @@ const Detail = () => {
         SubmitPoll(postData);
 
     }
-    const module = modules.find((module) => module.alias === 'polls');
+  const module = modules.find((module) => module.alias === 'polls');
+
+  const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
+  
+  const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
+
   return (
     <>
       {loading ? (
@@ -287,7 +292,8 @@ const Detail = () => {
                       previous
                     </Button>}
                     <Spacer />
-                    {steps < (detail?.questions.length! -1)  && <Button
+                    {steps < (detail?.questions.length! -1)  && 
+                    <Button
                       bg="transparent"
                       isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
                       p="2"
@@ -306,7 +312,7 @@ const Detail = () => {
                     <Box m="auto" w="230px" bg="primary.darkbox" p="0" rounded="sm" overflow="hidden">
                       <Button
                       id='test'
-                        w="48px"
+                        w="100%"
                         py="3"
                         px="1"
                         leftIcon={<IcoLongArrow />}
@@ -315,19 +321,51 @@ const Detail = () => {
                         onPress={() => {
                          setNextStep();
                         }}
-                      />
+                      >
+                      {poll_labels?.POLL_SURVEY_AUTHORITY_SUBMIT}
+                      </Button>
                     </Box>
                   </Box>}
                 </Box>
               </Box>}
-              {completed === true && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
+            {(completed === true  && showCloudQuestion==true)&&
+                <>
+              {Object.keys(filterQuestion).length>0 && 
+               <WordCloudAnswer question={filterQuestion} key={filterQuestion?.id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels}  />
+              }
+              </>
+            }
+              {completed === true &&
+              (
+                 <>
+                <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
                   <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
                     <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
                   </Box>
                   <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
+                  <Button
+                      id='test'
+                      w="100px"
+                      py="3"
+                      px="1"
+                      isLoading={submittingPoll}
+                      colorScheme="primary"
+                      onPress={()=>{
+                        onSubmit()
+                        setShowCloudQuestion(true)
+                      }}
+                      
+                    >
+                      {poll_labels?.WORD_CLOUD_SUBMIT_AGAIN}
+                    </Button>
                 </VStack>
-              </Box>}
+              </Box>
+              </>
+
+              )
+              }
+
             </Container>
 
             </>

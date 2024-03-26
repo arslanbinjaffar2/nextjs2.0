@@ -29,7 +29,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     
 
     return (
-        <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.darkbox" : ""}`} w="100%"  p="0" rounded="10">
+        <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.box" : ""}`} w="100%"  p="0" rounded="10">
             {(showPrivate == 1 ||  detail?.sort_field_setting.find((s:any)=>(s.name === 'bio_info'))?.is_private == 0 ) && detail?.detail?.info?.about! && (
                 <>
                     <HStack px="3" py="1"  w="100%" space={2} bg="primary.box" alignItems="center">

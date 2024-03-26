@@ -1,12 +1,6 @@
 import { useCallback } from 'react'
 
-import {
-    SelectAlerts,
-    SelectAttendeeAlerts,
-    AlertActions,
-    SelectAlertSetting,
-    SelectAlertDetail
-} from 'application/store/slices/Alert.Slice'
+import { SelectAlerts, SelectAttendeeAlerts, AlertActions, SelectAlertDetail, SelectAlertSetting  } from 'application/store/slices/Alert.Slice'
 
 import {  Alert, AlertSetting } from 'application/models/alert/Alert'
 
@@ -34,8 +28,8 @@ export const UseAlertService = (): Readonly<AlertServiceOperators> => {
     return {
         detail: useAppSelector(SelectAlertDetail),
         alerts: useAppSelector(SelectAlerts),
-        attendee_alerts: useAppSelector(SelectAttendeeAlerts),
         alert_setting: useAppSelector(SelectAlertSetting),
+        attendee_alerts: useAppSelector(SelectAttendeeAlerts),
         FetchAlerts: useCallback(
             () => {
                 dispatch(AlertActions.FetchAlerts())
