@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail, SelectFavouriteProgramError, SelectParentTrackDetail, SelectAgendasAttachedViaGroup, SelectTotalPages, SelectRating } from 'application/store/slices/Program.Slice'
+import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail, SelectFavouriteProgramError, SelectParentTrackDetail, SelectAgendasAttachedViaGroup, SelectTotalPages, SelectRating, SelectUpcomingPrograms } from 'application/store/slices/Program.Slice'
 
 import { Program, ProgramRating } from 'application/models/program/Program'
 
@@ -17,6 +17,7 @@ export type ProgramServiceOperators = {
     id: number
     track_id: number
     programs: Program[]
+    upcoming_programs: Program[]
     tracks: Track[]
     track: Track
     parent_track: Track
@@ -32,6 +33,7 @@ export type ProgramServiceOperators = {
     ResetTracks: () => void
     FetchRating: (payload: { program_id: number}) => void
     SaveRating: (payload: { program_id: number, rate:number,comment:string }) => void
+    FetchUpcomingPrograms: (payload: { limit: number}) => void
 }
 
 /**
@@ -49,6 +51,7 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         id: useAppSelector(SelectID),
         track_id: useAppSelector(SelectTrack),
         programs: useAppSelector(SelectMyPrograms),
+        upcoming_programs: useAppSelector(SelectUpcomingPrograms),
         tracks: useAppSelector(SelectTracks),
         track: useAppSelector(SelectTrackDetail),
         detail: useAppSelector(SelectProgramDetail),
@@ -101,6 +104,12 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         SaveRating: useCallback(
             (payload: { program_id: number, rate:number,comment:string }) => {
                 dispatch(ProgramActions.SaveRating(payload))
+            },
+            [dispatch],
+        ),
+        FetchUpcomingPrograms: useCallback(
+            (payload: { limit: number }) => {
+                dispatch(ProgramActions.FetchUpcomingPrograms(payload))
             },
             [dispatch],
         ),  
