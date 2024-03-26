@@ -63,7 +63,8 @@ export const EditProfileSlice = createSlice({
             state.labels = action.payload.labels
         },
         UpdateAttendee(state, action: PayloadAction<any>){
-            state.updatingAttendee = true
+            state.updatingAttendee = true;
+            state.success_message = false;
         },
         UpdateSuccess(state, action: PayloadAction<any>){
             state.success_message = false;
