@@ -22,21 +22,13 @@ const Index = () => {
 
     const { event, modules  } = UseEventService();
     
-    const { FetchAlerts, alerts, markAlertRead} = UseAlertService();
+    const { FetchAlerts, alerts} = UseAlertService();
 
     const module = modules.find((module) => module.alias === 'alerts');
     
     useEffect(() => {
             FetchAlerts();
     }, []);
-    
-    useEffect(() => {
-        if(alerts.length > 0){
-
-            markAlertRead({ alertIds:alerts.reduce((ack,item)=>(`${ack}${item.id};`), '') });
-        }
-    }, [alerts]);
-    console.log(modules);
     return (
         <>
             {

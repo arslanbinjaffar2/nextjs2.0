@@ -109,7 +109,7 @@ const LeftBar = () => {
                 {/* <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} /> */}
               </Center>
               {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
-              {row?.alias === 'alerts' && 
+              {row?.alias === 'alerts' && row?.alerts > 0 &&
                 <Badge // bg="red.400"
                   bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid" alignSelf="flex-end" _text={{
                   fontSize: 12
