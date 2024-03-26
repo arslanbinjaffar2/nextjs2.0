@@ -14,6 +14,7 @@ import { Detail } from 'application/models/program/Detail';
 
 export interface ProgramState {
     programs: Program[],
+    upcoming_programs: Program[],
     detail: Detail,
     tracks: Track[],
     track: Track,
@@ -31,6 +32,7 @@ export interface ProgramState {
 
 const initialState: ProgramState = {
     programs: [],
+    upcoming_programs: [],
     detail:{},
     tracks: [],
     track: {},
@@ -167,7 +169,11 @@ export const ProgramSlice = createSlice({
             }else{
                 state.rating = null;
             }
-        }
+        },
+        FetchUpcomingPrograms(state, action: PayloadAction<{ limit: number }>) {},
+        UpdateUpcomingPrograms(state, action: PayloadAction<{ programs: Program[] }>) {
+            state.upcoming_programs = action.payload.programs;
+        },
         
     },
 })
@@ -187,6 +193,8 @@ export const ProgramActions = {
     FetchRating: ProgramSlice.actions.FetchRating,
     SaveRating: ProgramSlice.actions.SaveRating,
     UpdateRating: ProgramSlice.actions.UpdateRating,
+    FetchUpcomingPrograms: ProgramSlice.actions.FetchUpcomingPrograms,
+    UpdateUpcomingPrograms: ProgramSlice.actions.UpdateUpcomingPrograms,
     
 }
 
@@ -215,6 +223,8 @@ export const SelectFavouriteProgramError = (state: RootState) => state.programs.
 export const SelectAgendasAttachedViaGroup = (state: RootState) => state.programs.agendas_attached_via_group
 
 export const SelectRating = (state: RootState) => state.programs.rating
+
+export const SelectUpcomingPrograms = (state: RootState) => state.programs.upcoming_programs
 
 // Reducer
 export default ProgramSlice.reducer
