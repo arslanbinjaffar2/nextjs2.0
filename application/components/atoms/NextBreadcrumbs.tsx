@@ -27,16 +27,16 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
   const { push } = useRouter();
   const { event } = UseEventService();
 
-  function generateBreadcrumbs(module: Module): NextBreadcrumb[] {
+  function generateBreadcrumbs(module?: Module): NextBreadcrumb[] {
     const breadcrumbList: NextBreadcrumb[] = [];
     breadcrumbList.push({ label: 'Dashboard', alias: 'dashboard', icon: 'dashboard' });
-    if (module) {
+    if (module && module !== undefined) {
       breadcrumbList.push({ label: module.name, alias: module.alias, icon: module.alias.replace('-', '_') });
     }
     return breadcrumbList;
   }
 
-  const breadcrumbs = generateBreadcrumbs(module || { alias: '', name: '' });
+  const breadcrumbs = generateBreadcrumbs(module);
 
   const handlePress = (alias: string) => {
     let url = `/${event.url}/${alias}`;
