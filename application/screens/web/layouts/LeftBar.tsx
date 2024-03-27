@@ -112,7 +112,7 @@ const LeftBar = () => {
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <DynamicIcon iconType={row?.alias.replace('-', '_')} iconProps={{ width: 24, height: 21 }} />
+                <DynamicIcon iconType={row?.alias.replace(/-/g, '_')} iconProps={{ width: 24, height: 21 }} />
               </Center>
               {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
               {row?.alias === 'alerts' && unread > 0 &&

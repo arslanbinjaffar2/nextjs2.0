@@ -20,6 +20,8 @@ const MobileNavigation = () => {
   const { response } = UseAuthService();
   const router = useRouter()
   const width = useWindowDimensions();
+  const [leftArrow, setleftArrow] = React.useState<number>(0)
+  const [rightArrow, setrightArrow] = React.useState<number>(modules.length > 4 ? modules.length : 0)
   const sliderRef = React.useRef<Slider>(null);
    const settings = {
       dots: false,
@@ -29,13 +31,23 @@ const MobileNavigation = () => {
       slidesToShow: 4,
       slidesToScroll: 1,
       swipeToSlide: true,
+      onInit:  () => {
+        console.log('first')
+      },
+      afterChange: (currentSlide: any) => {
+     
+          setrightArrow((modules.length+1) - (currentSlide+4) )
+        
+        setleftArrow(currentSlide)
+    }
     };
   return (
     <SafeAreaView edges={['left']}>
-      <HStack pt={4} space="0" alignItems="center">
+      <HStack nativeID='ebs-navigation-slider' pt={4} space="0" alignItems="center">
         <Center  size="8">
-          <IconButton
+          {leftArrow > 0 && <IconButton
             variant="unstyled"
+            p={1}
             icon={<Icon size="md" as={AntDesign} name="left" color="primary.text" />}
             onPress={()=>{
               if (sliderRef.current) {
@@ -43,7 +55,7 @@ const MobileNavigation = () => {
               }
             }}
             
-          />
+          />}
           
           
         </Center>
@@ -102,7 +114,8 @@ const MobileNavigation = () => {
           </Slider>
       </View>
         <Center  size="8">
-          <IconButton
+          {rightArrow > 0 && <IconButton
+            p={1}
             variant="unstyled"
             icon={<Icon size="md" as={AntDesign} name="right" color="primary.text" />}
             onPress={()=>{
@@ -111,7 +124,7 @@ const MobileNavigation = () => {
               }
             }}
 
-          />
+          />}
         </Center>
       </HStack>
       
