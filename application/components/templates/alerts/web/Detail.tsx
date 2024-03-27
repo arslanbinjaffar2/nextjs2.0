@@ -41,7 +41,7 @@ const Detail = () => {
         loading || !detail ? <SectionLoading /> :
           <>
             <NextBreadcrumbs module={module} title={detail?.alert_detail?.title} />
-            <Container mb={2} pt="2" maxW="100%" w="100%">
+            <Container mb="3" pt="2" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" justifyContent="center">
                 <Text textTransform="uppercase" fontSize="3xl">Details</Text>
               </HStack>
