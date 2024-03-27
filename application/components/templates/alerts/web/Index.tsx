@@ -22,27 +22,19 @@ const Index = () => {
 
     const { event, modules  } = UseEventService();
     
-    const { FetchAlerts, alerts, markAlertRead} = UseAlertService();
+    const { FetchAlerts, alerts} = UseAlertService();
 
     const module = modules.find((module) => module.alias === 'alerts');
     useEffect(() => {
             FetchAlerts();
     }, []);
-    
-    useEffect(() => {
-        if(alerts.length > 0){
-
-            markAlertRead({ alertIds:alerts.reduce((ack,item)=>(`${ack}${item.id};`), '') });
-        }
-    }, [alerts]);
-    console.log(modules);
     return (
         <>
             {
                loading || !alerts ? <SectionLoading /> :
                     <>
                     <NextBreadcrumbs module={module} />
-                    <Container pt="2" maxW="100%" w="100%">
+                    <Container mb="3" pt="2" maxW="100%" w="100%">
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                             <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
                             <Spacer />
