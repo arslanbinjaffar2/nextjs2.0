@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 interface Module {
   alias: string;
   name: string;
+  id?: number;
 }
 
 interface NextBreadcrumb {
@@ -26,19 +27,31 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
   const { push } = useRouter();
   const { event } = UseEventService();
 
-  function generateBreadcrumbs(module: Module): NextBreadcrumb[] {
+  function generateBreadcrumbs(module?: Module): NextBreadcrumb[] {
     const breadcrumbList: NextBreadcrumb[] = [];
     breadcrumbList.push({ label: 'Dashboard', alias: 'dashboard', icon: 'dashboard' });
-    if (module) {
+    if (module && module !== undefined) {
       breadcrumbList.push({ label: module.name, alias: module.alias, icon: module.alias.replace('-', '_') });
     }
     return breadcrumbList;
   }
 
-  const breadcrumbs = generateBreadcrumbs(module || { alias: '', name: '' });
+  const breadcrumbs = generateBreadcrumbs(module);
 
   const handlePress = (alias: string) => {
-    push(`/${event.url}/${alias}`);
+    let url = `/${event.url}/${alias}`;
+  
+    if (alias === 'information_pages') {
+      alias = alias.replace(/_/g, '-');
+      if (module && module.alias === 'information_pages' && module.id) {
+        url = `/${event.url}/${alias}/${module.id}`;
+      } else {
+        url = `/${event.url}/${alias}`;
+      }
+    }else if(alias === "general-info" || alias === "practical-info" || alias === "additional-info"){
+      url = `/${event.url}/${alias}/event-info/0`;
+    }
+    push(url);
   };
 
   const color = title ? 'primary.text' : 'primary.text';
@@ -76,7 +89,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
                   iconType={breadcrumb.icon}
                   iconProps={{ width: 24, height: 21, color }}
                 />
-                <Text color={color}>{breadcrumb.label}</Text>
+                <Text isTruncated={true} maxWidth="100px" color={color}>{breadcrumb.label.length > 30 ? `${breadcrumb.label.substring(0, 30)}...` : breadcrumb.label}</Text>
               </HStack>
             </Pressable>
           )}
@@ -88,8 +101,8 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
       {title && (
         <>
           <Icon size="3" as={AntDesign} name="right" color={color} />
-          <Text color="white" ml={3}>
-            {title}
+          <Text color="white" ml={3} isTruncated={true} maxWidth="300px">
+            {title.length > 40 ? `${title.substring(0, 40)}...` : title}
           </Text>
         </>
       )}

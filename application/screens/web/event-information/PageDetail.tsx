@@ -39,7 +39,12 @@ const PageDetail = (props: any) => {
         ClearState();
     }
   }, [id, cms]);
-  const module = modules.find((module) => module.alias === cms);
+
+  let modifiedCms = cms;
+  if (cms === 'information-pages') {
+    modifiedCms = cms.replace(/-/g, '_');
+  }  
+  const module = modules.find((module) => module.alias === modifiedCms);
 
   return (
     <>
