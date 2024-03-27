@@ -20,7 +20,6 @@ const Index = () => {
   const module = modules.find((module) => module.alias === 'social_wall');
   const { socket } = UseSocketService();
   const { event } = UseEventService();
-  const { labels } = useSocialWallService();
 
   const [showNewPostButton, setShowNewPostButton] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
