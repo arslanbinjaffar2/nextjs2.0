@@ -89,7 +89,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
                   iconType={breadcrumb.icon}
                   iconProps={{ width: 24, height: 21, color }}
                 />
-                <Text color={color}>{breadcrumb.label}</Text>
+                <Text isTruncated={true} maxWidth="100px" color={color}>{breadcrumb.label.length > 30 ? `${breadcrumb.label.substring(0, 30)}...` : breadcrumb.label}</Text>
               </HStack>
             </Pressable>
           )}
@@ -101,8 +101,8 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
       {title && (
         <>
           <Icon size="3" as={AntDesign} name="right" color={color} />
-          <Text color="white" ml={3}>
-            {title}
+          <Text color="white" ml={3} isTruncated={true} maxWidth="300px">
+            {title.length > 40 ? `${title.substring(0, 40)}...` : title}
           </Text>
         </>
       )}
