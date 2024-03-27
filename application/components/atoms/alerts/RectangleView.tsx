@@ -36,7 +36,7 @@ const RectangleView = ({ id, title, description, date, time, is_last_item, is_re
       w="100%"
       onPress={navigateToDetail}
       _hover={{ bg: 'primary.500' }}>
-      <Box w="100%" borderBottomWidth='1' borderColor="primary.bordercolor" py="3">
+      <Box w="100%" borderBottomWidth={is_last_item ? '0' : '1'} borderColor="primary.bordercolor" py="3">
         <HStack px="3" w="100%" space="2" alignItems="flex-start" justifyContent={'space-between'}>
           <Center bg="primary.darkbox" p="2" rounded={'50%'}>
             <IcoBell width={28} height={28} />
