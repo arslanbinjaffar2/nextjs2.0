@@ -118,67 +118,11 @@ const ContactInfo = ({ detail }: AppProps) => {
                 }}>
                 <IcoWebLink width={30} height={30} />
               </Pressable>
-            ) : ''}
+            ) : ' '}
 
           </HStack>
         </Box>
       </Box>
-
-      {/* <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
-            <Box w="100%" p="4" py="5" rounded="10">
-                <HStack space={3}>
-                    {detail?.detail?.info?.facebook && detail?.field_setting?.facebook ? (
-                        <Pressable
-                            onPress={async () => {
-                                const url: any = `${detail?.detail?.info?.facebook_protocol!}${detail?.detail?.info?.facebook}`;
-                                const supported = await Linking.canOpenURL(url);
-                                if (supported) {
-                                    await Linking.openURL(url);
-                                }
-                            }}>
-                            <IcoFacebook />
-                        </Pressable>
-                    ) : ''}
-                    {detail?.detail?.info?.twitter && detail?.field_setting?.twitter ? (
-                        <Pressable
-                            onPress={async () => {
-                                const url: any = `${detail?.detail?.info?.twitter_protocol!}${detail?.detail?.info?.twitter}`;
-                                const supported = await Linking.canOpenURL(url);
-                                if (supported) {
-                                    await Linking.openURL(url);
-                                }
-                            }}>
-                            <IcoTwitterX />
-                        </Pressable>
-                    ) : ''}
-                    {detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin ? (
-                        <Pressable
-                            onPress={async () => {
-                                const url: any = `${detail?.detail?.info?.linkedin_protocol!}${detail?.detail?.info?.linkedin}`;
-                                const supported = await Linking.canOpenURL(url);
-                                if (supported) {
-                                    await Linking.openURL(url);
-                                }
-                            }}>
-                            <IcoLinkedIN />
-                        </Pressable>
-                    ) : ''}
-                    {detail?.detail?.info?.website && detail?.field_setting?.website ? (
-                        <Pressable
-                            onPress={async () => {
-                                const url: any = `${detail?.detail?.info?.website_protocol!}${detail?.detail?.info?.website}`;
-                                const supported = await Linking.canOpenURL(url);
-                                if (supported) {
-                                    await Linking.openURL(url);
-                                }
-                            }}>
-                            <IcoWebLink />
-                        </Pressable>
-                    ) : ''}
-
-                </HStack>
-            </Box>
-        </Container> */}
     </>
   )
 

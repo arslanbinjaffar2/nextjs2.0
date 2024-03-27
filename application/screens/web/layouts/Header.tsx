@@ -19,7 +19,7 @@ const Header = ({ width }: any) => {
 
   const { popupCount, setCurrentPopup, currentPopup, clearCurrentPopup } = UseNotificationService();
 
-  const { markAlertRead } = UseAlertService();
+  const { unread, setUnreadCount } = UseAlertService();
   
   const router = useRouter();
   
@@ -33,19 +33,18 @@ const Header = ({ width }: any) => {
 
   const onBtnLeftClick = () => {
     console.log(alertData);
-    if(alertData.type == 'alert'){
-      markAlertRead({alertIds:`${alertData.id};`})
-    }
     clearCurrentPopup();
     onClose();
   };
 
   const onBtnRightClick = () =>{
+    
     if(alertData.type == 'alert'){
-      markAlertRead({alertIds:`${alertData.id};`})
-    }
-    if(alertData.url !== undefined){
       router.push(`/${event.url}/alerts/detail/${alertData.id}`)
+    }else {
+      if(alertData.url !== undefined){
+        router.push(`/${event.url}${alertData.url}`)
+      }
     }
     clearCurrentPopup();
     onClose();
@@ -62,6 +61,9 @@ const Header = ({ width }: any) => {
   React.useEffect(() => {
     if(currentPopup !== null){
       setAlertData(currentPopup);
+      if(currentPopup.type == 'alert'){
+        setUnreadCount(unread + 1);
+      }
       setAlertCount(alertCount+1);
       setIsOpen(true);
     }else{

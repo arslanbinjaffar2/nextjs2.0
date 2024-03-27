@@ -26,6 +26,7 @@ import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import IcoTick from 'application/assets/icons/small/IcoTick';
 
 type ScreenParams = { id: string }
 
@@ -233,12 +234,13 @@ const Detail = () => {
         SubmitPoll(postData);
 
     }
-  const module = modules.find((module) => module.alias === 'polls');
-
-  const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
   
-  const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
+  const module = modules.find((module) => module.alias === 'polls');
+  
+  const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
 
+  const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
+  
   return (
     <>
       {loading ? (
@@ -340,8 +342,8 @@ const Detail = () => {
                  <>
                 <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
-                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
-                    <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
+                  <Box nativeID='bg-circle-animation' bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
+                   <IcoTick />
                   </Box>
                   <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
                   <Button

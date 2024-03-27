@@ -27,3 +27,7 @@ export const getRatingApi = (payload: any, state: any): Promise<HttpResponse> =>
 export const saveRatingApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/program/save-rating`,payload);
 }
+
+export const getUpcomingProgramApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/program/upcoming`,payload);
+}
