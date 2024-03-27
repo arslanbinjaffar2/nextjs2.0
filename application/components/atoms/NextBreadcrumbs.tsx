@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 interface Module {
   alias: string;
   name: string;
+  id?: number;
 }
 
 interface NextBreadcrumb {
@@ -26,19 +27,31 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
   const { push } = useRouter();
   const { event } = UseEventService();
 
-  function generateBreadcrumbs(module: Module): NextBreadcrumb[] {
+  function generateBreadcrumbs(module?: Module): NextBreadcrumb[] {
     const breadcrumbList: NextBreadcrumb[] = [];
     breadcrumbList.push({ label: 'Dashboard', alias: 'dashboard', icon: 'dashboard' });
-    if (module) {
+    if (module && module !== undefined) {
       breadcrumbList.push({ label: module.name, alias: module.alias, icon: module.alias.replace('-', '_') });
     }
     return breadcrumbList;
   }
 
-  const breadcrumbs = generateBreadcrumbs(module || { alias: '', name: '' });
+  const breadcrumbs = generateBreadcrumbs(module);
 
   const handlePress = (alias: string) => {
-    push(`/${event.url}/${alias}`);
+    let url = `/${event.url}/${alias}`;
+  
+    if (alias === 'information_pages') {
+      alias = alias.replace(/_/g, '-');
+      if (module && module.alias === 'information_pages' && module.id) {
+        url = `/${event.url}/${alias}/${module.id}`;
+      } else {
+        url = `/${event.url}/${alias}`;
+      }
+    }else if(alias === "general-info" || alias === "practical-info" || alias === "additional-info"){
+      url = `/${event.url}/${alias}/event-info/0`;
+    }
+    push(url);
   };
 
   const color = title ? 'primary.text' : 'primary.text';
