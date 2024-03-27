@@ -22,10 +22,18 @@ const Detail = () => {
 
   React.useEffect(() => {
     FetchAlertDetails({ alertId: Number(_id) });
-    setTimeout(() => {
-      MarkAlertAsRead({ alertId: Number(_id) });
-    }, 500);
   }, []);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      if(detail && detail?.id === Number(_id)){
+        let alreadyRead = detail?.is_read === true;
+        if(!alreadyRead){
+          MarkAlertAsRead({ alertId: Number(_id) });
+        }
+      }
+    }, 300);
+  }, [_id, detail]);
   const module = modules.find((module) => module.alias === 'alerts');
   return (
     <>
@@ -33,13 +41,13 @@ const Detail = () => {
         loading || !detail ? <SectionLoading /> :
           <>
             <NextBreadcrumbs module={module} title={detail?.alert_detail?.title} />
-            <Container pt="2" maxW="100%" w="100%">
+            <Container mb={2} pt="2" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" justifyContent="center">
                 <Text textTransform="uppercase" fontSize="3xl">Details</Text>
               </HStack>
               <Spacer />
               <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                <AlertDetail key={detail?.id} id={detail?.id || 0} title={detail?.alert_detail?.title || ""} description={detail?.alert_detail.description || ""} date={detail?.display_alert_date || ""} time={detail?.alert_time || ""} />
+                <AlertDetail key={_id} id={detail?.id || 0} title={detail?.alert_detail?.title || ""} description={detail?.alert_detail.description || ""} date={detail?.display_alert_date || ""} time={detail?.alert_time || ""} />
               </Box>
             </Container>
           </>
