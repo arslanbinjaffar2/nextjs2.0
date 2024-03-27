@@ -11,6 +11,7 @@ import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseInfoService from 'application/store/services/UseInfoService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import UseAlertService from 'application/store/services/UseAlertService';
 
 const LeftBar = () => {
 
@@ -24,10 +25,19 @@ const LeftBar = () => {
 
   const { info, page } = UseInfoService();
 
+  const { unread, setUnreadCount } = UseAlertService();
+
   const { _env } = UseEnvService();
 
   const { setLoading, scroll } = UseLoadingService();
-   console.log(modules)
+
+  React.useEffect(() => {
+    const alertsModule: any = modules.find((module: any) => module.alias === 'alerts');
+    if (alertsModule && alertsModule.alerts) {
+      setUnreadCount(alertsModule.alerts);
+    }
+  }, []);
+
   return (
     <Center nativeID='ebs-master-left-bar' overflow="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Center nativeID='ebs-master-left-bar-wrapper'>
@@ -109,12 +119,12 @@ const LeftBar = () => {
                 {/* <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} /> */}
               </Center>
               {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
-              {row?.alias === 'alerts' && row?.alerts > 0 &&
+              {row?.alias === 'alerts' && unread > 0 &&
                 <Badge // bg="red.400"
                   bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid" alignSelf="flex-end" _text={{
                   fontSize: 12
                 }}>
-                    {row?.alerts}
+                    {unread}
                 </Badge>
               }
             </HStack>

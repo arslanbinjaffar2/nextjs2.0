@@ -17,12 +17,14 @@ const { useParam } = createParam<ScreenParams>()
 const Detail = () => {
   const [_id] = useParam('id');
   const { FetchAlertDetails, detail, MarkAlertAsRead } = UseAlertService();
-  const { loading, processing } = UseLoadingService();
+  const { loading } = UseLoadingService();
   const { modules } = UseEventService();
 
   React.useEffect(() => {
-    MarkAlertAsRead({ alertId: Number(_id) });
     FetchAlertDetails({ alertId: Number(_id) });
+    setTimeout(() => {
+      MarkAlertAsRead({ alertId: Number(_id) });
+    }, 500);
   }, []);
   const module = modules.find((module) => module.alias === 'alerts');
   return (
