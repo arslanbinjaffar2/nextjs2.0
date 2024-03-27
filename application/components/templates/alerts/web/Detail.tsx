@@ -22,7 +22,7 @@ const Detail = () => {
 
   React.useEffect(() => {
     FetchAlertDetails({ alertId: Number(_id) });
-  }, []);
+  }, [_id]);
 
   React.useEffect(() => {
     setTimeout(() => {
