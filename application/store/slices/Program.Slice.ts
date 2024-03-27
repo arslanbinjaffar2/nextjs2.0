@@ -28,6 +28,7 @@ export interface ProgramState {
     favouriteProgramError:string,
     agendas_attached_via_group:number[],
     rating: ProgramRating|null,
+    select_day: number,
 }
 
 const initialState: ProgramState = {
@@ -46,6 +47,7 @@ const initialState: ProgramState = {
     favouriteProgramError:'',
     agendas_attached_via_group:[],
     rating: null,
+    select_day: 0,
 }
 
 // Slices
@@ -64,7 +66,7 @@ export const ProgramSlice = createSlice({
                 state.track = {};
             }
         },
-        update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track , agendas_attached_via_group:number[],total_pages:number}>) {
+        update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track , agendas_attached_via_group:number[],total_pages:number,event_status:string}>) {
             const existed: any = current(state.programs);
             console.log(action.payload.programs.reduce((ack, item:any)=>{
                 let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
@@ -88,6 +90,36 @@ export const ProgramSlice = createSlice({
             state.track = action.payload.track;
             state.agendas_attached_via_group = action.payload.agendas_attached_via_group;
             state.total_pages = action.payload.total_pages;
+            if(action.payload.event_status == 'ongoing'){
+                // current date
+                let today = new Date();
+                let dd = String(today.getDate()).padStart(2, '0');
+                let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                let yyyy = today.getFullYear();
+                let currentDate = yyyy + '-' + mm + '-' + dd;
+               
+                // Find index of program matching currentDate
+                let index = 0;
+                state.programs.forEach((dayPrograms, i) => {
+                    let dPrograms : any = dayPrograms
+                    console.log(dPrograms);
+                    const foundProgram = dPrograms.find((program: any) => program.date === currentDate);
+                    if (foundProgram) {
+                        index = i;
+                        return; // exit forEach loop if program is found
+                    }
+                });
+
+                // Set select_day to found index or default to -1 if not found
+                state.select_day = index;
+
+            }else if(action.payload.event_status == 'upcoming'){
+                // first date
+                state.select_day = 0;
+            }else if(action.payload.event_status == 'past'){
+                // last date
+                state.select_day = state.programs.length-1;
+            }
         },
         FetchTracks(state, action: PayloadAction<{ query: string, page: number, screen: string, track_id: number }>) {
             state.query = action.payload.query;
@@ -226,6 +258,8 @@ export const SelectAgendasAttachedViaGroup = (state: RootState) => state.program
 export const SelectRating = (state: RootState) => state.programs.rating
 
 export const SelectUpcomingPrograms = (state: RootState) => state.programs.upcoming_programs
+
+export const SelectDay = (state: RootState) => state.programs.select_day
 
 // Reducer
 export default ProgramSlice.reducer

@@ -21,7 +21,7 @@ function* OnGetMyPrograms({
     yield put(LoadingActions.addProcess({ process: 'programs' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getProgramApi, payload, state)
-    yield put(ProgramActions.update({ programs: response.data?.data?.programs, query: payload.query, page: payload.page, track: response.data.data.track!, agendas_attached_via_group:response.data.data.agendas_attached_via_group!, total_pages: response?.data?.data?.programs_total_pages }))
+    yield put(ProgramActions.update({ programs: response.data?.data?.programs, query: payload.query, page: payload.page, track: response.data.data.track!, agendas_attached_via_group:response.data.data.agendas_attached_via_group!, total_pages: response?.data?.data?.programs_total_pages, event_status: response?.data?.data?.event_status}))
     yield put(LoadingActions.removeProcess({ process: 'programs' }))
 }
 
