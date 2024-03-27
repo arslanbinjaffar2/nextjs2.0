@@ -104,9 +104,9 @@ const Header = ({ width }: any) => {
           </Center>
           <Spacer />
           <Center alignItems="flex-end" w="100%" maxW={width! >= 1201 ? '265px' : '40%'}>
-            <HStack space="10">
-              <Box><Pressable onPress={() => { router.push(`/${event.url}/settings/editprofile`) }}><Icosettings width={32} height={32} /></Pressable></Box>
-              <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={34} height={34} /></Pressable></Box>
+            <HStack space="6">
+              <Box><Pressable onPress={() => { router.push(`/${event.url}/settings/editprofile`) }}><Icosettings width={28} height={28} /></Pressable></Box>
+              <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={28} height={28} /></Pressable></Box>
               {/* <Notification /> */}
             </HStack>
           </Center>

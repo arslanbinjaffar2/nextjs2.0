@@ -194,7 +194,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 							<LazySlider onChange={handleChange} programs={programs} />
 							{programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
 							{programs.length <= 0 &&
-								<Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
+								<Box overflow="hidden" w="100%" rounded="lg">
 									<Box padding={5}>
 										<Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
 									</Box>

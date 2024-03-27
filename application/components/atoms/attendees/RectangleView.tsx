@@ -56,7 +56,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar
-                  borderWidth={1}
+                  borderWidth={0}
                   borderColor="primary.darkbox"
                   textTransform="uppercase"
                   bg={'#A5A5A5'}
