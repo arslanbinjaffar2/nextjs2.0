@@ -143,7 +143,7 @@ const EditPost = () => {
       
          <Text py={2} fontSize={'2xl'}>Edit Post</Text>
        
-        <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
+        <Box borderWidth="0" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
             {/* <IconButton
                 w="30px"
                 h="30px"
@@ -246,7 +246,7 @@ const EditPost = () => {
                     />
                 </Box>
             )}
-            <HStack borderTopWidth="1" borderTopColor="primary.bdBox" space="0" alignItems="center">
+            <HStack borderTopWidth="0" borderTopColor="primary.bdBox" space="0" alignItems="center">
                 <Center bg="primary.box" w="65%">
                     <HStack w="100%" space="0" alignItems="center">
                     <input 

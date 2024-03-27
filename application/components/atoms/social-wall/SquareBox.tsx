@@ -132,7 +132,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   return (
     <>
        {deleteprocessing && <Box mb={3}><WebLoading /></Box>}
-      {!deleteprocessing && <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="1" borderColor="primary.box">
+      {!deleteprocessing && <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="0" borderColor="primary.box">
       <VStack space="3">
 
 
@@ -163,7 +163,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                 <Menu
                   placement="bottom right"
                   bg="primary.boxsolid"
-                  borderWidth={1}
+                  borderWidth={0}
                   borderColor="#707070"
                   shouldFlip={true}
                   w={180}
@@ -244,7 +244,7 @@ const SquareBox = ({ post, index }: AppProps) => {
               }}
 
             >
-              <Popover.Content p={0}   minW={220} maxW={260} bg={'primary.boxsolid'}>
+              <Popover.Content shadow={3} p={0} borderWidth={0}  minW={220} maxW={260} bg={'primary.boxsolid'}>
                 <Popover.Body bg={'primary.boxsolid'} borderTopWidth="0" p={0} rounded={6}>
                   <Box bg={'primary.boxsolid'} py={3} borderWidth="0" borderColor="primary.box">
                     <HStack width={'100%'} px={3} mb={2} space="1" alignItems="center">
@@ -367,7 +367,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                   <Menu
                     placement="bottom right"
                     bg="primary.boxsolid"
-                    borderWidth={1}
+                    borderWidth={0}
                     borderColor="#707070"
                     shouldFlip={true}
                     w={180}

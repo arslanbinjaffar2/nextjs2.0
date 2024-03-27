@@ -188,7 +188,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     setTab('attendee'); 
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'attendee'))
                                 }} 
-                                borderWidth="1px" 
+                                borderWidth="0px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 borderRightRadius="0" 
@@ -207,7 +207,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
                                 }} 
                                 borderRadius="0" 
-                                borderWidth="1px" 
+                                borderWidth="0px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
@@ -225,7 +225,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                         setTab('group')
                                         push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'group'))
                                     }} 
-                                    borderWidth="1px" 
+                                    borderWidth="0px" 
                                     py={0} 
                                     borderColor="primary.darkbox" 
                                     borderLeftRadius="0" 
@@ -248,7 +248,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'attendee'))
                                     UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
                                 }} 
-                                borderWidth="1px" 
+                                borderWidth="0px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 borderRightRadius={0} 
@@ -269,7 +269,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 }} 
                                 borderRightRadius={8} 
                                 borderLeftRadius={0} 
-                                borderWidth="1px" 
+                                borderWidth="0px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
@@ -354,7 +354,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                               </Box>
                             }
                         </Container>}
-                        {(tab === 'group' || tab === 'sub-group') && <Container mb="3" pt={3} rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'group' || tab === 'sub-group') && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
