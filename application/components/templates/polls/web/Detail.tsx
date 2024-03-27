@@ -234,12 +234,13 @@ const Detail = () => {
         SubmitPoll(postData);
 
     }
-  const module = modules.find((module) => module.alias === 'polls');
-
-  const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
   
-  const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
+  const module = modules.find((module) => module.alias === 'polls');
+  
+  const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
 
+  const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
+  
   return (
     <>
       {loading ? (
