@@ -1,6 +1,6 @@
 import React from 'react';
 import {  useWindowDimensions } from 'react-native';
-import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon, VStack } from 'native-base'
+import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon, VStack, Spacer } from 'native-base'
 import { SafeAreaView } from "react-native-safe-area-context";
 import Slider from "react-slick";
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
@@ -21,7 +21,7 @@ const MobileNavigation = () => {
   const router = useRouter()
   const width = useWindowDimensions();
   const [leftArrow, setleftArrow] = React.useState<number>(0)
-  const [rightArrow, setrightArrow] = React.useState<number>(modules.length > 4 ? modules.length : 0)
+  const [rightArrow, setrightArrow] = React.useState<number>(modules.filter((item) => item.show_on_dashboard === 1).length > 4 ? modules.length : 0)
   const sliderRef = React.useRef<Slider>(null);
    const settings = {
       dots: false,
@@ -41,9 +41,10 @@ const MobileNavigation = () => {
         setleftArrow(currentSlide)
     }
     };
+  const showOnDashboardExists = modules.some(module => module.show_on_dashboard === 1);
   return (
     <SafeAreaView edges={['left']}>
-      <HStack nativeID='ebs-navigation-slider' pt={4} space="0" alignItems="center">
+      <HStack pt={4} space="0" alignItems="center">
         <Center  size="8">
           {leftArrow > 0 && <IconButton
             variant="unstyled"
@@ -54,33 +55,43 @@ const MobileNavigation = () => {
                 sliderRef.current.slickPrev();
               }
             }}
-            
           />}
-          
           
         </Center>
          <View w={width.width - 100}>
           <Slider
           ref={sliderRef}
            {...settings}>
-            <Box>
-              <Pressable
-                p="0"
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                borderWidth="0"
-                onPress={()=>{
-                  push(`/${event.url}`)
-                }}
-              >
-                <IcoDashboard width="24" height="24" />
-                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Dashboard</Text>
-              </Pressable>
-            </Box>
-            {modules.map((module, index) => (
-              <>
-                {(module.show_on_dashboard && module.show_on_dashboard === 1) ? (
+              <Box>
+                <Pressable
+                  p="0"
+                  display={'flex'}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                  borderWidth="0"
+                  onPress={() => {
+                    push(`/${event.url}`);
+                  }}
+                >
+                  {showOnDashboardExists ? (
+                    <>
+                      <IcoDashboard width={24} height={24} />
+                      <Text textAlign="center" pt={1} fontSize="sm">
+                        Dashboard
+                      </Text>
+                    </>
+                  ) : (
+                    <Center style={{marginLeft:"13rem"}}>
+                      <IcoDashboard width={24} height={24} />
+                      <Text textAlign="center" pt={1} fontSize="sm">
+                        Dashboard
+                      </Text>
+                    </Center>
+                  )}
+                </Pressable>
+              </Box>
+            {modules.filter((item) => item.show_on_dashboard === 1).map((module, index) => (
+              <React.Fragment>
                   <Box key={index}>
                     <Pressable
                       p="0"
@@ -108,8 +119,8 @@ const MobileNavigation = () => {
                       <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name}</Text>
                     </Pressable>
                   </Box>
-                ): null}
-              </>
+
+              </React.Fragment>
             ))}
           </Slider>
       </View>
@@ -123,12 +134,9 @@ const MobileNavigation = () => {
                 sliderRef.current.slickNext();
               }
             }}
-
           />}
         </Center>
       </HStack>
-      
-     
      </SafeAreaView>
   )
 }
