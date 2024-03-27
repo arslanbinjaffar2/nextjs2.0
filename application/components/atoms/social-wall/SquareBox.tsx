@@ -366,7 +366,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                 <Box ml={'auto'}>
                   <Menu
                     placement="bottom right"
-                    bg="primary.darkbox"
+                    bg="primary.boxsolid"
                     borderWidth={1}
                     borderColor="#707070"
                     shouldFlip={true}
@@ -385,10 +385,11 @@ const SquareBox = ({ post, index }: AppProps) => {
                       );
                     }}
                   >
-                    <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
+                    <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
                       {labels?.SOCIAL_WALL_TOP_COMMENTS}
                     </Menu.Item>
                     <Menu.Item
+                      _text={{color: 'primary.boxsolidtext'}} 
                       _focus={{ bg: '' }}
                       _hover={{ bg: 'primary.500' }}
                       textValue="comments_newest"
