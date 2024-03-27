@@ -25,11 +25,9 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/survey/Survey';
 import { useRouter } from 'solito/router'
 import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import IcoTick from 'application/assets/icons/small/IcoTick';
-
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { id: string }
 

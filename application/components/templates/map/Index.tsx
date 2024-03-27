@@ -4,17 +4,13 @@ import UseMapService from 'application/store/services/UseMapService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEventService from 'application/store/services/UseEventService';
-import UseEnvService from 'application/store/services/UseEnvService';
 import LoadImage from 'application/components/atoms/LoadImage';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
     const { loading } = UseLoadingService();
     const { event, modules  } = UseEventService();
-    const { _env } = UseEnvService();
 
     const { map, FetchMap} = UseMapService()
     React.useEffect(()=>{
@@ -30,7 +26,7 @@ const Index = () => {
        <NextBreadcrumbs module={module} />
             <Container pt="2" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text textTransform="uppercase" fontSize="2xl">{modules?.find((map)=>(map.alias == 'maps'))?.name ?? ""}</Text>
+                <Text textTransform="capitalize" fontSize="2xl">{modules?.find((map)=>(map.alias == 'maps'))?.name ?? ""}</Text>
                 </HStack>
                 {map && map?.url && map?.url !== '' && <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
                     <iframe 

@@ -190,18 +190,13 @@ const Detail = ({ speaker }: Props) => {
                                         {in_array('programs', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
-                                            programs.length > 0 ? 
-                                               
-                                         
+                                            programs.length > 0 ?
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> 
                                                         : (
                                                             <>
-
                                                                 <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
                                                             </>
                                                         )
-                                            
-
                                         )}
                                     </Container>}
                                     </>
@@ -226,9 +221,8 @@ const Detail = ({ speaker }: Props) => {
                                         {detail?.detail?.categories.length <=0 && 
                                         (
                                             <>
-                                          
-                                        <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
-                                                </>
+                                                <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                            </>
                                             )
                                         }
                                     </Container>}

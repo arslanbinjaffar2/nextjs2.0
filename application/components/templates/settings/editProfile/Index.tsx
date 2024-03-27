@@ -97,9 +97,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
-      minHeight: "40px",
+    //   minHeight: "40px",
       padding:"3px",
-    // minHeight:50,
+    minHeight:50,
       width: '100%',
       maxWidth: '100%',
 			minWidth: '100%',
@@ -143,7 +143,13 @@ const Selectstyles2 = {
         phone: attendee?.phone && attendee?.phone?.split("-")[1],
         callingCode: attendee?.phone && attendee?.phone?.split("-")[0]
     })
-
+    React.useEffect(() => {
+        setAttendeeData({
+            ...attendeeData,
+            phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
+            callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
+        });
+    }, [attendee]);
     const [customFieldData, setCustomFieldData] = React.useState<any>(customFields.reduce((ack1, question, i)=>{
         let answers = attendee.info[`custom_field_id${question.event_id}`]?.split(',').reduce((ack2:any, id, i)=>{ 
            let is_answer = question.children_recursive.find((answer:any)=>(answer.id == id));
@@ -164,11 +170,11 @@ const Selectstyles2 = {
     const inputresumeFileRef = React.useRef<HTMLInputElement | null>(null);
 
     React.useEffect(() => {
-        // setAttendeeData({
-        //     ...attendeeData,
-        //     phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
-        //     callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
-        // });
+    // setAttendeeData({
+    //     ...attendeeData,
+    //     phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
+    //     callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
+    // });
     }, []);
 
     const updateCustomFieldSelect = (obj:any) => {
@@ -258,6 +264,16 @@ const Selectstyles2 = {
 
         if (attendeeData?.email) attendeeObj.email = attendeeData?.email;
 
+        if (attendeeData?.title) attendeeObj.title = attendeeData?.title;
+
+        if (attendeeData?.about) attendeeObj.about = attendeeData?.about;
+
+        if (attendeeData?.network_group) attendeeObj.network_group = attendeeData?.network_group;
+
+        if (attendeeData?.SPOKEN_LANGUAGE) attendeeObj.SPOKEN_LANGUAGE = attendeeData?.SPOKEN_LANGUAGE;
+
+        if (attendeeData?.industry) attendeeObj.industry = attendeeData?.industry;
+
         if (attendeeData?.first_name) attendeeObj.first_name = attendeeData?.first_name;
 
         if (attendeeData?.last_name) attendeeObj.last_name = attendeeData?.last_name;
@@ -293,8 +309,10 @@ const Selectstyles2 = {
         formData.append('attendee_cv', data.attendeeObj.att_cv);
 
         updateAttendee(formData);
-    };
+       
 
+    };
+ console.log(attendeeData.attendee_cv)
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
@@ -652,7 +670,7 @@ const Selectstyles2 = {
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.delegate}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}
-                            
+
                             >
                                 <Input w="100%"
 									h={'50px'}
@@ -813,12 +831,12 @@ const Selectstyles2 = {
                                     
                                 <Radio.Group space="5"   value={gender} name="MyRadioGroup" onChange={(gender) => { setGender(gender); }}>
                                     <HStack space="3" alignItems="center">
-                                        <Radio  
-                                        isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} 
-                                        value={'male'} 
+                                        <Radio
+                                        isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                        value={'male'}
                                         opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> Male </Radio>
-                                        <Radio  
-                                        isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} 
+                                        <Radio
+                                        isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                         value={'female'}
                                         opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> Female </Radio>
                                     </HStack>
@@ -909,7 +927,7 @@ const Selectstyles2 = {
                                     minWidth="64"
                                     w="100%"
                                     h="50px"
-                                    isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                    isDisabled={setting.is_editable === 1 ? false : true}
                                     opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     selectedValue={attendeeData?.info?.country}
                                     onValueChange={answer => updateInfoSelect({ answer, name: "country" })}
@@ -925,13 +943,13 @@ const Selectstyles2 = {
                             <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.SPOKEN_LANGUAGE}</Text>
                             </Center>
-                            <Center  justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']} >
+                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                             <DropDown
                                 label={labels?.SPOKEN_LANGUAGE}
                                 listitems={languages}
                                 required={false}
-                                isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                 opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
+                                isDisabled={setting.is_editable === 1 ? false : true}
                                 isMulti={true}
                                 selected={
                                     attendeeData.SPOKEN_LANGUAGE &&
@@ -1027,7 +1045,7 @@ const Selectstyles2 = {
                                                         <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
                                                         : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
                                                     </Center>
-                                                    <Button w={180} px={4} py={3} leftIcon={<Icon as={Ionicons} color={'primary.text'} name="cloud-upload-outline" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
+                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
                                                             if(inputFileRef.current){
                                                                 inputFileRef.current.click();
                                                             }
@@ -1043,6 +1061,7 @@ const Selectstyles2 = {
                                                         height="50px"
                                                         type='file'
                                                         style={{display:'none'}}
+                                                        accept="image/*"
                                                         placeholder={labels?.phone}
                                                         readOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                                         onChange={(e) => {
@@ -1062,8 +1081,8 @@ const Selectstyles2 = {
                                     </HStack>
                             </HStack>
                     )}
-                    {setting?.name === 'resume' && (
-                            <HStack mb="3" alignItems="start" px="6"  w="100%" >
+                    {setting?.name === 'resume' && setting?.is_editable === 1 && (
+                            <HStack mb="3" alignItems="start" px="3"  w="100%" >
                             
                                 <HStack mb="3" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
                                     <Center alignItems="flex-start" width={'225px'}  pb={[2,0]} maxW={["100%","225px"]}>
@@ -1073,7 +1092,7 @@ const Selectstyles2 = {
                                         <HStack w="100%">
                                             <VStack w={'100%'} space={2}>
                                                 <Center mb={3} w="150px">
-                                                    {(typeof attendeeData.attendee_cv === 'string') ? 
+                                                    { typeof attendee.attendee_cv=='string' ? 
                                                     <Pressable 
                                                     onPress={async () => {
                                                         const url: any = `${_env.eventcenter_base_url}/event/${event.url}/settings/downloadResume/${attendeeData?.attendee_cv}`;
@@ -1082,12 +1101,17 @@ const Selectstyles2 = {
                                                             await Linking.openURL(url);
                                                         }
                                                     }}>
-                                                        <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
+                                                        <LoadImage  path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
                                                     </Pressable>
                                                     : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />}
+                                                {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
+                                                    attendee.attendee_cv === 'string' ? <Text fontSize="md">{attendee.attendee_cv}</Text> :
+                                                        <Text fontSize="md">{attendeeData.attendee_cv}</Text>}
+
+                                                    
                                                 </Center>
 
-                                                <Button w={180} px={4} py={3}leftIcon={<Icon as={Ionicons} color={'primary.text'} name="cloud-upload-outline" size="lg" />}
+                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
                                                     isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                     onPress={()=>{
                                                         if(inputresumeFileRef.current){
@@ -1105,6 +1129,7 @@ const Selectstyles2 = {
                                                     height="50px"
                                                     type='file'
                                                     style={{display:'none'}}
+                                                    accept="application/pdf"
                                                     placeholder={labels?.phone}
                                                     readOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
                                                     onChange={(e) => {
@@ -1197,7 +1222,7 @@ const Selectstyles2 = {
             </HStack>}
             </VStack>
             ))}
-            
+
             {<HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                 <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                     <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {

@@ -11,11 +11,9 @@ import { Poll, Polls } from 'application/models/poll/Poll';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
 
@@ -107,7 +105,7 @@ const Index = () => {
                     <NextBreadcrumbs module={module} />
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="0" alignItems="center">
-                            <Text textTransform="uppercase" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Text>
+                            <Text textTransform="capitalize" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Text>
                             <Spacer   />
                             <Input rounded="10" w={['100%',"60%"]} bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>

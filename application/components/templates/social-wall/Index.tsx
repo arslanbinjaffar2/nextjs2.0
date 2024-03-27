@@ -12,8 +12,12 @@ import BannerAds from 'application/components/atoms/banners/BannerAds';
 import PostListing from 'application/components/atoms/social-wall/PostListing';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseSocketService from 'application/store/services/UseSocketService';
+import UseSocialWallService from 'application/store/services/UseSocialWallService'
 
 const Index = () => {
+  const { modules  } = UseEventService();
+  const {labels } = UseSocialWallService();
+  const module = modules.find((module) => module.alias === 'social_wall');
   const { socket } = UseSocketService();
   const { event } = UseEventService();
   const { labels } = useSocialWallService();
@@ -35,6 +39,7 @@ const Index = () => {
     };
   }, [socket, event.id]);
 
+
   const handleNewPostClick = () => {
     if (topRef.current) {
       topRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "start"  });
@@ -46,6 +51,7 @@ const Index = () => {
   return (
     <>
       <div ref={topRef}></div>
+      <NextBreadcrumbs module={module} />
       <AddPost />
       {showNewPostButton && (
         <HStack nativeID='button-reload-post' w={'100%'} mb={3} alignItems={'center'} justifyContent={'center'} position={'sticky'} top={5} left={0}>

@@ -30,7 +30,6 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds';
 import IcoTick from 'application/assets/icons/small/IcoTick';
 
-
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()

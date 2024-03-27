@@ -15,7 +15,6 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEventService from 'application/store/services/UseEventService';
 import { Keyboard } from 'react-native';
 
-
 const Index = React.memo(() => {
 
     const { loading } = UseLoadingService();

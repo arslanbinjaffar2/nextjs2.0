@@ -7,7 +7,6 @@ import RectangleView from 'application/components/atoms/sponsors/RectangleView';
 import CategoryRectangleView from 'application/components/atoms/sponsors/categories/RectangleView';
 import BoxView from 'application/components/atoms/sponsors/BoxView';
 import { Sponsor } from 'application/models/sponsor/Sponsor'
-import BannerView from 'application/components/atoms/banners/RectangleView';
 import debounce from 'lodash.debounce';
 import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -16,7 +15,6 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
 const Index = React.memo(() => {
@@ -35,10 +33,10 @@ const Index = React.memo(() => {
 
     const createQueryString = React.useCallback(
         (name: string, value: string) => {
-            const params = new URLSearchParams(searchParams.toString())
-            params.set(name, value)
+          const params = new URLSearchParams(searchParams.toString())
+          params.set(name, value)
 
-            return params.toString()
+          return params.toString()
         },
         [searchParams]
     )
@@ -90,7 +88,7 @@ const Index = React.memo(() => {
             <NextBreadcrumbs module={module} title={category?.name} />
             <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="uppercase" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
+                    <Text textTransform="capitalize" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
                     <Spacer />
                     <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels.GENERAL_SEARCH} onChangeText={(text: string) => {
                         search(text);
@@ -173,21 +171,21 @@ const Index = React.memo(() => {
                     </>}
 
                     {tab === 'category' && (
-                                <Box w="100%" rounded="10" bg="primary.box" borderWidth={categories.length > 0 ? "1":"0"} borderColor="primary.bdBox">
-                          {categories.length > 0 ? (
-                            <ScrollView h={'60%'} w={'100%'}>
-                                <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                    {categories.map((category: SponsorCategory, key: number) => (
-                                      <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
-                                    ))}
-                                </HStack>
-                            </ScrollView>
-                          ) : (
-                            <Box p={3}>
-                                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                            </Box>
-                          )}
-                      </Box>
+                        <Box w="100%" rounded="10" bg="primary.box" borderWidth={categories.length > 0 ? "1":"0"} borderColor="primary.bdBox">
+                            {categories.length > 0 ? (
+                                <ScrollView h={'60%'} w={'100%'}>
+                                    <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
+                                        {categories.map((category: SponsorCategory, key: number) => (
+                                        <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
+                                        ))}
+                                    </HStack>
+                                </ScrollView>
+                            ) : (
+                                <Box p={3}>
+                                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                </Box>
+                            )}
+                        </Box>
                     )}
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'sponsors'} module_type={'listing'} />
@@ -196,8 +194,9 @@ const Index = React.memo(() => {
                 )}
 
                 </Container>
-                </>
+        </>
     )
+
 })
 
 export default Index

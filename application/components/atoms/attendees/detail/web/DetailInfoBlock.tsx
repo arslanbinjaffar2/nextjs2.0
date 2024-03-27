@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Divider, Heading, HStack, Icon, Spacer, Text, View, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Detail } from 'application/models/attendee/Detail';
@@ -13,6 +13,21 @@ type AppProps = {
 
 const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     const { event  } = UseEventService();
+    const [hasAboutData,setHasAboutData] = useState<boolean>(true);
+    
+    React.useEffect(() => {
+      var _wrapper =document.getElementById('about-wrapper');
+      var _content =document.getElementById('about-content');
+        if(_content && _content.innerHTML.trim() === ''){
+            _wrapper?.setAttribute('style', 'display:none');
+            setHasAboutData(false);
+        }else{
+            setHasAboutData(true);
+        }
+
+    }, [detail])
+    
+
     return (
         <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.darkbox" : ""}`} w="100%"  p="0" rounded="10">
             {(showPrivate == 1 ||  detail?.sort_field_setting.find((s:any)=>(s.name === 'bio_info'))?.is_private == 0 ) && detail?.detail?.info?.about! && (
@@ -30,12 +45,12 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                 </>
             )}
             {(detail?.sort_field_setting.length > 0) && (
-                <Box p="0">
+                <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
                         <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
                         <Text fontSize="sm">{event.labels?.ATTENDEE_MORE_INFO}</Text>
                     </HStack>
-                    <VStack px="3" py="4" w="100%" >
+                    <VStack nativeID='about-content' px="3" py="4" w="100%" >
                         {
                             detail?.sort_field_setting.map((setting:any, i:number)=>(
                                 <React.Fragment key={i}>
@@ -230,10 +245,10 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     
-                                    {setting.name === 'pa_country' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.country! && (
+                                    {setting.name === 'pa_country' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_country_display_name! && (
                                         <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
-                                                <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.country}:</Heading>
+                                                <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{event?.labels?.ATTENDEE_PRIVATE_COUNTRY}:</Heading>
                                             </Box>
                                             <Box pl="1" w="calc(100% - 200px)">
                                                 <Text fontSize="sm">{detail?.detail?.info?.private_country_display_name}</Text>
@@ -306,18 +321,13 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                 </React.Fragment>
                             ))
                         }
-                        
-                        <HStack w="100%" maxW={'100%'}>
-                            
-                        </HStack>
                     </VStack>
                 </Box>
             )}
-            {detail?.sort_field_setting.length <= 0 && (
-                <>
-                    <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
-                </>
-            )
+            {!hasAboutData && 
+                <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
+                    <Text>{event.labels.EVENT_NORECORD_FOUND}</Text>
+                </Box>  
             }
             
         </Box>

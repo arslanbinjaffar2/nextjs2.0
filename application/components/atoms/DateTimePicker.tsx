@@ -1,4 +1,4 @@
-import React, { ReactElement, FC, useRef } from 'react';
+import React, { ReactElement, FC, useRef, useEffect } from 'react';
 import { Box, Button, Center, Checkbox, Divider, HStack, Icon, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import "react-datetime/css/react-datetime.css";
@@ -19,8 +19,9 @@ type Props = {
 
 const MyDTPicker: FC<any> = (props: Props): any => {
 
-  const textInput = useRef<any>(null);
+  const textInput = useRef<any | null>(null);
   
+ 
   const [tab, setTab] = React.useState('days');
 
   const renderView = (mode: any, renderDefault: any, showTime: any,showDate:any,) => {
@@ -47,17 +48,22 @@ const MyDTPicker: FC<any> = (props: Props): any => {
   };
 
   const renderInput = (props: any) => {
+
     return (
       <Box fontFamily={'Avenir'} w="100%">
         <label className={`label-input ${props.timeOnly ? 'ebs-time-icon' : ''}`}>
-          <Input opacity={props.disabled ? '0.5' : 1} rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} isReadOnly={true} {...props} placeholder={props.placeholder} />
+          <Input
+          h={50}
+          opacity={props.disabled ? '0.5' : 1} rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} isReadOnly={true} {...props} placeholder={props.placeholder} />
           <span>{props.required && <em className="req">*</em>}</span>
         </label>
       </Box>
     );
   }
 
-  return <Datetime locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue}
+  return <Datetime
+  
+  locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue}
   ref={textInput} renderView={(mode:any, renderDefault:any) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={renderInput} />;
 };
 
@@ -77,7 +83,7 @@ type DateTimeProps = {
 
 const DateTimePicker: FC<DateTimeProps> = (props): ReactElement => {
   return (
-    <div style={{width: '100%'}}>
+    <div style={{width: '100%'}} >
       <MyDTPicker locale={props?.locale !== undefined ? props?.locale : 'en'} readOnly={props.readOnly} initialValue={props.initialValue} onChange={props.onChange} value={props.value} showtime={props.showtime !== undefined ? props.showtime : false} showdate={props.showdate !== undefined ? props.showdate : true} placeholder={props.label} />
     </div>
   )

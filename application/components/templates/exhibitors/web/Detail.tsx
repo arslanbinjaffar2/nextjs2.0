@@ -19,8 +19,8 @@ import UseDocumentService from 'application/store/services/UseDocumentService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService';
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 
 type ScreenParams = { id: string, cms: string | undefined }
@@ -51,7 +51,9 @@ const Detail = React.memo(() => {
             clearState();
         }
     }, [id]);
+    
     const module = modules.find((module) => module.alias === "exhibitors");
+
     return (
         <>
             {loading ? (

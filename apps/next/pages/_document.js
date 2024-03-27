@@ -281,6 +281,9 @@ svg#active #svg-elem-3 {
   from {transform: scale(0);}
   to {transform: scale(1);}
 }
+.wrapper-select.isDisabled {
+  pointer-events: none;
+}
 #ebs-navigation-slider .slick-list .slick-track {
   margin: auto;
 }

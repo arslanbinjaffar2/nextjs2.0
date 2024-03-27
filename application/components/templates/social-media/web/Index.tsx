@@ -6,25 +6,23 @@ import UseLoadingService from '../../../../store/services/UseLoadingService';
 import UseSocialMediaService from '../../../../store/services/UseSocialMediaService'; 
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Linking } from 'react-native';
-import UseEnvService from 'application/store/services/UseEnvService'
+
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const index = () => {
 
   const mounted = React.useRef(false);
-  const { _env } = UseEnvService()
-  const { event, modules } = UseEventService()
+    const { loading } = UseLoadingService();
+    const { event, modules } = UseEventService()
+    const { FetchSocialMedias, socialMedia } = UseSocialMediaService();
+    useEffect(() => {
+      FetchSocialMedias();
+    }, []);
 
-  const { loading } = UseLoadingService();
-
-  const { FetchSocialMedias, socialMedia } = UseSocialMediaService();
-
-  useEffect(() => {
-    FetchSocialMedias();
-  }, []);
-  const module = modules.find((module) => module.alias === 'social-media');
+    const module = modules.find((module) => module.alias === 'social-media');
+    
   return (
     <>
       {
@@ -35,7 +33,7 @@ const index = () => {
           <NextBreadcrumbs module={module} />
         <Container pt="2" maxW="100%" w="100%">
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-              <Text textTransform="uppercase" fontSize="2xl">{modules?.find((socialMedia)=>(socialMedia.alias == 'social-media'))?.name ?? ""}</Text>
+              <Text textTransform="capitalize" fontSize="2xl">{modules?.find((socialMedia)=>(socialMedia.alias == 'social-media'))?.name ?? ""}</Text>
             </HStack>
             <Box w="100%" mb="3" bg="primary.box" p={["4","8"]} pb="1" rounded="10px">
               <Flex direction="row" flexWrap="wrap">

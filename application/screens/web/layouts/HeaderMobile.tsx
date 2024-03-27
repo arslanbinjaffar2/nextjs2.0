@@ -9,6 +9,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
 import UseNotificationService from 'application/store/services/UseNotificationService';
+import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 
 const HeaderMobile = ({ width }: any) => {
   const { _env } = UseEnvService();
@@ -79,7 +80,7 @@ const [open, setOpen] = React.useState(false)
       </Container>
       
       <Drawer isOpen={open} placement='left'>
-        <Container   alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
+        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
             <Center w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
               <Pressable
                 alignItems={'flex-end'}
@@ -99,6 +100,32 @@ const [open, setOpen] = React.useState(false)
         </Container>
         
       </Drawer>
+       <HStack w={'100%'} space={'3'} flexDirection={'row'}
+      //  flexWrap={'wrap'}
+      alignItems={'center'}>
+        <Box width={'40%'}
+          height={"129px"} 
+       
+        >
+        <UpcomingBlock
+            px="3"
+            py="4"
+            h='100%'
+            title="UPCOMING SESSION" desc='Talk on w' location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+        </Box>
+        <Box width={'40%'}
+          height={"129px"}
+
+
+        >
+          
+          <UpcomingBlock 
+            px="3"
+            py="4"
+            h='100%'
+          title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
+        </Box>
+      </HStack> 
     </>
   );
 }

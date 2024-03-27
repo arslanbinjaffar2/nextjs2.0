@@ -15,8 +15,8 @@ import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { Setting } from 'application/models/hd/Hd';
 import UseSocketService from 'application/store/services/UseSocketService';
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { id: string }
 
