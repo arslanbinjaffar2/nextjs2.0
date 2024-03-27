@@ -118,16 +118,18 @@ const Detail = () => {
     React.useEffect(() => {
         let tabs=[];
         if(detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 && (showSpeakers || showPolls)){
-            tabs.push(['about', 'ABOUT']);
+            tabs.push(['about', event?.labels?.GENERAL_ABOUT]);
         }
         if(event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0){
-            tabs.push(['group', 'GROUPS']);
+            tabs.push(['group', event?.labels?.ATTENDEE_TAB_GROUP]);
         }
         if(modules?.find((polls) => (polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 ){
-            tabs.push(['attendee', 'ATTENDEES']);
+            const attendees_label = modules?.find((module) => (module.alias == 'attendees'))?.name
+            tabs.push(['attendee', attendees_label]);
         }
         if(modules?.find((polls)=>(polls.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 ){
-            tabs.push(['documents', 'DOCUMENTS']);
+            const documents_label = modules?.find((module) => (module.alias == 'ddirectory'))?.name
+            tabs.push(['documents', documents_label]);
         }
         setTabs(tabs);
         if(tabs.length > 0){
