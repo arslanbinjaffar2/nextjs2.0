@@ -32,14 +32,20 @@ const Header = ({ width }: any) => {
   const onClose = () => setIsOpen(false);
 
   const onBtnLeftClick = () => {
+    console.log(alertData);
     clearCurrentPopup();
     onClose();
   };
 
   const onBtnRightClick = () =>{
     
-    router.push(`/${event.url}/alerts/detail/${alertData.id}`)
-
+    if(alertData.type == 'alert'){
+      router.push(`/${event.url}/alerts/detail/${alertData.id}`)
+    }else {
+      if(alertData.url !== undefined){
+        router.push(`/${event.url}${alertData.url}`)
+      }
+    }
     clearCurrentPopup();
     onClose();
   };
@@ -55,7 +61,9 @@ const Header = ({ width }: any) => {
   React.useEffect(() => {
     if(currentPopup !== null){
       setAlertData(currentPopup);
-      setUnreadCount(unread + 1);
+      if(currentPopup.type == 'alert'){
+        setUnreadCount(unread + 1);
+      }
       setAlertCount(alertCount+1);
       setIsOpen(true);
     }else{

@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getProgramApi, getTrackApi, makeFavouriteApi, getProgramDetailApi, getRatingApi, saveRatingApi } from 'application/store/api/Program.Api';
+import { getProgramApi, getTrackApi, makeFavouriteApi, getProgramDetailApi, getRatingApi, saveRatingApi, getUpcomingProgramApi } from 'application/store/api/Program.Api';
 
 import { ProgramActions } from 'application/store/slices/Program.Slice'
 
@@ -21,7 +21,7 @@ function* OnGetMyPrograms({
     yield put(LoadingActions.addProcess({ process: 'programs' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getProgramApi, payload, state)
-    yield put(ProgramActions.update({ programs: response.data?.data?.programs, query: payload.query, page: payload.page, track: response.data.data.track!, agendas_attached_via_group:response.data.data.agendas_attached_via_group!, total_pages: response?.data?.data?.programs_total_pages }))
+    yield put(ProgramActions.update({ programs: response.data?.data?.programs, query: payload.query, page: payload.page, track: response.data.data.track!, agendas_attached_via_group:response.data.data.agendas_attached_via_group!, total_pages: response?.data?.data?.programs_total_pages, event_status: response?.data?.data?.event_status}))
     yield put(LoadingActions.removeProcess({ process: 'programs' }))
 }
 
@@ -71,7 +71,7 @@ function* OnGetTracks({
     yield put(LoadingActions.addProcess({ process: 'tracks' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getTrackApi, payload, state)
-    yield put(ProgramActions.UpdateTracks({ tracks: response.data.data.tracks!, query: payload.query, page: payload.page, track: response.data.data.track! }))
+    yield put(ProgramActions.UpdateTracks({ tracks: response.data.data.tracks!, query: payload.query, page: payload.page, track: response.data.data.track!, total_pages: response.data.data.total_pages!}))
     yield put(LoadingActions.removeProcess({ process: 'tracks' }))
 }
 
@@ -101,6 +101,19 @@ function* OnSaveRating({
     yield put(LoadingActions.removeProcess({ process: 'program-ratings' }))
 }
 
+function* OnGetUpcomingPrograms({
+    payload,
+}: {
+    type: typeof ProgramActions.FetchUpcomingPrograms
+    payload: { limit: number }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: 'upcoming-programs' }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getUpcomingProgramApi, payload, state)
+    yield put(ProgramActions.UpdateUpcomingPrograms({ programs: response.data?.data?.programs}))
+    yield put(LoadingActions.removeProcess({ process: 'upcoming-programs' }))
+}
+
 // Watcher Saga
 export function* ProgramWatcherSaga(): SagaIterator {
     yield takeEvery(ProgramActions.FetchPrograms.type, OnGetMyPrograms)
@@ -109,6 +122,7 @@ export function* ProgramWatcherSaga(): SagaIterator {
     yield takeEvery(ProgramActions.FetchProgramDetail.type, OnGetProgramDetail)
     yield takeEvery(ProgramActions.FetchRating.type, OnGetRating)
     yield takeEvery(ProgramActions.SaveRating.type, OnSaveRating)
+    yield takeEvery(ProgramActions.FetchUpcomingPrograms.type, OnGetUpcomingPrograms)
 }
 
 export default ProgramWatcherSaga
