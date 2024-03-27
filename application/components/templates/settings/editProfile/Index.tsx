@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, useToast, IconButton, Spacer  } from 'native-base';
 
 import {default  as ReactSelect} from "react-select";
 
@@ -41,22 +41,23 @@ import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
 
 const index = () => {
 
-    const { FetchEditProfiles, settings, labels, attendee, languages, callingCodes, countries, customFields, attendee_feild_settings, UpdateAttendee, updatingAttendee } = UseEditProfileService();
+    const { FetchEditProfiles, settings, labels, attendee, languages, callingCodes, countries, customFields, attendee_feild_settings, UpdateAttendee, updatingAttendee, success_message, UpdateSuccess } = UseEditProfileService();
 
     const { loading, scroll } = UseLoadingService();
-
-		const { event } = UseEventService();
+    const toast = useToast();
+    const toastIdRef = React.useRef();
+	const { event } = UseEventService();
 
 
     React.useEffect(() => {
         FetchEditProfiles();
     }, [])
-
     return (
         <>
             {loading ? (
                 <WebLoading />
             ) : (
+                <>
                 <EditProfileFrom
                     attendee={attendee!}
                     languages={languages}
@@ -69,7 +70,10 @@ const index = () => {
                     attendee_feild_settings={attendee_feild_settings}
                     updateAttendee={UpdateAttendee}
                     updatingAttendee={updatingAttendee}
+                    UpdateSuccess={UpdateSuccess}
+                    success_message={success_message}
                 />
+                </>
             )}
         </>
     )
@@ -88,11 +92,13 @@ type formProps = {
     event: Event
     attendee_feild_settings: Attendeefeildsettings | null
     updatingAttendee: boolean,
+    success_message: boolean,
     updateAttendee: (data: any) => void
+    UpdateSuccess: (data: any) => void
 };
 
 
-const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee }: formProps) => {
+const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee, success_message, UpdateSuccess }: formProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 const Selectstyles2 = {
     control: (base:any, state:any) => ({
@@ -1236,7 +1242,7 @@ const Selectstyles2 = {
                     py="2"
                     px="5"
                     mx={'auto'}
-					shadow={3}
+										shadow={3}
                     colorScheme="primary"
                     isLoading={updatingAttendee}
                     onPress={() => {
@@ -1246,6 +1252,23 @@ const Selectstyles2 = {
                     <Text fontSize="2xl" fontWeight={600}>SAVE</Text>
                 </Button>
             </HStack>
+						{success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'}  p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
+								<Text fontSize="md">profile updated successfully</Text>
+								<Spacer />
+								<IconButton
+									variant="unstyled"
+									p={2}
+									rounded={'full'}
+									icon={<Icon size="md" as={AntDesign} name="close" color="white" />}
+									onPress={()=>{
+									UpdateSuccess(false)
+									}}
+									
+								/>
+								
+								
+						</HStack></Box>}
+						
         </Container>
     )
 }

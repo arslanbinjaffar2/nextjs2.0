@@ -240,7 +240,7 @@ body {
  text-decoration-line: underline !important;
 }
 .css-reset-4rbku5:hover{
-  color:green !important;
+  color:#5e6b66 !important;
 }
 .wrapper-select.isDisabled {
   pointer-events: none;
