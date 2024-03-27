@@ -94,7 +94,7 @@ const Index = ({ navigation }: indexProps) => {
                 <Button onPress={() => {
                   push(`/${event.url}/agendas`)
                 }} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                  Show all
+                  {event.labels?.GENERAL_LOAD_MORE ?? 'Show all'}
                 </Button>
               </Center>
             </Container>
@@ -134,6 +134,8 @@ const Index = ({ navigation }: indexProps) => {
               <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
             </Box>
           </Container>
+          {banners && banners?.length > 0 && <BannerSlider banners={banners} />}
+
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
           <Container mb="3" w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
@@ -182,22 +184,19 @@ const Index = ({ navigation }: indexProps) => {
                     
                       <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                         {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
-                          <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false}  />
+                          <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
                         ))}
                       </Box>
-                    
-                    {/*) : (*/}
-                    {/*  <Box p="3">*/}
-                    {/*    <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>*/}
-                    {/*  </Box>*/}
-                    {/*)}*/}
+                      
+                    {alerts.length > 3 &&
                     <Center py="3" px="2" w="100%" alignItems="flex-end">
                       <Button onPress={() => {
                         push(`/${event.url}/alerts`)
                       }} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                        Show all
+                        {event.labels?.GENERAL_LOAD_MORE ?? 'Show all'}
                       </Button>
                     </Center>
+                    }
                   </Container>
                   }
                 </>
