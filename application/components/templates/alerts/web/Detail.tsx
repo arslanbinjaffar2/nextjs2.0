@@ -22,17 +22,16 @@ const Detail = () => {
 
   React.useEffect(() => {
     FetchAlertDetails({ alertId: Number(_id) });
-  }, []);
+  }, [_id]);
 
   React.useEffect(() => {
-    setTimeout(() => {
-      if(detail && detail?.id === Number(_id)){
-        let alreadyRead = detail?.is_read === true;
-        if(!alreadyRead){
-          MarkAlertAsRead({ alertId: Number(_id) });
-        }
+    console.log("🚀 ~ React.useEffect ~ detail:", detail)
+    if (detail && detail?.id === Number(_id)) {
+      let alreadyRead = detail?.is_read === true;
+      if (!alreadyRead) {
+        MarkAlertAsRead({ alertId: Number(_id) });
       }
-    }, 300);
+    }
   }, [_id, detail]);
   const module = modules.find((module) => module.alias === 'alerts');
   return (
