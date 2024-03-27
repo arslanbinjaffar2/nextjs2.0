@@ -232,16 +232,6 @@ body {
 #zindex-9,#button-reload-post {
   z-index: 9 !important;
 }
-.css-reset-4rbku5{
-    font-family: AntDesign;
-  font-weight:500;
-  font-size:16px;
-  color:white  !important;
- text-decoration-line: underline !important;
-}
-.css-reset-4rbku5:hover{
-  color:#5e6b66 !important;
-}
 `;
 
 export async function getInitialProps({ renderPage }) {
