@@ -9,9 +9,11 @@ import UseSocialWallService from 'application/store/services/UseSocialWallServic
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEnvService from 'application/store/services/UseEnvService';
+import UseEventService from 'application/store/services/UseEventService';
 import { createParam } from 'solito';
 import { useRouter } from 'next/router';
 import WebLoading from 'application/components/atoms/WebLoading';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 
 type ScreenParams = { id: string }
@@ -23,6 +25,7 @@ const { useParam } = createParam<ScreenParams>()
 const EditPost = () => {
     const router = useRouter();
     const { _env } = UseEnvService();
+    const { modules  } = UseEventService();
     const { UpdateSocialWallPost,DetailSocialWallPost, post_detail } = UseSocialWallService();
     const { processing } = UseLoadingService();
     const { response } = UseAuthService();
@@ -137,10 +140,10 @@ const EditPost = () => {
     const inputImageRef = React.useRef<HTMLInputElement | null>(null);
     const inputVideoRef = React.useRef<HTMLInputElement | null>(null);
     const inputContentRef = React.useRef<HTMLInputElement | null>(null);
-
+    const module = modules.find((module) => module.alias === 'social_wall');
     return (
         <>
-      
+        <NextBreadcrumbs module={module} title={postData?.content}/> 
          <Text py={2} fontSize={'2xl'}>Edit Post</Text>
        
         <Box borderWidth="0" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
