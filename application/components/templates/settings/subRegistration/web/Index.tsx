@@ -351,11 +351,10 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
               onPress={() => {
                 onSubmit();
               }}
-            />
-            }
-            {sucess_message && <Text fontSize="lg" position={'absolute'} right={'0'}>successfully Submit</Text>}
-          </HStack>
-        </Box>
+            />  
+              }
+            {!submitting && sucess_message && <Text fontSize="lg" position={'absolute'} right={'0'}>{event.labels.EVENTSITES_SUBREGISTRATION_UPDATE_MESSAGE}</Text>}
+        </HStack>
       </Box>
     </Container>
   )
