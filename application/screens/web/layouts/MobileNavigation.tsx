@@ -1,6 +1,6 @@
 import React from 'react';
 import {  useWindowDimensions } from 'react-native';
-import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon, VStack } from 'native-base'
+import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon, VStack, Spacer } from 'native-base'
 import { SafeAreaView } from "react-native-safe-area-context";
 import Slider from "react-slick";
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
@@ -35,15 +35,16 @@ const MobileNavigation = () => {
         console.log('first')
       },
       afterChange: (currentSlide: any) => {
-     
+
           setrightArrow((modules.length+1) - (currentSlide+4) )
-        
+
         setleftArrow(currentSlide)
     }
     };
+  const showOnDashboardExists = modules.some(module => module.show_on_dashboard === 1);
   return (
     <SafeAreaView edges={['left']}>
-      <HStack nativeID='ebs-navigation-slider' pt={4} space="0" alignItems="center">
+      <HStack pt={4} space="0" alignItems="center">
         <Center  size="8">
           {leftArrow > 0 && <IconButton
             variant="unstyled"
@@ -63,50 +64,65 @@ const MobileNavigation = () => {
           <Slider
           ref={sliderRef}
            {...settings}>
-            <Box>
-              <Pressable
-                p="0"
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                borderWidth="0"
-                onPress={()=>{
-                  push(`/${event.url}`)
-                }}
-              >
-                <IcoDashboard width="24" height="24" />
-                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Dashboard</Text>
-              </Pressable>
-            </Box>
-            {modules.filter((item:any) => item.show_on_dashboard === 1).map((module, index) => (
-              <Box key={index}>
-                  <Pressable
-                    p="0"
-                    display={'flex'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    borderWidth="0"
-                    onPress={() => {
-                      if (in_array(module?.alias, ['practical-info', 'general-info', 'additional-info'])) {
-                        router.push(`/${event.url}/${module?.alias}/event-info/0`)
-                      } else if (in_array(module?.alias, ['information_pages'])) {
-                        if(module?.section_type === 'link') {
-                          push(`${event.url}`)
-                        } else {
-                          router.push(`/${event.url}/information-pages${module?.section_type === 'child_section' ? '/sub' : ''}/${module?.id}`)
-                        }
-                      } else if (module?.alias === 'my-registrations') {
-                        push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
-                      } else {
-                        router.push(`/${event.url}/${module?.alias}`)
-                      }
-                    }}
-                  >
-                    <DynamicIcon iconType={module?.alias.replace(/-/g, '_')} iconProps={{ width: 24, height: 21 }} />
-                    <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name}</Text>
-                  </Pressable>
-               
+              <Box>
+                <Pressable
+                  p="0"
+                  display={'flex'}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                  borderWidth="0"
+                  onPress={() => {
+                    push(`/${event.url}`);
+                  }}
+                >
+                  {showOnDashboardExists ? (
+                    <>
+                      <IcoDashboard width={24} height={24} />
+                      <Text textAlign="center" pt={1} fontSize="sm">
+                        Dashboard
+                      </Text>
+                    </>
+                  ) : (
+                    <Center style={{marginLeft:"13rem"}}>
+                      <IcoDashboard width={24} height={24} />
+                      <Text textAlign="center" pt={1} fontSize="sm">
+                        Dashboard
+                      </Text>
+                    </Center>
+                  )}
+                </Pressable>
               </Box>
+            {modules.filter((item) => item.show_on_dashboard === 1).map((module, index) => (
+              <React.Fragment>
+                  <Box key={index}>
+                    <Pressable
+                      p="0"
+                      display={'flex'}
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                      borderWidth="0"
+                      onPress={() => {
+                        if (in_array(module?.alias, ['practical-info', 'general-info', 'additional-info'])) {
+                          router.push(`/${event.url}/${module?.alias}/event-info/0`)
+                        } else if (in_array(module?.alias, ['information_pages'])) {
+                          if(module?.section_type === 'link') {
+                            push(`${event.url}`)
+                          } else {
+                            router.push(`/${event.url}/information-pages${module?.section_type === 'child_section' ? '/sub' : ''}/${module?.id}`)
+                          }
+                        } else if (module?.alias === 'my-registrations') {
+                          push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
+                        } else {
+                          router.push(`/${event.url}/${module?.alias}`)
+                        }
+                      }}
+                    >
+                      <DynamicIcon iconType={module?.alias.replace(/-/g, '_')} iconProps={{ width: 24, height: 21 }} />
+                      <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name}</Text>
+                    </Pressable>
+                  </Box>
+
+              </React.Fragment>
             ))}
           </Slider>
       </View>
