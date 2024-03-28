@@ -49,8 +49,8 @@ const Index = () => {
 
   return (
     <>
+      <NextBreadcrumbs module={module} /> 
       <div ref={topRef}></div>
-      <NextBreadcrumbs module={module} />
       <AddPost />
       {showNewPostButton && (
         <HStack nativeID='button-reload-post' w={'100%'} mb={3} alignItems={'center'} justifyContent={'center'} position={'sticky'} top={5} left={0}>
