@@ -20,6 +20,8 @@ const MobileNavigation = () => {
   const { response } = UseAuthService();
   const router = useRouter()
   const width = useWindowDimensions();
+  const [leftArrow, setleftArrow] = React.useState<number>(0)
+  const [rightArrow, setrightArrow] = React.useState<number>(modules.filter((item) => item.show_on_dashboard === 1).length > 4 ? modules.length : 0)
   const sliderRef = React.useRef<Slider>(null);
    const settings = {
       dots: false,
@@ -29,25 +31,34 @@ const MobileNavigation = () => {
       slidesToShow: 4,
       slidesToScroll: 1,
       swipeToSlide: true,
+      onInit:  () => {
+        console.log('first')
+      },
+      afterChange: (currentSlide: any) => {
+
+          setrightArrow((modules.length+1) - (currentSlide+4) )
+
+        setleftArrow(currentSlide)
+    }
     };
   const showOnDashboardExists = modules.some(module => module.show_on_dashboard === 1);
   return (
     <SafeAreaView edges={['left']}>
       <HStack pt={4} space="0" alignItems="center">
         <Center  size="8">
-          {showOnDashboardExists && (
-            <IconButton
+          {leftArrow > 0 && <IconButton
             variant="unstyled"
+            p={1}
             icon={<Icon size="md" as={AntDesign} name="left" color="primary.text" />}
             onPress={()=>{
               if (sliderRef.current) {
                 sliderRef.current.slickPrev();
               }
             }}
-            
-          />
-          )}
-          
+
+          />}
+
+
         </Center>
          <View w={width.width - 100}>
           <Slider
@@ -116,8 +127,8 @@ const MobileNavigation = () => {
           </Slider>
       </View>
         <Center  size="8">
-          {showOnDashboardExists && (
-          <IconButton
+          {rightArrow > 0 && <IconButton
+            p={1}
             variant="unstyled"
             icon={<Icon size="md" as={AntDesign} name="right" color="primary.text" />}
             onPress={()=>{
@@ -125,13 +136,9 @@ const MobileNavigation = () => {
                 sliderRef.current.slickNext();
               }
             }}
-
-          />
-            )}
+          />}
         </Center>
       </HStack>
-      
-     
      </SafeAreaView>
   )
 }
