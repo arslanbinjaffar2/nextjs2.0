@@ -5,13 +5,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
-
-interface Module {
-  alias: string;
-  icon: string;
-  name: string;
-  id?: number;
-}
+import { Module } from 'application/models/Module'
 
 interface NextBreadcrumb {
   label: string;
