@@ -51,6 +51,7 @@ import checkin from 'application/assets/icons/checkin_agendas';
 import business from 'application/assets/icons/IcoNetworkInterest';
 import document from 'application/assets/icons/document'
 import download from 'application/assets/icons/download'
+import floorplan_basic from 'application/assets/icons/floorplan_basic'
 type IconProps = {
     name?: string;
     color?: string;
@@ -71,6 +72,7 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
 
     const iconMap: Record<IconType, ComponentType<IconProps>> = {
         IcoMyEvents,
+        floorplan_basic,
         download,
         hdquestions,
         document,
