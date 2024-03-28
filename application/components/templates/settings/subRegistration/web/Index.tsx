@@ -24,7 +24,6 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
-import { Submit_text } from 'application/utils/Globals';
 
 
 type ScreenParams = { id: string }
