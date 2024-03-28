@@ -87,7 +87,7 @@ const Index = ({ navigation }: indexProps) => {
            <MobileNavigation />
          </Box>
          
-            <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
+            {/* <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
                   <Box minH={150} h={'100%'} flex={1}>
                   <UpcomingBlock
                       px="3"
@@ -102,7 +102,7 @@ const Index = ({ navigation }: indexProps) => {
                       h='150px'
                     title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
                 </Box>
-            </HStack> 
+            </HStack>  */}
           <Container mb="3"  w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
