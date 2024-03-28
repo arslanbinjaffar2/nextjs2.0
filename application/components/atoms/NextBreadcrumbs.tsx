@@ -62,7 +62,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
   const color = title ? 'primary.text' : 'primary.text';
 
   return (
-    <HStack w={'100%'} py={2} alignItems="center">
+    <HStack w={'100%'} py={2} alignItems="center" flexWrap='wrap'>
       {breadcrumbs.map((breadcrumb, index) => (
         <React.Fragment key={index}>
           {index === 0 ? (
