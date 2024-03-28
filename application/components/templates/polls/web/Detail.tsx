@@ -252,12 +252,12 @@ const Detail = () => {
              <NextBreadcrumbs module={module} title={detail?.topic}/>
             <Container mb="3" maxW="100%" w="100%">
               <Text mb={1} textBreakStrategy='simple' w={'100%'} textAlign={'center'} fontSize="2xl">{detail?.topic}</Text>
-              {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
+              {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="0" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
                 { detail?.questions.map((item, key)=>(
                     <Box key={key} bg={steps >= key ? 'secondary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />
                 ))}
               </HStack>}
-              {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
+              {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
                 {detail?.questions.length! > 0 &&  detail?.questions[steps] !== undefined && (
                   <>
                     {detail?.questions[steps].question_type === 'matrix' && <MatrixAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate}/>}
@@ -341,7 +341,7 @@ const Detail = () => {
               {completed === true &&
               (
                  <>
-                <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
+                <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
                   <Box nativeID='bg-circle-animation' bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
                    <IcoTick />

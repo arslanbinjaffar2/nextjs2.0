@@ -49,7 +49,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
                       <Menu
                         placement="bottom right"
                         bg="primary.boxsolid"
-                        borderWidth={1}
+                        borderWidth={0}
                         borderColor="#707070"
                         shouldFlip={true}
                         w={180}

@@ -17,6 +17,7 @@ import { Setting } from 'application/models/hd/Hd';
 import UseSocketService from 'application/store/services/UseSocketService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import IcoSend from 'application/assets/icons/small/IcoSend'
 
 type ScreenParams = { id: string }
 
@@ -146,9 +147,9 @@ const Detail = () => {
                         {hdDetails?.group?.info?.name}
                     </Text>
                 </HStack>
-                <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" borderBottomWidth={1} borderColor="primary.bdBox">
+                <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" borderBottomWidth={0} borderColor="primary.bdBox">
                 <Box w="100%">
-                    <HStack pl="6"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
+                    <HStack pl="4"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
                         <Text fontSize="lg">Ask a question</Text>
                     </HStack>
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
@@ -163,7 +164,7 @@ const Detail = () => {
                     <IconButton
                         variant="transparent"
                         disabled={in_array('hd-submitting', processing)}
-                        icon={in_array('hd-submitting', processing) ?  <Spinner accessibilityLabel="Submitting Question" size={'sm'} /> : <Icon size="lg" as={Feather} name="send" color="white" />}
+                        icon={in_array('hd-submitting', processing) ?  <Spinner accessibilityLabel="Submitting Question" size={'sm'} /> : <IcoSend width={25} height={25} />}
                         onPress={() => { 
                             onSubmit(); 
                         }}
@@ -182,7 +183,7 @@ const Detail = () => {
                     </HStack>
                     <HStack mb="3" space={1} justifyContent="center" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
-                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
+                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.boxbutton' : 'primary.box'} borderWidth="0px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
                         ))}
                     </HStack>
                     <Box mb="10" px="5" w="100%" position="relative">

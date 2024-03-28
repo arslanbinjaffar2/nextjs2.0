@@ -63,7 +63,7 @@ export function getColorScheme(primaryColor:string, textMode:string|undefined){
   const hsb = rgb2hsv(background[0], background[1], background[2]);
   const box = hsbTorgb(hsb[0], (hsb[1] / 2 - 30), hsb[2] + 1);
   const darkbox = hsbTorgb(hsb[0], hsb[1] / 3, hsb[2] + 45);
-  const darkboxtexttype = colourIsLight(darkbox[0],darkbox[1],darkbox[2]);
+  const darkboxtexttype = colourIsLight(background[0],background[1],background[2]);
   const darkboxtext =  darkboxtexttype ? '#1e1e1e' : '#EAEAEA';
   const primary = primaryColor;
   const secondary = '#004884';

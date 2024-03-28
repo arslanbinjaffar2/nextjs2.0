@@ -59,8 +59,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
     push(url);
   };
 
-  const color = title ? 'primary.text' : 'primary.text';
-
+  const color = title ? 'primary.text' : 'primary.500';
   return (
     <HStack w={'100%'} py={2} alignItems="center" flexWrap='wrap'>
       {breadcrumbs.map((breadcrumb, index) => (
@@ -106,7 +105,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
             </Pressable>
           )}
           {index < breadcrumbs.length - 1 && (
-            <Icon size="3" as={AntDesign} name="right" color={color} />
+            <Icon size="3" as={AntDesign} name="right" color={'primary.text'} />
           )}
         </React.Fragment>
       ))}
