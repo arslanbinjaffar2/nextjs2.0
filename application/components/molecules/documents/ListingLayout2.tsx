@@ -8,7 +8,12 @@ import { Platform } from 'react-native';
 import RectangleViewLayout2 from 'application/components/atoms/documents/RectangleViewLayout2';
 import UseEventService from 'application/store/services/UseEventService';
 
-const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
+interface ListingLayout2Props {
+    disableTitle?: boolean;
+    updateBreadcrumbs?: (breadcrumbs: Document[]) => void;
+}
+
+const ListingLayout2: React.FC<ListingLayout2Props> = ({ disableTitle, updateBreadcrumbs }) => {
 
     const [breadcrumbs, setBreadCrumbs] = React.useState<Document[]>([]);
 
@@ -25,34 +30,15 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
 
     const updateBreadCrumbs = (breadcrumbs: Document[]) => {
         setBreadCrumbs(breadcrumbs);
+        if(updateBreadcrumbs){
+            updateBreadcrumbs(breadcrumbs);
+        }
     }
 
     const { event  } = UseEventService();
     return (
         <View w="100%">
             {!disableTitle && <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" flexWrap={'wrap'}>
-                {!disableTitle && <Pressable
-                    onPress={async () => {
-                        FilterDocuments({ document_id: 0, query: '' });
-                        setBreadCrumbs([]);
-                    }}>
-                    <Text textTransform="uppercase" fontSize="lg">Documents</Text>
-                </Pressable>}
-                {breadcrumbs.length > 0 && breadcrumbs.map((breadcrumb: Document, key: number) =>
-                    <React.Fragment key={key}>
-                        <Icon ml="-1" color="primary.text" size="3" as={AntDesign} name="right" />
-                        <Pressable
-                            onPress={async () => {
-                                FilterDocuments({ document_id: breadcrumb.id, query: '' });
-                                setBreadCrumbs(FindPath(data, breadcrumb.id));
-                            }}>
-                            <Center maxW="250px">
-                                    <Text textTransform="uppercase" fontSize="md" isTruncated>{breadcrumb.name}</Text>
-                                </Center>
-														
-                        </Pressable>
-                    </React.Fragment>
-                )}
             </HStack>}
             {Platform.OS === 'web' ? (
                 <Box overflow="hidden" w="100%" bg={disableTitle ? "" : "primary.box"} p="0" rounded="10">
