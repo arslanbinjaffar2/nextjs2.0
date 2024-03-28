@@ -232,6 +232,9 @@ body {
 #zindex-9,#button-reload-post {
   z-index: 9 !important;
 }
+#ebs-navigation-slider .slick-list .slick-track {
+  margin: auto;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {
