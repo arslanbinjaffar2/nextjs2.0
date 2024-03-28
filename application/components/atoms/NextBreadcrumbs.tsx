@@ -5,12 +5,8 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
-
-interface Module {
-  alias: string;
-  name: string;
-  id?: number;
-}
+import { Module } from 'application/models/Module'
+import { Document } from 'application/models/document/Document'
 
 interface NextBreadcrumb {
   label: string;
@@ -21,17 +17,26 @@ interface NextBreadcrumb {
 interface NextBreadcrumbsProps {
   module: Module | undefined;
   title?: string;
+  additionalBreadcrubms?: Document[] | undefined;
+  onBreadcrumbPress?: (breadcrumb: Document) => void;
+  onAdditionalMainBreadcrumbPress?: () => void | undefined;
 }
 
-const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
+const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additionalBreadcrubms, onBreadcrumbPress, onAdditionalMainBreadcrumbPress }) => {
+  
   const { push } = useRouter();
   const { event } = UseEventService();
+
+  React.useEffect(() => {
+    console.log('Breadcrumbs updated:', additionalBreadcrubms);
+  }, [additionalBreadcrubms]); // Log when breadcrumbs change
+
 
   function generateBreadcrumbs(module?: Module): NextBreadcrumb[] {
     const breadcrumbList: NextBreadcrumb[] = [];
     breadcrumbList.push({ label: 'Dashboard', alias: 'dashboard', icon: 'dashboard' });
     if (module && module !== undefined) {
-      breadcrumbList.push({ label: module.name, alias: module.alias, icon: module.alias.replace('-', '_') });
+      breadcrumbList.push({ label: module.name, alias: module.alias, icon: module.icon });
     }
     return breadcrumbList;
   }
@@ -70,25 +75,32 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
               }}>
               <HStack space="2" alignItems="center">
                 <IcoDashboard width="18" height="18" color={'primary.text'} />
-                <Text>{breadcrumb.label}</Text>
+                <Text color={color}>{breadcrumb.label}</Text>
               </HStack>
             </Pressable>
           ) : (
             <Pressable
-              disabled={!title}
+              disabled={!(title || (additionalBreadcrubms && additionalBreadcrubms.length > 0))}
               py="1"
               px={3}
               borderWidth="0"
               rounded={'full'}
               onPress={() => {
-                if (title) handlePress(breadcrumb.alias);
+                if (title || (additionalBreadcrubms && additionalBreadcrubms.length > 0)) {
+                  if(title){
+                    handlePress(breadcrumb.alias);
+                  }else if(additionalBreadcrubms && additionalBreadcrubms.length > 0 && onAdditionalMainBreadcrumbPress){
+                    onAdditionalMainBreadcrumbPress();
+                  }
+                }
               }}>
               <HStack space="2" alignItems="center">
-                <DynamicIcon
+                {/* <DynamicIcon
                   iconType={breadcrumb.icon}
                   iconProps={{ width: 24, height: 21, color }}
-                />
-                <Text isTruncated={true} maxWidth="100px" color={color}>{breadcrumb.label.length > 30 ? `${breadcrumb.label.substring(0, 30)}...` : breadcrumb.label}</Text>
+                /> */}
+                <DynamicIcon iconType={breadcrumb?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} />
+                <Text isTruncated={true} maxWidth="150px" color={color}>{breadcrumb.label.length > 30 ? `${breadcrumb.label.substring(0, 30)}...` : breadcrumb.label}</Text>
               </HStack>
             </Pressable>
           )}
@@ -97,10 +109,27 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
           )}
         </React.Fragment>
       ))}
+
+      {additionalBreadcrubms && additionalBreadcrubms.map((additionalBreadcrubm, index) => (
+            <React.Fragment key={index}>
+              <Icon size="3" as={AntDesign} name="right" color={color} />
+                <Pressable
+                  py="1"
+                  px={3}
+                  borderWidth="0"
+                  rounded={'full'}
+                  onPress={() => onBreadcrumbPress?.(additionalBreadcrubm)}>
+                  <HStack space="2" alignItems="center">
+                    <Text isTruncated={true} maxWidth="150px" color={color}>{additionalBreadcrubm.name}</Text>
+                  </HStack>
+                </Pressable>
+            </React.Fragment>
+          ))}
+
       {title && (
         <>
           <Icon size="3" as={AntDesign} name="right" color={color} />
-          <Text color="white" ml={3} isTruncated={true} maxWidth="300px">
+          <Text color={color} ml={3} isTruncated={true} maxWidth="300px">
             {title.length > 40 ? `${title.substring(0, 40)}...` : title}
           </Text>
         </>

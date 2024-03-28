@@ -16,7 +16,7 @@ import UseSocialWallService from 'application/store/services/UseSocialWallServic
 
 const Index = () => {
   const { modules  } = UseEventService();
-  const {labels } = UseSocialWallService();
+  const { labels } = UseSocialWallService();
   const module = modules.find((module) => module.alias === 'social_wall');
   const { socket } = UseSocketService();
   const { event } = UseEventService();
@@ -49,8 +49,8 @@ const Index = () => {
 
   return (
     <>
+      <NextBreadcrumbs module={module} /> 
       <div ref={topRef}></div>
-      <NextBreadcrumbs module={module} />
       <AddPost />
       {showNewPostButton && (
         <HStack nativeID='button-reload-post' w={'100%'} mb={3} alignItems={'center'} justifyContent={'center'} position={'sticky'} top={5} left={0}>
