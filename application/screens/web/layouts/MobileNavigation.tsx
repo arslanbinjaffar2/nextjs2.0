@@ -21,7 +21,7 @@ const MobileNavigation = () => {
   const router = useRouter()
   const width = useWindowDimensions();
   const [leftArrow, setleftArrow] = React.useState<number>(0)
-  const [rightArrow, setrightArrow] = React.useState<number>(modules.length > 4 ? modules.length : 0)
+  const [rightArrow, setrightArrow] = React.useState<number>(modules.filter((item) => item.show_on_dashboard === 1).length > 4 ? modules.length : 0)
   const sliderRef = React.useRef<Slider>(null);
    const settings = {
       dots: false,
@@ -55,10 +55,10 @@ const MobileNavigation = () => {
                 sliderRef.current.slickPrev();
               }
             }}
-            
+
           />}
-          
-          
+
+
         </Center>
          <View w={width.width - 100}>
           <Slider
@@ -136,12 +136,9 @@ const MobileNavigation = () => {
                 sliderRef.current.slickNext();
               }
             }}
-
           />}
         </Center>
       </HStack>
-      
-     
      </SafeAreaView>
   )
 }
