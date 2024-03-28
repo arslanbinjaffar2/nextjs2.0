@@ -83,6 +83,7 @@ const Index = () => {
 
   return (
     <>
+      <NextBreadcrumbs module={module} /> 
       <div ref={topRef}></div>
       <VStack ref={scrollRef} overflowY="auto" height="100vh" width={'100%'}>
         <AddPost />
