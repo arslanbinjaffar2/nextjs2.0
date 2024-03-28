@@ -74,7 +74,7 @@ const [open, setOpen] = React.useState(false)
               <Heading textAlign={'center'} fontWeight={600} fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
         </Box>}
-        <MobileNavigation />
+        {router.asPath.includes('/dashboard') && <MobileNavigation />}
             
       </Container>
       
