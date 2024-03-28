@@ -5,12 +5,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
-
-interface Module {
-  alias: string;
-  name: string;
-  id?: number;
-}
+import { Module } from 'application/models/Module'
 
 interface NextBreadcrumb {
   label: string;
@@ -31,7 +26,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
     const breadcrumbList: NextBreadcrumb[] = [];
     breadcrumbList.push({ label: 'Dashboard', alias: 'dashboard', icon: 'dashboard' });
     if (module && module !== undefined) {
-      breadcrumbList.push({ label: module.name, alias: module.alias, icon: module.alias.replace('-', '_') });
+      breadcrumbList.push({ label: module.name, alias: module.alias, icon: module.icon });
     }
     return breadcrumbList;
   }
@@ -70,7 +65,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
               }}>
               <HStack space="2" alignItems="center">
                 <IcoDashboard width="18" height="18" color={'primary.text'} />
-                <Text>{breadcrumb.label}</Text>
+                <Text color={color}>{breadcrumb.label}</Text>
               </HStack>
             </Pressable>
           ) : (
@@ -84,11 +79,12 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
                 if (title) handlePress(breadcrumb.alias);
               }}>
               <HStack space="2" alignItems="center">
-                <DynamicIcon
+                {/* <DynamicIcon
                   iconType={breadcrumb.icon}
                   iconProps={{ width: 24, height: 21, color }}
-                />
-                <Text isTruncated={true} maxWidth="100px" color={color}>{breadcrumb.label.length > 30 ? `${breadcrumb.label.substring(0, 30)}...` : breadcrumb.label}</Text>
+                /> */}
+                <DynamicIcon iconType={breadcrumb?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} />
+                <Text isTruncated={true} maxWidth="150px" color={color}>{breadcrumb.label.length > 30 ? `${breadcrumb.label.substring(0, 30)}...` : breadcrumb.label}</Text>
               </HStack>
             </Pressable>
           )}
@@ -100,7 +96,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
       {title && (
         <>
           <Icon size="3" as={AntDesign} name="right" color={color} />
-          <Text color="white" ml={3} isTruncated={true} maxWidth="300px">
+          <Text color={color} ml={3} isTruncated={true} maxWidth="300px">
             {title.length > 40 ? `${title.substring(0, 40)}...` : title}
           </Text>
         </>

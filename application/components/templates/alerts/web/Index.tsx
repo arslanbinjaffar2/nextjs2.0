@@ -11,8 +11,8 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import { Poll } from 'application/models/poll/Poll';
 import { Alert } from 'application/models/alert/Alert';
 import SectionLoading from 'application/components/atoms/SectionLoading';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
 

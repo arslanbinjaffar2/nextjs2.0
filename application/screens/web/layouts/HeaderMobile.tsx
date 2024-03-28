@@ -100,7 +100,7 @@ const [open, setOpen] = React.useState(false)
         </Container>
         
       </Drawer>
-       <HStack w={'100%'} space={'3'} flexDirection={'row'}
+       <HStack w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'}
       //  flexWrap={'wrap'}
       alignItems={'center'}>
         <Box width={'40%'}
@@ -111,7 +111,7 @@ const [open, setOpen] = React.useState(false)
             px="3"
             py="4"
             h='100%'
-            title="UPCOMING SESSION" desc='Talk on w' location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+            title="UPCOMING SESSION" desc='Talk on w http://localhost:3000/checking-clone-3479/dashboard?currentIndex=0' location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
         </Box>
         <Box width={'40%'}
           height={"129px"}

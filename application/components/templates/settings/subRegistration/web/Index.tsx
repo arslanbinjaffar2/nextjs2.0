@@ -322,7 +322,7 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
         <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
       </HStack>
-      <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
+      <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
         {mySubReg?.questions?.question.length! > 0 && mySubReg?.questions?.question.map((item: any, index: any) => (
           <React.Fragment key={item.id}>
             {item.question_type === 'matrix' && (mySubReg?.settings?.answer === 1 ? true : (item.result !== undefined && item.result.length > 0)) && <MatrixAnswer onsubmit={submitcount} canChangeAnswer={mySubReg?.show_save} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
@@ -351,11 +351,11 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
               onPress={() => {
                 onSubmit();
               }}
-            />
-            }
-            {sucess_message && <Text fontSize="lg" position={'absolute'} right={'0'}>successfully Submit</Text>}
-          </HStack>
-        </Box>
+            />  
+              }
+            {!submitting && sucess_message && <Text fontSize="lg" position={'absolute'} right={'0'}>{event.labels.EVENTSITES_SUBREGISTRATION_UPDATE_MESSAGE}</Text>}
+        </HStack>
+      </Box>
       </Box>
     </Container>
   )

@@ -22,7 +22,7 @@ const CheckInDetails = () => {
 
   return (
     <VStack w={'100%'}>
-          <NextBreadcrumbs module={{ name: module?.name ?? "checkin", alias: "checkIn" }} title={"CHECK-IN DETAILS"} />
+          <NextBreadcrumbs module={module} title={"CHECK-IN DETAILS"} />
         <HStack  space="3" alignItems="center">
         {/* <Box flexDirection={'row'} alignItems="center" >
           <Button
