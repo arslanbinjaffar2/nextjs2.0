@@ -175,7 +175,6 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                         <Modal.Content p={0}>
                                                 <Modal.Body position={'relative'} zIndex={1} p={0}>
                                                     <DocumentNotesBox showModal={setIsNotesOpen} note_type_id={document.id}>
-                                                    <Pressable onPress={() => setIsNotesOpen(false)}><Icon as={FontAwesome} name="close" size={'lg'} color={'primary.text'} /></Pressable>
                                                     </DocumentNotesBox>
                                                 </Modal.Body>
                                             </Modal.Content>
