@@ -115,7 +115,7 @@ const LeftBar = () => {
                 {/* <Text>{row.icon}</Text> */}
                 <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') }
                 
-                iconProps={{ width: 24, height: 21 }} />
+                iconProps={{ width: 26, height: 26 }} />
                 {/* <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} /> */}
               </Center>
               {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}

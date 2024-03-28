@@ -2,6 +2,8 @@ import React, { ComponentType, createElement } from 'react';
 import { View } from 'react-native';
 import IcoMyEvents from 'application/assets/icons/IcoMyEvents';
 import attendees from 'application/assets/icons/attendees';
+import myattendees from 'application/assets/icons/myattendees';
+import request_to_speak from 'application/assets/icons/request_to_speak';
 import fav_sponsors from 'application/assets/icons/mysponsers'
 import message from 'application/assets/icons/chat';
 // import qrcode from 'application/assets/icons/checkIn';
@@ -22,7 +24,8 @@ import my_attendee_list from 'application/assets/icons/myattendeelist';
 import my_registrations from 'application/assets/icons/my_registrations';
 import mydocuments from 'application/assets/icons/mydocuments';
 import notes from 'application/assets/icons/my_notes';
-import myprograms from 'application/assets/icons/myprograms';
+import my_notes from 'application/assets/icons/my_notes';
+import myagendas from 'application/assets/icons/myagendas';
 import alerts from 'application/assets/icons/alerts';
 import hdquestions from 'application/assets/icons/hdquestions'
 import myexhibitors from 'application/assets/icons/myexhibitors'
@@ -31,8 +34,10 @@ import edit_account from 'application/assets/icons/edit_account'
 import email_icon from 'application/assets/icons/email_icon'
 import myquestions from 'application/assets/icons/myquestions'
 import match from 'application/assets/icons/mykeywords'
+import mykeywords from 'application/assets/icons/mykeywords'
 import logout from 'application/assets/icons/logout'
 import my_reservations from 'application/assets/icons/my_reservations'
+import reservation from 'application/assets/icons/reservation'
 import subregistration from 'application/assets/icons/subregistration'
 import agendas from 'application/assets/icons/agendas';
 import myturnlist from 'application/assets/icons/myturnlist';
@@ -52,6 +57,11 @@ import business from 'application/assets/icons/IcoNetworkInterest';
 import document from 'application/assets/icons/document'
 import download from 'application/assets/icons/download'
 import floorplan_basic from 'application/assets/icons/floorplan_basic'
+import editprofile from 'application/assets/icons/editprofile'
+import myreservation from 'application/assets/icons/myreservation'
+import upcoming_events from 'application/assets/icons/upcoming_events'
+import certificate from 'application/assets/icons/certificate'
+
 type IconProps = {
     name?: string;
     color?: string;
@@ -61,7 +71,7 @@ type IconProps = {
 };
 
 type IconType ='qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
-'fav_sponsors'| 'attendees' | 'message' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin'| 'my_registrations' | 'business' | any;
+'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin'| 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | any;
 
 type Props = {
     iconType: IconType;
@@ -87,6 +97,7 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         myquestions,
         subregistration,
         attendees,
+        myattendees,
         message,
         fav_sponsors,
         qrcode,
@@ -105,7 +116,7 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         my_attendee_list,
         mydocuments,
         notes,
-        myprograms,
+        myagendas,
         alerts,
         agendas,
         myturnlist,
@@ -120,7 +131,15 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         attendee_authority,
         checkin_agendas,
         my_registrations,
-        business
+        business,
+        request_to_speak,
+        editprofile,
+        mykeywords,
+        myreservation,
+        my_notes,
+        upcoming_events,
+        reservation,
+        certificate,
     };
 
     const IconComponent = iconMap[iconType];
