@@ -98,22 +98,45 @@ const Index = () => {
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack mb="3" pt="2" w="100%" space="3">
-                    <Text flex="1" textTransform="uppercase" fontSize="xs">{track.parent_id !== 0 ? `${parent_track.name}   >   ${track?.name}` : track?.name}</Text>
-                    <Pressable
-                        onPress={async () => {
-                            if (in_array(tab, ['track', 'track-program', 'sub-track'])) {
+                    <Text flex="1" textTransform="uppercase" fontSize="xs">
+                    {track.parent_id !== 0 ? (
+                        <>
+                        <Pressable
+                            onPress={async () => {
+                                if (in_array(tab, ['track', 'track-program', 'sub-track'])) {
                                 FetchTracks({ page: 1, query: '', screen: tab, track_id: (track?.parent_id !== undefined ? track?.parent_id : 0) });
                                 if (tab === 'track-program') {
                                     setTab('sub-track');
                                 }
-                            } else {
+                                } else {
                                 FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
-                            }
-                        }}>
-                        <Text textTransform="uppercase" fontSize="xs">Go back</Text>
+                                }
+                            }}>
+                            <Text textTransform="uppercase" fontSize="xs">{parent_track.name}</Text>
+                        </Pressable>
+                        <Text> {' > '} </Text>
+                        <Text textTransform="uppercase" fontSize="xs">{track?.name}</Text>
+                        </>
+                    ) : (
+                        <Text textTransform="uppercase" fontSize="xs">{track?.name}</Text>
+                    )}
+                    </Text>
+                    <Pressable
+                    onPress={async () => {
+                        if (in_array(tab, ['track', 'track-program', 'sub-track'])) {
+                        FetchTracks({ page: 1, query: '', screen: tab, track_id: (track?.parent_id !== undefined ? track?.parent_id : 0) });
+                        if (tab === 'track-program') {
+                            setTab('sub-track');
+                        }
+                        } else {
+                        FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
+                        }
+                    }}>
+                    <Text textTransform="uppercase" fontSize="xs">Go back</Text>
                     </Pressable>
                 </HStack>
-            )}
+                )}
+
             {(in_array('programs', processing) || in_array('tracks', processing)) && page === 1 ? (
                 <SectionLoading />
             ) : (
@@ -136,7 +159,7 @@ const Index = () => {
                 <LoadMore />
             )}
 
-            {!(in_array('programs', processing) || in_array('tracks', processing)) && (page < total_pages && total_pages>1) && (in_array(tab, ['program', 'my-program'])) && (
+            {!in_array('programs', processing) && !in_array('tracks', processing) && (page < total_pages && total_pages>1) && (in_array(tab, ['program', 'my-program','track'])) && (
                 <>
                 <IntersectionObserverComponent onIntersect={loadMore} />
                 </>

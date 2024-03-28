@@ -47,6 +47,7 @@ const Index = React.memo(() => {
     const { _env } = UseEnvService()
 
     const [tab, setTab] = React.useState(tabQueryParam !== null ? tabQueryParam : event?.sponsor_settings?.sponsor_list);
+    console.log("🚀 ~ Index ~ tab:", tab)
 
     const [mode, setMode] = React.useState(modeQueryParam ? modeQueryParam : 'grid')
 
@@ -83,10 +84,11 @@ const Index = React.memo(() => {
     const category = categories.find((category) => {
         return category.id === Number(categoryIdQueryParam)
     })
+    const title = tab === "category-sponsor" ? category?.name : "";
     return (
         <>
-            <NextBreadcrumbs module={module} title={category?.name} />
-            <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">
+            <NextBreadcrumbs module={module} title={title} />
+            <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">  
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                     <Text textTransform="capitalize" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
                     <Spacer />

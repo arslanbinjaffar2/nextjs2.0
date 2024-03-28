@@ -21,6 +21,7 @@ export interface Program {
     videos: Video[];
     session: Session[];
     program_attendees_attached: ProgramAttendeesAttached[];
+    is_attatched_with_subregistration: number;
 }
 
 interface Attendee {

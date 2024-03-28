@@ -10,6 +10,7 @@ import { Platform, useWindowDimensions } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
+import UseProgramService from 'application/store/services/UseProgramService';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 
@@ -27,9 +28,15 @@ const LazySlider = ({ programs, onChange }: any) => {
 	const [currentIndex, setCurrentIndex] = React.useState<number>(0);
 	const sliderRef = React.useRef<Slider>(null);
 	const router = useRouter();
+	const { select_day } = UseProgramService();
 	React.useEffect(() => {
 		let indexFromQuery = router.asPath.split('currentIndex=')[1];
-		const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
+		let currentIndex = 0;
+		if(indexFromQuery){
+			currentIndex = parseInt(indexFromQuery);
+		}else if(select_day) {
+			currentIndex=select_day;
+		}
 		setCurrentIndex(currentIndex);
 	}, [])
 	const settings = {
@@ -122,11 +129,17 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 	const [dates, setDates] = React.useState<any>([]);
 	const [currentIndex, setCurrentIndex] = React.useState<number>();
 	const router = useRouter();
+	const { select_day } = UseProgramService();
 
 
 	React.useEffect(() => {
 		let indexFromQuery = router.asPath.split('currentIndex=')[1];
-		const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
+		let currentIndex = 0;
+		if(indexFromQuery){
+			currentIndex = parseInt(indexFromQuery);
+		}else if(select_day) {
+			currentIndex=select_day;
+		}
 		setDates(programs[currentIndex]);
 		setCurrentIndex(currentIndex);
 	}, [])

@@ -30,10 +30,10 @@ const Search = ({ tab, w }: AppProps) => {
             if (in_array(tab, ['program', 'my-program'])) {
                 FetchPrograms({ query: query, page: 1, screen: tab, id: tab === 'my-program' ? id : 0, track_id: track_id });
             }else if(tab === "track") {
-                FetchTracks({ query: query, page: 1, screen: tab, track_id: 0 });
+                FetchTracks({ query: query, page: 1, screen: tab, track_id: track_id });
             }
         }, 1000);
-    }, [tab]);
+    }, [tab,track_id]);
 
     React.useEffect(() => {
         setSearch(query);
