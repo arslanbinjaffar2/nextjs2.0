@@ -16,7 +16,7 @@ import UseSocialWallService from 'application/store/services/UseSocialWallServic
 
 const Index = () => {
   const { modules  } = UseEventService();
-  const {labels } = UseSocialWallService();
+  const { labels } = UseSocialWallService();
   const module = modules.find((module) => module.alias === 'social_wall');
   const { socket } = UseSocketService();
   const { event } = UseEventService();

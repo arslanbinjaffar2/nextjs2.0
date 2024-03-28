@@ -165,21 +165,18 @@ const Index = React.memo(() => {
                     </>}
                     {tab === 'category' && <Box w="100%" rounded="10" bg={categories.length > 0 ?"primary.box":""} borderWidth="0" borderColor="primary.bdBox">
                         <ScrollView h={'60%'} w={'100%'}>
-                            <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                {categories.length > 0 &&
-                                 categories.map((category: ExhibitorCategory, key: number) =>
-                                    <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
-                                )
-                                 
-                            }
-                            </HStack>
+                                <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
+                                    {categories.length > 0 ?
+                                     categories.map((category: ExhibitorCategory, key: number) =>
+                                        <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
+                                    )
+                                     : <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
+                                                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                                </Box>
+                                }
+                                </HStack>
                         </ScrollView>
                     </Box>}
-                    {tab === 'category' && categories.length <= 0 &&
-                        <Box  p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                            <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
-                        </Box>
-                    }
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'exhibitors'} module_type={'listing'} />
                     </Box>
