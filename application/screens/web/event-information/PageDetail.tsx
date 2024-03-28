@@ -47,7 +47,7 @@ const PageDetail = (props: any) => {
   }
   
   const module = modules.find((module) => {
-    return module.alias === modifiedCms && module.id === page?.section_id
+    return module.alias === modifiedCms && module.id === (page as any)?.section_id
   })
   return (
     <>
