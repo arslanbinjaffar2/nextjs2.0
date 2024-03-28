@@ -136,7 +136,7 @@ const Index = () => {
                 <LoadMore />
             )}
 
-            {!(in_array('programs', processing) || in_array('tracks', processing)) && (page < total_pages && total_pages>1) && (in_array(tab, ['program', 'my-program'])) && (
+            {!in_array('programs', processing) && !in_array('tracks', processing) && (page < total_pages && total_pages>1) && (in_array(tab, ['program', 'my-program','track'])) && (
                 <>
                 <IntersectionObserverComponent onIntersect={loadMore} />
                 </>
