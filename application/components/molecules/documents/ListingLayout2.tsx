@@ -10,11 +10,10 @@ import UseEventService from 'application/store/services/UseEventService';
 
 interface ListingLayout2Props {
     disableTitle?: boolean;
-    updateBreadcrumbs: (breadcrumbs: Document[]) => void | undefined;
-    selectedBreadcrumb?: Document | null;
+    updateBreadcrumbs?: (breadcrumbs: Document[]) => void;
 }
 
-const ListingLayout2: React.FC<ListingLayout2Props> = ({ disableTitle, updateBreadcrumbs, selectedBreadcrumb }) => {
+const ListingLayout2: React.FC<ListingLayout2Props> = ({ disableTitle, updateBreadcrumbs }) => {
 
     const [breadcrumbs, setBreadCrumbs] = React.useState<Document[]>([]);
 
@@ -31,15 +30,10 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ disableTitle, updateBre
 
     const updateBreadCrumbs = (breadcrumbs: Document[]) => {
         setBreadCrumbs(breadcrumbs);
-        updateBreadcrumbs(breadcrumbs);
-    }
-
-    useEffect(() => {
-        if (selectedBreadcrumb) {
-            console.log("Breadcrumb Selected:", selectedBreadcrumb);
-            // Any side effects or cleanup actions
+        if(updateBreadcrumbs){
+            updateBreadcrumbs(breadcrumbs);
         }
-    }, [selectedBreadcrumb]);
+    }
 
     const { event  } = UseEventService();
     return (
