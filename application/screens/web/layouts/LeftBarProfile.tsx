@@ -17,7 +17,7 @@ const LeftBarProfile = () => {
   const router = useRouter()
 
   const { event, setting_modules } = UseEventService();
-
+   console.log(setting_modules)
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <VStack space={1} px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
@@ -37,9 +37,14 @@ const LeftBarProfile = () => {
 
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <DynamicIcon iconType={row?.alias.replace('-','_')} iconProps={{ width: 24, height: 21 }} />
+                {console.log(row?.icon)}
+                <DynamicIcon iconType={row?.icon?.replace("-icon", "").replace("-","_").replace('.png','') } iconProps={{ width: 24, height: 21 }} />
               </Center>
-              <Text fontSize={'lg'} color="primary.text">{row?.name.replace('label','')}</Text>
+              <Text fontSize={'lg'} color="primary.text">
+                {row?.name.replace('label','')}
+                {/* {row?.alias.replace('-','_')} */}
+             {/* {row?.icon?.replace("-icon", "").replace("-", "_").replace('.png', '')} */}
+              </Text>
             </HStack>
           </Pressable>
         )}

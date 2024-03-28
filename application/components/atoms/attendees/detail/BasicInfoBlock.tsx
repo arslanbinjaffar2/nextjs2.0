@@ -48,13 +48,13 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
             <Container borderWidth="0" borderColor="primary.darkbox" bg="primary.primarycolor" rounded="10" overflow="hidden" maxW="100%" w="100%">
                 <Box w="100%" p="4" py="5" rounded="10">
                     <HStack mb="4" space="5">
-                        {detail?.detail?.image ? (
-                        <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
+                        {detail?.detail?.image && isPrivate.profile_picture === 0 ? (
+                        <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
                         ) : (
                           <Avatar
-                            borderWidth={1}
+                            borderWidth={0}
                             borderColor="primary.darkbox"
-                            bg={AvatarColors()}
+                            bg={'#A5A5A5'}
                           >{ detail?.detail?.first_name && detail?.detail?.last_name ? detail?.detail?.first_name?.substring(0,1) + detail?.detail?.last_name?.substring(0,1) : detail?.detail?.first_name?.substring(0,1)}</Avatar>
                         )}
                         <VStack w="calc(100% - 140px)" space="0">

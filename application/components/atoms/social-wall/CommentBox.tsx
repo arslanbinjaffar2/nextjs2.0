@@ -51,7 +51,7 @@ const handleClick = () => {
             uri: `${_env.eventcenter_base_url}/assets/attendees/${comment.attendee.image}`,
           }}
         >
-          SS
+          { comment.attendee?.first_name && comment.attendee?.last_name ? comment.attendee?.first_name?.substring(0,1) + comment.attendee?.last_name?.substring(0,1) : comment.attendee?.first_name?.substring(0,1)}
         </Avatar>
         <VStack  position={'relative'} zIndex={4} maxW={['calc(100% - 55px)']} space="0">
           <Box  bg="primary.darkbox" mb={2} px="3" py={2} position={'relative'}  rounded="lg">

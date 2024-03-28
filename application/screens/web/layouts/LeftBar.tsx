@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack } from 'native-base';
+import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack, Badge } from 'native-base';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 import IcoLogin from 'application/assets/icons/IcoLogin';
 import { useWindowDimensions } from 'react-native';
@@ -11,6 +11,7 @@ import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseInfoService from 'application/store/services/UseInfoService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import UseAlertService from 'application/store/services/UseAlertService';
 
 const LeftBar = () => {
 
@@ -24,9 +25,18 @@ const LeftBar = () => {
 
   const { info, page } = UseInfoService();
 
+  const { unread, setUnreadCount } = UseAlertService();
+
   const { _env } = UseEnvService();
 
   const { setLoading, scroll } = UseLoadingService();
+
+  React.useEffect(() => {
+    const alertsModule: any = modules.find((module: any) => module.alias === 'alerts');
+    if (alertsModule && alertsModule.alerts) {
+      setUnreadCount(alertsModule.alerts);
+    }
+  }, []);
 
   return (
     <Center nativeID='ebs-master-left-bar' overflow="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
@@ -71,6 +81,8 @@ const LeftBar = () => {
           </HStack>
         </Pressable>
         {modules.map((row: any, key: any) =>
+
+        (row.alias !== 'information_pages' || row.is_page_empty !== true ? (
           <Pressable
             key={key}
             w="100%"
@@ -100,12 +112,26 @@ const LeftBar = () => {
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <DynamicIcon iconType={row?.alias.replace(/-/g, '_')} iconProps={{ width: 24, height: 21 }} />
+                {/* <Text>{row.icon}</Text> */}
+                <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') }
+                
+                iconProps={{ width: 24, height: 21 }} />
+                {/* <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} /> */}
               </Center>
               {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
+              {row?.alias === 'alerts' && unread > 0 &&
+                <Badge // bg="red.400"
+                  bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid" alignSelf="flex-end" _text={{
+                  fontSize: 12
+                }}>
+                    {unread}
+                </Badge>
+              }
             </HStack>
+            
           </Pressable>
-        )}
+          ) : null
+        ))}
         <Pressable
           w="100%"
           px="4"

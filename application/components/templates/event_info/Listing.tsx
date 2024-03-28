@@ -18,7 +18,7 @@ const Listing = (props: any) => {
         if(info == null) return [];
         var infos=info
         var filteredInfos = infos.filter((i) => {
-            if (i?.type === "page" || (i?.type === "folder" && ((i?.subItems && i.subItems.length > 0) || (i?.subMenuItems && i.subMenuItems.length > 0)))) {
+            if (i?.type === "page" || i?.type === "link" || (i?.type === "folder" && ((i?.subItems && i.subItems.length > 0) || (i?.subMenuItems && i.subMenuItems.length > 0)))) {
                 return true;
             }
         });
@@ -38,7 +38,7 @@ const Listing = (props: any) => {
                 {(filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
                     <RectangleView index={key} key={key} {...row} cms={props.cms} />
                 ) : <Box padding={5} bg={"primary.500"}>
-                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                 </Box>)}
             </Box>
             <Box width={"100%"} height={"5%"}>
