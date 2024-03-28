@@ -19,10 +19,12 @@ import additional_info from 'application/assets/icons/additional-info';
 import information_pages from 'application/assets/icons/information_pages';
 import maps from 'application/assets/icons/maps';
 import my_attendee_list from 'application/assets/icons/myattendeelist';
+import myattendees from 'application/assets/icons/myattendees';
 import my_registrations from 'application/assets/icons/my_registrations';
 import mydocuments from 'application/assets/icons/mydocuments';
 import notes from 'application/assets/icons/my_notes';
 import myprograms from 'application/assets/icons/myprograms';
+import myagendas from 'application/assets/icons/myagendas';
 import alerts from 'application/assets/icons/alerts';
 import hdquestions from 'application/assets/icons/hdquestions'
 import myexhibitors from 'application/assets/icons/myexhibitors'
@@ -60,7 +62,7 @@ type IconProps = {
 };
 
 type IconType ='qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
-'fav_sponsors'| 'attendees' | 'message' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin'| 'my_registrations' | 'business' | any;
+'fav_sponsors'| 'attendees' | 'message' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin'| 'my_registrations' | 'business' | 'myattendees' | 'myagendas' | any;
 
 type Props = {
     iconType: IconType;
@@ -118,7 +120,9 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         attendee_authority,
         checkin_agendas,
         my_registrations,
-        business
+        business,
+        myattendees,
+        myagendas
     };
 
     const IconComponent = iconMap[iconType];
