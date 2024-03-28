@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { doCheckInOutApi, getCheckInOutApi, sendQRCodeApi } from 'application/store/api/CheckInOut.Api'
+import { doCheckInOutApi, getCheckInOutApi, getCheckInOutOrderDetailApi, sendQRCodeApi } from 'application/store/api/CheckInOut.Api'
 
 import { CheckInOutActions } from 'application/store/slices/CheckInOut.Slice'
 
@@ -53,6 +53,20 @@ function* OnDoCheckInOut({
     yield put(LoadingActions.removeProcess({process:'checking-in-out'}));
 }
 
+function* OnFetchOrderDetail({
+
+}: {
+    type: typeof CheckInOutActions.FetchOrderDetail,
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:'checking-in-out-order-detail'}));
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getCheckInOutOrderDetailApi, {}, state)
+    if(response.status == 200){
+        yield put(CheckInOutActions.updateOrderDetail({order_detail:response.data.data.order_detail!}))
+    }
+    yield put(LoadingActions.removeProcess({process:'checking-in-out-order-detail'}));
+}
+
 
 
 
@@ -62,6 +76,7 @@ export function* CheckInOutWatcherSaga(): SagaIterator {
     yield takeEvery(CheckInOutActions.FetchCheckInOut.type, OnFetchCheckInOut)
     yield takeEvery(CheckInOutActions.SendQRCode.type, OnSendQRCode)
     yield takeEvery(CheckInOutActions.DoCheckInOut.type, OnDoCheckInOut)
+    yield takeEvery(CheckInOutActions.FetchOrderDetail.type, OnFetchOrderDetail)
     
 }
 

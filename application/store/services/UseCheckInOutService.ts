@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 
-import { SelectCheckInOut,  CheckInOutActions,  } from 'application/store/slices/CheckInOut.Slice'
+import { SelectCheckInOut,  CheckInOutActions, SelectOrderDetail,  } from 'application/store/slices/CheckInOut.Slice'
 
-import { Attendee, Checkin, Setting, History, GroupedHistory } from 'application/models/checkInOut/CheckInOut'
+import { Attendee, Checkin, Setting, History, GroupedHistory, OrderDetail } from 'application/models/checkInOut/CheckInOut'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
@@ -20,10 +20,12 @@ export type CheckInOutServiceOperators = {
         checkin: Checkin | null;
         checkInOutSetting: Setting | null;
         qrCodeImgSrc:string;
-    }
+    },
+    orderDetail: OrderDetail|null;
     FetchCheckInOut: (payload:{showLoading:boolean}) => void,
     SendQRCode: () => void,
     DoCheckInOut: (payload: { attendee_id: number, organizer_id: number, action: string }) => void,
+    FetchOrderDetail: () => void,
 }
 
 /**
@@ -37,6 +39,8 @@ export const UseCheckInOutService = (): Readonly<CheckInOutServiceOperators> => 
     return {
         
         checkInOut: useAppSelector(SelectCheckInOut),
+        orderDetail: useAppSelector(SelectOrderDetail),
+
         FetchCheckInOut: useCallback(
             (payload:{showLoading:boolean}) => {
                 dispatch(CheckInOutActions.FetchCheckInOut(payload))
@@ -52,6 +56,12 @@ export const UseCheckInOutService = (): Readonly<CheckInOutServiceOperators> => 
         DoCheckInOut: useCallback(
             (payload: { attendee_id: number, organizer_id: number, action: string }) => {
                 dispatch(CheckInOutActions.DoCheckInOut(payload))
+            },
+            [dispatch],
+        ),
+        FetchOrderDetail: useCallback(
+            () => {
+                dispatch(CheckInOutActions.FetchOrderDetail())
             },
             [dispatch],
         ),

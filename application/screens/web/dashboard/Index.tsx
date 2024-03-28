@@ -32,6 +32,7 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { Alert } from 'application/models/alert/Alert'
 import RectangleView from 'application/components/atoms/alerts/RectangleView'
 import UseAlertService from 'application/store/services/UseAlertService'
+import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 
 type indexProps = {
   navigation: unknown
@@ -81,7 +82,8 @@ const Index = ({ navigation }: indexProps) => {
         <WebLoading />
       ) : (
         <>
-          <Container   w="100%" maxW="100%">
+          <MobileNavigation />
+          <Container mb="3"  w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
             </Box>
