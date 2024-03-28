@@ -356,6 +356,7 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
             {!submitting && sucess_message && <Text fontSize="lg" position={'absolute'} right={'0'}>{event.labels.EVENTSITES_SUBREGISTRATION_UPDATE_MESSAGE}</Text>}
         </HStack>
       </Box>
+      </Box>
     </Container>
   )
 }
