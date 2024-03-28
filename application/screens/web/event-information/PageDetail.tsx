@@ -41,11 +41,14 @@ const PageDetail = (props: any) => {
   }, [id, cms]);
 
   let modifiedCms = cms;
+  
   if (cms === 'information-pages') {
     modifiedCms = cms.replace(/-/g, '_');
-  }  
-  const module = modules.find((module) => module.alias === modifiedCms);
-
+  }
+  
+  const module = modules.find((module) => {
+    return module.alias === modifiedCms && module.id === page?.section_id
+  })
   return (
     <>
       {(loading || !page) ? (
