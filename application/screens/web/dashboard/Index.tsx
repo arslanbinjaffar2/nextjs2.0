@@ -33,6 +33,7 @@ import { Alert } from 'application/models/alert/Alert'
 import RectangleView from 'application/components/atoms/alerts/RectangleView'
 import UseAlertService from 'application/store/services/UseAlertService'
 import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
+import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 
 type indexProps = {
   navigation: unknown
@@ -82,7 +83,26 @@ const Index = ({ navigation }: indexProps) => {
         <WebLoading />
       ) : (
         <>
-          <MobileNavigation />
+         <Box w={'100%'} mb={3}>
+           <MobileNavigation />
+         </Box>
+         
+            <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
+                  <Box minH={150} h={'100%'} flex={1}>
+                  <UpcomingBlock
+                      px="3"
+                      py="4"
+                      h='150px'
+                      title="UPCOMING SESSION" desc='Talk on w http://localhost:3000/checking-clone-3479/dashboard?currentIndex=0' location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+                  </Box>
+                  <Box minH={150}  flex={1}>
+                    <UpcomingBlock 
+                      px="3"
+                      py="4"
+                      h='150px'
+                    title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
+                </Box>
+            </HStack> 
           <Container mb="3"  w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>

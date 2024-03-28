@@ -52,6 +52,7 @@ import business from 'application/assets/icons/IcoNetworkInterest';
 import document from 'application/assets/icons/document'
 import download from 'application/assets/icons/download'
 import floorplan_basic from 'application/assets/icons/floorplan_basic'
+
 type IconProps = {
     name?: string;
     color?: string;

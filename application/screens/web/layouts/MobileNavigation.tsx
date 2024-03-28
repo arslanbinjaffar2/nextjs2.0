@@ -61,7 +61,7 @@ const MobileNavigation = () => {
 
 
         </Center>
-         <View w={[width - 100,"550px"]}>
+         <View w={[width - 100,"540px"]}>
           <Slider
           ref={sliderRef}
            {...settings}>
