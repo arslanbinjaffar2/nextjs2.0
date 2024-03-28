@@ -284,3 +284,15 @@ export interface Info {
   updated_at: string;
   deleted_at: string;
 }
+
+export interface OrderDetail {
+  order_no: number;
+  order_date: string;
+  items: OrderItem[];
+}
+
+export interface OrderItem {
+  id: number;
+  name: string;
+  qty: number;
+}
