@@ -48,7 +48,9 @@ const Index = () => {
     });
     setFilteredGalleryImages(filteredImages);
   }, [gallery_images, query]);
+
   const module = modules.find((module) => module.alias === 'gallery');
+  
   return (
     <>
       {

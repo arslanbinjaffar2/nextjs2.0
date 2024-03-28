@@ -130,7 +130,7 @@ const Selectstyles2 = {
   return (
     <React.Fragment>
       {!isMulti ? (
-        <div className={`${selectedOption && !label ? 'no-label wrapper-select isSelected' : selectedOption ? 'wrapper-select isSelected' : 'wrapper-select'} ${open && 'isOpen'} ${is_isDisabled && 'isDisabled'} ${!is_isSearchable && 'searchFalse'}`}>
+        <div className={`${selectedOption && !label ? 'no-label wrapper-select isSelected' : selectedOption ? 'wrapper-select isSelected' : 'wrapper-select'} ${open && 'isOpen'} ${isDisabled && 'isDisabled'} ${!is_isSearchable && 'searchFalse'}`}>
           <label
             onClick={toggleOpen}
             className="label-wrapper-select">

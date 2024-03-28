@@ -6,25 +6,23 @@ import UseLoadingService from '../../../../store/services/UseLoadingService';
 import UseSocialMediaService from '../../../../store/services/UseSocialMediaService'; 
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Linking } from 'react-native';
-import UseEnvService from 'application/store/services/UseEnvService'
+
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const index = () => {
 
   const mounted = React.useRef(false);
-  const { _env } = UseEnvService()
-  const { event, modules } = UseEventService()
+    const { loading } = UseLoadingService();
+    const { event, modules } = UseEventService()
+    const { FetchSocialMedias, socialMedia } = UseSocialMediaService();
+    useEffect(() => {
+      FetchSocialMedias();
+    }, []);
 
-  const { loading } = UseLoadingService();
-
-  const { FetchSocialMedias, socialMedia } = UseSocialMediaService();
-
-  useEffect(() => {
-    FetchSocialMedias();
-  }, []);
-  const module = modules.find((module) => module.alias === 'social-media');
+    const module = modules.find((module) => module.alias === 'social-media');
+    
   return (
     <>
       {

@@ -11,8 +11,8 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import { Poll } from 'application/models/poll/Poll';
 import { Alert } from 'application/models/alert/Alert';
 import SectionLoading from 'application/components/atoms/SectionLoading';
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
 
@@ -25,6 +25,7 @@ const Index = () => {
     const { FetchAlerts, alerts} = UseAlertService();
 
     const module = modules.find((module) => module.alias === 'alerts');
+    
     useEffect(() => {
             FetchAlerts();
     }, []);

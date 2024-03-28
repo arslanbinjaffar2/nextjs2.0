@@ -50,9 +50,11 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
 import WebLoading from 'application/components/atoms/WebLoading';
+
+import UseBannerService from 'application/store/services/UseBannerService';
 import UseEnvService from 'application/store/services/UseEnvService';
-import IcoDashboard from 'application/assets/icons/IcoDashboard';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import IcoDashboard from 'application/assets/icons/IcoDashboard';
 
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 

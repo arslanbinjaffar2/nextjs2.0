@@ -10,6 +10,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
 import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
+import AvatarColors from 'application/utils/AvatarColors'
 
 type AppProps = {
     detail: Detail,
@@ -31,6 +32,17 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
 
     console.log(showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1), 'show_hotel')
 
+    const [isFav, setIsFav] = React.useState<boolean>(false);
+
+    React.useMemo(() => {
+        setIsFav(detail?.is_favourite == 1 ? true : false)
+    }, [detail?.is_favourite])
+
+    function toggleFav () {
+        setIsFav(!isFav);
+        MakeFavourite({ attendee_id: Number(detail?.detail?.id), screen: 'detail' })
+    }
+
     return (
         <Box mb={3} bg="primary.box" p="0" w={'100%'} rounded="10">
             <Container borderWidth="0" borderColor="primary.darkbox" bg="primary.primarycolor" rounded="10" overflow="hidden" maxW="100%" w="100%">
@@ -51,7 +63,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             </Text>
                             {detail?.detail?.info &&
                                 (detail?.detail?.info.company_name ||
-                                    detail?.detail?.info.title) && 
+                                    detail?.detail?.info.title) &&
                                     (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
                                     && (
                                     <>
@@ -59,7 +71,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                                 detail?.detail?.info?.title &&
                                                 ", "}
                                                 {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>
-                                        
+
                                     </>
                                 )}
                             {(showPrivate == 1 || isPrivate?.department == 0) && detail?.detail?.info?.department && (
@@ -68,12 +80,12 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </VStack>
                         <Spacer />
                         {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && <Box w="20px" h="100%">
-                            <Pressable
-                                onPress={() => {
-                                    MakeFavourite({ attendee_id: Number(detail?.detail?.id), screen: 'detail' })
-                                }}>
-                            <Icoribbon width="20" height="28" color={detail?.is_favourite ? event?.settings?.secondary_color : ''} />
-                            </Pressable>
+                        <Pressable
+                            onPress={() => {
+                                toggleFav()
+                            }}>
+                            <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+                        </Pressable>
                         </Box>}
                     </HStack>
                     <HStack w="100%" space="0">
@@ -105,30 +117,29 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                 </Box>
                 {detail?.detail?.attendee_cv && (
                 <Box w="100%" bg="primary.secondary" px="5" mt={3} py="3" borderTopWidth="1" borderColor="primary.darkbox">
-                    <HStack w="100%" space="0">
-                        {(showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) ? '1' : '0'} borderColor={'primary.box'} alignItems="flex-start">
-                            <Pressable
-                                onPress={async () => {
-                                    const url: any = `${_env.eventcenter_base_url}/assets/attendees/cv/${detail?.detail?.attendee_cv}`;
-                                    const supported = await Linking.canOpenURL(url);
-                                    if (supported) {
-                                        await Linking.openURL(url);
-                                    }
-                            }}>
-                                <Icoresume width="22" height="25" />
-                            </Pressable>
-                        </Center>}
-                        {showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && <Center w="20%"  borderColor="primary.bordercolor" alignItems="center">
-                            <Pressable
-                                    onPress={async () => {
-                                        push(`/${event.url}/attendees/hotel/${detail?.detail?.id}`)
-                            }}>
-                                <Icohotelbed width="24" height="18" />
-                            </Pressable>
-                        </Center>}
+                <HStack w="100%" space="0">
+                    {(showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || speaker == 1 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) ? '1' : '0'} borderColor={'primary.box'} alignItems="flex-start"><Pressable
+                            onPress={async () => {
+                                const url: any = `${_env.eventcenter_base_url}/assets/attendees/cv/${detail?.detail?.attendee_cv}`;
+                                const supported = await Linking.canOpenURL(url);
+                                if (supported) {
+                                    await Linking.openURL(url);
+                                }
+                        }}>
+                            <Icoresume width="22" height="25" />
+                        </Pressable>
+                    </Center>}
                     </HStack>
                 </Box>
                 )}
+                {showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && <Center w="20%"  borderColor="primary.bordercolor" alignItems="center">
+                        <Pressable
+                                onPress={async () => {
+                                    push(`/${event.url}/attendees/hotel/${detail?.detail?.id}`)
+                        }}>
+                            <Icohotelbed width="24" height="18" />
+                        </Pressable>
+                    </Center>}
             </Container>
         </Box>
     )

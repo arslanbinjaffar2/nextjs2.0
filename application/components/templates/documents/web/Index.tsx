@@ -7,8 +7,8 @@ import Search from 'application/components/atoms/documents/Search';
 import UseEventService from 'application/store/services/UseEventService';
 import in_array from "in_array";
 import UseSponsorService from 'application/store/services/UseSponsorService'
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = React.memo(() => {
 
@@ -19,7 +19,9 @@ const Index = React.memo(() => {
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
+    
     const module = modules.find((module) => module.alias === 'ddirectory');
+
     return (
         <>
             {in_array('documents', processing) ? (

@@ -15,8 +15,8 @@ import { ExhibitorCategory } from 'application/models/exhibitor/ExhibitorCategor
 import UseEventService from 'application/store/services/UseEventService';
 import { useSearchParams, usePathname } from 'next/navigation'
 import { useRouter } from 'solito/router'
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = React.memo(() => {
 
@@ -185,8 +185,7 @@ const Index = React.memo(() => {
                     )} 
             </Container>
         </>
-    )
 
-})
+)})
 
 export default Index

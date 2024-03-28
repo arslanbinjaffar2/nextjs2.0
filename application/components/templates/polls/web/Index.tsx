@@ -11,11 +11,9 @@ import { Poll, Polls } from 'application/models/poll/Poll';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
 

@@ -350,7 +350,7 @@ const SquareBox = ({ post, index }: AppProps) => {
         {/* <HStack>
           <Avatar
             borderWidth={1}
-            borderColor="primary.bordercolor"
+            borderColor="primary.text"
             size="sm"
             source={{
               uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`

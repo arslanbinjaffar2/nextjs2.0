@@ -11,7 +11,7 @@ type indexProps = {
   navigation: unknown
 }
 
-const Index = ({ navigation }: indexProps) => {
+const Index = ({ navigation }: indexProps)  => {
   const [tab, setTab] = React.useState(true)
   const { modules } = UseEventService();
   const module = modules.find((module) => module.alias === 'chat');
@@ -23,7 +23,7 @@ const Index = ({ navigation }: indexProps) => {
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text textTransform="uppercase" fontSize="2xl">{module?.alias ?? "Chat"}</Text>
           <Spacer />
-          <Input rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+          <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
         <HStack mb="3" space={1} justifyContent="center" w="100%">
           <Button onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>CHATS</Button>

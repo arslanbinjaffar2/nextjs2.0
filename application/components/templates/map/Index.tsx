@@ -4,17 +4,13 @@ import UseMapService from 'application/store/services/UseMapService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEventService from 'application/store/services/UseEventService';
-import UseEnvService from 'application/store/services/UseEnvService';
 import LoadImage from 'application/components/atoms/LoadImage';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
     const { loading } = UseLoadingService();
     const { event, modules  } = UseEventService();
-    const { _env } = UseEnvService();
 
     const { map, FetchMap} = UseMapService()
     React.useEffect(()=>{

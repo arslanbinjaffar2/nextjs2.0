@@ -10,8 +10,8 @@ import in_array from "in_array";
 import moment from 'moment';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
 

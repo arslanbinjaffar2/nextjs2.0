@@ -20,8 +20,8 @@ import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
 import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';
 import { Category } from 'application/models/event/Category';
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { slug: any }
 
@@ -102,6 +102,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                 FetchCategories({ parent_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), query: query, page: 1, cat_type: 'speakers' })
             } else if (in_array(tab, ['sub-group'])) {
                 FetchGroups({ query: query, group_id: (Number((searchParams.get('group_id') !== null ? searchParams.get('group_id') : 0))), page: 1, attendee_id: 0, program_id: 0 });
+            }else{
+                UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
+                setTab('attendee');
             }
         }
     }, [tab, category_id]);
@@ -165,7 +168,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('my-attendee');
         }
     }, [screen]);
+
     const module = (speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee) => attendee.alias === 'attendees') : modules?.find((attendee) => attendee.alias === 'my-attendee-list')) : modules?.find((speaker) => speaker.alias === 'speakers'))
+
     return (
         <>
             <NextBreadcrumbs module={module} />
@@ -316,15 +321,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     )}
                 </>
             )}
-            {speaker === 0 && <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
-                {alphabet && alphabet.map((item, k) =>
+            {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
+              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
+                  {alphabet.map((item, k) =>
                     <React.Fragment key={k}>
-                        {item && (
-                            <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
-                        )}
+                        <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
                     </React.Fragment>
-                )}
-            </VStack>}
+                  )}
+              </VStack>
+            )}
             <>
                 {(in_array('attendee-listing', processing) || in_array('category-listing', processing) || in_array('groups', processing)) && page === 1 ? (
                     <SectionLoading />

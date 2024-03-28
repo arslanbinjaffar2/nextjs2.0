@@ -21,9 +21,10 @@ import UseEnvService from 'application/store/services/UseEnvService'
 type ScreenParams = { id: string, cms: string | undefined }
 
 const RightBar = () => {
-
   const { _env } = UseEnvService()
   const { clearState, documents } = UseDocumentService();
+  // const { sponsors, FetchSponsorContact } = UseSponsorService();
+  const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
   const { sponsors, FetchSponsorContact } = UseSponsorService();
   // const handleSponsorContactClick = (attendeeId: any) => {
   //   console.log(attendeeId,'here');
@@ -36,7 +37,6 @@ const RightBar = () => {
     }, []);
   const nextRouter = UseNextRouter();
   const { event } = UseEventService();
-  const { detail } = UseAttendeeService();
 
   return (
     <>

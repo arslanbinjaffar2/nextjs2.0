@@ -14,9 +14,8 @@ import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleView from 'application/components/atoms/attendees/RectangleView';
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
-
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -203,7 +202,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                     ))}
                     </HStack>
                     <Box w="100%" mb="3">
-                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </Box>
                     <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
                     {filteredkeywords?.length > 0 ? filteredkeywords?.map((keyword:Keyword)=>(

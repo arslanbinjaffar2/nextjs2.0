@@ -41,7 +41,7 @@ const Index = ({ navigation }: indexProps) => {
     }
   }, [cms, id])
 
-  const module = modules.find((module) => module.alias === 'additional-info');
+  const module = modules.find((module) => module.alias === cms);
 
 
   return (

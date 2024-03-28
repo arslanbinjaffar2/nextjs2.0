@@ -12,9 +12,9 @@ import TrackRectangleDetailView from 'application/components/atoms/programs/trac
 import LoadMore from 'application/components/atoms/LoadMore';
 import IntersectionObserverComponent from 'application/components/atoms/IntersectionObserverComponent';
 import UseEventService from 'application/store/services/UseEventService';
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { Platform, useWindowDimensions } from 'react-native';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEnvService from 'application/store/services/UseEnvService';
 
 const Index = () => {
@@ -32,7 +32,6 @@ const Index = () => {
     const { event, modules  } = UseEventService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
     const { width } = useWindowDimensions();
-
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['program', 'my-program'])) {
@@ -69,7 +68,9 @@ const Index = () => {
             FetchPrograms({ query: '', page: 1, screen: tab, id: 0, track_id: 0 });
         }
     }, []);
+
     const module = modules.find((module) => module.alias === 'agendas');
+
     return (
         <>
             <NextBreadcrumbs module={module} />
