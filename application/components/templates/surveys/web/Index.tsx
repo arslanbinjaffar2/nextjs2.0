@@ -39,9 +39,9 @@ const Index = () => {
 
     useEffect(() => {
         
-        if(surveys.length == 1 && completed_surveys.length == 0){
-            push(`/${event.url}/survey/detail/${surveys[0]?.id}`);
-        }
+        // if(surveys.length == 1 && completed_surveys.length == 0){
+        //     push(`/${event.url}/survey/detail/${surveys[0]?.id}`);
+        // }
 
         if(surveys && surveys.length > 0) {
 
