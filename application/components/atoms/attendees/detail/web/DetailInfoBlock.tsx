@@ -5,6 +5,7 @@ import { Detail } from 'application/models/attendee/Detail';
 import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
+import IcoInfo from 'application/assets/icons/small/IcoInfo';
 type AppProps = {
     detail: Detail,
     info: React.ReactNode,
@@ -47,7 +48,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
             {(detail?.sort_field_setting.length > 0) && (
                 <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
-                        <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
+                        <IcoInfo />
                         <Text fontSize="sm">{event.labels?.ATTENDEE_MORE_INFO}</Text>
                     </HStack>
                     <VStack nativeID='about-content' px="3" py="4" w="100%" >

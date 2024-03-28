@@ -268,7 +268,7 @@ const Detail = () => {
                             <SectionLoading />
                         ) : (
                             <>
-                                {in_array(tab, ['attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                {in_array(tab, ['attendee']) && <Container position="relative" mb="3" overflow={'hidden'} rounded="10" bg="primary.box" w="100%" maxW="100%">
                                     {GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                                         <React.Fragment key={`item-box-${k}`}>
                                             {map?.letter && (

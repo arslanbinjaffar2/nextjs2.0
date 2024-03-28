@@ -94,7 +94,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
                             console.log('hello')
                           }}
                         />
-                      ): ''}
+                      ): null}
                       {program?.videos?.length ? (
                         <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
                       ) : ''}

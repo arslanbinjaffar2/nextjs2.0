@@ -200,7 +200,7 @@ const AddPost = () => {
                     />
                 </Box>
             )}
-            <HStack borderTopWidth="1" borderTopColor="primary.bdBox" space="0" alignItems="center">
+            <HStack borderTopWidth="0" borderTopColor="primary.bdBox" space="0" alignItems="center">
                 <Center bg="primary.box" w="65%">
                     <HStack w="100%" space="0" alignItems="center">
                     <input 

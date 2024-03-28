@@ -13,6 +13,7 @@ import Head from 'next/head';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { usePathname } from 'next/navigation';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { color } from 'native-base/lib/typescript/theme/styled-system';
 
 function hex2rgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -57,8 +58,8 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
 
     useEffect(() => {
       if(Object.keys(event).length > 0){
-          const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
-        const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
+           const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+           const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
            const theme = extendTheme({
             colors: {
                 primary: {
@@ -74,7 +75,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     900: event?.settings?.primary_color,
                     box: `rgba(${colors.darkbox},0.3)`,
                     boxbutton: `rgba(${colors.darkbox},0.6)`,
-                    boxsolid: `rgba(${colors.darkbox},1)`,
+                    boxsolid: `rgba(${[...colors.background]},1)`,
                     boxsolidtext: `${colors.darkboxtext}`,
                     darkbox: `rgba(0,0,0,0.2)`,
                     primarycolor : `rgba(${[...rgb]},0.2)`,

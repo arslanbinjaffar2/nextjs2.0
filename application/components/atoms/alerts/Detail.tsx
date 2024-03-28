@@ -30,7 +30,7 @@ const Detail = ({ id, title, description, date, time }: { id: number, title: str
         <Box w="100%" py="3">
             <HStack px="3" w="100%" space="2" alignItems="flex-start" justifyContent={'space-between'}>
 
-                <VStack bg="red" width={'calc(100% - 60px)'} space="1">
+                <VStack bg="red" width={'100%'} space="1">
                     <Text fontSize="2xl" fontWeight={500}>{title}</Text>
                     <Text fontSize="md">{formatDateTime(time, date)}</Text>
                     <Text fontSize="md">{description}</Text>
