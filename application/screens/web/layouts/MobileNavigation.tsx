@@ -21,7 +21,7 @@ const MobileNavigation = () => {
   const router = useRouter()
   const width = useWindowDimensions();
   const [leftArrow, setleftArrow] = React.useState<number>(0)
-  const [rightArrow, setrightArrow] = React.useState<number>(modules.length > 4 ? modules.length : 0)
+  const [rightArrow, setrightArrow] = React.useState<number>(modules.filter((item: any) => item.show_on_dashboard === 1).length > 4 ? modules.length : 0)
   const sliderRef = React.useRef<Slider>(null);
    const settings = {
       dots: false,
@@ -42,7 +42,8 @@ const MobileNavigation = () => {
     }
     };
   return (
-    <SafeAreaView edges={['left']}>
+    <React.Fragment>
+    {modules.filter((item: any) => item.show_on_dashboard === 1).length > 0 && <SafeAreaView edges={['left']}>
       <HStack nativeID='ebs-navigation-slider' pt={4} space="0" alignItems="center">
         <Center  size="8">
           {leftArrow > 0 && <IconButton
@@ -63,22 +64,7 @@ const MobileNavigation = () => {
           <Slider
           ref={sliderRef}
            {...settings}>
-            <Box>
-              <Pressable
-                p="0"
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                borderWidth="0"
-                onPress={()=>{
-                  push(`/${event.url}`)
-                }}
-              >
-                <IcoDashboard width="24" height="24" />
-                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Dashboard</Text>
-              </Pressable>
-            </Box>
-            {modules.filter((item:any) => item.show_on_dashboard === 1).map((module, index) => (
+            {modules.filter((item: any) => item.show_on_dashboard === 1).map((module, index) => (
               <Box key={index}>
                   <Pressable
                     p="0"
@@ -126,7 +112,8 @@ const MobileNavigation = () => {
       </HStack>
       
      
-     </SafeAreaView>
+     </SafeAreaView>}
+     </React.Fragment>
   )
 }
 
