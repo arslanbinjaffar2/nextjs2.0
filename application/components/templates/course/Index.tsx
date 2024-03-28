@@ -4,12 +4,14 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseEventService from 'application/store/services/UseEventService';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 const Index = () => {
   const [service, setService] = useState("")
   const { modules } = UseEventService();
   const module = modules.find((module) => module.alias === 'Course');
   const [mode,setMode]=React.useState("list")
+  const [play,setPlay]=useState(false)
   return (
     <>
       <NextBreadcrumbs module={module} />
@@ -48,17 +50,21 @@ const Index = () => {
         </HStack>
         {/*  */}
      {mode=='list'&&  <HStack w="100%" mb="3" space="1" bg="primary.box" rounded={'md'} alignItems="center" flexDirection={'column'} justifyContent="flex-end">
-          {new Array(5).fill('').map((item,index,arr)=>{
+          {new Array(5).fill('').map((item,index,arr)=>{  
             return(
         <Box pt={'20px'} pb={'14px'} px={'16px'} w={'100%'}  flexDirection={'row'} alignItems={'center'}
         borderBottomColor={'primary.border'} borderBottomWidth={arr.length-1==index?'0px':'1px'}
         >
-          <Text position={'absolute'} textTransform={'uppercase'} zIndex={'9999'} top={'8'} left={'5'}  fontSize="xs" fontWeight={'semibold'} bg={'black'} borderRadius={'13px'} px={'10px'} py={'4px'}>popular</Text>
+          <Text  fontSize="xs" position={'absolute'} zIndex={'999'} top={'47%'} left={'58'}>
+     <DynamicIcon iconType={'playCompleteIcon'} iconProps={{ width:36,height:36 }}/>
+          </Text>
+          
+          <Text position={'absolute'} textTransform={'uppercase'} zIndex={'999'} top={'8'} left={'5'}  fontSize="xs" fontWeight={'semibold'} bg={'black'} borderRadius={'13px'} px={'10px'} py={'4px'}>popular</Text>
         <Image 
         position={'relative'}
         borderRadius={'10px'}
         w={'128px'}
-        height={'140px'}
+        height={' 102px'}
         source={{
       uri: "https://wallpaperaccess.com/full/317501.jpg"
     }} alt="Alternate Text"  />
@@ -79,7 +85,14 @@ const Index = () => {
           return(
         <Box  w={'48%'}  bg="primary.box"  my={'3'}  rounded={'md'}  borderBottomColor={'primary.border'} flexDirection={'column'} pt={'20px'} pb={'14px'} px={'16px'}> 
           <Text position={'absolute'} textTransform={'uppercase'} zIndex={'9999'} top={'8'} left={'5'}  fontSize="xs" fontWeight={'semibold'} bg={'black'} borderRadius={'13px'} px={'10px'} py={'4px'}>popular</Text>
-
+          <Text  fontSize="xs" position={'absolute'} zIndex={'999'} top={'30%'} left={'40%'} onPress={()=>setPlay(!play)}>
+            {play
+            ?
+            <DynamicIcon iconType={'playIcon'} iconProps={{ width:36,height:36 }} />
+            :
+            <DynamicIcon iconType={'playCompleteIcon'} iconProps={{ width:36,height:36 }} />
+          }
+          </Text>
         <Image 
         position={'relative'}
         w={'289px'}
