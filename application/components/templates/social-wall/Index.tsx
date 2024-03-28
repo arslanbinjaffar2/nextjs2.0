@@ -12,11 +12,14 @@ import BannerAds from 'application/components/atoms/banners/BannerAds';
 import PostListing from 'application/components/atoms/social-wall/PostListing';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseSocketService from 'application/store/services/UseSocketService';
+import UseSocialWallService from 'application/store/services/UseSocialWallService'
 
 const Index = () => {
+  const { modules  } = UseEventService();
+  const { labels } = UseSocialWallService();
+  const module = modules.find((module) => module.alias === 'social_wall');
   const { socket } = UseSocketService();
   const { event } = UseEventService();
-  const { labels } = useSocialWallService();
 
   const [showNewPostButton, setShowNewPostButton] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -35,6 +38,7 @@ const Index = () => {
     };
   }, [socket, event.id]);
 
+
   const handleNewPostClick = () => {
     if (topRef.current) {
       topRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "start"  });
@@ -45,6 +49,7 @@ const Index = () => {
 
   return (
     <>
+      <NextBreadcrumbs module={module} /> 
       <div ref={topRef}></div>
       <AddPost />
       {showNewPostButton && (

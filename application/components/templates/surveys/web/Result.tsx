@@ -20,6 +20,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/survey/Survey';
 import { useRouter } from 'solito/router'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 
 type ScreenParams = { id: string }
@@ -42,7 +43,7 @@ const Detail = () => {
 
   const { _env } = UseEnvService();
 
-  const { event  } = UseEventService();
+  const { event , modules } = UseEventService();
 
   const { response  } = UseAuthService();
 
@@ -57,20 +58,21 @@ const Detail = () => {
         FetchMySurveyResultDetail({ id: Number(id) });
     }
   }, [id]);
-
+  const module = modules.find((module) => module.alias === "survey");
   return (
     <>
       {loading ? (
                 <WebLoading />
             ) : (
             <Container mb="3" maxW="100%" w="100%">
+              <NextBreadcrumbs module={module} title={mySurveyResultDetail?.info?.name}/>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Pressable onPress={()=> back()}>
+                {/* <Pressable onPress={()=> back()}>
                   <HStack space="3" alignItems="center">
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                         <Text fontSize="2xl">BACK</Text>
                   </HStack>
-                </Pressable>
+                </Pressable> */}
                 <Spacer />
                 <Text isTruncated  fontSize="xl">{`${mySurveyResultScore}/${mySurveyResultDetail?.question.length} Points(s)`}</Text>
               </HStack>

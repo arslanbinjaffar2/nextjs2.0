@@ -108,8 +108,9 @@ const Index = ({ navigation }: indexProps) => {
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
             </Box>
           </Container>
+          {/*  */}
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
-            <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+            <Container mt={4}  rounded="10" bg="primary.box" w="100%" maxW="100%">
               <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>PROGRAM</Heading>
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
               <Center py="3" px="2" w="100%" alignItems="flex-end">
@@ -121,58 +122,65 @@ const Index = ({ navigation }: indexProps) => {
               </Center>
             </Container>
           ) : <></>}
-          <Container mb="3" w="100%" maxW="100%">
+          {/*  */}
+          <Container mt={4}  w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
             </Box>
           </Container>
-          <Container mb="3" w="100%" maxW="100%">
+          <Container mt={4} w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
             </Box>
           </Container>
+          {/*  */}
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
 
-            <Container overflow={'hidden'} mb="1" w="100%" maxW="100%">
+            <Container mt={0} overflow={'hidden'}  w="100%" maxW="100%">
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
               <ScrollView w={[width - 30,'100%']} pb={2} showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
-                <HStack pt="1" space="2" alignItems="flex-start" justifyContent="space-between">
+                <HStack pt="0" space="2" alignItems="flex-start" justifyContent="space-between">
                   {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
                     <RoundedView attendee={attendee} />
-                    <Text isTruncated pt="2" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
+                    <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
                   </VStack>)}
                 </HStack>
               </ScrollView>
             </Container>
           ) : <></>}
-          <Container mb="3" w="100%" maxW="100%">
+          {/*  */}
+          <Container mt={4}  w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
             </Box>
           </Container>
-
-          <Container mb="3" w="100%" maxW="100%">
+{/*  */}
+          <Container my={4} w="100%" maxW="100%" >
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
             </Box>
           </Container>
+          {/*  */}
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
-          <Container mb="3" w="100%" maxW="100%">
+          <Container mt={4} w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'after_polls'}/>
             </Box>
           </Container>
-          <Container mb="3" w="100%" maxW="100%">
+          {/*  */}
+          <Container mt={4}  w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_survey'}/>
             </Box>
           </Container>
+          {/*  */}
           {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) &&  (pollSettings?.display_survey == 1) && <SurveyListing surveys={surveys} />}
-          <Container mb="3" w="100%" maxW="100%">
+          <Container mt={4} w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'after_survey'}/>
             </Box>
           </Container>
+          {/*  */}
           {/* <HStack mb="3" space={1} justifyContent="center" w="100%">
             <Button onPress={() => setTab('qa')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab === 'qa' ? 'primary.darkbox' : 'primary.box'} w={event?.speaker_settings?.display_speaker_dashboard == 1 ? "50%" : "100%"} _text={{ fontWeight: '600' }}>Q & A</Button>
             {event?.speaker_settings?.display_speaker_dashboard == 1 && <Button onPress={() => setTab('speakerlist')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'speakerlist' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>SPEAKERS LIST</Button>}
@@ -195,8 +203,8 @@ const Index = ({ navigation }: indexProps) => {
               ):(
                 <>
                   {alert_setting && (alert_setting as any).display_in_dashboard === 1 && alerts.length > 0 &&
-                  <Container pt="2" maxW="100%" w="100%">
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                  <Container mt={4} pt="0" maxW="100%" w="100%">
+                    <HStack  pt="0" w="100%" space="3" alignItems="center">
                       <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
                       <Spacer />
                     </HStack>

@@ -144,7 +144,7 @@ const BannerAds = ({
        <Box maxW="100%" maxH="100%" display={index === currentBanner ? 'block' : 'none'}>
          <TouchableOpacity onPress={() => handleBannerClick(banner)}>
            <View w={'100%'} h={'100%'}>
-             <Box width="full" my={5}>
+             <Box width="full" >
                <RectangleView url={`${_env.eventcenter_base_url}/assets/banners/${banner.image}`} />
              </Box>
            </View>

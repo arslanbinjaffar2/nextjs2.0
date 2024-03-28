@@ -149,7 +149,13 @@ const Selectstyles2 = {
         phone: attendee?.phone && attendee?.phone?.split("-")[1],
         callingCode: attendee?.phone && attendee?.phone?.split("-")[0]
     })
-
+    React.useEffect(() => {
+        setAttendeeData({
+            ...attendeeData,
+            phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
+            callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
+        });
+    }, [attendee]);
     const [customFieldData, setCustomFieldData] = React.useState<any>(customFields.reduce((ack1, question, i)=>{
         let answers = attendee.info[`custom_field_id${question.event_id}`]?.split(',').reduce((ack2:any, id, i)=>{ 
            let is_answer = question.children_recursive.find((answer:any)=>(answer.id == id));
@@ -170,11 +176,11 @@ const Selectstyles2 = {
     const inputresumeFileRef = React.useRef<HTMLInputElement | null>(null);
 
     React.useEffect(() => {
-        // setAttendeeData({
-        //     ...attendeeData,
-        //     phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
-        //     callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
-        // });
+    // setAttendeeData({
+    //     ...attendeeData,
+    //     phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
+    //     callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
+    // });
     }, []);
 
     const updateCustomFieldSelect = (obj:any) => {
@@ -263,6 +269,16 @@ const Selectstyles2 = {
         }
 
         if (attendeeData?.email) attendeeObj.email = attendeeData?.email;
+
+        if (attendeeData?.title) attendeeObj.title = attendeeData?.title;
+
+        if (attendeeData?.about) attendeeObj.about = attendeeData?.about;
+
+        if (attendeeData?.network_group) attendeeObj.network_group = attendeeData?.network_group;
+
+        if (attendeeData?.SPOKEN_LANGUAGE) attendeeObj.SPOKEN_LANGUAGE = attendeeData?.SPOKEN_LANGUAGE;
+
+        if (attendeeData?.industry) attendeeObj.industry = attendeeData?.industry;
 
         if (attendeeData?.first_name) attendeeObj.first_name = attendeeData?.first_name;
 

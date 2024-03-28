@@ -34,11 +34,12 @@ const Index = () => {
         FetchNetworkInterests();
     }, [])
 
-
+    const module = modules.find((module) => module.alias === 'business');
   return (
     <>
+        <NextBreadcrumbs module={module} />
         {loading && <SectionLoading />}
-        {(!loading  && keywords.length <=0 ) && <Text>No keyword found</Text>} 
+        {(!loading  && keywords.length <=0 ) && <Text pt={5}>No keyword found</Text>} 
         {(!loading  && keywords.length > 0 ) && <ManageKeywords 
           keywords={keywords} 
           searchMatchAttendees={searchMatchAttendees} 
@@ -131,7 +132,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                 {showAttendees ? (
                     <Container  pt="2" maxW="100%" w="100%" >
                       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                      <Text textTransform="uppercase" fontSize="2xl">{modules?.find((attendees)=>(attendees.alias == 'attendees'))?.name ?? ""}</Text>
+                      <Text textTransform="capitalize" fontSize="2xl">{modules?.find((attendees)=>(attendees.alias == 'attendees'))?.name ?? ""}</Text>
                     </HStack>
                     {searchingAttendees && <SectionLoading/>}
                     {searchMatchAttendees && <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
@@ -147,7 +148,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                           w="100%"
                           maxW="400px"
                           shadow="1"
-                          textTransform="uppercase"
+                          textTransform="capitalize"
                           _text={{ fontWeight: 600, fontSize: '2xl' }}
                           colorScheme="primary"
                           onPress={() => {
@@ -161,7 +162,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
 
                  )  : (<Container pt="2" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="uppercase" fontSize="2xl">{modules?.find((network)=>(network.alias == 'business'))?.name ?? ""}</Text>
+                    <Text textTransform="capitalize" fontSize="2xl">{modules?.find((network)=>(network.alias == 'business'))?.name ?? ""}</Text>
                     </HStack>
                     <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
                     <Center mb="3" px="1">
@@ -224,7 +225,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                             </Flex>
                         </React.Fragment>
                     )):(
-                      <Text textTransform="uppercase" fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
+                      <Text textTransform="capitalize" fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
                     )
                   }
                     </Box>
