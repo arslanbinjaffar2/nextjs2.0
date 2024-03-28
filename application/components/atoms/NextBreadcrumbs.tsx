@@ -19,7 +19,7 @@ interface NextBreadcrumbsProps {
   title?: string;
   additionalBreadcrubms?: Document[] | undefined;
   onBreadcrumbPress?: (breadcrumb: Document) => void;
-  onAdditionalMainBreadcrumbPress: () => void | undefined;
+  onAdditionalMainBreadcrumbPress?: () => void | undefined;
 }
 
 const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additionalBreadcrubms, onBreadcrumbPress, onAdditionalMainBreadcrumbPress }) => {
@@ -90,7 +90,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
                 if (title || (additionalBreadcrubms && additionalBreadcrubms.length > 0)) {
                   if(title){
                     handlePress(breadcrumb.alias);
-                  }else if(additionalBreadcrubms && additionalBreadcrubms.length > 0){
+                  }else if(additionalBreadcrubms && additionalBreadcrubms.length > 0 && onAdditionalMainBreadcrumbPress){
                     onAdditionalMainBreadcrumbPress();
                   }
                 }

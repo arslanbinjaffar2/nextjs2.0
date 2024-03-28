@@ -49,7 +49,7 @@ const Index = () => {
 
   return (
     <>
-      <NextBreadcrumbs module={module} />
+      <NextBreadcrumbs module={module} /> 
       <div ref={topRef}></div>
       <AddPost />
       {showNewPostButton && (
