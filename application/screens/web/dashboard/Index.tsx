@@ -29,6 +29,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { useWindowDimensions } from 'react-native';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 
 type indexProps = {
   navigation: unknown
@@ -76,6 +77,7 @@ const Index = ({ navigation }: indexProps) => {
         <WebLoading />
       ) : (
         <>
+          <MobileNavigation />
           <Container mb="3"  w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
