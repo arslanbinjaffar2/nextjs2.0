@@ -7,10 +7,9 @@ import React from 'react'
 const CheckInDetails = () => {
     const { event, modules } = UseEventService();
     const module = modules.find((module) => module.alias.startsWith("check") );
-    console.log(module,"aas")
   return (
     <VStack w={'100%'}>
-          <NextBreadcrumbs module={{ name: "Check innnnnnnn", alias: "checkIn" }} title={"CHECK-IN DETAILS"} />
+          <NextBreadcrumbs module={module} title={"CHECK-IN DETAILS"} />
         <HStack  space="3" alignItems="center">
         {/* <Box flexDirection={'row'} alignItems="center" >
           <Button
