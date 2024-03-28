@@ -33,6 +33,8 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { GroupedHistory, History } from 'application/models/checkInOut/CheckInOut'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { useRouter } from 'solito/router'
+
 
 const CheckinList = ({type, k, group}: any) => {
 	const [toggle, settoggle] = React.useState(false);
@@ -173,6 +175,7 @@ const Index = () => {
   const { _env } = UseEnvService()
   const { event, modules } = UseEventService();
   const { response  } = UseAuthService();
+  const { push } = useRouter()
 
   const { FetchCheckInOut, checkInOut, SendQRCode, DoCheckInOut }  = UseCheckInOutService();
   React.useEffect(() => {  
@@ -251,9 +254,10 @@ const Index = () => {
 								<HStack mb={3} w={'100%'} space="0" alignItems="center" justifyContent={'center'} pt={4}>
                 <Text mb="0" textTransform="uppercase" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
 								<Spacer />
-                  {checkInOut?.setting?.enable_email_ticket ? <>
+                   <>
                     {in_array('checkin-send-qr-code', processing) ?  <WebLoading/> : 
                     <HStack  space="2" alignItems="center">
+                      {checkInOut?.setting?.enable_email_ticket ?
                       <IconButton
                           variant="transparent"
                           p="1"
@@ -261,21 +265,21 @@ const Index = () => {
                           onPress={() => {
                               SendQRCode();
                           }}
-                      />
+                      />:null}
                       {checkInOut?.hasOrderItems &&
                       <IconButton
                           variant="transparent"
                           p="1"
                           icon={<IcoClipboard />}
                           onPress={() => {
-                              console.log('first')
+                              push(`/${event.url}/checkIn/detail`);
                           }}
                       />
                       }
                     </HStack>
                     
                     }
-									</>:null}
+									</>
 								</HStack>
 							<Spacer />
 							</Box>
