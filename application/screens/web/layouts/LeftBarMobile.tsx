@@ -32,7 +32,7 @@ const LeftBarMobile = () => {
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
       <Box borderBottomWidth={1} mb="3" w="100%" borderBottomColor={'primary.bordercolor'} pb="3" px="3">
         <Flex alignItems="center" flexDirection={'row'}>
-          <Avatar w="50px" h="50px" bg="green.500" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
+          <Avatar w="50px" h="50px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
             {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
           </Avatar>
           <VStack w={'70%'} px="3" space="0">
@@ -91,7 +91,7 @@ const LeftBarMobile = () => {
               }}>
               <HStack space="4" alignItems="center">
                 <Center w="30px">
-                  <DynamicIcon iconType={row?.alias.replace(/-/g, '_')} iconProps={{ width: 24, height: 21 }} />
+                  <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} />
                 </Center>
                 <Text fontSize={'lg'} color="primary.text">{row?.name}</Text>
               </HStack>

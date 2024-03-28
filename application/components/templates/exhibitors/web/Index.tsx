@@ -97,12 +97,12 @@ const Index = React.memo(() => {
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'name'))
 
-                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={8} borderRightRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? 0 : 8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_NAME}</Button>}
+                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={8} borderRightRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? 0 : 8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_NAME}</Button>}
                         {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') && <Button onPress={() => {
                             setTab('category')
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'))
-                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
+                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
                     </HStack>
                     )}
                     {loading ? (  
@@ -138,7 +138,7 @@ const Index = React.memo(() => {
                         </HStack>
                         }
                         {mode === "list" &&
-                                    <Box w="100%" rounded="10" bg="primary.box" borderWidth={exhibitors.length > 0?"1":"0"} borderColor="primary.box">
+                                    <Box w="100%" rounded="10" bg="primary.box" borderWidth={"0"} borderColor="primary.box">
                                 <ScrollView h={'53%'}>
                                     {exhibitors.length > 0 && exhibitors.map((exhibitor: Exhibitor, key: number) =>
                                         <RectangleView exhibitor={exhibitor} border={exhibitors.length === 0 ? 0 : exhibitors.length > 0 && key === exhibitors.length-1 ? 0 : 1} key={key} />

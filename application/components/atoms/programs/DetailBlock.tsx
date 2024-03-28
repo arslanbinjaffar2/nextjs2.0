@@ -26,26 +26,18 @@ const DetailBlock = ({ children }: AppProps) => {
     const { push } = useRouter()
 
     return <Container mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
-        <Image
+        {detail?.program?.image && <Image
             alt=""
             size="full"
             w="100%"
             h="160px"
             roundedTop="10"
-            mb="5"
+            mb="0"
             source={{ uri: `${_env.eventcenter_base_url}/assets/programs/${detail?.program?.image}` }}
-        />
-        <Box w="100%" px="7">
+        />}
+        <Box w="100%" pt={4} px="4">
             <HStack w="100%" mb="3" space="3" alignItems="flex-start">
                 <Text maxW="100%" fontSize="xl">{detail?.program?.topic}</Text>
-                {/* <Spacer />
-                {(event?.agenda_settings?.qa == 1 || detail?.program?.qa == 1) && <Pressable
-                        onPress={() => {
-                            push(`/${event.url}/qa/detail/${detail?.program?.id}`)
-                        }}>
-
-                            <DynamicIcon iconType="qa" iconProps={{ width: 25, height: 24 }} />
-                        </Pressable>} */}
             </HStack>
             <HStack w="100%" mb="3" space="10" alignItems="center">
                 {detail?.program?.start_time && detail?.program?.end_time  && event.agenda_settings?.agenda_display_time == 1 && detail?.program?.hide_time == 0 && (

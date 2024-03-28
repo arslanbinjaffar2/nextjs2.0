@@ -52,7 +52,7 @@ const LeftBar = () => {
             }}>
 
             <Flex w={width > 1200 ? '257px' : '62px'} alignItems="center" flexDirection={'row'}>
-              <Avatar w="62px" h="62px" bg="green.500" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
+              <Avatar w="62px" h="62px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
                 {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
               </Avatar>
               {width > 1200 && <VStack w={'calc(100% - 100px)'} pl="3" space="0">
@@ -77,7 +77,7 @@ const LeftBar = () => {
             <Center w="30px">
               <IcoDashboard width="24" height="24" />
             </Center>
-            {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">Dashboard</Text>}
+            {width > 1200 && <Text fontSize={'20px'} fontWeight={400}>Dashboard</Text>}
           </HStack>
         </Pressable>
         {modules.map((row: any, key: any) =>
@@ -112,7 +112,9 @@ const LeftBar = () => {
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <DynamicIcon iconType={row?.alias.replace(/-/g, '_')} iconProps={{ width: 24, height: 21 }} />
+                <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') }
+                  
+                  iconProps={{ width: 24, height: 21 }} />
               </Center>
               {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color="primary.text">{row?.name}</Text>}
               {row?.alias === 'alerts' && unread > 0 &&

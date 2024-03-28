@@ -19,7 +19,6 @@ const AddPost = () => {
 
     const { _env } = UseEnvService();
     const { AddSocialWallPost ,labels } = UseSocialWallService();
-    console.log(labels)
     const { processing } = UseLoadingService();
     const { response } = UseAuthService();
     const [postData, setpostData] = React.useState<NewPost>({
@@ -112,22 +111,7 @@ const AddPost = () => {
 
     return (
 			<>
-        <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
-            {/* <IconButton
-                w="30px"
-                h="30px"
-                p="1"
-                position="absolute"
-                right="20px"
-                top="15px"
-                zIndex="99"
-                rounded="100%"
-                variant="unstyled"
-                icon={<IcoSmiley width="20px" height="20px" />}
-                onPress={() => {
-                    console.log('hello')
-                }}
-            /> */}
+        <Box borderWidth="0" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
             <HStack px="4" py="3" pr="12" space="3" alignItems="flex-start">
                 <Avatar
                     size="sm"
@@ -135,7 +119,7 @@ const AddPost = () => {
                         uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
                     }}
                 >
-                    SS
+                    { response?.data?.user?.first_name && response?.data?.user?.last_name ? response?.data?.user?.first_name?.substring(0,1) + response?.data?.user?.last_name?.substring(0,1) : response?.data?.user?.first_name?.substring(0,1)}
                 </Avatar>
                 <TextArea
                     onChange={(e) => {
@@ -216,7 +200,7 @@ const AddPost = () => {
                     />
                 </Box>
             )}
-            <HStack borderTopWidth="1" borderTopColor="primary.bdBox" space="0" alignItems="center">
+            <HStack borderTopWidth="0" borderTopColor="primary.bdBox" space="0" alignItems="center">
                 <Center bg="primary.box" w="65%">
                     <HStack w="100%" space="0" alignItems="center">
                     <input 

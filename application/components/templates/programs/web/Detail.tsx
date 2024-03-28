@@ -137,16 +137,6 @@ const Detail = () => {
             ) : (
                 <>
                     <NextBreadcrumbs module={module} title={detail?.program?.topic}/>
-
-                    {/* <HStack pt="2" w="100%" space="3" alignItems="center">
-                        <Pressable onPress={()=> back() }>
-                        <HStack space="3" alignItems="center">
-                                <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                                <Text fontSize="2xl">BACK</Text>
-                        </HStack>
-                        </Pressable>
-                        <Spacer />
-                    </HStack> */}
                     <DetailBlock>
                         <Text>
                             <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
@@ -154,15 +144,15 @@ const Detail = () => {
                     </DetailBlock>
                     <Container mb="3" maxW="100%" w="100%">
                         <HStack mb="3" space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
-                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 && (showSpeakers || showPolls) &&<Button rounded={0} minW={'50%'} flex={1} onPress={() => setTab('about')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>ABOUT</Button>}
+                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 && (showSpeakers || showPolls) &&<Button rounded={0} minW={'50%'} flex={1} onPress={() => setTab('about')} borderWidth="0px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>ABOUT</Button>}
                             {event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0 && (
-                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('group')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>GROUPS</Button>
+                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('group')} borderWidth="0px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>GROUPS</Button>
                             )}
                             {modules?.find((polls) => (polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 && (
-                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('attendee')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'attendee' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ATTENDEES</Button>
+                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('attendee')} borderWidth="0px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'attendee' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ATTENDEES</Button>
                             )}
                             {modules?.find((polls)=>(polls.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 && (
-                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('documents')} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'documents' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>DOCUMENTS</Button>
+                                <Button flex={1} rounded={0} minW={'50%'} onPress={() => setTab('documents')} borderWidth="0px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'documents' ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>DOCUMENTS</Button>
                             )}
                         </HStack>
                         {group_id > 0 && (
@@ -258,7 +248,7 @@ const Detail = () => {
                             <SectionLoading />
                         ) : (
                             <>
-                                {in_array(tab, ['attendee']) && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                {in_array(tab, ['attendee']) && <Container position="relative" mb="3" overflow={'hidden'} rounded="10" bg="primary.box" w="100%" maxW="100%">
                                     {GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                                         <React.Fragment key={`item-box-${k}`}>
                                             {map?.letter && (

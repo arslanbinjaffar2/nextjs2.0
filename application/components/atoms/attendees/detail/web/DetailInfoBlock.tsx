@@ -5,6 +5,7 @@ import { Detail } from 'application/models/attendee/Detail';
 import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
+import IcoInfo from 'application/assets/icons/small/IcoInfo';
 type AppProps = {
     detail: Detail,
     info: React.ReactNode,
@@ -29,11 +30,11 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     
 
     return (
-        <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.darkbox" : ""}`} w="100%"  p="0" rounded="10">
+        <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.box" : ""}`} w="100%"  p="0" rounded="10">
             {(showPrivate == 1 ||  detail?.sort_field_setting.find((s:any)=>(s.name === 'bio_info'))?.is_private == 0 ) && detail?.detail?.info?.about! && (
                 <>
                     <HStack px="3" py="1"  w="100%" space={2} bg="primary.box" alignItems="center">
-                        <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
+                        <IcoInfo />
                         <Text fontSize="sm">About</Text>
                     </HStack>
                     
@@ -47,7 +48,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
             {(detail?.sort_field_setting.length > 0) && (
                 <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
-                        <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
+                        <IcoInfo />
                         <Text fontSize="sm">{event.labels?.ATTENDEE_MORE_INFO}</Text>
                     </HStack>
                     <VStack nativeID='about-content' px="3" py="4" w="100%" >

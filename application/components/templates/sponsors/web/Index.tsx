@@ -102,12 +102,12 @@ const Index = React.memo(() => {
                         FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
                         push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'name'))
                     }} 
-                    borderWidth="1px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_NAME}</Button>}
+                    borderWidth="0px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_NAME}</Button>}
                     {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button onPress={() => {
                         setTab('category')
                         FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
                         push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'category'))
-                        }} borderWidth="1px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-sponsor' ? 'primary.boxbutton' : 'primary.box'}
+                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-sponsor' ? 'primary.boxbutton' : 'primary.box'}
                                                                                                                                   w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_CATEGORY || "Category"}</Button>}
                     </HStack>
                     )}
@@ -144,7 +144,7 @@ const Index = React.memo(() => {
                         </HStack>
                         )}
                         {mode === "list" &&
-                                    <Box w="100%" rounded="10" bg="primary.box" borderWidth={sponsors.length > 0 ?"1":"0"} borderColor="primary.box">
+                                    <Box w="100%" rounded="10" bg="primary.box" borderWidth={0} borderColor="primary.box">
                                 <ScrollView h={'53%'}>
                                     {sponsors.length > 0 && sponsors.map((sponsor: Sponsor, key: number) =>
                                         <RectangleView border={sponsors.length === 0 ? 0 : sponsors.length > 0 && key === sponsors.length-1 ? 0 : 1} sponsor={sponsor}  key={key} />
@@ -171,21 +171,21 @@ const Index = React.memo(() => {
                     </>}
 
                     {tab === 'category' && (
-                        <Box w="100%" rounded="10" bg="primary.box" borderWidth={categories.length > 0 ? "1":"0"} borderColor="primary.bdBox">
-                            {categories.length > 0 ? (
-                                <ScrollView h={'60%'} w={'100%'}>
-                                    <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                        {categories.map((category: SponsorCategory, key: number) => (
-                                        <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
-                                        ))}
-                                    </HStack>
-                                </ScrollView>
-                            ) : (
-                                <Box p={3}>
-                                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                </Box>
-                            )}
-                        </Box>
+                                <Box w="100%" rounded="10" bg="primary.box" borderWidth={0} borderColor="primary.bdBox">
+                          {categories.length > 0 ? (
+                            <ScrollView h={'60%'} w={'100%'}>
+                                <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
+                                    {categories.map((category: SponsorCategory, key: number) => (
+                                      <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
+                                    ))}
+                                </HStack>
+                            </ScrollView>
+                          ) : (
+                            <Box p={3}>
+                                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                            </Box>
+                          )}
+                      </Box>
                     )}
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'sponsors'} module_type={'listing'} />

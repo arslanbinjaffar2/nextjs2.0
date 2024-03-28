@@ -132,7 +132,7 @@ const SquareBox = ({ post, index }: AppProps) => {
   return (
     <>
        {deleteprocessing && <Box mb={3}><WebLoading /></Box>}
-      {!deleteprocessing && <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="1" borderColor="primary.box">
+      {!deleteprocessing && <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="0" borderColor="primary.box">
       <VStack space="3">
 
 
@@ -148,7 +148,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                   uri: `${_env.eventcenter_base_url}/assets/attendees/${post.attendee.image}`
                 }}
               >
-                SS
+                { post.attendee?.first_name && post.attendee?.last_name ? post.attendee?.first_name?.substring(0,1) + post.attendee?.last_name?.substring(0,1) : post.attendee?.first_name?.substring(0,1)}
               </Avatar>
               <VStack space="0" >
                 <Text fontSize="lg" key="full_name_att" fontWeight="600">{post.attendee.full_name}</Text>
@@ -163,7 +163,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                 <Menu
                   placement="bottom right"
                   bg="primary.boxsolid"
-                  borderWidth={1}
+                  borderWidth={0}
                   borderColor="#707070"
                   shouldFlip={true}
                   w={180}
@@ -244,7 +244,7 @@ const SquareBox = ({ post, index }: AppProps) => {
               }}
 
             >
-              <Popover.Content p={0}   minW={220} maxW={260} bg={'primary.boxsolid'}>
+              <Popover.Content shadow={3} p={0} borderWidth={0}  minW={220} maxW={260} bg={'primary.boxsolid'}>
                 <Popover.Body bg={'primary.boxsolid'} borderTopWidth="0" p={0} rounded={6}>
                   <Box bg={'primary.boxsolid'} py={3} borderWidth="0" borderColor="primary.box">
                     <HStack width={'100%'} px={3} mb={2} space="1" alignItems="center">
@@ -272,7 +272,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                                 uri: `${_env.eventcenter_base_url}/assets/attendees/${like.attendee.image}`,
                               }}
                             >
-                              SS
+                              {like.attendee?.first_name && like.attendee?.last_name ? like.attendee?.first_name?.substring(0,1) + like.attendee?.last_name?.substring(0,1) : like.attendee?.first_name?.substring(0,1)}
                             </Avatar>
                             <Text color={'primary.boxsolidtext'} fontSize="md" ml={3}>{like.attendee.full_name}</Text>
                           </HStack>
@@ -366,8 +366,8 @@ const SquareBox = ({ post, index }: AppProps) => {
                 <Box ml={'auto'}>
                   <Menu
                     placement="bottom right"
-                    bg="primary.darkbox"
-                    borderWidth={1}
+                    bg="primary.boxsolid"
+                    borderWidth={0}
                     borderColor="#707070"
                     shouldFlip={true}
                     w={180}
@@ -385,10 +385,11 @@ const SquareBox = ({ post, index }: AppProps) => {
                       );
                     }}
                   >
-                    <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
+                    <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
                       {labels?.SOCIAL_WALL_TOP_COMMENTS}
                     </Menu.Item>
                     <Menu.Item
+                      _text={{color: 'primary.boxsolidtext'}} 
                       _focus={{ bg: '' }}
                       _hover={{ bg: 'primary.500' }}
                       textValue="comments_newest"
@@ -414,7 +415,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                     {comment.replies.slice(0, visibleReplies).map((reply: Comment) => (
                       <CommentBox onChildClick={handleChildClick} secondlevel={true} comment={reply} key={reply.id} hiddenReplies={remainingReplies} toggleHiddenReplies={() => handleToggleReplies(comment.id)} />
                     ))}
-                    {toggleReplay && commnetid === comment.id && <Divider bg={'primary.bordercolor'} zIndex={2} height={'calc(100% - 65px)'} width={'1px'} position={'absolute'} left={'35px'} top={'32px'} />}
+                    {toggleReplay && commnetid === comment.id && <Divider bg={'primary.bordercolor'} zIndex={2} height={'calc(100% - 64px)'} width={'1px'} position={'absolute'} left={'35px'} top={'32px'} />}
                     {toggleReplay && commnetid === comment.id && <HStack w={'100%'} py={2} pl={'65px'} pr={3} space="2" alignItems="center">
                       <Center>
                         <Divider w={'4'} position={'absolute'} left={'-30px'} top={3} bg={'primary.bordercolor'} />
@@ -426,7 +427,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                             uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
                           }}
                         >
-                          SS
+                          { response?.data?.user?.first_name && response?.data?.user?.last_name ? response?.data?.user?.first_name?.substring(0,1) + response?.data?.user?.last_name?.substring(0,1) : response?.data?.user?.first_name?.substring(0,1)}
                         </Avatar>
                       </Center>
                       <Center w={'calc(100% - 45px)'}>
@@ -450,7 +451,7 @@ const SquareBox = ({ post, index }: AppProps) => {
                     uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
                   }}
                 >
-                  SS
+                  { response?.data?.user?.first_name && response?.data?.user?.last_name ? response?.data?.user?.first_name?.substring(0,1) + response?.data?.user?.last_name?.substring(0,1) : response?.data?.user?.first_name?.substring(0,1)}
                 </Avatar>
               </Center>
               {/* <Text fontSize="md" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text> */}
