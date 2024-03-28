@@ -5,7 +5,7 @@ import { HttpResponse } from 'application/models/GeneralResponse';
 const baseUrl = `/event`
 
 export const getProgramApi = (payload: any, state: any): Promise<HttpResponse> => {
-    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/program/search`, { ...payload, limit: 40 });
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/program/search`, { ...payload, limit: 1000 });
 }
 
 export const makeFavouriteApi = (payload: any, state: any): Promise<HttpResponse> => {
