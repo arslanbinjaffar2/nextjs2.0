@@ -10,8 +10,9 @@ import { store } from 'application/store/Index'
 type AppProps = {
     note_type_id: number
     children?: React.ReactNode
+    showModal: (close: boolean) => void
 }
-const DocumentNotesBox = ({note_type_id, children}:AppProps) => {
+const DocumentNotesBox = ({note_type_id, children,showModal}:AppProps) => {
   const [note, setNote] = React.useState('')
   const [isNewNote, setIsNewNote] = React.useState(true)
   const noteType = 'directory';
@@ -75,6 +76,7 @@ const DocumentNotesBox = ({note_type_id, children}:AppProps) => {
       return;
     }
     isNewNote ? saveNotes() : updateNotes();
+    showModal(false);
   }
 
   return (
