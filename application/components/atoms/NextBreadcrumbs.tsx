@@ -101,7 +101,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
       {title && (
         <>
           <Icon size="3" as={AntDesign} name="right" color={color} />
-          <Text color="white" ml={3} isTruncated={true} maxWidth="300px">
+          <Text color={color} ml={3} isTruncated={true} maxWidth="300px">
             {title.length > 40 ? `${title.substring(0, 40)}...` : title}
           </Text>
         </>
