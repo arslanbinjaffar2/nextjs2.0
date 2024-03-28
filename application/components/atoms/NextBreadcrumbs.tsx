@@ -89,7 +89,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
                   iconType={breadcrumb.icon}
                   iconProps={{ width: 24, height: 21, color }}
                 />
-                <Text isTruncated={true} maxWidth="100px" color={color}>{breadcrumb.label.length > 30 ? `${breadcrumb.label.substring(0, 30)}...` : breadcrumb.label}</Text>
+                <Text isTruncated={true} maxWidth="150px" color={color}>{breadcrumb.label.length > 30 ? `${breadcrumb.label.substring(0, 30)}...` : breadcrumb.label}</Text>
               </HStack>
             </Pressable>
           )}
