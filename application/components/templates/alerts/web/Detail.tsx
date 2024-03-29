@@ -52,9 +52,7 @@ const Detail = () => {
             </Container>
           </>
       }
-      <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'alerts'} module_type={'listing'} />
-      </Box>
     </>
   );
 };

@@ -392,10 +392,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                         </Container>}
                     </>
                 )}
-                {banner_module && 
-                    <Box width={"100%"} height={"5%"}>
+                {banner_module &&
                         <BannerAds module_name={banner_module} module_type={'listing'} />
-                    </Box>
                 }
                 
             </>
