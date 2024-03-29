@@ -19,7 +19,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
             {(showPrivate == 1 ||  detail?.sort_field_setting.find((s:any)=>(s.name === 'bio_info'))?.is_private == 0 ) && detail?.detail?.info?.about! && (
                 <>
                     <HStack px="3" py="1"  w="100%" space={2} bg="primary.box" alignItems="center">
-                        <IcoInfo />
+                        <IcoInfo  />
                         <Text fontSize="sm">About</Text>
                     </HStack>
                     
@@ -33,7 +33,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
             {(detail?.sort_field_setting.length > 0) && (
                 <Box p="0">
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
-                        <IcoInfo />
+                        <IcoInfo  />
                         <Text fontSize="sm">{event.labels?.ATTENDEE_MORE_INFO}</Text>
                     </HStack>
                     <VStack px="3" py="4" w="100%" >

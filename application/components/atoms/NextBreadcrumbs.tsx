@@ -56,7 +56,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
                 handlePress(breadcrumb.alias);
               }}>
               <HStack space="2" alignItems="center">
-                <IcoDashboard width="18" height="18" color={'primary.text'} />
+                <IcoDashboard width="18" height="18" color={"primary.text"} />
                 <Text>{breadcrumb.label}</Text>
               </HStack>
             </Pressable>
@@ -80,13 +80,13 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
             </Pressable>
           )}
           {index < breadcrumbs.length - 1 && (
-            <Icon size="3" as={AntDesign} name="right" color={'primary.text'} />
+            <Icon size="3" as={AntDesign} name="right" color={"primary.text"} />
           )}
         </React.Fragment>
       ))}
       {title && (
         <>
-          <Icon size="3" as={AntDesign} name="right" color={'primary.text'} />
+          <Icon size="3" as={AntDesign} name="right" color={"primary.text"} />
           <Text color="primary.500" ml={3}>
             {title}
           </Text>
