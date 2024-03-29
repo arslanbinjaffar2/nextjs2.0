@@ -21,6 +21,8 @@ import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import { useWindowDimensions } from 'react-native';
+import ExhibitorContactInfo from 'application/components/atoms/exhibitors/contact-info/ContactInfo';
 
 
 type ScreenParams = { id: string, cms: string | undefined }
@@ -42,6 +44,8 @@ const Detail = React.memo(() => {
     const { _env } = UseEnvService();
 
     const { back } = useRouter()
+
+    const { width } = useWindowDimensions();
 
     React.useEffect(() => {
         if (id) {
@@ -139,6 +143,10 @@ const Detail = React.memo(() => {
                             </Box>
                         </Container> */}
                     </Container>
+
+                    {width < 810 && <Container maxW="100%" w="100%" >
+                        { event?.exhibitor_tab_settings?.contact_info == 1 && <ExhibitorContactInfo />}
+                    </Container>}
 
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'exhibitors'} module_type={'detail'} module_id={detail?.detail?.id} />
