@@ -212,7 +212,7 @@ export interface Attendee {
   countryName: string;
   callingCode?:string
   gdpr?:boolean;
-  accept_foods_allergies?:boolean;
+  accept_foods_allergies?: boolean;
   password?:string;
   file?:any;
   blob_image?:any;
