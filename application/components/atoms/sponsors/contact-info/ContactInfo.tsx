@@ -14,6 +14,36 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseSponsorService from 'application/store/services/UseSponsorService';
 import UseEventService from 'application/store/services/UseEventService'
 import IcouserFilled from 'application/assets/icons/small/IcouserFilled';
+import { getContactSponsorApi } from 'application/store/api/Sponsor.api'
+import { store } from 'application/store/Index'
+async function getSponsorContact(id:any) {
+  const mystate=store.getState()
+  try {
+    const response = await getContactSponsorApi({id},mystate); // Call the API function
+    console.log(response.data.data,'fgfdgfd')
+    downloadFile(response.data.data.filedata,response.data.data.filename);
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+const downloadFile = (fileData:any, filename:any) => {
+  // Create a Blob object from the file data
+  const blob = new Blob([fileData], { type: 'application/octet-stream' });
+
+  const url = window.URL.createObjectURL(blob);
+
+  const anchorElement = document.createElement('a');
+  anchorElement.href = url;
+
+  anchorElement.download = filename;
+
+  anchorElement.style.display = 'none';
+  document.body.appendChild(anchorElement);
+  anchorElement.click();
+  document.body.removeChild(anchorElement);
+  window.URL.revokeObjectURL(url);
+};
+
 
 const ContactInfo = () => {
   const { detail,FetchSponsorContact } = UseSponsorService();
@@ -37,7 +67,7 @@ const ContactInfo = () => {
                 p={0}
                 icon={<IcoVCF />}
                 onPress={() => {
-                  FetchSponsorContact({id:detail?.detail?.id ?? 0});
+                  getSponsorContact(detail?.detail?.id ?? 0);
                 }}>
               </IconButton>
 

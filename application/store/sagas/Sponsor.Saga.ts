@@ -101,8 +101,6 @@ function* OnGetSponsorContact({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getContactSponsorApi, payload, state)
-    yield put(SponsorActions.updateSponsorDetail(response.data.data!))
-    yield put(DocumentActions.update(response.data.data.documents!))
     yield put(LoadingActions.set(false));
 }
 
