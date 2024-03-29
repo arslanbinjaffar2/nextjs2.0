@@ -299,12 +299,12 @@ const SquareBox = ({ post, index }: AppProps) => {
                 px={1}
                 py={0}
                 _hover={{ bg: 'transparent' }}
-                leftIcon={<Icon position={'relative'} top={'-2px'} as={AntDesign} name={isLiked ? 'like1' : 'like2'} color={isLiked ? 'primary.500' : 'primary.text'} />}
+                leftIcon={<Icon position={'relative'} top={'-2px'} as={AntDesign} name={isLiked ? 'like1' : 'like2'} color={isLiked ? 'secondary.500' : 'primary.text'} />}
                 onPress={() => {
                   likePost()
                 }}
               >
-                <Text color={isLiked ? 'primary.500' : 'primary.text'}>{labels?.SOCIAL_WALL_LIKE}</Text>
+                <Text color={isLiked ? 'secondary.500' : 'primary.text'}>{labels?.SOCIAL_WALL_LIKE}</Text>
 
               </Button>
             </Center>
