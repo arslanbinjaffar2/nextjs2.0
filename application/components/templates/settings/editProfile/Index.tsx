@@ -265,7 +265,8 @@ const Selectstyles2 = {
         infoObj[`custom_field_id${event.id}`] = custom_field_id;
 
         let settings = {
-            gdpr: attendeeData?.gdpr
+            gdpr: attendeeData?.gdpr,
+            accept_foods_allergies: attendeeData?.accept_foods_allergies
         }
 
         if (attendeeData?.email) attendeeObj.email = attendeeData?.email;
@@ -1237,6 +1238,15 @@ const Selectstyles2 = {
                     }} size="md">GDPR</Checkbox>
                 </Center>
             </HStack>}
+            {event?.attendee_settings?.enable_foods === 1 &&
+                <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
+                    <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.accept_foods_allergies === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
+                        updateAttendeeFeild('accept_foods_allergies', isSelected);
+                    }} size="md">I agree to - <Text fontWeight='300'>food and allergies policy</Text></Checkbox>
+                </Center>
+            </HStack>
+            }
             <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                 <Button
                     minW={225}

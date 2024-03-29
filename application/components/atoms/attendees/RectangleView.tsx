@@ -91,7 +91,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                 </>
               ) : null}
 
-              {
+              {event?.attendee_settings?.display_private_address === 1 &&
                 <Text pt="1" lineHeight="22px" fontSize="md"> 
                   {getPrivateFields(attendee)}
                  </Text>
