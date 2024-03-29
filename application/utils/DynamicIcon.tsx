@@ -4,7 +4,8 @@ import IcoMyEvents from 'application/assets/icons/IcoMyEvents';
 import attendees from 'application/assets/icons/attendees';
 import fav_sponsors from 'application/assets/icons/mysponsers'
 import message from 'application/assets/icons/chat';
-// import qrcode from 'application/assets/icons/checkIn';
+import chat from 'application/assets/icons/chat';
+import checkIn from 'application/assets/icons/checkIn';
 import qrcode from 'application/assets/icons/qrcode'
 import ddirectory from 'application/assets/icons/ddirectory';
 import exhibitors from 'application/assets/icons/exhibitors';
@@ -65,7 +66,7 @@ type IconProps = {
 };
 
 type IconType ='qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
-'fav_sponsors'| 'attendees' | 'message' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin'| 'my_registrations' | 'business' 
+'fav_sponsors'| 'attendees' | 'message' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin'| 'my_registrations' | 'business'
 |'playIcon'|'playCompleteIcon'
 | any;
 
@@ -97,6 +98,8 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         subregistration,
         attendees,
         message,
+        chat,
+        checkIn,
         fav_sponsors,
         qrcode,
         ddirectory,
