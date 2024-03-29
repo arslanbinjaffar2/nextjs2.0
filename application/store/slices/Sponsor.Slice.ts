@@ -7,7 +7,7 @@ import { SponsorSetting } from 'application/models/sponsor/SponsorSetting'
 import { SponsorCategory } from 'application/models/sponsor/SponsorCategory'
 
 import { SponsorDetail } from 'application/models/sponsor/SponsorDetail'
-import { SponsorContact } from 'application/models/sponsor/SponsorDetail'
+import { SponsorContact } from 'application/models/sponsor/SponsorContact'
 
 import type { RootState } from 'application/store/Index'
 

@@ -16,7 +16,7 @@ import UseEventService from 'application/store/services/UseEventService'
 import IcouserFilled from 'application/assets/icons/small/IcouserFilled';
 
 const ContactInfo = () => {
-  const { detail } = UseSponsorService();
+  const { detail,FetchSponsorContact } = UseSponsorService();
   const { event  } = UseEventService();
   return (
     <>
@@ -32,16 +32,14 @@ const ContactInfo = () => {
                 <IcouserFilled width="18px" height="18px" />
                 <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
                 <Spacer />
-                <IconButton
-                    variant="unstyled"
-                    p={0}
-                    icon={<IcoVCF />}
-                    onPress={()=>{
-                    console.log('hello')
-                    }}
-
-                />
-
+              <IconButton
+                variant="unstyled"
+                p={0}
+                icon={<IcoVCF />}
+                onPress={() => {
+                  FetchSponsorContact({id:detail?.detail?.id ?? 0});
+                }}>
+              </IconButton>
 
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
