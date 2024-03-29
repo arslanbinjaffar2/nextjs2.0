@@ -5,6 +5,7 @@ import Search from 'application/components/atoms/programs/Search';
 import SlideView from 'application/components/molecules/programs/SlideView';
 import UseProgramService from 'application/store/services/UseProgramService';
 import in_array from "in_array";
+import AntDesign from '@expo/vector-icons/AntDesign';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -96,8 +97,8 @@ const Index = () => {
                 {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button onPress={() => setTab('track')} borderWidth="0px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'} w={ event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}>TRACKS</Button>}
             </HStack>
             {Object.keys(track).length > 0 && (
-                <HStack mb="3" pt="2" w="100%" space="3">
-                    <Text flex="1" textTransform="uppercase" fontSize="xs">{track.parent_id !== 0 ? `${parent_track.name}   >   ${track?.name}` : track?.name}</Text>
+                <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
+                    <Text flex="1" textTransform="uppercase" fontSize="sm">{track.parent_id !== 0 ? <HStack alignItems={'center'} space={1}> {parent_track.name} <Icon color={'primary.text'} as={AntDesign} name="right"  /> {track?.name} </HStack> : track?.name}</Text>
                     <Pressable
                         onPress={async () => {
                             if (in_array(tab, ['track', 'track-program', 'sub-track'])) {
@@ -109,7 +110,7 @@ const Index = () => {
                                 FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                             }
                         }}>
-                        <Text textTransform="uppercase" fontSize="xs">Go back</Text>
+                        <Text textTransform="uppercase" fontSize="sm"> <Icon color={'primary.text'} as={AntDesign} name="left"  /> Go back</Text>
                     </Pressable>
                 </HStack>
             )}
