@@ -174,8 +174,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                             
                                         <Modal.Content p={0}>
                                                 <Modal.Body position={'relative'} zIndex={1} p={0}>
-                                                    <DocumentNotesBox showModal={setIsNotesOpen} note_type_id={document.id}>
-                                                    </DocumentNotesBox>
+                                                    <DocumentNotesBox showModal={setIsNotesOpen} note_type_id={document.id}/>
                                                 </Modal.Body>
                                             </Modal.Content>
                                         </Modal>
