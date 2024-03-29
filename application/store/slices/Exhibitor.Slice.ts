@@ -48,6 +48,7 @@ export const ExhibitorSlice = createSlice({
         FetchMyExhibitors(state, action: PayloadAction<{}>) {},
         FetchOurExhibitors(state, action: PayloadAction<{}>) {},
         FetchExhibitorDetail(state, action: PayloadAction<{ id: number }>) { },
+        FetchExhibitorContact(state, action: PayloadAction<{ id: number }>) { },
         MakeFavourite(state, action: PayloadAction<{ exhibitor_id: number, screen: string }>) { },
         update(state, action: PayloadAction<Exhibitor[]>) {
             state.exhibitors = action.payload;
@@ -83,6 +84,7 @@ export const ExhibitorSlice = createSlice({
 export const ExhibitorActions = {
     FetchExhibitors: ExhibitorSlice.actions.FetchExhibitors,
     FetchExhibitorDetail: ExhibitorSlice.actions.FetchExhibitorDetail,
+    FetchExhibitorContact: ExhibitorSlice.actions.FetchExhibitorContact,
     update: ExhibitorSlice.actions.update,
     labels: ExhibitorSlice.actions.update,
     updateOurExhibitors: ExhibitorSlice.actions.updateOurExhibitors,
