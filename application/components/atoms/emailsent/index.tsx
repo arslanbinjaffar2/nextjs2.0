@@ -8,7 +8,6 @@ const EmailSend = ({id}:{id:any}) => {
     const [emailData, setEmailData] = React.useState({ email: '',  subject: '', comments: '' });
     const [errors, setErrors] = React.useState({ email: '',  subject: '', comments: '' });
     const [loading,setLoading]=useState(false)
-    const [alert,setAlert]=useState<any>()
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const { event } = UseEventService();
 
@@ -36,19 +35,10 @@ const EmailSend = ({id}:{id:any}) => {
         } catch (error:any) {
           console.log('error', error);
          setEmailData( { email: '',  subject: '', comments: '' })
-         setAlert(error)
 
         }
     }
 
-    useEffect(()=>{
-      setTimeout(() => {
-        if(alert){
-            setErrors( { email: '',  subject: '', comments: '' }   )
-        }
-        
-      }, 1000);
-    },[])
   return (
     <> 
     <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%" p={2}>
@@ -123,7 +113,6 @@ const EmailSend = ({id}:{id:any}) => {
                   
                 >
                     <Text fontSize="2xl" fontWeight={600}>{event?.labels?.GENERAL_SEND_EMAIL}</Text>
-                    {alert && <Text fontSize="md" color={`${alert.includes('errors')}?''red.400'':'primary.text'`} fontWeight={600}>{alert}</Text>}
                 </Button>
     </>
 
