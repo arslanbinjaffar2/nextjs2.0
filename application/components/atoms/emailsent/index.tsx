@@ -91,7 +91,7 @@ const EmailSend = ({id}:{id:any}) => {
                             </Center>
                         </HStack>
                         <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
-                            <FormControl.Label isRequired isInvalid={emailData.comments.trim().length < 3 && emailData.comments.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
+                            <FormControl.Label isInvalid={emailData.comments.trim().length < 3 && emailData.comments.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px" textTransform={'capitalize'}>{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
                             </FormControl.Label>
                             <Center borderWidth={'0'} justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
