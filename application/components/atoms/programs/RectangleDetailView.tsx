@@ -36,20 +36,13 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
   } 
   
   useEffect(()=>{
-      if(program?.program_attendees_attached?.length){
-        setFav(true);
-      }else{
-        setFav(false);
-      }
+    setFav(program?.program_attendees_attached?.length > 0);
+    console.log("isFav state: ", isFav);
   }
-  ,[program?.program_attendees_attached])
+  ,[program, program?.program_attendees_attached])
 
   function toggleFav(){
-    if(isFav){
-      setFav(false);
-    }else{
-      setFav(true);
-    }
+    // setFav(prevIsFav => !prevIsFav);
     MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
   }
   
