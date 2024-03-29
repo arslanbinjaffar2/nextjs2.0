@@ -81,7 +81,7 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
 
 
   function save() {
-    if (note === '' || loadingNote) {
+    if ((note === '' && !isNewNote) || loadingNote) {
       return;
     }
     isNewNote ? saveNotes() : updateNotes();
