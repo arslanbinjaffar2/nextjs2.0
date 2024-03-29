@@ -23,6 +23,8 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import SponsorContactInfo from 'application/components/atoms/sponsors/contact-info/ContactInfo';
 import { useWindowDimensions } from 'react-native';
+import SponsorNotesBox from 'application/components/atoms/sponsors/notes/NotesBox';
+
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -145,6 +147,7 @@ const Detail = React.memo(() => {
                     </Container>
                     {width < 810 && <Container maxW="100%" w="100%" >
                         { event?.sponsor_tab_settings?.contact_info == 1 && <SponsorContactInfo />}
+                        { event?.sponsor_tab_settings?.notes == 1 &&  <SponsorNotesBox />}
                     </Container>}
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'sponsors'} module_type={'detail'} module_id={detail?.detail?.id} />

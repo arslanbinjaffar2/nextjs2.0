@@ -23,7 +23,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { useWindowDimensions } from 'react-native';
 import ExhibitorContactInfo from 'application/components/atoms/exhibitors/contact-info/ContactInfo';
-
+import ExhibitorNotesBox from 'application/components/atoms/exhibitors/notes/NotesBox';
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -146,6 +146,7 @@ const Detail = React.memo(() => {
 
                     {width < 810 && <Container maxW="100%" w="100%" >
                         { event?.exhibitor_tab_settings?.contact_info == 1 && <ExhibitorContactInfo />}
+                        { event?.exhibitor_tab_settings?.notes == 1 &&  <ExhibitorNotesBox />}
                     </Container>}
 
                     <Box width={"100%"} height={"5%"}>
