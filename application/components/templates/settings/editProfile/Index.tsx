@@ -1251,7 +1251,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     }} size="md"></Checkbox>
                     <Text color={'primary.text'} ml={4}>{event?.gdpr?.inline_text}</Text>
                     <Pressable onPress={() => {openModal(event?.gdpr?.subject, event?.gdpr?.description)}}>
-                        <Text color={'primary.text'}>{event?.gdpr?.link}</Text>
+                        <Text underline color={'primary.text'}>{event?.gdpr?.link}</Text>
                     </Pressable>
                 </HStack>
             </HStack>}
@@ -1263,7 +1263,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         }} size="md"></Checkbox>
                         <Text color={'primary.text'} ml={4}>{event?.food_disclaimer?.inline_text}</Text>
                     <Pressable onPress={() => {openModal(event?.food_disclaimer?.subject, event?.food_disclaimer?.description)}}>
-                        <Text color={'primary.text'}>{event?.food_disclaimer?.link}</Text>
+                        <Text underline color={'primary.text'}>{event?.food_disclaimer?.link}</Text>
                     </Pressable>
                     </HStack>
                 </HStack>
