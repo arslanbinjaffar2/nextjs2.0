@@ -158,27 +158,14 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                         </Modal.Content>
                                     </Modal> */}
                                     {event.document_settings?.show_documents_notes == 1 && 
-                                        <>
-                                         <Pressable
-                                                onPress={async () => {
-                                                    setIsNotesOpen(true);
-                                                }}>
-                                                <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
-                                            </Pressable>
-                                            <Modal
-                                            isOpen={isNotesOpen}
-                                            onClose={()=>{
-                                            setIsNotesOpen(false);
-                                            }}
-                                        >
-                                            
-                                        <Modal.Content p={0}>
-                                                <Modal.Body position={'relative'} zIndex={1} p={0}>
-                                                    <DocumentNotesBox showModal={setIsNotesOpen} note_type_id={document.id}/>
-                                                </Modal.Body>
-                                            </Modal.Content>
-                                        </Modal>
-                                        </>
+                                        (
+                                            <Pressable
+                                                    onPress={async () => {
+                                                        setIsNotesOpen(true);
+                                                    }}>
+                                                    <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
+                                                </Pressable>
+                                        )
                                     }
                                     <Pressable
                                         onPress={async () => {
@@ -191,6 +178,19 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                         <Icon as={AntDesign} name="download" size="md" color="primary.text" />
                                     </Pressable>     
                                     </HStack>
+                                    <Modal
+                                            isOpen={isNotesOpen}
+                                            onClose={()=>{
+                                            setIsNotesOpen(false);
+                                            }}
+                                        >
+                                            
+                                        <Modal.Content p={0}>
+                                                <Modal.Body position={'relative'} zIndex={1} p={0}>
+                                                    <DocumentNotesBox showModal={setIsNotesOpen} note_type_id={document.id}/>
+                                                </Modal.Body>
+                                            </Modal.Content>
+                                    </Modal>
                                     
                                   
                                     
