@@ -41,10 +41,10 @@ const RightBar = () => {
   return (
     <>
 
-      {nextRouter.asPath.includes('exhibitors/detail') &&  <ExhibitorContactInfo />}
-      {nextRouter.asPath.includes('exhibitors/detail') && event?.exhibitor_settings?.notes == 1 &&  <ExhibitorNotesBox />}
-      {nextRouter.asPath.includes('sponsors/detail') &&  <SponsorContactInfo />}
-      {nextRouter.asPath.includes('sponsors/detail') && event?.sponsor_settings?.notes == 1 &&  <SponsorNotesBox />}
+      {nextRouter.asPath.includes('exhibitors/detail') && event?.exhibitor_tab_settings?.contact_info == 1 && <ExhibitorContactInfo />}
+      {nextRouter.asPath.includes('exhibitors/detail') && event?.exhibitor_tab_settings?.notes == 1 &&  <ExhibitorNotesBox />}
+      {nextRouter.asPath.includes('sponsors/detail') && event?.sponsor_tab_settings?.contact_info == 1 && <SponsorContactInfo />}
+      {nextRouter.asPath.includes('sponsors/detail') && event?.sponsor_tab_settings?.notes == 1 &&  <SponsorNotesBox />}
       {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.enable_notes == 1 &&  <ProgramNotesBox />}
       {(nextRouter.asPath.includes('speakers/detail') || nextRouter.asPath.includes('attendees/detail')) && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
       {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.session_ratings == 1 &&  <SessionRating />}
