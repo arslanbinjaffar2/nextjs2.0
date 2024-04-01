@@ -25,11 +25,11 @@ type AppProps = {
 const LazySlider = ({ programs, onChange }: any) => {
 
 	const { width } = useWindowDimensions();
-	const [currentIndex, setCurrentIndex] = React.useState<number>(0);
 	const sliderRef = React.useRef<Slider>(null);
 	const router = useRouter();
 	const { select_day } = UseProgramService();
-	React.useEffect(() => {
+
+	const [currentIndex, setCurrentIndex] = React.useState<number>(() => {
 		let indexFromQuery = router.asPath.split('currentIndex=')[1];
 		let currentIndex = 0;
 		if(indexFromQuery){
@@ -37,14 +37,16 @@ const LazySlider = ({ programs, onChange }: any) => {
 		}else if(select_day) {
 			currentIndex=select_day;
 		}
-		setCurrentIndex(currentIndex);
-	}, [])
+		return currentIndex;
+	});
+
 	const settings = {
 		dots: false,
 		arrows: false,
 		infinite: false,
 		speed: 500,
 		swipe: true,
+		initialSlide: currentIndex,
 		slidesToShow: 7,
 		slidesToScroll: 3,
 		swipeToSlide: true,
