@@ -15,6 +15,7 @@ import { Detail } from 'application/models/program/Detail';
 export interface ProgramState {
     programs: Program[],
     upcoming_programs: Program[],
+    upcoming_programs: Program[],
     detail: Detail,
     tracks: Track[],
     track: Track,
@@ -33,6 +34,7 @@ export interface ProgramState {
 
 const initialState: ProgramState = {
     programs: [],
+    upcoming_programs: [],
     upcoming_programs: [],
     detail:{},
     tracks: [],
@@ -207,6 +209,11 @@ export const ProgramSlice = createSlice({
         UpdateUpcomingPrograms(state, action: PayloadAction<{ programs: Program[] }>) {
             state.upcoming_programs = action.payload.programs;
         },
+        },
+        FetchUpcomingPrograms(state, action: PayloadAction<{ limit: number }>) {},
+        UpdateUpcomingPrograms(state, action: PayloadAction<{ programs: Program[] }>) {
+            state.upcoming_programs = action.payload.programs;
+        },
         
     },
 })
@@ -226,6 +233,8 @@ export const ProgramActions = {
     FetchRating: ProgramSlice.actions.FetchRating,
     SaveRating: ProgramSlice.actions.SaveRating,
     UpdateRating: ProgramSlice.actions.UpdateRating,
+    FetchUpcomingPrograms: ProgramSlice.actions.FetchUpcomingPrograms,
+    UpdateUpcomingPrograms: ProgramSlice.actions.UpdateUpcomingPrograms,
     FetchUpcomingPrograms: ProgramSlice.actions.FetchUpcomingPrograms,
     UpdateUpcomingPrograms: ProgramSlice.actions.UpdateUpcomingPrograms,
     

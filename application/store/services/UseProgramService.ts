@@ -18,6 +18,7 @@ export type ProgramServiceOperators = {
     track_id: number
     programs: Program[]
     upcoming_programs: Program[]
+    upcoming_programs: Program[]
     tracks: Track[]
     track: Track
     parent_track: Track
@@ -34,6 +35,7 @@ export type ProgramServiceOperators = {
     ResetTracks: () => void
     FetchRating: (payload: { program_id: number}) => void
     SaveRating: (payload: { program_id: number, rate:number,comment:string }) => void
+    FetchUpcomingPrograms: (payload: { limit: number}) => void
     FetchUpcomingPrograms: (payload: { limit: number}) => void
 }
 
@@ -52,6 +54,7 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         id: useAppSelector(SelectID),
         track_id: useAppSelector(SelectTrack),
         programs: useAppSelector(SelectMyPrograms),
+        upcoming_programs: useAppSelector(SelectUpcomingPrograms),
         upcoming_programs: useAppSelector(SelectUpcomingPrograms),
         tracks: useAppSelector(SelectTracks),
         track: useAppSelector(SelectTrackDetail),
@@ -106,6 +109,12 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         SaveRating: useCallback(
             (payload: { program_id: number, rate:number,comment:string }) => {
                 dispatch(ProgramActions.SaveRating(payload))
+            },
+            [dispatch],
+        ),
+        FetchUpcomingPrograms: useCallback(
+            (payload: { limit: number }) => {
+                dispatch(ProgramActions.FetchUpcomingPrograms(payload))
             },
             [dispatch],
         ),
