@@ -94,7 +94,7 @@ const Index = ({ navigation }: indexProps) => {
                 <Button onPress={() => {
                   push(`/${event.url}/agendas`)
                 }} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                  {event.labels?.GENERAL_LOAD_MORE}
+                  {event.labels?.GENERAL_SHOW_ALL}
                 </Button>
               </Center>
             </Container>
@@ -192,7 +192,7 @@ const Index = ({ navigation }: indexProps) => {
                     <Button onPress={() => {
                       push(`/${event.url}/alerts`)
                     }} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                      Show all
+                      {event.labels?.GENERAL_SHOW_ALL}
                     </Button>
                   </Center>
                 </Container>
