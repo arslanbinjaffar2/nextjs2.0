@@ -10,6 +10,8 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import WebLoading from 'application/components/atoms/WebLoading';
+import Icoimage from 'application/assets/icons/small/Icoimage';
+import Icovideo from 'application/assets/icons/small/Icovideo';
 
 
 import in_array from "in_array";
@@ -236,7 +238,7 @@ const AddPost = () => {
                             bg={''}
                             _hover={{ bg: '', _icon: {color: 'primary.100'} }}
                             variant="unstyled"
-                            icon={<Icon size="xl" as={Ionicons} name="ios-image-outline" color="primary.text" />}
+                            icon={<Icoimage width={24} />}
                             onPress={()=>{
                                 if(inputImageRef.current){
                                     inputImageRef.current.click();
@@ -260,7 +262,7 @@ const AddPost = () => {
                             bg={''}
                             variant="unstyled"
                             _hover={{ bg: '', _icon: {color: 'primary.100'} }}
-                            icon={<Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />}
+                            icon={<Icovideo width={28} />}
                             onPress={()=>{
                                 if(inputVideoRef.current){
                                     inputVideoRef.current.click();
