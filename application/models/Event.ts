@@ -69,6 +69,8 @@ export interface Event {
     labels?: any;
     calendar_date?: string;
     gdpr_settings?: any;
+    gdpr?: any;
+    food_disclaimer?: any;
     myturnlist_setting?: MyTurnlistSetting
     agenda_settings?: AgendaSetting
     speaker_settings?: SpeakerSettings
@@ -77,6 +79,8 @@ export interface Event {
     eventsite_settings?: EventSiteSettings
     keyword_settings?: KeywordSettings
     document_settings?: DocumentSettings
+    sponsor_tab_settings?: any
+    exhibitor_tab_settings?: any
 }
 interface Setting {
     poll_setting?: string;
