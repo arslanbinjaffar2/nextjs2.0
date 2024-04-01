@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, View } from 'native-base'
+import { Box, View,Container} from 'native-base'
 import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService'
 import UseBannerService from 'application/store/services/UseBannerService'
@@ -141,7 +141,9 @@ const BannerAds = ({
   return (
     <>
       {filteredBanners.map((banner:Banner,index)=>
-       <Box maxW="100%" maxH="100%" display={index === currentBanner ? 'block' : 'none'}>
+        <Container mb="3"  w="100%" maxW="100%">
+        <Box width={"100%"} height={"5%"}>
+        <Box maxW="100%" maxH="100%" display={index === currentBanner ? 'block' : 'none'}>
          <TouchableOpacity onPress={() => handleBannerClick(banner)}>
            <View w={'100%'} h={'100%'}>
              <Box width="full" >
@@ -150,6 +152,8 @@ const BannerAds = ({
            </View>
          </TouchableOpacity>
         </Box>
+        </Box>
+        </Container>
       )}
     </>
   );

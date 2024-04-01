@@ -24,11 +24,10 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import BannerAds from 'application/components/atoms/banners/BannerAds';
 import IcoTick from 'application/assets/icons/small/IcoTick';
+
 
 type ScreenParams = { id: string }
 
@@ -374,9 +373,7 @@ const Detail = () => {
 
             </>
       )}
-      <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'polls'} module_type={'detail'}/>
-      </Box>
     </>
   );
 };

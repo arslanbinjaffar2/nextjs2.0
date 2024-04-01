@@ -177,9 +177,7 @@ const Index = React.memo(() => {
                                 </HStack>
                         </ScrollView>
                     </Box>}
-                    <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'exhibitors'} module_type={'listing'} />
-                    </Box>
                     {/* <BannerView url={''} /> */}
                     </> 
                     )} 

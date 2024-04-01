@@ -126,9 +126,7 @@ const Detail = (props: any) => {
                     {/* <BannerView url={''} /> */}
                 </HStack>
             </View>}
-            <Box width={"100%"} height={"5%"}>
                 <BannerAds module_name={'information_pages'} module_type={'detail'} />
-            </Box>
         </>
     )
 

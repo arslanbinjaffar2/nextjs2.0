@@ -78,9 +78,7 @@ const Index = () => {
                   <Text>{event.labels?.GENERAL_NO_RECORD}</Text>
                 </Box>}
               </Box>
-              <Box width={"100%"} height={"5%"}>
                 <BannerAds module_name={'help_desk'} module_type={'listing'} />
-              </Box>
             </Container>
           </>
         )

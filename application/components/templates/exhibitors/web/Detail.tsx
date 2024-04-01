@@ -141,10 +141,7 @@ const Detail = React.memo(() => {
                             </Box>
                         </Container> */}
                     </Container>
-
-                    <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'exhibitors'} module_type={'detail'} module_id={detail?.detail?.id} />
-                    </Box>
                 </>
             )}
         </>

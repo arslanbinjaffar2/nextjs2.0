@@ -36,9 +36,7 @@ const Index = () => {
         {loading && <SectionLoading />}
         {(!loading  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
         {(!loading  && keywords.length > 0 ) && <ManageKeywords keywords={keywords} SaveMykerwords={SaveMykeywords} UpdatingMyKeywords={UpdatingMyKeywords} />}
-        <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'business'} module_type={'listing'} />
-        </Box>
     </>
   )
 }

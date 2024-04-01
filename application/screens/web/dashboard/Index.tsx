@@ -34,6 +34,7 @@ import RectangleView from 'application/components/atoms/alerts/RectangleView'
 import UseAlertService from 'application/store/services/UseAlertService'
 import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
+import { Banner } from 'application/models/Banner'
 
 type indexProps = {
   navigation: unknown
@@ -87,7 +88,7 @@ const Index = ({ navigation }: indexProps) => {
            <MobileNavigation />
          </Box>
          
-            <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
+            {/* <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
                   <Box minH={150} h={'100%'} flex={1}>
                   <UpcomingBlock
                       px="3"
@@ -102,12 +103,8 @@ const Index = ({ navigation }: indexProps) => {
                       h='150px'
                     title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
                 </Box>
-            </HStack> 
-          <Container mb="3"  w="100%" maxW="100%">
-            <Box width={"100%"} height={"5%"}>
+            </HStack>  */}
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
-            </Box>
-          </Container>
           {/*  */}
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
             <Container mt={4}  rounded="10" bg="primary.box" w="100%" maxW="100%">
@@ -123,16 +120,9 @@ const Index = ({ navigation }: indexProps) => {
             </Container>
           ) : <></>}
           {/*  */}
-          <Container mt={4}  w="100%" maxW="100%">
-            <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
-            </Box>
-          </Container>
-          <Container mt={4} w="100%" maxW="100%">
-            <Box width={"100%"} height={"5%"}>
+
               <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
-            </Box>
-          </Container>
           {/*  */}
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
 
@@ -149,37 +139,18 @@ const Index = ({ navigation }: indexProps) => {
             </Container>
           ) : <></>}
           {/*  */}
-          <Container mt={4}  w="100%" maxW="100%">
-            <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
-            </Box>
-          </Container>
+
 {/*  */}
-          <Container my={4} w="100%" maxW="100%" >
-            <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
-            </Box>
-          </Container>
           {/*  */}
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
-          <Container mt={4} w="100%" maxW="100%">
-            <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'after_polls'}/>
-            </Box>
-          </Container>
           {/*  */}
-          <Container mt={4}  w="100%" maxW="100%">
-            <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_survey'}/>
-            </Box>
-          </Container>
           {/*  */}
           {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) &&  (pollSettings?.display_survey == 1) && <SurveyListing surveys={surveys} />}
-          <Container mt={4} w="100%" maxW="100%">
-            <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'after_survey'}/>
-            </Box>
-          </Container>
           {/*  */}
           {/* <HStack mb="3" space={1} justifyContent="center" w="100%">
             <Button onPress={() => setTab('qa')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab === 'qa' ? 'primary.darkbox' : 'primary.box'} w={event?.speaker_settings?.display_speaker_dashboard == 1 ? "50%" : "100%"} _text={{ fontWeight: '600' }}>Q & A</Button>
