@@ -17,6 +17,7 @@ export interface Detail {
     custom_fields?:any;
     show_hotel_management?:number;
     show_hotels?:number;
+    hasOrderItems?:boolean;
 }
 
 interface Setting {
