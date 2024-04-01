@@ -191,7 +191,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				<>
 					{Platform.OS === 'web' ? (
 						<>
-							<LazySlider onChange={handleChange} programs={programs} />
+							{programs.length > 0 && <LazySlider onChange={handleChange} programs={programs} />}
 							{programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
 							{programs.length <= 0 &&
 								<Box overflow="hidden" w="100%" rounded="lg">
@@ -209,7 +209,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 							renderItem={({ item }: any) => {
 								return (
 									<>
-										<LazySlider onChange={handleChange} programs={programs} />
+										{programs.length > 0 && <LazySlider onChange={handleChange} programs={programs} />}
 										<RenderPrograms programs={item} />
 									</>
 								);

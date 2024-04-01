@@ -39,7 +39,7 @@ const RectangleDetailView = ({ track, border, updateTab }: AppProps) => {
                         <>
                             <Spacer />
                             <HStack pr="5" space="2" alignItems="center">
-                                <Icon size="xl" as={AntDesign} name="right" color="primary.text" />
+                                <Icon size="md" as={AntDesign} name="right" color="primary.text" />
                             </HStack>
                         </>
                     )}

@@ -105,7 +105,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
             </Pressable>
           )}
           {index < breadcrumbs.length - 1 && (
-            <Icon size="3" as={AntDesign} name="right" color={'primary.text'} />
+            <Icon size="3" as={AntDesign} name="right" color={"primary.text"} />
           )}
         </React.Fragment>
       ))}

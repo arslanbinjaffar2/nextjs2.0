@@ -48,7 +48,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
             {(detail?.sort_field_setting.length > 0) && (
                 <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
-                        <IcoInfo />
+                        <IcoInfo  />
                         <Text fontSize="sm">{event.labels?.ATTENDEE_MORE_INFO}</Text>
                     </HStack>
                     <VStack nativeID='about-content' px="3" py="4" w="100%" >
