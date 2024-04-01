@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Avatar, Box, Center, Divider, HStack, Icon, IconButton, Pressable, Spacer, Text, VStack } from 'native-base'
+import { Avatar, Box, Button, Center, Divider, HStack, Icon, IconButton, Menu, Pressable, Spacer, Text, VStack } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import { Comment } from 'application/models/socialWall/SocialWall'
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import useSocialWallService from 'application/store/services/UseSocialWallService'
+import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import IcoSendMore from 'application/assets/icons/small/IcoSendMore'
 
@@ -55,14 +56,37 @@ const handleClick = () => {
         </Avatar>
         <VStack  position={'relative'} zIndex={4} maxW={['calc(100% - 55px)']} space="0">
           <Box  bg="primary.darkbox" mb={2} px="3" py={2} position={'relative'}  rounded="lg">
-          <Text key="cmntfn" fontSize="md" fontWeight="600">
-            {comment.attendee.full_name}
-          </Text>
+          <HStack w={'100%'} space="3" alignItems="center">
+            <Text key="cmntfn" fontSize="md" fontWeight="600">
+              {comment.attendee.full_name}
+            </Text>
+            <Spacer />
+            <Center>
+              <Menu
+                  placement="bottom right"
+                  bg="primary.boxsolid"
+                  borderWidth={1}
+                  borderColor="#707070"
+                  shouldFlip={true}
+                  w={180}
+                  crossOffset={0}
+                  trigger={(triggerProps) => {
+                    return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'white'} as={Entypo} name="dots-three-horizontal" />
+                    </Button>
+                  }}
+
+                >
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { }}>Edit</Menu.Item>
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { }}>Delete</Menu.Item>
+                </Menu>
+            </Center>
+          </HStack>
+          
           <Text key="cmntcn" fontSize="sm" fontWeight="300">
             {comment.comment}
           </Text>
           {likesCount > 0 && <HStack position={'absolute'} right={'-15px'} bottom={'-5px'} space="1" alignItems="center">
-            <Center p={1} bg={'white'} shadow={1} rounded={'full'}><Icon as={AntDesign} name="like1" size={'xs'} color={'primary.500'}  /></Center>
+            <Center p={1} bg={'white'} shadow={1} rounded={'full'}><Icon as={AntDesign} name="like1" size={'xs'} color={'secondary.500'}  /></Center>
             <Text color={'primary.text'} fontSize="xs">{likesCount}</Text>
           </HStack>}
           
@@ -79,7 +103,7 @@ const handleClick = () => {
               }}
             
             >
-              <Text fontWeight={500}  fontSize={'sm'} color={isLiked ? 'primary.500' : 'primary.text'}>{labels?.SOCIAL_WALL_LIKE}</Text>
+              <Text fontWeight={500}  fontSize={'sm'} color={isLiked ? 'secondary.500' : 'primary.text'}>{labels?.SOCIAL_WALL_LIKE}</Text>
             </Pressable>
              
           {!secondlevel &&  <Pressable
