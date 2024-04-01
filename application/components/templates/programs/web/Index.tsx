@@ -124,7 +124,7 @@ const Index = () => {
                         {tracks?.map((track: any, key: any) =>
                             <TrackRectangleDetailView key={key} track={track} border={tracks.length != (key + 1)} updateTab={updateTab} />
                         )}
-                        {tracks?.length <= 0 && <Text textAlign="center" fontSize="lg" p="5">{event?.labels?.EVENT_NORECORD_FOUND}</Text>}
+                        {tracks?.length <= 0 && <Text textAlign="center" fontSize="lg" p="5">{event?.labels?.GENERAL_NO_RECORD}</Text>}
                     </Container>}
                     <Box width={"100%"} height={"5%"}>
                          <BannerAds module_name={'agendas'} module_type={'listing'} />
