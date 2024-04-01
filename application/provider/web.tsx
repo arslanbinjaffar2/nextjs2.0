@@ -21,6 +21,10 @@ function hex2rgb(hex: string) {
   const b = parseInt(hex.slice(5, 7), 16)
   return [Math.abs(r), Math.abs(g), Math.abs(b)]
 }
+var colourIsLight = function (r:any, g:any, b: any) {
+  var a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return (a < 0.5);
+}
 
 type ScreenParams = { event: string }
 
@@ -60,6 +64,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
       if(Object.keys(event).length > 0){
            const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
            const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
+           const type = colourIsLight(rgb[0],rgb[1],rgb[2]) ? '#1e1e1e' : '#EAEAEA'
            const theme = extendTheme({
             colors: {
                 primary: {
@@ -77,6 +82,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     boxbutton: `rgba(${colors.darkbox},0.6)`,
                     boxsolid: `rgba(${[...colors.background]},1)`,
                     boxsolidtext: `${colors.darkboxtext}`,
+                    hovercolor: `${type}`,
                     darkbox: `rgba(0,0,0,0.2)`,
                     primarycolor : `rgba(${[...rgb]},0.2)`,
                     boxTransparent: `rgba(${colors.box},0.5)`,

@@ -34,7 +34,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
             {(showPrivate == 1 ||  detail?.sort_field_setting.find((s:any)=>(s.name === 'bio_info'))?.is_private == 0 ) && detail?.detail?.info?.about! && (
                 <>
                     <HStack px="3" py="1"  w="100%" space={2} bg="primary.box" alignItems="center">
-                        <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
+                    <IcoInfo  />
                       <Text fontSize="sm">{detail?.sort_field_labels?.about}</Text>
                     </HStack>
                     
@@ -48,7 +48,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
             {(detail?.sort_field_setting.length > 0) && (
                 <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
-                        <IcoInfo />
+                        <IcoInfo  />
                         <Text fontSize="sm">{event.labels?.ATTENDEE_MORE_INFO}</Text>
                     </HStack>
                     <VStack nativeID='about-content' px="3" py="4" w="100%" >

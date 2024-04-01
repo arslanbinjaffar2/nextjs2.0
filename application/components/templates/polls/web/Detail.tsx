@@ -330,15 +330,14 @@ const Detail = () => {
                   </Box>}
                 </Box>
               </Box>}
-            {(completed === true  && showCloudQuestion==true)&&
+            {(completed === true  && showCloudQuestion)&&
                 <>
               {Object.keys(filterQuestion).length>0 && 
                <WordCloudAnswer question={filterQuestion} key={filterQuestion?.id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels}  />
               }
               </>
             }
-              {completed === true &&
-              (
+              {completed === true && (
                  <>
                 <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
@@ -346,7 +345,7 @@ const Detail = () => {
                    <IcoTick />
                   </Box>
                   <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
-                  <Button
+                  {showCloudQuestion && <Button
                       id='test'
                       w="100px"
                       py="3"
@@ -360,7 +359,7 @@ const Detail = () => {
                       
                     >
                       {poll_labels?.WORD_CLOUD_SUBMIT_AGAIN}
-                    </Button>
+                    </Button>}
                 </VStack>
               </Box>
               </>
