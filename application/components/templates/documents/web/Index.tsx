@@ -62,9 +62,7 @@ const Index = React.memo(() => {
                 </>
 
             )}
-            <Box width={"100%"} height={"5%"}>
                 <BannerAds module_name={'ddirectory'} module_type={'listing'} />
-            </Box>
         </>
     )
 
