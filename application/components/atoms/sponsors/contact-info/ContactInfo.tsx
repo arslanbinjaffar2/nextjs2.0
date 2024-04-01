@@ -46,7 +46,7 @@ const downloadFile = (fileData:any, filename:any) => {
 
 
 const ContactInfo = () => {
-  const { detail,FetchSponsorContact } = UseSponsorService();
+  const { detail,FetchSponsorContact,settings } = UseSponsorService();
   const { event  } = UseEventService();
   return (
     <>
@@ -62,6 +62,7 @@ const ContactInfo = () => {
                 <IcouserFilled width="18px" height="18px" />
                 <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
                 <Spacer />
+              {settings.sponsorContact && settings?.sponsorContact  ? (
               <IconButton
                 variant="unstyled"
                 p={0}
@@ -70,7 +71,7 @@ const ContactInfo = () => {
                   getSponsorContact(detail?.detail?.id ?? 0);
                 }}>
               </IconButton>
-
+              ) : ''}
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">

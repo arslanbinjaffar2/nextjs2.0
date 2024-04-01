@@ -61,7 +61,7 @@ const ContactInfo = ({ detail }: AppProps) => {
           <IcouserFilled width="18px" height="18px" />
           <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
           <Spacer />
-          {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.attendee_type_name !='Attendee' ? (
+          {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.attendee_type_name =='Attendee' ? (
             <Pressable>
               <IconButton
                 variant="unstyled"
