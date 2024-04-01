@@ -21,7 +21,6 @@ async function getExhibitorContact(id:any) {
   const mystate=store.getState()
   try {
     const response = await getContactExhibitorApi({id},mystate); // Call the API function
-    console.log(response.data.data,'fgfdgfd')
     downloadFile(response.data.data.filedata,response.data.data.filename);
   } catch (error) {
     console.log('error', error);
@@ -45,7 +44,7 @@ const downloadFile = (fileData:any, filename:any) => {
   window.URL.revokeObjectURL(url);
 };
 const ContactInfo = () => {
-  const { detail } = UseExhibitorService();
+  const { detail,settings } = UseExhibitorService();
   const { event  } = UseEventService();
 
   return (
@@ -62,6 +61,7 @@ const ContactInfo = () => {
                 <IcouserFilled width="18px" height="18px" />
                 <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
                 <Spacer />
+              {settings.exhibitorContact && settings.exhibitorContact ? (
               <IconButton
                 variant="unstyled"
                 p={0}
@@ -70,6 +70,7 @@ const ContactInfo = () => {
                   getExhibitorContact(detail?.detail?.id ?? 0);
                 }}>
               </IconButton>
+              ) : ''}
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
