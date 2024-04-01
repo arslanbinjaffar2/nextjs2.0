@@ -56,7 +56,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                             detail?.sort_field_setting.map((setting:any, i:number)=>(
                                 <React.Fragment key={i}>
                                     {setting.name === 'show_job_tasks' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.jobs! && (
-                                        <HStack w={'100%'} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
+                                        <HStack w={'100%'} borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.jobs}:</Heading>
                                             </Box>
@@ -66,7 +66,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'show_industry' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.industry! && (
-                                        <HStack w={'100%'} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
+                                        <HStack w={'100%'} borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.industry}:</Heading>
                                             </Box>
@@ -76,7 +76,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'interest' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.interests! && (
-                                        <HStack w={'100%'} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
+                                        <HStack w={'100%'} borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.interests}:</Heading>
                                             </Box>
@@ -86,7 +86,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'network_group' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.network_group! && (
-                                        <HStack w={'100%'} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
+                                        <HStack w={'100%'} borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.network_group}:</Heading>
                                             </Box>
@@ -96,7 +96,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'age' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.age! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.age}:</Heading>
                                             </Box>
@@ -106,7 +106,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'email' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.email! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.email}:</Heading>
                                             </Box>
@@ -116,7 +116,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'phone' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.phone! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.phone}:</Heading>
                                             </Box>
@@ -126,7 +126,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'gender' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.gender! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.gender}:</Heading>
                                             </Box>
@@ -136,7 +136,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'first_name_passport' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.FIRST_NAME_PASSPORT! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.FIRST_NAME_PASSPORT}:</Heading>
                                             </Box>
@@ -146,7 +146,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'last_name_passport' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.LAST_NAME_PASSPORT! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.LAST_NAME_PASSPORT}:</Heading>
                                             </Box>
@@ -156,7 +156,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'passport_no' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.passport_no! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.passport_no}:</Heading>
                                             </Box>
@@ -166,7 +166,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'place_of_birth' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.place_of_birth! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.place_of_birth}:</Heading>
                                             </Box>
@@ -176,7 +176,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'date_of_issue_passport' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.date_of_issue_passport! && detail?.detail?.info?.date_of_issue_passport != '0000-00-00 00:00:00' && detail?.detail?.info?.date_of_issue_passport != '0000-00-00'  && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.date_of_issue_passport}:</Heading>
                                             </Box>
@@ -186,7 +186,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'date_of_expiry_passport' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.date_of_expiry_passport! && detail?.detail?.info?.date_of_expiry_passport != '0000-00-00 00:00:00' && detail?.detail?.info?.date_of_expiry_passport != '0000-00-00'  && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.date_of_expiry_passport}:</Heading>
                                             </Box>
@@ -196,7 +196,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'birth_date' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.BIRTHDAY_YEAR! && detail?.detail?.BIRTHDAY_YEAR != '0000-00-00 00:00:00' && detail?.detail?.BIRTHDAY_YEAR != '0000-00-00'  && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.BIRTHDAY_YEAR}:</Heading>
                                             </Box>
@@ -206,7 +206,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'employment_date' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.EMPLOYMENT_DATE! && detail?.detail?.EMPLOYMENT_DATE != '0000-00-00 00:00:00' && detail?.detail?.EMPLOYMENT_DATE != '0000-00-00'  && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.EMPLOYMENT_DATE}:</Heading>
                                             </Box>
@@ -216,7 +216,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'spoken_languages' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.SPOKEN_LANGUAGE! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.SPOKEN_LANGUAGE}:</Heading>
                                             </Box>
@@ -226,7 +226,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'organization' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.organization! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.organization}:</Heading>
                                             </Box>
@@ -236,7 +236,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'country' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.country! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.country}:</Heading>
                                             </Box>
@@ -247,7 +247,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                     )}
                                     
                                     {setting.name === 'pa_country' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_country_display_name! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{event?.labels?.ATTENDEE_PRIVATE_COUNTRY}:</Heading>
                                             </Box>
@@ -258,7 +258,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                     )}
                                     
                                     {setting.name === 'pa_street' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_street! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.private_street}:</Heading>
                                             </Box>
@@ -268,7 +268,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'pa_house_no' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_house_number! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.private_house_number}:</Heading>
                                             </Box>
@@ -278,7 +278,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'pa_post_code' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_post_code! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.private_post_code}:</Heading>
                                             </Box>
@@ -288,7 +288,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'pa_city' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_city! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.private_city}:</Heading>
                                             </Box>
@@ -298,7 +298,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                         </HStack>
                                     )}
                                     {setting.name === 'type' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.attendee_type_name! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
+                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.attendee_type}:</Heading>
                                             </Box>
@@ -353,7 +353,7 @@ const CustomFeildRow = ({question, custom_field_id}:any) => {
         return null;
     }
   return (
-    <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2}  >
+    <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2}  >
     <Box w="150px">
         <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{question?.name}:</Heading>
     </Box>
