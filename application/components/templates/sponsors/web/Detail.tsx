@@ -102,9 +102,8 @@ const Detail = React.memo(() => {
                         { event?.sponsor_tab_settings?.contact_info == 1 && <SponsorContactInfo />}
                         { event?.sponsor_tab_settings?.notes == 1 &&  <SponsorNotesBox />}
                     </Container>}
-                    <Box width={"100%"} height={"5%"}>
-                        <BannerAds module_name={'sponsors'} module_type={'detail'} module_id={detail?.detail?.id} />
-                    </Box>
+                    
+                    <BannerAds module_name={'sponsors'} module_type={'detail'} module_id={detail?.detail?.id} />
                 </>
             )}
         </>

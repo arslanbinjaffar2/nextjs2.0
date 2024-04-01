@@ -151,9 +151,7 @@ const Index = () => {
                         )}
                         {tracks?.length <= 0 && <Text textAlign="center" fontSize="lg" p="5">{event?.labels?.EVENT_NORECORD_FOUND}</Text>}
                     </Container>}
-                    <Box width={"100%"} height={"5%"}>
                          <BannerAds module_name={'agendas'} module_type={'listing'} />
-                    </Box>
                 </>
             )}
             {(in_array('programs', processing) || in_array('tracks', processing)) && page > 1 && (
