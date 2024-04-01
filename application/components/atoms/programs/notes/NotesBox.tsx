@@ -8,14 +8,17 @@ import UseNoteService from 'application/store/services/UseNoteService';
 import UseProgramService from 'application/store/services/UseProgramService';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import NotesBoxGeneral from 'application/components/atoms/NotesBox';
+import { createParam } from 'solito';
+
+type ScreenParams = { id: string }
+const { useParam } = createParam<ScreenParams>()
 
 const NotesBox = () => {
   const { detail } = UseProgramService();
-  const { saving_notes, SaveNote } = UseNoteService();
-  const [note, setNote] = React.useState('')
+  const [_id] = useParam('id');
   return (
     <>
-        {detail.program !== undefined && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && <NotesBoxGeneral note_type={'programs'} note_type_id={detail.program?.id} />}
+        {detail.program !== undefined && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && <NotesBoxGeneral note_type={'programs'} note_type_id={_id} />}
     </>
   )
 }
