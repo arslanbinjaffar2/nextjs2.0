@@ -30,7 +30,6 @@ const RightBar = () => {
   const { _env } = UseEnvService()
   const { clearState, documents } = UseDocumentService();
   // const { sponsors, FetchSponsorContact } = UseSponsorService();
-  const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
   const { sponsors, FetchSponsorContact } = UseSponsorService();
   const { scroll, processing } = UseLoadingService();
   // const handleSponsorContactClick = (attendeeId: any) => {
