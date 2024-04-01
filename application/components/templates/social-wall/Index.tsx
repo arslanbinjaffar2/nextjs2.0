@@ -59,9 +59,7 @@ const Index = () => {
         
       )}
       <PostListing key={refreshKey} attendee_id={0} />
-      <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'social_wall'} module_type={'listing'} />
-      </Box>
     </>
   );
 };

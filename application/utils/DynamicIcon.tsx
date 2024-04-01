@@ -6,7 +6,8 @@ import myattendees from 'application/assets/icons/myattendees';
 import request_to_speak from 'application/assets/icons/request_to_speak';
 import fav_sponsors from 'application/assets/icons/mysponsers'
 import message from 'application/assets/icons/chat';
-// import qrcode from 'application/assets/icons/checkIn';
+import chat from 'application/assets/icons/chat';
+import checkIn from 'application/assets/icons/checkIn';
 import qrcode from 'application/assets/icons/qrcode'
 import ddirectory from 'application/assets/icons/ddirectory';
 import exhibitors from 'application/assets/icons/exhibitors';
@@ -71,7 +72,7 @@ type IconProps = {
 };
 
 type IconType ='qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
-'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin'| 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | any;
+'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin' | 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | any;
 
 type Props = {
     iconType: IconType;
@@ -99,6 +100,8 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         attendees,
         myattendees,
         message,
+        chat,
+        checkIn,
         fav_sponsors,
         qrcode,
         ddirectory,

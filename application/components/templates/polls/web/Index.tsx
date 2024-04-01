@@ -164,9 +164,7 @@ const Index = () => {
                     </>
                 )
             }
-          <Box width={"100%"} height={"5%"}>
             <BannerAds module_name={'polls'} module_type={'listing'} />
-          </Box>
         </>
         
     )

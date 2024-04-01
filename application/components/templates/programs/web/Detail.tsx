@@ -280,9 +280,7 @@ const Detail = () => {
                             </>
                         )}
                     </Container>
-                    <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
-                    </Box>
                     {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />
                     )}

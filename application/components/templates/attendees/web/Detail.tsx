@@ -247,10 +247,7 @@ const Detail = ({ speaker }: Props) => {
                                 <ContactInfo detail={detail!} />
                             </Box>
                             }
-                            
-                            <Box width={"100%"} height={"5%"}>
                                 <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
-                            </Box>
                         </>
                     )}
                 </>
