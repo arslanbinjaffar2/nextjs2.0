@@ -2,7 +2,8 @@ import React from 'react'
 import Icoribbon from 'application/assets/icons/Icoribbon';
 import Icoresume from 'application/assets/icons/Icoresume';
 import Icohotelbed from 'application/assets/icons/Icohotelbed';
-import { Box, Center, Container, HStack, Spacer, Text, VStack, Avatar, Image, Pressable } from 'native-base';
+import IcoClipboard from 'application/assets/icons/small/IcoClipboard';
+import { Box, Center, Container, HStack, Spacer, Text, VStack, Avatar, Image, Pressable, IconButton } from 'native-base';
 import { Detail } from 'application/models/attendee/Detail';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
@@ -10,6 +11,8 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
 import AvatarColors from 'application/utils/AvatarColors'
+import UseAuthService from 'application/store/services/UseAuthService';
+
 
 type AppProps = {
     detail: Detail,
@@ -20,8 +23,9 @@ type AppProps = {
 const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
 
     const { _env } = UseEnvService()
-
+    const { response } = UseAuthService();
     const { MakeFavourite } = UseAttendeeService();
+    const router = useRouter()
 
     const { event } = UseEventService();
 
@@ -39,6 +43,11 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     function toggleFav () {
         setIsFav(!isFav);
         MakeFavourite({ attendee_id: Number(detail?.detail?.id), screen: 'detail' })
+    }
+
+    function handleRegistrationPress(){
+        console.log("🚀 ~ handleRegistrationPress ~ router:", router)
+        router.push(`/${event.url}/attendees/my-registration/${response?.data?.user?.id}`)
     }
 
     return (
@@ -77,14 +86,26 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             )}
                         </VStack>
                         <Spacer />
-                        {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && <Box w="20px" h="100%">
-                        <Pressable
-                            onPress={() => {
-                                toggleFav()
-                            }}>
-                            <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
-                        </Pressable>
-                        </Box>}
+                        <Box flexDirection="row" alignItems="center" justifyContent="space-between">
+                            
+                            {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
+                                <Pressable onPress={() => { toggleFav() }}>
+                                    <Icoribbon width={"20"} height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+                                </Pressable>
+                            )}
+
+                            {speaker === 0 &&
+                            detail?.hasOrderItems &&
+                            event?.attendee_settings?.display_registration_invoice == 1 &&
+                            detail?.detail?.id === response?.attendee_detail?.id ? (
+                                    <IconButton
+                                        variant="transparent"
+                                        p="2"
+                                        onPress={() => { handleRegistrationPress() }}
+                                        icon={<IcoClipboard />}
+                                    />
+                            ) : null }
+                        </Box>
                     </HStack>
                     <HStack w="100%" space="0">
                         {(showPrivate == 1 || isPrivate?.initial == 0) && detail?.detail?.info?.initial && (
