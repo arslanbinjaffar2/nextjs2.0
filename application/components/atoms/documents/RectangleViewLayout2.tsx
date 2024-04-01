@@ -1,5 +1,5 @@
 import React from 'react';
-import { HStack, Spacer, Text, VStack, Pressable, Icon, Modal, Button } from 'native-base'
+import { HStack, Spacer, Text, VStack, Pressable, Icon, Modal, Button, Input, TextArea } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Document } from 'application/models/document/Document'
 import UseDocumentService from 'application/store/services/UseDocumentService';
@@ -17,6 +17,10 @@ import UseEventService from 'application/store/services/UseEventService';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import DocumentNotesBox from 'application/components/atoms/documents/DocumentNotesBox';
+import { store } from 'application/store/Index'
+import { sendDocumentEmailApi } from 'application/store/api/DocumentApi';
+import { useRouter } from 'solito/router';
+
 
 type AppProps = {
     document: Document,
@@ -34,7 +38,40 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
     const { event } = UseEventService();
 
     const [isNotesOpen, setIsNotesOpen] = React.useState(false);
+    const [isEmailBoxOpen, setIsEmailBoxOpen] = React.useState(false);
+    const [emailData, setEmailData] = React.useState(
+        { email: '', subject: '', message: '' }
+    );
+    const [sendingEmail, setSendingEmail] = React.useState<boolean>(false);
+    const [emailAlert, setEmailAlert] = React.useState('');
 
+    
+    async function sendEmail() {
+        if(emailData.email == '') {
+            setEmailAlert('Please enter email');
+            return;
+        }
+        if(emailData.subject == '') {
+            setEmailAlert('Please enter subject');
+            return;
+        }
+        setEmailAlert('');
+        const mystate=store.getState()
+        setSendingEmail(true);
+        try {
+        await sendDocumentEmailApi({...emailData,document_id:document.id}, mystate); // Call the API function
+        setSendingEmail(false);
+        setEmailAlert('Email sent successfully');
+          
+        } catch (error) {
+          console.log('error', error);
+        }
+    }
+
+    React.useEffect(() => {
+        setEmailAlert('');
+    }, [emailData]);
+  const {push}=useRouter()
     return (
         <>
             {
@@ -72,30 +109,63 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                     </VStack>
                                     <Spacer />
                                     <HStack  space="3" alignItems="center" justifyContent={'flex-end'}>
-                                    {event.document_settings?.show_documents_notes == 1 && 
-                                        <>
-                                         <Pressable
-                                                onPress={async () => {
-                                                    setIsNotesOpen(true);
-                                                }}>
-                                                <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
-                                            </Pressable>
-                                            <Modal
-                                            isOpen={isNotesOpen}
-                                            onClose={()=>{
-                                            setIsNotesOpen(false);
-                                            }}
-                                        >
-                                            
+                                    <Pressable
+                                        onPress={async () => {
+                                            push(`/${event.url}/document-send-email/detail/${document.id}`)
+                                        }}>
+                                        <DynamicIcon iconType={'emailmynotes'} iconProps={{ width: 15, height: 18 }} />
+                                    </Pressable>
+                                    {/* <Modal
+                                        isOpen={isEmailBoxOpen}
+                                        onClose={()=>{
+                                        setIsEmailBoxOpen(false);
+                                        }}
+                                    >
+                                        
                                         <Modal.Content p={0}>
-                                                <Modal.Body position={'relative'} zIndex={1} p={0}>
-                                                    <DocumentNotesBox note_type_id={document.id}>
-                                                    <Pressable onPress={() => setIsNotesOpen(false)}><Icon as={FontAwesome} name="close" size={'lg'} color={'primary.text'} /></Pressable>
-                                                    </DocumentNotesBox>
-                                                </Modal.Body>
-                                            </Modal.Content>
-                                        </Modal>
-                                        </>
+                                            <Modal.Body position={'relative'} zIndex={1} p={4}>
+                                                <VStack  space="5">
+                                                    <Input placeholder="Email"  
+                                                        onChangeText={(text) => setEmailData({ ...emailData, email: text })}
+                                                        value={emailData.email}
+                                                    />
+                                                    <Input placeholder="Subject" 
+                                                        onChangeText={(text) => setEmailData({ ...emailData, subject: text })}
+                                                        value={emailData.subject}
+                                                     />
+                                                    <TextArea placeholder="Your Comments" autoCompleteType={undefined} 
+                                                        onChangeText={(text) => setEmailData({ ...emailData, message: text })}
+                                                        value={emailData.message}
+                                                    />
+                                                    <Pressable
+                                                       p="2"
+                                                       w="100%"
+                                                       _hover={{ bg: 'primary.500' }}
+                                                        onPress={()=>{
+                                                            sendEmail();
+                                                        }}
+                                                        disabled={sendingEmail}
+                                                    
+                                                    >
+                                                        <Text>Send</Text>
+                                                    </Pressable>
+                                                    {emailAlert != '' && <Text color="red.500">{emailAlert}</Text>}
+                                                    {sendingEmail && <Text>Sending...</Text>}
+                                                    
+                                                </VStack>
+                                                <Pressable onPress={() => setIsEmailBoxOpen(false)}><Icon as={FontAwesome} name="close" size={'lg'} color={'primary.text'} /></Pressable>
+                                            </Modal.Body>
+                                        </Modal.Content>
+                                    </Modal> */}
+                                    {event.document_settings?.show_documents_notes == 1 && 
+                                        (
+                                            <Pressable
+                                                    onPress={async () => {
+                                                        setIsNotesOpen(true);
+                                                    }}>
+                                                    <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
+                                                </Pressable>
+                                        )
                                     }
                                     <Pressable
                                         onPress={async () => {
@@ -108,6 +178,19 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                         <Icon as={AntDesign} name="download" size="md" color="primary.text" />
                                     </Pressable>     
                                     </HStack>
+                                    <Modal
+                                            isOpen={isNotesOpen}
+                                            onClose={()=>{
+                                            setIsNotesOpen(false);
+                                            }}
+                                        >
+                                            
+                                        <Modal.Content p={0}>
+                                                <Modal.Body position={'relative'} zIndex={1} p={0}>
+                                                    <DocumentNotesBox showModal={setIsNotesOpen} note_type_id={document.id}/>
+                                                </Modal.Body>
+                                            </Modal.Content>
+                                    </Modal>
                                     
                                   
                                     
