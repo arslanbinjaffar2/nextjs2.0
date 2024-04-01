@@ -113,7 +113,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                         onPress={async () => {
                                             push(`/${event.url}/document-send-email/detail/${document.id}`)
                                         }}>
-                                        <DynamicIcon iconType={'emailmynotes'} iconProps={{ width: 15, height: 18 }} />
+                                        <DynamicIcon iconType={'email_icon'} iconProps={{ width: 15, height: 18 }} />
                                     </Pressable>
                                     {/* <Modal
                                         isOpen={isEmailBoxOpen}
@@ -163,7 +163,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                                     onPress={async () => {
                                                         setIsNotesOpen(true);
                                                     }}>
-                                                    <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
+                                                    <DynamicIcon iconType={'notes'} iconProps={{ width: 15, height: 18 }} />
                                                 </Pressable>
                                         )
                                     }
