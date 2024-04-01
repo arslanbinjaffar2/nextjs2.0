@@ -115,12 +115,6 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
             },
             [dispatch],
         ),
-        FetchUpcomingPrograms: useCallback(
-            (payload: { limit: number }) => {
-                dispatch(ProgramActions.FetchUpcomingPrograms(payload))
-            },
-            [dispatch],
-        ),  
     }
 
 }
