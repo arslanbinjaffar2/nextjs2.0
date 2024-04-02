@@ -55,7 +55,7 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
                 _focus={{ bg: 'transparent' }}
                 value={note}
                 onChangeText={(text)=>setNote(text)}
-                borderWidth="0" fontSize="md" placeholder="Take note" autoCompleteType={undefined} />
+                borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_TAKE_NOTES} autoCompleteType={undefined} />
                 <HStack justifyContent={'flex-end'} alignItems={'flex-end'} space={2}>
                     {children}
                     <Pressable onPress={() => save()}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
