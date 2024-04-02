@@ -160,9 +160,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         if (attendee) {
             setAttendeeData({
             ...attendee,
+            phone: attendee.phone ? attendee.phone.split("-")[1] : '',
             info: {
                 ...attendeeData?.info,
-                phone: attendee.phone ? attendee.phone.split("-")[1] : '',
                 callingCode: attendee.phone ? attendee.phone.split("-")[0] : event?.calling_code ? "+"+event?.calling_code : ''
             },
             });
