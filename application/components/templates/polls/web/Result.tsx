@@ -85,8 +85,9 @@ const Detail = () => {
                 <Text textAlign={'center'} fontSize="2xl">{myPollResultDetail?.program?.info?.topic}</Text>
               </HStack>
               <Box w="100%" >
-                {myPollResultDetail && myPollResultDetail?.question.length > 0 && myPollResultDetail.question.map((question, i) => (
+                {myPollResultDetail && myPollResultDetail?.question.length > 0 && myPollResultDetail.question.filter((question) => question.is_anonymous === 0).map((question, i) => (
                         <>
+                        {console.log("🚀 ~ Detail ~ question.question_type:", myPollResultDetail.question)}
                         {(question.question_type == 'open' 
                         || question.question_type == 'number'
                         || question.question_type == 'date'
