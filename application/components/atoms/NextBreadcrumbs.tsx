@@ -112,7 +112,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
 
       {additionalBreadcrubms && additionalBreadcrubms.map((additionalBreadcrubm, index) => (
             <React.Fragment key={index}>
-              <Icon size="3" as={AntDesign} name="right" color={color} />
+              <Icon size="3" as={AntDesign} name="right" color={"primary.text"} />
                 <Pressable
                   py="1"
                   px={3}
@@ -120,7 +120,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
                   rounded={'full'}
                   onPress={() => onBreadcrumbPress?.(additionalBreadcrubm)}>
                   <HStack space="2" alignItems="center">
-                    <Text isTruncated={true} maxWidth="150px" color={color}>{additionalBreadcrubm.name}</Text>
+                    <Text isTruncated={true} maxWidth="150px" color={"primary.text"}>{additionalBreadcrubm.name}</Text>
                   </HStack>
                 </Pressable>
             </React.Fragment>
