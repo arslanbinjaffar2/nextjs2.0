@@ -79,6 +79,7 @@ export interface Event {
     eventsite_settings?: EventSiteSettings
     keyword_settings?: KeywordSettings
     document_settings?: DocumentSettings
+    calling_code?: any
 }
 interface Setting {
     poll_setting?: string;
