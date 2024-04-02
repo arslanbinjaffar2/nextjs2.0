@@ -8,6 +8,7 @@ import { Event } from 'application/models/Event'
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
+import { images } from 'application/styles';
 import UseNotificationService from 'application/store/services/UseNotificationService';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 
@@ -56,7 +57,11 @@ const [open, setOpen] = React.useState(false)
            <Spacer />
           <Center overflow="hidden" alignItems="flex-start">
             <Pressable onPress={() => { router.push(`/${event.url}/dashboard`) }}>
-              <Image alt='logo' source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` }} w="180px" h="60px" alignSelf={'center'} />
+              <Image
+                  alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
+                        : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
+                          ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.header_logo}`
+                          : images.Logo }} w="180px" h="61px" alignSelf={'center'} />
             </Pressable>
           </Center>
           <Spacer />
