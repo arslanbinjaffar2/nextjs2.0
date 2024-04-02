@@ -21,10 +21,16 @@ import { useRouter } from 'solito/router';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseEnvService from 'application/store/services/UseEnvService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import SponsorContactInfo from 'application/components/atoms/sponsors/contact-info/ContactInfo';
+import { useWindowDimensions } from 'react-native';
+import SponsorNotesBox from 'application/components/atoms/sponsors/notes/NotesBox';
+
 
 type ScreenParams = { id: string, cms: string | undefined }
 
 const { useParam } = createParam<ScreenParams>()
+
+
 
 const Detail = React.memo(() => {
 
@@ -41,6 +47,8 @@ const Detail = React.memo(() => {
     const { back } = useRouter();
 
     const { _env } = UseEnvService();
+
+    const { width } = useWindowDimensions();
 
     React.useEffect(() => {
         if (id) {
@@ -61,7 +69,7 @@ const Detail = React.memo(() => {
                     <Container overflow="hidden" mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" rounded="10">
                         <Container  maxW="100%" w="100%"  rounded="10">
                             <DetailBox detail={detail} />
-                            {detail?.detail?.sponsors_attendee!?.length > 0 && ( 
+                            {event?.sponsor_tab_settings.contact_persons == 1 && detail?.detail?.sponsors_attendee!?.length > 0 && ( 
                                 <Box w="100%" p="0">
                                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                         <Icouser />
@@ -75,7 +83,7 @@ const Detail = React.memo(() => {
                                         )}
                                 </Box>
                             )}
-                            {event?.sponsor_settings?.document == 1 && documents.length > 0 && <Box mb="4" p="0" w="100%">
+                            {event?.sponsor_tab_settings.documents == 1 && documents.length > 0 && <Box mb="4" p="0" w="100%">
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                     <Icodocument width="15px" height="18px" />
                                     <Text fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
@@ -90,7 +98,13 @@ const Detail = React.memo(() => {
                             </Box>}
                         </Container>
                     </Container>
+                    {width < 810 && <Container maxW="100%" w="100%" >
+                        { event?.sponsor_tab_settings?.contact_info == 1 && <SponsorContactInfo />}
+                        { event?.sponsor_tab_settings?.notes == 1 &&  <SponsorNotesBox />}
+                    </Container>}
+                    <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'sponsors'} module_type={'detail'} module_id={detail?.detail?.id} />
+                    </Box>
                 </>
             )}
         </>

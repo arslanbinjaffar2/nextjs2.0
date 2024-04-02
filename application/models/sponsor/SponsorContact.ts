@@ -2,6 +2,10 @@ export interface SponsorDetail {
   detail?: Sponsor;
   documents?: any[];
 }
+export interface SponsorContact {
+  contact?: Sponsor;
+}
+
 interface Sponsor {
   id?: number;
   event_id?: number;

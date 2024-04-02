@@ -14,9 +14,38 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
 import UseEventService from 'application/store/services/UseEventService'
+import Icodocument from 'application/assets/icons/small/Icodocument';
+import { store } from 'application/store/Index';
+import { getContactExhibitorApi } from 'application/store/api/Exhibitor.api';
 
+async function getExhibitorContact(id:any) {
+  const mystate=store.getState()
+  try {
+    const response = await getContactExhibitorApi({id},mystate); // Call the API function
+    downloadFile(response.data.data.filedata,response.data.data.filename);
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+const downloadFile = (fileData:any, filename:any) => {
+  // Create a Blob object from the file data
+  const blob = new Blob([fileData], { type: 'application/octet-stream' });
+
+  const url = window.URL.createObjectURL(blob);
+
+  const anchorElement = document.createElement('a');
+  anchorElement.href = url;
+
+  anchorElement.download = filename;
+
+  anchorElement.style.display = 'none';
+  document.body.appendChild(anchorElement);
+  anchorElement.click();
+  document.body.removeChild(anchorElement);
+  window.URL.revokeObjectURL(url);
+};
 const ContactInfo = () => {
-  const { detail } = UseExhibitorService();
+  const { detail,settings } = UseExhibitorService();
   const { event  } = UseEventService();
 
   return (
@@ -33,15 +62,16 @@ const ContactInfo = () => {
                 <IcouserFilled width="18px" height="18px" />
                 <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
                 <Spacer />
-                <IconButton
-                    variant="unstyled"
-                    p={0}
-                    icon={<IcoVCF />}
-                    onPress={()=>{
-                    console.log('hello')
-                    }}
-                    
-                />
+              {settings.exhibitorContact && settings.exhibitorContact ? (
+              <IconButton
+                variant="unstyled"
+                p={0}
+                icon={<IcoVCF />}
+                onPress={() => {
+                  getExhibitorContact(detail?.detail?.id ?? 0);
+                }}>
+              </IconButton>
+              ) : ''}
             </HStack>
             {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
