@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container, HStack, Pressable, Icon, Text, VStack, Button, Spacer } from 'native-base'
+import { Box, Container, HStack, Pressable, Icon, Text, VStack, Button, Spacer, IconButton } from 'native-base'
 import { Detail } from 'application/models/attendee/Detail';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -14,11 +14,41 @@ import IcoPhone from 'application/assets/icons/small/IcoPhone';
 import IcouserFilled from 'application/assets/icons/small/IcouserFilled';
 import Vcfcontact from 'application/assets/icons/small/vcfcontact';
 import DynamicIcon from 'application/utils/DynamicIcon';
+import IcoVCF from 'application/assets/icons/small/IcoVCF'
+import { store } from 'application/store/Index';
+import { getContactAttendeeApi } from 'application/store/api/Attendee.Api'
 
 type AppProps = {
     detail: Detail,
 }
 
+async function getAttendeeContact(id:any) {
+  const mystate=store.getState()
+  try {
+    const response = await getContactAttendeeApi({id},mystate); // Call the API function
+    console.log(response.data.data,'fgfdgfd')
+    downloadFile(response.data.data.filedata,response.data.data.filename);
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+const downloadFile = (fileData:any, filename:any) => {
+  // Create a Blob object from the file data
+  const blob = new Blob([fileData], { type: 'application/octet-stream' });
+
+  const url = window.URL.createObjectURL(blob);
+
+  const anchorElement = document.createElement('a');
+  anchorElement.href = url;
+
+  anchorElement.download = filename;
+
+  anchorElement.style.display = 'none';
+  document.body.appendChild(anchorElement);
+  anchorElement.click();
+  document.body.removeChild(anchorElement);
+  window.URL.revokeObjectURL(url);
+};
 const ContactInfo = ({ detail }: AppProps) => {
 
     const { event  } = UseEventService();
@@ -31,9 +61,16 @@ const ContactInfo = ({ detail }: AppProps) => {
           <IcouserFilled width="18px" height="18px" />
           <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
           <Spacer />
-          {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.attendee_type_name !='Attendee' ? (
+          {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.attendee_type_name =='Attendee' ? (
             <Pressable>
-              <Vcfcontact width="18px" height="20px" />
+              <IconButton
+                variant="unstyled"
+                p={0}
+                icon={<IcoVCF />}
+                onPress={() => {
+                  getAttendeeContact(detail?.detail?.id ?? 0);
+                }}>
+              </IconButton>
             </Pressable>
           ) : ''}
         </HStack>

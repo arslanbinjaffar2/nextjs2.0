@@ -21,7 +21,10 @@ import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-
+import BannerAds from 'application/components/atoms/banners/BannerAds'
+import { useWindowDimensions } from 'react-native';
+import ExhibitorContactInfo from 'application/components/atoms/exhibitors/contact-info/ContactInfo';
+import ExhibitorNotesBox from 'application/components/atoms/exhibitors/notes/NotesBox';
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -42,6 +45,8 @@ const Detail = React.memo(() => {
     const { _env } = UseEnvService();
 
     const { back } = useRouter()
+
+    const { width } = useWindowDimensions();
 
     React.useEffect(() => {
         if (id) {
@@ -64,7 +69,7 @@ const Detail = React.memo(() => {
                     <Container maxW="100%" h={'93%'} w="100%">
                         <Container mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" roundedTop="10">
                             <DetailBox detail={detail} />
-                            {detail?.detail?.exhibitors_attendee!?.length > 0 && (
+                            {event?.exhibitor_tab_settings?.contact_persons == 1 && detail?.detail?.exhibitors_attendee!?.length > 0 && (
                                 <Box w="100%" p="0">
                                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                         <Icouser />
@@ -79,7 +84,7 @@ const Detail = React.memo(() => {
                                 </Box>
                             )}
 
-                            {event?.exhibitor_settings?.document == 1 && documents.length > 0  && <Box p="0" w="100%">
+                            {event?.exhibitor_tab_settings?.documents == 1 && documents.length > 0  && <Box p="0" w="100%">
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                     <Icodocument width="15px" height="18px" />
                                     <Text fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
@@ -141,7 +146,15 @@ const Detail = React.memo(() => {
                             </Box>
                         </Container> */}
                     </Container>
+
+                    {width < 810 && <Container maxW="100%" w="100%" >
+                        { event?.exhibitor_tab_settings?.contact_info == 1 && <ExhibitorContactInfo />}
+                        { event?.exhibitor_tab_settings?.notes == 1 &&  <ExhibitorNotesBox />}
+                    </Container>}
+
+                    <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'exhibitors'} module_type={'detail'} module_id={detail?.detail?.id} />
+                    </Box>
                 </>
             )}
         </>
