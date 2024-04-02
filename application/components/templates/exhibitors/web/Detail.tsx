@@ -21,7 +21,6 @@ import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { useWindowDimensions } from 'react-native';
 import ExhibitorContactInfo from 'application/components/atoms/exhibitors/contact-info/ContactInfo';
 import ExhibitorNotesBox from 'application/components/atoms/exhibitors/notes/NotesBox';
