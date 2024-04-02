@@ -38,13 +38,13 @@ const MyProgram = () => {
         FetchPrograms({ query: '', page: 1, screen: 'my-program', id: response?.data?.user?.id, track_id: 0 });
     }, []);
 
-    const module = modules.find((module) => module.alias === 'myprograms');
+    const module = modules.find((module) => module.alias === 'myagendas');
 
     return (
         <>
             <NextBreadcrumbs module={module} />
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text textTransform="capitalize" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'myprograms'))?.name ?? ''}</Text>
+                <Text textTransform="capitalize" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'myagendas'))?.name ?? ''}</Text>
                 <Spacer />
                 <Search tab={'my-program'} />
             </HStack>
