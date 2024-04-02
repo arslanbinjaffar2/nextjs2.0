@@ -137,10 +137,10 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('sub-group');
             FetchGroups({ query: query, group_id: (Number((searchParams.get('group_id') !== null ? searchParams.get('group_id') : 0))), page: 1, attendee_id: 0, program_id: 0 });
         }
-    }, [slug]);
+    }, [slug, tab]);
 
     const updateTab = (tab: string) => {
-        setTab(tab);
+        setTab(tab); 
     }
 
     React.useEffect(() => {
@@ -303,7 +303,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             </Pressable>
                         </HStack>
                         {group_name && (
-                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
+                            <Text mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
                         )}
                         </>
                     )}
