@@ -126,7 +126,7 @@ const Index = ({ navigation }: indexProps) => {
           {/*  */}
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
 
-            <Container mt={0} overflow={'hidden'}  w="100%" maxW="100%">
+            <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
               <ScrollView w={[width - 30,'100%']} pb={2} showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
                 <HStack pt="0" space="2" alignItems="flex-start" justifyContent="space-between">
