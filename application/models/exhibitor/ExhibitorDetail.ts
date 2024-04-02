@@ -95,6 +95,7 @@ interface Info {
   twitter?: string;
   linkedin?: string;
   phone?: string;
+  department?: string;
   linkedin_protocol?: string;
   twitter_protocol?: string;
   facebook_protocol?: string;

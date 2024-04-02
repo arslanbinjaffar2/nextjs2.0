@@ -94,6 +94,7 @@ interface Info {
   facebook?: string;
   twitter?: string;
   linkedin?: string;
+  department?: string;
   phone?: string;
   linkedin_protocol?: string;
   twitter_protocol?: string;
