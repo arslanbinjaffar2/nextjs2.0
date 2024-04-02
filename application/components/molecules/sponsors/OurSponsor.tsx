@@ -26,7 +26,7 @@ const OurSponsor = () => {
     };
 
 
-    const { modules } = UseEventService();
+    const { modules, event } = UseEventService();
 
     React.useEffect(() => {
         FetchOurSponsors();
@@ -36,7 +36,7 @@ const OurSponsor = () => {
         <Container nativeID='ebs-sponsors-slider' w="100%" maxW="100%">
             {modules.filter((module: any, key: number) => module.alias === 'sponsors').length > 0 && our_sponsors?.length > 0 && (
                 <>
-                    <IconWithLeftHeading icon={<DynamicIcon iconType="sponsors" iconProps={{ width: 22, height: 24 }} />} title="OUR SPONSORS" />
+                    <IconWithLeftHeading icon={<DynamicIcon iconType="sponsors" iconProps={{ width: 22, height: 24 }} />} title={event?.labels?.MOBILE_APP_OUR_SPONSORS?.toUpperCase()} />
                     {our_sponsors.length > 4 ? <div style={{width: '265px'}}>
                         <Slider {...settings}>
                             {our_sponsors.length > 0 && our_sponsors.map((sponsor: Sponsor, key: number) =>
