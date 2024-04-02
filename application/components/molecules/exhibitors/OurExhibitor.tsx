@@ -35,7 +35,7 @@ const OurExhibitor = () => {
     <Container nativeID='ebs-exhibitor-slider' w="100%" maxW="100%">
       {modules.filter((module: any, key: number) => module.alias === 'exhibitors').length > 0 && our_exhibitors?.length > 0 && (
         <>
-          <IconWithLeftHeading icon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 22, height: 24 }} />} title={event?.labels?.GENERAL_OUR_EXHIBITORS.toUpperCase()} />
+          <IconWithLeftHeading icon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 22, height: 24 }} />} title={event?.labels?.MOBILE_APP_OUR_EXHIBITORS?.toUpperCase()} />
          {our_exhibitors.length > 4 ? <div style={{width: '265px'}}>
            <Slider {...settings}>
            {our_exhibitors.length > 0 && our_exhibitors.map((exhibitor: Exhibitor, key: number) =>
