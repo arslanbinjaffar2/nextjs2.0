@@ -49,6 +49,9 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
     setLoadingNote(true);
     try {
       await updateNote ({notes: note,id:myNote?.id, type:noteType},mystate); // Call the API function
+      if(myNote !== null){
+        setMyNote({...myNote, notes: note});
+      }
       setLoadingNote(false);
     } catch (error) {
       console.log('error', error);
@@ -78,7 +81,7 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
 
 
   function save() {
-    if (note === '' || loadingNote) {
+    if ((note === '' && isNewNote) || loadingNote) {
       return;
     }
     isNewNote ? saveNotes() : updateNotes();

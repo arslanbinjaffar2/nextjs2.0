@@ -13,7 +13,7 @@ const SurveyListing = ({surveys}:{surveys:Surveys}) => {
   const { push } = useRouter()
     
   return (
-    <Container  rounded="10" bg="primary.box" w="100%" maxW="100%">
+    <Container mb={4} rounded="10" bg="primary.box" w="100%" maxW="100%">
     <Heading py="1" fontSize="26px" fontWeight={500} w="100%" textAlign="center">{modules?.find((polls)=>(polls.alias == 'survey'))?.name ?? 'Surveys'}</Heading>
     {surveys?.slice(0, 4).map((poll:Survey)=>{
        return <SurveyRectangleView survey={poll} key={poll.id} completed={false} />

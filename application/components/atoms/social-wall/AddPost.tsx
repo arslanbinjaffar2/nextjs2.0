@@ -10,6 +10,8 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import WebLoading from 'application/components/atoms/WebLoading';
+import Icoimage from 'application/assets/icons/small/Icoimage';
+import Icovideo from 'application/assets/icons/small/Icovideo';
 
 
 import in_array from "in_array";
@@ -200,9 +202,9 @@ const AddPost = () => {
                     />
                 </Box>
             )}
-            <HStack borderTopWidth="0" borderTopColor="primary.bdBox" space="0" alignItems="center">
-                <Center bg="primary.box" w="65%">
-                    <HStack w="100%" space="0" alignItems="center">
+            <HStack px={3} pb={3} borderTopWidth="0" borderTopColor="primary.bdBox" space="0" alignItems="center">
+                <Center>
+                    <HStack w="100%" space="1" alignItems="center">
                     <input 
                         width="100%"
                             height="50px"
@@ -215,18 +217,18 @@ const AddPost = () => {
                         />
                         <IconButton
                             w="50%"
+														p={0}
                             rounded="0"
-                            bg={'primary.box'}
-                            _hover={{ bg: 'primary.secondary' }}
+                            bg={''}
+                            _hover={{ bg: '', _icon: {color: 'primary.100'} }}
                             variant="unstyled"
-                            icon={<Icon size="xl" as={Ionicons} name="ios-image-outline" color="primary.text" />}
+                            icon={<Icoimage width={24} />}
                             onPress={()=>{
                                 if(inputImageRef.current){
                                     inputImageRef.current.click();
                                 }
                             }}
                         />
-                        <Divider w="1px" h="10" bg="primary.text" />
                         <input 
                             width="100%"
                             height="50px"
@@ -240,10 +242,11 @@ const AddPost = () => {
                         <IconButton
                             w="50%"
                             rounded="0"
-                            bg={'primary.box'}
+														p={0}
+                            bg={''}
                             variant="unstyled"
-                            _hover={{ bg: 'primary.secondary' }}
-                            icon={<Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />}
+                            _hover={{ bg: '', _icon: {color: 'primary.100'} }}
+                            icon={<Icovideo width={28} />}
                             onPress={()=>{
                                 if(inputVideoRef.current){
                                     inputVideoRef.current.click();
@@ -252,11 +255,13 @@ const AddPost = () => {
                         />
                     </HStack>
                 </Center>
-                <Center borderLeftWidth="1" borderLeftColor="primary.bdBox" w="35%">
+								<Spacer />
+                <Center borderLeftWidth="0" borderLeftColor="primary.bdBox">
                     <Button
                         w="100%"
-                        rounded="0"
-                        py="3"
+												width={130}
+												rounded={'8'}
+                        py="2"
                         _text={{ fontWeight: 600 }}
                         colorScheme="primary"
                         onPress={() => {

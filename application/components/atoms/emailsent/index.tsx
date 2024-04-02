@@ -8,7 +8,6 @@ const EmailSend = ({id}:{id:any}) => {
     const [emailData, setEmailData] = React.useState({ email: '',  subject: '', comments: '' });
     const [errors, setErrors] = React.useState({ email: '',  subject: '', comments: '' });
     const [loading,setLoading]=useState(false)
-    const [alert,setAlert]=useState<any>()
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const { event } = UseEventService();
 
@@ -36,19 +35,10 @@ const EmailSend = ({id}:{id:any}) => {
         } catch (error:any) {
           console.log('error', error);
          setEmailData( { email: '',  subject: '', comments: '' })
-         setAlert(error)
 
         }
     }
 
-    useEffect(()=>{
-      setTimeout(() => {
-        if(alert){
-            setErrors( { email: '',  subject: '', comments: '' }   )
-        }
-        
-      }, 1000);
-    },[])
   return (
     <> 
     <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%" p={2}>
@@ -91,7 +81,7 @@ const EmailSend = ({id}:{id:any}) => {
                             </Center>
                         </HStack>
                         <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
-                            <FormControl.Label isRequired isInvalid={emailData.comments.trim().length < 3 && emailData.comments.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
+                            <FormControl.Label isInvalid={emailData.comments.trim().length < 3 && emailData.comments.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px" textTransform={'capitalize'}>{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
                             </FormControl.Label>
                             <Center borderWidth={'0'} justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
@@ -123,7 +113,6 @@ const EmailSend = ({id}:{id:any}) => {
                   
                 >
                     <Text fontSize="2xl" fontWeight={600}>{event?.labels?.GENERAL_SEND_EMAIL}</Text>
-                    {alert && <Text fontSize="md" color={`${alert.includes('errors')}?''red.400'':'primary.text'`} fontWeight={600}>{alert}</Text>}
                 </Button>
     </>
 
