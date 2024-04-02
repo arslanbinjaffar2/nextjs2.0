@@ -60,6 +60,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
   };
 
   const color = title ? 'primary.text' : 'primary.500';
+
   return (
     <HStack w={'100%'} py={2} alignItems="center" flexWrap='wrap'>
       {breadcrumbs.map((breadcrumb, index) => (
@@ -129,7 +130,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
       {title && (
         <>
           <Icon size="3" as={AntDesign} name="right" color={"primary.text"} />
-          <Text color="primary.500" ml={3} isTruncated={true} maxWidth="300px">
+          <Text color={"primary.text"} ml={3} isTruncated={true} maxWidth="300px">
             {title.length > 40 ? `${title.substring(0, 40)}...` : title}
           </Text>
         </>
