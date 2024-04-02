@@ -119,13 +119,13 @@ const Index = () => {
                                 FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                                 }
                             }}>
-                            <Text textTransform="uppercase" fontSize="xs">{parent_track.name}</Text>
+                            <Text textTransform="uppercase" fontSize="sm">{parent_track.name}</Text>
                         </Pressable>
                         <Icon color={'primary.text'} as={AntDesign} name="right"  />
-                        <Text textTransform="uppercase" fontSize="xs">{track?.name}</Text>
+                        <Text textTransform="uppercase" fontSize="sm">{track?.name}</Text>
                         </>
                     ) : (
-                        <Text textTransform="uppercase" fontSize="xs">{track?.name}</Text>
+                        <Text textTransform="uppercase" fontSize="sm">{track?.name}</Text>
                     )}
                     </Text>
                     <Pressable
@@ -139,7 +139,7 @@ const Index = () => {
                         FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                         }
                     }}>
-                    <Text textTransform="uppercase" fontSize="sm"> <Icon color={'primary.text'} as={AntDesign} name="left"  /> Go back</Text>
+                    <Text textTransform="uppercase" fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  /> Go back</Text>
                     </Pressable>
                 </HStack>
                 )}

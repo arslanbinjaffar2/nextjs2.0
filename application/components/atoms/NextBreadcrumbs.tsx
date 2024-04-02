@@ -74,8 +74,13 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
                 handlePress(breadcrumb.alias);
               }}>
               <HStack space="2" alignItems="center">
+<<<<<<< HEAD
                 <IcoDashboard width="18" height="18" color={"primary.text"} />
                 <Text>{breadcrumb.label}</Text>
+=======
+                <IcoDashboard width="18" height="18" color={'primary.text'} />
+                <Text color={'primary.text'}>{breadcrumb.label}</Text>
+>>>>>>> origin/master
               </HStack>
             </Pressable>
           ) : (
@@ -100,7 +105,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
                   iconProps={{ width: 24, height: 21, color }}
                 /> */}
                 <DynamicIcon iconType={breadcrumb?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} />
-                <Text isTruncated={true} maxWidth="150px" color={color}>{breadcrumb.label.length > 30 ? `${breadcrumb.label.substring(0, 30)}...` : breadcrumb.label}</Text>
+                <Text isTruncated={true} maxWidth="150px" color={'primary.text'}>{breadcrumb.label.length > 30 ? `${breadcrumb.label.substring(0, 30)}...` : breadcrumb.label}</Text>
               </HStack>
             </Pressable>
           )}

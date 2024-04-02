@@ -174,14 +174,14 @@ const Index = ({ navigation }: indexProps) => {
               ):(
                 <>
                   {alert_setting && (alert_setting as any).display_in_dashboard === 1 && alerts.length > 0 &&
-                  <Container mt={4} pt="0" maxW="100%" w="100%">
+                  <Container mt={0} pt="0" maxW="100%" w="100%">
                     <HStack  pt="0" w="100%" space="3" alignItems="center">
                       <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
                       <Spacer />
                     </HStack>
                     
                     
-                      <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
+                      <Box overflow="hidden" bg="primary.box" mb={4} pb={5}  w="100%" rounded="lg">
                         {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
                           <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
                         ))}

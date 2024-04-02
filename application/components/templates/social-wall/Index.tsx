@@ -85,7 +85,7 @@ const Index = () => {
     <>
       <NextBreadcrumbs module={module} /> 
       <div ref={topRef}></div>
-      <VStack ref={scrollRef} overflowY="auto" height="100vh" width={'100%'}>
+      <VStack ref={scrollRef}  width={'100%'}>
         <AddPost />
         {showNewPostButton && showButtonByScroll && (
           <HStack nativeID='button-reload-post' w={'100%'} mb={3} alignItems={'center'} justifyContent={'center'} position={'sticky'} top={5} left={0}>
