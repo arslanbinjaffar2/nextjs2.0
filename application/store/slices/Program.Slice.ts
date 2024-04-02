@@ -207,7 +207,6 @@ export const ProgramSlice = createSlice({
         UpdateUpcomingPrograms(state, action: PayloadAction<{ programs: Program[] }>) {
             state.upcoming_programs = action.payload.programs;
         },
-        
     },
 })
 

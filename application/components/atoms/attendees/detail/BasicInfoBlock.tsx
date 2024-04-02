@@ -64,7 +64,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             bg={'#A5A5A5'}
                           >{ detail?.detail?.first_name && detail?.detail?.last_name ? detail?.detail?.first_name?.substring(0,1) + detail?.detail?.last_name?.substring(0,1) : detail?.detail?.first_name?.substring(0,1)}</Avatar>
                         )}
-                        <VStack w="calc(100% - 140px)" space="0">
+                        <VStack w="calc(100% - 160px)" space="0">
                             <Text lineHeight="sm" fontSize="xl">
                                 {`${detail?.detail?.first_name} ${detail?.detail?.last_name}`}
                             </Text>
@@ -102,7 +102,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                         variant="transparent"
                                         p="2"
                                         onPress={() => { handleRegistrationPress() }}
-                                        icon={<IcoClipboard />}
+                                        icon={<IcoClipboard width={28} height={28}/>}
                                     />
                             ) : null }
                         </Box>

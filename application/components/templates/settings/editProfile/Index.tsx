@@ -156,19 +156,17 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
-    const [attendeeData, setAttendeeData] = React.useState({
-        ...attendee,
-        phone: attendee?.phone && attendee?.phone?.split("-")[1],
-        callingCode: attendee?.phone && attendee?.phone?.split("-")[0]
-    })
+    const [attendeeData, setAttendeeData] = React.useState<Attendee>({} as Attendee);
     React.useEffect(() => {
-        setAttendeeData({
-            ...attendeeData,
-            phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
-            callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
-        });
-    }, [attendee]);
+        if (attendee) {
+            setAttendeeData({
+            ...attendee,
+            phone: attendee.phone ? attendee.phone.split("-")[1] : '',
+            callingCode: attendee.phone ? attendee.phone.split("-")[0] : ''
+            });
+        }
+        }, [attendee]);
+
     const [customFieldData, setCustomFieldData] = React.useState<any>(customFields.reduce((ack1, question, i) => {
         let answers = attendee.info[`custom_field_id${question.event_id}`]?.split(',').reduce((ack2: any, id, i) => {
             let is_answer = question.children_recursive.find((answer: any) => (answer.id == id));
@@ -187,14 +185,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     const inputFileRef = React.useRef<HTMLInputElement | null>(null);
 
     const inputresumeFileRef = React.useRef<HTMLInputElement | null>(null);
-
-    React.useEffect(() => {
-        // setAttendeeData({
-        //     ...attendeeData,
-        //     phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
-        //     callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
-        // });
-    }, []);
 
     const updateCustomFieldSelect = (obj: any) => {
         setCustomFieldData({
@@ -333,6 +323,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
     };
     console.log(attendeeData.attendee_cv)
+    if (Object.keys(attendeeData).length === 0) {
+        return <WebLoading />;
+    }
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
