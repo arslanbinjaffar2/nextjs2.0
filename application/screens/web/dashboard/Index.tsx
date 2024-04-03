@@ -45,7 +45,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const [tab, setTab] = useState('qa');
 
-  const { polls, pollSettings, FetchPolls } = UsePollService();
+  const { polls, pollSettings, FetchPolls ,poll_labels} = UsePollService();
 
   const { surveys, FetchSurveys } = UseSurveyService();
 
@@ -88,19 +88,19 @@ const Index = ({ navigation }: indexProps) => {
          <Box w={'100%'} mb={3}>
            <MobileNavigation />
          </Box>
-         
+
             <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
                   <Box minH={150} h={'100%'} flex={1}>
                   <UpcomingPrograms />
                   </Box>
                   {/* <Box minH={150}  flex={1}>
-                    <UpcomingBlock 
+                    <UpcomingBlock
                       px="3"
                       py="4"
                       h='150px'
                     title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
                 </Box> */}
-            </HStack> 
+            </HStack>
           <Container mb="3"  w="100%" maxW="100%">
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
@@ -124,9 +124,9 @@ const Index = ({ navigation }: indexProps) => {
               <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
           {/*  */}
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
-
-            <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
-              <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
+            <Container overflow={'hidden'} mb="1" w="100%" maxW="100%">
+              <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={poll_labels?.MEET_OUR_SPEAKERS ? poll_labels?.MEET_OUR_SPEAKERS : 'MEET OUR SPEAKERS'}
+                 />
               <ScrollView w={[width - 30,'100%']} pb={2} showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
                 <HStack pt="0" space="2" alignItems="flex-start" justifyContent="space-between">
                   {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
@@ -180,14 +180,14 @@ const Index = ({ navigation }: indexProps) => {
                       <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
                       <Spacer />
                     </HStack>
-                    
-                    
+
+
                       <Box overflow="hidden" bg="primary.box" mb={4} pb={5}  w="100%" rounded="lg">
                         {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
                           <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
                         ))}
                       </Box>
-                      
+
                     {alerts.length > 3 &&
                     <Center py="3" px="2" w="100%" alignItems="flex-end">
                       <Button onPress={() => {
