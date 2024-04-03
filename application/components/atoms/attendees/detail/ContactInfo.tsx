@@ -52,17 +52,6 @@ const downloadFile = (fileData:any, filename:any) => {
 const ContactInfo = ({ detail }: AppProps) => {
 
     const { event  } = UseEventService();
-     
-    // Check if any contact information is available and its corresponding field setting is enabled
-    const hasContactInfo = (detail?.detail?.email && detail?.setting?.email) ||
-                           (detail?.detail?.phone && detail?.setting?.phone) ||
-                           (detail?.detail?.info?.facebook && detail?.field_setting?.facebook) ||
-                           (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) ||
-                           (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) ||
-                           (detail?.detail?.info?.website && detail?.field_setting?.website);
-
-    // Only render the component if there's contact info
-    if (!hasContactInfo) return null;
 
   return (
     <>
