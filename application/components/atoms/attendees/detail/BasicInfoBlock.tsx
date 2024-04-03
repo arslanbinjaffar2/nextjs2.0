@@ -29,7 +29,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     const { push } = useRouter();
 
     const isPrivate = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s.is_private}),{});
-
     console.log(showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1), 'show_hotel')
 
     const [isFav, setIsFav] = React.useState<boolean>(false);
@@ -44,33 +43,28 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     }
 
     return (
-        <Box mb={3} bg="primary.box" p="0" w={'100%'} rounded="10">
-            <Container borderWidth="0" borderColor="primary.darkbox" bg="primary.primarycolor" rounded="10" overflow="hidden" maxW="100%" w="100%">
-                <Box w="100%" p="4" py="5" rounded="10">
-                    <HStack mb="4" space="5">
-                        {detail?.detail?.image && isPrivate.profile_picture === 0 ? (
-                        <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
-                        ) : (
-                          <Avatar
-                            borderWidth={0}
-                            borderColor="primary.darkbox"
-                            bg={'#A5A5A5'}
-                          >{ detail?.detail?.first_name && detail?.detail?.last_name ? detail?.detail?.first_name?.substring(0,1) + detail?.detail?.last_name?.substring(0,1) : detail?.detail?.first_name?.substring(0,1)}</Avatar>
-                        )}
-                        <VStack w="calc(100% - 140px)" space="0">
-                            <Text lineHeight="sm" fontSize="xl">
-                                {`${detail?.detail?.first_name} ${detail?.detail?.last_name}`}
-                            </Text>
-                            {detail?.detail?.info &&
-                                (detail?.detail?.info.company_name ||
-                                    detail?.detail?.info.title) &&
-                                    (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
-                                    && (
-                                    <>
-                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}&nbsp;{detail?.detail?.info?.company_name &&
-                                                detail?.detail?.info?.title &&
-                                                ", "}
-                                                {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>
+        <Container borderWidth="1" borderColor="primary.darkbox" bg="primary.500" rounded="10" overflow="hidden" mb="3" maxW="100%" w="100%">
+            <Box w="100%" p="4" py="5" rounded="10">
+                <HStack mb="4" space="5">
+                    {detail?.detail?.image && isPrivate.profile_picture === 0 ? (
+                        <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
+                    ) : (
+                        <Image rounded="25" size="lg" borderWidth="1" borderColor="primary.darkbox" source={UserPlaceholderImage} alt="" w="50px" h="50px" />
+                    )}
+                    <VStack w="calc(100% - 140px)" space="0">
+                        <Text lineHeight="sm" fontSize="xl">
+                            {`${detail?.detail?.first_name} ${detail?.detail?.last_name}`}
+                        </Text>
+                        {detail?.detail?.info &&
+                            (detail?.detail?.info.company_name ||
+                                detail?.detail?.info.title) &&
+                                (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
+                                && (
+                                <>
+                                        <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}&nbsp;{detail?.detail?.info?.company_name &&
+                                            detail?.detail?.info?.title &&
+                                            ", "}
+                                            {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>
 
                                     </>
                                 )}
