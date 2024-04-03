@@ -37,6 +37,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
 import PolicyModal from 'application/components/atoms/PolicyModal';
+import attendees from 'application/assets/icons/attendees'
 
 
 
@@ -968,12 +969,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     isDisabled={setting.is_editable === 1 ? false : true}
                                     isMulti={true}
-                                    selected={
-                                        attendeeData.SPOKEN_LANGUAGE &&
-                                            typeof attendeeData.SPOKEN_LANGUAGE !== 'string'
-                                            ? attendeeData.SPOKEN_LANGUAGE
-                                            : null
-                                    }
+                                    selected={(attendeeData?.SPOKEN_LANGUAGE && typeof attendeeData.SPOKEN_LANGUAGE === 'string' ? attendeeData.SPOKEN_LANGUAGE.split(",").map((lang: string) => ({ 'label': lang.trim(), 'value': lang.trim() })) : [])}
                                     onChange={(item: any) => {
                                         updateSelect({ item, name: "SPOKEN_LANGUAGE" });
                                     }}
