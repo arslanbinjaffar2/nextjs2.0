@@ -31,7 +31,7 @@ const Verification = ({ props }: any) => {
     const { processing, verification, loadProvider, error, response } = UseAuthService();
 
     const { push } = useRouter();
-
+		const router = useRouter();
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const [id] = useParam('id')
@@ -114,9 +114,23 @@ const Verification = ({ props }: any) => {
                                     }}
                                 />
                             </Flex>
-                            <Link href={`/${event.url}/auth/login`}>
-                                <Text textDecorationLine={'underline'}  w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
-                            </Link>
+                           <Text fontSize="md" > 
+                            <Button
+                                p="0"
+                                bg={'transparent'}
+                                borderWidth="0"
+                                textDecorationLine={'underline'}
+                                variant={'unstyled'}
+                                _hover={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+                                _pressed={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+                                onPress={()=>{
+                                    router.push(`/${event.url}/auth/login`)
+                                }}
+                            
+                            >
+                                {`${event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO} ${event?.labels?.DESKTOP_APP_LABEL_LOGIN}`}
+                            </Button>
+                        </Text>
                             <Button
                                 width={'100%'}
                                 isLoading={processing}

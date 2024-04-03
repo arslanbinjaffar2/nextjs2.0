@@ -94,7 +94,7 @@ const ResetPasswordRequest = ({ props }: any) => {
                                 }}
                             
                             >
-                                {event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO}{event?.labels?.DESKTOP_APP_LABEL_LOGIN}
+                                {`${event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO} ${event?.labels?.DESKTOP_APP_LABEL_LOGIN}`}
                             </Button>
                         </Text>
                         <Button
