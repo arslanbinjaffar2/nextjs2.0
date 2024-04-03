@@ -135,7 +135,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </Pressable>
                     </Center>}
             </Container>
-        </Box>
     )
 
 }
