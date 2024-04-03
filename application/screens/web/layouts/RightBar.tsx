@@ -49,16 +49,15 @@ const RightBar = () => {
   return (
     <>
 
-      {nextRouter.asPath.includes('exhibitors/detail') && event?.exhibitor_tab_settings?.contact_info == 1 && <ExhibitorContactInfo />}
-      {nextRouter.asPath.includes('exhibitors/detail') && event?.exhibitor_tab_settings?.notes == 1 && !in_array('exhibitor-detail', processing) &&  <ExhibitorNotesBox />}
-      {nextRouter.asPath.includes('sponsors/detail') && event?.sponsor_tab_settings?.contact_info == 1 && <SponsorContactInfo />}
-      {nextRouter.asPath.includes('sponsors/detail') && event?.sponsor_tab_settings?.notes == 1 && !in_array('sponsor-detail', processing) && <SponsorNotesBox />}
-      {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.enable_notes == 1 && !in_array('program-detail', processing) && <ProgramNotesBox />}
-      {(nextRouter.asPath.includes('speakers/detail') || nextRouter.asPath.includes('attendees/detail')) && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
-      {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.session_ratings == 1 && !in_array('program-detail',processing) &&  <SessionRating program_id={_id} />}
-      {(nextRouter.asPath.includes('speakers/detail') || nextRouter.asPath.includes('attendees/detail')) && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website) || (detail?.setting?.contact_vcf && detail?.setting?.contact_vcf)) && <ContactInfo detail={detail} />}
-      <UpcomingPrograms />
-      {/* <UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} /> */}
+      {nextRouter.asPath.includes('exhibitors/detail') &&  <ExhibitorContactInfo />}
+      {nextRouter.asPath.includes('exhibitors/detail') && event?.exhibitor_settings?.notes == 1 &&  <ExhibitorNotesBox />}
+      {nextRouter.asPath.includes('sponsors/detail') &&  <SponsorContactInfo />}
+      {nextRouter.asPath.includes('sponsors/detail') && event?.sponsor_settings?.notes == 1 &&  <SponsorNotesBox />}
+      {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.enable_notes == 1 &&  <ProgramNotesBox />}
+      {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.session_ratings == 1 &&  <SessionRating program_id={_id} />}
+      {(nextRouter.asPath.includes('speakers/detail') || nextRouter.asPath.includes('attendees/detail')) ? <ContactInfo detail={detail} /> : null}
+      {/* <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+      <UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} /> */}
       <Divider mb="1" bg="transparent" />
       {event?.exhibitor_settings?.show_on_native_app_dashboard == 1 && <OurExhibitor />}
       {event?.sponsor_settings?.show_on_native_app_dashboard == 1 && <OurSponsor />}
