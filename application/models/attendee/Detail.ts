@@ -101,7 +101,7 @@ interface FieldSetting {
     facebook?: number;
     twitter?: number;
     event_language?: number;
-    phone?: any;
+    phone_number?: any;
     email?: any;
 }
 
