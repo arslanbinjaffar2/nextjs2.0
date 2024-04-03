@@ -417,7 +417,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     {setting?.name === 'bio_info' && (
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
-                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about?.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
@@ -428,7 +428,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('about', answer);
                                     }}
-                                    value={attendeeData?.info?.about.replace(/<\/?[^>]+(>|$)|\&nbsp;|\s+/g, '')
+                                    value={attendeeData?.info?.about?.replace(/<\/?[^>]+(>|$)|\&nbsp;|\s+/g, '')
                                     }
                                 />
                             </Center>
