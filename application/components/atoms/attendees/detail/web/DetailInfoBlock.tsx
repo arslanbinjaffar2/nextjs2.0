@@ -324,11 +324,11 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                     </VStack>
                 </Box>
             ) :  <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
-            <Text>{event.labels.EVENT_NORECORD_FOUND}</Text>
+            <Text>{event.labels.GENERAL_NO_RECORD}</Text>
         </Box>  }
             {!hasAboutData && 
                 <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
-                    <Text>{event.labels.EVENT_NORECORD_FOUND}</Text>
+                    <Text>{event.labels.GENERAL_NO_RECORD}</Text>
                 </Box>  
             }
             
