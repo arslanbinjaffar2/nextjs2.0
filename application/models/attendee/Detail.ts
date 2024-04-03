@@ -101,6 +101,8 @@ interface FieldSetting {
     facebook?: number;
     twitter?: number;
     event_language?: number;
+    phone?: any;
+    email?: any;
 }
 
 interface SubRegistration {
