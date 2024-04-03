@@ -52,7 +52,17 @@ const downloadFile = (fileData:any, filename:any) => {
 const ContactInfo = ({ detail }: AppProps) => {
 
     const { event  } = UseEventService();
+     
+    // Check if any contact information is available and its corresponding field setting is enabled
+    const hasContactInfo = (detail?.detail?.email && detail?.setting?.email) ||
+                           (detail?.detail?.phone && detail?.setting?.phone) ||
+                           (detail?.detail?.info?.facebook && detail?.field_setting?.facebook) ||
+                           (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) ||
+                           (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) ||
+                           (detail?.detail?.info?.website && detail?.field_setting?.website);
 
+    // Only render the component if there's contact info
+    if (!hasContactInfo) return null;
 
   return (
     <>
@@ -76,7 +86,7 @@ const ContactInfo = ({ detail }: AppProps) => {
         </HStack>
         {detail?.attendee_tabs_settings?.map((row: any, key: number) => (
           <React.Fragment key={key}>
-            {row?.tab_name === 'contact_info' && row?.status == 1 && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) ? (
+            {row?.tab_name === 'contact_info' && row?.status == 1 ? (
               <VStack p="3" w="100%" space="3">
                 {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') ? (
                   <>
@@ -106,14 +116,17 @@ const ContactInfo = ({ detail }: AppProps) => {
             ) : ''}
           </React.Fragment>
         ))}
+        {(detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website) ?
         <Box py="0" px="0" w="100%">
           <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
             {detail?.detail?.info?.facebook  && detail?.sort_field_setting.find((item: { name: string }) => item.name === 'facebook') && detail?.detail?.info?.facebook !== '' && detail?.detail?.info?.facebook !== 'http://' &&  detail?.detail?.info?.facebook !== 'https://' ? (
               <Pressable
                 onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.facebook}`;
+                  const url: any = `${detail?.detail?.info?.facebook_protocol}${detail?.detail?.info?.facebook}`;
                   const supported = await Linking.canOpenURL(url);
+                  console.log("🚀 ~ onPress={ ~ url:", url)
                   if (supported) {
+                    
                     await Linking.openURL(url);
                   }
                 }}>
@@ -123,7 +136,7 @@ const ContactInfo = ({ detail }: AppProps) => {
             {detail?.detail?.info?.twitter && detail?.sort_field_setting.find((item: { name: string }) => item.name === 'twitter') && detail?.detail?.info?.twitter !== '' && detail?.detail?.info?.twitter !== 'http://' &&  detail?.detail?.info?.twitter !== 'https://' ? (
               <Pressable
                 onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.twitter}`;
+                  const url: any = `${detail?.detail?.info?.twitter_protocol}${detail?.detail?.info?.twitter}`;
                   const supported = await Linking.canOpenURL(url);
                   if (supported) {
                     await Linking.openURL(url);
@@ -135,7 +148,7 @@ const ContactInfo = ({ detail }: AppProps) => {
             {detail?.detail?.info?.linkedin && detail?.sort_field_setting.find((item: { name: string }) => item.name === 'linkedin') && detail?.detail?.info?.linkedin !== '' && detail?.detail?.info?.linkedin !== 'http://' &&  detail?.detail?.info?.linkedin !== 'https://' ? (
               <Pressable
                 onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.linkedin}`;
+                  const url: any = `${detail?.detail?.info?.linkedin_protocol}${detail?.detail?.info?.linkedin}`;
                   const supported = await Linking.canOpenURL(url);
                   if (supported) {
                     await Linking.openURL(url);
@@ -147,7 +160,7 @@ const ContactInfo = ({ detail }: AppProps) => {
             {detail?.detail?.info?.website && detail?.sort_field_setting.find((item: { name: string }) => item.name === 'website') && detail?.detail?.info?.website !== '' && detail?.detail?.info?.website !== 'http://' &&  detail?.detail?.info?.website !== 'https://' ? (
               <Pressable
                 onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.website}`;
+                  const url: any = `${detail?.detail?.info?.website_protocol}${detail?.detail?.info?.website}`;
                   const supported = await Linking.canOpenURL(url);
                   if (supported) {
                     await Linking.openURL(url);
@@ -159,6 +172,7 @@ const ContactInfo = ({ detail }: AppProps) => {
 
           </HStack>
         </Box>
+        : null}
       </Box>
     </>
   )

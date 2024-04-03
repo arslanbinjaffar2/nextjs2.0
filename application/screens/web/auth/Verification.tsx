@@ -61,7 +61,11 @@ const Verification = ({ props }: any) => {
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
-                <Image alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: ((event.settings?.header_logo !== undefined && event.settings?.header_logo !== '') ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` : images.Logo) }} w="180px" h="61px" alignSelf={'center'} />
+                <Image
+                  alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
+                        : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
+                          ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.header_logo}`
+                          : images.Logo }} w="180px" h="61px" alignSelf={'center'} />
                 {Object.keys(response).length > 0 ? (
                     <VStack w={'100%'} space='4'>
                         <VStack space="20px" width={'100%'}>
@@ -96,13 +100,13 @@ const Verification = ({ props }: any) => {
                                             return (
                                                 <>
                                                     <Text>{event.labels.EVENTSITE_TIME_LEFT} = {minutes}:{seconds}</Text>
-                                                    {minutes < 4 && (
-                                                        <>
-                                                            <Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
-                                                            <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
-                                                                verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
-                                                            }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
-                                                        </>
+                                                    {true && (
+                                                      <>
+                                                          <Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
+                                                          <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
+                                                              verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
+                                                          }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
+                                                      </>
                                                     )}
                                                 </>
                                             );
