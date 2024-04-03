@@ -107,7 +107,7 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
                 _focus={{ bg: 'transparent' }}
                 value={note}
                 onChangeText={(text)=>setNote(text)}
-                borderWidth="0" fontSize="md" placeholder="Take note" autoCompleteType={undefined} />
+                borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_TAKE_NOTES} autoCompleteType={undefined} />
                 <HStack justifyContent={'flex-end'} alignItems={'flex-end'} space={2}>
                     <Pressable onPress={() => closeModal()}><Icon as={FontAwesome} name="close" size={'lg'} color={'primary.text'} /></Pressable>
                     <Pressable onPress={() => save()} disabled={loadingNote}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
