@@ -237,6 +237,7 @@ body {
 }
 #ebs-navigation-slider .slick-list .slick-track {
   margin: auto;
+}
 svg #svg-elem-1 {
   fill: transparent;
   stroke-dashoffset: 115.09733552923255px;
