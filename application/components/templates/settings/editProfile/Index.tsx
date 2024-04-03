@@ -148,7 +148,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     const [modalContent, setModalContent] = React.useState({ title: '', body: '' });
     const cancelRef = React.useRef(null);
     const openModal = (title: any, body: any) => {
-        console.log("🚀 ~ openModal ~ title:", title)
         setModalContent({ title, body });
         setIsModalOpen(true);
     };
@@ -162,7 +161,10 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             setAttendeeData({
             ...attendee,
             phone: attendee.phone ? attendee.phone.split("-")[1] : '',
-            callingCode: attendee.phone ? attendee.phone.split("-")[0] : ''
+            info: {
+                ...attendeeData?.info,
+                callingCode: attendee.phone ? attendee.phone.split("-")[0] : event?.calling_code ? "+"+event?.calling_code : ''
+            },
             });
         }
         }, [attendee]);
@@ -243,12 +245,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 [obj.name]: obj.answer,
             },
         });
+            console.log("🚀 ~ updateInfoSelect ~ attendeeData:", attendeeData)
     };
 
     const updateAttendeeData = () => {
 
         let attendeeObj: any = {
-            phone: `${attendeeData?.callingCode}-${attendeeData?.phone}`,
+            phone: `${attendeeData?.info.callingCode}-${attendeeData?.phone}`,
         };
 
         let custom_field_id = customFields.reduce((ack, question, i) => {
@@ -261,7 +264,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
         let infoObj: any = {
             ...attendeeData?.info,
-            phone: `${attendeeData?.callingCode}-${attendeeData?.phone}`,
+            phone: `${attendeeData?.info.callingCode}-${attendeeData?.phone}`,
             gender: gender,
         }
 
@@ -1023,8 +1026,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             h="50px"
                                             isDisabled={setting?.is_editable === 1 ? false : true}
                                             opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                            selectedValue={attendeeData?.callingCode}
-                                            onValueChange={answer => updateInfoSelect({ answer, name: "phone" })}>
+                                            selectedValue={attendeeData?.info?.callingCode}
+                                            onValueChange={answer => updateInfoSelect({ answer, name: "callingCode" })}>
                                             {callingCodes.map((answer, key) => (<Select.Item key={key} label={answer.name} value={`${answer.id}`} />))}
                                         </Select>
                                     </Center>
