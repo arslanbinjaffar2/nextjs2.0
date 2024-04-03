@@ -44,7 +44,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                     </VStack>
                 </>
             )}
-            {(detail?.sort_field_setting.length > 0) && (
+            {(detail?.sort_field_setting.length > 0) ? (
                 <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
                         <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
@@ -323,7 +323,9 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                         }
                     </VStack>
                 </Box>
-            )}
+            ) :  <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
+            <Text>{event.labels.EVENT_NORECORD_FOUND}</Text>
+        </Box>  }
             {!hasAboutData && 
                 <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
                     <Text>{event.labels.EVENT_NORECORD_FOUND}</Text>
