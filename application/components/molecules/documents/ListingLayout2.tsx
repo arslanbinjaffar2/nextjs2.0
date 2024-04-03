@@ -36,7 +36,7 @@ const ListingLayout2 = ({disableTitle}:{disableTitle?:boolean}) => {
                         FilterDocuments({ document_id: 0, query: '' });
                         setBreadCrumbs([]);
                     }}>
-                    <Text textTransform="uppercase" fontSize="lg">Documents</Text>
+                    <Text textTransform="uppercase" fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
                 </Pressable>}
                 {breadcrumbs.length > 0 && breadcrumbs.map((breadcrumb: Document, key: number) =>
                     <React.Fragment key={key}>

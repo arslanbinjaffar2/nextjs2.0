@@ -41,7 +41,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const [tab, setTab] = useState('qa');
 
-  const { polls, pollSettings, FetchPolls } = UsePollService();
+  const { polls, pollSettings, FetchPolls ,poll_labels} = UsePollService();
 
   const { surveys, FetchSurveys } = UseSurveyService();
 
@@ -109,10 +109,12 @@ const Index = ({ navigation }: indexProps) => {
               <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
             </Box>
           </Container>
-          {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
+          {console.log(poll_labels.MEET_OUR_SPEAKERS)}
 
+          {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
             <Container overflow={'hidden'} mb="1" w="100%" maxW="100%">
-              <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
+              <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={poll_labels?.MEET_OUR_SPEAKERS ? poll_labels?.MEET_OUR_SPEAKERS : 'MEET OUR SPEAKERS'}
+                 />
               <ScrollView w={[width - 30,'100%']} pb={2} showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
                 <HStack pt="1" space="2" alignItems="flex-start" justifyContent="space-between">
                   {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
