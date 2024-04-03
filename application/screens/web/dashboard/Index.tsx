@@ -167,6 +167,7 @@ const Index = ({ navigation }: indexProps) => {
           <ChatClient /> */}
           </Box>
           </Container>
+          <BannerAds module_name={'dashboard'} module_type={'before_news_update'}/>
           <>
             {
               loading ? (
@@ -202,6 +203,7 @@ const Index = ({ navigation }: indexProps) => {
               )
             }
           </>
+          <BannerAds module_name={'dashboard'} module_type={'after_news_update'}/>
         </>
 
       )}
