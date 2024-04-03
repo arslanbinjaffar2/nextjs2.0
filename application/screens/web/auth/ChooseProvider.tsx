@@ -29,6 +29,7 @@ const ChooseProvider = ({ props }: any) => {
     const { processing, chooseProvider, loadProvider, error, response } = UseAuthService();
 
     const { push } = useRouter();
+    const router = useRouter();
 
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
@@ -84,11 +85,23 @@ const ChooseProvider = ({ props }: any) => {
                                         {error ? error : errors.provider?.message}
                                     </FormControl.ErrorMessage>
                                 </FormControl>
-                            <Text nativeID='css-reset-4rbku5' fontSize="md">
-                                <Link href={`/${event.url}/auth/login`}>
-                                    {`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}
-                                </Link>
-                            </Text>
+                            <Text fontSize="md" > 
+                            <Button
+                                p="0"
+                                bg={'transparent'}
+                                borderWidth="0"
+                                textDecorationLine={'underline'}
+                                variant={'unstyled'}
+                                _hover={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+                                _pressed={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+                                onPress={()=>{
+                                    router.push(`/${event.url}/auth/login`)
+                                }}
+                            
+                            >
+                                {`${event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO} ${event?.labels?.DESKTOP_APP_LABEL_LOGIN}`}
+                            </Button>
+                        </Text>
                                 <Button
                                     width={'100%'}
                                     isLoading={processing}
