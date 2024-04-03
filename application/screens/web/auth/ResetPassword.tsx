@@ -112,7 +112,7 @@ const ResetPassword = ({ props }: any) => {
                             }}
                         
                         >
-                            {`${event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO} ${event?.labels?.DESKTOP_APP_LABEL_LOGIN}`}
+                             {event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO}{event?.labels?.DESKTOP_APP_LABEL_LOGIN} aa fasa
                         </Button>
                         </Text>
                     <Button
