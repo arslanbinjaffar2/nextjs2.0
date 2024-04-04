@@ -36,8 +36,24 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
-import PolicyModal from 'application/components/atoms/PolicyModal';
-import attendees from 'application/assets/icons/attendees'
+import { 
+    BtnBold,
+    BtnBulletList,
+    BtnClearFormatting,
+    BtnItalic,
+    BtnLink,
+    BtnNumberedList,
+    BtnRedo,
+    BtnStrikeThrough,
+    BtnStyles,
+    BtnUnderline,
+    BtnUndo,
+    HtmlButton,
+    Separator,
+    Editor,
+    EditorProvider,
+    Toolbar
+} from 'react-simple-wysiwyg';
 
 
 
@@ -416,12 +432,12 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'bio_info' && (
-                        <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
-                            <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
-                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about?.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
-                                <Input w="100%"
+                                {/* <Input w="100%"
                                     h={'50px'}
                                     placeholder={labels?.about}
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -429,8 +445,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('about', answer);
                                     }}
-                                    value={attendeeData?.info?.about?.replace(/<\/?[^>]+(>|$)|\&nbsp;|\s+/g, '')
-                                    }
+                                    value={attendeeData?.info?.about.replace(/<\/?[^>]+(>|$)|\&nbsp;|\s+/g, '')
+                                }
                                 />
                             </Center>
                         </HStack>
