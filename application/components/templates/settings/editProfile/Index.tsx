@@ -25,6 +25,8 @@ import { getColorScheme } from 'application/styles/colors';
 
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
 
+import PolicyModal from 'application/components/atoms/PolicyModal'
+
 import moment from 'moment';
 
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
@@ -437,7 +439,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
-                                {/* <Input w="100%"
+                                 <Input w="100%"
                                     h={'50px'}
                                     placeholder={labels?.about}
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
