@@ -53,7 +53,7 @@ import {
     Editor,
     EditorProvider,
     Toolbar
-} from 'react-simple-wysiwyg';
+} from 'react-simple-wysiwy';
 
 
 
