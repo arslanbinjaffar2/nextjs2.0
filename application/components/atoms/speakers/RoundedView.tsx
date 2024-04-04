@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Image, Pressable } from 'native-base';
+import { Avatar, Box, Image, Pressable } from 'native-base';
 import { Attendee } from 'application/models/attendee/Attendee';
 import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
@@ -33,17 +33,20 @@ const RoundedView = ({ attendee }: AppProps) => {
                         source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }}
                         alt={`${attendee?.first_name} ${attendee?.last_name}`}
                     />
-                ) : (
-                    <Image
+                ) :(
+                    <Avatar
                         position="absolute"
                         left="0"
                         top="0"
                         w="100%"
                         h="100%"
                         borderRadius={200}
-                        source={{ uri: 'https://wallpaperaccess.com/full/31751.jpg' }}
-                        alt={`${attendee?.first_name} ${attendee?.last_name}`}
-                    />
+                        borderWidth={0}
+                        borderColor="primary.darkbox"
+                        textTransform="uppercase"
+                        bg={'#A5A5A5'}
+                        >{ attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}</Avatar>
+                            
                 )}
 
 
