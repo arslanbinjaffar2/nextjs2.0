@@ -81,6 +81,7 @@ export interface Event {
     document_settings?: DocumentSettings
     sponsor_tab_settings?: any
     exhibitor_tab_settings?: any
+    calling_code?: any
 }
 interface Setting {
     poll_setting?: string;

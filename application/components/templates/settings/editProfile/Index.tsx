@@ -37,6 +37,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
 import PolicyModal from 'application/components/atoms/PolicyModal';
+import attendees from 'application/assets/icons/attendees'
 
 
 
@@ -148,7 +149,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     const [modalContent, setModalContent] = React.useState({ title: '', body: '' });
     const cancelRef = React.useRef(null);
     const openModal = (title: any, body: any) => {
-        console.log("🚀 ~ openModal ~ title:", title)
         setModalContent({ title, body });
         setIsModalOpen(true);
     };
@@ -156,19 +156,20 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
-    const [attendeeData, setAttendeeData] = React.useState({
-        ...attendee,
-        phone: attendee?.phone && attendee?.phone?.split("-")[1],
-        callingCode: attendee?.phone && attendee?.phone?.split("-")[0]
-    })
+    const [attendeeData, setAttendeeData] = React.useState<Attendee>({} as Attendee);
     React.useEffect(() => {
-        setAttendeeData({
-            ...attendeeData,
-            phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
-            callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
-        });
-    }, [attendee]);
+        if (attendee) {
+            setAttendeeData({
+            ...attendee,
+            phone: attendee.phone ? attendee.phone.split("-")[1] : '',
+            info: {
+                ...attendee?.info,
+                callingCode: attendee.phone ? attendee.phone.split("-")[0] : event?.calling_code ? "+"+event?.calling_code : ''
+            },
+            });
+        }
+        }, [attendee]);
+
     const [customFieldData, setCustomFieldData] = React.useState<any>(customFields.reduce((ack1, question, i) => {
         let answers = attendee.info[`custom_field_id${question.event_id}`]?.split(',').reduce((ack2: any, id, i) => {
             let is_answer = question.children_recursive.find((answer: any) => (answer.id == id));
@@ -187,14 +188,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     const inputFileRef = React.useRef<HTMLInputElement | null>(null);
 
     const inputresumeFileRef = React.useRef<HTMLInputElement | null>(null);
-
-    React.useEffect(() => {
-        // setAttendeeData({
-        //     ...attendeeData,
-        //     phone: attendeeData?.phone && attendeeData?.phone?.split("-")[1],
-        //     callingCode: attendeeData?.phone && attendeeData?.phone?.split("-")[0]
-        // });
-    }, []);
 
     const updateCustomFieldSelect = (obj: any) => {
         setCustomFieldData({
@@ -253,12 +246,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 [obj.name]: obj.answer,
             },
         });
+            console.log("🚀 ~ updateInfoSelect ~ attendeeData:", attendeeData)
     };
 
     const updateAttendeeData = () => {
 
         let attendeeObj: any = {
-            phone: `${attendeeData?.callingCode}-${attendeeData?.phone}`,
+            phone: `${attendeeData?.info.callingCode}-${attendeeData?.phone}`,
         };
 
         let custom_field_id = customFields.reduce((ack, question, i) => {
@@ -271,7 +265,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
         let infoObj: any = {
             ...attendeeData?.info,
-            phone: `${attendeeData?.callingCode}-${attendeeData?.phone}`,
+            phone: `${attendeeData?.info.callingCode}-${attendeeData?.phone}`,
             gender: gender,
         }
 
@@ -333,6 +327,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
     };
     console.log(attendeeData.attendee_cv)
+    if (Object.keys(attendeeData).length === 0) {
+        return <WebLoading />;
+    }
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
@@ -421,7 +418,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     {setting?.name === 'bio_info' && (
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
-                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about?.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
@@ -432,7 +429,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('about', answer);
                                     }}
-                                    value={attendeeData?.info?.about.replace(/<\/?[^>]+(>|$)|\&nbsp;|\s+/g, '')
+                                    value={attendeeData?.info?.about?.replace(/<\/?[^>]+(>|$)|\&nbsp;|\s+/g, '')
                                     }
                                 />
                             </Center>
@@ -972,12 +969,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     isDisabled={setting.is_editable === 1 ? false : true}
                                     isMulti={true}
-                                    selected={
-                                        attendeeData.SPOKEN_LANGUAGE &&
-                                            typeof attendeeData.SPOKEN_LANGUAGE !== 'string'
-                                            ? attendeeData.SPOKEN_LANGUAGE
-                                            : null
-                                    }
+                                    selected={(attendeeData?.SPOKEN_LANGUAGE && typeof attendeeData.SPOKEN_LANGUAGE === 'string' ? attendeeData.SPOKEN_LANGUAGE.split(",").map((lang: string) => ({ 'label': lang.trim(), 'value': lang.trim() })) : [])}
                                     onChange={(item: any) => {
                                         updateSelect({ item, name: "SPOKEN_LANGUAGE" });
                                     }}
@@ -1030,8 +1022,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             h="50px"
                                             isDisabled={setting?.is_editable === 1 ? false : true}
                                             opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                            selectedValue={attendeeData?.callingCode}
-                                            onValueChange={answer => updateInfoSelect({ answer, name: "phone" })}>
+                                            selectedValue={attendeeData?.info?.callingCode}
+                                            onValueChange={answer => updateInfoSelect({ answer, name: "callingCode" })}>
                                             {callingCodes.map((answer, key) => (<Select.Item key={key} label={answer.name} value={`${answer.id}`} />))}
                                         </Select>
                                     </Center>
@@ -1244,7 +1236,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 </VStack>
             ))}
 
-            {<HStack mb="3" mt="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
+            {event?.gdpr_settings?.enable_gdpr === 1 &&
+                <HStack mb="3" mt="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                 <HStack alignItems={'center'} w={['100%', 'calc(100% - 225px)']}>
                     <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
                         updateAttendeeFeild('gdpr', isSelected);

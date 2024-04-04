@@ -32,6 +32,7 @@ export interface AttendeeState {
     program_id: number,
     hotels:any,
     last_page:number
+    registration: any
 }
 
 const initialState: AttendeeState = {
@@ -63,7 +64,8 @@ const initialState: AttendeeState = {
     total: 0,
     program_id: 0,
     hotels:null,
-    last_page:1
+    last_page:1,
+    registration: null
 }
 
 // Slice
@@ -152,8 +154,12 @@ export const AttendeeSlice = createSlice({
             state.category_name = action.payload.category_name;
         },
         FetchHotels(){},
+        FetchMyRegistration(){},
         updateHotels(state, action: PayloadAction<any>){
             state.hotels = action.payload
+        },
+        updateMyRegistration(state, action: PayloadAction<any>){
+            state.registration = action.payload
         },
     },
 });
@@ -173,7 +179,9 @@ export const AttendeeActions = {
     FetchCategories: AttendeeSlice.actions.FetchCategories,
     UpdateCategories: AttendeeSlice.actions.UpdateCategories,
     FetchHotels: AttendeeSlice.actions.FetchHotels,
+    FetchMyRegistration: AttendeeSlice.actions.FetchMyRegistration,
     updateHotels: AttendeeSlice.actions.updateHotels,
+    updateRegistration: AttendeeSlice.actions.updateMyRegistration,
 }
 
 export const SelectAttendees = (state: RootState) => state.attendees.attendees
@@ -205,6 +213,7 @@ export const SelectCategoryName = (state: RootState) => state.attendees.category
 export const SelectHotels = (state: RootState) => state.attendees.hotels
 
 export const SelectLastPage = (state: RootState) => state.attendees.last_page
+export const SelectMyRegistration = (state: RootState) => state.attendees.registration
 
 // Reducer
 export default AttendeeSlice.reducer
