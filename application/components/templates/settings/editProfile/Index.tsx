@@ -857,6 +857,10 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
                                             value={'female'}
                                             opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> Female </Radio>
+                                        <Radio
+                                            isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                            value={'n/a'}
+                                            opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> N/A </Radio>
                                     </HStack>
 
                                 </Radio.Group>
