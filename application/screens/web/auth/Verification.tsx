@@ -96,7 +96,7 @@ const Verification = ({ props }: any) => {
                                             return (
                                                 <>
                                                     <Text>{event.labels.EVENTSITE_TIME_LEFT} = {minutes}:{seconds}</Text>
-                                                    {true && (
+                                                    {minutes < 4 && (
                                                       <>
                                                           <Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
                                                           <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
