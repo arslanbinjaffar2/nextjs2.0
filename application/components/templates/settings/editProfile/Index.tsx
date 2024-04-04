@@ -184,6 +184,18 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         ack1[`custom_field_id_q${i}`] = question.allow_multiple === 1 ? answers : answers[0];
         return ack1;
     }, {}));
+    const [spokenLanguages, setSpokenLanguages] = React.useState<any>(
+        attendee?.SPOKEN_LANGUAGE.split(',').reduce((accumulator: Array<{ label: string; value: number }>, languageName: string) => {
+          const languageObject = languages.find(lang => lang.name === languageName.trim());
+          if (languageObject) {
+            accumulator.push({
+              label: languageObject.name,
+              value: languageObject.id,
+            });
+          }
+          return accumulator;
+        }, [])
+    );
 
     const inputFileRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -246,7 +258,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 [obj.name]: obj.answer,
             },
         });
-            console.log("🚀 ~ updateInfoSelect ~ attendeeData:", attendeeData)
     };
 
     const updateAttendeeData = () => {
@@ -276,6 +287,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             accept_foods_allergies: attendeeData?.accept_foods_allergies
         }
 
+        const languageNamesString: string = spokenLanguages.map((language: any) => language.label).join(',');
+        attendeeObj.SPOKEN_LANGUAGE = languageNamesString;
+
         if (attendeeData?.email) attendeeObj.email = attendeeData?.email;
 
         if (attendeeData?.title) attendeeObj.title = attendeeData?.title;
@@ -283,8 +297,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         if (attendeeData?.about) attendeeObj.about = attendeeData?.about;
 
         if (attendeeData?.network_group) attendeeObj.network_group = attendeeData?.network_group;
-
-        if (attendeeData?.SPOKEN_LANGUAGE) attendeeObj.SPOKEN_LANGUAGE = attendeeData?.SPOKEN_LANGUAGE;
 
         if (attendeeData?.industry) attendeeObj.industry = attendeeData?.industry;
 
@@ -358,7 +370,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             </Center>
                         </HStack>
                     )}
-                    {setting?.name === 'password' && setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 && event?.attendee_settings?.create_profile == 1 && (
+                    {/* {setting?.name === 'password' && setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 && event?.attendee_settings?.create_profile == 1 && (
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.password}</Text>
@@ -376,7 +388,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 />
                             </Center>
                         </HStack>
-                    )}
+                    )} */}
                     {setting?.name === 'first_name' && (
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
@@ -857,6 +869,10 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
                                             value={'female'}
                                             opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> Female </Radio>
+                                        <Radio
+                                            isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                            value={'n/a'}
+                                            opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> N/A </Radio>
                                     </HStack>
 
                                 </Radio.Group>
@@ -969,9 +985,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     isDisabled={setting.is_editable === 1 ? false : true}
                                     isMulti={true}
-                                    selected={(attendeeData?.SPOKEN_LANGUAGE && typeof attendeeData.SPOKEN_LANGUAGE === 'string' ? attendeeData.SPOKEN_LANGUAGE.split(",").map((lang: string) => ({ 'label': lang.trim(), 'value': lang.trim() })) : [])}
+                                    selected={spokenLanguages}
                                     onChange={(item: any) => {
-                                        updateSelect({ item, name: "SPOKEN_LANGUAGE" });
+                                        setSpokenLanguages(item);
                                     }}
                                 />
                             </Center>
@@ -1094,7 +1110,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             </HStack>
                         </HStack>
                     )}
-                    {setting?.name === 'resume' && setting?.is_editable === 1 && (
+                    {setting?.name === 'resume' && (
                         <HStack mb="3" alignItems="start" px="3" w="100%" >
 
                             <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} w="100%" >
