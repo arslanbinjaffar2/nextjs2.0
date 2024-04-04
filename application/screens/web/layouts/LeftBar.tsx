@@ -21,13 +21,13 @@ const PressableElement = ({row}: any) => {
   const { unread, setUnreadCount } = UseAlertService();
   const { info, page } = UseInfoService();
   const { logout, response } = UseAuthService();
+    const [isHovered, setIsHovered] = React.useState(false);
     React.useEffect(() => {
     const alertsModule: any = modules.find((module: any) => module.alias === 'alerts');
     if (alertsModule && alertsModule.alerts) {
       setUnreadCount(alertsModule.alerts);
     }
   }, []);
-  console.log(row)
   return (
    <Pressable
     w="100%"
@@ -35,6 +35,8 @@ const PressableElement = ({row}: any) => {
     py="2"
     bg={`${ checkActiveRoute(row, router.asPath, info, page) && 'primary.500'}`}
     _hover={{ bg: 'primary.500' }}
+    onHoverIn={() => setIsHovered(true)}
+    onHoverOut={() => setIsHovered(false)}
     borderRadius="4"
     onPress={() => {
       if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
@@ -60,10 +62,10 @@ const PressableElement = ({row}: any) => {
         {/* <Text>{row.icon}</Text> */}
         <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') }
         
-        iconProps={{ width: 26, height: 26 }} />
+        iconProps={{ width: 26, height: 26, color: isHovered || checkActiveRoute(row, router.asPath, info, page) ? func.colorType(event?.settings?.primary_color) : undefined }} />
         {/* <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} /> */}
       </Center>
-      {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color={checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>{row?.name}</Text>}
+      {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color={isHovered || checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>{row?.name}</Text>}
       {row?.alias === 'alerts' && unread > 0 &&
         <Badge // bg="red.400"
           bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid" alignSelf="flex-end" _text={{
@@ -97,6 +99,8 @@ const LeftBar = () => {
 
   const { setLoading, scroll } = UseLoadingService();
 
+  const [dahboardHover, setdahboardHover] = React.useState(false)
+  const [logoutHover, setlogoutHover] = React.useState(false)
 
 
   return (
@@ -130,15 +134,17 @@ const LeftBar = () => {
           py="2"
           bg={`${ router.asPath.includes('/dashboard') && 'primary.500'}`}
           _hover={{ bg: 'primary.500' }}
+          onHoverIn={() => setdahboardHover(true)}
+          onHoverOut={() => setdahboardHover(false)}
           borderRadius="4"
           onPress={() => {
             router.push(`/${event.url}/dashboard`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoDashboard color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"} width="24" height="24" />
+              <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"} width="24" height="24" />
             </Center>
-            {width > 1200 && <Text  color={router.asPath.includes('/dashboard') ? 'primary.hovercolor' : 'primary.text'} fontSize={'20px'} fontWeight={400}>Dashboard</Text>}
+            {width > 1200 && <Text  color={dahboardHover || router.asPath.includes('/dashboard') ? 'primary.hovercolor' : 'primary.text'} fontSize={'20px'} fontWeight={400}>Dashboard</Text>}
           </HStack>
         </Pressable>
         {modules.map((row: any, key: any) =>
@@ -152,13 +158,15 @@ const LeftBar = () => {
           px="4"
           py="2"
           _hover={{ bg: 'primary.500' }}
+          onHoverIn={() => setlogoutHover(true)}
+          onHoverOut={() => setlogoutHover(false)}
           borderRadius="4"
           onPress={() => {
             logout();
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoLogin />
+              <IcoLogin color={logoutHover ? func.colorType(event?.settings?.primary_color) : undefined} />
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color="primary.text">Logout</Text>}
           </HStack>
