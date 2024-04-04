@@ -264,7 +264,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 [obj.name]: obj.answer,
             },
         });
-            console.log("🚀 ~ updateInfoSelect ~ attendeeData:", attendeeData)
     };
 
     const updateAttendeeData = () => {
