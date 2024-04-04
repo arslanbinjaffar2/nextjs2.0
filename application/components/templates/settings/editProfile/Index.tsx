@@ -358,7 +358,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             </Center>
                         </HStack>
                     )}
-                    {setting?.name === 'password' && setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 && event?.attendee_settings?.create_profile == 1 && (
+                    {/* {setting?.name === 'password' && setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 && event?.attendee_settings?.create_profile == 1 && (
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.password}</Text>
@@ -376,7 +376,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 />
                             </Center>
                         </HStack>
-                    )}
+                    )} */}
                     {setting?.name === 'first_name' && (
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
