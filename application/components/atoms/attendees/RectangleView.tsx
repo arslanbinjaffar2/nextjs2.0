@@ -1,5 +1,5 @@
-import React from 'react'
-import {Avatar, Box, HStack, Icon, Image, Pressable, Spacer, Text, VStack } from 'native-base'
+import React, { useEffect } from 'react'
+import {Avatar, Box, HStack, Icon, Image, Pressable, Spacer, Text, Toast, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'application/assets/icons/Icoribbon'
 import { Attendee } from 'application/models/attendee/Attendee'
@@ -9,6 +9,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
+import ToastContainer, { Status } from '../toast'
 
 
 type boxItemProps = {
@@ -102,8 +103,19 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               <HStack space="4" alignItems="center">
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
-                  onPress={() => toggleFav()}>
-                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
+                  onPress={() => {
+                    MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
+                    Toast.show({
+                      placement:"bottom-right",
+                      render:()=>{
+                        <>
+                         <ToastContainer status={Status.Success} message='favourited successfully' />
+                        
+                        </>
+                      }
+                    })
+                  }}>
+                  <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.secondary_color : ''} />
                 </Pressable>
                 )}
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />

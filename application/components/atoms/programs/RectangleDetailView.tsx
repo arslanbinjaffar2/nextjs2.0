@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, HStack, Spacer, VStack, Text, Icon, ZStack, Center, IconButton, Pressable, Divider } from 'native-base'
+import { Box, HStack, Spacer, VStack, Text, Icon, ZStack, Center, IconButton, Pressable, Divider, Toast } from 'native-base'
 import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -10,6 +10,7 @@ import { useRouter } from 'solito/router';
 import { Platform } from 'react-native';
 import moment from 'moment'
 import in_array from 'in_array';
+import ToastContainer, { Status } from '../toast';
 type AppProps = {
   program: Program,
   k: number,
@@ -32,7 +33,15 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
   if(favouriteProgramError !== ''){
     let message = favouriteProgramError;
     SetFavouriteProgramError('');
-    alert(message);
+    Toast.show({
+      placement:"bottom-right",
+      render:()=>{
+        return(
+          <ToastContainer message={message} status={Status.Error}/>
+        )
+      }
+    })
+    // alert(message);
   } 
   
   useEffect(()=>{
@@ -42,7 +51,27 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
   ,[program, program?.program_attendees_attached])
 
   function toggleFav(){
-    // setFav(prevIsFav => !prevIsFav);
+    if(isFav){
+      Toast.show({
+        placement:"bottom-right",
+        render:()=>{
+          return(
+            <ToastContainer message='Favourited successfully' status={Status.Success}/>
+          )
+        }
+      })
+      setFav(false);
+    }else{
+      Toast.show({
+        placement:"bottom-right",
+        render:()=>{
+          return(
+            <ToastContainer message='unFavourited successfully' status={Status.Success}/>
+          )
+        }
+      })
+      setFav(true);
+    }
     MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
   }
   

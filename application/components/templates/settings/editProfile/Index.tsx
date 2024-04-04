@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, useToast, IconButton, Spacer } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, useToast, IconButton, Spacer  } from 'native-base';
 
 import { default as ReactSelect } from "react-select";
 
@@ -36,24 +36,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
-import { 
-    BtnBold,
-    BtnBulletList,
-    BtnClearFormatting,
-    BtnItalic,
-    BtnLink,
-    BtnNumberedList,
-    BtnRedo,
-    BtnStrikeThrough,
-    BtnStyles,
-    BtnUnderline,
-    BtnUndo,
-    HtmlButton,
-    Separator,
-    Editor,
-    EditorProvider,
-    Toolbar
-} from 'react-simple-wysiwyg';
 
 
 
@@ -339,13 +321,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         formData.append('attendee_cv', data.attendeeObj.att_cv);
 
         updateAttendee(formData);
-
-
     };
-    console.log(attendeeData.attendee_cv)
-    if (Object.keys(attendeeData).length === 0) {
-        return <WebLoading />;
-    }
+
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
@@ -1297,23 +1274,23 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     <Text fontSize="2xl" fontWeight={600}>SAVE</Text>
                 </Button>
             </HStack>
-            {success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'} p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
-                <Text fontSize="md">profile updated successfully</Text>
-                <Spacer />
-                <IconButton
-                    variant="unstyled"
-                    p={2}
-                    rounded={'full'}
-                    icon={<Icon size="md" as={AntDesign} name="close" color="white" />}
-                    onPress={() => {
-                        UpdateSuccess(false)
-                    }}
-
-                />
-
-
-            </HStack></Box>}
-            <PolicyModal title={modalContent.title} body={modalContent.body} isOpen={isModalOpen} onClose={closeModal} cancelRef ={cancelRef}/>
+						{success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'}  p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
+								<Text fontSize="md">profile updated successfully</Text>
+								<Spacer />
+								<IconButton
+									variant="unstyled"
+									p={2}
+									rounded={'full'}
+									icon={<Icon size="md" as={AntDesign} name="close" color="white" />}
+									onPress={()=>{
+									UpdateSuccess(false)
+									}}
+									
+								/>
+								
+								
+						</HStack></Box>}
+						
         </Container>
     )
 }
