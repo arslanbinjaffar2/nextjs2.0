@@ -113,7 +113,7 @@ const LeftBar = () => {
             <HStack space="4" alignItems="center">
               <Center w="30px">
                 {/* <Text>{row.icon}</Text> */}
-                <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') }
+                <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '')}
                 
                 iconProps={{ width: 26, height: 26 }} />
                 {/* <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} /> */}
