@@ -99,7 +99,10 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     Toast.show({
                       placement:"bottom-right",
                       render:()=>{
+                        <>
                          <ToastContainer status={Status.Success} message='favourited successfully' />
+                        
+                        </>
                       }
                     })
                   }}>
