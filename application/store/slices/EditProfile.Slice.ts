@@ -22,6 +22,8 @@ export interface EditProfileState {
     settings: Setting[] | null;
     labels: Labels | null;
     updatingAttendee:boolean
+    success_message:boolean
+
 }
 
 const initialState: EditProfileState = {
@@ -37,7 +39,8 @@ const initialState: EditProfileState = {
     order_attendee_count: 0,
     settings: [],
     labels: null,
-    updatingAttendee:false
+    updatingAttendee:false,
+    success_message:true
 }
 
 // Slice

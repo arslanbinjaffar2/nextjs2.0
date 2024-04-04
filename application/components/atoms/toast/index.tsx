@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, Text, Pressable } from 'native-base';
 import DynamicIcon from 'application/utils/DynamicIcon';
 
@@ -12,7 +13,7 @@ export interface ToastProps {
 }
 
 
-  const Toast = ({status,message,setShow}:{status:Status,message:string,setShow?:React.Dispatch<React.SetStateAction<boolean>>}) => {
+  const ToastContainer = ({status,message,setShow}:{status:Status,message:string,setShow?:React.Dispatch<React.SetStateAction<boolean>>}) => {
     return(
       <View
         bg={'primary.darkbox'}
@@ -45,5 +46,5 @@ export interface ToastProps {
       }
 
 
-      export default Toast
+      export default ToastContainer
 

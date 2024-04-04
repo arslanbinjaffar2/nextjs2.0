@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, Toast } from 'native-base';
 
 import {default  as ReactSelect} from "react-select";
 
@@ -36,7 +36,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
-
+import ToastContainer ,{Status} from 'application/components/atoms/toast/index'
 
 
 const index = () => {
@@ -46,7 +46,8 @@ const index = () => {
     const { loading, scroll } = UseLoadingService();
 
 		const { event } = UseEventService();
-
+        console.log(event.labels)
+      
 
     React.useEffect(() => {
         FetchEditProfiles();
@@ -292,8 +293,19 @@ const Selectstyles2 = {
         formData.append('file', data.attendeeObj.file);
         formData.append('attendee_cv', data.attendeeObj.att_cv);
 
-        updateAttendee(formData);
+       updateAttendee(formData);
+       if(!updatingAttendee){
+           Toast.show({
+               placement:"bottom-right",           
+               render: () => {
+                   return (
+                       <ToastContainer message='' status={Status.Success}/>
+                       )
+                    }
+                })
+            }
     };
+ 
 
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
