@@ -358,7 +358,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             </Center>
                         </HStack>
                     )}
-                    {setting?.name === 'password' && setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 && event?.attendee_settings?.create_profile == 1 && (
+                    {/* {setting?.name === 'password' && setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 && event?.attendee_settings?.create_profile == 1 && (
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.password}</Text>
@@ -376,7 +376,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 />
                             </Center>
                         </HStack>
-                    )}
+                    )} */}
                     {setting?.name === 'first_name' && (
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
@@ -857,6 +857,10 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
                                             value={'female'}
                                             opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> Female </Radio>
+                                        <Radio
+                                            isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                            value={'n/a'}
+                                            opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> N/A </Radio>
                                     </HStack>
 
                                 </Radio.Group>
@@ -1094,7 +1098,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             </HStack>
                         </HStack>
                     )}
-                    {setting?.name === 'resume' && setting?.is_editable === 1 && (
+                    {setting?.name === 'resume' && (
                         <HStack mb="3" alignItems="start" px="3" w="100%" >
 
                             <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} w="100%" >
