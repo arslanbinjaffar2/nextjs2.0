@@ -105,7 +105,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                             </Box>
                                         </HStack>
                                     )}
-                                    {setting.name === 'email' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.email! && (
+                                    {/* {setting.name === 'email' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.email! && (
                                         <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.email}:</Heading>
