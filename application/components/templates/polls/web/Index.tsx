@@ -133,7 +133,7 @@ const Index = () => {
                                             <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
                                         </Box>
                                     )}
-                                    <Divider h="20px" bg="transparent" />
+                                  {Object.keys(polls).length > 0 &&  <Divider h="20px" bg="transparent" />}
                                 </Box>
                             ) }
                         {tab === 'completed' && (
@@ -156,7 +156,7 @@ const Index = () => {
                                             <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
                                         </Box>
                                     )}
-                                    <Divider h="20px" bg="transparent" />
+                                {Object.keys(completed_polls).length > 0 &&  <Divider h="20px" bg="transparent" />}
                                 </Box>
                             )
                         }
