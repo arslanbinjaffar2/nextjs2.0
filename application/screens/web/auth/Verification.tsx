@@ -100,13 +100,13 @@ const Verification = ({ props }: any) => {
                                             return (
                                                 <>
                                                     <Text>{event.labels.EVENTSITE_TIME_LEFT} = {minutes}:{seconds}</Text>
-                                                    {minutes < 4 && (
-                                                        <>
-                                                            <Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
-                                                            <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
-                                                                verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
-                                                            }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
-                                                        </>
+                                                    {true && (
+                                                      <>
+                                                          <Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
+                                                          <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
+                                                              verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
+                                                          }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
+                                                      </>
                                                     )}
                                                 </>
                                             );

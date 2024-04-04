@@ -30,7 +30,8 @@ export interface AttendeeState {
     category_name: string,
     total: number,
     program_id: number,
-    hotels:any
+    hotels:any,
+    registration: any
 }
 
 const initialState: AttendeeState = {
@@ -61,7 +62,8 @@ const initialState: AttendeeState = {
     category_name: '',
     total: 0,
     program_id: 0,
-    hotels:null
+    hotels:null,
+    registration: null
 }
 
 // Slice
@@ -148,8 +150,12 @@ export const AttendeeSlice = createSlice({
             state.category_name = action.payload.category_name;
         },
         FetchHotels(){},
+        FetchMyRegistration(){},
         updateHotels(state, action: PayloadAction<any>){
             state.hotels = action.payload
+        },
+        updateMyRegistration(state, action: PayloadAction<any>){
+            state.registration = action.payload
         },
     },
 });
@@ -168,7 +174,9 @@ export const AttendeeActions = {
     FetchCategories: AttendeeSlice.actions.FetchCategories,
     UpdateCategories: AttendeeSlice.actions.UpdateCategories,
     FetchHotels: AttendeeSlice.actions.FetchHotels,
+    FetchMyRegistration: AttendeeSlice.actions.FetchMyRegistration,
     updateHotels: AttendeeSlice.actions.updateHotels,
+    updateRegistration: AttendeeSlice.actions.updateMyRegistration,
 }
 
 export const SelectAttendees = (state: RootState) => state.attendees.attendees
@@ -198,6 +206,8 @@ export const SelectCategories = (state: RootState) => state.attendees.categories
 export const SelectCategoryName = (state: RootState) => state.attendees.category_name
 
 export const SelectHotels = (state: RootState) => state.attendees.hotels
+
+export const SelectMyRegistration = (state: RootState) => state.attendees.registration
 
 // Reducer
 export default AttendeeSlice.reducer

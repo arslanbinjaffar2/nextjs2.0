@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName, SelectAttendeeDetail, SelectAttendeeCategory, SelectCategories, SelectCategoryName, SelectMyAttendees, SelectSelectTotal, SelectHotels, SelectCategoryParendId } from 'application/store/slices/Attendee.Slice'
+import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName, SelectAttendeeDetail, SelectAttendeeCategory, SelectCategories, SelectCategoryName, SelectMyAttendees, SelectSelectTotal, SelectHotels, SelectCategoryParendId, SelectMyRegistration } from 'application/store/slices/Attendee.Slice'
 
 import { Attendee } from 'application/models/attendee/Attendee'
 
@@ -25,6 +25,7 @@ export type AttendeeServiceOperators = {
     categories: Category[]
     total: Number
     hotels:any
+    registration:any
     parent_id:number
     FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }) => void
     FetchGroups: (payload: { query: string, page: number, group_id: number, attendee_id: number, program_id: number }) => void
@@ -32,7 +33,8 @@ export type AttendeeServiceOperators = {
     FetchAttendeeDetail: (payload: { id: number, speaker: number }) => void
     UpdateCategory: (payload: { category_id: number, category_name: string, parent_id:number }) => void
     FetchCategories: (payload: { parent_id: number, query: string, page: number, cat_type: string }) => void
-    FetchHotels: () => void
+    FetchHotels: () => void,
+    FetchMyRegistration: () => void
 }
 
 /**
@@ -58,6 +60,7 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         categories: useAppSelector(SelectCategories),
         total: useAppSelector(SelectSelectTotal),
         hotels: useAppSelector(SelectHotels),
+        registration: useAppSelector(SelectMyRegistration),
         FetchAttendees: useCallback(
             (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }) => {
                 dispatch(AttendeeActions.FetchAttendees(payload))
@@ -97,6 +100,12 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         FetchHotels: useCallback(
             () => {
                 dispatch(AttendeeActions.FetchHotels())
+            },
+            [dispatch],
+        ),
+        FetchMyRegistration: useCallback(
+            () => {
+                dispatch(AttendeeActions.FetchMyRegistration())
             },
             [dispatch],
         ),
