@@ -1,10 +1,13 @@
 import React from 'react'
-import { Avatar, Center, HStack, Icon, Pressable, Spacer, Text, VStack } from 'native-base'
+import { Avatar, Center, HStack, Icon, Image, Pressable, Spacer, Text, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { Attendee } from 'application/models/attendee/Attendee'
 import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
+import UseExhibitorService from 'application/store/services/UseExhibitorService'
+import UseProgramService from 'application/store/services/UseProgramService'
+import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg'
 
 type boxItemProps = {
     k: number,
@@ -19,7 +22,7 @@ const RectangleView = ({ k, attendee, total }: boxItemProps) => {
     const { push } = useRouter()
 
     const { event } = UseEventService();
-
+    const { FetchProgramDetail, detail } = UseProgramService();
     return (
         <Pressable w='100%' onPress={() => {
             push(`/${event.url}/speakers/detail/${attendee.id}`)
@@ -27,6 +30,7 @@ const RectangleView = ({ k, attendee, total }: boxItemProps) => {
             <HStack key={k} borderBottomWidth={total !== (k + 1) ? '1px' : '0'} borderColor="primary.bordercolor" px="3" py="3" w="100%" space="0" alignItems="center">
                 <Center alignItems="flex-start" w="70%" p="0">
                     <HStack space="3" alignItems="center">
+                        {detail && detail?.program?.program_speakers[0].is_private.profile_picture.is_private == 0 ? (
                         <Avatar
                             source={{
                                 uri: attendee?.image ? `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` : 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
@@ -34,6 +38,9 @@ const RectangleView = ({ k, attendee, total }: boxItemProps) => {
                         >
                             {attendee?.first_name?.charAt(0).toUpperCase()! + attendee?.last_name?.charAt(0).toUpperCase()!}
                         </Avatar>
+                        ) : (
+                            <Image source={UserPlaceholderImage} alt="" w="50px" h="50px" rounded={30} />
+                          )}
                         <VStack space="0">
                             {(attendee?.first_name || attendee?.last_name) && (
                                 <>
