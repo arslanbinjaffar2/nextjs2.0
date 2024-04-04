@@ -45,7 +45,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                     </VStack>
                 </>
             )}
-            {(detail?.sort_field_setting.length > 0) && (
+            {(detail?.sort_field_setting.length > 0) ? (
                 <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
                         <IcoInfo  />
@@ -105,7 +105,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                             </Box>
                                         </HStack>
                                     )}
-                                    {setting.name === 'email' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.email! && (
+                                    {/* {setting.name === 'email' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.email! && (
                                         <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.email}:</Heading>
@@ -124,7 +124,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                                 <Text fontSize="sm">{detail?.detail?.phone}</Text>
                                             </Box>
                                         </HStack>
-                                    )}
+                                    )} */}
                                     {setting.name === 'gender' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.gender! && (
                                         <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
@@ -324,10 +324,12 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                         }
                     </VStack>
                 </Box>
-            )}
+            ) :  <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
+            <Text>{event.labels.GENERAL_NO_RECORD}</Text>
+        </Box>  }
             {!hasAboutData && 
                 <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
-                    <Text>{event.labels.EVENT_NORECORD_FOUND}</Text>
+                    <Text>{event.labels.GENERAL_NO_RECORD}</Text>
                 </Box>  
             }
             
