@@ -105,7 +105,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                             </Box>
                                         </HStack>
                                     )}
-                                    {setting.name === 'email' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.email! && (
+                                    {/* {setting.name === 'email' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.email! && (
                                         <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
                                                 <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.email}:</Heading>
@@ -345,9 +345,12 @@ export default DetailInfoBlock
 const CustomFeildRow = ({question, custom_field_id}:any) => {
      let answer = custom_field_id.split(',').reduce((ack:any, answer:any, i:any) => {
                 let ans = question.children_recursive.find((child:any) => (child.id == answer))?.name !== undefined ? question.children_recursive.find((child:any) => (child.id == answer))?.name : '';
-                ack += ans;
-                if (i > 0 && custom_field_id.split(',').length && ans !== '') {
-                    ack += ',';
+                if (ans !== '') {
+                    if (ack.length > 0) {
+                        ack += ',' + ans;
+                    } else {
+                        ack += ans;
+                    }
                 }
                 return ack;
         }, '');

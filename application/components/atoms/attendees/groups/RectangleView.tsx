@@ -12,9 +12,10 @@ type boxItemProps = {
     k: number
     updateTab?: (tab: string) => void
     navigation?: boolean
+    displayMyGroupSetting?: number
 }
 
-const RectangleView = ({ group, border, k, updateTab, navigation }: boxItemProps) => {
+const RectangleView = ({ group, border, k, updateTab, navigation, displayMyGroupSetting }: boxItemProps) => {
 
     const { event } = UseEventService();
 
@@ -41,15 +42,19 @@ const RectangleView = ({ group, border, k, updateTab, navigation }: boxItemProps
         console.log(group.info)
     return (
         <Pressable w={'100%'} onPress={() => {
-            if (navigation) {
-                push(`/${event.url}/attendees/${group?.id!}`)
-            } else {
-                if (group_id === 0) {
-                    // FetchGroups({ query: query, page: 1, group_id: group?.id!, attendee_id: 0, program_id: 0 });
-                    push(pathname + '?' + createQueryString([{name:'tab', value:'sub-group'}, {name:'group_id', value:`${group.id}`}]))
-
-                } else if (updateTab) {
+            if(displayMyGroupSetting === 1){
+                console.log("Press disabled cause Display My Group setting is On:", displayMyGroupSetting)
+            }else{
+                if (navigation) {
                     push(`/${event.url}/attendees/${group?.id!}`)
+                } else {
+                    if (group_id === 0) {
+                        // FetchGroups({ query: query, page: 1, group_id: group?.id!, attendee_id: 0, program_id: 0 });
+                        push(pathname + '?' + createQueryString([{name:'tab', value:'sub-group'}, {name:'group_id', value:`${group.id}`}]))
+    
+                    } else if (updateTab) {
+                        push(`/${event.url}/attendees/${group?.id!}`)
+                    }
                 }
             }
         }}>

@@ -25,6 +25,8 @@ import { getColorScheme } from 'application/styles/colors';
 
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
 
+import PolicyModal from 'application/components/atoms/PolicyModal'
+
 import moment from 'moment';
 
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
@@ -182,6 +184,18 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         ack1[`custom_field_id_q${i}`] = question.allow_multiple === 1 ? answers : answers[0];
         return ack1;
     }, {}));
+    const [spokenLanguages, setSpokenLanguages] = React.useState<any>(
+        attendee?.SPOKEN_LANGUAGE.split(',').reduce((accumulator: Array<{ label: string; value: number }>, languageName: string) => {
+          const languageObject = languages.find(lang => lang.name === languageName.trim());
+          if (languageObject) {
+            accumulator.push({
+              label: languageObject.name,
+              value: languageObject.id,
+            });
+          }
+          return accumulator;
+        }, [])
+    );
 
     const inputFileRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -244,7 +258,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 [obj.name]: obj.answer,
             },
         });
-            console.log("🚀 ~ updateInfoSelect ~ attendeeData:", attendeeData)
     };
 
     const updateAttendeeData = () => {
@@ -274,6 +287,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             accept_foods_allergies: attendeeData?.accept_foods_allergies
         }
 
+        const languageNamesString: string = spokenLanguages.map((language: any) => language.label).join(',');
+        attendeeObj.SPOKEN_LANGUAGE = languageNamesString;
+
         if (attendeeData?.email) attendeeObj.email = attendeeData?.email;
 
         if (attendeeData?.title) attendeeObj.title = attendeeData?.title;
@@ -281,8 +297,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         if (attendeeData?.about) attendeeObj.about = attendeeData?.about;
 
         if (attendeeData?.network_group) attendeeObj.network_group = attendeeData?.network_group;
-
-        if (attendeeData?.SPOKEN_LANGUAGE) attendeeObj.SPOKEN_LANGUAGE = attendeeData?.SPOKEN_LANGUAGE;
 
         if (attendeeData?.industry) attendeeObj.industry = attendeeData?.industry;
 
@@ -414,7 +428,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
-                                {/* <Input w="100%"
+                                 <Input w="100%"
                                     h={'50px'}
                                     placeholder={labels?.about}
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -966,9 +980,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     isDisabled={setting.is_editable === 1 ? false : true}
                                     isMulti={true}
-                                    selected={(attendeeData?.SPOKEN_LANGUAGE && typeof attendeeData.SPOKEN_LANGUAGE === 'string' ? attendeeData.SPOKEN_LANGUAGE.split(",").map((lang: string) => ({ 'label': lang.trim(), 'value': lang.trim() })) : [])}
+                                    selected={spokenLanguages}
                                     onChange={(item: any) => {
-                                        updateSelect({ item, name: "SPOKEN_LANGUAGE" });
+                                        setSpokenLanguages(item);
                                     }}
                                 />
                             </Center>
