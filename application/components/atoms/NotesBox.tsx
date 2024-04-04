@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea, Toast } from 'native-base';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseNoteService from 'application/store/services/UseNoteService';
 import DynamicIcon from 'application/utils/DynamicIcon';
+import ToastContainer, { Status } from './toast';
 type AppProps = {
     note_type: string,
     note_type_id: any,
@@ -32,8 +33,24 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
     }
     if(isNewNote){
         SaveNote({note:note, note_type:note_type, note_type_id:note_type_id });
+        Toast.show({
+            placement:"bottom-right",
+            render:()=>{
+                return(
+                <ToastContainer message='save notes successfully' status={Status.Success}/>
+                )
+            }
+        })
     }else{
         UpdateNote({notes:note, id:my_note?.id, type:note_type});
+        Toast.show({
+            placement:"bottom-right",
+            render:()=>{
+                return(
+                <ToastContainer message='updated notes successfully' status={Status.Success}/>
+                )
+            }
+        })
     }
 
   }

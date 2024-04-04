@@ -20,6 +20,7 @@ export interface ToastProps {
         w={'396px'}
         h={'77px'}
         p={'5'}
+        mx={"5"}
         borderRadius={"lg"}
         flexDirection={'row'}
         justifyContent={'space-between'}
@@ -34,7 +35,7 @@ export interface ToastProps {
             <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
               {status}
             </Text>
-            <Text style={{ fontSize: 14, color: 'white' }}>{message}</Text>
+            <Text isTruncated maxW={"290px"} style={{ fontSize: 14, color: 'white' }}>{message} </Text>
           </View>
         </View>
         <Pressable >
