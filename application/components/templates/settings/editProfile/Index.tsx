@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, useToast, IconButton, Spacer  } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, useToast, IconButton, Spacer ,Toast } from 'native-base';
 
 import {default  as ReactSelect} from "react-select";
 
@@ -36,7 +36,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
-
+import ToastContainer, { Status } from "application/components/atoms/toast/index"
 
 
 const index = () => {
@@ -300,7 +300,20 @@ const Selectstyles2 = {
 
         updateAttendee(formData);
     };
-
+  useEffect(()=>{
+  if(success_message ){
+      Toast.show({
+          placement:"bottom-right",
+          render: () => {
+              return (
+                  <ToastContainer
+                  message='profile is successfully updated'
+                  status={Status.Success}
+                  />
+                  )
+                }
+            })  }
+  },[success_message])
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
@@ -1227,8 +1240,7 @@ const Selectstyles2 = {
                     <Text fontSize="2xl" fontWeight={600}>SAVE</Text>
                 </Button>
             </HStack>
-						{success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'}  p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
-								<Text fontSize="md">profile updated successfully</Text>
+						{/* {success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'}  p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
 								<Spacer />
 								<IconButton
 									variant="unstyled"
@@ -1242,7 +1254,8 @@ const Selectstyles2 = {
 								/>
 								
 								
-						</HStack></Box>}
+						</HStack></Box>} */}
+             
 						
         </Container>
     )
