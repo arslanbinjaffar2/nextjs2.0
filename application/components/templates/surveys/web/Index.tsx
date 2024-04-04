@@ -116,7 +116,7 @@ const Index = () => {
                                     )
                                 
                                 }
-                                    <Divider h="20px" bg="transparent" />
+                                 {surveys.length > 0  &&   <Divider h="20px" bg="transparent" />}
                                 </Box>
                             ) }
                         {tab === 'completed' && (
@@ -131,7 +131,7 @@ const Index = () => {
                                             <Text>{survey_labels?.NO_SURVEY_AVAILABL}</Text>
                                         </Box>
                                     )}
-                                    <Divider h="20px" bg="transparent" />
+                                  {completed_surveys.length > 0  &&  <Divider h="20px" bg="transparent" />}
                                 </Box>
                             )
                         }
