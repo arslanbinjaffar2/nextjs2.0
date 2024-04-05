@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, useToast, IconButton, Spacer } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View } from 'native-base';
 
 import { default as ReactSelect } from "react-select";
 
@@ -25,6 +25,8 @@ import { getColorScheme } from 'application/styles/colors';
 
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
 
+import PolicyModal from 'application/components/atoms/PolicyModal'
+
 import moment from 'moment';
 
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
@@ -36,9 +38,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
-import PolicyModal from 'application/components/atoms/PolicyModal';
-import attendees from 'application/assets/icons/attendees'
-
+import ToastContainer ,{Status} from 'application/components/atoms/toast/index'
 
 
 const index = () => {
@@ -46,9 +46,8 @@ const index = () => {
     const { FetchEditProfiles, settings, labels, attendee, languages, callingCodes, countries, customFields, attendee_feild_settings, UpdateAttendee, updatingAttendee, success_message, UpdateSuccess } = UseEditProfileService();
     
     const { loading, scroll } = UseLoadingService();
-    const toast = useToast();
-    const toastIdRef = React.useRef();
-    const { event } = UseEventService();
+
+		const { event } = UseEventService();
 
 
     React.useEffect(() => {
@@ -163,7 +162,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             ...attendee,
             phone: attendee.phone ? attendee.phone.split("-")[1] : '',
             info: {
-                ...attendeeData?.info,
+                ...attendee?.info,
                 callingCode: attendee.phone ? attendee.phone.split("-")[0] : event?.calling_code ? "+"+event?.calling_code : ''
             },
             });
@@ -184,6 +183,18 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         ack1[`custom_field_id_q${i}`] = question.allow_multiple === 1 ? answers : answers[0];
         return ack1;
     }, {}));
+    const [spokenLanguages, setSpokenLanguages] = React.useState<any>(
+        attendee?.SPOKEN_LANGUAGE.split(',').reduce((accumulator: Array<{ label: string; value: number }>, languageName: string) => {
+          const languageObject = languages.find(lang => lang.name === languageName.trim());
+          if (languageObject) {
+            accumulator.push({
+              label: languageObject.name,
+              value: languageObject.id,
+            });
+          }
+          return accumulator;
+        }, [])
+    );
 
     const inputFileRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -246,7 +257,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 [obj.name]: obj.answer,
             },
         });
-            console.log("🚀 ~ updateInfoSelect ~ attendeeData:", attendeeData)
     };
 
     const updateAttendeeData = () => {
@@ -276,6 +286,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             accept_foods_allergies: attendeeData?.accept_foods_allergies
         }
 
+        const languageNamesString: string = spokenLanguages.map((language: any) => language.label).join(',');
+        attendeeObj.SPOKEN_LANGUAGE = languageNamesString;
+
         if (attendeeData?.email) attendeeObj.email = attendeeData?.email;
 
         if (attendeeData?.title) attendeeObj.title = attendeeData?.title;
@@ -283,8 +296,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         if (attendeeData?.about) attendeeObj.about = attendeeData?.about;
 
         if (attendeeData?.network_group) attendeeObj.network_group = attendeeData?.network_group;
-
-        if (attendeeData?.SPOKEN_LANGUAGE) attendeeObj.SPOKEN_LANGUAGE = attendeeData?.SPOKEN_LANGUAGE;
 
         if (attendeeData?.industry) attendeeObj.industry = attendeeData?.industry;
 
@@ -322,14 +333,20 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         formData.append('file', data.attendeeObj.file);
         formData.append('attendee_cv', data.attendeeObj.att_cv);
 
-        updateAttendee(formData);
-
-
+       updateAttendee(formData);
+       if(!updatingAttendee){
+           Toast.show({
+               placement:"bottom-right",           
+               render: () => {
+                   return (
+                       <ToastContainer message='' status={Status.Success}/>
+                       )
+                    }
+                })
+            }
     };
-    console.log(attendeeData.attendee_cv)
-    if (Object.keys(attendeeData).length === 0) {
-        return <WebLoading />;
-    }
+ 
+
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
@@ -358,7 +375,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             </Center>
                         </HStack>
                     )}
-                    {setting?.name === 'password' && setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 && event?.attendee_settings?.create_profile == 1 && (
+                    {/* {setting?.name === 'password' && setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 && event?.attendee_settings?.create_profile == 1 && (
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.password}</Text>
@@ -376,7 +393,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 />
                             </Center>
                         </HStack>
-                    )}
+                    )} */}
                     {setting?.name === 'first_name' && (
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
@@ -416,12 +433,12 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'bio_info' && (
-                        <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
-                            <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
-                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about?.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+                        <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
+                            <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
-                                <Input w="100%"
+                                 <Input w="100%"
                                     h={'50px'}
                                     placeholder={labels?.about}
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
@@ -429,8 +446,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('about', answer);
                                     }}
-                                    value={attendeeData?.info?.about?.replace(/<\/?[^>]+(>|$)|\&nbsp;|\s+/g, '')
-                                    }
+                                    value={attendeeData?.info?.about.replace(/<\/?[^>]+(>|$)|\&nbsp;|\s+/g, '')
+                                }
                                 />
                             </Center>
                         </HStack>
@@ -857,6 +874,10 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
                                             value={'female'}
                                             opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> Female </Radio>
+                                        <Radio
+                                            isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                            value={'n/a'}
+                                            opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}> N/A </Radio>
                                     </HStack>
 
                                 </Radio.Group>
@@ -969,9 +990,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     isDisabled={setting.is_editable === 1 ? false : true}
                                     isMulti={true}
-                                    selected={(attendeeData?.SPOKEN_LANGUAGE && typeof attendeeData.SPOKEN_LANGUAGE === 'string' ? attendeeData.SPOKEN_LANGUAGE.split(",").map((lang: string) => ({ 'label': lang.trim(), 'value': lang.trim() })) : [])}
+                                    selected={spokenLanguages}
                                     onChange={(item: any) => {
-                                        updateSelect({ item, name: "SPOKEN_LANGUAGE" });
+                                        setSpokenLanguages(item);
                                     }}
                                 />
                             </Center>
@@ -1094,7 +1115,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             </HStack>
                         </HStack>
                     )}
-                    {setting?.name === 'resume' && setting?.is_editable === 1 && (
+                    {setting?.name === 'resume' && (
                         <HStack mb="3" alignItems="start" px="3" w="100%" >
 
                             <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} w="100%" >
@@ -1277,23 +1298,23 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     <Text fontSize="2xl" fontWeight={600}>SAVE</Text>
                 </Button>
             </HStack>
-            {success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'} p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
-                <Text fontSize="md">profile updated successfully</Text>
-                <Spacer />
-                <IconButton
-                    variant="unstyled"
-                    p={2}
-                    rounded={'full'}
-                    icon={<Icon size="md" as={AntDesign} name="close" color="white" />}
-                    onPress={() => {
-                        UpdateSuccess(false)
-                    }}
-
-                />
-
-
-            </HStack></Box>}
-            <PolicyModal title={modalContent.title} body={modalContent.body} isOpen={isModalOpen} onClose={closeModal} cancelRef ={cancelRef}/>
+						{success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'}  p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
+								<Text fontSize="md">profile updated successfully</Text>
+								<Spacer />
+								<IconButton
+									variant="unstyled"
+									p={2}
+									rounded={'full'}
+									icon={<Icon size="md" as={AntDesign} name="close" color="white" />}
+									onPress={()=>{
+									UpdateSuccess(false)
+									}}
+									
+								/>
+								
+								
+						</HStack></Box>}
+						
         </Container>
     )
 }

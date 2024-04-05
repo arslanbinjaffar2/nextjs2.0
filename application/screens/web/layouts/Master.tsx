@@ -17,6 +17,7 @@ import UseSubRegistrationService from 'application/store/services/UseSubRegistra
 import UseNotificationService from 'application/store/services/UseNotificationService';
 import { useRouter as UseNextRouter } from 'next/router';
 import SocketHandler from 'application/provider/Socket/SocketHandler';
+import ToastContainer from 'application/components/atoms/toast';
 
 type Props = {
   children:
@@ -142,6 +143,8 @@ const Master = ({ children, section }: Props) => {
             </ScrollView>
           </Flex>
           <SocketHandler/>
+          <ToastContainer/>
+
         </>
       )}
 

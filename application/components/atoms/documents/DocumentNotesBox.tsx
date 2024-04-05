@@ -96,8 +96,8 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
     <>
         <Box p="0" w="100%" bg={'primary.box'} mb={0} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
-                <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
-                <Text fontSize="lg">{event?.labels?.GENERAL_NOTES}</Text>
+                <DynamicIcon iconType={'notes'} iconProps={{ width: 15, height: 18 }} />
+                <Text fontSize="lg">Notes</Text>
             </HStack>
             <Box py="3" px="4" w="100%">
             <TextArea
