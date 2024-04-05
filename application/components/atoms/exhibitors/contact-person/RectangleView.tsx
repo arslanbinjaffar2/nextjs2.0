@@ -24,7 +24,7 @@ const RectangleView = ({ k, attendee, total }: AppProps) => {
     const { detail } = UseExhibitorService()
     return (
         <HStack w={'100%'} key={`item-${k}`} py="3" px="2" space="3" alignItems="center" borderBottomWidth={k === (total-1) ? 0 : 1} borderColor="primary.bordercolor">
-            {attendee.image && detail?.detail?.exhibitors_attendee && detail?.detail?.exhibitors_attendee[0].is_private.profile_picture.is_private == 0 ? (
+            {attendee.image && detail?.detail?.exhibitors_attendee && detail?.detail?.exhibitors_attendee[0].sort_settings.profile_picture.is_private == 0 ? (
                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="" w="50px" h="50px" rounded={30} />
             ) : (
                 <Image source={UserPlaceholderImage} alt="" w="50px" h="50px" rounded={30} />
