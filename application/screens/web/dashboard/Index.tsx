@@ -124,12 +124,12 @@ const Index = ({ navigation }: indexProps) => {
               <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
           {/*  */}
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
-            <Container overflow={'hidden'} mb="1" w="100%" maxW="100%">
-              <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={poll_labels?.MEET_OUR_SPEAKERS ? poll_labels?.MEET_OUR_SPEAKERS : 'MEET OUR SPEAKERS'}
-                 />
-              <ScrollView w={[width - 30,'100%']} pb={2} showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
-                <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
-                  {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
+
+            <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
+              <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
+              <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
+                <HStack pt="0" space="2" alignItems="flex-start" justifyContent="space-between">
+                  {my_attendees.slice(0, 4).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
                     <RoundedView attendee={attendee} />
                     <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
                   </VStack>)}

@@ -213,7 +213,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                             push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
                                         }} 
                                         borderRadius="0" 
-                                        borderWidth="1px" 
+                                        borderWidth="0px" 
                                         py={0} 
                                         borderColor="primary.darkbox" 
                                         h="42px" 

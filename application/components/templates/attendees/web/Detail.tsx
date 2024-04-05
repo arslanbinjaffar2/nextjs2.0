@@ -106,7 +106,8 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                    {!speaker &&
+                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                             {/* <Pressable onPress={()=> back() }>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
@@ -116,6 +117,7 @@ const Detail = ({ speaker }: Props) => {
                         <Spacer />
                         <Search tab={tab} />
                     </HStack>
+                    }
                     <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
@@ -176,7 +178,7 @@ const Detail = ({ speaker }: Props) => {
                                                 {
                                                     groups?.length <= 0 && (
                                                         <>
-                                                         <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                         <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
                                                         </>
                                                     )
                                                 }
@@ -194,7 +196,7 @@ const Detail = ({ speaker }: Props) => {
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> 
                                                         : (
                                                             <>
-                                                                <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                                <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
                                                             </>
                                                         )
                                         )}
@@ -202,7 +204,7 @@ const Detail = ({ speaker }: Props) => {
                                     </>
                                     )}
                                         {tab === 'category' && <Container mb="3" rounded="10" bg={`${detail?.detail?.categories.length > 0 ? "primary.box" :""}`} w="100%" maxW="100%">
-                                        {detail?.detail?.categories.map((map: any, k: number) =>
+                                        {detail?.detail?.categories.slice().sort((a, b) => a.sort_order - b.sort_order).map((map: any, k: number) =>
                                             <React.Fragment key={`item-box-group-${k}`}>
                                                 {event?.speaker_settings?.category_group === 1 && (
                                                 <>
@@ -221,7 +223,7 @@ const Detail = ({ speaker }: Props) => {
                                         {detail?.detail?.categories.length <=0 && 
                                         (
                                             <>
-                                                <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
                                             </>
                                             )
                                         }
@@ -242,9 +244,8 @@ const Detail = ({ speaker }: Props) => {
                                     )}
                                 </Container>
                             )}
-                            <Box width={"100%"} height={"5%"}>
-                                <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
-                            </Box>
+                            
+                            <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
                         </>
                     )}
                 </>
