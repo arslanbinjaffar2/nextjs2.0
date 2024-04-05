@@ -106,7 +106,8 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                    {!speaker &&
+                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                             {/* <Pressable onPress={()=> back() }>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
@@ -116,6 +117,7 @@ const Detail = ({ speaker }: Props) => {
                         <Spacer />
                         <Search tab={tab} />
                     </HStack>
+                    }
                     <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
