@@ -56,8 +56,8 @@ const RightBar = () => {
       {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.enable_notes == 1 ? <ProgramNotesBox /> : null}
       {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.session_ratings == 1 && !in_array('program-detail',processing) ? <SessionRating program_id={_id} /> : null}
       {(nextRouter.asPath.includes('speakers/detail') || nextRouter.asPath.includes('attendees/detail')) ? <ContactInfo detail={detail} /> : null}
-      {/* <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
-      <UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} /> */}
+      <UpcomingPrograms />
+      {/* <UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} /> */}
       <Divider mb="1" bg="transparent" />
       {event?.exhibitor_settings?.show_on_native_app_dashboard == 1 ? <OurExhibitor />: null}
       {event?.sponsor_settings?.show_on_native_app_dashboard == 1 ? <OurSponsor />: null}
