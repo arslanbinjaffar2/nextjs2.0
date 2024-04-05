@@ -49,8 +49,8 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ disableTitle, updateBre
                         }
                     )}
                     { filteredDocuments.length <= 0 &&
-                        <Box p="3">
-                            <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
+                        <Box bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
+                            <Text>{event.labels.GENERAL_NO_RECORD}</Text>
                         </Box>
                     }
                 </Box>
