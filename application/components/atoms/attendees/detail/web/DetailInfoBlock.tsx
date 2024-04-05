@@ -19,7 +19,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                 <>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
                         <Icon as={AntDesign} name="infocirlceo" size="md" color="primary.text" />
-                        <Text fontSize="sm">About</Text>
+                        <Text fontSize="sm">{event?.labels?.ATTENDEE_ABOUT}</Text>
                     </HStack>
                     
                     <VStack py="5" px="4" space="0" alignItems="center">
