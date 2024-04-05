@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import Master from 'application/screens/web/layouts/Master';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import { Toast } from 'native-base';
+import { Button, Toast } from 'native-base';
 import ToastContainer, { Status } from 'application/components/atoms/toast/index'
+import { ToastActions } from 'application/store/slices/Toast.Slice';
+import { useAppDispatch, useAppSelector } from 'application/store/Hooks';
 type indexProps = {
     navigation: unknown
 }
@@ -12,23 +14,22 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
     const { modules } = UseEventService();
     const module = modules.find((module) => module.alias === 'myturnlist');
-    React.useEffect(()=>{
-        if(true){
-            Toast.show({
-                placement:"bottom-right",
-                duration:50000,
-               
-                render: () => {
-                  return (
-                    <ToastContainer message='helo' status={Status.Success}/>
-                  )
-                }
-              })
-        }
-    },[])
+    const dispatch=useAppDispatch()
+    const {addtoast}=ToastActions   
+   
     return (
         <>
             <NextBreadcrumbs module={module} />
+    <Button
+                colorScheme="primary"
+                onPress={()=>{
+                    dispatch(addtoast({status:"error",message:"heelo "}))
+                }}
+            
+            >
+                Primary
+            </Button>
+          
         </>
     );
 };
