@@ -10,6 +10,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import { Linking } from 'react-native';
 import { colorText } from 'application/styles/colors';
+import UseToastService from 'application/store/services/UseToastService';
 
 type AppProps = {
     sponsor: Sponsor,
@@ -21,7 +22,7 @@ type AppProps = {
 const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 
     const { _env } = UseEnvService()
-
+    const {AddToast}=UseToastService()
     const { settings, MakeFavourite } = UseSponsorService();
 
     const { push } = useRouter()
@@ -41,8 +42,10 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
     function toggleFav(){
         if(isFav){
             setIsFav(false)
+            AddToast({message:"un-favourited",status:"success"})
         }else{
             setIsFav(true)
+            AddToast({message:"favourited",status:"success"})
         }
         MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
     }

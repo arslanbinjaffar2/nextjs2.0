@@ -8,12 +8,15 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import UseEventService from 'application/store/services/UseEventService';
 import { colorText } from 'application/styles/colors'
+import UseToastService from 'application/store/services/UseToastService';
 
 type AppProps = {
     detail: SponsorDetail|null,
 }
 
 const DetailBox = ({ detail }: AppProps) => {
+    
+    const {AddToast}=UseToastService()
 
     const { _env } = UseEnvService()
 
@@ -38,8 +41,10 @@ const DetailBox = ({ detail }: AppProps) => {
     function toggleFav(){
         if(isFav){
             setIsFav(false)
+            AddToast({message:"un-favourited",status:"success"})
         }else{
             setIsFav(true)
+            AddToast({message:"favourited",status:"success"})
         }
         MakeFavourite({ sponsor_id: detail?.detail?.id ? detail?.detail?.id : 0, screen: 'sponsor-detail' });
     }

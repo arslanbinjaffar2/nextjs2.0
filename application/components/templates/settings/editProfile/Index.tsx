@@ -37,6 +37,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
 import ToastContainer ,{Status} from 'application/components/atoms/toast/index'
+import UseToastService from 'application/store/services/UseToastService';
 
 
 const index = () => {
@@ -95,6 +96,7 @@ type formProps = {
 
 const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee }: formProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+  const {AddToast}=UseToastService()
 const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
@@ -292,18 +294,8 @@ const Selectstyles2 = {
         formData.append('settings', JSON.stringify(data.settings));
         formData.append('file', data.attendeeObj.file);
         formData.append('attendee_cv', data.attendeeObj.att_cv);
-
-       updateAttendee(formData);
-       if(!updatingAttendee){
-           Toast.show({
-               placement:"bottom-right",           
-               render: () => {
-                   return (
-                       <ToastContainer message='' status={Status.Success}/>
-                       )
-                    }
-                })
-            }
+   
+        updateAttendee(formData);
     };
  
 

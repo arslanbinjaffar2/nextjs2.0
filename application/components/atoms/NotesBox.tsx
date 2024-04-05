@@ -3,6 +3,7 @@ import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Sc
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseNoteService from 'application/store/services/UseNoteService';
 import DynamicIcon from 'application/utils/DynamicIcon';
+import UseToastService from 'application/store/services/UseToastService';
 type AppProps = {
     note_type: string,
     note_type_id: any,
@@ -12,7 +13,7 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
   const { my_note,saving_notes, SaveNote,GetNote,UpdateNote } = UseNoteService();
   const [note, setNote] = React.useState('')
   const [isNewNote, setIsNewNote] = React.useState(true)
-
+  const {AddToast}=UseToastService()
   useEffect(()=>{
     GetNote({note_type:note_type, note_type_id:note_type_id});
   },[])
@@ -32,8 +33,10 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
     }
     if(isNewNote){
         SaveNote({note:note, note_type:note_type, note_type_id:note_type_id });
+        AddToast({message:"save notes",status:"success"})
     }else{
         UpdateNote({notes:note, id:my_note?.id, type:note_type});
+        AddToast({message:"updated notes",status:"success"})
     }
 
   }

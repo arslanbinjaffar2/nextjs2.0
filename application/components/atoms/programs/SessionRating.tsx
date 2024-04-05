@@ -5,13 +5,13 @@ import UseProgramService from 'application/store/services/UseProgramService';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from "in_array";
+import UseToastService from 'application/store/services/UseToastService';
 
 
 const SessionRating = () => {
   const { detail,rating,SaveRating,FetchRating } = UseProgramService();
   const { processing } = UseLoadingService();
   const [rate, setRate] = React.useState(0);
-
   useEffect(()=>{
     if(detail.program !== undefined){
       FetchRating({program_id:detail.program.id ?? 0});
