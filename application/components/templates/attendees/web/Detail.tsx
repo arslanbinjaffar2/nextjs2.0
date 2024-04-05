@@ -178,7 +178,7 @@ const Detail = ({ speaker }: Props) => {
                                                 {
                                                     groups?.length <= 0 && (
                                                         <>
-                                                         <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                         <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
                                                         </>
                                                     )
                                                 }
@@ -196,7 +196,7 @@ const Detail = ({ speaker }: Props) => {
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> 
                                                         : (
                                                             <>
-                                                                <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                                <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
                                                             </>
                                                         )
                                         )}
@@ -223,7 +223,7 @@ const Detail = ({ speaker }: Props) => {
                                         {detail?.detail?.categories.length <=0 && 
                                         (
                                             <>
-                                                <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
                                             </>
                                             )
                                         }
