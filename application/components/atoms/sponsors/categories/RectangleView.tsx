@@ -37,11 +37,9 @@ const RectangleView = ({ k, category, updateTab }: AppProps) => {
         <Box w="100%" key={k} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" py="3">
             <Pressable
                 onPress={() => {
-                    if(category.sponsors.length > 0){
                         FetchSponsors({ category_id: category.id, query: '', screen: 'sponsors' });
                         updateTab('category-sponsor');
                         push(`/${event.url}/sponsors` + '?' + createQueryString([{name:'tab', value:'category-sponsor'}, {name:'category_id', value:`${category.id}`}]))
-                    }
                 }}>
                 <HStack pl="30px" alignItems="center" minH="55px" space={0}>
                     <Box position="absolute" left="0" top="0">

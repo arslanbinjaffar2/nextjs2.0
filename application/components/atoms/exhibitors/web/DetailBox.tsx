@@ -99,7 +99,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             </HStack>
                         )}
                     </HStack>
-                    {detail?.detail?.description && <Box mb="4" w="100%">
+                    {detail?.detail?.description && event?.exhibitor_tab_settings?.about == 1 && <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
                         <Text lineHeight={0} fontSize="lg">
                             <div className='ebs-iframe-content' style={{overflow:'hidden'}} dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>

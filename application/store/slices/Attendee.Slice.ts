@@ -127,6 +127,7 @@ export const AttendeeSlice = createSlice({
             }
          },
         FetchAttendeeDetail(state, action: PayloadAction<{ id: number, speaker: number }>) { },
+        FetchAttendeeContact(state, action: PayloadAction<{ id: number, speaker: number }>) { },
         UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
         },
@@ -169,6 +170,7 @@ export const AttendeeActions = {
     MakeFavourite: AttendeeSlice.actions.MakeFavourite,
     UpdateFavourite: AttendeeSlice.actions.UpdateFavourite,
     FetchAttendeeDetail: AttendeeSlice.actions.FetchAttendeeDetail,
+    FetchAttendeeContact: AttendeeSlice.actions.FetchAttendeeContact,
     UpdateDetail: AttendeeSlice.actions.UpdateDetail,
     UpdateCategory: AttendeeSlice.actions.UpdateCategory,
     FetchCategories: AttendeeSlice.actions.FetchCategories,
