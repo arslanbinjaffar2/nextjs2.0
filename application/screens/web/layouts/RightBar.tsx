@@ -21,7 +21,10 @@ import UseDocumentService from 'application/store/services/UseDocumentService'
 import UseEnvService from 'application/store/services/UseEnvService'
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from "in_array";
-type ScreenParams = { id: string, cms: string | undefined }
+import { createParam } from 'solito';
+
+type ScreenParams = { id: string, cms: string | undefined }  
+const { useParam } = createParam<ScreenParams>()
 
 const RightBar = () => {
   const { _env } = UseEnvService()
@@ -41,6 +44,7 @@ const RightBar = () => {
     }, []);
   const nextRouter = UseNextRouter();
   const { event } = UseEventService();
+  const [_id] = useParam('id');
 
   return (
     <>
@@ -50,7 +54,7 @@ const RightBar = () => {
       {nextRouter.asPath.includes('sponsors/detail') ? <SponsorContactInfo /> : null}
       {nextRouter.asPath.includes('sponsors/detail') && event?.sponsor_settings?.notes == 1 ? <SponsorNotesBox /> : null}
       {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.enable_notes == 1 ? <ProgramNotesBox /> : null}
-      {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.session_ratings == 1 ? <SessionRating /> : null}
+      {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.session_ratings == 1 && !in_array('program-detail',processing) ? <SessionRating program_id={_id} /> : null}
       {(nextRouter.asPath.includes('speakers/detail') || nextRouter.asPath.includes('attendees/detail')) ? <ContactInfo detail={detail} /> : null}
       {/* <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
       <UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} /> */}
