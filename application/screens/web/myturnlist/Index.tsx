@@ -12,6 +12,9 @@ type indexProps = {
 const Index = ({ navigation }: indexProps) => {
     const { modules,event } = UseEventService();
     const module = modules.find((module) => module.alias === 'myturnlist');
+    const dispatch=useAppDispatch()
+    const {addtoast}=ToastActions   
+   
     return (
         <>
             <NextBreadcrumbs module={module} />
