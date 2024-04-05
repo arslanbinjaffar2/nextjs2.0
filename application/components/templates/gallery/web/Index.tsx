@@ -59,7 +59,9 @@ const Index = () => {
             <NextBreadcrumbs module={module} />
             <Container pt="2" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text textTransform="uppercase" fontSize="2xl">{modules?.find((gallery) => (gallery.alias == 'gallery'))?.name ?? 'Gallery'}</Text>
+                <Text  fontSize="2xl">{modules?.find((gallery) => (gallery.alias == 'gallery'))?.name ?? 'Gallery'}
+
+                </Text>
                 <Spacer />
                 <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_SEARCH} value={query} onChangeText={setQuery} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
               </HStack>

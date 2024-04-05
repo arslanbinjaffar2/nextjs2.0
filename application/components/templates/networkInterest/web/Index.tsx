@@ -117,7 +117,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
   return (
     <Container pt="2" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="uppercase" fontSize="2xl">Network interest</Text>
+                    <Text  fontSize="2xl">Network interest</Text>
                     </HStack>
                     <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
                     <Center mb="3" px="1">
