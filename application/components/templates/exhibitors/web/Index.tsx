@@ -90,7 +90,7 @@ const Index = React.memo(() => {
                             setSearch(text);
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </HStack>
-                    {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') && (
+                    {(event?.exhibitor_settings?.exhibitorTab == 1 ) && (
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
                         {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') && <Button onPress={() => {
                             setTab('name')
