@@ -19,8 +19,8 @@ import UseDocumentService from 'application/store/services/UseDocumentService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService';
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useWindowDimensions } from 'react-native';
 import ExhibitorContactInfo from 'application/components/atoms/exhibitors/contact-info/ContactInfo';
 import ExhibitorNotesBox from 'application/components/atoms/exhibitors/notes/NotesBox';
@@ -151,7 +151,6 @@ const Detail = React.memo(() => {
                         { event?.exhibitor_tab_settings?.notes == 1 &&  <ExhibitorNotesBox />}
                     </Container>}
 
-                    
                     <BannerAds module_name={'exhibitors'} module_type={'detail'} module_id={detail?.detail?.id} />
                 </>
             )}

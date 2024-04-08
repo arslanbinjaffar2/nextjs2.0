@@ -4,7 +4,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseNoteService from 'application/store/services/UseNoteService';
 import UseEventService from 'application/store/services/UseEventService';
 import DynamicIcon from 'application/utils/DynamicIcon';
-import ToastContainer, { Status } from './toast';
+import UseToastService from 'application/store/services/UseToastService';
 type AppProps = {
     note_type: string,
     note_type_id: any,
@@ -14,8 +14,7 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
   const { my_note,saving_notes, SaveNote,GetNote,UpdateNote } = UseNoteService();
   const [note, setNote] = React.useState('')
   const [isNewNote, setIsNewNote] = React.useState(true)
-  const {event} = UseEventService();
-
+  const {AddToast}=UseToastService()
   useEffect(()=>{
     GetNote({note_type:note_type, note_type_id:note_type_id});
   },[])
@@ -39,24 +38,10 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
     }
     if(isNewNote){
         SaveNote({note:note, note_type:note_type, note_type_id:note_type_id });
-        Toast.show({
-            placement:"bottom-right",
-            render:()=>{
-                return(
-                <ToastContainer message='save notes successfully' status={Status.Success}/>
-                )
-            }
-        })
+        AddToast({message:"save notes",status:"success"})
     }else{
         UpdateNote({notes:note, id:my_note?.id, type:note_type});
-        Toast.show({
-            placement:"bottom-right",
-            render:()=>{
-                return(
-                <ToastContainer message='updated notes successfully' status={Status.Success}/>
-                )
-            }
-        })
+        AddToast({message:"updated notes",status:"success"})
     }
 
   }
@@ -66,7 +51,7 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
         <Box p="0" w="100%" bg={'primary.box'} mb={children ? 0 : 5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
                 <DynamicIcon iconType={'notes'} iconProps={{ width: 15, height: 18 }} />
-                <Text fontSize="lg">Notes</Text>
+                <Text fontSize="lg">{event?.labels?.GENERAL_NOTES}</Text>
             </HStack>
             <Box py="3" px="4" w="100%">
             <TextArea

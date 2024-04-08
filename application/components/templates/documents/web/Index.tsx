@@ -53,7 +53,7 @@ const Index = React.memo(() => {
                     <NextBreadcrumbs module={module} additionalBreadcrubms={breadcrumbs} onBreadcrumbPress={handleBreadcrumbPress} onAdditionalMainBreadcrumbPress={onAdditionalMainBreadcrumbPress}/>
                     <Container mb={4} pt="2" maxW="100%" w="100%">
                         <HStack display={['block', 'flex']} mb="3" pt="2" w="100%" space="0" alignItems="center">
-                            <Text textTransform="capitalize" fontSize="2xl">{modules?.find((documents) => (documents.alias == 'ddirectory'))?.name ?? 'Documents'}</Text>
+                            <Text  fontSize="2xl">{modules?.find((documents) => (documents.alias == 'ddirectory'))?.name ?? 'Documents'}</Text>
                             <Spacer />
                             <Search />
                         </HStack>
