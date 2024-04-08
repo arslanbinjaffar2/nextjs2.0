@@ -75,6 +75,7 @@ const index = () => {
                         updatingAttendee={updatingAttendee}
                         UpdateSuccess={UpdateSuccess}
                         success_message={success_message}
+                    
                     />
                 </>
             )}
@@ -95,7 +96,7 @@ type formProps = {
     event: Event
     attendee_feild_settings: Attendeefeildsettings | null
     updatingAttendee: boolean,
-    success_message: boolean,
+    success_message: boolean | null, 
     updateAttendee: (data: any) => void
     UpdateSuccess: (data: any) => void
 };
@@ -104,7 +105,7 @@ type formProps = {
 const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee, success_message, UpdateSuccess }: formProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   const {AddToast}=UseToastService()
-const Selectstyles2 = {
+    const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
       minHeight: "40px",
@@ -342,7 +343,6 @@ const Selectstyles2 = {
     };
  
 
-    };
     console.log(attendeeData.attendee_cv)
     if (Object.keys(attendeeData).length === 0) {
         return <WebLoading />;
