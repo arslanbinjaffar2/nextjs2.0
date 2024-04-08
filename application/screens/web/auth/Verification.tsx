@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Center, Flex, Text, Image, VStack, Radio, FormControl, Spinner, Divider, Box } from 'native-base';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
-import { images } from 'application/styles';
+import { images, func } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -31,7 +31,7 @@ const Verification = ({ props }: any) => {
     const { processing, verification, loadProvider, error, response } = UseAuthService();
 
     const { push } = useRouter();
-
+		const router = useRouter();
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const [id] = useParam('id')
@@ -114,15 +114,29 @@ const Verification = ({ props }: any) => {
                                     }}
                                 />
                             </Flex>
-                            <Link href={`/${event.url}/auth/login`}>
-                                <Text textDecorationLine={'underline'}  w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
-                            </Link>
+                           <Text fontSize="md" > 
+                            <Button
+                                p="0"
+                                bg={'transparent'}
+                                borderWidth="0"
+                                textDecorationLine={'underline'}
+                                variant={'unstyled'}
+                                _hover={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+                                _pressed={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+                                onPress={()=>{
+                                    router.push(`/${event.url}/auth/login`)
+                                }}
+                            
+                            >
+                                {`${event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO} ${event?.labels?.DESKTOP_APP_LABEL_LOGIN}`}
+                            </Button>
+                        </Text>
                             <Button
                                 width={'100%'}
                                 isLoading={processing}
                                 onPress={handleSubmit(onSubmit)}
                                 minH='48px'
-                                endIcon={<IcoLongArrow />}
+                                endIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />}
                                 _hover={{ bg: 'primary.secondary' }}
                             >
                             </Button>

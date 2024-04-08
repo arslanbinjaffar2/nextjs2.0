@@ -27,6 +27,7 @@ import UseSubRegistrationService from 'application/store/services/UseSubRegistra
 import { error } from 'application/store/slices/Auth.Slice';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import { func } from 'application/styles';
 
 
 type ScreenParams = { id: string }
@@ -305,6 +306,7 @@ const Detail = () => {
                       textTransform={'uppercase'}
                       fontSize="lg"
                       colorScheme="primary"
+                      _hover={{_text: {color: 'primary.hovercolor'}}}
                       onPress={() => {
                         setSkip();
                       }}
@@ -317,7 +319,7 @@ const Detail = () => {
                         w="48px"
                         py="3"
                         px="1"
-                        leftIcon={<IcoLongArrow />}
+                        leftIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)}  />}
                         colorScheme="primary"
                         isLoading={submitting}
                         onPress={() => {
