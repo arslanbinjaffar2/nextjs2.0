@@ -59,6 +59,15 @@ const LeftBar = () => {
                 <Text fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
                 <Text p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
               </VStack>}
+            <Pressable
+            w="100%"
+            p="1"
+            borderRadius="8"
+            onPress={() => {
+              router.push(`/${event.url}/settings/editprofile`)
+            }}>
+              <DynamicIcon iconType={'edit_profile'} iconProps={{ width:18,height:18}}/>
+            </Pressable>
             </Flex>
         </Pressable>
       </Box>
