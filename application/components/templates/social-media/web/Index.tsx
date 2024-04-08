@@ -33,7 +33,7 @@ const index = () => {
           <NextBreadcrumbs module={module} />
         <Container pt="2" maxW="100%" w="100%">
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-              <Text textTransform="capitalize" fontSize="2xl">{modules?.find((socialMedia)=>(socialMedia.alias == 'social-media'))?.name ?? ""}</Text>
+              <Text  fontSize="2xl">{modules?.find((socialMedia)=>(socialMedia.alias == 'social-media'))?.name ?? ""}</Text>
             </HStack>
             <Box w="100%" mb="3" bg="primary.box" p={["4","8"]} pb="1" rounded="10px">
               <Flex direction="row" flexWrap="wrap">

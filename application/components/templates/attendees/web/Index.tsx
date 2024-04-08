@@ -176,7 +176,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             <NextBreadcrumbs module={module} />
             <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text fontSize="2xl">
-                    {speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee)=>(attendee.alias == 'attendees'))?.name :  modules?.find((attendee)=>(attendee.alias == 'my-attendee-list'))?.name) : modules?.find((speaker)=>(speaker.alias == 'speakers'))?.name}
+                {speaker === 0 ? (screen === 'attendees' ? 
+    (modules?.find(attendee => attendee.alias === 'attendees')?.name ?? '')
+    :  
+    (modules?.find(attendee => attendee.alias === 'my-attendee-list')?.name ?? '')
+  ) 
+  : 
+  (modules?.find(speaker => speaker.alias === 'speakers')?.name ?? '')
+
+}
                 </Text>
                 <Spacer />
                 <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
