@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, Spacer, IconButton } from 'native-base';
 
 import { default as ReactSelect } from "react-select";
 
@@ -98,7 +98,7 @@ type formProps = {
 };
 
 
-const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee }: formProps) => {
+const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee,success_message,UpdateSuccess }: formProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 const Selectstyles2 = {
     control: (base:any, state:any) => ({
