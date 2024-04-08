@@ -35,6 +35,7 @@ import UseAlertService from 'application/store/services/UseAlertService'
 import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import { Banner } from 'application/models/Banner'
+import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
 
 type indexProps = {
   navigation: unknown
@@ -88,22 +89,18 @@ const Index = ({ navigation }: indexProps) => {
            <MobileNavigation />
          </Box>
          
-            {/* <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
+            <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
                   <Box minH={150} h={'100%'} flex={1}>
-                  <UpcomingBlock
-                      px="3"
-                      py="4"
-                      h='150px'
-                      title="UPCOMING SESSION" desc='Talk on w http://localhost:3000/checking-clone-3479/dashboard?currentIndex=0' location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+                  <UpcomingPrograms />
                   </Box>
-                  <Box minH={150}  flex={1}>
+                  {/* <Box minH={150}  flex={1}>
                     <UpcomingBlock 
                       px="3"
                       py="4"
                       h='150px'
                     title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
-                </Box>
-            </HStack>  */}
+                </Box>*/}
+            </HStack>  
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
           {/*  */}
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
@@ -114,7 +111,7 @@ const Index = ({ navigation }: indexProps) => {
                 <Button onPress={() => {
                   push(`/${event.url}/agendas`)
                 }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                  {event.labels?.GENERAL_LOAD_MORE ?? '{event.labels?.GENERAL_LOAD_MORE}'}
+                 {event.labels?.GENERAL_SHOW_ALL}
                 </Button>
               </Center>
             </Container>
@@ -193,7 +190,7 @@ const Index = ({ navigation }: indexProps) => {
                       <Button onPress={() => {
                         push(`/${event.url}/alerts`)
                       }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                        {event.labels?.GENERAL_LOAD_MORE ?? 'Show all'}
+                        {event.labels?.GENERAL_SHOW_ALL}
                       </Button>
                     </Center>
                     }

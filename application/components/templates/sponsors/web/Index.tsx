@@ -97,7 +97,7 @@ const Index = React.memo(() => {
                         setSearch(text);
                     }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                 </HStack>
-                {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && (
+                {(event?.sponsor_settings?.sponsorTab == 1) && (
                     <HStack mb="3" space={1} justifyContent="center" w="100%">
                     {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && <Button onPress={() => {
                         setTab('name')
