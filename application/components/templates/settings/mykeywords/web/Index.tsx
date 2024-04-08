@@ -116,7 +116,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         py="1"
                         rounded="20px"
                         bg={((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.500" : "primary.box"}
-                        borderWidth="1"
+                        borderWidth="0"
                         _text={{ fontSize: 'lg' }}
                         borderColor="primary.bdBox"
                         colorScheme="primary"
@@ -134,7 +134,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                             py="1"
                             rounded="20px"
                             bg={filters?.indexOf(keyword?.id) !== -1 ? "primary.500" :"primary.box" }
-                            borderWidth="1"
+                            borderWidth="0"
                             borderColor="primary.bdBox"
                             _text={{ fontSize: 'lg' }}
                             colorScheme="primary"
