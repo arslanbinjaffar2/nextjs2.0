@@ -262,7 +262,7 @@ const AddPost = () => {
 												width={130}
 												rounded={'8'}
                         py="2"
-                        _text={{ fontWeight: 600 }}
+                        _text={{ fontWeight: 600, color: 'primary.hovercolor' }}
                         colorScheme="primary"
                         onPress={() => {
                            createPost();

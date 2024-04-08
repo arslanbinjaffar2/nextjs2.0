@@ -21,7 +21,7 @@ const SVGComponent = (props:SvgProps) => {
           data-name="Rectangle 70"
           transform="translate(0 10.815)"
           fill="none"
-          stroke={colors.text ? colors.text : '#fff'}
+          stroke={props.color ? props.color : colors.text}
           strokeWidth={0.8}
         >
           <Rect width={19.533} height={13.185} rx={2} stroke="none" />
@@ -39,7 +39,7 @@ const SVGComponent = (props:SvgProps) => {
           data-name="Ellipse 3"
           transform="translate(7.767)"
           fill="none"
-          stroke={colors.text ? colors.text : '#fff'}
+          stroke={props.color ? props.color : colors.text}
           strokeWidth={0.8}
         >
           <Ellipse cx={2.165} cy={2.165} rx={2.165} ry={2.165} stroke="none" />
@@ -51,7 +51,7 @@ const SVGComponent = (props:SvgProps) => {
           d="M-173.5,195.423l1.729-4.706a1.717,1.717,0,0,1,1.59-1.217l2.254,1.66,2.427-1.66a1.707,1.707,0,0,1,1.564,1.145l1.972,4.778"
           transform="translate(177.499 -184.452)"
           fill="none"
-          stroke={colors.text ? colors.text : '#fff'}
+          stroke={props.color ? props.color : colors.text}
           strokeMiterlimit={10}
           strokeWidth={0.8}
         />
@@ -62,7 +62,7 @@ const SVGComponent = (props:SvgProps) => {
           x2={0.999}
           transform="translate(6.517 8.558)"
           fill="none"
-          stroke={colors.text ? colors.text : '#fff'}
+          stroke={props.color ? props.color : colors.text}
           strokeLinecap="round"
           strokeWidth={0.8}
         />
@@ -73,7 +73,7 @@ const SVGComponent = (props:SvgProps) => {
           y2={2.322}
           transform="translate(11.66 8.558)"
           fill="none"
-          stroke={colors.text ? colors.text : '#fff'}
+          stroke={props.color ? props.color : colors.text}
           strokeLinecap="round"
           strokeWidth={0.8}
         />
@@ -83,8 +83,8 @@ const SVGComponent = (props:SvgProps) => {
       id="question_mark_FILL0_wght100_GRAD0_opsz24"
       d="M313.78-798.54a2.3,2.3,0,0,1,.208-1,3.353,3.353,0,0,1,.849-1,3.182,3.182,0,0,0,.623-.742,1.6,1.6,0,0,0,.208-.813,1.5,1.5,0,0,0-.469-1.128,1.763,1.763,0,0,0-1.276-.451,1.727,1.727,0,0,0-1,.261,2.075,2.075,0,0,0-.629.7l-.3-.154a2.365,2.365,0,0,1,.783-.849,2.1,2.1,0,0,1,1.139-.291,2.005,2.005,0,0,1,1.537.576,1.892,1.892,0,0,1,.54,1.335,2.032,2.032,0,0,1-.22.932,2.515,2.515,0,0,1-.623.777,3.438,3.438,0,0,0-.861.967,2,2,0,0,0-.184.872Zm.142,2.516a.319.319,0,0,1-.231-.1.319.319,0,0,1-.1-.232.318.318,0,0,1,.1-.231.318.318,0,0,1,.231-.1.318.318,0,0,1,.231.1.318.318,0,0,1,.1.231.319.319,0,0,1-.1.232A.319.319,0,0,1,313.923-796.024Z"
       transform="translate(-304.421 817.315)"
-      fill={colors.text ? colors.text : '#fff'}
-      stroke={colors.text ? colors.text : '#fff'}
+      fill={props.color ? props.color : colors.text}
+      stroke={props.color ? props.color : colors.text}
       strokeWidth={0.4}
     />
   </Svg>
