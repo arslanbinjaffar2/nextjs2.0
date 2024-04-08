@@ -71,7 +71,9 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   borderColor="primary.darkbox"
                   textTransform="uppercase"
                   bg={'#A5A5A5'}
-                  >{ attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}</Avatar>
+                  >
+                    { attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}
+                    </Avatar>
             )}
             <VStack w={'calc(100% - 165px)'} space="0">
               {(attendee?.first_name || attendee?.last_name) && (
