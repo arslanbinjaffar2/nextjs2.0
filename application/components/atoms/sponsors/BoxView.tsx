@@ -8,6 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
+import UseToastService from 'application/store/services/UseToastService';
 import { Linking } from 'react-native';
 import { colorText } from 'application/styles/colors';
 
