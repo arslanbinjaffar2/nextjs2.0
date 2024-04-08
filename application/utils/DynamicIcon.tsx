@@ -29,6 +29,7 @@ import notes from 'application/assets/icons/notes';
 import my_notes from 'application/assets/icons/my_notes';
 import editnotes from 'application/assets/icons/editnotes';
 import myagendas from 'application/assets/icons/myagendas';
+import myprograms from 'application/assets/icons/myagendas';
 import alerts from 'application/assets/icons/alerts';
 import hdquestions from 'application/assets/icons/hdquestions'
 import myexhibitors from 'application/assets/icons/myexhibitors'
@@ -131,6 +132,7 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         mydocuments,
         notes,
         myagendas,
+        myprograms,
         alerts,
         agendas,
         myturnlist,
