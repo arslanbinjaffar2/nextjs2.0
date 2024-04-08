@@ -87,15 +87,15 @@ const Index = () => {
             
 
             <HStack mb="3" overflow={'hidden'} rounded={8} space={1} justifyContent="center" w="100%">
-                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <Button onPress={() => {
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                     ResetTracks();
                     setTab('program')
                 }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</Button>}
-                {(modules?.find((m)=>(m.alias == 'myagendas'))) &&<Button onPress={() => {
+                {(modules?.find((m)=>(m.alias == 'myagendas'))) &&<Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                     ResetTracks();
                     setTab('my-program');
                 }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>{modules?.find((module)=>(module.alias == 'myagendas'))?.name ?? 'My program'}</Button>}
-                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button onPress={() => setTab('track')} borderWidth="0px" py={0} borderColor="primary.darkbox" flex={1} borderLeftRadius="0" borderRightRadius={0} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>TRACKS</Button>}
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('track')} borderWidth="0px" py={0} borderColor="primary.darkbox" flex={1} borderLeftRadius="0" borderRightRadius={0} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>TRACKS</Button>}
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">

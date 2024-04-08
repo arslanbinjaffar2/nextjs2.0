@@ -198,7 +198,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 borderColor="primary.darkbox" 
                                 borderRightRadius="0" 
                                 borderLeftRadius={8} 
-                                h="42px" 
+                                h="42px"
+                                _hover={{_text: {color: 'primary.hovercolor'}}} 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                 w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
                                 _text={{ fontWeight: '600' }}
@@ -215,7 +216,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 borderWidth="0px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
-                                h="42px" 
+                                h="42px"
+                                _hover={{_text: {color: 'primary.hovercolor'}}} 
                                 borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
                                 borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
                                 bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
@@ -236,6 +238,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     borderLeftRadius="0" 
                                     borderRightRadius={8} 
                                     h="42px" 
+                                    _hover={{_text: {color: 'primary.hovercolor'}}}
                                     bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} 
                                     w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
                                     _text={{ fontWeight: '600' }}
@@ -259,6 +262,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 borderRightRadius={0} 
                                 borderLeftRadius={8} 
                                 h="42px" 
+                                _hover={{_text: {color: 'primary.hovercolor'}}}
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
@@ -278,6 +282,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
+                                _hover={{_text: {color: 'primary.hovercolor'}}}
                                 bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} 
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
