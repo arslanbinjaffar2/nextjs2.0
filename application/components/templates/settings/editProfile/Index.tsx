@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, Spacer, IconButton } from 'native-base';
 
 import { default as ReactSelect } from "react-select";
 
@@ -38,8 +38,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
-import ToastContainer ,{Status} from 'application/components/atoms/toast/index'
-import UseToastService from 'application/store/services/UseToastService';
 
 
 const index = () => {
@@ -100,7 +98,7 @@ type formProps = {
 };
 
 
-const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee }: formProps) => {
+const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee,success_message,UpdateSuccess }: formProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 const Selectstyles2 = {
     control: (base:any, state:any) => ({
@@ -336,7 +334,6 @@ const Selectstyles2 = {
    
         updateAttendee(formData);
     };
- 
 
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">

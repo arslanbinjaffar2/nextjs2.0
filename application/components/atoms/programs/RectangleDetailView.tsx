@@ -10,7 +10,6 @@ import { useRouter } from 'solito/router';
 import { Platform } from 'react-native';
 import moment from 'moment'
 import in_array from 'in_array';
-import ToastContainer, { Status } from '../toast';
 type AppProps = {
   program: Program,
   k: number,
@@ -33,14 +32,6 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
   if(favouriteProgramError !== ''){
     let message = favouriteProgramError;
     SetFavouriteProgramError('');
-    Toast.show({
-      placement:"bottom-right",
-      render:()=>{
-        return(
-          <ToastContainer message={message} status={Status.Error}/>
-        )
-      }
-    })
     // alert(message);
   } 
   
@@ -52,24 +43,10 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
 
   function toggleFav(){
     if(isFav){
-      Toast.show({
-        placement:"bottom-right",
-        render:()=>{
-          return(
-            <ToastContainer message='Favourited successfully' status={Status.Success}/>
-          )
-        }
-      })
+     
       setFav(false);
     }else{
-      Toast.show({
-        placement:"bottom-right",
-        render:()=>{
-          return(
-            <ToastContainer message='unFavourited successfully' status={Status.Success}/>
-          )
-        }
-      })
+  
       setFav(true);
     }
     MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
