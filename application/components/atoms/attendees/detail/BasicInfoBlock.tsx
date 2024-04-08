@@ -93,7 +93,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             
                             {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
                                 <Pressable onPress={() => { toggleFav() }}>
-                                    <Icoribbon width={"20"} height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+                                    <Icoribbon width={"20"} height="28" color={isFav ? event?.settings?.primary_color : ''} />
                                 </Pressable>
                             )}
 
