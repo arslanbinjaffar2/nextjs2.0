@@ -15,6 +15,7 @@ const Index = () => {
 
     const { _env } = UseEnvService();
 
+
     const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords, skip } = UseNetworkInterestService();
     
     const { push } = useRouter()
@@ -35,9 +36,7 @@ const Index = () => {
         {loading && <SectionLoading />}
         {(!loading  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
         {(!loading  && keywords.length > 0 ) && <ManageKeywords keywords={keywords} SaveMykerwords={SaveMykeywords} UpdatingMyKeywords={UpdatingMyKeywords} />}
-        <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'business'} module_type={'listing'} />
-        </Box>
     </>
   )
 }
@@ -126,7 +125,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         py="1"
                         rounded="20px"
                         bg={((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.500" : "primary.box"}
-                        borderWidth="1"
+                        borderWidth="0"
                         _text={{ fontSize: 'lg' }}
                         borderColor="primary.bdBox"
                         colorScheme="primary"
@@ -144,7 +143,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                             py="1"
                             rounded="20px"
                             bg={filters?.indexOf(keyword?.id) !== -1 ? "primary.500" :"primary.box" }
-                            borderWidth="1"
+                            borderWidth="0"
                             borderColor="primary.bdBox"
                             _text={{ fontSize: 'lg' }}
                             colorScheme="primary"

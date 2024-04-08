@@ -20,8 +20,8 @@ import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
 import RectangleCategoryView from 'application/components/atoms/attendees/categories/RectangleView';
 import { Category } from 'application/models/event/Category';
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { slug: any }
 
@@ -102,6 +102,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                 FetchCategories({ parent_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), query: query, page: 1, cat_type: 'speakers' })
             } else if (in_array(tab, ['sub-group'])) {
                 FetchGroups({ query: query, group_id: (Number((searchParams.get('group_id') !== null ? searchParams.get('group_id') : 0))), page: 1, attendee_id: 0, program_id: 0 });
+            }else{
+                UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
+                setTab('attendee');
             }
         }
     }, [tab, category_id]);
@@ -134,10 +137,10 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('sub-group');
             FetchGroups({ query: query, group_id: (Number((searchParams.get('group_id') !== null ? searchParams.get('group_id') : 0))), page: 1, attendee_id: 0, program_id: 0 });
         }
-    }, [slug]);
+    }, [slug, tab]);
 
     const updateTab = (tab: string) => {
-        setTab(tab);
+        setTab(tab); 
     }
 
     React.useEffect(() => {
@@ -165,7 +168,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('my-attendee');
         }
     }, [screen]);
+
     const module = (speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee) => attendee.alias === 'attendees') : modules?.find((attendee) => attendee.alias === 'my-attendee-list')) : modules?.find((speaker) => speaker.alias === 'speakers'))
+
     return (
         <>
             <NextBreadcrumbs module={module} />
@@ -188,7 +193,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     setTab('attendee'); 
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'attendee'))
                                 }} 
-                                borderWidth="1px" 
+                                borderWidth="0px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 borderRightRadius="0" 
@@ -200,32 +205,35 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             >
                                 {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
                             </Button>}
-                            <Button
-                                onPress={() => {
-                                    setTab('my-attendee')
-                                    push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
-
-                                }} 
-                                borderRadius="0" 
-                                borderWidth="1px" 
-                                py={0} 
-                                borderColor="primary.darkbox" 
-                                h="42px" 
-                                borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
-                                borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
-                                bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
-                                _text={{ fontWeight: '600' }}
-                            >
-                                
-                                {modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
-                            </Button>
+                            {
+                                modules?.some(module => module.alias === 'my-attendee-list') && (
+                                    <Button
+                                        onPress={() => {
+                                            setTab('my-attendee')
+                                            push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
+                                        }} 
+                                        borderRadius="0" 
+                                        borderWidth="0px" 
+                                        py={0} 
+                                        borderColor="primary.darkbox" 
+                                        h="42px" 
+                                        borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
+                                        borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
+                                        bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
+                                        w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
+                                        _text={{ fontWeight: '600' }}
+                                    >
+                                        {modules?.find((module) => (module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
+                                    </Button>
+                                )
+                            }
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
                                 <Button 
                                     onPress={() => {
                                         setTab('group')
                                         push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'group'))
                                     }} 
-                                    borderWidth="1px" 
+                                    borderWidth="0px" 
                                     py={0} 
                                     borderColor="primary.darkbox" 
                                     borderLeftRadius="0" 
@@ -248,7 +256,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'attendee'))
                                     UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
                                 }} 
-                                borderWidth="1px" 
+                                borderWidth="0px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 borderRightRadius={0} 
@@ -269,7 +277,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 }} 
                                 borderRightRadius={8} 
                                 borderLeftRadius={0} 
-                                borderWidth="1px" 
+                                borderWidth="0px" 
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
@@ -295,7 +303,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             </Pressable>
                         </HStack>
                         {group_name && (
-                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
+                            <Text mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
                         )}
                         </>
                     )}
@@ -316,15 +324,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     )}
                 </>
             )}
-            {speaker === 0 && <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
-                {alphabet && alphabet.map((item, k) =>
+            {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
+              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
+                  {alphabet.map((item, k) =>
                     <React.Fragment key={k}>
-                        {item && (
-                            <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
-                        )}
+                        <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
                     </React.Fragment>
-                )}
-            </VStack>}
+                  )}
+              </VStack>
+            )}
             <>
                 {(in_array('attendee-listing', processing) || in_array('category-listing', processing) || in_array('groups', processing)) && page === 1 ? (
                     <SectionLoading />
@@ -354,7 +362,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                               </Box>
                             }
                         </Container>}
-                        {(tab === 'group' || tab === 'sub-group') && <Container mb="3" pt={3} rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'group' || tab === 'sub-group') && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
@@ -387,10 +395,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                         </Container>}
                     </>
                 )}
-                {banner_module && 
-                    <Box width={"100%"} height={"5%"}>
+                {banner_module &&
                         <BannerAds module_name={banner_module} module_type={'listing'} />
-                    </Box>
                 }
                 
             </>

@@ -48,7 +48,9 @@ const Index = () => {
     });
     setFilteredGalleryImages(filteredImages);
   }, [gallery_images, query]);
+
   const module = modules.find((module) => module.alias === 'gallery');
+  
   return (
     <>
       {
@@ -114,9 +116,7 @@ const Index = () => {
             </Container>
           </>
         )}
-      <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'gallery'} module_type={'listing'} />
-      </Box>
       {(in_array('gallery', processing)) && page > 1 && (
         <LoadMore />
       )}

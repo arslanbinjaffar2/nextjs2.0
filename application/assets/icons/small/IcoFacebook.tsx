@@ -1,11 +1,15 @@
 import * as React from 'react';
-import Svg, { SvgProps, Path, Ellipse } from 'react-native-svg';
-
+import Svg, { SvgProps,Ellipse, Path } from 'react-native-svg';
+import { getColorScheme } from 'application/styles/colors';
+import UseEventService from 'application/store/services/UseEventService';
 
 const IcoFacebook = (props: SvgProps) => {
-
+  const { event } = UseEventService()
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 return (
   <Svg
+    id="Group_593"
+    data-name="Group 593"
     width={28.623}
     height={28.623}
     viewBox="0 0 28.623 28.623"

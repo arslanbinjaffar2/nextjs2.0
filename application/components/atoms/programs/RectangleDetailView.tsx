@@ -36,20 +36,13 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
   } 
   
   useEffect(()=>{
-      if(program?.program_attendees_attached?.length){
-        setFav(true);
-      }else{
-        setFav(false);
-      }
+    setFav(program?.program_attendees_attached?.length > 0);
+    console.log("isFav state: ", isFav);
   }
-  ,[program?.program_attendees_attached])
+  ,[program, program?.program_attendees_attached])
 
   function toggleFav(){
-    if(isFav){
-      setFav(false);
-    }else{
-      setFav(true);
-    }
+    // setFav(prevIsFav => !prevIsFav);
     MakeFavourite({ program_id: program.id, screen: speaker === 1 ? 'speaker-program' : (section !== undefined ? section : 'programs')  })
   }
   
@@ -94,10 +87,10 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
                             console.log('hello')
                           }}
                         />
-                      ): ''}
+                      ): null}
                       {program?.videos?.length ? (
                         <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
-                      ) : ''}
+                      ) : null}
                        {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && <Pressable
                         onPress={() => toggleFav()}>
                         <Icon size="xl" as={AntDesign} name={isFav ? "heart" : "hearto"} color={isFav ? 'secondary.500' : 'primary.text'} />

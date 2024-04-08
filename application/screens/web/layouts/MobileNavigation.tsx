@@ -19,7 +19,10 @@ const MobileNavigation = () => {
   const { push, back } = useRouter()
   const { response } = UseAuthService();
   const router = useRouter()
-  const width = useWindowDimensions();
+  const {width} = useWindowDimensions();
+  const module_lenght = modules.filter((item: any) => item.show_on_dashboard === 1).length 
+  const [leftArrow, setleftArrow] = React.useState<number>(0)
+  const [rightArrow, setrightArrow] = React.useState<number>(module_lenght > 4 ? module_lenght : 0)
   const sliderRef = React.useRef<Slider>(null);
    const settings = {
       dots: false,
@@ -29,13 +32,23 @@ const MobileNavigation = () => {
       slidesToShow: 4,
       slidesToScroll: 1,
       swipeToSlide: true,
+      onInit:  () => {
+        console.log('first')
+      },
+      afterChange: (currentSlide: any) => {
+     
+        setrightArrow((module_lenght) - (currentSlide+4) )
+        setleftArrow(currentSlide)
+    }
     };
   return (
-    <SafeAreaView edges={['left']}>
-      <HStack pt={4} space="0" alignItems="center">
+    <React.Fragment>
+    {module_lenght > 0 && <SafeAreaView edges={['left']}>
+      <HStack nativeID='ebs-navigation-slider' pt={4} space="0" alignItems="center">
         <Center  size="8">
-          <IconButton
+          {leftArrow > 0 && <IconButton
             variant="unstyled"
+            p={1}
             icon={<Icon size="md" as={AntDesign} name="left" color="primary.text" />}
             onPress={()=>{
               if (sliderRef.current) {
@@ -43,32 +56,16 @@ const MobileNavigation = () => {
               }
             }}
             
-          />
+          />}
           
           
         </Center>
-         <View w={width.width - 100}>
+         <View w={[width - 100,"540px"]}>
           <Slider
           ref={sliderRef}
            {...settings}>
-            <Box>
-              <Pressable
-                p="0"
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                borderWidth="0"
-                onPress={()=>{
-                  push(`/${event.url}`)
-                }}
-              >
-                <IcoDashboard width="24" height="24" />
-                <Text textAlign={'center'} pt={1} fontSize={'sm'}>Dashboard</Text>
-              </Pressable>
-            </Box>
-            {modules.map((module, index) => (
+            {modules.filter((item: any) => item.show_on_dashboard === 1).map((module, index) => (
               <Box key={index}>
-                {module.show_on_dashboard === 1 && (
                   <Pressable
                     p="0"
                     display={'flex'}
@@ -91,16 +88,17 @@ const MobileNavigation = () => {
                       }
                     }}
                   >
-                    <DynamicIcon iconType={module?.alias.replace(/-/g, '_')} iconProps={{ width: 24, height: 21 }} />
-                    <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name}</Text>
+                    <DynamicIcon iconType={module?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '')} iconProps={{ width: 34, height: 34 }} />
+                    <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name} </Text>
                   </Pressable>
-                )}
+               
               </Box>
             ))}
           </Slider>
       </View>
         <Center  size="8">
-          <IconButton
+          {rightArrow > 0 && <IconButton
+            p={1}
             variant="unstyled"
             icon={<Icon size="md" as={AntDesign} name="right" color="primary.text" />}
             onPress={()=>{
@@ -109,12 +107,13 @@ const MobileNavigation = () => {
               }
             }}
 
-          />
+          />}
         </Center>
       </HStack>
       
      
-     </SafeAreaView>
+     </SafeAreaView>}
+     </React.Fragment>
   )
 }
 

@@ -12,6 +12,7 @@ import AlertPopup from 'application/components/atoms/AlertPopup';
 import UseNotificationService from 'application/store/services/UseNotificationService';
 import UseAlertService from 'application/store/services/UseAlertService';
 
+
 const Header = ({ width }: any) => {
   const { _env } = UseEnvService();
 
@@ -19,7 +20,7 @@ const Header = ({ width }: any) => {
 
   const { popupCount, setCurrentPopup, currentPopup, clearCurrentPopup } = UseNotificationService();
 
-  const { markAlertRead } = UseAlertService();
+  const { unread, setUnreadCount } = UseAlertService();
   
   const router = useRouter();
   
@@ -33,19 +34,18 @@ const Header = ({ width }: any) => {
 
   const onBtnLeftClick = () => {
     console.log(alertData);
-    if(alertData.type == 'alert'){
-      markAlertRead({alertIds:`${alertData.id};`})
-    }
     clearCurrentPopup();
     onClose();
   };
 
   const onBtnRightClick = () =>{
+    
     if(alertData.type == 'alert'){
-      markAlertRead({alertIds:`${alertData.id};`})
-    }
-    if(alertData.url !== undefined){
-      router.push(`/${event.url}${alertData.url}`)
+      router.push(`/${event.url}/alerts/detail/${alertData.id}`)
+    }else {
+      if(alertData.url !== undefined){
+        router.push(`/${event.url}${alertData.url}`)
+      }
     }
     clearCurrentPopup();
     onClose();
@@ -62,6 +62,9 @@ const Header = ({ width }: any) => {
   React.useEffect(() => {
     if(currentPopup !== null){
       setAlertData(currentPopup);
+      if(currentPopup.type == 'alert'){
+        setUnreadCount(unread + 1);
+      }
       setAlertCount(alertCount+1);
       setIsOpen(true);
     }else{
@@ -76,23 +79,11 @@ const Header = ({ width }: any) => {
         <HStack w="100%" alignItems="flex-start" space="5">
           <Center overflow="hidden" alignItems="flex-start" w="100%" maxW={width! > 1200 ? '265px' : '70px'}>
             <Pressable onPress={() => { router.push(`/${event.url}/dashboard`) }}>
-              {event.settings?.app_header_logo ? (
-                <Image
-                  alt='logo'
-                  source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}` }}
-                  w="180px"
-                  h="60px"
-                  alignSelf={'center'}
-                />
-              ) : (
-                <Image
-                  alt='logo'
-                  source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.header_logo}` }}
-                  w="180px"
-                  h="60px"
-                  alignSelf={'center'}
-                />
-              )}
+             <Image
+                  alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
+                        : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
+                          ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.header_logo}`
+                          : images.Logo }} w="180px" h="61px" alignSelf={'center'} />
             </Pressable>
           </Center>
           <Center w="100%" maxW={width! > 1200 ? '600px' : '40%'}>
@@ -104,9 +95,9 @@ const Header = ({ width }: any) => {
           </Center>
           <Spacer />
           <Center alignItems="flex-end" w="100%" maxW={width! >= 1201 ? '265px' : '40%'}>
-            <HStack space="10">
-              <Box><Pressable onPress={() => { router.push(`/${event.url}/settings/editprofile`) }}><Icosettings width={32} height={32} /></Pressable></Box>
-              <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={34} height={34} /></Pressable></Box>
+            <HStack space="6">
+              <Box><Pressable onPress={() => { router.push(`/${event.url}/settings/editprofile`) }}><Icosettings width={28} height={28} /></Pressable></Box>
+              <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={28} height={28} /></Pressable></Box>
               {/* <Notification /> */}
             </HStack>
           </Center>

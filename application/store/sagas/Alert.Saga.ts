@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getAlertApi, markAlertRead } from 'application/store/api/Alert.Api'
+import { getAlertApi, markAlertRead, getAlertDetailsApi, markAlertAsRead } from 'application/store/api/Alert.Api'
 
 import { AlertActions } from 'application/store/slices/Alert.Slice'
 
@@ -24,6 +24,31 @@ function* OnFetchAlerts({
      yield put(LoadingActions.set(false));
 }
 
+function* OnFetchAlertDetails({
+    payload
+}: {
+    type: typeof AlertActions.FetchAlertDetails
+    payload:{alertId:number}
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getAlertDetailsApi, payload, state)
+    yield put(AlertActions.UpdateDetail({ detail: response.data.data.details! }))
+    yield put(LoadingActions.set(false));
+}
+
+function* OnMarkAlertAsRead({
+    payload
+}: {
+    type: typeof AlertActions.MarkAlertAsRead
+    payload:{alertId:number}
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(markAlertAsRead, payload, state)
+    yield put(LoadingActions.set(false));
+}
+
 function* OnMarkAlertRead({
     payload
 }: {
@@ -42,6 +67,8 @@ function* OnMarkAlertRead({
 export function* AlertWatcherSaga(): SagaIterator {
     yield takeEvery(AlertActions.FetchAlerts.type, OnFetchAlerts)
     yield takeEvery(AlertActions.markAlertRead.type, OnMarkAlertRead)
+    yield takeEvery(AlertActions.FetchAlertDetails.type, OnFetchAlertDetails)
+    yield takeEvery(AlertActions.MarkAlertAsRead.type, OnMarkAlertAsRead)
 }
 
 export default AlertWatcherSaga

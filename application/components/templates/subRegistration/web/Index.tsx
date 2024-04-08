@@ -282,7 +282,7 @@ const Detail = () => {
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
               </HStack>
-              {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
+              {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
                 {afterLogin?.questions?.question.length! > 0 &&  afterLogin?.questions?.question.map((item, index)=>(
                     <React.Fragment key={item.id}>
                     {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer onsubmit={submitcount}  question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error }  />}
@@ -329,9 +329,7 @@ const Detail = () => {
               </Box>}
             </Container>
       )}
-      <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'subregistration'} module_type={'listing'} />
-      </Box>
     </>
   );
 };

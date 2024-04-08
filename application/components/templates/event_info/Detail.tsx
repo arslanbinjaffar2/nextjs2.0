@@ -83,11 +83,11 @@ const Detail = (props: any) => {
                                     javaScriptEnabled={true}
                                     scrollEnabled={false}
                                     source={{ html:page?.description }}
-                                    style={{ flex: 1, backgroundColor: ThemeColors.primary.box, height: web_height, color:'#fff' }}
+                                    style={{ flex: 1, backgroundColor: ThemeColors.primary.box, height: web_height+50, color:'#fff' }}
                                     injectedJavaScript='window.ReactNativeWebView.postMessage(document.body.scrollHeight)'
                                 />
                             ))}
-                            {page.image !== '' && page.image_position !== 'top' && <HStack w="100%" px={5}>
+                            {page.image !== '' && page.image_position !== 'top' && <HStack w="100%">
                                 <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%" />
                             </HStack>}
                             {page.pdf && (
@@ -126,9 +126,7 @@ const Detail = (props: any) => {
                     {/* <BannerView url={''} /> */}
                 </HStack>
             </View>}
-            <Box width={"100%"} height={"5%"}>
                 <BannerAds module_name={'information_pages'} module_type={'detail'} />
-            </Box>
         </>
     )
 

@@ -21,10 +21,16 @@ import { useRouter } from 'solito/router';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseEnvService from 'application/store/services/UseEnvService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import SponsorContactInfo from 'application/components/atoms/sponsors/contact-info/ContactInfo';
+import { useWindowDimensions } from 'react-native';
+import SponsorNotesBox from 'application/components/atoms/sponsors/notes/NotesBox';
+
 
 type ScreenParams = { id: string, cms: string | undefined }
 
 const { useParam } = createParam<ScreenParams>()
+
+
 
 const Detail = React.memo(() => {
 
@@ -41,6 +47,8 @@ const Detail = React.memo(() => {
     const { back } = useRouter();
 
     const { _env } = UseEnvService();
+
+    const { width } = useWindowDimensions();
 
     React.useEffect(() => {
         if (id) {
@@ -61,7 +69,7 @@ const Detail = React.memo(() => {
                     <Container overflow="hidden" mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" rounded="10">
                         <Container  maxW="100%" w="100%"  rounded="10">
                             <DetailBox detail={detail} />
-                            {detail?.detail?.sponsors_attendee!?.length > 0 && ( 
+                            {event?.sponsor_tab_settings.contact_persons == 1 && detail?.detail?.sponsors_attendee!?.length > 0 && ( 
                                 <Box w="100%" p="0">
                                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                         <Icouser />
@@ -75,7 +83,7 @@ const Detail = React.memo(() => {
                                         )}
                                 </Box>
                             )}
-                            {event?.sponsor_settings?.document == 1 && documents.length > 0 && <Box mb="4" p="0" w="100%">
+                            {event?.sponsor_tab_settings.documents == 1 && documents.length > 0 && <Box mb="4" p="0" w="100%">
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                     <Icodocument width="15px" height="18px" />
                                     <Text fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
@@ -89,57 +97,13 @@ const Detail = React.memo(() => {
                                 </Box>
                             </Box>}
                         </Container>
-
-                        {/* <Container mb="3" maxW="100%" w="100%">
-                            <Text mb="3" fontSize="lg" textTransform="uppercase">Available Survey</Text>
-                            <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
-                                <Box py="3" px="4" w="100%">
-                                    <Text mb="3" fontSize="lg">Tillykke med valget som tilli…</Text>
-                                    <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
-                                        <Box bg="primary.500" h="22px" w="33.33%" />
-                                        <Box borderLeftWidth="1" borderRightWidth="1" borderColor="primary.bdBox" bg="primary.500" h="22px" w="33.33%" />
-                                        <Box bg="transparent" h="22px" w="33.33%" />
-                                    </HStack>
-                                </Box>
-                                <MultipleAnswer req={true} title="What types of workouts will I be doing on DAMY Programs? Does it include cardio and weights?" />
-                                <Box py="0" px="4" w="100%">
-                                    <Divider mb="15" opacity={0.27} bg="primary.text" />
-                                    <HStack mb="3" space="3" alignItems="center">
-                                        <Button
-                                            bg="transparent"
-                                            p="2"
-                                            textTransform={'uppercase'}
-                                            fontSize="lg"
-                                            leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
-                                            colorScheme="primary"
-                                            onPress={() => {
-                                                console.log('hello')
-                                            }}
-                                        >
-                                            previous
-                                        </Button>
-                                        <Spacer />
-                                        <Button
-                                            bg="transparent"
-                                            p="2"
-                                            textTransform={'uppercase'}
-                                            fontSize="lg"
-                                            rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
-                                            colorScheme="primary"
-                                            onPress={() => {
-                                                console.log('hello')
-                                            }}
-                                        >
-                                            next
-                                        </Button>
-                                    </HStack>
-                                </Box>
-                            </Box>
-                        </Container> */}
                     </Container>
-                    <Box width={"100%"} height={"5%"}>
-                        <BannerAds module_name={'sponsors'} module_type={'detail'} module_id={detail?.detail?.id} />
-                    </Box>
+                    {width < 810 && <Container maxW="100%" w="100%" >
+                        { event?.sponsor_tab_settings?.contact_info == 1 && <SponsorContactInfo />}
+                        { event?.sponsor_tab_settings?.notes == 1 &&  <SponsorNotesBox />}
+                    </Container>}
+
+                    <BannerAds module_name={'sponsors'} module_type={'detail'} module_id={detail?.detail?.id} />
                 </>
             )}
         </>

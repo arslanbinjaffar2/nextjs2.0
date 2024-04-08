@@ -39,9 +39,9 @@ const Index = () => {
 
     useEffect(() => {
         
-        if(surveys.length == 1 && completed_surveys.length == 0){
-            push(`/${event.url}/survey/detail/${surveys[0]?.id}`);
-        }
+        // if(surveys.length == 1 && completed_surveys.length == 0){
+        //     push(`/${event.url}/survey/detail/${surveys[0]?.id}`);
+        // }
 
         if(surveys && surveys.length > 0) {
 
@@ -85,13 +85,13 @@ const Index = () => {
                     <NextBreadcrumbs module={module} />
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text textTransform="uppercase" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'survey'))?.name ?? 'Surveys'}</Text>
+                            <Text textTransform="capitalize" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'survey'))?.name ?? 'Surveys'}</Text>
                             <Spacer />
                             <Input rounded="10" w={["100%","60%" ]}bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
-                            <Button onPress={() => setTab('pending')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>NOT ATTENDED</Button>
-                            <Button onPress={() => setTab('completed')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
+                            <Button onPress={() => setTab('pending')} borderWidth="0px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>NOT ATTENDED</Button>
+                            <Button onPress={() => setTab('completed')} borderWidth="0px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
@@ -130,9 +130,7 @@ const Index = () => {
                     </>
                 )
             }
-          <Box width={"100%"} height={"5%"}>
             <BannerAds module_name={'polls'} module_type={'listing'} />
-          </Box>
         </>
         
     )

@@ -46,9 +46,9 @@ const Index = () => {
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text textTransform="uppercase" fontSize="2xl">Ask a question</Text>
         </HStack>
-        <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+        <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
           {programs?.length > 0 && programs?.map((program, k) =>
-            <Box w="100%" key={k} borderBottomWidth={k === 3 ? 0 : 1} borderColor="primary.bordercolor" py="3">
+            <Box w="100%" key={k} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" py="3">
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                 <Box position="absolute" left="0" top="0" w="15px">
                 <ZStack>
@@ -74,7 +74,7 @@ const Index = () => {
                       bg="transparent"
                       p="1"
                       _hover={{ bg: 'transparent' }}
-                      icon={<Icon size="lg" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                      icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       onPress={() => {
                         push(`/${event.url}/qa/detail/${program.id}`)
                       }}

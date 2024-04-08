@@ -10,6 +10,7 @@ import UseAlertService from 'application/store/services/UseAlertService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import { Poll } from 'application/models/poll/Poll';
 import { Alert } from 'application/models/alert/Alert';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 
@@ -21,38 +22,29 @@ const Index = () => {
 
     const { event, modules  } = UseEventService();
     
-    const { FetchAlerts, alerts, markAlertRead} = UseAlertService();
+    const { FetchAlerts, alerts} = UseAlertService();
 
     const module = modules.find((module) => module.alias === 'alerts');
+    
     useEffect(() => {
             FetchAlerts();
     }, []);
-    
-    useEffect(() => {
-        if(alerts.length > 0){
-
-            markAlertRead({ alertIds:alerts.reduce((ack,item)=>(`${ack}${item.id};`), '') });
-        }
-    }, [alerts]);
-    console.log(modules);
     return (
         <>
             {
-                loading ? (
-                    <WebLoading />
-                ):(
+               loading || !alerts ? <SectionLoading /> :
                     <>
                     <NextBreadcrumbs module={module} />
-                    <Container pt="2" maxW="100%" w="100%">
+                    <Container mb="3" pt="2" maxW="100%" w="100%">
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
+                            <Text textTransform="capitalize" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
                             <Spacer />
                         </HStack>
                         {alerts.length > 0 ? (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                                     {alerts.map((alert:Alert, i:Number)=>(
                   
-                                        <RectangleView key={alert.id} id={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false}  />
+                                        <RectangleView key={alert.id} id={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false}  is_read={alert.is_read} />
                                     ))}
                             </Box>
                         ) : (
@@ -62,12 +54,8 @@ const Index = () => {
                         )}
                     </Container>
                     </>
-                )
-
             }
-            <Box width={"100%"} height={"5%"}>
                 <BannerAds module_name={'alerts'} module_type={'listing'} />
-            </Box>
         </>
         
     )

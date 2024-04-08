@@ -30,7 +30,8 @@ export interface AttendeeState {
     category_name: string,
     total: number,
     program_id: number,
-    hotels:any
+    hotels:any,
+    registration: any
 }
 
 const initialState: AttendeeState = {
@@ -61,7 +62,8 @@ const initialState: AttendeeState = {
     category_name: '',
     total: 0,
     program_id: 0,
-    hotels:null
+    hotels:null,
+    registration: null
 }
 
 // Slice
@@ -110,7 +112,22 @@ export const AttendeeSlice = createSlice({
             state.groups = action.payload.page === 1 ? action.payload.groups : [...existed, ...action.payload.groups];
         },
         MakeFavourite(state, action: PayloadAction<{ attendee_id: number, screen: string }>) { },
+        UpdateFavourite(state, action: PayloadAction<{ attendee_id: number, screen:string}>) { 
+            if(action.payload.screen === "listing"){
+                let attendees = state.attendees;
+                let attendee = attendees.find((attendee: Attendee) => attendee.id === action.payload.attendee_id);
+                if(attendee){
+                    attendee.favourite = attendee.favourite === 1 ? 0 : 1;
+                }
+                state.attendees = attendees;
+            }else{
+                let detail = state.detail;
+                detail.is_favourite = detail.is_favourite === 1 ? 0 : 1;
+                state.detail = detail;
+            }
+         },
         FetchAttendeeDetail(state, action: PayloadAction<{ id: number, speaker: number }>) { },
+        FetchAttendeeContact(state, action: PayloadAction<{ id: number, speaker: number }>) { },
         UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
         },
@@ -134,8 +151,12 @@ export const AttendeeSlice = createSlice({
             state.category_name = action.payload.category_name;
         },
         FetchHotels(){},
+        FetchMyRegistration(){},
         updateHotels(state, action: PayloadAction<any>){
             state.hotels = action.payload
+        },
+        updateMyRegistration(state, action: PayloadAction<any>){
+            state.registration = action.payload
         },
     },
 });
@@ -147,13 +168,17 @@ export const AttendeeActions = {
     Update: AttendeeSlice.actions.Update,
     UpdateGroups: AttendeeSlice.actions.UpdateGroups,
     MakeFavourite: AttendeeSlice.actions.MakeFavourite,
+    UpdateFavourite: AttendeeSlice.actions.UpdateFavourite,
     FetchAttendeeDetail: AttendeeSlice.actions.FetchAttendeeDetail,
+    FetchAttendeeContact: AttendeeSlice.actions.FetchAttendeeContact,
     UpdateDetail: AttendeeSlice.actions.UpdateDetail,
     UpdateCategory: AttendeeSlice.actions.UpdateCategory,
     FetchCategories: AttendeeSlice.actions.FetchCategories,
     UpdateCategories: AttendeeSlice.actions.UpdateCategories,
     FetchHotels: AttendeeSlice.actions.FetchHotels,
+    FetchMyRegistration: AttendeeSlice.actions.FetchMyRegistration,
     updateHotels: AttendeeSlice.actions.updateHotels,
+    updateRegistration: AttendeeSlice.actions.updateMyRegistration,
 }
 
 export const SelectAttendees = (state: RootState) => state.attendees.attendees
@@ -183,6 +208,8 @@ export const SelectCategories = (state: RootState) => state.attendees.categories
 export const SelectCategoryName = (state: RootState) => state.attendees.category_name
 
 export const SelectHotels = (state: RootState) => state.attendees.hotels
+
+export const SelectMyRegistration = (state: RootState) => state.attendees.registration
 
 // Reducer
 export default AttendeeSlice.reducer

@@ -232,6 +232,61 @@ body {
 #zindex-9,#button-reload-post {
   z-index: 9 !important;
 }
+.wrapper-select.isDisabled {
+  pointer-events: none;
+}
+#ebs-navigation-slider .slick-list .slick-track {
+  margin: auto;
+}
+svg #svg-elem-1 {
+  fill: transparent;
+  stroke-dashoffset: 115.09733552923255px;
+  stroke-dasharray: 115.09733552923255px;
+  -webkit-transition: stroke-dashoffset 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) 0s,
+                        fill 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0.4s;
+          transition: stroke-dashoffset 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) 0s,
+                fill 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0.4s;
+}
+
+svg#active #svg-elem-1 {
+  stroke-dashoffset: 0;
+}
+
+svg #svg-elem-2 {
+  stroke-dashoffset: 96.24777960769379px;
+  stroke-dasharray: 96.24777960769379px;
+  fill: transparent;
+  -webkit-transition: stroke-dashoffset 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) 0.12s,
+                        fill 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0.5s;
+          transition: stroke-dashoffset 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) 0.12s,
+                fill 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0.5s;
+}
+
+svg#active #svg-elem-2 {
+  stroke-dashoffset: 0;
+}
+
+svg #svg-elem-3 {
+   fill: transparent;
+  stroke-dashoffset: 25.3505859375px;
+  stroke-dasharray: 25.3505859375px;
+  -webkit-transition: stroke-dashoffset 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) 0.24s,
+                        fill 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6000000000000001s;
+          transition: stroke-dashoffset 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) 0.24s,
+                fill 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6000000000000001s;
+}
+
+svg#active #svg-elem-3 {
+  stroke-dashoffset: 0;
+}
+#bg-circle-animation {
+  animation-name: example;
+  animation-duration: 0.4s;
+}
+@keyframes example {
+  from {transform: scale(0);}
+  to {transform: scale(1);}
+}
 `;
 
 export async function getInitialProps({ renderPage }) {

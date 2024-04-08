@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Attendee, History, FetchCheckInOutResponse, Setting, Checkin, GroupedHistory } from 'application/models/checkInOut/CheckInOut'
+import { Attendee, History, FetchCheckInOutResponse, Setting, Checkin, GroupedHistory, OrderDetail } from 'application/models/checkInOut/CheckInOut'
 
 import { RootState } from 'application/store/Index'
 
@@ -23,6 +23,7 @@ export interface CheckInOutState  {
         checkInOutSetting: Setting | null;
         qrCodeImgSrc:string;
     }
+    orderDetail: OrderDetail|null;
 }
 
 const initialState: CheckInOutState = {
@@ -38,8 +39,9 @@ const initialState: CheckInOutState = {
         eventStatusMsg: '',
         checkin: null,
         checkInOutSetting: null,
-        qrCodeImgSrc:'',
-    }
+        qrCodeImgSrc:''
+    },
+    orderDetail: null
 }
 
 // Slice
@@ -63,6 +65,14 @@ export const CheckInOutSlice = createSlice({
             }else{
                 state.checkInOut.status = 'check-in';
             }
+        },
+        FetchOrderDetail(state) {},
+        updateOrderDetail(state, action: PayloadAction<{order_detail:OrderDetail}>) {
+            if(action.payload.order_detail == null){
+                state.orderDetail = null;
+            }else{
+                state.orderDetail = action.payload.order_detail;
+            }
         }
     },
 })
@@ -74,11 +84,14 @@ export const CheckInOutActions = {
     update:CheckInOutSlice.actions.update,
     DoCheckInOut:CheckInOutSlice.actions.DoCheckInOut,
     toggleCheckInOut:CheckInOutSlice.actions.toggleCheckInOut,
+    FetchOrderDetail:CheckInOutSlice.actions.FetchOrderDetail,
+    updateOrderDetail:CheckInOutSlice.actions.updateOrderDetail
     
 }
 
 export const SelectCheckInOut = (state: RootState) => state.checkInOut.checkInOut
 
+export const SelectOrderDetail = (state: RootState) => state.checkInOut.orderDetail
 
 // Reducer
 export default CheckInOutSlice.reducer

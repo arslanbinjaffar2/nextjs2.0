@@ -53,11 +53,11 @@ const DetailBox = ({ detail }: AppProps) => {
         <>
             {detail && <Box w="100%" bg="primary.primarycolor" p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
-                    <Image mb="5" roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
+                    <Image  roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
                 ) : (
-                    <Image mb="5" roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="" w="100%" h="160px" />
+                    <Image  roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="" w="100%" h="160px" />
                 )}
-                <Box w="100%" px="6">
+                <Box pt={5} w="100%" px="6">
                     <HStack w="100%" mb="1" space="3" alignItems="flex-start">
                         {detail?.detail?.name && (
                             <Text maxW="80%" fontWeight={500} fontSize="xl">{detail?.detail?.name}</Text>
@@ -103,7 +103,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             </HStack>
                         )}
                     </HStack>
-                    {detail?.detail?.description && <Box mb="4" w="100%">
+                    {detail?.detail?.description && event?.sponsor_tab_settings?.about === 1 && <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
                         <Text><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div></Text>
                     </Box>}

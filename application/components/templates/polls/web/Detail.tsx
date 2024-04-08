@@ -8,7 +8,7 @@ import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { createParam } from 'solito';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UsePollService from 'application/store/services/UsePollService';
-import { FormData } from 'application/models/poll/Detail';
+import { FormData, Question } from 'application/models/poll/Detail';
 import WebLoading from 'application/components/atoms/WebLoading';
 import MultipleAnswer from 'application/components/atoms/polls/questions/MultipleAnswer';
 import SingleAnswer from 'application/components/atoms/polls/questions/SingleAnswer';
@@ -24,10 +24,9 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import IcoTick from 'application/assets/icons/small/IcoTick';
 
 
 type ScreenParams = { id: string }
@@ -236,7 +235,13 @@ const Detail = () => {
         SubmitPoll(postData);
 
     }
-    const module = modules.find((module) => module.alias === 'polls');
+  
+  const module = modules.find((module) => module.alias === 'polls');
+  
+  const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
+
+  const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
+  
   return (
     <>
       {loading ? (
@@ -247,12 +252,12 @@ const Detail = () => {
              <NextBreadcrumbs module={module} title={detail?.topic}/>
             <Container mb="3" maxW="100%" w="100%">
               <Text mb={1} textBreakStrategy='simple' w={'100%'} textAlign={'center'} fontSize="2xl">{detail?.topic}</Text>
-              {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="1" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
+              {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="0" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
                 { detail?.questions.map((item, key)=>(
                     <Box key={key} bg={steps >= key ? 'secondary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />
                 ))}
               </HStack>}
-              {!completed && <Box w="100%" bg="primary.box" borderWidth="1" borderColor="primary.bdBox" rounded="10">
+              {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
                 {detail?.questions.length! > 0 &&  detail?.questions[steps] !== undefined && (
                   <>
                     {detail?.questions[steps].question_type === 'matrix' && <MatrixAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate}/>}
@@ -290,7 +295,8 @@ const Detail = () => {
                       previous
                     </Button>}
                     <Spacer />
-                    {steps < (detail?.questions.length! -1)  && <Button
+                    {steps < (detail?.questions.length! -1)  && 
+                    <Button
                       bg="transparent"
                       isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
                       p="2"
@@ -309,7 +315,7 @@ const Detail = () => {
                     <Box m="auto" w="230px" bg="primary.darkbox" p="0" rounded="sm" overflow="hidden">
                       <Button
                       id='test'
-                        w="48px"
+                        w="100%"
                         py="3"
                         px="1"
                         leftIcon={<IcoLongArrow />}
@@ -318,26 +324,55 @@ const Detail = () => {
                         onPress={() => {
                          setNextStep();
                         }}
-                      />
+                      >
+                      {poll_labels?.POLL_SURVEY_AUTHORITY_SUBMIT}
+                      </Button>
                     </Box>
                   </Box>}
                 </Box>
               </Box>}
-              {completed === true && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
+            {(completed === true  && showCloudQuestion)&&
+                <>
+              {Object.keys(filterQuestion).length>0 && 
+               <WordCloudAnswer question={filterQuestion} key={filterQuestion?.id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels}  />
+              }
+              </>
+            }
+              {completed === true && (
+                 <>
+                <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
-                  <Box bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
-                    <Icon size="4xl" color="primary.text" as={Ionicons} name="checkmark" />
+                  <Box nativeID='bg-circle-animation' bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
+                   <IcoTick />
                   </Box>
                   <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
+                  {showCloudQuestion && <Button
+                      id='test'
+                      w="100px"
+                      py="3"
+                      px="1"
+                      isLoading={submittingPoll}
+                      colorScheme="primary"
+                      onPress={()=>{
+                        onSubmit()
+                        setShowCloudQuestion(true)
+                      }}
+                      
+                    >
+                      {poll_labels?.WORD_CLOUD_SUBMIT_AGAIN}
+                    </Button>}
                 </VStack>
-              </Box>}
+              </Box>
+              </>
+
+              )
+              }
+
             </Container>
 
             </>
       )}
-      <Box width={"100%"} height={"5%"}>
         <BannerAds module_name={'polls'} module_type={'detail'}/>
-      </Box>
     </>
   );
 };

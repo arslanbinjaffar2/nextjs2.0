@@ -11,11 +11,9 @@ import { Poll, Polls } from 'application/models/poll/Poll';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-import { Banner } from 'application/models/Banner'
-import UseBannerService from 'application/store/services/UseBannerService'
+import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 const Index = () => {
 
@@ -107,13 +105,13 @@ const Index = () => {
                     <NextBreadcrumbs module={module} />
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="0" alignItems="center">
-                            <Text textTransform="uppercase" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Text>
+                            <Text textTransform="capitalize" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Text>
                             <Spacer   />
                             <Input rounded="10" w={['100%',"60%"]} bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
-                            <Button onPress={() => setTab('pending')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{poll_labels?.NATIVE_APP_SURVEY_NOT_ATTENDED}</Button>
-                            <Button onPress={() => setTab('completed')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{poll_labels?.NATIVE_APP_SURVEY_COMPLETED}</Button>
+                            <Button onPress={() => setTab('pending')} borderWidth="0px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{poll_labels?.NATIVE_APP_SURVEY_NOT_ATTENDED}</Button>
+                            <Button onPress={() => setTab('completed')} borderWidth="0px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{poll_labels?.NATIVE_APP_SURVEY_COMPLETED}</Button>
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
@@ -166,9 +164,7 @@ const Index = () => {
                     </>
                 )
             }
-          <Box width={"100%"} height={"5%"}>
             <BannerAds module_name={'polls'} module_type={'listing'} />
-          </Box>
         </>
         
     )

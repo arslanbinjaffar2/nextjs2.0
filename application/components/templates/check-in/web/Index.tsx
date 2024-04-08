@@ -33,6 +33,8 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { GroupedHistory, History } from 'application/models/checkInOut/CheckInOut'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { useRouter } from 'solito/router'
+
 
 const CheckinList = ({type, k, group}: any) => {
 	const [toggle, settoggle] = React.useState(false);
@@ -122,7 +124,7 @@ const CheckinList = ({type, k, group}: any) => {
               <IconButton
 							variant="unstyled"
 							p={0}
-							icon={<Icon size="md" as={SimpleLineIcons} name={toggle ? 'arrow-down' : 'arrow-right'} color="white" />}
+							icon={<Icon size="md" as={SimpleLineIcons} name={toggle ? 'arrow-down' : 'arrow-right'} color="primary.text" />}
 							onPress={()=>{
 								settoggle(!toggle)
 							}}
@@ -173,6 +175,7 @@ const Index = () => {
   const { _env } = UseEnvService()
   const { event, modules } = UseEventService();
   const { response  } = UseAuthService();
+  const { push } = useRouter()
 
   const { FetchCheckInOut, checkInOut, SendQRCode, DoCheckInOut }  = UseCheckInOutService();
   React.useEffect(() => {  
@@ -249,11 +252,12 @@ const Index = () => {
               <NextBreadcrumbs module={module} />
 							<Box flexDirection="row" w={'100%'} alignItems="center">
 								<HStack mb={3} w={'100%'} space="0" alignItems="center" justifyContent={'center'} pt={4}>
-                <Text mb="0" textTransform="uppercase" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
+                <Text mb="0" textTransform="capitalize" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
 								<Spacer />
-                  {checkInOut?.setting?.enable_email_ticket ? <>
+                   <>
                     {in_array('checkin-send-qr-code', processing) ?  <WebLoading/> : 
                     <HStack  space="2" alignItems="center">
+                      {checkInOut?.setting?.enable_email_ticket ?
                       <IconButton
                           variant="transparent"
                           p="1"
@@ -261,21 +265,21 @@ const Index = () => {
                           onPress={() => {
                               SendQRCode();
                           }}
-                      />
+                      />:null}
                       {checkInOut?.hasOrderItems &&
                       <IconButton
                           variant="transparent"
                           p="1"
                           icon={<IcoClipboard />}
                           onPress={() => {
-                              console.log('first')
+                              push(`/${event.url}/checkIn/detail`);
                           }}
                       />
                       }
                     </HStack>
                     
                     }
-									</>:null}
+									</>
 								</HStack>
 							<Spacer />
 							</Box>
@@ -315,16 +319,16 @@ const Index = () => {
                 </Box>:null}
                 <HStack rounded={8} overflow={'hidden'} mb="3" space={1} justifyContent="center" px={0} w="100%">
                   {checkInOut?.setting?.show_event_checkin_history ? <>
-									<Button onPress={() => { setTab('event') }} bg={tab === 'event' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox"  h="42px"  flex={1} _text={{ fontWeight: '600' }}>Event</Button>
+									<Button onPress={() => { setTab('event') }} bg={tab === 'event' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  h="42px"  flex={1} _text={{ fontWeight: '600' }}>Event</Button>
 									</>:null}
 									{checkInOut?.setting?.show_programs_checkin_history ? <>
-									<Button onPress={() => { setTab('program')}} bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  flex={1} _text={{ fontWeight: '600' }}>Program</Button>
+									<Button onPress={() => { setTab('program')}} bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox" h="42px"  flex={1} _text={{ fontWeight: '600' }}>Program</Button>
 									</>:null}
 									{checkInOut?.setting?.show_groups_checkin_history ? <>
-									<Button onPress={() => { setTab('group')}} bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  flex={1} _text={{ fontWeight: '600' }}>Group</Button>
+									<Button onPress={() => { setTab('group')}} bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox" h="42px"  flex={1} _text={{ fontWeight: '600' }}>Group</Button>
 									</>:null}
 									{checkInOut?.setting?.show_tickets_checkin_history ? <>
-                    <Button onPress={() => { setTab('ticket')}} bg={tab === 'ticket' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px"  flex={1} _text={{ fontWeight: '600' }}>Ticket</Button>
+                    <Button onPress={() => { setTab('ticket')}} bg={tab === 'ticket' ? 'primary.boxbutton' : 'primary.box'} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox" h="42px"  flex={1} _text={{ fontWeight: '600' }}>Ticket</Button>
 									</>:null}
 									</HStack>
 
@@ -354,9 +358,7 @@ const Index = () => {
             </Container>
         )
       }
-			<Box width={"100%"} height={"5%"}>
 				<BannerAds module_name={'checkIn'} module_type={'listing'} />
-			</Box>
     </>
   )
 }

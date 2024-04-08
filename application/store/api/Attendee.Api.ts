@@ -20,10 +20,19 @@ export const getAttendeeDetailApi = (payload: any, state: any): Promise<HttpResp
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/attendee/detail/${payload.id}`, { ...payload });
 }
 
+export const getContactAttendeeApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/attendee/saveContact/${payload.id}`, payload);
+}
+
 export const getCategoryApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/event/categories`, { ...payload, limit: 20 });
 }
 
 export const getHotelApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/attendee/hotel`);
+}
+
+export const getInvoiceApi = (payload: any,state: any): Promise<HttpResponse> => {
+    const updatedBaseUrl = state?.env?.api_base_url.replace('/mobile', '/api/v2');
+    return makeApi(updatedBaseUrl).get(`${baseUrl}/${state?.event?.event.url}/getInvoice`);
 }

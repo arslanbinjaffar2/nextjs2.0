@@ -8,12 +8,15 @@ type AppProps = {
   location: string,
   date: string,
   time: string,
+  py?:string,
+  px?:string
+  h?:string
 }
 
-const UpcomingBlock = ({ title, desc, location, date, time }: AppProps) => {
+const UpcomingBlock = ({ title, desc, location, date, time,px="3",py="4",h }: AppProps) => {
 
   return (
-    <Box mb="3" w="100%" py="4" px="3" borderWidth="1px" borderColor="primary.box" bg="primary.box" rounded="10">
+    <Box mb="3" w="100%" py="4" px="3" borderWidth="0px" borderColor="primary.box" bg="primary.box" rounded="10">
       {title && <Heading pb={1} fontSize={['md', 'md', 'xl']}>{title}</Heading>}
       {desc && <Text lineHeight="sm" fontSize={['13px', 'md']}>{desc}</Text>}
       {location && <HStack><Icon h="20px" lineHeight="5" pt="1" size="16px" color="primary.text" as={MaterialIcons} name="location-pin" /><Text fontSize="md"> {location}</Text></HStack>}

@@ -59,7 +59,7 @@ export const EventActions = {
 
 // Selectors
 export const SelectEvent = (state: RootState) => state.event.event
-
+ console.log(SelectEvent)
 export const Modules = (state: RootState) => state.event.modules
 
 export const SettingModules = (state: RootState) => state.event.setting_modules

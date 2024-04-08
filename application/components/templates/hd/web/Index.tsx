@@ -10,8 +10,8 @@ import in_array from "in_array";
 import moment from 'moment';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
-import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
 
@@ -46,9 +46,9 @@ const Index = () => {
 
             <Container pt="2" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text textTransform="uppercase" fontSize="2xl">Ask a question</Text>
+                <Text textTransform="capitalize" fontSize="2xl">Ask a question</Text>
               </HStack>
-              <Box w="100%" rounded="10" bg="primary.box" borderWidth="1" borderColor="primary.bdBox">
+              <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
                 {groups?.length > 0 && groups?.map((group, k) =>
                   <Box w="100%" key={k} borderBottomWidth={k === (groups.length - 1) ? 0 : 1} borderColor="primary.bordercolor" py="3">
                     <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
@@ -65,7 +65,7 @@ const Index = () => {
                             bg="transparent"
                             p="1"
                             _hover={{ bg: 'transparent' }}
-                            icon={<Icon size="lg" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                            icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                             onPress={() => {
                               push(`/${event.url}/help_desk/detail/${group.id}`)
                             }}
@@ -78,9 +78,7 @@ const Index = () => {
                   <Text>{event.labels?.GENERAL_NO_RECORD}</Text>
                 </Box>}
               </Box>
-              <Box width={"100%"} height={"5%"}>
                 <BannerAds module_name={'help_desk'} module_type={'listing'} />
-              </Box>
             </Container>
           </>
         )

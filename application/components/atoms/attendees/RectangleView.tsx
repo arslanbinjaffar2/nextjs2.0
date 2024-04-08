@@ -30,6 +30,17 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
+  const [isFav, setIsFav] = React.useState<boolean>(false);
+
+  React.useMemo(() => {
+    setIsFav(attendee?.favourite == 1 ? true : false)
+  }, [attendee?.favourite])
+
+  function toggleFav(){
+    setIsFav(!isFav);
+    MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
+  }
+
 
   return (
     <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.bordercolor" py="3">
@@ -52,11 +63,11 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
         }}>
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
           <HStack  w="100%" space="5" alignItems="center" justifyContent="space-between">
-            {attendee?.image ? (
+            {attendee?.image && attendee.field_settings.profile_picture.is_private == 0 ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar
-                  borderWidth={1}
+                  borderWidth={0}
                   borderColor="primary.darkbox"
                   textTransform="uppercase"
                   bg={'#A5A5A5'}
@@ -82,7 +93,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 
                 </>
               )}
-              {
+              {event?.attendee_settings?.display_private_address === 1 &&
                 <Text pt="1" lineHeight="22px" fontSize="md"> 
                   {getPrivateFields(attendee)}
                  </Text>
@@ -93,10 +104,8 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               <HStack space="4" alignItems="center">
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
-                  onPress={() => {
-                    MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
-                  }}>
-                  <Icoribbon width="20" height="28" color={attendee?.favourite ? event?.settings?.secondary_color : ''} />
+                  onPress={() => toggleFav()}>
+                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
                 </Pressable>
                 )}
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />

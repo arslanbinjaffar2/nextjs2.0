@@ -155,7 +155,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 
 		return (
 			<>
-
+				
 				{dates?.length > 0 && currentIndex !== undefined && <>
 
 					{dates?.map((program: Program, key: number) => {
@@ -191,17 +191,10 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				<>
 					{Platform.OS === 'web' ? (
 						<>
-							{/* {programs?.map((item: any, index: any) =>
-                                <React.Fragment key={index}>
-                                    <RenderPrograms dates={item} />
-                                </React.Fragment>
-                            )} */}
-
-
-							<LazySlider onChange={handleChange} programs={programs} />
+							{programs.length > 0 && <LazySlider onChange={handleChange} programs={programs} />}
 							{programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
 							{programs.length <= 0 &&
-								<Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
+								<Box overflow="hidden" w="100%" rounded="lg">
 									<Box padding={5}>
 										<Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
 									</Box>
@@ -216,7 +209,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 							renderItem={({ item }: any) => {
 								return (
 									<>
-										<LazySlider onChange={handleChange} programs={programs} />
+										{programs.length > 0 && <LazySlider onChange={handleChange} programs={programs} />}
 										<RenderPrograms programs={item} />
 									</>
 								);

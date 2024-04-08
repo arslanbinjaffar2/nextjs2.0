@@ -10,6 +10,8 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import WebLoading from 'application/components/atoms/WebLoading';
+import Icoimage from 'application/assets/icons/small/Icoimage';
+import Icovideo from 'application/assets/icons/small/Icovideo';
 
 
 import in_array from "in_array";
@@ -19,7 +21,6 @@ const AddPost = () => {
 
     const { _env } = UseEnvService();
     const { AddSocialWallPost ,labels } = UseSocialWallService();
-    console.log(labels)
     const { processing } = UseLoadingService();
     const { response } = UseAuthService();
     const [postData, setpostData] = React.useState<NewPost>({
@@ -112,22 +113,7 @@ const AddPost = () => {
 
     return (
 			<>
-        <Box borderWidth="1" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
-            {/* <IconButton
-                w="30px"
-                h="30px"
-                p="1"
-                position="absolute"
-                right="20px"
-                top="15px"
-                zIndex="99"
-                rounded="100%"
-                variant="unstyled"
-                icon={<IcoSmiley width="20px" height="20px" />}
-                onPress={() => {
-                    console.log('hello')
-                }}
-            /> */}
+        <Box borderWidth="0" borderColor="primary.bdBox" overflow="hidden" position="relative" w="100%" bg="primary.box" rounded="10" mb="3">
             <HStack px="4" py="3" pr="12" space="3" alignItems="flex-start">
                 <Avatar
                     size="sm"
@@ -135,7 +121,7 @@ const AddPost = () => {
                         uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
                     }}
                 >
-                    SS
+                    { response?.data?.user?.first_name && response?.data?.user?.last_name ? response?.data?.user?.first_name?.substring(0,1) + response?.data?.user?.last_name?.substring(0,1) : response?.data?.user?.first_name?.substring(0,1)}
                 </Avatar>
                 <TextArea
                     onChange={(e) => {
@@ -216,9 +202,9 @@ const AddPost = () => {
                     />
                 </Box>
             )}
-            <HStack borderTopWidth="1" borderTopColor="primary.bdBox" space="0" alignItems="center">
-                <Center bg="primary.box" w="65%">
-                    <HStack w="100%" space="0" alignItems="center">
+            <HStack px={3} pb={3} borderTopWidth="0" borderTopColor="primary.bdBox" space="0" alignItems="center">
+                <Center>
+                    <HStack w="100%" space="1" alignItems="center">
                     <input 
                         width="100%"
                             height="50px"
@@ -231,18 +217,18 @@ const AddPost = () => {
                         />
                         <IconButton
                             w="50%"
+														p={0}
                             rounded="0"
-                            bg={'primary.box'}
-                            _hover={{ bg: 'primary.secondary' }}
+                            bg={''}
+                            _hover={{ bg: '', _icon: {color: 'primary.100'} }}
                             variant="unstyled"
-                            icon={<Icon size="xl" as={Ionicons} name="ios-image-outline" color="primary.text" />}
+                            icon={<Icoimage width={24} />}
                             onPress={()=>{
                                 if(inputImageRef.current){
                                     inputImageRef.current.click();
                                 }
                             }}
                         />
-                        <Divider w="1px" h="10" bg="primary.text" />
                         <input 
                             width="100%"
                             height="50px"
@@ -256,10 +242,11 @@ const AddPost = () => {
                         <IconButton
                             w="50%"
                             rounded="0"
-                            bg={'primary.box'}
+														p={0}
+                            bg={''}
                             variant="unstyled"
-                            _hover={{ bg: 'primary.secondary' }}
-                            icon={<Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />}
+                            _hover={{ bg: '', _icon: {color: 'primary.100'} }}
+                            icon={<Icovideo width={28} />}
                             onPress={()=>{
                                 if(inputVideoRef.current){
                                     inputVideoRef.current.click();
@@ -268,11 +255,13 @@ const AddPost = () => {
                         />
                     </HStack>
                 </Center>
-                <Center borderLeftWidth="1" borderLeftColor="primary.bdBox" w="35%">
+								<Spacer />
+                <Center borderLeftWidth="0" borderLeftColor="primary.bdBox">
                     <Button
                         w="100%"
-                        rounded="0"
-                        py="3"
+												width={130}
+												rounded={'8'}
+                        py="2"
                         _text={{ fontWeight: 600 }}
                         colorScheme="primary"
                         onPress={() => {

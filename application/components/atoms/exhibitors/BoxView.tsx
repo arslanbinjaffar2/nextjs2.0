@@ -62,7 +62,7 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
                             push(`/${event.url}/exhibitors/detail/${exhibitor.id}`)
                         }
                     }}>
-                    <Box mb="3" w="100%" bg="primary.box" p="0" borderWidth="1" borderColor="primary.box" rounded="10">
+                    <Box mb="3" w="100%" bg="primary.box" p="0" borderWidth="0" borderColor="primary.box" rounded="10">
                     <Text mx={'auto'} isTruncated maxWidth={'75%'} minHeight={'27px'} fontSize="lg" fontWeight={500} textAlign={'center'} my={2}>{event?.exhibitor_settings?.exhibitorName ? exhibitor?.name :""}</Text>
                         {settings?.mark_favorite === 1 && (
                             <IconButton

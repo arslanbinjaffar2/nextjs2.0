@@ -23,7 +23,7 @@ const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: 
           {[...Array(question.entries_per_participant)].map((item, k) =>
             <HStack alignItems="center" key={k} w="100%">
               {/* <Text w="10%" fontSize="lg">{k+1}</Text> */}
-               <Input placeholder="Please Enter" width="90%"  value={inputTextArray[k] !== undefined  ? inputTextArray[k] : ''} onChangeText={(answer)=>{ 
+               <Input placeholder="Please Enter" width="100%"  value={inputTextArray[k] !== undefined  ? inputTextArray[k] : ''} onChangeText={(answer)=>{ 
                     updateFormData(question.id, question.question_type, answer, k)
                     setInputTextArray({...inputTextArray, [k]:answer});
                   }}
