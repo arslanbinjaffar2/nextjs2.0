@@ -22,6 +22,12 @@ type AppProps = {
   detail: Detail,
 }
 
+interface SortFieldSetting {
+  name: string;
+  is_editable: number;
+  is_private: number;
+}
+
 async function getAttendeeContact(id:any) {
   const mystate=store.getState()
   try {
@@ -49,12 +55,6 @@ const downloadFile = (fileData:any, filename:any) => {
   document.body.removeChild(anchorElement);
   window.URL.revokeObjectURL(url);
 };
-interface SortFieldSetting {
-  name: string;
-  is_editable: number;
-  is_private: number;
-}
-
 const ContactInfo = ({ detail }: AppProps) => {
 
   const { event } = UseEventService();
