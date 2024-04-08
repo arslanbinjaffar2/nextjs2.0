@@ -38,7 +38,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
             setIsFav(false)
         }
     }, [sponsor.attendee_sponsors])
-
+    
     function toggleFav(){
         if(isFav){
             Toast.show({
