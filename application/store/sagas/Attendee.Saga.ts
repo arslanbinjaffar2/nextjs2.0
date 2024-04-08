@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getAttendeeApi, makeFavouriteApi, getGroupsApi, getAttendeeDetailApi, getCategoryApi, getHotelApi, getContactAttendeeApi, getInvoiceApi } from 'application/store/api/Attendee.Api';
+import { getAttendeeApi, makeFavouriteApi, getGroupsApi, getAttendeeDetailApi, getCategoryApi, getHotelApi, getInvoiceApi, getContactAttendeeApi } from 'application/store/api/Attendee.Api';
 
 import { AttendeeActions } from 'application/store/slices/Attendee.Slice'
 

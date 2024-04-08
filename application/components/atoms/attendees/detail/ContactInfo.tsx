@@ -22,6 +22,12 @@ type AppProps = {
     detail: Detail,
 }
 
+interface SortFieldSetting {
+  name: string;
+  is_editable: number;
+  is_private: number;
+}
+
 async function getAttendeeContact(id:any) {
   const mystate=store.getState()
   try {
@@ -49,12 +55,6 @@ const downloadFile = (fileData:any, filename:any) => {
   document.body.removeChild(anchorElement);
   window.URL.revokeObjectURL(url);
 };
-interface SortFieldSetting {
-  name: string;
-  is_editable: number;
-  is_private: number;
-}
-
 const ContactInfo = ({ detail }: AppProps) => {
 
     const { event  } = UseEventService();
@@ -98,7 +98,8 @@ const ContactInfo = ({ detail }: AppProps) => {
         {detail?.attendee_tabs_settings?.map((row: any, key: number) => (
           <React.Fragment key={key}>
             {row?.tab_name === 'contact_info' && row?.status == 1 ? (
-              <VStack p="3" w="100%" space="3">
+              <>
+              {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && <VStack p="3" pb={1} w="100%" space="3">
                 {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') ? (
                   <>
                     {detail?.detail?.email && detail?.detail?.email !== '' && isFieldVisible('email') ? (
@@ -123,7 +124,8 @@ const ContactInfo = ({ detail }: AppProps) => {
                     ) : ''}
                   </>
                 ) : ''}
-              </VStack>
+              </VStack>}
+              </>
             ) : ''}
           </React.Fragment>
         ))}
@@ -142,7 +144,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                 }}>
                 <IcoFacebook width={30} height={30} />
               </Pressable>
-            ) : ' '}
+            ) : null}
             {detail?.detail?.info?.twitter && isFieldVisible('twitter') && detail?.detail?.info?.twitter !== '' && detail?.detail?.info?.twitter !== 'http://' &&  detail?.detail?.info?.twitter !== 'https://' ? (
               <Pressable
                 onPress={async () => {
@@ -154,7 +156,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                 }}>
                 <IcoTwitterX width={30} height={30} />
               </Pressable>
-            ) : ' '}
+            ) : null}
             {detail?.detail?.info?.linkedin && isFieldVisible('linkedin') && detail?.detail?.info?.linkedin !== '' && detail?.detail?.info?.linkedin !== 'http://' &&  detail?.detail?.info?.linkedin !== 'https://' ? (
               <Pressable
                 onPress={async () => {
@@ -166,7 +168,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                 }}>
                 <IcoLinkedIN width={30} height={30} />
               </Pressable>
-            ) : ' '}
+            ) : null}
             {detail?.detail?.info?.website && isFieldVisible('website') && detail?.detail?.info?.website !== '' && detail?.detail?.info?.website !== 'http://' &&  detail?.detail?.info?.website !== 'https://' ? (
               <Pressable
                 onPress={async () => {
@@ -178,7 +180,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                 }}>
                 <IcoWebLink width={30} height={30} />
               </Pressable>
-            ) : ' '}
+            ) : null}
 
           </HStack>
         </Box>
