@@ -38,11 +38,11 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
             setIsFav(false)
         }
     }, [sponsor.attendee_sponsors])
-    AddToast({message:"un-favourited",status:"success"})
-
+    
     function toggleFav(){
         if(isFav){
             setIsFav(false)
+            AddToast({message:"un-favourited",status:"success"})
         }else{
             setIsFav(true)
             AddToast({message:"favourited",status:"success"})
