@@ -186,8 +186,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             </HStack>
             {screen === 'attendees' && (
                 <>
-                    {speaker === 0 && <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  
+                    {speaker === 0 && <HStack mb="3" space={1} overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%">
+                        {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  (event?.attendee_settings?.tab == 1 || modules?.some(module => module.alias === 'my-attendee-list')) && 
                             <Button 
                                 onPress={() => {
                                     setTab('attendee'); 
@@ -197,16 +197,16 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 borderRightRadius="0" 
-                                borderLeftRadius={8} 
-                                h="42px" 
+                                borderLeftRadius={0} 
+                                h="42px"
+                                flex={1} 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                 w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
                                 _text={{ fontWeight: '600' }}
                             >
                                 {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
                             </Button>}
-                            {
-                                modules?.some(module => module.alias === 'my-attendee-list') && (
+                            {modules?.some(module => module.alias === 'my-attendee-list') && (
                                     <Button
                                         onPress={() => {
                                             setTab('my-attendee')
@@ -217,8 +217,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                         py={0} 
                                         borderColor="primary.darkbox" 
                                         h="42px" 
-                                        borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
-                                        borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
+                                        borderRightRadius={0} 
+                                        borderLeftRadius={0}
+                                        flex={1} 
                                         bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
                                         w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
                                         _text={{ fontWeight: '600' }}
@@ -237,8 +238,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     py={0} 
                                     borderColor="primary.darkbox" 
                                     borderLeftRadius="0" 
-                                    borderRightRadius={8} 
-                                    h="42px" 
+                                    borderRightRadius={0} 
+                                    h="42px"
+                                     flex={1}  
                                     bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} 
                                     w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
                                     _text={{ fontWeight: '600' }}
@@ -247,7 +249,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </Button>
                         }
                     </HStack>}
-                    {speaker ===  1 && <HStack mb="3" space={1} justifyContent="center" w="100%">
+                    {speaker ===  1 && <HStack overflow={'hidden'} rounded={8} flexWrap={'wrap'}  mb="3" space={1} justifyContent="center" w="100%">
                         
                         {(( event?.speaker_settings?.tab == 1)) &&  
                             <Button 
@@ -260,8 +262,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 borderRightRadius={0} 
-                                borderLeftRadius={8} 
-                                h="42px" 
+                                borderLeftRadius={0} 
+                                h="42px"
+                                flex={1} 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
@@ -275,9 +278,10 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     setTab('category')
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
                                 }} 
-                                borderRightRadius={8} 
+                                borderRightRadius={0} 
                                 borderLeftRadius={0} 
                                 borderWidth="0px" 
+                                flex={1}
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
