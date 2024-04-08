@@ -11,7 +11,6 @@ import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.
 import UseToastService from 'application/store/services/UseToastService';
 import { Linking } from 'react-native';
 import { colorText } from 'application/styles/colors';
-
 type AppProps = {
     sponsor: Sponsor,
     k: number
@@ -41,14 +40,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
     
     function toggleFav(){
         if(isFav){
-            Toast.show({
-                placement:"bottom-right",
-                render:()=>{
-                    return(
-                        <ToastContainer message='unFavoraited sponsor successfully'status={Status.Success}/>
-                    )
-                }
-            })
+          
             setIsFav(false)
             AddToast({message:"un-favourited",status:"success"})
         }else{
