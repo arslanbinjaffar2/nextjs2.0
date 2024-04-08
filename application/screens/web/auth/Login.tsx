@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Heading, FormControl, Pressable } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
-import { images } from 'application/styles';
+import { images, func } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -51,11 +51,11 @@ const Login = ({ props }: any) => {
             push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
         } 
     }, [response.redirect]);
+		
 
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={['30px','50px','30px']} w="100%" rounded="10">
-                {console.log(images.Logo)}
                 <Image
                   alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
                         : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
@@ -162,7 +162,7 @@ const Login = ({ props }: any) => {
                                         <Controller
                                             control={control}
                                             render={({ field: { onChange, onBlur, value } }) => (
-                                                <Center><Input onKeyPress={handleKeyPress} onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={['250px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button isLoading={processing} ref={nativeButton} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow /></Button>} /></Center>
+                                                <Center><Input onKeyPress={handleKeyPress} onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={['250px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button isLoading={processing} ref={nativeButton} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow color={func.colorType(event?.settings?.primary_color)} /></Button>} /></Center>
                                             )}
                                             name="email"
                                             rules={{

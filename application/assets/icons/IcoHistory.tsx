@@ -22,7 +22,7 @@ const IcoHistory = (props: SvgProps) => {
         data-name="Line 73"
         x2={13}
         fill="none"
-        stroke={colors.text ? colors.text : "#fff"}
+        stroke={props.color ? props.color : colors.text}
         strokeLinecap="round"
         strokeWidth={1.5}
       />
@@ -32,7 +32,7 @@ const IcoHistory = (props: SvgProps) => {
         x2={7}
         transform="translate(6 4)"
         fill="none"
-        stroke={colors.text ? colors.text : "#fff"}
+        stroke={props.color ? props.color : colors.text}
         strokeLinecap="round"
         strokeWidth={1.5}
       />
@@ -42,7 +42,7 @@ const IcoHistory = (props: SvgProps) => {
         x2={7}
         transform="translate(0 7)"
         fill="none"
-        stroke={colors.text ? colors.text : "#fff"}
+        stroke={props.color ? props.color : colors.text}
         strokeLinecap="round"
         strokeWidth={1.5}
       />
@@ -52,7 +52,7 @@ const IcoHistory = (props: SvgProps) => {
         x2={13}
         transform="translate(0 11)"
         fill="none"
-        stroke={colors.text ? colors.text : "#fff"}
+        stroke={props.color ? props.color : colors.text}
         strokeLinecap="round"
         strokeWidth={1.5}
       />

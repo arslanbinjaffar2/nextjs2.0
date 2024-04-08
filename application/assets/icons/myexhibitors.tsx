@@ -18,7 +18,7 @@ const SVGComponent = (props: SvgProps) => {
                 data-name="Rectangle 70"
                 transform="translate(2.827 12.692)"
                 fill="none"
-                stroke={colors.text ? colors.text : '#fff'}
+                stroke={props.color ? props.color : colors.text}
                 strokeWidth={1}
             >
                 <Rect width={16.346} height={11.308} stroke="none" />
@@ -30,7 +30,7 @@ const SVGComponent = (props: SvgProps) => {
                 d="M-355.716,194.17h3.216V171.5h-22v22.67h2.909"
                 transform="translate(374.5 -171.5)"
                 fill="none"
-                stroke={colors.text ? colors.text : '#fff'}
+                stroke={props.color ? props.color : colors.text}
                 strokeWidth={1}
             />
             <Line
@@ -39,7 +39,7 @@ const SVGComponent = (props: SvgProps) => {
                 x2={16.014}
                 transform="translate(2.993 15.833)"
                 fill="none"
-                stroke={colors.text ? colors.text : '#fff'}
+                stroke={props.color ? props.color : colors.text}
                 strokeWidth={1}
             />
             <G
@@ -47,7 +47,7 @@ const SVGComponent = (props: SvgProps) => {
                 data-name="Ellipse 3"
                 transform="translate(8.838 0.998)"
                 fill="none"
-                stroke={colors.text ? colors.text : '#fff'}
+                stroke={props.color ? props.color : colors.text}
                 strokeWidth={1}
             >
                 <Circle cx={2.162} cy={2.162} r={2.162} stroke="none" />
@@ -59,7 +59,7 @@ const SVGComponent = (props: SvgProps) => {
                 d="M-173.5,195.415l1.654-4.7a1.654,1.654,0,0,1,1.521-1.215h4.479a1.641,1.641,0,0,1,1.5,1.144l1.888,4.772"
                 transform="translate(178.821 -182.423)"
                 fill="none"
-                stroke={colors.text ? colors.text : '#fff'}
+                stroke={props.color ? props.color : colors.text}
                 strokeWidth={1}
             />
             <Line
@@ -69,7 +69,7 @@ const SVGComponent = (props: SvgProps) => {
                 x2={0.998}
                 transform="translate(7.667 10.511)"
                 fill="none"
-                stroke={colors.text ? colors.text : '#fff'}
+                stroke={props.color ? props.color : colors.text}
                 strokeLinecap="round"
                 strokeWidth={1}
             />
@@ -80,7 +80,7 @@ const SVGComponent = (props: SvgProps) => {
                 y2={2.319}
                 transform="translate(12.668 10.511)"
                 fill="none"
-                stroke={colors.text ? colors.text : '#fff'}
+                stroke={props.color ? props.color : colors.text}
                 strokeLinecap="round"
                 strokeWidth={1}
             />

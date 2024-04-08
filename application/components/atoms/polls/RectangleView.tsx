@@ -15,7 +15,6 @@ const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean
     <Pressable
       p="0"
       w="100%"
-      _hover={{ bg: 'primary.500' }}
       onPress={() => { 
         if(!completed){
           push(`/${event.url}/polls/detail/${poll.agenda_id}`)

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, Center, Flex, Text, Image, Input, VStack, Icon, FormControl } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
-import { images } from 'application/styles';
+import { images, func } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -124,7 +124,7 @@ const ResetPassword = ({ props }: any) => {
                         onPress={handleSubmit(onSubmit)}
                         minH='48px'
                         w={'100%'}
-                        endIcon={<IcoLongArrow />}
+                        endIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />}
                         _hover={{ bg: 'primary.secondary' }}
                     >
                     </Button>
