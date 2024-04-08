@@ -26,12 +26,8 @@ const BackgroundLayout = ({ children }: Props) => {
 
     return (
             <>
-           
-            
                 <ImageBackground blurRadius={15} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode='cover' source={{ uri:`${_env.eventcenter_base_url}/assets/event/app_background/${event.settings?.app_background_image}`  }}>
-
-                    <View flex={1} bg={'primary.100'} style={event.settings?.app_background_image ? {...gStyles.bgContainer} : {...gStyles.bgContainerSolid}} >
-                 
+                    <View flex={1} bg={'primary.100'} style={event.settings?.app_background_image ? {...gStyles.bgContainer} : {...gStyles.bgContainerSolid}} > 
                    </View>
                 </ImageBackground>
                 {children}

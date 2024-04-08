@@ -39,6 +39,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
 import ToastContainer ,{Status} from 'application/components/atoms/toast/index'
+import UseToastService from 'application/store/services/UseToastService';
 
 
 const index = () => {
@@ -99,48 +100,48 @@ type formProps = {
 };
 
 
-const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee, success_message, UpdateSuccess }: formProps) => {
-    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
-    const Selectstyles2 = {
-        control: (base: any, state: any) => ({
-            ...base,
-            //   minHeight: "40px",
-            padding: "3px",
-            minHeight: 50,
-            width: '100%',
-            maxWidth: '100%',
-            minWidth: '100%',
-            marginBottom: 10,
-            background: `rgba(0,0,0,0.2)`,
+const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee }: formProps) => {
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+const Selectstyles2 = {
+    control: (base:any, state:any) => ({
+      ...base,
+      minHeight: "40px",
+      padding:"3px",
+    // minHeight:50,
+      width: '100%',
+      maxWidth: '100%',
+			minWidth: '100%',
+      marginBottom: 10,
+			background: `rgba(0,0,0,0.2)`,
+			color: '#eaeaea',
+			fontFamily: 'Avenir',
+			boxShadow: 'none',
+			borderWidth: 2,
+			borderColor: state.isFocused ? event?.settings?.primary_color : "transparent",
+			"&:hover": {
+				// Overwrittes the different states of border
+				borderColor: state.isFocused ? event?.settings?.primary_color : "transparent"
+			}
+    }),placeholder: (defaultStyles: any) => {
+        return {
+            ...defaultStyles,
             color: '#eaeaea',
-            fontFamily: 'Avenir',
-            boxShadow: 'none',
-            borderWidth: 2,
-            borderColor: state.isFocused ? event?.settings?.primary_color : "transparent",
-            "&:hover": {
-                // Overwrittes the different states of border
-                borderColor: state.isFocused ? event?.settings?.primary_color : "transparent"
-            }
-        }), placeholder: (defaultStyles: any) => {
-            return {
-                ...defaultStyles,
-                color: '#eaeaea',
-            }
-        },
-        option: (provided: any, state: any) => ({
-            ...provided,
-            fontFamily: 'Avenir',
-            backgroundColor: state.isSelected ? event?.settings?.primary_color : "",
-            "&:hover": {
-                backgroundColor: event?.settings?.primary_color,
-                color: '#fff'
-            }
-        }),
-        singleValue: (provided: any) => ({
-            ...provided,
-            color: '#eaeaea'
-        })
-    }
+        }
+    },
+		option: (provided:any, state:any) => ({
+				...provided,
+				fontFamily: 'Avenir',
+				backgroundColor: state.isSelected ? event?.settings?.primary_color : "",
+				"&:hover": {
+					backgroundColor: event?.settings?.primary_color,
+					color: '#fff'
+				}
+		}),
+		singleValue: (provided:any) => ({
+    ...provided,
+    color: '#eaeaea'
+  })
+}
     const { _env } = UseEnvService()
 
     const [gender, setGender] = React.useState(attendee?.info?.gender ?? '');
@@ -332,18 +333,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         formData.append('settings', JSON.stringify(data.settings));
         formData.append('file', data.attendeeObj.file);
         formData.append('attendee_cv', data.attendeeObj.att_cv);
-
-       updateAttendee(formData);
-       if(!updatingAttendee){
-           Toast.show({
-               placement:"bottom-right",           
-               render: () => {
-                   return (
-                       <ToastContainer message='' status={Status.Success}/>
-                       )
-                    }
-                })
-            }
+   
+        updateAttendee(formData);
     };
  
 
