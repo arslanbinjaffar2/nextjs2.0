@@ -13,7 +13,6 @@ const RectangleView = ({survey, completed, settings}:{survey:Survey, completed:b
     <Pressable
       p="0"
       w="100%"
-      _hover={{ bg: 'primary.500' }}
       onPress={() => { 
         if(!completed){
           push(`/${event.url}/survey/detail/${survey.id}`)
