@@ -118,9 +118,9 @@ const Index = () => {
                                     {(polls && typeof polls === 'object' && Object.keys(polls).length > 0) ? (filteredPendingPolls.length > 0 ? filteredPendingPolls.map((key:string)=>(
                                         <React.Fragment key={key}>
                                             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                                <Text fontSize="lg">{polls[key][0]?.agenda_start_date_formatted}</Text>
+                                                <Text fontSize="lg">{polls[key] ? polls[key][0]?.agenda_start_date_formatted : ''}</Text>
                                             </HStack>
-                                            {polls[key].map((poll)=>(
+                                            {polls[key] && polls[key].map((poll)=>(
                                                 <RectangleView key={poll.id} poll={poll} completed={false} />
                                             ))}
                                         </React.Fragment>
