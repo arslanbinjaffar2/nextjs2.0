@@ -194,8 +194,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             </HStack>
             {screen === 'attendees' && (
                 <>
-                    {speaker === 0 && <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  
+                    {speaker === 0 && <HStack mb="3" space={1} overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%">
+                        {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  (event?.attendee_settings?.tab == 1 || modules?.some(module => module.alias === 'my-attendee-list')) && 
                             <Button 
                                 onPress={() => {
                                     setTab('attendee'); 
@@ -205,36 +205,41 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 borderRightRadius="0" 
-                                borderLeftRadius={8} 
-                                h="42px" 
+                                borderLeftRadius={0} 
+                                _hover={{_text: {color: 'primary.hovercolor'}}}
+                                h="42px"
+                                flex={1} 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                 w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
                                 _text={{ fontWeight: '600' }}
                             >
                                 {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
                             </Button>}
-                            {
-                                modules?.some(module => module.alias === 'my-attendee-list') && (
-                                    <Button
-                                        onPress={() => {
-                                            setTab('my-attendee')
-                                            push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
-                                        }} 
-                                        borderRadius="0" 
-                                        borderWidth="0px" 
-                                        py={0} 
-                                        borderColor="primary.darkbox" 
-                                        h="42px" 
-                                        borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
-                                        borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
-                                        bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
-                                        w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
-                                        _text={{ fontWeight: '600' }}
-                                    >
-                                        {modules?.find((module) => (module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
-                                    </Button>
-                                )
-                            }
+                        {
+                            modules?.some(module => module.alias === 'my-attendee-list') && (
+                            <Button
+                                onPress={() => {
+                                    setTab('my-attendee')
+                                    push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
+
+                                }} 
+                                borderRadius="0" 
+                                borderWidth="0px" 
+                                py={0} 
+                                borderColor="primary.darkbox" 
+                                h="42px"
+                                _hover={{_text: {color: 'primary.hovercolor'}}} 
+                                flex={1} 
+                                borderRightRadius={0} 
+                                borderLeftRadius={0} 
+                                bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
+                                _text={{ fontWeight: '600' }}
+                            >
+                                
+                                {modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
+                            </Button>
+                            )
+                        }
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
                                 <Button 
                                     onPress={() => {
@@ -245,8 +250,10 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     py={0} 
                                     borderColor="primary.darkbox" 
                                     borderLeftRadius="0" 
-                                    borderRightRadius={8} 
-                                    h="42px" 
+                                    borderRightRadius={0} 
+                                    _hover={{_text: {color: 'primary.hovercolor'}}}
+                                    h="42px"
+                                     flex={1}  
                                     bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} 
                                     w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
                                     _text={{ fontWeight: '600' }}
@@ -255,7 +262,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </Button>
                         }
                     </HStack>}
-                    {speaker ===  1 && <HStack mb="3" space={1} justifyContent="center" w="100%">
+                    {speaker ===  1 && <HStack overflow={'hidden'} rounded={8} flexWrap={'wrap'}  mb="3" space={1} justifyContent="center" w="100%">
                         
                         {(( event?.speaker_settings?.tab == 1)) &&  
                             <Button 
@@ -268,8 +275,10 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 borderRightRadius={0} 
-                                borderLeftRadius={8} 
-                                h="42px" 
+                                borderLeftRadius={0} 
+                                h="42px"
+                                _hover={{_text: {color: 'primary.hovercolor'}}}
+                                flex={1} 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
@@ -283,12 +292,14 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     setTab('category')
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
                                 }} 
-                                borderRightRadius={8} 
+                                borderRightRadius={0} 
                                 borderLeftRadius={0} 
                                 borderWidth="0px" 
+                                flex={1}
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
+                                _hover={{_text: {color: 'primary.hovercolor'}}}
                                 bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} 
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
@@ -333,7 +344,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                 </>
             )}
             {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
-              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
+              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="163px" space="1">
                   {alphabet.map((item, k) =>
                     <React.Fragment key={k}>
                         <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
@@ -350,7 +361,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {speaker === 0 && GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
+                                            {map?.letter}
+                                            </Text>
                                     )}
                                     {map?.records?.map((attendee: Attendee, k: number) =>
                                         <React.Fragment key={`${k}`}>
@@ -374,7 +387,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
+                                            {map?.letter}
+                                            </Text>
                                     )}
                                     {map?.records?.map((group: Group, k: number) =>
                                         <React.Fragment key={`${k}`}>
