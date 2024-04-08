@@ -56,7 +56,7 @@ const ContactInfo = ({ detail }: AppProps) => {
             <Pressable>
               <Vcfcontact width="18px" height="20px" />
             </Pressable>
-          ) : ''}
+          ) : null}
         </HStack>
         {detail?.attendee_tabs_settings?.map((row: any, key: number) => (
           <React.Fragment key={key}>
@@ -74,7 +74,7 @@ const ContactInfo = ({ detail }: AppProps) => {
                             <Text fontSize="14px">{detail?.detail?.email}</Text>
                         </Box>
                       </HStack>
-                    ) : ''}
+                    ) : null}
                     {detail?.detail?.phone && detail?.detail?.phone !== '' && isFieldVisible('phone') ? (
                       <HStack space="1" alignItems="center">
                        <Box>
@@ -84,12 +84,12 @@ const ContactInfo = ({ detail }: AppProps) => {
                             <Text fontSize="14px">{detail?.detail?.phone}</Text>
                         </Box>
                       </HStack>
-                    ) : ''}
+                    ) : null}
                   </>
-                ) : ''}
+                ) : null}
               </VStack>}
               </>
-            ) : ''}
+            ) : null}
           </React.Fragment>
         ))}
         {(detail?.detail?.info?.facebook && isFieldVisible('facebook')) || (detail?.detail?.info?.twitter && isFieldVisible('twitter')) || (detail?.detail?.info?.linkedin && isFieldVisible('linkedin')) || (detail?.detail?.info?.website && isFieldVisible('website')) ?

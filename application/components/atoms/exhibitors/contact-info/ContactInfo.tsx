@@ -43,7 +43,7 @@ const ContactInfo = () => {
                     
                 />
             </HStack>
-            {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
+            {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" pb={1} w="100%" space="3">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
                     <Box>
                     <IcoEnvelope />
