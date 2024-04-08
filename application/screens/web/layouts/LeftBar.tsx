@@ -168,7 +168,7 @@ const LeftBar = () => {
             <Center w="30px">
               <IcoLogin color={logoutHover ? func.colorType(event?.settings?.primary_color) : undefined} />
             </Center>
-            {width > 1200 && <Text fontSize={'lg'} color="primary.text">Logout</Text>}
+            {width > 1200 && <Text fontSize={'lg'} color={logoutHover ? func.colorType(event?.settings?.primary_color) : "primary.text"}>Logout</Text>}
           </HStack>
         </Pressable>
       </VStack>
