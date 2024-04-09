@@ -81,18 +81,15 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     <>
                       <Text lineHeight="22px" fontSize="lg">
                         {attendee?.info?.title && attendee?.info?.title}
-                        {attendee?.info?.company_name &&
-                          attendee?.info?.title &&
-                          " "
-                        }
-                        {attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && `${attendee?.info?.department} `}
+                        {attendee?.info?.title && attendee?.info?.company_name && " , "}
                         {attendee?.info?.company_name && attendee?.info?.company_name}
+                        {(attendee?.info?.title || attendee?.info?.company_name) && attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && " , "}
+                        {attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && attendee?.info?.department}
                       </Text>
                     </>
                   )}
-
                 </>
-              )}
+              ) : null}
               {event?.attendee_settings?.display_private_address === 1 &&
                 <Text pt="1" lineHeight="22px" fontSize="md"> 
                   {getPrivateFields(attendee)}
