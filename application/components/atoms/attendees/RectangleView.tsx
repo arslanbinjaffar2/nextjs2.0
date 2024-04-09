@@ -105,7 +105,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
                   onPress={() => toggleFav()}>
-                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
                 </Pressable>
                 )}
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
