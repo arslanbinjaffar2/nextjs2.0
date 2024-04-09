@@ -1283,7 +1283,7 @@ const Selectstyles2 = {
                         updateAttendeeData();
                     }}
                 >
-                    <Text fontSize="2xl" fontWeight={600}>SAVE</Text>
+                    <Text fontSize="2xl" color={"primary.hovercolor"} fontWeight={600}>SAVE</Text>
                 </Button>
             </HStack>
 						{success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'}  p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
