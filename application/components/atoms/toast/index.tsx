@@ -12,7 +12,6 @@ export enum Status {
 export interface ToastProps {
   status: string;
   message: string;
-  setShow: any;
 }
 
 
@@ -57,7 +56,7 @@ export interface ToastProps {
 
 
 
-const ToastContainer = ({}:ToastProps) => {
+const ToastContainer = () => {
   const {toasts}=UseToastService()
   return (
     <View position={'absolute'} right={'0'} bottom={'0'}> 
