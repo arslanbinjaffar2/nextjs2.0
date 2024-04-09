@@ -32,6 +32,7 @@ interface Exhibitor {
   categories: Category[];
   show_cat?: boolean;
   description?: any;
+  sort_settings?: any;
 }
 
 export interface ExhibitorsAttendee {
@@ -48,6 +49,7 @@ export interface ExhibitorsAttendee {
   BIRTHDAY_YEAR?: string;
   SPOKEN_LANGUAGE?: string;
   EMPLOYMENT_DATE?: string;
+  sort_settings?: any;
 }
 
 interface CurrentEventAttendee {

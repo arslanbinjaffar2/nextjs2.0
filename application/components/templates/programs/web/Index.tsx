@@ -89,19 +89,16 @@ const Index = () => {
           
             
 
-            <HStack mb="3" space={1} justifyContent="center" w="100%">
-                {(event?.agenda_settings?.agenda_list == 0 || event?.agenda_settings?.agenda_tab == 1) && <Button ref={tb1} onPress={() => {
+            <HStack mb="3" overflow={'hidden'} rounded={8} space={1} justifyContent="center" w="100%">
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <Button ref={tb1} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                     ResetTracks();
                     setTab('program')
-                }} borderWidth="1px" borderRightRadius="0" borderLeftRadius={8} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'} w={event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'agendas'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'agendas'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}><Text textAlign={'center'} isTruncated w={tb1.current?.clientWidth ? tb1.current?.clientWidth - 10 : '100%'} fontWeight={600}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</Text>
-                </Button>}
-                {(modules?.find((m)=>(m.alias == 'myagendas'))) &&<Button ref={tb2} onPress={() => {
+                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</Button>}
+                {(modules?.find((m)=>(m.alias == 'myprograms'))) &&<Button ref={tb2} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                     ResetTracks();
                     setTab('my-program');
-                }} borderWidth="1px" borderRightRadius={(event?.agenda_settings?.agenda_tab == 0 && event?.agenda_settings?.agenda_list == 0) ? 8 : 0} borderLeftRadius={(event?.agenda_settings?.agenda_tab == 0 && event?.agenda_settings?.agenda_list == 1) ? 8 : 0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'} w={event?.agenda_settings?.agenda_tab == 1 ? '33%': '50%'} _text={{ fontWeight: '600' }}>
-                <Text textAlign={'center'} isTruncated w={tb2.current?.clientWidth ? tb2.current?.clientWidth - 10 : '100%'} fontWeight={600}>{modules?.find((module)=>(module.alias == 'myagendas'))?.name ?? 'My program'}</Text>
-                </Button>}
-                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button ref={tb3} onPress={() => setTab('track')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'} w={ event?.agenda_settings?.agenda_tab == 1 ? ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '33%': '50%') : ((modules?.find((m)=>(m.alias == 'myprograms'))) ? '50%': '100%')} _text={{ fontWeight: '600' }}>{event?.labels?.PROGRAM_BY_TRACKS}</Button>}
+                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</Button>}
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button ref={tb3} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('track')} borderWidth="0px" py={0} borderColor="primary.darkbox" flex={1} borderLeftRadius="0" borderRightRadius={0} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>{event?.labels?.PROGRAM_BY_TRACKS}</Button>}
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
