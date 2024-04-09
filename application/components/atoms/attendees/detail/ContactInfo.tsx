@@ -99,34 +99,42 @@ const ContactInfo = ({ detail }: AppProps) => {
                 }}>
               </IconButton>
             </Pressable>
-          ) : ''}
+          ) : null}
         </HStack>
-        {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && <VStack p="3" pb={1} w="100%" space="3">
-          {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') ? (
-            <>
-              {detail?.detail?.email && detail?.detail?.email !== '' && isFieldVisible('email') ? (
-                <HStack space="1" alignItems="center">
-                  <Box>
-                    <IcoEnvelope />
-                  </Box>
-                  <Box pl="1">
-                    <Text fontSize="14px">{detail?.detail?.email}</Text>
-                  </Box>
-                </HStack>
-              ) : ''}
-              {detail?.detail?.phone && detail?.detail?.phone !== '' && isFieldVisible('phone') ? (
-                <HStack space="1" alignItems="center">
-                  <Box>
-                    <IcoPhone />
-                  </Box>
-                  <Box pl="1">
-                    <Text fontSize="14px">{detail?.detail?.phone}</Text>
-                  </Box>
-                </HStack>
-              ) : ''}
-            </>
-          ) : ''}
-        </VStack>}
+        {detail?.attendee_tabs_settings?.map((row: any, key: number) => (
+          <React.Fragment key={key}>
+            {row?.tab_name === 'contact_info' && row?.status == 1 ? (
+              <>
+              {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && <VStack p="3" pb={1} w="100%" space="3">
+                {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') ? (
+                  <>
+                    {detail?.detail?.email && detail?.detail?.email !== '' && isFieldVisible('email') ? (
+                      <HStack space="1" alignItems="center">
+                        <Box>
+                        <IcoEnvelope />
+                        </Box>
+                        <Box pl="1">
+                            <Text fontSize="14px">{detail?.detail?.email}</Text>
+                        </Box>
+                      </HStack>
+                    ) : null}
+                    {detail?.detail?.phone && detail?.detail?.phone !== '' && isFieldVisible('phone') ? (
+                      <HStack space="1" alignItems="center">
+                       <Box>
+                        <IcoPhone />
+                        </Box>
+                        <Box pl="1">
+                            <Text fontSize="14px">{detail?.detail?.phone}</Text>
+                        </Box>
+                      </HStack>
+                    ) : null}
+                  </>
+                ) : null}
+              </VStack>}
+              </>
+            ) : null}
+          </React.Fragment>
+        ))}
         {(detail?.detail?.info?.facebook && isFieldVisible('facebook')) || (detail?.detail?.info?.twitter && isFieldVisible('twitter')) || (detail?.detail?.info?.linkedin && isFieldVisible('linkedin')) || (detail?.detail?.info?.website && isFieldVisible('website')) ?
           <Box py="0" px="0" w="100%">
             <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
