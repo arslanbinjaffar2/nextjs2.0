@@ -51,7 +51,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
         console.log("🚀 ~ handleRegistrationPress ~ router:", router)
         router.push(`/${event.url}/attendees/my-registration/${response?.data?.user?.id}`)
     }
-
+		
     return (
         <Box mb={3} bg="primary.box" p="0" w={'100%'} rounded="10">
             <Container borderWidth="0" borderColor="primary.darkbox" bg="primary.primarycolor" rounded="10" overflow="hidden" maxW="100%" w="100%">
