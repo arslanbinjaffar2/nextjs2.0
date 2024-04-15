@@ -1,5 +1,6 @@
 import React, { ComponentType, createElement } from 'react';
 import { View } from 'react-native';
+import edit_profile from 'application/assets/icons/edit_profile';
 import IcoMyEvents from 'application/assets/icons/IcoMyEvents';
 import attendees from 'application/assets/icons/attendees';
 import myattendees from 'application/assets/icons/myattendees';
@@ -55,7 +56,6 @@ import polls from 'application/assets/icons/polls';
 import attendee_authority from 'application/assets/icons/attendee_authority';
 import checkin_agendas from 'application/assets/icons/checkin_agendas';
 import checkin from 'application/assets/icons/checkin_agendas';
-
 import business from 'application/assets/icons/IcoNetworkInterest';
 import document from 'application/assets/icons/document'
 import download from 'application/assets/icons/download'
@@ -75,7 +75,8 @@ type IconProps = {
 };
 
 type IconType ='qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
-'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin' | 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | 'editnotes' | 'mybookings' | any;
+'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin' | 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | 'editnotes' | 'mybookings' |
+'edit_profile' | any;
 
 type Props = {
     iconType: IconType;
@@ -85,6 +86,7 @@ type Props = {
 const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
 
     const iconMap: Record<IconType, ComponentType<IconProps>> = {
+        edit_profile,
         IcoMyEvents,
         floorplan_basic,
         download,
