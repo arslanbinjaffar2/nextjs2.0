@@ -40,11 +40,8 @@ const RectangleView = ({ k, attendee }: AppProps) => {
                 {(attendee?.info?.company_name || attendee?.info?.title) && (
                     <Text fontSize="lg">
                         {`${attendee?.info?.company_name}`}
-                        {attendee?.info?.title && (
-                            <>
-                                {` - ${attendee?.info?.title}`}
-                            </>
-                        )}
+                        {attendee?.info?.company_name && attendee?.info?.title && " - "}
+                        {attendee?.info?.title}
                     </Text>
                 )}
             </VStack>
