@@ -1111,7 +1111,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'resume' && (
-                        <HStack mb="3" alignItems="start" px="3" w="100%" >
+                        <HStack mb="3" alignItems="start" px="6" w="100%" >
 
                             <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} w="100%" >
                                 <Center alignItems="flex-start" width={'225px'} pb={[2, 0]} maxW={["100%", "225px"]}>
