@@ -67,10 +67,52 @@ const Detail = ({ speaker }: Props) => {
     }, [_id]);
 
     React.useEffect(() => {
-        if (detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0) {
-            setTab(detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1)[0]?.tab_name!)
+        if (detail?.attendee_tabs_settings) {
+            // Filter and sort enabled tabs based on sort order
+            const enabledTabs = detail.attendee_tabs_settings
+                .filter((tab: any) => tab.status === 1)
+                .sort((a: any, b: any) => a.sort_order - b.sort_order);
+    
+            let defaultTab: string = '';
+    
+            // Iterate through the sorted enabled tabs and set the default tab based on conditions
+            for (let i = 0; i < enabledTabs.length; i++) {
+                const row = enabledTabs[i];
+                if (row.tab_name === 'program' && event?.speaker_settings?.program === 1) {
+                    defaultTab = 'program';
+                    break;
+                } else if (row.tab_name === 'category' && event?.speaker_settings?.category_group === 1) {
+                    defaultTab = 'category';
+                    break;
+                } else if (row.tab_name === 'documents' && event?.speaker_settings?.show_document === 1) {
+                    defaultTab = 'documents';
+                    break;
+                } else if (
+                    row.tab_name === 'groups' &&
+                    ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) ||
+                        ((detail?.is_speaker && detail?.speaker_setting?.show_group) ||
+                            (!detail?.is_speaker && detail?.setting?.attendee_group)))
+                ) {
+                    defaultTab = 'groups';
+                    break;
+                } else if (
+                    speaker === 0 &&
+                    row.tab_name === 'sub_registration' &&
+                    detail?.sub_registration_module_status === 1 &&
+                    detail?.sub_registration &&
+                    (response?.data?.user?.id === _id)
+                ) {
+                    defaultTab = 'sub_registration';
+                    break;
+                }
+            }
+    
+            // Set the active tab based on the defaultTab or the first enabled tab
+            setTab(defaultTab);
         }
     }, [detail]);
+    
+    
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
