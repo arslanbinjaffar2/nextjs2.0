@@ -25,7 +25,7 @@ const Index = () => {
 
     const [query, setQuery] = React.useState('');
     
-    const { FetchSurveys, surveys, completed_surveys, survey_labels } = UseSurveyService();
+    const { FetchSurveys, surveys, completed_surveys, survey_labels, survey_settings } = UseSurveyService();
 
     const { event, modules  } = UseEventService();
     const { _env } = UseEnvService()
@@ -91,7 +91,7 @@ const Index = () => {
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
                             <Button onPress={() => setTab('pending')} borderWidth="0px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>NOT ATTENDED</Button>
-                            <Button onPress={() => setTab('completed')} borderWidth="0px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
+                            <Button isDisabled={survey_settings?.user_settings == 1 ? false:true} onPress={() => setTab('completed')} borderWidth="0px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
