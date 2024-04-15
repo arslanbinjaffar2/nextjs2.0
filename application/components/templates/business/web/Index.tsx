@@ -237,7 +237,6 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                         isLoading={searchingAttendees}
                         isDisabled={searchingAttendees}
                         shadow="1"
-                        textTransform="uppercase"
                         _text={{ fontWeight: 600, fontSize: '2xl', color: 'primary.hovercolor' }}
                         colorScheme="primary"
                         onPress={() => {
