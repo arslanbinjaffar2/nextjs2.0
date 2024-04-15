@@ -124,11 +124,16 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         } else if ((slug === undefined || slug.length === 0) && tab === 'attendee') {
             setTab('attendee'); console.log('call 4')
             FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
-        } else if ((slug === undefined || slug.length === 0) && tab === 'category') {
+        }
+        else if ((slug === undefined || slug.length === 0) && tab === 'category-attendee') {
+            setTab('category-attendee'); console.log('call 4')
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), screen: 'speakers', program_id: 0 });
+        }
+         else if ((slug === undefined || slug.length === 0) && tab === 'category') {
             setTab('category');
             FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
         } else if ((slug === undefined || slug.length === 0) && tab === 'sub-category') {
-            setTab('category');
+            setTab('sub-category');
             FetchCategories({ parent_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), query: query, page: 1, cat_type: 'speakers' })
         } else if ((slug === undefined || slug.length === 0) && tab === 'group') {
             setTab('group');
@@ -291,8 +296,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
-                                _hover={{_text: {color: 'primary.hovercolor'}}}
-                                bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} 
+                                bg={tab === 'category' || tab === 'sub-category' || tab === 'category-attendee' ? 'primary.boxbutton' : 'primary.box'} 
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
@@ -330,7 +334,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     back()
                                 }}>
                             </Pressable>
-                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{category_name}</Text>
+                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'left'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{category_name}</Text>
                         </HStack>
                     )}
                 </>
