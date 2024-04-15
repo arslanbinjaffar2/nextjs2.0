@@ -21,7 +21,7 @@ const Index = ({ navigation }: indexProps) => {
 
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-          <Text textTransform="capitalize" fontSize="2xl">{module?.alias ?? "Chat"}</Text>
+          <Text  fontSize="2xl">{module?.alias ?? "Chat"}</Text>
           <Spacer />
           <Input rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
         </HStack>
