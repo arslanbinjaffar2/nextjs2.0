@@ -90,8 +90,8 @@ const Index = () => {
                             <Input rounded="10" w={["100%","60%" ]}bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
-                            <Button onPress={() => setTab('pending')} _hover={{_text: {color: 'primary.hovercolor'}}} borderWidth="0px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>NOT ATTENDED</Button>
-                            <Button onPress={() => setTab('completed')} _hover={{_text: {color: 'primary.hovercolor'}}}  borderWidth="0px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
+                            <Button onPress={() => setTab('pending')} _hover={{_text: {color: 'primary.hovercolor'}}} borderWidth="0px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{event?.labels?.NATIVE_APP_SURVEY_NOT_ATTENDED}</Button>
+                            <Button onPress={() => setTab('completed')} _hover={{_text: {color: 'primary.hovercolor'}}}  borderWidth="0px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{event?.labels?.NATIVE_APP_SURVEY_COMPLETED}</Button>
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
