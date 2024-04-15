@@ -151,7 +151,7 @@ const LeftBar = () => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"} width="24" height="24" />
+              <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : undefined} width="24" height="24" />
             </Center>
             {width > 1200 && <Text  color={dahboardHover || router.asPath.includes('/dashboard') ? 'primary.hovercolor' : 'primary.text'} fontSize={'20px'} fontWeight={400}>Dashboard</Text>}
           </HStack>

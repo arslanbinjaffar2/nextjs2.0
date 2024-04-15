@@ -75,7 +75,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                     (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
                                     && (
                                     <>
-                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}&nbsp;{detail?.detail?.info?.company_name &&
+                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title && `${detail?.detail?.info?.title} ` }{detail?.detail?.info?.company_name &&
                                                 detail?.detail?.info?.title &&
                                                 ", "}
                                                 {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>
