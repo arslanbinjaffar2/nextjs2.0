@@ -357,7 +357,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                         </React.Fragment>
                              )}
                             {attendees.length <= 0 &&
-                              <Box p={3} mb="3"  rounded="lg" w="100%">
+                              <Box p={3}   rounded="lg" w="100%">
                                   <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                               </Box>
                             }
@@ -376,7 +376,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </React.Fragment>
                             )}
                             {groups.length <= 0 &&
-                              <Box p={3} mb="3" rounded="lg" w="100%">
+                              <Box p={3}  rounded="lg" w="100%">
                                   <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                               </Box>
                             }
@@ -388,7 +388,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p={3} mb="3" rounded="lg" w="100%">
+                                <Box p={3}  rounded="lg" w="100%">
                                     <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
                                 </Box>
                             }
