@@ -190,7 +190,6 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         isLoading={UpdatingMyKeywords}
                         isDisabled={UpdatingMyKeywords}
                         shadow="1"
-                        textTransform="uppercase"
                         _text={{ fontWeight: 600, fontSize: '2xl' }}
                         colorScheme="primary"
                         onPress={() => {

@@ -116,7 +116,7 @@ const Index = ({ navigation }: indexProps) => {
                   console.log('hello')
                 }}
               >
-                NEW CHAT
+                new chat
               </Button>
             </Box>
           </>}

@@ -272,7 +272,6 @@ const Detail = () => {
                       isDisabled={steps <= 0 ? true : false}
                       bg="transparent"
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
                       colorScheme="primary"
@@ -288,7 +287,6 @@ const Detail = () => {
                       bg="transparent"
                       isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       colorScheme="primary"

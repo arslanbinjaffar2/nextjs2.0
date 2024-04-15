@@ -238,7 +238,6 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                         isLoading={searchingAttendees}
                         isDisabled={searchingAttendees}
                         shadow="1"
-                        textTransform="uppercase"
                         _text={{ fontWeight: 600, fontSize: '2xl' }}
                         colorScheme="primary"
                         onPress={() => {
@@ -246,7 +245,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                           setShowAttendees(true);
                         }}
                     >
-                        Match search
+                        match search
                     </Button>
                     </Box>
                 </Container>)}
