@@ -38,8 +38,8 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ disableTitle, updateBre
     const { event  } = UseEventService();
     return (
         <View w="100%">
-            {!disableTitle && <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" flexWrap={'wrap'}>
-            </HStack>}
+            {/* {!disableTitle && <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" flexWrap={'wrap'}>
+            </HStack>} */}
             {Platform.OS === 'web' ? (
                 <Box overflow="hidden" w="100%" bg={disableTitle ? "" : "primary.box"} p="0" rounded="10">
                     {filteredDocuments.map((document: Document, key: number) => {
