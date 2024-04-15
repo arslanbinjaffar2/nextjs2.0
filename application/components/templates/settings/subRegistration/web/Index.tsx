@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Spinner } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { useState } from 'react';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { createParam } from 'solito';
+import { SwipeButton } from 'react-native-expo-swipe-button'; 
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UsePollService from 'application/store/services/UsePollService';
 import { FormData } from 'application/models/poll/Detail';
@@ -24,6 +25,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
+import { getColorScheme } from 'application/styles/colors';
 
 
 type ScreenParams = { id: string }
@@ -55,7 +57,6 @@ const Detail = () => {
     }, []);
 
     
-
   return (
     <>
       {(firstLoad||loading || mySubReg == null) ? (
@@ -118,7 +119,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
   const [errors, setErrors] = useState<FormData>({});
   const [updates, setUpdates] = useState(0);
   const [submitcount, setsubmitcount] = useState(0);
-
+  const [goBack,setGoBack]=React.useState(0)
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
 
   
@@ -303,8 +304,21 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
         questions:mySubReg?.questions?.question.reduce((ack:any, item:any) => { return ack.concat(item.id)},[]),
         ...answers,
        });
+      
+
     }
   }
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+  console.log(goBack,"goback")
+  React.useEffect(()=>{
+    setGoBack(0)
+    setTimeout(()=>{
+      if(submitting){
+        setGoBack(1)
+      }
+       },1300)
+  },[submitting,goBack])
+  
   return (
     <Container mb="3" maxW="100%" w="100%">
     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
@@ -330,17 +344,41 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
         <Divider mb="15" opacity={0.27} bg="primary.text" />
         <HStack mb="3" space="3" alignItems="center" justifyContent={'center'}>
 
-            {mySubReg?.settings?.answer === 1 && mySubReg?.show_save === 1 && <Button
-              w="48px"
-              py="3"
-              px="1"
-              leftIcon={<IcoLongArrow />}
-              colorScheme="primary"
-              isLoading={submitting}
-              onPress={() => {
-               onSubmit();
-              }}
-            />}
+      {/* Conditionally render SwipeButton */}
+    
+      <Box position={'relative'}>
+       <SwipeButton key={goBack}
+        Icon={
+            <> 
+            {
+              submitting?
+              <Spinner accessibilityLabel="Loading posts" />:
+           <IcoLongArrow />
+            }    
+            </>
+
+        }
+        width={310}
+        circleSize={60}
+  goBackToStart={goBack==1?true:false}
+  circleBackgroundColor={colors.secondary} 
+        
+        iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
+        onComplete={() => 
+          // console.log("first")
+          onSubmit()
+        }
+        title=""
+        height={60}
+        borderRadius={10}
+        containerStyle={{ backgroundColor:colors.primary }}
+        underlayTitle=""
+        underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
+        underlayStyle={{ 
+          backgroundColor:colors.secondary,
+        }}
+        />
+        </Box>
         </HStack>
       </Box>
     </Box>
