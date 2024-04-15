@@ -38,30 +38,6 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ disableTitle, updateBre
     const { event  } = UseEventService();
     return (
         <View w="100%">
-            {!disableTitle && <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" flexWrap={'wrap'}>
-                {!disableTitle && <Pressable
-                    onPress={async () => {
-                        FilterDocuments({ document_id: 0, query: '' });
-                        setBreadCrumbs([]);
-                    }}>
-                    <Text textTransform="uppercase" fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
-                </Pressable>}
-                {breadcrumbs.length > 0 && breadcrumbs.map((breadcrumb: Document, key: number) =>
-                    <React.Fragment key={key}>
-                        <Icon ml="-1" color="primary.text" size="3" as={AntDesign} name="right" />
-                        <Pressable
-                            onPress={async () => {
-                                FilterDocuments({ document_id: breadcrumb.id, query: '' });
-                                setBreadCrumbs(FindPath(data, breadcrumb.id));
-                            }}>
-                            <Center maxW="250px">
-                                    <Text textTransform="uppercase" fontSize="md" isTruncated>{breadcrumb.name}</Text>
-                                </Center>
-														
-                        </Pressable>
-                    </React.Fragment>
-                )}
-            </HStack>}
             {Platform.OS === 'web' ? (
                 <Box overflow="hidden" w="100%" bg={disableTitle ? "" : "primary.box"} p="0" rounded="10">
                     {filteredDocuments.map((document: Document, key: number) => {
