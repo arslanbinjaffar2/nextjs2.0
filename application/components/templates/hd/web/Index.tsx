@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, Container, HStack, Icon, IconButton, Spacer, Text, VStack, ZStack } from 'native-base';
+import { Box, Container, HStack, Icon, IconButton, Pressable, Spacer, Text, VStack, ZStack } from 'native-base';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -50,6 +50,18 @@ const Index = () => {
               </HStack>
               <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
                 {groups?.length > 0 && groups?.map((group, k) =>
+                <Pressable
+                  p="0"
+                  borderWidth="0"
+                  w={'100%'}
+                  onPress={()=>{
+                   push(`/${event.url}/help_desk/detail/${group.id}`)
+                  }}
+                
+                >
+                
+               
+                
                   <Box w="100%" key={k} borderBottomWidth={k === (groups.length - 1) ? 0 : 1} borderColor="primary.bordercolor" py="3">
                     <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
 
@@ -73,7 +85,9 @@ const Index = () => {
                         </HStack>
                       </HStack>
                     </HStack>
-                  </Box>)}
+                  </Box>
+                   </Pressable>
+                  )}
                 {groups?.length <= 0 && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
                   <Text>{event.labels?.GENERAL_NO_RECORD}</Text>
                 </Box>}
