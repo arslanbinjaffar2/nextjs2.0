@@ -1,7 +1,8 @@
 import React from 'react'
-import { Box, HStack, Text, VStack, ZStack, Pressable } from 'native-base'
+import { Box, HStack, Text, VStack, ZStack, Pressable, Icon } from 'native-base'
 import { Category } from 'application/models/event/Category'
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
@@ -72,13 +73,17 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
                             <Box bg={category.color} borderWidth="1" borderColor="primary.darkbox" w="15px" mt='0px' h={`58px`} borderRightRadius="10" shadow={2} />
                         </ZStack>
                     </Box>
-                    <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
+                    <HStack pt="0" px={4} w="100%" space="5" alignItems="center" justifyContent="space-between">
                         <VStack maxW={['62%', '70%', '40%']} space="1">
                             <Text fontSize="lg" lineHeight="22px">
                                 {category.name}
                             </Text>
                         </VStack>
+                        <HStack space="4" alignItems="center">
+                            <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
+                        </HStack>
                     </HStack>
+                   
                 </HStack>
             </Pressable>
         </Box>
