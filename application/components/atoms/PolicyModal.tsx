@@ -3,9 +3,16 @@ import React from 'react';
 import IcoNewsUpdate from "application/assets/icons/IcoNewsUpdate";
 
 const PolicyModal = ({ isOpen, onClose, cancelRef, title, body}:any) => {
+  const _item = React.useRef<HTMLDivElement>()
+    React.useEffect(() => {
+      setTimeout(() => {
+      _item?.current?.classList.add('add-blur-radius')
+      }, 500);
 
-    return <AlertDialog leastDestructiveRef={cancelRef} size={'lg'} isOpen={isOpen} onClose={onClose}>
-          <AlertDialog.Content nativeID="ebs-alert-dialog" bg={'primary.box'}>
+    }, [])
+    
+    return <AlertDialog  leastDestructiveRef={cancelRef} size={'lg'} isOpen={isOpen} onClose={onClose}>
+          <AlertDialog.Content ref={_item}  bg={'primary.box'}>
             <AlertDialog.Header borderColor={'primary.bordercolor'} bg={'transparent'} fontWeight={600}>
               <HStack  space="0" alignItems="center">
                <Center w="40px">
@@ -18,7 +25,9 @@ const PolicyModal = ({ isOpen, onClose, cancelRef, title, body}:any) => {
               </HStack>
             </AlertDialog.Header>
             {body && <AlertDialog.Body bg={'transparent'}>
-                <div dangerouslySetInnerHTML={{ __html: body }} />
+              <Text fontSize="md">
+                <div className="ebs-iframe-content" dangerouslySetInnerHTML={{ __html: body }} />
+              </Text>
             </AlertDialog.Body>}
           </AlertDialog.Content>
         </AlertDialog>;
