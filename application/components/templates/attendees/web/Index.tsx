@@ -124,7 +124,12 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         } else if ((slug === undefined || slug.length === 0) && tab === 'attendee') {
             setTab('attendee'); console.log('call 4')
             FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
-        } else if ((slug === undefined || slug.length === 0) && tab === 'category') {
+        }
+        else if ((slug === undefined || slug.length === 0) && tab === 'category-attendee') {
+            setTab('category-attendee'); console.log('call 4')
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), screen: 'speakers', program_id: 0 });
+        }
+         else if ((slug === undefined || slug.length === 0) && tab === 'category') {
             setTab('category');
             FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
         } else if ((slug === undefined || slug.length === 0) && tab === 'sub-category') {
