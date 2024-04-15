@@ -67,7 +67,7 @@ const [open, setOpen] = React.useState(false)
           <Spacer />
           <Center alignItems="flex-end">
             <HStack space="0">
-              <Notification />
+              {/* <Notification /> */}
             </HStack>
           </Center>
         </HStack>
