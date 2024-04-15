@@ -132,7 +132,7 @@ const Index = ({ navigation }: indexProps) => {
                 <HStack pt="0" space="2" alignItems="flex-start" justifyContent="space-between">
                   {my_attendees.slice(0, 4).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
                     <RoundedView attendee={attendee} />
-                    <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
+                    <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
                   </VStack>)}
                 </HStack>
               </ScrollView>
