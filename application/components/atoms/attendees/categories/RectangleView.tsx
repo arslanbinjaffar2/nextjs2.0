@@ -79,9 +79,11 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
                                 {category.name}
                             </Text>
                         </VStack>
+                        {category.subcategories_count && category.subcategories_count > 0 && (
                         <HStack space="4" alignItems="center">
                             <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
                         </HStack>
+                        )}
                     </HStack>
                    
                 </HStack>
