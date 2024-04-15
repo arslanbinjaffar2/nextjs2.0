@@ -1302,7 +1302,7 @@ const Selectstyles2 = {
 								
 								
 						</HStack></Box>}
-						
+						<PolicyModal title={modalContent.title} body={modalContent.body} isOpen={isModalOpen} onClose={closeModal} cancelRef ={cancelRef}/>
         </Container>
     )
 }
