@@ -128,7 +128,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('category');
             FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
         } else if ((slug === undefined || slug.length === 0) && tab === 'sub-category') {
-            setTab('category');
+            setTab('sub-category');
             FetchCategories({ parent_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), query: query, page: 1, cat_type: 'speakers' })
         } else if ((slug === undefined || slug.length === 0) && tab === 'group') {
             setTab('group');
@@ -281,7 +281,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
-                                bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} 
+                                bg={tab === 'category' || tab === 'sub-category' || tab === 'category-attendee' ? 'primary.boxbutton' : 'primary.box'} 
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
