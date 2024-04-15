@@ -324,7 +324,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     back()
                                 }}>
                             </Pressable>
-                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{category_name}</Text>
+                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'left'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{category_name}</Text>
                         </HStack>
                     )}
                 </>
