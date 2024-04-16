@@ -37,13 +37,27 @@ const RectangleView = ({ k, attendee }: AppProps) => {
                 {(attendee?.first_name || attendee?.last_name) && (
                     <Text fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
                 )}
-                {(attendee?.info?.company_name || attendee?.info?.title) && (
-                    <Text fontSize="lg">
-                        {`${attendee?.info?.company_name}`}
-                        {attendee?.info?.company_name && attendee?.info?.title && " - "}
-                        {attendee?.info?.title}
-                    </Text>
-                )}
+              {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
+                <Text textBreakStrategy='balanced' fontSize="lg">
+                  {attendee?.info?.company_name && (
+                    <>
+                      {`${attendee?.info?.company_name}`}
+                      {attendee?.info?.title || attendee?.info?.department ? ', ' : ''}
+                    </>
+                  )}
+                  {attendee?.info?.title && (
+                    <>
+                      {`${attendee?.info?.title}`}
+                      {attendee?.info?.department && ', '}
+                    </>
+                  )}
+                  {attendee?.info?.department && (
+                    <>
+                      {`${attendee?.info?.department}`}
+                    </>
+                  )}
+                </Text>
+              )}
             </VStack>
             <Spacer />
                    
