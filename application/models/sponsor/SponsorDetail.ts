@@ -98,7 +98,6 @@ interface Info {
   linkedin_protocol?: string;
   twitter_protocol?: string;
   facebook_protocol?: string;
-  department?: string;
 }
 
 interface AttendeeSponsors {
