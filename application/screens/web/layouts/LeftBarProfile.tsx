@@ -60,7 +60,7 @@ const LeftBarProfile = () => {
 
   const { event, setting_modules } = UseEventService();
   return (
-    <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
+    <Center overflowX="hidden" overflowY="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <VStack space={1} px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
         {setting_modules?.map((row: any, key: any) =>
 
