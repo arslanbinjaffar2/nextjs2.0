@@ -78,7 +78,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
             <VStack w={'calc(100% - 165px)'} space="0">
               {(attendee?.first_name || attendee?.last_name) ? (
                 <>
-                  <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
+                  <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
                   {attendee?.info && (
                     <>
                       <Text lineHeight="22px" fontSize="lg">

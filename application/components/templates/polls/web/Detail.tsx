@@ -27,6 +27,7 @@ import { useRouter } from 'solito/router'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
+import { func } from 'application/styles';
 
 type ScreenParams = { id: string }
 
@@ -236,10 +237,24 @@ const Detail = () => {
     }
   
   const module = modules.find((module) => module.alias === 'polls');
-  
-  const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
 
-  const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
+  const [canSubmitMultipleTimes,setCanSubmitMultipleTimes]=useState<boolean>(false);
+
+  useEffect(()=>{
+    if(detail?.questions.length! > 0){
+      const mutipleCloudQuestions = detail?.questions.filter((question) => question.question_type === 'world_cloud' && question.is_participants_multiple_times === 1);
+      setCanSubmitMultipleTimes(mutipleCloudQuestions && mutipleCloudQuestions?.length > 0 ? true : false);
+    }
+  },[detail])
+
+  function resetForSubmitAgain(){
+    setFormData({})
+    if (id) {
+      FetchPollDetail({ id: Number(id) });
+    }
+    setcompleted(false)
+    setSubmittingPoll(false)
+  }
   
   return (
     <>
@@ -317,7 +332,7 @@ const Detail = () => {
                         w="100%"
                         py="3"
                         px="1"
-                        leftIcon={<IcoLongArrow />}
+                        leftIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />}
                         colorScheme="primary"
                         isLoading={submittingPoll}
                         onPress={() => {
@@ -330,13 +345,6 @@ const Detail = () => {
                   </Box>}
                 </Box>
               </Box>}
-            {(completed === true  && showCloudQuestion)&&
-                <>
-              {Object.keys(filterQuestion).length>0 && 
-               <WordCloudAnswer question={filterQuestion} key={filterQuestion?.id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels}  />
-              }
-              </>
-            }
               {completed === true && (
                  <>
                 <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
@@ -345,21 +353,22 @@ const Detail = () => {
                    <IcoTick />
                   </Box>
                   <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
-                  {showCloudQuestion && <Button
-                      id='test'
-                      w="100px"
-                      py="3"
-                      px="1"
-                      isLoading={submittingPoll}
-                      colorScheme="primary"
-                      onPress={()=>{
-                        onSubmit()
-                        setShowCloudQuestion(true)
-                      }}
-                      
-                    >
-                      {poll_labels?.WORD_CLOUD_SUBMIT_AGAIN}
-                    </Button>}
+                  {canSubmitMultipleTimes ? (
+                    <Button
+                    id='test'
+                    w="100px"
+                    py="3"
+                    px="1"
+                    isLoading={false}
+                    colorScheme="primary"
+                    onPress={()=>{
+                      resetForSubmitAgain()
+                    }}
+                    
+                  >
+                    {poll_labels?.WORD_CLOUD_SUBMIT_AGAIN}
+                  </Button>
+                  ):null}
                 </VStack>
               </Box>
               </>

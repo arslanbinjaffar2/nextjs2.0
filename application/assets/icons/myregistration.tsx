@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Svg, { SvgProps, G, Path, Rect,Line,Circle } from 'react-native-svg';
+import Svg, { SvgProps, G, Path,Circle,Line } from 'react-native-svg';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
 
-const mydocuments = (props: SvgProps) => {
+const myregistration = (props: SvgProps) => {
   const { event } = UseEventService()
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   return (
@@ -137,4 +137,4 @@ const mydocuments = (props: SvgProps) => {
     </Svg>
 )};
 
-export default mydocuments;
+export default myregistration;

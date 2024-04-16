@@ -220,8 +220,8 @@ body {
 #ebs-exhibitor-slider .slick-slide,#ebs-sponsors-slider .slick-slide {
  width: 264px !important; 
 }
-#ebs-alert-dialog {
-  backdrop-filter: blur(8px)
+.add-blur-radius {
+  backdrop-filter: blur(8px);
 } 
 #ebs-button-close {
   z-index: 99 !important;
