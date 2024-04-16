@@ -97,12 +97,12 @@ const ContactInfo = ({ detail }: AppProps) => {
         </HStack>
         {detail?.attendee_tabs_settings?.map((row: any, key: number) => (
           <React.Fragment key={key}>
-            {row?.tab_name === 'contact_info' && row?.status == 1 ? (
+            {row?.tab_name === 'contact_info' && row?.status == 1 &&
               <>
-              {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && <VStack p="3" pb={1} w="100%" space="3">
-                {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') ? (
+              {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && <VStack p="3" pb={1} w="100%" space="0">
+                {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') &&
                   <>
-                    {detail?.detail?.email && detail?.detail?.email !== '' && isFieldVisible('email') ? (
+                    {detail?.detail?.email && detail?.detail?.email !== '' && isFieldVisible('email') &&
                       <HStack space="1" alignItems="center">
                         <Box>
                         <IcoEnvelope />
@@ -110,23 +110,19 @@ const ContactInfo = ({ detail }: AppProps) => {
                         <Box pl="1">
                             <Text fontSize="14px">{detail?.detail?.email}</Text>
                         </Box>
-                      </HStack>
-                    ) : ''}
-                    {detail?.detail?.phone && detail?.detail?.phone !== '' && isFieldVisible('phone') ? (
-                      <HStack space="1" alignItems="center">
+                      </HStack>}
+                    {detail?.detail?.phone && detail?.detail?.phone !== '' && isFieldVisible('phone') && 
+                      <HStack mt={detail?.detail?.email && detail?.detail?.email !== '' ? 2 : 0} space="1" alignItems="center">
                        <Box>
                         <IcoPhone />
                         </Box>
                         <Box pl="1">
                             <Text fontSize="14px">{detail?.detail?.phone}</Text>
                         </Box>
-                      </HStack>
-                    ) : ''}
-                  </>
-                ) : ''}
+                      </HStack>}
+                  </>}
               </VStack>}
-              </>
-            ) : ''}
+              </>}
           </React.Fragment>
         ))}
         {(detail?.detail?.info?.facebook && isFieldVisible('facebook')) || (detail?.detail?.info?.twitter && isFieldVisible('twitter')) || (detail?.detail?.info?.linkedin && isFieldVisible('linkedin')) || (detail?.detail?.info?.website && isFieldVisible('website')) ?
