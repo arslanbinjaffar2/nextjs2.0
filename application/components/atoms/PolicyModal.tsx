@@ -7,9 +7,9 @@ const PolicyModal = ({ isOpen, onClose, cancelRef, title, body}:any) => {
     React.useEffect(() => {
       setTimeout(() => {
       _item?.current?.classList.add('add-blur-radius')
-      }, 500);
+      }, 300);
 
-    }, [])
+    }, [isOpen])
     
     return <AlertDialog  leastDestructiveRef={cancelRef} size={'lg'} isOpen={isOpen} onClose={onClose}>
           <AlertDialog.Content ref={_item}  bg={'primary.box'}>
