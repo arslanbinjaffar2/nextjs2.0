@@ -28,6 +28,7 @@ import { Banner } from 'application/models/Banner'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
+import { func } from 'application/styles';
 
 
 type ScreenParams = { id: string }
@@ -305,7 +306,7 @@ const Detail = () => {
                         w="48px"
                         py="3"
                         px="1"
-                        leftIcon={<IcoLongArrow />}
+                        leftIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />}
                         colorScheme="primary"
                         isLoading={submittingSurvey}
                         onPress={() => {

@@ -26,6 +26,8 @@ import { useRouter } from 'solito/router'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 import MobileLoading from 'application/components/atoms/MobileLoading';
 import { useFocusEffect } from '@react-navigation/native'
+import { func } from 'application/styles';
+
 
 
 type ScreenParams = { id: string }
@@ -328,7 +330,7 @@ function RegForm({mySubReg, SaveSubRegistration, submitting, skip, setSkip, even
               w="48px"
               py="3"
               px="1"
-              leftIcon={<IcoLongArrow />}
+              leftIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />}
               colorScheme="primary"
               isLoading={submitting}
               onPress={() => {
