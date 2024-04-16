@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image } from 'native-base'
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image, Spinner } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
@@ -28,6 +28,8 @@ import { Banner } from 'application/models/Banner'
 import UseBannerService from 'application/store/services/UseBannerService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import { SwipeButton } from 'react-native-expo-swipe-button';
+import { getColorScheme } from 'application/styles/colors';
 
 
 type ScreenParams = { id: string }
@@ -232,6 +234,7 @@ const Detail = () => {
 
     }
     const module = modules.find((module) => module.alias === 'survey');
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   return (
     <>
       {loading ? (
@@ -299,21 +302,45 @@ const Detail = () => {
                       next
                     </Button>}
                   </HStack>
-                  {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
-                    <Box m="auto" w="230px" bg="primary.darkbox" p="0" rounded="sm" overflow="hidden">
-                      <Button
-                        w="48px"
-                        py="3"
-                        px="1"
-                        leftIcon={<IcoLongArrow />}
-                        colorScheme="primary"
-                        isLoading={submittingSurvey}
-                        onPress={() => {
-                         setNextStep();
-                        }}
-                      />
+                  {steps === (detail?.questions.length! - 1) && 
+                  <Box w="100%" mb="6">
+                    <Box position={'relative'} m="auto" w="310px"  p="0" rounded="sm" overflow="hidden">
+                      
+       <SwipeButton key={submittingSurvey?"0":"1"}
+        Icon={
+            <> 
+            {
+              submittingSurvey?
+              <Spinner accessibilityLabel="Loading posts" />:
+           <IcoLongArrow />
+            }    
+            </>
+
+        }
+        width={310}
+        circleSize={60}
+  goBackToStart={submittingSurvey}
+  circleBackgroundColor={colors.secondary} 
+        
+        iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
+        onComplete={() => 
+          // console.log("first")
+          setNextStep()
+        }
+        title=""
+        height={60}
+        borderRadius={10}
+        containerStyle={{ backgroundColor:colors.primary }}
+        underlayTitle=""
+        underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
+        underlayStyle={{ 
+          backgroundColor:colors.secondary,
+        }}
+        />
+                   
                     </Box>
-                  </Box>}
+                  </Box>
+                   } 
                 </Box>
               </Box>}
               {completed === true && <Box borderWidth="1" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
