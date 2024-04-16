@@ -130,7 +130,7 @@ const Index = ({ navigation }: indexProps) => {
                <HStack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
               <Button onPress={() => {
-                push(`/${event.url}/agendas`)
+                push(`/${event.url}/speakers`)
               }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
                   {event.labels?.GENERAL_LOAD_MORE ?? 'Show all'}
                 </Button>
