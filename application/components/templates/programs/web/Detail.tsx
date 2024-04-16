@@ -158,13 +158,13 @@ const Detail = () => {
                         {group_id > 0 && (
                             <HStack mb="3" pt="2" w="100%" space="3">
                                 {group_name && (
-                                    <Text flex="1" textTransform="uppercase" fontSize="xs">{group_name}</Text>
+                                    <Text flex="1" fontSize="xs">{group_name}</Text>
                                 )}
                                 <Pressable
                                     onPress={async () => {
                                         FetchGroups({ query: query, page: 1, group_id: 0, attendee_id: 0, program_id: Number(_id) });
                                     }}>
-                                    <Text textTransform="uppercase" fontSize="xs">Go back</Text>
+                                    <Text fontSize="xs">{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
                                 </Pressable>
                             </HStack>
                         )}

@@ -309,12 +309,12 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 }}>
                                     <HStack alignItems={'center'} space={3}>
                                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                                        <Text fontSize="2xl">BACK</Text>
+                                        <Text textTransform="capitalize">{event?.labels?.GENERAL_BACK}</Text>
                                     </HStack>
                             </Pressable>
                         </HStack>
                         {group_name && (
-                            <Text mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
+                            <Text mb={1} textTransform="capitalize" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
                         )}
                         </>
                     )}
