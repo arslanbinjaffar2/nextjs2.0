@@ -23,3 +23,9 @@ export interface FloorPlan {
   image_width: number;
   image_height: number;
 }
+
+
+export interface FloorPlanDetail {
+  floorPlan: any;
+  floorPlanPins: any;
+}

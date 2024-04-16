@@ -7,12 +7,14 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import { FloorPlan } from 'application/models/floorPlans/FloorPlans';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { useRouter } from 'solito/router';
 
 const Index = () => {
   const { loading } = UseLoadingService();
+  const { push, back } = useRouter()
   const [query, setQuery] = React.useState("");
 
-  const { FetchFloorPlans, floor_plans } = UseFloorPlanService();
+  const { FetchFloorPlans, floor_plans, sponsorCount,exhibitorCount } = UseFloorPlanService();
   const { event, modules } = UseEventService();
   const module = modules.find((module) => {
     return module.alias === 'plans'
@@ -47,7 +49,7 @@ const Index = () => {
                       return plan;
                     }
                   }).map((plan: FloorPlan) => (
-                    <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md">{plan.floor_plan_name}</Text>
+                    <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md" onPress={()=>{push(`/${event.url}/plans/detail/${plan.id}`)}}>{plan.floor_plan_name}</Text>
                   ))}
                 </VStack>
               </Box>
