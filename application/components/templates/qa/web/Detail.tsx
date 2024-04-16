@@ -86,6 +86,7 @@ const Detail = () => {
         }
         return ack;
     }, []) : [];
+    console.log("🚀 ~ enabledTabs ~ enabledTabs:", enabledTabs)
 
     const TabHeadings:any = {
         popular:'Popular',
@@ -261,7 +262,7 @@ const Detail = () => {
                     />
                     </HStack>
                 </Box>
-                {qaSettings?.qa_tabs == 1 && <Box w="100%">
+                {qaSettings?.qa_tabs == 1 && enabledTabs.length > 0 && <Box w="100%">
                     <HStack px="3" space="0" alignItems="center" bg="primary.darkbox" mb="3">
                     <HStack space="2" alignItems="center">
                         <IcoHistory  />
@@ -283,7 +284,7 @@ const Detail = () => {
                         {!loading && <>
                             {/* <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">3 days ago</Text> */}
                             <VStack w="100%" space="3">
-                                {tab === 'popular' &&
+                                {tab === 'popular' && enabledTabs.includes('popular') &&
                                   qaDetials?.popular_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
@@ -336,7 +337,7 @@ const Detail = () => {
                                     </>
                                   ))  
                                 }
-                                {tab === 'recent' &&
+                                {tab === 'recent' && enabledTabs.includes('recent') &&
                                   qaDetials?.recent_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
@@ -391,7 +392,7 @@ const Detail = () => {
                                     
                                   ))  
                                 }
-                                {tab === 'archive' &&
+                                {tab === 'archive' && enabledTabs.includes('archive') &&
                                   qaDetials?.archived_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
@@ -446,7 +447,7 @@ const Detail = () => {
                                     </>
                                   ))  
                                 }
-                                {tab === 'my_question' &&
+                                {tab === 'my_question' && enabledTabs.includes('my_question') &&
                                   qaDetials?.my_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
