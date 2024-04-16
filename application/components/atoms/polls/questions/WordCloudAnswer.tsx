@@ -3,6 +3,7 @@ import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, V
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/poll/Detail';
 import { Platform } from 'react-native';
+import UsePollService from 'application/store/services/UsePollService';
 
 type PropTypes = {
   question: Question,
@@ -14,6 +15,7 @@ type PropTypes = {
 }
 const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
   const [inputTextArray, setInputTextArray] = React.useState(formData[question.id]?.answer ?? {})
+  const { poll_labels } = UsePollService();
   
 
   return (
@@ -55,6 +57,11 @@ const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: 
             <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
         </Box>
         </>
+      }
+      {question?.is_participants_multiple_times === 1 && 
+        <Center w="100%">  
+          <Text fontSize="md">{poll_labels?.SUBMIT_MULTIPLE_ANSWERS}</Text>
+        </Center>
       }
     </Center>
   )
