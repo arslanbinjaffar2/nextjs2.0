@@ -7,7 +7,7 @@ type AppProps = {
 
 const IconWithLeftHeading = ({ title, icon }: AppProps) => {
     return (
-        <Flex mb="3" alignItems="flex-start" w="100%" flexDirection="row">
+        <Flex mb="3" alignItems="flex-start" flexDirection="row">
             <Center alignItems="flex-start" w="100%">
                 <HStack alignItems="center" space="3">
                     {icon}<Text fontSize="xl">{title}</Text>
