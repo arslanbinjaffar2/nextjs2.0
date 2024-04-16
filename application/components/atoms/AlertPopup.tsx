@@ -7,9 +7,9 @@ const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, tit
     React.useEffect(() => {
       setTimeout(() => {
       _item?.current?.classList.add('add-blur-radius')
-      }, 500);
+      }, 300);
 
-    }, [])
+    }, [isOpen])
     return <AlertDialog  size={'lg'} leastDestructiveRef={cancelRef} isOpen={isOpen} onClose={onClose}>
           <AlertDialog.Content ref={_item} bg={'primary.box'}>
             <AlertDialog.Header borderColor={'primary.bordercolor'} bg={'transparent'} fontWeight={600}>
