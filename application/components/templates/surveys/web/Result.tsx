@@ -53,6 +53,17 @@ const Detail = () => {
 
   const [id] = useParam('id');
 
+  const [totalPoints,setTotalPoints] = useState<number>(0);   
+
+    React.useEffect(() => {
+    let totalPoints = 0;
+    if(mySurveyResultDetail && mySurveyResultDetail?.question.length > 0){
+      totalPoints = mySurveyResultDetail.question.filter(question => question.is_anonymous === 0).length;
+    }
+    setTotalPoints(totalPoints);
+  }
+  , [mySurveyResultDetail]);
+
   React.useEffect(() => {
     if (id) {
         FetchMySurveyResultDetail({ id: Number(id) });
@@ -74,7 +85,7 @@ const Detail = () => {
                   </HStack>
                 </Pressable> */}
                 <Spacer />
-                <Text isTruncated  fontSize="xl">{`${mySurveyResultScore}/${mySurveyResultDetail?.question.length} Points(s)`}</Text>
+                <Text isTruncated  fontSize="xl">{`${mySurveyResultScore}/${totalPoints} Points(s)`}</Text>
               </HStack>
                <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
                 <Text textAlign={'center'} fontSize="2xl">{mySurveyResultDetail?.info?.name}</Text>
