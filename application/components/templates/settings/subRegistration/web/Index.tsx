@@ -25,7 +25,7 @@ import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
-
+import { func } from 'application/styles';
 
 type ScreenParams = { id: string }
 
@@ -344,17 +344,17 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
               py="3"
               px="3"
               textTransform={'capitalize'}
-              rightIcon={<IcoLongArrow />}
+              rightIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />}
               colorScheme="primary"
               isLoading={submitting}
               onPress={() => {
                 onSubmit();
               }}
-            />  
-              }
+            />
+            }
             {!submitting && sucess_message && <Text fontSize="lg" position={'absolute'} right={'0'}>{event.labels.EVENTSITES_SUBREGISTRATION_UPDATE_MESSAGE}</Text>}
-        </HStack>
-      </Box>
+          </HStack>
+        </Box>
       </Box>
     </Container>
   )

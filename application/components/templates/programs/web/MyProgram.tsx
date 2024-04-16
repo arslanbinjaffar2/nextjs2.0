@@ -38,7 +38,7 @@ const MyProgram = () => {
         FetchPrograms({ query: '', page: 1, screen: 'my-program', id: response?.data?.user?.id, track_id: 0 });
     }, []);
 
-    const module = modules.find((module) => module.alias === 'myagendas');
+    const module = modules.find((module) => module.alias === 'myprograms');
 
     return (
         <>

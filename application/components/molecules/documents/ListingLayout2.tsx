@@ -9,11 +9,12 @@ import RectangleViewLayout2 from 'application/components/atoms/documents/Rectang
 import UseEventService from 'application/store/services/UseEventService';
 
 interface ListingLayout2Props {
+    module?: string;
     disableTitle?: boolean;
     updateBreadcrumbs?: (breadcrumbs: Document[]) => void;
 }
 
-const ListingLayout2: React.FC<ListingLayout2Props> = ({ disableTitle, updateBreadcrumbs }) => {
+const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, updateBreadcrumbs }) => {
 
     const [breadcrumbs, setBreadCrumbs] = React.useState<Document[]>([]);
 
@@ -38,13 +39,15 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ disableTitle, updateBre
     const { event  } = UseEventService();
     return (
         <View w="100%">
-            {!disableTitle && <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" flexWrap={'wrap'}>
+            {!disableTitle && documents.length > 0 && <HStack pt="3" w="100%" space="3" alignItems="center" bg={disableTitle ? "" : "primary.box"} flexWrap={'wrap'}>
                 {!disableTitle && <Pressable
                     onPress={async () => {
                         FilterDocuments({ document_id: 0, query: '' });
                         setBreadCrumbs([]);
                     }}>
-                    <Text textTransform="uppercase" fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
+                    <Box pl={4}>
+                        <Text fontSize="md">{module ?? 'Documents'}</Text>
+                    </Box>
                 </Pressable>}
                 {breadcrumbs.length > 0 && breadcrumbs.map((breadcrumb: Document, key: number) =>
                     <React.Fragment key={key}>
@@ -55,15 +58,14 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ disableTitle, updateBre
                                 setBreadCrumbs(FindPath(data, breadcrumb.id));
                             }}>
                             <Center maxW="250px">
-                                    <Text textTransform="uppercase" fontSize="md" isTruncated>{breadcrumb.name}</Text>
-                                </Center>
-														
+                                <Text fontSize="md" isTruncated>{breadcrumb.name}</Text>
+                            </Center>					
                         </Pressable>
                     </React.Fragment>
                 )}
             </HStack>}
             {Platform.OS === 'web' ? (
-                <Box overflow="hidden" w="100%" bg={disableTitle ? "" : "primary.box"} p="0" rounded="10">
+                <Box overflow="hidden" w="100%" bg={disableTitle ? "" : "primary.box"} p="0">
                     {filteredDocuments.map((document: Document, key: number) => {
                                return <React.Fragment key={key}>
                                     <RectangleViewLayout2 length={filteredDocuments.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />

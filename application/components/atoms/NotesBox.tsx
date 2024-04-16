@@ -4,7 +4,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseNoteService from 'application/store/services/UseNoteService';
 import UseEventService from 'application/store/services/UseEventService';
 import DynamicIcon from 'application/utils/DynamicIcon';
-import ToastContainer, { Status } from './toast';
+import UseToastService from '../../store/services/UseToastService';
 type AppProps = {
     note_type: string,
     note_type_id: any,
@@ -39,24 +39,11 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
     }
     if(isNewNote){
         SaveNote({note:note, note_type:note_type, note_type_id:note_type_id });
-        Toast.show({
-            placement:"bottom-right",
-            render:()=>{
-                return(
-                <ToastContainer message='save notes successfully' status={Status.Success}/>
-                )
-            }
-        })
+        AddToast({message:"notes saved",status:"success"})
     }else{
         UpdateNote({notes:note, id:my_note?.id, type:note_type});
-        Toast.show({
-            placement:"bottom-right",
-            render:()=>{
-                return(
-                <ToastContainer message='updated notes successfully' status={Status.Success}/>
-                )
-            }
-        })
+        AddToast({message:"updated notes saved",status:"success"})
+     
     }
 
   }

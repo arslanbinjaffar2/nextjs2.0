@@ -104,7 +104,7 @@ const LeftBar = () => {
 
 
   return (
-    <Center nativeID='ebs-master-left-bar' overflow="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
+    <Center nativeID='ebs-master-left-bar' overflowX="hidden" overflowY="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Center nativeID='ebs-master-left-bar-wrapper'>
       <Box pb="3">
         <Pressable
@@ -124,6 +124,15 @@ const LeftBar = () => {
                 <Text fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
                 <Text p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
               </VStack>}
+            <Pressable
+            w="100%"
+            p="1"
+            borderRadius="8"
+            onPress={() => {
+              router.push(`/${event.url}/settings/editprofile`)
+            }}>
+              <DynamicIcon iconType={'edit_profile'} iconProps={{ width:18,height:18}}/>
+            </Pressable>
             </Flex>
         </Pressable>
       </Box>
@@ -142,7 +151,7 @@ const LeftBar = () => {
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"} width="24" height="24" />
+              <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : undefined} width="24" height="24" />
             </Center>
             {width > 1200 && <Text  color={dahboardHover || router.asPath.includes('/dashboard') ? 'primary.hovercolor' : 'primary.text'} fontSize={'20px'} fontWeight={400}>Dashboard</Text>}
           </HStack>

@@ -28,6 +28,7 @@ import { Banner } from 'application/models/Banner'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
+import { func } from 'application/styles';
 
 type ScreenParams = { id: string }
 
@@ -271,7 +272,6 @@ const Detail = () => {
                       isDisabled={steps <= 0 ? true : false}
                       bg="transparent"
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
                       colorScheme="primary"
@@ -287,7 +287,6 @@ const Detail = () => {
                       bg="transparent"
                       isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       colorScheme="primary"
@@ -304,7 +303,7 @@ const Detail = () => {
                         w="48px"
                         py="3"
                         px="1"
-                        leftIcon={<IcoLongArrow />}
+                        leftIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />}
                         colorScheme="primary"
                         isLoading={submittingSurvey}
                         onPress={() => {

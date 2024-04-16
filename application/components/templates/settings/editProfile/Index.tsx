@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, Spacer, IconButton } from 'native-base';
 
 import { default as ReactSelect } from "react-select";
 
@@ -98,7 +98,7 @@ type formProps = {
 };
 
 
-const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee }: formProps) => {
+const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee,success_message,UpdateSuccess }: formProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 const Selectstyles2 = {
     control: (base:any, state:any) => ({
@@ -1104,7 +1104,7 @@ const Selectstyles2 = {
                         </HStack>
                     )}
                     {setting?.name === 'resume' && (
-                        <HStack mb="3" alignItems="start" px="3" w="100%" >
+                        <HStack mb="3" alignItems="start" px="6" w="100%" >
 
                             <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} w="100%" >
                                 <Center alignItems="flex-start" width={'225px'} pb={[2, 0]} maxW={["100%", "225px"]}>
@@ -1283,7 +1283,7 @@ const Selectstyles2 = {
                         updateAttendeeData();
                     }}
                 >
-                    <Text fontSize="2xl" fontWeight={600}>SAVE</Text>
+                    <Text fontSize="2xl" color={"primary.hovercolor"} fontWeight={600}>SAVE</Text>
                 </Button>
             </HStack>
 						{success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'}  p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
@@ -1302,7 +1302,7 @@ const Selectstyles2 = {
 								
 								
 						</HStack></Box>}
-						
+						<PolicyModal title={modalContent.title} body={modalContent.body} isOpen={isModalOpen} onClose={closeModal} cancelRef ={cancelRef}/>
         </Container>
     )
 }

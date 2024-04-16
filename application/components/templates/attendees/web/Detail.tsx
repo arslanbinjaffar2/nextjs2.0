@@ -67,10 +67,52 @@ const Detail = ({ speaker }: Props) => {
     }, [_id]);
 
     React.useEffect(() => {
-        if (detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0) {
-            setTab(detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1)[0]?.tab_name!)
+        if (detail?.attendee_tabs_settings) {
+            // Filter and sort enabled tabs based on sort order
+            const enabledTabs = detail.attendee_tabs_settings
+                .filter((tab: any) => tab.status === 1)
+                .sort((a: any, b: any) => a.sort_order - b.sort_order);
+    
+            let defaultTab: string = '';
+    
+            // Iterate through the sorted enabled tabs and set the default tab based on conditions
+            for (let i = 0; i < enabledTabs.length; i++) {
+                const row = enabledTabs[i];
+                if (row.tab_name === 'program' && event?.speaker_settings?.program === 1) {
+                    defaultTab = 'program';
+                    break;
+                } else if (row.tab_name === 'category' && event?.speaker_settings?.category_group === 1) {
+                    defaultTab = 'category';
+                    break;
+                } else if (row.tab_name === 'documents' && event?.speaker_settings?.show_document === 1) {
+                    defaultTab = 'documents';
+                    break;
+                } else if (
+                    row.tab_name === 'groups' &&
+                    ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) ||
+                        ((detail?.is_speaker && detail?.speaker_setting?.show_group) ||
+                            (!detail?.is_speaker && detail?.setting?.attendee_group)))
+                ) {
+                    defaultTab = 'groups';
+                    break;
+                } else if (
+                    speaker === 0 &&
+                    row.tab_name === 'sub_registration' &&
+                    detail?.sub_registration_module_status === 1 &&
+                    detail?.sub_registration &&
+                    (response?.data?.user?.id === _id)
+                ) {
+                    defaultTab = 'sub_registration';
+                    break;
+                }
+            }
+    
+            // Set the active tab based on the defaultTab or the first enabled tab
+            setTab(defaultTab);
         }
     }, [detail]);
+    
+    
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
@@ -131,27 +173,27 @@ const Detail = ({ speaker }: Props) => {
                                                             (() => {
                                                                 if (row?.tab_name === 'program' && row?.status == 1 && event?.speaker_settings?.program === 1) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('program')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{speaker ? (modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}</Button>
+                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('program')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{speaker ? (modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}</Button>
                                                                     )
                                                                 } else if (row?.tab_name === 'category' && row?.status == 1 && event?.speaker_settings?.category_group === 1) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('category')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.SPEAKER_CATEGORY}</Button>
+                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('category')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.SPEAKER_CATEGORY}</Button>
                                                                     )
                                                                 } else if (row?.tab_name === 'documents' && row?.status == 1 && event?.speaker_settings?.show_document === 1) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('documents')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}</Button>
+                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('documents')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}</Button>
                                                                     )
                                                                 } else if (row?.tab_name === 'about' && row?.status == 1) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('about')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.ATTENDEE_TAB_ABOUT}</Button>
+                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('about')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.ATTENDEE_TAB_ABOUT}</Button>
                                                                     )
                                                                 } else if (row?.tab_name === 'groups' && row?.status == 1 && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group)))) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('groups')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.ATTENDEE_TAB_GROUP}</Button>
+                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('groups')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.ATTENDEE_TAB_GROUP}</Button>
                                                                     )
                                                                 } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id)) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('sub_registration')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'sub_registration' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{modules?.find((module)=>(module.alias == 'subregistration'))?.name ?? 'SUB REGISTRATIONS'}</Button>
+                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('sub_registration')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'sub_registration' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{modules?.find((module)=>(module.alias == 'subregistration'))?.name ?? 'SUB REGISTRATIONS'}</Button>
                                                                     )
                                                                 }
                                                             })()

@@ -46,7 +46,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     }
 
     function handleRegistrationPress(){
-        console.log("🚀 ~ handleRegistrationPress ~ router:", router)
         router.push(`/${event.url}/attendees/my-registration/${response?.data?.user?.id}`)
     }
 
@@ -67,7 +66,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         )}
                         <VStack w="calc(100% - 160px)" space="0">
                             <Text lineHeight="sm" fontSize="xl">
-                                {`${detail?.detail?.first_name} ${detail?.detail?.last_name}`}
+                                {`${detail?.detail?.first_name}`} {detail?.sort_field_setting.find((s:any)=>(s.name === 'last_name')) && detail?.detail?.last_name }
                             </Text>
                             {detail?.detail?.info &&
                                 (detail?.detail?.info.company_name ||
@@ -75,7 +74,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                     (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
                                     && (
                                     <>
-                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}&nbsp;{detail?.detail?.info?.company_name &&
+                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title && `${detail?.detail?.info?.title} ` }{detail?.detail?.info?.company_name &&
                                                 detail?.detail?.info?.title &&
                                                 ", "}
                                                 {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>

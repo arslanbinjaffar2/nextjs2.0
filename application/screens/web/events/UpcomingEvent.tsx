@@ -29,11 +29,7 @@ const Index = ({ navigation }: indexProps) => {
             Toast.show(
                 {
                     render: () =>(
-                        <ToastContainer
-                        setShow={setOnOff}
-                        status={Status.Success}
-                        message='asaaasasasaasas'
-                        />
+                        <ToastContainer />
                         )
                         
                     })
