@@ -244,7 +244,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                           setShowAttendees(true);
                         }}
                     >
-                        Match search
+                      {event?.labels?.GENERAL_MATCH_SEARCH}
                     </Button>
                     </Box>
                 </Container>)}
