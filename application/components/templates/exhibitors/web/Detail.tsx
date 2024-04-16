@@ -92,7 +92,7 @@ const Detail = React.memo(() => {
                                     {in_array('documents', processing) ? (
                                                 <SectionLoading />
                                             ) : (
-                                           <ListingLayout2 disableTitle />
+                                           <ListingLayout2 module={module?.name} />
                                       )}
                                 </Box>
                             </Box>}
