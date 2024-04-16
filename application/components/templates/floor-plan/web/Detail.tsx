@@ -4,6 +4,7 @@ import { createParam } from 'solito';
 import UseFloorPlanService from 'application/store/services/UseFloorPlanService';  
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
+import { Text } from 'native-base';
 
 
 type ScreenParams = { id: string}
@@ -95,16 +96,16 @@ const Detail = () => {
   function getSubCategories(pin:any) {
     const subCategories = pin.exhibitor?.categories || pin.sponsor?.categories || [];
     return subCategories.map((subCategory:any) => {
-      return `<p class='ebs-category-json'><em class='rounded-circle d-inline-block' style='background-color: ${subCategory.color}; width: 10px; height: 10px;'></em>${subCategory.info[0].value}</p>`;
+      return `<p style="margin: 0; font-size: 14px"><em style='background-color: ${subCategory.color}; width: 10px; height: 10px; display: inline-block; border-radius: 100%; border: 1px solid; margin-right: 5px; vertical-align: middle'></em>${subCategory.info[0].value}</p>`;
     }).join("");
   }
 
   function getCategoryImage(pin:any) {
     const baseUrl = process.env.NEXT_APP_EVENTCENTER_URL;
     if (pin.exhibitor) {
-      return pin.exhibitor?.logo ? `${baseUrl}/assets/exhibitors/${pin.exhibitor.logo}` : process.env.NEXT_APP_BASE_URL+'/img/exhibitors-default.png';
+      return pin.exhibitor?.logo ? `${_env.eventcenter_base_url}/assets/exhibitors/${pin.exhibitor.logo}` : process.env.NEXT_APP_BASE_URL+'/img/exhibitors-default.png';
     } else if (pin.sponsor) {
-      return  pin.sponsor?.logo ? `${baseUrl}/assets/sponsors/${pin.sponsor.logo}` : process.env.NEXT_APP_BASE_URL+'/img/exhibitors-default.png';
+      return  pin.sponsor?.logo ? `${_env.eventcenter_base_url}/assets/sponsors/${pin.sponsor.logo}` : process.env.NEXT_APP_BASE_URL+'/img/exhibitors-default.png';
     }
   }
 
@@ -120,11 +121,13 @@ const Detail = () => {
   }
 
   return (
-    <div>
-       {(json as { settings?: any })?.settings ?
-          <Mapplic json={json} id={id} />
-          : null}
-    </div>
+    <Text w={'100%'} fontSize="md">
+      <div style={{width: '100%'}}>
+        {(json as { settings?: any })?.settings ?
+            <Mapplic json={json} id={id} />
+            : null}
+      </div>
+    </Text>
   )
 }
 
