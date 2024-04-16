@@ -73,7 +73,7 @@ const ContactInfo = () => {
               </IconButton>
               ) : ''}
             </HStack>
-            {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" pb={0} w="100%" space="3">
+            {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="0">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
                     <Box>
                     	<IcoEnvelope />
@@ -82,7 +82,7 @@ const ContactInfo = () => {
                         <Text fontSize="14px">{detail?.detail?.email}</Text>
                     </Box>
                 </HStack>}
-                {detail?.detail?.phone_number && detail?.detail?.phone_number !== '' && <HStack space="0" alignItems="center">
+                {detail?.detail?.phone_number && detail?.detail?.phone_number !== '' && <HStack mt={detail?.detail?.email && detail?.detail?.email !== '' ? 2 : 0} space="0" alignItems="center">
                     <Box>
                     <IcoPhone />
                     </Box>
