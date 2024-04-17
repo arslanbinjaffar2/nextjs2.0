@@ -265,7 +265,7 @@ const Detail = () => {
                     <HStack px="3" space="0" alignItems="center" bg="primary.darkbox" mb="3">
                     <HStack space="2" alignItems="center">
                         <IcoHistory  />
-                        <Text fontSize="lg">History</Text>
+                        <Text fontSize="lg">{event?.labels?.GENERAL_HISTORY}</Text>
                     </HStack>
                     <Spacer />
                     {/* <Text opacity={0.58} fontSize="md">1 Questions</Text> */}

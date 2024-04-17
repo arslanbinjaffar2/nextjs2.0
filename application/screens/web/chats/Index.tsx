@@ -108,7 +108,7 @@ const Index = ({ navigation }: indexProps)  => {
             </Box>
             <Box alignItems="center" w="100%">
               <Button
-                
+                textTransform="capitalize"
                 maxW="350px"
                 w="100%"
                 _text={{ fontSize: 'xl', fontWeight: '600', color: 'primary.hovercolor' }}
@@ -117,7 +117,7 @@ const Index = ({ navigation }: indexProps)  => {
                   console.log('hello')
                 }}
               >
-                new chat
+                New chat
               </Button>
             </Box>
           </>}
