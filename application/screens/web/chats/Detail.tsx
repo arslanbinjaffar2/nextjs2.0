@@ -10,8 +10,8 @@ import { UseEventService } from 'application/store/services'
 type indexProps = {
   navigation: unknown
 }
-const {event} = UseEventService()
 const Detail = ({ navigation }: indexProps) => {
+  const {event} = UseEventService()
   return (
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
