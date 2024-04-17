@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
-import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack, Image } from 'native-base';
+import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack, Image, Center } from 'native-base';
 
 import DetailBlock from 'application/components/atoms/programs/DetailBlock';
 
 import SpeakerRectangleView from 'application/components/atoms/speakers/RectangleView'
 
 import PollRectangleView from 'application/components/atoms/polls/RectangleView'
+
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 
 import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand'
 
@@ -217,6 +219,28 @@ const Detail = () => {
                                         }
                                     </>
                                 )}
+                                    <>
+                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                            <DynamicIcon iconType="myquestions" iconProps={{ width: 12, height: 18 }} />
+                                            <Text fontSize="md">Ask a Question</Text>
+                                        </HStack>
+                                        <Center>
+                                            <Box w="90%">
+                                                <Pressable onPress={() => {
+                                                    push(`/${event.url}/qa/detail/${detail?.program?.id}`)
+                                                }}>
+                                                    <Box w="100%" py="4">
+                                                        <HStack p="4" bg="primary.darkbox" space="0" alignItems="center" justifyContent="space-between">
+                                                            <Text opacity={0.4} fontSize="lg">Type your Question</Text>
+                                                            <Center p="0">
+                                                                <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
+                                                            </Center>
+                                                        </HStack>
+                                                    </Box>
+                                                </Pressable>
+                                            </Box>
+                                        </Center>
+                                    </>
                                 {/* {event?.agenda_settings?.enable_notes === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
