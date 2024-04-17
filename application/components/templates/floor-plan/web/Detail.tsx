@@ -4,6 +4,7 @@ import { createParam } from 'solito';
 import UseFloorPlanService from 'application/store/services/UseFloorPlanService';  
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
+import { getColorScheme } from 'application/styles/colors';
 import { Text } from 'native-base';
 
 
@@ -16,7 +17,6 @@ const Detail = () => {
   const [json, setJson] = useState({});
   const { event } = UseEventService();
   const { _env } = UseEnvService()
-
 
   React.useEffect(() => {
     if (id) {
@@ -57,14 +57,13 @@ const Detail = () => {
       const subCategories = getSubCategories(pin);
       const categories = type === "exhibitor" ? exhibitor?.categories : sponsor?.categories;
       const firstCategory = categories ? categories[0] : null;
-
-      newJson.locations.push({
+       newJson.locations.push({
         image: categoryImage,
         group: associatedGroups,
         id,
         cat_type: type,
         title: type === "exhibitor" ? exhibitor.name : sponsor.name,
-        color: firstCategory ? firstCategory.color == '#ffffff' ? "rgb(var(--primaryrgb))" :firstCategory.color : "rgb(var(--primaryrgb))",
+        color: firstCategory ? firstCategory.color == '#ffffff' ? event?.settings?.primary_color : firstCategory.color : event?.settings?.primary_color,
         zoom: "7.5113",
         layer: "first",
         desc: subCategories,
