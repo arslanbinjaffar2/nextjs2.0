@@ -21,6 +21,7 @@ export interface Program {
     videos: Video[];
     session: Session[];
     program_attendees_attached: ProgramAttendeesAttached[];
+    info: any;
 }
 
 interface Attendee {

@@ -89,7 +89,7 @@ const Index = ({ navigation }: indexProps) => {
          </Box>
          
             <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
-                  <Box minH={150} h={'100%'} flex={1}>
+                  <Box h={'100%'} flex={1}>
                   <UpcomingPrograms />
                   </Box>
                   {/* <Box minH={150}  flex={1}>
