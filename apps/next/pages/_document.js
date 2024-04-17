@@ -287,6 +287,9 @@ svg#active #svg-elem-3 {
   from {transform: scale(0);}
   to {transform: scale(1);}
 }
+.rsw-toolbar {
+  background-color: rgba(0,0,0,0.2) !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {
