@@ -67,10 +67,52 @@ const Detail = ({ speaker }: Props) => {
     }, [_id]);
 
     React.useEffect(() => {
-        if (detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0) {
-            setTab(detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1)[0]?.tab_name!)
+        if (detail?.attendee_tabs_settings) {
+            // Filter and sort enabled tabs based on sort order
+            const enabledTabs = detail.attendee_tabs_settings
+                .filter((tab: any) => tab.status === 1)
+                .sort((a: any, b: any) => a.sort_order - b.sort_order);
+    
+            let defaultTab: string = '';
+    
+            // Iterate through the sorted enabled tabs and set the default tab based on conditions
+            for (let i = 0; i < enabledTabs.length; i++) {
+                const row = enabledTabs[i];
+                if (row.tab_name === 'program' && event?.speaker_settings?.program === 1) {
+                    defaultTab = 'program';
+                    break;
+                } else if (row.tab_name === 'category' && event?.speaker_settings?.category_group === 1) {
+                    defaultTab = 'category';
+                    break;
+                } else if (row.tab_name === 'documents' && event?.speaker_settings?.show_document === 1) {
+                    defaultTab = 'documents';
+                    break;
+                } else if (
+                    row.tab_name === 'groups' &&
+                    ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) ||
+                        ((detail?.is_speaker && detail?.speaker_setting?.show_group) ||
+                            (!detail?.is_speaker && detail?.setting?.attendee_group)))
+                ) {
+                    defaultTab = 'groups';
+                    break;
+                } else if (
+                    speaker === 0 &&
+                    row.tab_name === 'sub_registration' &&
+                    detail?.sub_registration_module_status === 1 &&
+                    detail?.sub_registration &&
+                    (response?.data?.user?.id === _id)
+                ) {
+                    defaultTab = 'sub_registration';
+                    break;
+                }
+            }
+    
+            // Set the active tab based on the defaultTab or the first enabled tab
+            setTab(defaultTab);
         }
     }, [detail]);
+    
+    
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
@@ -106,7 +148,8 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                    {!speaker &&
+                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                             {/* <Pressable onPress={()=> back() }>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
@@ -116,6 +159,7 @@ const Detail = ({ speaker }: Props) => {
                         <Spacer />
                         <Search tab={tab} />
                     </HStack>
+                    }
                     <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
@@ -176,7 +220,7 @@ const Detail = ({ speaker }: Props) => {
                                                 {
                                                     groups?.length <= 0 && (
                                                         <>
-                                                         <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                         <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
                                                         </>
                                                     )
                                                 }
@@ -194,7 +238,7 @@ const Detail = ({ speaker }: Props) => {
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> 
                                                         : (
                                                             <>
-                                                                <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                                <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
                                                             </>
                                                         )
                                         )}
@@ -202,7 +246,7 @@ const Detail = ({ speaker }: Props) => {
                                     </>
                                     )}
                                         {tab === 'category' && <Container mb="3" rounded="10" bg={`${detail?.detail?.categories.length > 0 ? "primary.box" :""}`} w="100%" maxW="100%">
-                                        {detail?.detail?.categories.map((map: any, k: number) =>
+                                        {detail?.detail?.categories.slice().sort((a, b) => a.sort_order - b.sort_order).map((map: any, k: number) =>
                                             <React.Fragment key={`item-box-group-${k}`}>
                                                 {event?.speaker_settings?.category_group === 1 && (
                                                 <>
@@ -221,7 +265,7 @@ const Detail = ({ speaker }: Props) => {
                                         {detail?.detail?.categories.length <=0 && 
                                         (
                                             <>
-                                                <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
                                             </>
                                             )
                                         }
