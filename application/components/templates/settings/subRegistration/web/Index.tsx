@@ -389,6 +389,7 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
         }
         </HStack>
       </Box>
+      </Box>
     </Container>
   )
 }
