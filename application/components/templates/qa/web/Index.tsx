@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, Container, HStack, Icon, IconButton, Spacer, Text, VStack, ZStack } from 'native-base';
+import { Box, Container, HStack, Icon, IconButton, Pressable, Spacer, Text, VStack, ZStack } from 'native-base';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -49,6 +49,7 @@ const Index = () => {
         <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
           {programs?.length > 0 && programs?.map((program, k) =>
             <Box w="100%" key={k} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" py="3">
+              <Pressable onPress={() => { push(`/${event.url}/qa/detail/${program.id}`) }}>
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                 <Box position="absolute" left="0" top="0" w="15px">
                 <ZStack>
@@ -83,6 +84,7 @@ const Index = () => {
                   </HStack>
                 </HStack>
               </HStack>
+              </Pressable>
             </Box>)}
         </Box>
       </Container>

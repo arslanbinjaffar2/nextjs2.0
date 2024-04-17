@@ -47,6 +47,26 @@ const Detail = () => {
 
     const [id] = useParam('id');
 
+    const updateQuestionsCount = (tab: string) => {
+        switch (tab) {
+            case 'popular':
+                setQuestionsCount(qaDetials?.popular_questions?.length ?? 0);
+                break;
+            case 'recent':
+                setQuestionsCount(qaDetials?.recent_questions?.length ?? 0);
+                break;
+            case 'archive':
+                setQuestionsCount(qaDetials?.archived_questions?.length ?? 0);
+                break;
+            case 'my_question':
+                setQuestionsCount(qaDetials?.my_questions?.length ?? 0);
+                break;
+            default:
+                setQuestionsCount(0);
+                break;
+        }
+    };
+
     React.useEffect(() => {
         if (id) {
             FetchProgramDetail({ id: Number(id) });
@@ -55,10 +75,15 @@ const Detail = () => {
     }, [id]);
 
     React.useEffect(() => {
+        updateQuestionsCount(tab);
+    }, [tab, qaDetials]);
+
+    React.useEffect(() => {
         if(socket !== null){
             socket?.on(`event-buizz:qa_admin_block_listing_${event.id}_${id}`, function (data:any):any {
-                console.log(data, 'data');
-                QaRecentPopularSocketUpdate(data.data_raw);
+                if(data.data_raw){
+                    QaRecentPopularSocketUpdate(data.data_raw);
+                }
             });
             socket?.on(`event-buizz:qa_block_sort_${event.id}_${id}`, function (data:any):any {
                 console.log(data, 'data');
@@ -78,6 +103,7 @@ const Detail = () => {
     const [lineNumber, setLineNumber] = React.useState<any>('');
     const [question, setQuestion] = React.useState<any>('');
     const [anonymously, setAnonymously] = React.useState<any>(false);
+    const [questionsCount, setQuestionsCount] = React.useState<any>(0);
     const [error, setError] = React.useState<any>(null);
 
     const enabledTabs = qaSettings ? Object.keys(qaSettings).reduce((ack:any, item:any)=>{
@@ -86,7 +112,6 @@ const Detail = () => {
         }
         return ack;
     }, []) : [];
-    console.log("🚀 ~ enabledTabs ~ enabledTabs:", enabledTabs)
 
     const TabHeadings:any = {
         popular:'Popular',
@@ -245,11 +270,12 @@ const Detail = () => {
                         <Text w="30%" fontSize="lg">Line number</Text>
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
+                    {qaSettings?.paragraph_number == 1 && 
                     <Box w="100%" px="3">
-                        <TextArea rounded={8} bg="primary.darkbox" borderWidth={1} borderColor={'primary.darkbox'} value={question} onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%"  minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
+                        <TextArea rounded={8} bg="primary.darkbox" borderWidth={1} borderColor={'primary.darkbox'} value={question} onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%"  minH="60px" placeholder="Write here..." autoCompleteType={undefined}  />
 
                     </Box>
-                    
+                    }
                     <HStack px="3" py="2" space="3" alignItems="center">
                     {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">Send anonymously</Checkbox>}
                     <Spacer />
@@ -269,7 +295,7 @@ const Detail = () => {
                         <Text fontSize="lg">History</Text>
                     </HStack>
                     <Spacer />
-                    {/* <Text opacity={0.58} fontSize="md">1 Questions</Text> */}
+                    <Text opacity={0.58} fontSize="md">{questionsCount} Question{questionsCount !== 1 ? 's' : ''}</Text>
                     </HStack>
                  
                     <HStack mb="4" space={4} justifyContent="flex-start" px={3} w="100%">
