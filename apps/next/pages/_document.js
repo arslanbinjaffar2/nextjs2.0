@@ -287,6 +287,13 @@ svg#active #svg-elem-3 {
   from {transform: scale(0);}
   to {transform: scale(1);}
 }
+div[data-testID="TitleContainer"]+ div {
+  border-radius: 10px !important;
+  
+}
+div[data-testID="IconContainer"]{
+  border-color:transparent !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {

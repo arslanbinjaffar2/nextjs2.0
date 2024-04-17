@@ -75,7 +75,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
                 handlePress(breadcrumb.alias);
               }}>
               <HStack space="2" alignItems="center">
-                <IcoDashboard width="18" height="18" color={'primary.text'} />
+                <IcoDashboard width="18" height="18" />
                 <Text color={'primary.text'}>{breadcrumb.label}</Text>
               </HStack>
             </Pressable>
