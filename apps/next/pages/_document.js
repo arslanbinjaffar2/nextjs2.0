@@ -294,6 +294,9 @@ div[data-testID="TitleContainer"]+ div {
 div[data-testID="IconContainer"]{
   border-color:transparent !important;
 }
+.rsw-toolbar {
+  background-color: rgba(0,0,0,0.2) !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {

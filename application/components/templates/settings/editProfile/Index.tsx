@@ -38,6 +38,26 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
+import attendees from 'application/assets/icons/attendees'
+import { 
+    BtnBold,
+    BtnBulletList,
+    BtnClearFormatting,
+    BtnItalic,
+    BtnLink,
+    BtnNumberedList,
+    BtnRedo,
+    BtnStrikeThrough,
+    BtnStyles,
+    BtnUnderline,
+    BtnUndo,
+    HtmlButton,
+    Separator,
+    Editor,
+    EditorProvider,
+    Toolbar
+} from 'react-simple-wysiwyg';
+
 
 
 const index = () => {
@@ -423,20 +443,38 @@ const Selectstyles2 = {
                     {setting?.name === 'bio_info' && (
                         <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                             <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
-                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
-                                 <Input w="100%"
-                                    h={'50px'}
-                                    placeholder={labels?.about}
-                                    isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
-                                    opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                    onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('about', answer);
-                                    }}
-                                    value={attendeeData?.info?.about.replace(/<\/?[^>]+(>|$)|\&nbsp;|\s+/g, '')
-                                }
-                                />
+                              
+                                <Text w={'100%'} color={'primary.text'} fontSize="md">
+                                    <Box w={'100%'} bg="primary.darkbox" rounded={8}>
+                                        <EditorProvider>
+                                            <Editor style={{width: '100%'}} value={attendeeData?.info?.about} onChange={(e) => {
+                                                updateAttendeeInfoFeild('about', e.target.value); }}  >
+                                                     <Toolbar>
+                                                        <BtnUndo />
+                                                        <BtnRedo />
+                                                        <Separator />
+                                                        <BtnBold />
+                                                        <BtnItalic />
+                                                        <BtnUnderline />
+                                                        <BtnStrikeThrough />
+                                                        <Separator />
+                                                        <BtnNumberedList />
+                                                        <BtnBulletList />
+                                                        <Separator />
+                                                        <BtnLink />
+                                                        <BtnClearFormatting />
+                                                        <HtmlButton />
+                                                    </Toolbar>
+                                            </Editor>
+                                    </EditorProvider>
+                                    </Box>
+                                    
+                                </Text>
+                                
+                                
                             </Center>
                         </HStack>
                     )}

@@ -18,6 +18,24 @@ import UseSocketService from 'application/store/services/UseSocketService';
 import { TextInput } from 'react-native';
 import IcoSend from 'application/assets/icons/small/IcoSend'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { 
+    BtnBold,
+    BtnBulletList,
+    BtnClearFormatting,
+    BtnItalic,
+    BtnLink,
+    BtnNumberedList,
+    BtnRedo,
+    BtnStrikeThrough,
+    BtnStyles,
+    BtnUnderline,
+    BtnUndo,
+    HtmlButton,
+    Separator,
+    Editor,
+    EditorProvider,
+    Toolbar
+} from 'react-simple-wysiwyg';
 
 type ScreenParams = { id: string }
 
@@ -245,8 +263,31 @@ const Detail = () => {
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
                     <Box w="100%" px="3">
-                        <TextArea rounded={8} bg="primary.darkbox" borderWidth={1} borderColor={'primary.darkbox'} value={question} onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%"  minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  />
-
+                         <Text w={'100%'} color={'primary.text'} fontSize="md">
+                            <Box w={'100%'} bg="primary.darkbox" rounded={8}>
+                                <EditorProvider>
+                                    <Editor style={{width: '100%'}} value={question} onChange={(e) => {
+                                        setQuestion(e.target.value) }}  >
+                                                <Toolbar>
+                                                <BtnUndo />
+                                                <BtnRedo />
+                                                <Separator />
+                                                <BtnBold />
+                                                <BtnItalic />
+                                                <BtnUnderline />
+                                                <BtnStrikeThrough />
+                                                <Separator />
+                                                <BtnNumberedList />
+                                                <BtnBulletList />
+                                                <Separator />
+                                                <BtnLink />
+                                                <BtnClearFormatting />
+                                                <HtmlButton />
+                                            </Toolbar>
+                                    </Editor>
+                                </EditorProvider>
+                            </Box>
+                        </Text>
                     </Box>
                     
                     <HStack px="3" py="2" space="3" alignItems="center">
