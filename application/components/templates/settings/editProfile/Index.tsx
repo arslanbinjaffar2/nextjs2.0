@@ -1036,7 +1036,7 @@ const Selectstyles2 = {
                                                         }} 
                                                         size={'lg'}
                                                      >
-                                                    Browse
+                                                   
                                                     </Button>
                                                 </VStack>
                                                 {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
@@ -1104,7 +1104,7 @@ const Selectstyles2 = {
                                                     }}
                                                     size={'lg'}
                                                      >
-                                                    Browse
+                                                  
                                                     </Button>
                                             </VStack>
                                             {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
