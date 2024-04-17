@@ -404,20 +404,10 @@ const Selectstyles2 = {
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
-                                {/* <Input w="100%"
-                                    h={'50px'}
-                                    placeholder={labels?.about}
-                                    isReadOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
-                                    opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                    onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('about', answer);
-                                    }}
-                                    value={attendeeData?.info?.about}
-                                /> */}
-                                <Text w={'100%'} color={'primary.text'} fontSize="md">
-                                    <Box w={'100%'} bg="primary.darkbox" rounded={8}>
+                                <Text  w={'100%'} color={'primary.text'} fontSize="md">
+                                    <Box opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'} pointerEvents={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? 'auto' : 'none'} w={'100%'} bg="primary.darkbox" rounded={8}>
                                         <EditorProvider>
-                                            <Editor style={{width: '100%'}} value={attendeeData?.info?.about} onChange={(e) => {
+                                            <Editor  style={{width: '100%'}} value={attendeeData?.info?.about} onChange={(e) => {
                                                 updateAttendeeInfoFeild('about', e.target.value); }}  >
                                                      <Toolbar>
                                                         <BtnUndo />
