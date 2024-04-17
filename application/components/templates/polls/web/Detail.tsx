@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image } from 'native-base'
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image, Spinner } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
@@ -28,6 +28,8 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
 
+import { getColorScheme } from 'application/styles/colors';
+import { SwipeButton } from 'react-native-expo-swipe-button'; 
 
 type ScreenParams = { id: string }
 
@@ -60,7 +62,7 @@ const Detail = () => {
   const [formData, setFormData] = useState<FormData>({});
 
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
-
+  const [goBack,setGoBack]=React.useState(0)
   const updateFormData = (question_id:number, type:string, answer:any, index?:number) => {
     setActiveQuestionError(null);
     let newFormData = formData;
@@ -237,10 +239,19 @@ const Detail = () => {
     }
   
   const module = modules.find((module) => module.alias === 'polls');
-  
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
 
   const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
+  
+  React.useEffect(()=>{
+    setGoBack(0)
+    setTimeout(()=>{
+      if(submittingPoll){
+        setGoBack(1)
+      }
+        },1300)
+  },[submittingPoll,goBack])
   
   return (
     <>
@@ -312,21 +323,37 @@ const Detail = () => {
                     </Button>}
                   </HStack>
                   {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
-                    <Box m="auto" w="230px" bg="primary.darkbox" p="0" rounded="sm" overflow="hidden">
-                      <Button
-                      id='test'
-                        w="100%"
-                        py="3"
-                        px="1"
-                        leftIcon={<IcoLongArrow />}
-                        colorScheme="primary"
-                        isLoading={submittingPoll}
-                        onPress={() => {
-                         setNextStep();
+                    <Box position={'relative'} m="auto" w="310px"  p="0" rounded="sm" overflow="hidden">
+
+                      <SwipeButton key={goBack}
+                        Icon={
+                            <> 
+                            {
+                              submittingPoll ?
+                              <Spinner accessibilityLabel="Loading posts" />:
+                          <IcoLongArrow />
+                            }    
+                            </>
+
+                        }
+                        width={310}
+                        circleSize={60}
+                        goBackToStart={goBack==1?true:false}
+                        circleBackgroundColor={colors.secondary} 
+                        iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
+                        onComplete={() => 
+                          setNextStep()
+                        }
+                        title=""
+                        height={60}
+                        borderRadius={10}
+                        containerStyle={{ backgroundColor:colors.primary }}
+                        underlayTitle=""
+                        underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
+                        underlayStyle={{ 
+                          backgroundColor:colors.secondary,
                         }}
-                      >
-                      {poll_labels?.POLL_SURVEY_AUTHORITY_SUBMIT}
-                      </Button>
+                        />
                     </Box>
                   </Box>}
                 </Box>

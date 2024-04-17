@@ -293,6 +293,13 @@ svg#active #svg-elem-3 {
 #ebs-navigation-slider .slick-list .slick-track {
   margin: auto;
 }
+div[data-testID="TitleContainer"]+ div {
+  border-radius: 10px !important;
+  
+}
+div[data-testID="IconContainer"]{
+  border-color:transparent !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {
