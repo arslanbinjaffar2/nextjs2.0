@@ -219,7 +219,32 @@ const Detail = () => {
                                         }
                                     </>
                                 )}
+                                {/* {event?.agenda_settings?.enable_notes === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && (
                                     <>
+                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                            <DynamicIcon iconType="my_notes" iconProps={{ width: 17, height: 17 }} />
+                                            <Text fontSize="md">Notes</Text>
+                                        </HStack>
+                                        <Box w="100%" py="4">
+                                            <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                                                <VStack w="100%" maxW={['95%', '80%', '70%']} space="0">
+                                                    <Text fontSize="md">Take notes</Text>
+                                                </VStack>
+                                            </HStack>
+                                        </Box>
+                                    </>
+                                )} */}
+                                {/* <PollRectangleView /> */}
+                                {modules?.find((polls)=>(polls.alias == 'myturnlist')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && modules.filter((module: any, key: number) => module.alias === 'myturnlist').length > 0 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) && (
+                                    <>
+                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                            <IcoRaiseHand width="14" height="17" />
+                                            <Text fontSize="md">Request to speak</Text>
+                                        </HStack>
+                                        <RequestToSpeakRectangleView program={detail?.program} />
+                                    </>
+                                )}
+                                      <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="myquestions" iconProps={{ width: 12, height: 18 }} />
                                             <Text fontSize="md">Ask a Question</Text>
@@ -241,31 +266,6 @@ const Detail = () => {
                                             </Box>
                                         </Center>
                                     </>
-                                {/* {event?.agenda_settings?.enable_notes === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && (
-                                    <>
-                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <DynamicIcon iconType="my_notes" iconProps={{ width: 17, height: 17 }} />
-                                            <Text fontSize="md">Notes</Text>
-                                        </HStack>
-                                        <Box w="100%" py="4">
-                                            <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
-                                                <VStack w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                                    <Text fontSize="md">Take notes</Text>
-                                                </VStack>
-                                            </HStack>
-                                        </Box>
-                                    </>
-                                )} */}
-                                {/* <PollRectangleView /> */}
-                                {/* {modules?.find((polls)=>(polls.alias == 'myturnlist')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && modules.filter((module: any, key: number) => module.alias === 'myturnlist').length > 0 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) && (
-                                    <>
-                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <IcoRaiseHand width="14" height="17" />
-                                            <Text fontSize="md">Request to speak</Text>
-                                        </HStack>
-                                        <RequestToSpeakRectangleView program={detail?.program} />
-                                    </>
-                                )} */}
                             </Box>
                         )}
                         {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('documents', processing)) && page === 1 ? (
