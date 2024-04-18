@@ -82,7 +82,7 @@ const Index = () => {
                         <Text textTransform="uppercase" fontSize="2xl">{modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}</Text>
                         <Spacer />
                     </>}
-                {event?.eventsite_settings?.agenda_search_filter == 1 && <Search tab={tab} />}
+                    <Search tab={tab} />
             </HStack>
           
             
