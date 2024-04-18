@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
-import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack, Image } from 'native-base';
+import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack, Image, Center } from 'native-base';
 
 import DetailBlock from 'application/components/atoms/programs/DetailBlock';
 
 import SpeakerRectangleView from 'application/components/atoms/speakers/RectangleView'
 
 import PollRectangleView from 'application/components/atoms/polls/RectangleView'
+
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 
 import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand'
 
@@ -259,7 +261,7 @@ const Detail = () => {
                                     </>
                                 )} */}
                                 {/* <PollRectangleView /> */}
-                                {/* {modules?.find((polls)=>(polls.alias == 'myturnlist')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && modules.filter((module: any, key: number) => module.alias === 'myturnlist').length > 0 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) && (
+                                {modules?.find((polls)=>(polls.alias == 'myturnlist')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && modules.filter((module: any, key: number) => module.alias === 'myturnlist').length > 0 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <IcoRaiseHand width="14" height="17" />
@@ -267,7 +269,29 @@ const Detail = () => {
                                         </HStack>
                                         <RequestToSpeakRectangleView program={detail?.program} />
                                     </>
-                                )} */}
+                                )}
+                                      <>
+                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                            <DynamicIcon iconType="myquestions" iconProps={{ width: 12, height: 18 }} />
+                                            <Text fontSize="md">Ask a Question</Text>
+                                        </HStack>
+                                        <Center>
+                                            <Box w="90%">
+                                                <Pressable onPress={() => {
+                                                    push(`/${event.url}/qa/detail/${detail?.program?.id}`)
+                                                }}>
+                                                    <Box w="100%" py="4">
+                                                        <HStack p="4" bg="primary.darkbox" space="0" alignItems="center" justifyContent="space-between">
+                                                            <Text opacity={0.4} fontSize="lg">Type your Question</Text>
+                                                            <Center p="0">
+                                                                <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
+                                                            </Center>
+                                                        </HStack>
+                                                    </Box>
+                                                </Pressable>
+                                            </Box>
+                                        </Center>
+                                    </>
                             </Box>
                         )}
                         {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('documents', processing)) && page === 1 ? (

@@ -65,6 +65,26 @@ const Detail = () => {
 
     const [id] = useParam('id');
 
+    const updateQuestionsCount = (tab: string) => {
+        switch (tab) {
+            case 'popular':
+                setQuestionsCount(qaDetials?.popular_questions?.length ?? 0);
+                break;
+            case 'recent':
+                setQuestionsCount(qaDetials?.recent_questions?.length ?? 0);
+                break;
+            case 'archive':
+                setQuestionsCount(qaDetials?.archived_questions?.length ?? 0);
+                break;
+            case 'my_question':
+                setQuestionsCount(qaDetials?.my_questions?.length ?? 0);
+                break;
+            default:
+                setQuestionsCount(0);
+                break;
+        }
+    };
+
     React.useEffect(() => {
         if (id) {
             FetchProgramDetail({ id: Number(id) });
@@ -73,10 +93,15 @@ const Detail = () => {
     }, [id]);
 
     React.useEffect(() => {
+        updateQuestionsCount(tab);
+    }, [tab, qaDetials]);
+
+    React.useEffect(() => {
         if(socket !== null){
             socket?.on(`event-buizz:qa_admin_block_listing_${event.id}_${id}`, function (data:any):any {
-                console.log(data, 'data');
-                QaRecentPopularSocketUpdate(data.data_raw);
+                if(data.data_raw){
+                    QaRecentPopularSocketUpdate(data.data_raw);
+                }
             });
             socket?.on(`event-buizz:qa_block_sort_${event.id}_${id}`, function (data:any):any {
                 console.log(data, 'data');
@@ -96,6 +121,7 @@ const Detail = () => {
     const [lineNumber, setLineNumber] = React.useState<any>('');
     const [question, setQuestion] = React.useState<any>('');
     const [anonymously, setAnonymously] = React.useState<any>(false);
+    const [questionsCount, setQuestionsCount] = React.useState<any>(0);
     const [error, setError] = React.useState<any>(null);
 
     const enabledTabs = qaSettings ? Object.keys(qaSettings).reduce((ack:any, item:any)=>{
@@ -262,6 +288,7 @@ const Detail = () => {
                         <Text w="30%" fontSize="lg">Line number</Text>
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
+                    {qaSettings?.paragraph_number == 1 && 
                     <Box w="100%" px="3">
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
@@ -289,7 +316,7 @@ const Detail = () => {
                             </Box>
                         </Text>
                     </Box>
-                    
+                    }
                     <HStack px="3" py="2" space="3" alignItems="center">
                     {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">Send anonymously</Checkbox>}
                     <Spacer />
@@ -302,14 +329,14 @@ const Detail = () => {
                     />
                     </HStack>
                 </Box>
-                {qaSettings?.qa_tabs == 1 && <Box w="100%">
+                {qaSettings?.qa_tabs == 1 && enabledTabs.length > 0 && <Box w="100%">
                     <HStack px="3" space="0" alignItems="center" bg="primary.darkbox" mb="3">
                     <HStack space="2" alignItems="center">
                         <IcoHistory  />
                         <Text fontSize="lg">{event?.labels?.GENERAL_HISTORY}</Text>
                     </HStack>
                     <Spacer />
-                    {/* <Text opacity={0.58} fontSize="md">1 Questions</Text> */}
+                    <Text opacity={0.58} fontSize="md">{questionsCount} Question{questionsCount !== 1 ? 's' : ''}</Text>
                     </HStack>
                  
                     <HStack mb="4" space={4} justifyContent="flex-start" px={3} w="100%">
@@ -322,9 +349,9 @@ const Detail = () => {
                     <Box mb="10" px="5" w="100%" position="relative">
                         {loading && <WebLoading />}
                         {!loading && <>
-                            {/* <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">3 days ago</Text> */}
+                            
                             <VStack w="100%" space="3">
-                                {tab === 'popular' &&
+                                {tab === 'popular' && enabledTabs.includes('popular') &&
                                   qaDetials?.popular_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
@@ -337,6 +364,7 @@ const Detail = () => {
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
+                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                     <Box w={'100%'}>
                                         <HStack w={'100%'} space="3" alignItems="flex-start" justifyContent={'flex-start'}>
@@ -377,7 +405,7 @@ const Detail = () => {
                                     </>
                                   ))  
                                 }
-                                {tab === 'recent' &&
+                                {tab === 'recent' && enabledTabs.includes('recent') &&
                                   qaDetials?.recent_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
@@ -390,6 +418,7 @@ const Detail = () => {
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
+                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
@@ -432,7 +461,7 @@ const Detail = () => {
                                     
                                   ))  
                                 }
-                                {tab === 'archive' &&
+                                {tab === 'archive' && enabledTabs.includes('archive') &&
                                   qaDetials?.archived_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
@@ -445,6 +474,7 @@ const Detail = () => {
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
+                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
@@ -487,7 +517,7 @@ const Detail = () => {
                                     </>
                                   ))  
                                 }
-                                {tab === 'my_question' &&
+                                {tab === 'my_question' && enabledTabs.includes('my_question') &&
                                   qaDetials?.my_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
@@ -500,6 +530,7 @@ const Detail = () => {
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
+                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                     <Box w={'100%'}>
                                     <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
