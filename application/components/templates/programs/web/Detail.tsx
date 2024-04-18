@@ -226,7 +226,7 @@ const Detail = () => {
                                                 <Box w="100%" py="4">
                                                     <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
                                                         <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                                            <Text fontSize="md">{event?.labels?.PROGRAM_LIVE_POLLS}</Text>
+                                                            <Text fontSize="md">{event?.labels?.POLLS_LIVE_POLLS}</Text>
                                                         </VStack>
                                                     </HStack>
                                                 </Box>
