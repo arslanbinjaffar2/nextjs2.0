@@ -55,6 +55,9 @@ import IcoDashboard from 'application/assets/icons/IcoDashboard';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBox';
+import { useWindowDimensions } from 'react-native';
+import SessionRating from 'application/components/atoms/programs/SessionRating';
 
 type ScreenParams = { id: string }
 
@@ -88,6 +91,8 @@ const Detail = () => {
     const [showPolls, setshowPolls] = React.useState<Boolean>(false);
 
     const [tabs, setTabs] = React.useState<any>([]);
+
+    const { width } = useWindowDimensions();
 
     React.useEffect(() => {
         if (mounted.current) {
@@ -307,6 +312,10 @@ const Detail = () => {
                             </>
                         )}
                     </Container>
+                    {width < 810 && <Container maxW="100%" w="100%" >
+                        { event?.agenda_settings?.enable_notes == 1 && !in_array('program-detail', processing) && <ProgramNotesBox />}
+                        { event?.agenda_settings?.session_ratings == 1 && !in_array('program-detail',processing) &&  <SessionRating program_id={_id} />}
+                    </Container>}
                     <Box width={"100%"} height={"5%"}>
                         <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
                     </Box>
