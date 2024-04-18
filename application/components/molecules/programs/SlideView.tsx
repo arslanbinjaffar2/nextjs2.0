@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack, View, Spacer } from 'native-base';
+import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack, View, Spacer, Button } from 'native-base';
 import Slider from "react-slick";
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
 import WorkshopCollapsableView from 'application/components/atoms/programs/WorkshopCollapsableView';
@@ -13,6 +13,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseProgramService from 'application/store/services/UseProgramService';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 
 type AppProps = {
 	programs: Program[],
@@ -200,6 +201,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 		setCurrentIndex(value);
 		setDates(programs[value]);
 	}
+	const { push } = useRouter();
 	return (
 		<>
 			{in_array(section, ['program', 'my-program', 'track-program']) && (
@@ -215,6 +217,13 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 									</Box>
 								</Box>
 							}
+							{dates.length > 5 && dashboard === true && <Center py="3" px="2" w="100%" alignItems="flex-end">
+								<Button onPress={() => {
+								push(`/${event.url}/agendas?currentIndex=${currentIndex}`)
+								}} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+								{event.labels?.GENERAL_SHOW_ALL}
+								</Button>
+							</Center>}
 
 						</>
 					) : (

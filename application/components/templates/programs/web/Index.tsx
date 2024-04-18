@@ -86,7 +86,7 @@ const Index = () => {
                             </Text>
                         <Spacer />
                     </>}
-                {event?.eventsite_settings?.agenda_search_filter == 1 && <Search tab={tab} />}
+                    <Search tab={tab} />
             </HStack>
           
             
