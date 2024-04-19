@@ -26,8 +26,8 @@ import { SubmittedQuestion } from 'application/models/survey/Survey';
 import { useRouter } from 'solito/router'
 import { Banner } from 'application/models/Banner'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
-import IcoTick from 'application/assets/icons/small/IcoTick';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import IcoTick from 'application/assets/icons/small/IcoTick';
 import { SwipeButton } from 'react-native-expo-swipe-button';
 import { getColorScheme } from 'application/styles/colors';
 
@@ -275,7 +275,6 @@ const Detail = () => {
                       isDisabled={steps <= 0 ? true : false}
                       bg="transparent"
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
                       colorScheme="primary"
@@ -291,7 +290,6 @@ const Detail = () => {
                       bg="transparent"
                       isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       colorScheme="primary"
@@ -305,39 +303,35 @@ const Detail = () => {
                   {steps === (detail?.questions.length! - 1) && 
                   <Box w="100%" mb="6">
                     <Box position={'relative'} m="auto" w="310px"  p="0" rounded="sm" overflow="hidden">
-                      
-       <SwipeButton key={submittingSurvey?"0":"1"}
-        Icon={
-            <> 
-            {
-              submittingSurvey?
-              <Spinner accessibilityLabel="Loading posts" />:
-           <IcoLongArrow />
-            }    
-            </>
+                      <SwipeButton key={submittingSurvey?"0":"1"}
+                        Icon={
+                            <> 
+                            {
+                              submittingSurvey?
+                              <Spinner accessibilityLabel="Loading posts" />:
+                          <IcoLongArrow />
+                            }    
+                            </>
 
-        }
-        width={310}
-        circleSize={60}
-  goBackToStart={submittingSurvey}
-  circleBackgroundColor={colors.secondary} 
-        
-        iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
-        onComplete={() => 
-          // console.log("first")
-          setNextStep()
-        }
-        title=""
-        height={60}
-        borderRadius={10}
-        containerStyle={{ backgroundColor:colors.primary }}
-        underlayTitle=""
-        underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
-        underlayStyle={{ 
-          backgroundColor:colors.secondary,
-        }}
-        />
-                   
+                        }
+                        width={310}
+                        circleSize={60}
+                        goBackToStart={submittingSurvey}
+                        circleBackgroundColor={colors.secondary} 
+                        iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
+                        onComplete={() => 
+                          setNextStep()
+                        }
+                        title=""
+                        height={60}
+                        borderRadius={10}
+                        containerStyle={{ backgroundColor:colors.primary }}
+                        underlayTitle=""
+                        underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
+                        underlayStyle={{ 
+                          backgroundColor:colors.secondary,
+                        }}
+                        />
                     </Box>
                   </Box>
                    } 

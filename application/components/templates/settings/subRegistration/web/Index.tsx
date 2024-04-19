@@ -59,6 +59,7 @@ const Detail = () => {
 
 
   const programModule = modules.find((module) => module.alias === "attendees");
+  
   return (
     <>
 
@@ -311,7 +312,9 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
         ),
         questions: mySubReg?.questions?.question.reduce((ack: any, item: any) => { return ack.concat(item.id) }, []),
         ...answers,
-      });
+       });
+      
+
     }
   }
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
@@ -351,41 +354,41 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
         <Box py="0" px="4" w="100%">
           <Divider mb="15" opacity={0.27} bg="primary.text" />
           <HStack mb="3" space="3" alignItems="center" justifyContent={'center'} position={'relative'}>
+    
+              {mySubReg?.settings?.answer === 1 && mySubReg?.show_save === 1 && <Box position={'relative'}>
+              <SwipeButton key={goBack}
+                Icon={
+                    <> 
+                    {
+                      submitting?
+                      <Spinner accessibilityLabel="Loading posts" />:
+                  <IcoLongArrow />
+                    }    
+                    </>
 
-          {mySubReg?.settings?.answer === 1 && mySubReg?.show_save === 1 && <Box position={'relative'}>
-            <SwipeButton key={goBack}
-              Icon={
-                  <> 
-                  {
-                    submitting?
-                    <Spinner accessibilityLabel="Loading posts" />:
-                    <IcoLongArrow />
-                  }    
-                  </>
-
-              }
-              width={310}
-              circleSize={60}
-              goBackToStart={goBack==1?true:false}
-              circleBackgroundColor={colors.secondary} 
-              iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
-              onComplete={() => 
-                onSubmit()
-              }
-              title=""
-              height={60}
-              borderRadius={10}
-              containerStyle={{ backgroundColor:colors.primary }}
-              underlayTitle=""
-              underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
-              underlayStyle={{ 
-                backgroundColor:colors.secondary,
-              }}
-              />
+                }
+                width={310}
+                circleSize={60}
+                goBackToStart={goBack==1?true:false}
+                circleBackgroundColor={colors.secondary} 
+                iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
+                onComplete={() => 
+                  onSubmit()
+                }
+                title=""
+                height={60}
+                borderRadius={10}
+                containerStyle={{ backgroundColor:colors.primary }}
+                underlayTitle=""
+                underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
+                underlayStyle={{ 
+                  backgroundColor:colors.secondary,
+                }}
+                />
+                </Box>
+                }
+          </HStack>
         </Box>
-        }
-        </HStack>
-      </Box>
       </Box>
     </Container>
   )

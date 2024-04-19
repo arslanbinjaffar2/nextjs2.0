@@ -150,7 +150,7 @@ const Verification = ({ props }: any) => {
                                     backgroundColor:colors.secondary,
                                     }}
                                     />
-                        </Box>
+                            </Box>
                         </VStack>
                     </VStack>
                 ) : (
