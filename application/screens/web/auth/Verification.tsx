@@ -122,9 +122,7 @@ const Verification = ({ props }: any) => {
                             </Link>
                              <SwipeBtn
                           loading={processing}
-                          onComplete={() => 
-                            handleSubmit(onSubmit)
-                        }
+                          onComplete={handleSubmit(onSubmit)}
                           />
                         </VStack>
                     </VStack>
