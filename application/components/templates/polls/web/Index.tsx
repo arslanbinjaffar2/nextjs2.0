@@ -41,7 +41,10 @@ const Index = () => {
     useEffect(() => {
         
         if(polls_count == 1 && (completed_polls && typeof completed_polls === 'object' && Object.keys(completed_polls).length == 0)){
-            push(`/${event.url}/polls/detail/${polls[Object.keys(polls)[0]][0].agenda_id}`);
+            let keys = polls[Object.keys(polls)[0]];
+            if (keys && keys.length == 1){
+                push(`/${event.url}/polls/detail/${keys[0].agenda_id}`);
+            }
         }
 
         if(polls && typeof polls === 'object' && Object.keys(polls).length > 0) {
