@@ -49,7 +49,8 @@ const RightBar = () => {
 
   return (
     <>
-
+      
+      <UpcomingPrograms />
       {nextRouter.asPath.includes('exhibitors/detail') && event?.exhibitor_tab_settings?.contact_info == 1 && !in_array('exhibitor-detail', processing) ? <ExhibitorContactInfo /> : null}
       {nextRouter.asPath.includes('exhibitors/detail') && event?.exhibitor_tab_settings?.notes == 1 && !in_array('exhibitor-detail', processing) ?  <ExhibitorNotesBox /> : null}
       {nextRouter.asPath.includes('sponsors/detail') && event?.sponsor_tab_settings?.contact_info == 1 && !in_array('sponsor-detail', processing) ? <SponsorContactInfo /> : null}
@@ -57,9 +58,8 @@ const RightBar = () => {
       {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.enable_notes == 1 && !in_array('program-detail', processing) ?  <ProgramNotesBox /> : null}
       {nextRouter.asPath.includes('agendas/detail') && event?.agenda_settings?.session_ratings == 1 && !in_array('program-detail',processing)  ?  <SessionRating program_id={_id} /> : null}
       {(nextRouter.asPath.includes('speakers/detail') || nextRouter.asPath.includes('attendees/detail')) && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website) || (detail?.setting?.contact_vcf && detail?.setting?.contact_vcf)) && <ContactInfo detail={detail} />}
-      <UpcomingPrograms />
-      {/* <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
-      <UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} /> */}
+      
+      {/*<UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} /> */}
       <Divider mb="1" bg="transparent" />
       {event?.exhibitor_settings?.show_on_native_app_dashboard == 1 ? <OurExhibitor />: null}
       {event?.sponsor_settings?.show_on_native_app_dashboard == 1 ? <OurSponsor />: null}

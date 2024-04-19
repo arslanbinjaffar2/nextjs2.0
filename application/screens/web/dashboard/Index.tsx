@@ -35,6 +35,7 @@ import UseAlertService from 'application/store/services/UseAlertService'
 import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import { Banner } from 'application/models/Banner'
+import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
 
 type indexProps = {
   navigation: unknown
@@ -88,22 +89,19 @@ const Index = ({ navigation }: indexProps) => {
            <MobileNavigation />
          </Box>
          
-            {/* <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
-                  <Box minH={150} h={'100%'} flex={1}>
-                  <UpcomingBlock
-                      px="3"
-                      py="4"
-                      h='150px'
-                      title="UPCOMING SESSION" desc='Talk on w http://localhost:3000/checking-clone-3479/dashboard?currentIndex=0' location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+            <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
+                  <Box h={'100%'} flex={1}>
+                    <UpcomingPrograms />
                   </Box>
-                  <Box minH={150}  flex={1}>
+                  
+                  {/* <Box minH={150}  flex={1}>
                     <UpcomingBlock 
                       px="3"
                       py="4"
                       h='150px'
                     title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
-                </Box>
-            </HStack>  */}
+                </Box>*/}
+            </HStack>  
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
           {/*  */}
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
@@ -134,7 +132,7 @@ const Index = ({ navigation }: indexProps) => {
           {/*  */}
               <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
 
-{/*  */}
+          {/*  */}
               <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
           {/*  */}
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
