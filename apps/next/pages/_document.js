@@ -287,6 +287,9 @@ svg#active #svg-elem-3 {
   from {transform: scale(0);}
   to {transform: scale(1);}
 }
+.add-blur {
+  backdrop-filter: blur(8px);
+}
 `;
 
 export async function getInitialProps({ renderPage }) {
