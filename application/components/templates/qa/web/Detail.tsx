@@ -65,7 +65,7 @@ const Detail = () => {
     
     const { socket } = UseSocketService();
     
-    const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | 'my_question'>('popular');
+    const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | 'my_question' | ''>('');
     const [id] = useParam('id');
 
     const updateQuestionsCount = (tab: string) => {
@@ -100,8 +100,10 @@ const Detail = () => {
     }, [tab, qaDetials]);
     
     React.useEffect(() => {
-        if(enabledTabs.length > 0){
-            setTab(enabledTabs[0])
+        if(!tab){
+            if(enabledTabs.length > 0){
+                setTab(enabledTabs[0])
+            }
         }
     }, [enabledTabs]);
         
