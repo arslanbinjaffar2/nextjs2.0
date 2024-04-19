@@ -86,10 +86,12 @@ function* OnGetSponsorDetail({
     payload: { id: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'sponsor-detail' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getSponsorDetailApi, payload, state)
     yield put(SponsorActions.updateSponsorDetail(response.data.data!))
     yield put(DocumentActions.update(response.data.data.documents!))
+    yield put(LoadingActions.removeProcess({ process: 'sponsor-detail' }))
     yield put(LoadingActions.set(false));
 }
 function* OnGetSponsorContact({

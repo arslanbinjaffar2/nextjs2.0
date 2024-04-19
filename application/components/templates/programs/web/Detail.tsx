@@ -57,6 +57,9 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBox';
+import { useWindowDimensions } from 'react-native';
+import SessionRating from 'application/components/atoms/programs/SessionRating';
 
 type ScreenParams = { id: string }
 
@@ -66,7 +69,7 @@ const Detail = () => {
 
     const { scroll, processing } = UseLoadingService();
 
-    const [tab, setTab] = useState<string>('about');
+    const [tab, setTab] = useState<string>('');
 
     const mounted = React.useRef(false);
 
@@ -80,7 +83,7 @@ const Detail = () => {
 
     const { push, back } = useRouter()
 
-    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name } = UseAttendeeService();
+    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, last_page } = UseAttendeeService();
 
     const { FetchDocuments } = UseDocumentService();
 
@@ -89,9 +92,13 @@ const Detail = () => {
     const [showSpeakers, setshowSpeakers] = React.useState<Boolean>(false);
     const [showPolls, setshowPolls] = React.useState<Boolean>(false);
 
+    const [tabs, setTabs] = React.useState<any>([]);
+
+    const { width } = useWindowDimensions();
+
     React.useEffect(() => {
         if (mounted.current) {
-            if (in_array(tab, ['attendee'])) {
+            if (in_array(tab, ['attendee']) && page < last_page ) {
                 FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: 0, speaker: 0, category_id: category_id, screen: 'program-attendees', program_id: Number(_id) });
             }
         }
@@ -116,19 +123,43 @@ const Detail = () => {
     }, [_id]);
 
     React.useEffect(() => {
+        const showSpeaker=modules?.find((module)=>(module.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && detail?.program?.program_speakers!?.length > 0;
+        const resShowSpeaker = showSpeaker == undefined ? false : showSpeaker;
+        setshowSpeakers(resShowSpeaker);
+
+        const showPolls=modules?.find((module)=>(module.alias == 'polls')) && detail?.polls_count! > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0;
+        const resShowPoll = showPolls == undefined ? false : showPolls;
+        setshowPolls(resShowPoll);
+
+        let tabs=[];
+        if(detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 && (resShowSpeaker || resShowPoll)){
+            tabs.push(['about', event?.labels?.GENERAL_ABOUT]);
+        }
+        if(event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0){
+            tabs.push(['group', event?.labels?.ATTENDEE_TAB_GROUP]);
+        }
+        if(modules?.find((polls) => (polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 ){
+            const attendees_label = modules?.find((module) => (module.alias == 'attendees'))?.name
+            tabs.push(['attendee', attendees_label]);
+        }
+        if(modules?.find((polls)=>(polls.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 ){
+            const documents_label = modules?.find((module) => (module.alias == 'ddirectory'))?.name
+            tabs.push(['documents', documents_label]);
+        }
+        setTabs(tabs);
+        if(tabs.length > 0){
+            setTab(tabs[0][0]);
+        }
+    }, [detail]);
+
+    React.useEffect(() => {
+        if(tabs.length > 0){
+            setTab(tabs[0][0]);
+        }
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
     const module = modules.find((module) => module.alias === 'agendas');
-
-    React.useEffect(() => {
-        const showSpeaker=modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && detail?.program?.program_speakers!?.length > 0;
-        setshowSpeakers(showSpeaker == undefined ? false : showSpeaker);
-
-        const showPolls=modules?.find((polls)=>(polls.alias == 'polls')) && detail?.polls_count! > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0;
-        setshowPolls(showPolls == undefined ? false : showPolls);
-        
-    }, [detail]);
 
     return (
         <>
@@ -143,17 +174,10 @@ const Detail = () => {
                         </Text>
                     </DetailBlock>
                     <Container mb="3" maxW="100%" w="100%">
-                        <HStack style={{rowGap: 2, columnGap: 1}}  mb="3" space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
-                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 && (showSpeakers || showPolls) &&<Button rounded={0} minW={'calc(50% - 2px)'} flex={1} onPress={() => setTab('about')} borderWidth="0px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ABOUT</Button>}
-                            {event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0 && (
-                                <Button flex={1} rounded={0} minW={'calc(50% - 2px)'} onPress={() => setTab('group')} borderWidth="0px" py={0} borderColor="primary.boxbutton" h="42px" bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>GROUPS</Button>
-                            )}
-                            {modules?.find((polls) => (polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 && (
-                                <Button flex={1} rounded={0} minW={'calc(50% - 2px)'} onPress={() => setTab('attendee')} borderWidth="0px" py={0} borderColor="primary.boxbutton" h="42px" bg={tab === 'attendee' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ATTENDEES</Button>
-                            )}
-                            {modules?.find((polls)=>(polls.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 && (
-                                <Button flex={1} rounded={0} minW={'calc(50% - 2px)'} onPress={() => setTab('documents')} borderWidth="0px" py={0} borderColor="primary.boxbutton" h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>DOCUMENTS</Button>
-                            )}
+                        <HStack mb="3" space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
+                            {tabs.map((mtab: any, key: number) => (
+                                <Button key={mtab[0]} flex={1} rounded={0} minW={'50%'} onPress={() => setTab(mtab[0])} borderWidth="1px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === mtab[0] ? 'primary.darkbox' : 'primary.box'} _text={{ fontWeight: '600' }}>{mtab[1]}</Button>
+                            ))}
                         </HStack>
                         {group_id > 0 && (
                             <HStack mb="3" pt="2" w="100%" space="3">
@@ -199,7 +223,7 @@ const Detail = () => {
                                                 <Box w="100%" py="4">
                                                     <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
                                                         <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                                            <Text fontSize="md">{event?.labels?.PROGRAM_LIVE_POLLS}</Text>
+                                                            <Text fontSize="md">{event?.labels?.POLLS_LIVE_POLLS}</Text>
                                                         </VStack>
                                                     </HStack>
                                                 </Box>
@@ -280,10 +304,14 @@ const Detail = () => {
                             </>
                         )}
                     </Container>
-                        <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
+                    {width < 810 && <Container maxW="100%" w="100%" >
+                        { event?.agenda_settings?.enable_notes == 1 && !in_array('program-detail', processing) && <ProgramNotesBox />}
+                        { event?.agenda_settings?.session_ratings == 1 && !in_array('program-detail',processing) &&  <SessionRating program_id={_id} />}
+                    </Container>}
                     {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />
                     )}
+                    <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
                 </>
             )}
         </>

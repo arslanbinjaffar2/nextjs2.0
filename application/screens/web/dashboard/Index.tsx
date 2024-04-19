@@ -107,16 +107,9 @@ const Index = ({ navigation }: indexProps) => {
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
           {/*  */}
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
-            <Container my={4}  rounded="10" bg="primary.box" w="100%" maxW="100%">
-              <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>PROGRAM</Heading>
+            <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+              <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{modules?.find((module) => (module.alias == 'agendas'))?.name}</Heading>
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
-              <Center py="3" px="2" w="100%" alignItems="flex-end">
-                <Button onPress={() => {
-                  push(`/${event.url}/agendas`)
-                }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                  {event.labels?.GENERAL_SHOW_ALL ?? ''}
-                </Button>
-              </Center>
             </Container>
           ) : <></>}
           {/*  */}

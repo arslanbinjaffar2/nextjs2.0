@@ -90,8 +90,8 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
                       ): null}
                       {program?.videos?.length ? (
                         <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
-                      ) : null}
-                       {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && <Pressable
+                      ) : ''}
+                       {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && program?.is_attatched_with_subregistration === 0 && <Pressable
                         onPress={() => toggleFav()}>
                         <Icon size="xl" as={AntDesign} name={isFav ? "heart" : "hearto"} color={isFav ? 'secondary.500' : 'primary.text'} />
                       </Pressable>}
