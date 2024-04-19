@@ -231,7 +231,26 @@ const Detail = () => {
         SubmitSurvey(postData);
 
     }
+
     const module = modules.find((module) => module.alias === 'survey');
+    const [canSubmitMultipleTimes,setCanSubmitMultipleTimes]=useState<boolean>(false);
+    useEffect(()=>{
+      if(detail?.questions.length! > 0){
+        const mutipleCloudQuestions = detail?.questions.filter((question) => question.question_type === 'world_cloud' && question.is_participants_multiple_times === 1);
+        setCanSubmitMultipleTimes(mutipleCloudQuestions && mutipleCloudQuestions?.length > 0 ? true : false);
+      }
+    },[detail])
+
+    function resetForSubmitAgain(){
+      setFormData({})
+      if (id) {
+        FetchSurveyDetail({ id: Number(id) });
+      }
+      setcompleted(false)
+      setSubmittingSurvey(false)
+    }
+    
+
   return (
     <>
       {loading ? (
@@ -316,14 +335,32 @@ const Detail = () => {
                   </Box>}
                 </Box>
               </Box>}
-              {completed === true && <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
+              {completed === true && (
+                <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
                   <Box nativeID='bg-circle-animation' bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
                     <IcoTick />
                   </Box>
                   <Text fontSize="lg">{survey_labels?.SURVEY_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
+                  {canSubmitMultipleTimes ? (
+                    <Button
+                    id='test'
+                    w="100px"
+                    py="3"
+                    px="1"
+                    isLoading={false}
+                    colorScheme="primary"
+                    onPress={()=>{
+                      resetForSubmitAgain()
+                    }}
+                    
+                  >
+                    {survey_labels?.WORD_CLOUD_SUBMIT_AGAIN}
+                  </Button>
+                  ):null}
                 </VStack>
-              </Box>}
+              </Box>
+              )}
             </Container>
             </>
       )}
