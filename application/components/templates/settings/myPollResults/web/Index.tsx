@@ -51,7 +51,7 @@ const Index = () => {
                 ):(
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text textTransform="uppercase" fontSize="2xl">{setting_modules?.find((polls)=>(polls.alias == 'myPollResults'))?.name ?? 'My polls results'}</Text>
+                            <Text  fontSize="2xl">{setting_modules?.find((polls)=>(polls.alias == 'myPollResults'))?.name ?? 'My polls results'}</Text>
                         </HStack>
                         
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">

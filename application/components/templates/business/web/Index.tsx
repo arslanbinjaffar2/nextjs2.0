@@ -130,7 +130,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                 {showAttendees ? (
                     <Container  pt="2" maxW="100%" w="100%" >
                       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                      <Text textTransform="capitalize" fontSize="2xl">{modules?.find((attendees)=>(attendees.alias == 'attendees'))?.name ?? ""}</Text>
+                      <Text  fontSize="2xl">{modules?.find((attendees)=>(attendees.alias == 'attendees'))?.name ?? ""}</Text>
                     </HStack>
                     {searchingAttendees && <SectionLoading/>}
                     {searchMatchAttendees && <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
@@ -237,7 +237,6 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                         isLoading={searchingAttendees}
                         isDisabled={searchingAttendees}
                         shadow="1"
-                        textTransform="uppercase"
                         _text={{ fontWeight: 600, fontSize: '2xl', color: 'primary.hovercolor' }}
                         colorScheme="primary"
                         onPress={() => {
@@ -245,7 +244,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                           setShowAttendees(true);
                         }}
                     >
-                        Match search
+                        match search
                     </Button>
                     </Box>
                 </Container>)}
