@@ -18,13 +18,12 @@ import moment from 'moment';
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
-const {event} = UseEventService()
 type AppProps = {
     detail: Detail,
 }
 
 const RectangleView = () => {
-   
+	const {event} = UseEventService()
 
    
     return (
