@@ -28,7 +28,7 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
 import { getColorScheme } from 'application/styles/colors';
-import { SwipeButton } from 'react-native-expo-swipe-button'; 
+import SwipeBtn from '../../../atoms/swipeBtn';
 
 type ScreenParams = { id: string }
 
@@ -238,18 +238,10 @@ const Detail = () => {
     }
   
   const module = modules.find((module) => module.alias === 'polls');
-  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
   const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
   
-  React.useEffect(()=>{
-    setGoBack(0)
-    setTimeout(()=>{
-      if(submittingPoll){
-        setGoBack(1)
-      }
-        },1300)
-  },[submittingPoll,goBack])
+
 
   return (
     <>
@@ -321,37 +313,13 @@ const Detail = () => {
                     </Button>}
                   </HStack>
                   {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
-                    <Box position={'relative'} m="auto" w="310px"  p="0" rounded="sm" overflow="hidden">
-                        <SwipeButton key={goBack}
-                          Icon={
-                              <> 
-                              {
-                                submittingPoll ?
-                                <Spinner accessibilityLabel="Loading posts" />:
-                            <IcoLongArrow />
-                              }    
-                              </>
-
-                          }
-                          width={310}
-                          circleSize={60}
-                          goBackToStart={goBack==1?true:false}
-                          circleBackgroundColor={colors.secondary} 
-                          iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
+                     
+                          <SwipeBtn
+                          loading={submittingPoll}
                           onComplete={() => 
-                            setNextStep()
-                          }
-                          title=""
-                          height={60}
-                          borderRadius={10}
-                          containerStyle={{ backgroundColor:colors.primary }}
-                          underlayTitle=""
-                          underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
-                          underlayStyle={{ 
-                            backgroundColor:colors.secondary,
-                          }}
+                          setNextStep()
+                        }
                           />
-                    </Box>
                   </Box>}
                 </Box>
               </Box>}
