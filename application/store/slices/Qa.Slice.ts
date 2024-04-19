@@ -22,7 +22,8 @@ export interface QaState {
         archived_questions:Question[],
         my_questions:Question[],
         clientIp:string,
-        all_languages:number[]
+        all_languages:number[],
+        labels: any[]
     },
 }
 
@@ -39,7 +40,8 @@ const initialState: QaState = {
         archived_questions:[],
         my_questions:[],
         clientIp:'',
-        all_languages:[]
+        all_languages:[],
+        labels:[]
     }
 }
 
@@ -55,7 +57,7 @@ export const QaSlice = createSlice({
             state.programSettings = action.payload.program_settings;
         },
         OnFetchProgramDetail(state, action: PayloadAction<{ id: number }>) {},
-        updateDetail(state, action: PayloadAction<{ program_detail:AgendaDetail, speakers:Speaker[], paragraph:Paragraph[], qa_settings:QaSettings, program_settings:ProgramSettings, client_ip:string, all_languages:number[] }>) {
+        updateDetail(state, action: PayloadAction<{ program_detail:AgendaDetail, speakers:Speaker[], paragraph:Paragraph[], qa_settings:QaSettings, program_settings:ProgramSettings, client_ip:string, all_languages:number[], labels: any[] }>) {
             state.qaDetails.program_detail = action.payload.program_detail;
             state.qaDetails.speakers = action.payload.speakers;
             state.qaDetails.paragraph = action.payload.paragraph;
@@ -63,6 +65,7 @@ export const QaSlice = createSlice({
             state.programSettings = action.payload.program_settings;
             state.qaDetails.clientIp = action.payload.client_ip;
             state.qaDetails.all_languages = action.payload.all_languages;
+            state.qaDetails.labels = action.payload.labels;
         },
         OnFetchTabDetails(state, action: PayloadAction<{ id: number }>) {},
         updateTabDetail(state, action: PayloadAction<{ popular_questions:Question[], recent_questions:Question[], archived_questions:Question[], my_questions:Question[] }>) {

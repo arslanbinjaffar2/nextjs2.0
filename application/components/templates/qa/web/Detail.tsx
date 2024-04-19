@@ -39,6 +39,7 @@ const Detail = () => {
 
     
     const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails,  SubmitQa, SubmitQaLike, QaRecentPopularSocketUpdate, QaSort} = UseQaService();
+    console.log("🚀 ~ Detail ~ qaDetials:", qaDetials)
     
     const { push, back } = useRouter()
 
@@ -325,6 +326,16 @@ const Detail = () => {
                                     </Text>
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
+                                    <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
+                                        <VStack>
+                                            {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
+                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER}: <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
+                                            }
+                                            {qaSettings?.line_number == 1 && question?.info?.line_number &&
+                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER}: <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
+                                            }                                     
+                                        </VStack>
+                                    </HStack>
                                     <Box w={'100%'}>
                                         <HStack w={'100%'} space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
@@ -378,6 +389,16 @@ const Detail = () => {
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
+                                    </HStack>
+                                    <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
+                                        <VStack>
+                                            {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
+                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER}: <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
+                                            }
+                                            {qaSettings?.line_number == 1 && question?.info?.line_number &&
+                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER}: <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
+                                            }                                     
+                                        </VStack>
                                     </HStack>
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
@@ -435,6 +456,16 @@ const Detail = () => {
                                     </Text>
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
+                                    <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
+                                        <VStack>
+                                            {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
+                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER}: <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
+                                            }
+                                            {qaSettings?.line_number == 1 && question?.info?.line_number &&
+                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER}: <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
+                                            }                                     
+                                        </VStack>
+                                    </HStack>
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
@@ -491,13 +522,23 @@ const Detail = () => {
                                     </Text>
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
+                                    <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
+                                        <VStack>
+                                            {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
+                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER}: <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
+                                            }
+                                            {qaSettings?.line_number == 1 && question?.info?.line_number &&
+                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER}: <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
+                                            }                                     
+                                        </VStack>
+                                    </HStack>
                                     <Box w={'100%'}>
-                                    <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
+                                        <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                             <Text w={'100%'} pt={1}>
                                                 <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                             </Text>
-                                            </HStack>  
+                                        </HStack>  
                                     {qaSettings.up_vote == 1 && <HStack 
                                     mt={3}
                                     ml={'56px'}
