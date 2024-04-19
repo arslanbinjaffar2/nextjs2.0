@@ -343,15 +343,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     )}
                 </>
             )}
-            {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
-              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
+            {/* {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
+              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="163px" space="1">
                   {alphabet.map((item, k) =>
                     <React.Fragment key={k}>
                         <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
                     </React.Fragment>
                   )}
               </VStack>
-            )}
+            )} */}
             <>
                 {(in_array('attendee-listing', processing) || in_array('category-listing', processing) || in_array('groups', processing)) && page === 1 ? (
                     <SectionLoading />
@@ -361,7 +361,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {speaker === 0 && GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
+                                            {map?.letter}
+                                            </Text>
                                     )}
                                     {map?.records?.map((attendee: Attendee, k: number) =>
                                         <React.Fragment key={`${k}`}>
@@ -385,7 +387,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
+                                            {map?.letter}
+                                            </Text>
                                     )}
                                     {map?.records?.map((group: Group, k: number) =>
                                         <React.Fragment key={`${k}`}>
