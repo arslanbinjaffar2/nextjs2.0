@@ -149,7 +149,7 @@ const Login = ({ props }: any) => {
                                         onPress={handleSubmit(onSubmit)}
                                         minH='48px'
                                         ref={nativeButton}
-                                        endIcon={<IcoLongArrow />}
+                                        endIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />}
                                         _hover={{ bg: 'primary.secondary' }}
                                     >
                                     </Button>
