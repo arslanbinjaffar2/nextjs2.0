@@ -363,7 +363,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                              )}
                             {attendees.length <= 0 &&
                               <Box p={3} mb="3"  rounded="lg" w="100%">
-                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
                               </Box>
                             }
                         </Container>}
@@ -382,7 +382,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             )}
                             {groups.length <= 0 &&
                               <Box p={3} mb="3" rounded="lg" w="100%">
-                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
                               </Box>
                             }
                         </Container>}
@@ -394,7 +394,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             )}
                             { categories.length <= 0 &&
                                 <Box p={3} mb="3" rounded="lg" w="100%">
-                                    <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
+                                    <Text fontSize="16px">{event.labels.GENERAL_NO_RECORD}</Text>
                                 </Box>
                             }
                         </Container>}
