@@ -37,13 +37,13 @@ const Detail = () => {
 
     
     const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails,  SubmitQa, SubmitQaLike, QaRecentPopularSocketUpdate, QaSort} = UseQaService();
-
+    const tabOrder = ['popular', 'recent', 'archive', 'my_question'];
     const enabledTabs = qaSettings ? Object.keys(qaSettings).reduce((ack:any, item:any)=>{
         if(in_array(item, ['popular','recent', 'archive',  'my_question']) && qaSettings[item] == 1){
             ack.push(item);
         }
         return ack;
-    }, []) : [];
+    }, []).sort((a:any, b:any) => tabOrder.indexOf(a) - tabOrder.indexOf(b)) : [];
     
     const { socket } = UseSocketService();
     
@@ -71,10 +71,6 @@ const Detail = () => {
     };
 
     React.useEffect(() => {
-        if(enabledTabs.length > 0){
-            setTab(enabledTabs[0])
-        }
-            
         if (id) {
             FetchProgramDetail({ id: Number(id) });
             FetchTabDetails({ id: Number(id) });
@@ -84,7 +80,12 @@ const Detail = () => {
     React.useEffect(() => {
         updateQuestionsCount(tab);
     }, [tab, qaDetials]);
-        
+    
+    React.useEffect(() => {
+        if(enabledTabs.length > 0){
+            setTab(enabledTabs[0])
+        }
+    }, [enabledTabs]);
         
 
     React.useEffect(() => {
