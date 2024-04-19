@@ -12883,6 +12883,11 @@ react-native-dotenv@^3.4.6:
   dependencies:
     dotenv "^16.3.1"
 
+react-native-expo-swipe-button@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-expo-swipe-button/-/react-native-expo-swipe-button-1.0.2.tgz#d2b6c8c6abea4560d4bc5ce6e8ce2891c1abafce"
+  integrity sha512-aqSdomcBH1W1bHYhq/lPzpeQPs3TuLuKFbTwsG/Ov69hEjHdo5dMoXL2d3yvNYifcLj2Bs4GdpXKPRiIkoDIfg==
+
 react-native-gesture-handler@^2.9.0:
   version "2.13.2"
   resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.13.2.tgz"
@@ -13075,11 +13080,6 @@ react-shallow-renderer@^16.15.0:
   dependencies:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
-
-react-simple-wysiwyg@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/react-simple-wysiwyg/-/react-simple-wysiwyg-3.0.2.tgz#14a0a59dd181f6f483e209984c2a3992568da23a"
-  integrity sha512-qBPP/b8CfLJgGooqQE2guFxiNxm2uBfMNtZUilCWPcjAWw9XMO6218JZw9kwK81iNO2J0PCWzHf73e6T6EGAvw==
 
 react-slick@^0.29.0:
   version "0.29.0"
