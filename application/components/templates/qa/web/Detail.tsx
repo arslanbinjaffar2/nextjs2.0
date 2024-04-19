@@ -31,21 +31,23 @@ const Detail = () => {
 
     const { event, modules } = UseEventService();
 
-    const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | 'my_question'>('popular')
-
     const [query, setQuery] = React.useState('');
 
     const { response  } = UseAuthService();
 
     
     const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails,  SubmitQa, SubmitQaLike, QaRecentPopularSocketUpdate, QaSort} = UseQaService();
-    console.log("🚀 ~ Detail ~ qaDetials:", qaDetials)
+
+    const enabledTabs = qaSettings ? Object.keys(qaSettings).reduce((ack:any, item:any)=>{
+        if(in_array(item, ['popular','recent', 'archive',  'my_question']) && qaSettings[item] == 1){
+            ack.push(item);
+        }
+        return ack;
+    }, []) : [];
     
-    const { push, back } = useRouter()
-
     const { socket } = UseSocketService();
-
-
+    
+    const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | 'my_question'>('popular');
     const [id] = useParam('id');
 
     const updateQuestionsCount = (tab: string) => {
@@ -69,6 +71,10 @@ const Detail = () => {
     };
 
     React.useEffect(() => {
+        if(enabledTabs.length > 0){
+            setTab(enabledTabs[0])
+        }
+            
         if (id) {
             FetchProgramDetail({ id: Number(id) });
             FetchTabDetails({ id: Number(id) });
@@ -78,6 +84,8 @@ const Detail = () => {
     React.useEffect(() => {
         updateQuestionsCount(tab);
     }, [tab, qaDetials]);
+        
+        
 
     React.useEffect(() => {
         if(socket !== null){
@@ -106,13 +114,6 @@ const Detail = () => {
     const [anonymously, setAnonymously] = React.useState<any>(false);
     const [questionsCount, setQuestionsCount] = React.useState<any>(0);
     const [error, setError] = React.useState<any>(null);
-
-    const enabledTabs = qaSettings ? Object.keys(qaSettings).reduce((ack:any, item:any)=>{
-        if(in_array(item, ['popular','recent', 'archive',  'my_question']) && qaSettings[item] == 1){
-            ack.push(item);
-        }
-        return ack;
-    }, []) : [];
 
     const TabHeadings:any = {
         popular:'Popular',
@@ -377,6 +378,11 @@ const Detail = () => {
                                     </>
                                   ))  
                                 }
+                                {tab === 'popular' && enabledTabs.includes('popular') && qaDetials?.popular_questions.length <= 0 &&
+                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
+                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                    </Box>
+                                }
                                 {tab === 'recent' && enabledTabs.includes('recent') &&
                                   qaDetials?.recent_questions?.map((question,i)=>(
                                     <>
@@ -442,6 +448,11 @@ const Detail = () => {
                                     </>
                                     
                                   ))  
+                                }
+                                {tab === 'recent' && enabledTabs.includes('recent') && qaDetials?.recent_questions.length <= 0 &&
+                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
+                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                    </Box>
                                 }
                                 {tab === 'archive' && enabledTabs.includes('archive') &&
                                   qaDetials?.archived_questions?.map((question,i)=>(
@@ -509,6 +520,11 @@ const Detail = () => {
                                     </>
                                   ))  
                                 }
+                                {tab === 'archive' && enabledTabs.includes('archive') && qaDetials?.archived_questions.length <= 0 &&
+                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
+                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                    </Box>
+                                }
                                 {tab === 'my_question' && enabledTabs.includes('my_question') &&
                                   qaDetials?.my_questions?.map((question,i)=>(
                                     <>
@@ -572,6 +588,11 @@ const Detail = () => {
                                     </Box>      
                                     </>
                                   ))  
+                                }
+                                {tab === 'my_question' && enabledTabs.includes('my_question') && qaDetials?.my_questions.length <= 0 &&
+                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
+                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                    </Box>
                                 }
                             </VStack>
                         </>
