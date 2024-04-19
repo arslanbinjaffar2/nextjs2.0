@@ -95,11 +95,12 @@ const ContactInfo = ({ detail }: AppProps) => {
             </Pressable>
           ) : ''}
         </HStack>
+        <Box py={3}>
         {detail?.attendee_tabs_settings?.map((row: any, key: number) => (
           <React.Fragment key={key}>
             {row?.tab_name === 'contact_info' && row?.status == 1 &&
               <>
-              {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && <VStack p="3" pb={1} w="100%" space="0">
+              {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && <VStack p="3" pt={0}  w="100%" space="0">
                 {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') &&
                   <>
                     {detail?.detail?.email && detail?.detail?.email !== '' && isFieldVisible('email') &&
@@ -127,7 +128,7 @@ const ContactInfo = ({ detail }: AppProps) => {
         ))}
         {(detail?.detail?.info?.facebook && isFieldVisible('facebook')) || (detail?.detail?.info?.twitter && isFieldVisible('twitter')) || (detail?.detail?.info?.linkedin && isFieldVisible('linkedin')) || (detail?.detail?.info?.website && isFieldVisible('website')) ?
         <Box py="0" px="0" w="100%">
-          <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
+          <HStack space={3} px={3}  w={'100%'} justifyContent={'flex-start'} alignItems={'center'}>
             {detail?.detail?.info?.facebook  && isFieldVisible('facebook') && detail?.detail?.info?.facebook !== '' && detail?.detail?.info?.facebook !== 'http://' &&  detail?.detail?.info?.facebook !== 'https://' ? (
               <Pressable
                 onPress={async () => {
@@ -181,6 +182,7 @@ const ContactInfo = ({ detail }: AppProps) => {
           </HStack>
         </Box>
         : null}
+        </Box>
       </Box>
     </>
   )
