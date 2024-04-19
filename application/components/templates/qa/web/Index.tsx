@@ -193,9 +193,15 @@ const Index = () => {
                 </Box>
                 <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
                   <VStack maxW={'calc(100% - 80px)'} space="1">
+                    <Pressable
+                      onPress={() => {
+                        push(`/${event.url}/qa/detail/${program.id}`)
+                      }}
+                    >
                     <Text fontSize="md" lineHeight="22px">
                       {program?.topic}
                     </Text>
+                    </Pressable>
                     <Text fontSize="sm" lineHeight="16px">
                       {moment(program.start_date).format('DD MMM YYYY')} 
                     </Text>
