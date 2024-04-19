@@ -308,7 +308,7 @@ const Detail = () => {
                             </Pressable>
                         ))}
                     </HStack>
-                    <Box mb="10" px="5" w="100%" position="relative">
+                    <Box mb="10" px="3" w="100%" position="relative">
                         {loading && <WebLoading />}
                         {!loading && <>
                             
@@ -316,18 +316,17 @@ const Detail = () => {
                                 {tab === 'popular' && enabledTabs.includes('popular') &&
                                   qaDetials?.popular_questions?.map((question,i)=>(
                                     <>
-                                    <HStack w="100%" space="3" alignItems="center">
+                                    <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
                                         source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
+                                    <View>
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
-                                    </HStack>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
                                             {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
@@ -338,6 +337,12 @@ const Detail = () => {
                                             }                                     
                                         </VStack>
                                     </HStack>
+                                    </View>
+                                    
+                                 
+                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
+                                    </HStack>
+                             
                                     <Box w={'100%'}>
                                         <HStack w={'100%'} space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
@@ -380,18 +385,18 @@ const Detail = () => {
                                 {tab === 'recent' && enabledTabs.includes('recent') &&
                                   qaDetials?.recent_questions?.map((question,i)=>(
                                     <>
-                                    <HStack w="100%" space="3" alignItems="center">
+                                    <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
                                         source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
+                                    <View>
+                                                      
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
-                                    </HStack>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
                                             {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
@@ -402,6 +407,11 @@ const Detail = () => {
                                             }                                     
                                         </VStack>
                                     </HStack>
+                                    </View>
+                      
+                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
+                                    </HStack>
+                            
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
@@ -446,18 +456,17 @@ const Detail = () => {
                                 {tab === 'archive' && enabledTabs.includes('archive') &&
                                   qaDetials?.archived_questions?.map((question,i)=>(
                                     <>
-                                    <HStack w="100%" space="3" alignItems="center">
+                                    <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
                                         source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
+                                    <View>
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
-                                    </HStack>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
                                             {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
@@ -468,6 +477,12 @@ const Detail = () => {
                                             }                                     
                                         </VStack>
                                     </HStack>
+                                    </View>
+                                    
+                                
+                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
+                                    </HStack>
+                                  
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
@@ -512,18 +527,17 @@ const Detail = () => {
                                 {tab === 'my_question' && enabledTabs.includes('my_question') &&
                                   qaDetials?.my_questions?.map((question,i)=>(
                                     <>
-                                    <HStack w="100%" space="3" alignItems="center">
+                                    <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
                                         source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
+                                    <View>
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
-                                    </HStack>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
                                             {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
@@ -534,6 +548,12 @@ const Detail = () => {
                                             }                                     
                                         </VStack>
                                     </HStack>
+                                    </View>
+                                    
+                                
+                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
+                                    </HStack>
+                                   
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
