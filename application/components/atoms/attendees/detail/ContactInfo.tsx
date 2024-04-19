@@ -7,7 +7,7 @@ import IcoLinkedIN from 'application/assets/icons/small/IcoLinkedIN';
 import IcoWebLink from 'application/assets/icons/small/IcoWebLink';
 import IcoEnvelope from 'application/assets/icons/small/IcoEnvelope';
 import IcoPhone from 'application/assets/icons/small/IcoPhone';
-import IcoUserFilled from 'application/assets/icons/small/IcoUserFilled';
+import IcouserFilled from 'application/assets/icons/small/IcouserFilled';
 import IcoVCF from 'application/assets/icons/small/IcoVCF';
 import { Detail } from 'application/models/attendee/Detail';
 import { getContactAttendeeApi } from 'application/store/api/Attendee.Api';
@@ -49,7 +49,7 @@ const ContactInfo = ({ detail }: AppProps) => {
   return (
     <Box p="0" w="100%" bg="primary.box" mb={5} rounded={8}>
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="2" alignItems="center" roundedTop={8}>
-        <IcoUserFilled width="18px" height="18px" />
+        <IcouserFilled width="18px" height="18px" />
         <Text fontSize="lg">Contact Info</Text>
         <Pressable ml="auto">
           <IconButton
