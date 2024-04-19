@@ -48,7 +48,7 @@ const RightBar = () => {
 
   return (
     <>
-
+      <UpcomingPrograms />
       {nextRouter.asPath.includes('exhibitors/detail') ? <ExhibitorContactInfo /> : null}
       {nextRouter.asPath.includes('exhibitors/detail') && event?.exhibitor_settings?.notes == 1 ? <ExhibitorNotesBox /> : null}
       {nextRouter.asPath.includes('sponsors/detail') ? <SponsorContactInfo /> : null}

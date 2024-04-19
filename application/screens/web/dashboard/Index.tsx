@@ -90,7 +90,7 @@ const Index = ({ navigation }: indexProps) => {
          </Box>
 
             <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
-                  <Box minH={150} h={'100%'} flex={1}>
+                  <Box h={'100%'} flex={1}>
                   <UpcomingPrograms />
                   </Box>
                   {/* <Box minH={150}  flex={1}>
@@ -106,7 +106,7 @@ const Index = ({ navigation }: indexProps) => {
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
           {/*  */}
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
-            <Container mt={4}  rounded="10" bg="primary.box" w="100%" maxW="100%">
+            <Container mt={4} mb={4} rounded="10" bg="primary.box" w="100%" maxW="100%">
               <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{modules?.find((module) => (module.alias == 'agendas'))?.name}</Heading>
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
               <Center py="3" px="2" w="100%" alignItems="flex-end">
@@ -126,8 +126,9 @@ const Index = ({ navigation }: indexProps) => {
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
 
             <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
-               <HStack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
+               <HStack flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'} w="100%" maxW="100%"> 
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title="MEET OUR SPEAKERS" />
+              <Spacer />
               <Button onPress={() => {
                 push(`/${event.url}/speakers`)
               }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
@@ -135,7 +136,7 @@ const Index = ({ navigation }: indexProps) => {
                 </Button>
                 </HStack>
               <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
-                <HStack pt="0" space="2" alignItems="flex-start" justifyContent="space-between">
+                <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
                   {my_attendees.slice(0, 4).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
                     <RoundedView attendee={attendee} />
                     <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>

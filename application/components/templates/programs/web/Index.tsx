@@ -81,26 +81,25 @@ const Index = () => {
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 {width > 480 &&
                     <>
-                        <Text  fontSize="2xl">
-                            {modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}
-                            </Text>
+                        <Text fontSize="2xl">{modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}</Text>
                         <Spacer />
                     </>}
-                {event?.eventsite_settings?.agenda_search_filter == 1 && <Search tab={tab} />}
+                    <Search tab={tab} />
             </HStack>
           
             
 
-            <HStack mb="3" overflow={'hidden'} rounded={8} space={1} justifyContent="center" w="100%">
-                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
+            <HStack mb="3" flexWrap={'wrap'} overflow={'hidden'} rounded={8} space={1} justifyContent="center" w="100%">
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <Button ref={tb1} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                     ResetTracks();
                     setTab('program')
-                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</Button>}
-                {(modules?.find((m)=>(m.alias == 'myprograms'))) &&<Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
+                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}><Text textAlign={'center'} isTruncated w={tb1.current?.clientWidth ? tb1.current?.clientWidth - 10 : '100%'} fontWeight={600}>
+                {modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</Text></Button>}
+                {(modules?.find((m)=>(m.alias == 'myprograms'))) &&<Button ref={tb2} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                     ResetTracks();
                     setTab('my-program');
-                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</Button>}
-                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('track')} borderWidth="0px" py={0} borderColor="primary.darkbox" flex={1} borderLeftRadius="0" borderRightRadius={0} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>TRACKS</Button>}
+                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}><Text textAlign={'center'} isTruncated w={tb2.current?.clientWidth ? tb2.current?.clientWidth - 10 : '100%'} fontWeight={600}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</Text></Button>}
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button ref={tb3} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('track')} borderWidth="0px" m={0} px={1} py={0} borderColor="primary.darkbox" flex={1} borderLeftRadius="0" borderRightRadius={0} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}><Text  textAlign={'center'} isTruncated w={tb3.current?.clientWidth ? tb3.current?.clientWidth - 10 : ''} fontWeight={600}>{event?.labels?.PROGRAM_BY_TRACKS}</Text></Button>}
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
@@ -138,7 +137,7 @@ const Index = () => {
                         FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                         }
                     }}>
-                    <Text textTransform="capitalize" fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  />{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
+                    <Text fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  />{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
                     </Pressable>
                 </HStack>
                 )}

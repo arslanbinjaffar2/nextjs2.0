@@ -252,7 +252,7 @@ const Index = () => {
               <NextBreadcrumbs module={module} />
 							<Box flexDirection="row" w={'100%'} alignItems="center">
 								<HStack mb={3} w={'100%'} space="0" alignItems="center" justifyContent={'center'} pt={4}>
-                <Text mb="0"  fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
+                <Text mb="0" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
 								<Spacer />
                    <>
                     {in_array('checkin-send-qr-code', processing) ?  <WebLoading/> : 
