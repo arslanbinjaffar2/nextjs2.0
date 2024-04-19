@@ -90,8 +90,10 @@ const Detail = () => {
     React.useEffect(() => {
         if(socket !== null){
             socket?.on(`event-buizz:qa_admin_block_listing_${event.id}_${id}`, function (data:any):any {
+                console.log("🚀 ~ data:", data)
                 if(data.data_raw){
                     QaRecentPopularSocketUpdate(data.data_raw);
+                    FetchTabDetails({ id: Number(id) });
                 }
             });
             socket?.on(`event-buizz:qa_block_sort_${event.id}_${id}`, function (data:any):any {
