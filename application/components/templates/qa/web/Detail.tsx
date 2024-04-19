@@ -139,26 +139,26 @@ const Detail = () => {
     const [error, setError] = React.useState<any>(null);
 
     const TabHeadings:any = {
-        popular:'Popular',
-        recent:'Recent',
-        archive:'Archive',  
-        my_question:'My Questions'
+        popular: qaDetials.labels.QA_POPULAR,
+        recent:qaDetials.labels.QA_RECENT,
+        archive:qaDetials.labels.QA_ARCHIVE,  
+        my_question:qaDetials.labels.QA_MY_QUESTION
     };
     
     const onSubmit = ( ) => {
         setError(null);
     
         if(question == ''){
-            setError('Please enter a question first');
+            setError(qaDetials?.labels?.QA_ENTER_QUESTION);
             return;
         }
         if(qaSettings?.enable_paragraph_number == 1 && (paragraph == null || paragraph == 0)){
-            setError('Please select a paragraph');
+            setError(qaDetials?.labels?.PARAGRAPH_NUMBER_MANDATORY);
             return;
         }
         
         if(qaSettings?.line_number == 1 && qaSettings?.enable_line_number == 1 && (lineNumber == '')){
-            setError('Please add line number');
+            setError(qaDetials?.labels?.QA_LINE_NUMBER_MANDATORY);
             return;
         }
 
@@ -244,11 +244,11 @@ const Detail = () => {
                             <Text color="red.400"> {error} </Text>
                     </Box>}
                     {qaDetials?.speakers?.length > 0 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
-                    <Text w={'30%'} fontSize="lg">Select speaker</Text>
+                    <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER}</Text>
                     <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                       <View w={'100%'}>
                         <Select
-                        placeholder="Please select attendee"
+                        placeholder={qaDetials.labels.QA_SELECT_SPEAKER}
                         w="100%"
                         rounded="4"
                         minW={'20%'}
@@ -268,11 +268,11 @@ const Detail = () => {
                     
                     </HStack>}
                     {qaDetials?.paragraph?.length > 0 && <HStack  px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3"  alignItems="center">
-                    <Text  w="30%"  fontSize="lg">Select Paragraph</Text>
+                    <Text  w="30%"  fontSize="lg">{qaDetials.labels.QA_SELECT_PARAGRAPH}</Text>
                     <Center  w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                     <View w={'100%'}>
                     <Select
-                        placeholder="Please select attendee"
+                        placeholder={qaDetials.labels.QA_SELECT_PARAGRAPH}
                         w="100%"
                         minW={'100%'}
                         rounded="4"
@@ -292,7 +292,7 @@ const Detail = () => {
                     
                     </HStack>}
                     {qaSettings?.line_number == 1 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
-                        <Text w="30%" fontSize="lg">Line number</Text>
+                        <Text w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER}</Text>
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
                     {qaSettings?.paragraph_number == 1 && 
@@ -343,7 +343,7 @@ const Detail = () => {
                         <Text fontSize="lg">{event?.labels?.GENERAL_HISTORY}</Text>
                     </HStack>
                     <Spacer />
-                    <Text opacity={0.58} fontSize="md">{questionsCount} Question{questionsCount !== 1 ? 's' : ''}</Text>
+                    <Text opacity={0.58} fontSize="md">{questionsCount} {qaDetials.labels.QA_QUESTIONS}</Text>
                     </HStack>
                  
                     <HStack mb="4" space={4} justifyContent="flex-start" px={3} w="100%">
@@ -351,7 +351,7 @@ const Detail = () => {
                             <Pressable onPress={() => { setTab(item) }} key={index} bg={'transparent'}  borderWidth="0px" p={0} borderColor="primary.darkbox" >
                                 <Text pb={1} borderBottomWidth={item === tab ? 2 : 0} borderBottomColor={'primary.text'}
                                 opacity={tab==item?1:0.40}
-                                fontSize="16px" fontWeight={600} textTransform={'uppercase'}>{TabHeadings[item]}</Text>
+                                fontSize="16px" fontWeight={600}>{TabHeadings[item]}</Text>
                             </Pressable>
                         ))}
                     </HStack>
@@ -377,10 +377,10 @@ const Detail = () => {
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
                                             {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
-                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER}: <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
+                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER} : <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
                                             }
                                             {qaSettings?.line_number == 1 && question?.info?.line_number &&
-                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER}: <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
+                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER} : <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
                                             }                                     
                                         </VStack>
                                     </HStack>
@@ -452,10 +452,10 @@ const Detail = () => {
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
                                             {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
-                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER}: <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
+                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER} : <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
                                             }
                                             {qaSettings?.line_number == 1 && question?.info?.line_number &&
-                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER}: <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
+                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER} : <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
                                             }                                     
                                         </VStack>
                                     </HStack>
@@ -527,10 +527,10 @@ const Detail = () => {
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
                                             {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
-                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER}: <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
+                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER} : <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
                                             }
                                             {qaSettings?.line_number == 1 && question?.info?.line_number &&
-                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER}: <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
+                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER} : <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
                                             }                                     
                                         </VStack>
                                     </HStack>
@@ -603,10 +603,10 @@ const Detail = () => {
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
                                             {qaSettings?.paragraph_number == 1 && question?.info?.paragraph_number && 
-                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER}: <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
+                                                <Text fontSize="md">{qaDetials?.labels?.PARAGRAPH_NUMBER} : <Text fontSize="sm">{question?.info?.paragraph_number}</Text></Text>
                                             }
                                             {qaSettings?.line_number == 1 && question?.info?.line_number &&
-                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER}: <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
+                                                <Text fontSize="md">{qaDetials?.labels?.QA_LINE_NUMBER} : <Text fontSize="sm">{question?.info?.line_number}</Text></Text>
                                             }                                     
                                         </VStack>
                                     </HStack>
