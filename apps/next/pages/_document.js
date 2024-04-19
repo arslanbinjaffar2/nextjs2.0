@@ -18,6 +18,7 @@ import AvenirNextCondensed from "application/assets/fonts/AvenirNextCondensed.tt
 import AvenirNextCondensedMedium from "application/assets/fonts/AvenirNextCondensed-Medium.ttf";
 import AvenirNextCondensedDemiBold from "application/assets/fonts/AvenirNextCondensed-DemiBold.ttf";
 import AvenirNextCondensedBold from "application/assets/fonts/AvenirNextCondensedBold.ttf";
+
 import * as React from "react";
 import { AppRegistry } from "react-native";
 
@@ -34,6 +35,7 @@ class Document extends NativebaseDocument {
             charSet="UTF-8"
             href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
           />
+
           <link
             rel="stylesheet"
             type="text/css"
