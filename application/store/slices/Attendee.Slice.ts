@@ -64,7 +64,7 @@ const initialState: AttendeeState = {
     total: 0,
     program_id: 0,
     hotels:null,
-    registration: null
+    registration: null,
     last_page:1
 }
 
