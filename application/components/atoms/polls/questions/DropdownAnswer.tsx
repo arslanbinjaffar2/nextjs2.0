@@ -21,7 +21,7 @@ const DropdownAnswer = ({ question, formData, updateFormData, error, labels }: P
         <Text fontWeight="600" mb="3" maxW="80%" fontSize="lg">{Number(question?.required_question) === 1 &&  <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>} {question?.info?.question}</Text>
         <Divider mb="5" opacity={0.27} bg="primary.text" />
         <Select
-          placeholder="Please Select"
+          placeholder="Please select"
           minWidth="64"
           h="50px"
           selectedValue={formData[question.id]?.answer !== null && formData[question.id]?.answer.length > 0 ? formData[question.id]?.answer[0] : ``}

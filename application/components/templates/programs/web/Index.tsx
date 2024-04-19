@@ -81,9 +81,7 @@ const Index = () => {
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 {width > 480 &&
                     <>
-                        <Text  fontSize="2xl">
-                            {modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}
-                            </Text>
+                        <Text fontSize="2xl">{modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}</Text>
                         <Spacer />
                     </>}
                     <Search tab={tab} />
@@ -139,7 +137,7 @@ const Index = () => {
                         FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                         }
                     }}>
-                    <Text textTransform="capitalize" fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  />{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
+                    <Text fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  />{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
                     </Pressable>
                 </HStack>
                 )}

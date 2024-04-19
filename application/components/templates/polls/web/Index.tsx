@@ -105,7 +105,7 @@ const Index = () => {
                     <NextBreadcrumbs module={module} />
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="0" alignItems="center">
-                            <Text  fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Text>
+                            <Text fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Text>
                             <Spacer   />
                             <Input rounded="10" w={['100%',"60%"]} bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
