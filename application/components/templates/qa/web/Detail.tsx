@@ -197,7 +197,7 @@ const Detail = () => {
                     <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                       <View w={'100%'}>
                         <Select
-                        placeholder="Please Select Attendee"
+                        placeholder="Please select attendee"
                         w="100%"
                         rounded="4"
                         minW={'20%'}
@@ -221,7 +221,7 @@ const Detail = () => {
                     <Center  w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                     <View w={'100%'}>
                     <Select
-                        placeholder="Please Select Attendee"
+                        placeholder="Please select attendee"
                         w="100%"
                         minW={'100%'}
                         rounded="4"

@@ -37,7 +37,7 @@ const Index = () => {
                     <NextBreadcrumbs module={module} />
                     <Container mb="3" pt="2" maxW="100%" w="100%">
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text textTransform="capitalize" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
+                            <Text fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
                             <Spacer />
                         </HStack>
                         {alerts.length > 0 ? (

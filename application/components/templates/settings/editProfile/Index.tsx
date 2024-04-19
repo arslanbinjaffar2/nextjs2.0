@@ -818,7 +818,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <View w={'100%'}>
                                     <Select
-                                        placeholder="Please Select"
+                                        placeholder="Please select"
                                         minWidth="64"
                                         h="50px"
                                         isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
@@ -957,7 +957,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <View w={'100%'}>
                                     <Select
-                                        placeholder="Please Select"
+                                        placeholder="Please select"
                                         minWidth="64"
                                         w="100%"
                                         h="50px"
@@ -1033,7 +1033,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <HStack w="100%">
                                     <Center w="100px">
                                         <Select
-                                            placeholder="Please Select"
+                                            placeholder="Please select"
                                             w={'100%'}
                                             h="50px"
                                             isDisabled={setting?.is_editable === 1 ? false : true}
@@ -1290,7 +1290,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         updateAttendeeData();
                     }}
                 >
-                    <Text fontSize="2xl" color={"primary.hovercolor"} fontWeight={600}>SAVE</Text>
+                    <Text fontSize="2xl" color={"primary.hovercolor"} fontWeight={600}>{event?.labels?.GENERAL_SAVE}</Text>
                 </Button>
             </HStack>
             {success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'} p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">

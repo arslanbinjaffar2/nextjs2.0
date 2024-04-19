@@ -21,13 +21,13 @@ const Index = ({ navigation }: indexProps)  => {
 
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-          <Text textTransform="capitalize" fontSize="2xl">{module?.alias ?? "Chat"}</Text>
+          <Text fontSize="2xl">{module?.alias ?? "Chat"}</Text>
           <Spacer />
           <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
         <HStack mb="3" space={1} justifyContent="center" w="100%">
-          <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>CHATS</Button>
-          <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab(false)} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>ATTENDEE GROUPS</Button>
+          <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab(true)} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>Chats</Button>
+          <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab(false)} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={!tab ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>Attendee groups</Button>
         </HStack>
         <>
           {tab && <>
@@ -108,7 +108,6 @@ const Index = ({ navigation }: indexProps)  => {
             </Box>
             <Box alignItems="center" w="100%">
               <Button
-                textTransform="capitalize"
                 maxW="350px"
                 w="100%"
                 _text={{ fontSize: 'xl', fontWeight: '600', color: 'primary.hovercolor' }}

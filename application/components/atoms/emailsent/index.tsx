@@ -44,9 +44,9 @@ const EmailSend = ({id}:{id:any}) => {
     <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%" p={2}>
                         <HStack alignItems={["flex-start","center"]} px="6" pb={3} pt={3} flexDirection={['column', 'row']}  w="100%">
                             <FormControl isRequired isInvalid={emailData.email.trim().length < 3 && emailData.email.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
-                                <FormControl.Label  fontWeight="500" fontSize="16px" textTransform={'capitalize'}  
+                                <FormControl.Label  fontWeight="500" fontSize="16px"
                                 >
-                                     <Text  isTruncated fontWeight="500" fontSize="16px" textTransform={'capitalize'}>
+                                     <Text  isTruncated fontWeight="500" fontSize="16px">
                                     {event?.labels?.GENERAL_EMAIL}
                                      </Text>
                                 </FormControl.Label>
@@ -65,7 +65,7 @@ const EmailSend = ({id}:{id:any}) => {
                         </HStack>
                         <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                             <FormControl.Label isRequired isInvalid={emailData.subject.trim().length < 3 && emailData.subject.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
-                                <Text  isTruncated fontWeight="500" fontSize="16px" textTransform={'capitalize'}>{event?.labels?.GENERAL_SUBJECT}</Text>
+                                <Text  isTruncated fontWeight="500" fontSize="16px">{event?.labels?.GENERAL_SUBJECT}</Text>
                             </FormControl.Label>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
@@ -82,7 +82,7 @@ const EmailSend = ({id}:{id:any}) => {
                         </HStack>
                         <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                             <FormControl.Label isInvalid={emailData.comments.trim().length < 3 && emailData.comments.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
-                                <Text isTruncated fontWeight="500" fontSize="16px" textTransform={'capitalize'}>{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
                             </FormControl.Label>
                             <Center borderWidth={'0'} justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <TextArea
