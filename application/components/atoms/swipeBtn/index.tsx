@@ -5,16 +5,17 @@ import IcoLongArrow from '../../../assets/icons/IcoLongArrow'
 import { getColorScheme } from 'application/styles/colors'
 import UseEventService from 'application/store/services/UseEventService'
 interface Props{
-  loading:boolean | any
+  loading:boolean | any,
   onComplete:()=>void
 }
 const SwipeBtn = ({loading,onComplete}:Props) => {
   const {event}=UseEventService()
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+
   
   return (
     <>
-    <Box position={'relative'} m="auto" w="310px"  p="0" rounded="sm" overflow="hidden">
+    <Box  position={'relative'} m="auto" w="310px"  p="0" rounded="sm" overflow="hidden">
   <SwipeButton
       Icon={
         <> 
@@ -28,15 +29,15 @@ const SwipeBtn = ({loading,onComplete}:Props) => {
     }
     width={310}
     circleSize={60}
-    circleBackgroundColor={colors.secondary} 
+    circleBackgroundColor={event.settings?.secondary_color} 
     iconContainerStyle={{borderWidth:0,borderColor:"transparent",
-    backgroundColor:colors.secondary,
+    backgroundColor:event.settings?.secondary_color,
     }}
     onComplete={onComplete}
     title=""
     height={60}
     borderRadius={10}
-    containerStyle={{ backgroundColor:colors.primary,  borderColor:"transparent",
+    containerStyle={{ backgroundColor:event.settings?.primary_color,  borderColor:"transparent",
     borderWidth:0}}
     underlayTitle=""
     underlayTitleStyle={{ color: colors.text ,borderRadius:10,
@@ -45,7 +46,7 @@ const SwipeBtn = ({loading,onComplete}:Props) => {
 
     }}
     underlayStyle={{ 
-      backgroundColor:colors.secondary,
+      backgroundColor:event.settings?.secondary_color,
       borderColor:"transparent",
       borderWidth:0
     }}
