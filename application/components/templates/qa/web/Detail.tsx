@@ -131,16 +131,16 @@ const Detail = () => {
         setError(null);
     
         if(question == ''){
-            setError('Please enter a question first');
+            setError(qaDetials?.labels?.QA_ENTER_QUESTION);
             return;
         }
         if(qaSettings?.enable_paragraph_number == 1 && (paragraph == null || paragraph == 0)){
-            setError('Please select a paragraph');
+            setError(qaDetials?.labels?.PARAGRAPH_NUMBER_MANDATORY);
             return;
         }
         
         if(qaSettings?.line_number == 1 && qaSettings?.enable_line_number == 1 && (lineNumber == '')){
-            setError('Please add line number');
+            setError(qaDetials?.labels?.QA_LINE_NUMBER_MANDATORY);
             return;
         }
 
