@@ -28,9 +28,9 @@ import { Banner } from 'application/models/Banner'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
-import { func } from 'application/styles';
 import { SwipeButton } from 'react-native-expo-swipe-button';
 import { getColorScheme } from 'application/styles/colors';
+import SwipeBtn from 'application/components/atoms/swipeBtn';
 
 
 type ScreenParams = { id: string }
@@ -305,38 +305,12 @@ const Detail = () => {
                   </HStack>
                   {steps === (detail?.questions.length! - 1) && 
                   <Box w="100%" mb="6">
-                    <Box position={'relative'} m="auto" w="310px"  p="0" rounded="sm" overflow="hidden">
-                      
-                      <SwipeButton key={submittingSurvey?"0":"1"}
-                        Icon={
-                            <> 
-                            {
-                              submittingSurvey?
-                              <Spinner accessibilityLabel="Loading posts" />:
-                          <IcoLongArrow />
-                            }    
-                            </>
-                        }
-                        width={310}
-                        circleSize={60}
-                        goBackToStart={submittingSurvey}
-                        circleBackgroundColor={colors.secondary} 
-                        iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
-                        onComplete={() => 
+                      <SwipeBtn
+                          loading={submittingSurvey}
+                          onComplete={() => 
                           setNextStep()
                         }
-                        title=""
-                        height={60}
-                        borderRadius={10}
-                        containerStyle={{ backgroundColor:colors.primary }}
-                        underlayTitle=""
-                        underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
-                        underlayStyle={{ 
-                          backgroundColor:colors.secondary,
-                        }}
-                        />
-                   
-                    </Box>
+                          />
                   </Box>
                    } 
                 </Box>

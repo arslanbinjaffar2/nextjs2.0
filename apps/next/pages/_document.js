@@ -289,15 +289,22 @@ svg#active #svg-elem-3 {
   from {transform: scale(0);}
   to {transform: scale(1);}
 }
+.rsw-toolbar {
+  background-color: rgba(0,0,0,0.2) !important;
+}
 div[data-testID="TitleContainer"]+ div {
   border-radius: 10px !important;
   
 }
-div[data-testID="IconContainer"]{
-  border-color:transparent !important;
+div[data-testID="IconContainer"] {
+  border:0px solid transparent !important;
 }
-.rsw-toolbar {
-  background-color: rgba(0,0,0,0.2) !important;
+div[data-testID="="Button"]{
+  border:0px solid transparent !important;
+  outline:0px solid transparent !important;
+}
+.css-view-1dbjc4n{
+  border:transparent !important;
 }
 `;
 

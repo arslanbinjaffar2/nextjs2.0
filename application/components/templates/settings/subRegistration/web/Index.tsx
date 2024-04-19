@@ -6,7 +6,6 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { useState } from 'react';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { createParam } from 'solito';
-import { SwipeButton } from 'react-native-expo-swipe-button'; 
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UsePollService from 'application/store/services/UsePollService';
 import { FormData } from 'application/models/poll/Detail';
@@ -28,6 +27,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 import { func } from 'application/styles';
 import { getColorScheme } from 'application/styles/colors';
+import SwipeBtn from 'application/components/atoms/swipeBtn';
 
 
 type ScreenParams = { id: string }
@@ -60,6 +60,7 @@ const Detail = () => {
 
 
   const programModule = modules.find((module) => module.alias === "attendees");
+  
   return (
     <>
 
@@ -312,7 +313,9 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
         ),
         questions: mySubReg?.questions?.question.reduce((ack: any, item: any) => { return ack.concat(item.id) }, []),
         ...answers,
-      });
+       });
+      
+
     }
   }
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
@@ -352,43 +355,16 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
         <Box py="0" px="4" w="100%">
           <Divider mb="15" opacity={0.27} bg="primary.text" />
           <HStack mb="3" space="3" alignItems="center" justifyContent={'center'} position={'relative'}>
-
-      {/* Conditionally render SwipeButton */}
-    
-      {mySubReg?.settings?.answer === 1 && mySubReg?.show_save === 1 && <Box position={'relative'}>
-       <SwipeButton key={goBack}
-        Icon={
-            <> 
-            {
-              submitting?
-              <Spinner accessibilityLabel="Loading posts" />:
-           <IcoLongArrow />
-            }    
-            </>
-
-        }
-        width={310}
-        circleSize={60}
-        goBackToStart={goBack==1?true:false}
-        circleBackgroundColor={colors.secondary} 
-        iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
-        onComplete={() => 
-          onSubmit()
-        }
-        title=""
-        height={60}
-        borderRadius={10}
-        containerStyle={{ backgroundColor:colors.primary }}
-        underlayTitle=""
-        underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
-        underlayStyle={{ 
-          backgroundColor:colors.secondary,
-        }}
-        />
+              {mySubReg?.settings?.answer === 1 && mySubReg?.show_save === 1 &&
+                  <SwipeBtn
+                    loading={submitting}
+                    onComplete={() => 
+                      onSubmit()
+                    }
+                    />
+                }
+          </HStack>
         </Box>
-        }
-        </HStack>
-      </Box>
       </Box>
     </Container>
   )
