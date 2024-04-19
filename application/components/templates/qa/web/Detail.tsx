@@ -320,13 +320,13 @@ const Detail = () => {
                                     <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
                                     <View>
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question.anonymous_user === 1 ? qaDetials.labels.QA_ANONYMOUS :question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
@@ -394,14 +394,14 @@ const Detail = () => {
                                     <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
                                     <View>
                                                       
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question.anonymous_user === 1 ? qaDetials.labels.QA_ANONYMOUS :question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
@@ -470,13 +470,13 @@ const Detail = () => {
                                     <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
                                     <View>
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question.anonymous_user === 1 ? qaDetials.labels.QA_ANONYMOUS :question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
@@ -546,13 +546,13 @@ const Detail = () => {
                                     <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
                                     <View>
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question.anonymous_user === 1 ? qaDetials.labels.QA_ANONYMOUS :question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
