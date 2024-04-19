@@ -31,23 +31,21 @@ const Detail = () => {
 
     const { event, modules } = UseEventService();
 
+    const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | 'my_question'>('popular')
+
     const [query, setQuery] = React.useState('');
 
     const { response  } = UseAuthService();
 
     
     const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails,  SubmitQa, SubmitQaLike, QaRecentPopularSocketUpdate, QaSort} = UseQaService();
-    const tabOrder = ['popular', 'recent', 'archive', 'my_question'];
-    const enabledTabs = qaSettings ? Object.keys(qaSettings).reduce((ack:any, item:any)=>{
-        if(in_array(item, ['popular','recent', 'archive',  'my_question']) && qaSettings[item] == 1){
-            ack.push(item);
-        }
-        return ack;
-    }, []).sort((a:any, b:any) => tabOrder.indexOf(a) - tabOrder.indexOf(b)) : [];
+    console.log("🚀 ~ Detail ~ qaDetials:", qaDetials)
     
+    const { push, back } = useRouter()
+
     const { socket } = UseSocketService();
-    
-    const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | 'my_question' | ''>('');
+
+
     const [id] = useParam('id');
 
     const updateQuestionsCount = (tab: string) => {
@@ -80,23 +78,12 @@ const Detail = () => {
     React.useEffect(() => {
         updateQuestionsCount(tab);
     }, [tab, qaDetials]);
-    
-    React.useEffect(() => {
-        if(!tab){
-            if(enabledTabs.length > 0){
-                setTab(enabledTabs[0])
-            }
-        }
-    }, [enabledTabs]);
-        
 
     React.useEffect(() => {
         if(socket !== null){
             socket?.on(`event-buizz:qa_admin_block_listing_${event.id}_${id}`, function (data:any):any {
-                console.log("🚀 ~ data:", data)
                 if(data.data_raw){
                     QaRecentPopularSocketUpdate(data.data_raw);
-                    FetchTabDetails({ id: Number(id) });
                 }
             });
             socket?.on(`event-buizz:qa_block_sort_${event.id}_${id}`, function (data:any):any {
@@ -119,6 +106,13 @@ const Detail = () => {
     const [anonymously, setAnonymously] = React.useState<any>(false);
     const [questionsCount, setQuestionsCount] = React.useState<any>(0);
     const [error, setError] = React.useState<any>(null);
+
+    const enabledTabs = qaSettings ? Object.keys(qaSettings).reduce((ack:any, item:any)=>{
+        if(in_array(item, ['popular','recent', 'archive',  'my_question']) && qaSettings[item] == 1){
+            ack.push(item);
+        }
+        return ack;
+    }, []) : [];
 
     const TabHeadings:any = {
         popular:'Popular',
@@ -305,7 +299,7 @@ const Detail = () => {
                     <Text opacity={0.58} fontSize="md">{questionsCount} Question{questionsCount !== 1 ? 's' : ''}</Text>
                     </HStack>
                  
-                    <HStack mb="4" space={4} justifyContent="flex-start" px={3} w="100%">
+                    <HStack mb="4" space={'10'} justifyContent="flex-start" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
                             <Pressable onPress={() => { setTab(item) }} key={index} bg={'transparent'}  borderWidth="0px" p={0} borderColor="primary.darkbox" >
                                 <Text pb={1} borderBottomWidth={item === tab ? 2 : 0} borderBottomColor={'primary.text'}
@@ -325,13 +319,13 @@ const Detail = () => {
                                     <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
                                     <View>
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question.anonymous_user === 1 ? qaDetials.labels.QA_ANONYMOUS :question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
@@ -349,7 +343,7 @@ const Detail = () => {
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                              
-                                    <Box w={'100%'}>
+                                    <Box w={'100%'} ml={1}>
                                         <HStack w={'100%'} space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                             <Text w={'100%'} pt={1}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
@@ -388,25 +382,25 @@ const Detail = () => {
                                     </>
                                   ))  
                                 }
-                                {tab === 'popular' && enabledTabs.includes('popular') && qaDetials?.popular_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
-                                }
                                 {tab === 'recent' && enabledTabs.includes('recent') &&
                                   qaDetials?.recent_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="flex-start">
+                                    <View>
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
+                                                <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+
+                                    </View>
+
                                     <View>
                                                       
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question.anonymous_user === 1 ? qaDetials.labels.QA_ANONYMOUS :question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
@@ -423,9 +417,8 @@ const Detail = () => {
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                             
-                                    <Box w={'100%'}>
+                                    <Box w={'100%'} ml={1}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                                <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                                 <Text w={'100%'} pt={1}>
                                                     <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                                 </Text>
@@ -464,24 +457,19 @@ const Detail = () => {
                                     
                                   ))  
                                 }
-                                {tab === 'recent' && enabledTabs.includes('recent') && qaDetials?.recent_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
-                                }
                                 {tab === 'archive' && enabledTabs.includes('archive') &&
                                   qaDetials?.archived_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
                                     <View>
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question.anonymous_user === 1 ? qaDetials.labels.QA_ANONYMOUS :question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
@@ -499,7 +487,7 @@ const Detail = () => {
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                   
-                                    <Box w={'100%'}>
+                                    <Box w={'100%'} ml={1}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                                 <Text w={'100%'} pt={1}>
@@ -540,24 +528,19 @@ const Detail = () => {
                                     </>
                                   ))  
                                 }
-                                {tab === 'archive' && enabledTabs.includes('archive') && qaDetials?.archived_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
-                                }
                                 {tab === 'my_question' && enabledTabs.includes('my_question') &&
                                   qaDetials?.my_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="flex-start">
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
                                     <View>
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question.anonymous_user === 1 ? qaDetials.labels.QA_ANONYMOUS :question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <HStack space="5" alignItems="flex-start" justifyContent={'flex-start'}>
                                         <VStack>
@@ -575,7 +558,7 @@ const Detail = () => {
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                    
-                                    <Box w={'100%'}>
+                                    <Box w={'100%'} ml={1}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                             <Text w={'100%'} pt={1}>
@@ -613,11 +596,6 @@ const Detail = () => {
                                     </Box>      
                                     </>
                                   ))  
-                                }
-                                {tab === 'my_question' && enabledTabs.includes('my_question') && qaDetials?.my_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
                                 }
                             </VStack>
                         </>
