@@ -44,7 +44,6 @@ const RightBar = () => {
     }, []);
   const nextRouter = UseNextRouter();
   const { event } = UseEventService();
-  const { detail } = UseAttendeeService();
   const [_id] = useParam('id');
 
   return (
