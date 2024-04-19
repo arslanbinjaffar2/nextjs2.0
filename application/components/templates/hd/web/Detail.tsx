@@ -49,7 +49,7 @@ const Detail = () => {
 
     const { event, modules } = UseEventService();
 
-    const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' >('popular')
+    
 
     const [query, setQuery] = React.useState('');
 
@@ -57,13 +57,20 @@ const Detail = () => {
 
     
     const {hdSettings, FetchGroupDetail, hdDetails, FetchTabDetails, SubmitHd, SubmitHdLike, HdRecentPopularSocketUpdate, HdSort } = UseHdService();
-    
+    const tabOrder = ['popular', 'recent', 'archive'];
+    const enabledTabs = hdSettings ? Object.keys(hdSettings).reduce((ack:any, item:any)=>{
+        if(in_array(item, ['popular','recent', 'archive',  'my_question']) && hdSettings[item] == 1){
+            ack.push(item);
+        }
+        return ack;
+    }, []).sort((a:any, b:any) => tabOrder.indexOf(a) - tabOrder.indexOf(b)) : [];
     const { push } = useRouter()
 
     const { socket } = UseSocketService();
     const [questionsCount, setQuestionsCount] = React.useState<any>(0);
 
     const [id] = useParam('id');
+    const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | '' >('')
 
     React.useEffect(() => {
         if (id) {
@@ -93,19 +100,20 @@ const Detail = () => {
         }
     }, [socket]);
 
+    React.useEffect(() => {
+        if(!tab){
+            if(enabledTabs.length > 0){
+                setTab(enabledTabs[0])
+            }
+        }
+    }, [enabledTabs]);
+
     const [speaker, setSpeaker] = React.useState<any>(null);
     const [paragraph, setParagraph] = React.useState<any>(null);
     const [lineNumber, setLineNumber] = React.useState<any>('');
     const [question, setQuestion] = React.useState<any>('');
     const [anonymously, setAnonymously] = React.useState<any>(false);
     const [error, setError] = React.useState<any>(null);
-
-    const enabledTabs = hdSettings ? Object.keys(hdSettings).reduce((ack:any, item:any)=>{
-        if(in_array(item, ['archive']) && hdSettings[item] == 1){
-            ack.push(item);
-        }
-        return ack;
-    }, ['popular','recent']) : ['popular','recent'];
 
     const TabHeadings:any = {
         popular:'Popular',
