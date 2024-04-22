@@ -43,7 +43,7 @@ const ContactInfo = ({ detail }: AppProps) => {
   if (!hasContactInfo) return null;
 
   const visibleSocialIcons = detail.sort_field_setting
-    .filter((field: any) => field.is_private === 0 && socialIcons.some(icon => icon.name === field.name))
+    .filter((field: any) => field.is_private === 0 && socialIcons.some(icon => icon.name === field.name) && detail?.detail?.info?.[field.name] !== '' &&  detail?.detail?.info?.[field.name] !== 'http://' && detail?.detail?.info?.[field.name] !== 'https://')
     .map((field: any) => socialIcons.find(icon => icon.name === field.name))
     .filter((icon: any) => icon !== undefined) as SocialIcon[];
 
