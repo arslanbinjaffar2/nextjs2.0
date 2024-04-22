@@ -226,7 +226,7 @@ const Detail = () => {
                             <Text color="red.400"> {error} </Text>
                     </Box>}
                     {qaDetials?.speakers?.length > 0 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
-                    <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER}</Text>
+                    <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER ?? "Select Speaker"}</Text>
                     <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                       <View w={'100%'}>
                         <Select
@@ -250,7 +250,7 @@ const Detail = () => {
                     
                     </HStack>}
                     {qaDetials?.paragraph?.length > 0 && <HStack  px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3"  alignItems="center">
-                    <Text  w="30%"  fontSize="lg">{qaDetials.labels.QA_SELECT_PARAGRAPH}</Text>
+                    <Text  w="30%"  fontSize="lg">{qaDetials.labels.QA_SELECT_PARAGRAPH ?? "Select Paragraph"}</Text>
                     <Center  w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                     <View w={'100%'}>
                     <Select
@@ -274,7 +274,7 @@ const Detail = () => {
                     
                     </HStack>}
                     {qaSettings?.line_number == 1 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
-                        <Text w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER}</Text>
+                        <Text w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER ?? "Line Number"}</Text>
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
                     {qaSettings?.paragraph_number == 1 && 
