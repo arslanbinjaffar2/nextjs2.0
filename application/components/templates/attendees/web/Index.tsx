@@ -274,7 +274,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 {event?.labels?.SPEAKER_NAME}
                             </Button>
                         }
-                        {( event?.speaker_settings?.tab == 1) &&
+                        {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
                             <Button 
                                 onPress={() => {
                                     setTab('category')
@@ -362,7 +362,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                         </React.Fragment>
                              )}
                             {attendees.length <= 0 &&
-                              <Box p={3} mb="3"  rounded="lg" w="100%">
+                              <Box p={3} rounded="lg" w="100%">
                                   <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
                               </Box>
                             }
@@ -381,19 +381,19 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </React.Fragment>
                             )}
                             {groups.length <= 0 &&
-                              <Box p={3} mb="3" rounded="lg" w="100%">
+                              <Box p={3} rounded="lg" w="100%">
                                   <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
                               </Box>
                             }
                         </Container>}
-                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && event?.speaker_settings?.category_group == 1 && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     <RectangleCategoryView category={category} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p={3} mb="3" rounded="lg" w="100%">
+                                <Box p={3} rounded="lg" w="100%">
                                     <Text fontSize="16px">{event.labels.GENERAL_NO_RECORD}</Text>
                                 </Box>
                             }
