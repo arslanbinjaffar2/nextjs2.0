@@ -220,7 +220,7 @@ const Detail = () => {
                 </Box>
                 <Box w="100%">
                     <HStack pl="6"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
-                        <Text fontSize="lg">Ask a question</Text>
+                        <Text fontSize="lg">{qaDetials.labels.QA_ASK_A_QUESTION}</Text>
                     </HStack>
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
                             <Text color="red.400"> {error} </Text>
@@ -284,7 +284,7 @@ const Detail = () => {
                     </Box>
                     }
                     <HStack px="3" py="2" space="3" alignItems="center">
-                    {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">Send anonymously</Checkbox>}
+                    {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">{qaDetials.labels.QA_SEND_ANONYMOUSLY}</Checkbox>}
                     <Spacer />
                     <IconButton
                         variant="transparent"
@@ -299,7 +299,7 @@ const Detail = () => {
                     <HStack px="3" space="0" alignItems="center" bg="primary.darkbox" mb="3">
                     <HStack space="2" alignItems="center">
                         <IcoHistory  />
-                        <Text fontSize="lg">History</Text>
+                        <Text fontSize="lg">{qaDetials.labels.QA_HISTORY}</Text>
                     </HStack>
                     <Spacer />
                     <Text opacity={0.58} fontSize="md">{questionsCount} {qaDetials.labels.QA_QUESTIONS}</Text>
@@ -350,8 +350,8 @@ const Detail = () => {
                                     </HStack>
                              
                                     <Box w={'100%'}>
-                                        <HStack w={'100%'} space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                            <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                        <HStack w={'100%'} space="4" alignItems="flex-start" justifyContent={'flex-start'}>
+                                            <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                             <Text w={'100%'} pt={1}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
                                                 
                                         </HStack>   
@@ -425,7 +425,7 @@ const Detail = () => {
                             
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                                <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                                <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                                 <Text w={'100%'} pt={1}>
                                                     <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                                 </Text>
@@ -501,7 +501,7 @@ const Detail = () => {
                                   
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                                <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                                <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                                 <Text w={'100%'} pt={1}>
                                                     <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                                 </Text>
@@ -577,7 +577,7 @@ const Detail = () => {
                                    
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                            <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                            <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                             <Text w={'100%'} pt={1}>
                                                 <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                             </Text>
