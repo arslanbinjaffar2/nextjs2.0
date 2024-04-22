@@ -213,6 +213,7 @@ body {
   border-radius: 6px !important;
   border-color: transparent !important;
   color: #fff !important;
+  flex: 1 !important;
 }
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
