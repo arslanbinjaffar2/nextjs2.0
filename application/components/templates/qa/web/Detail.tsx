@@ -220,13 +220,13 @@ const Detail = () => {
                 </Box>
                 <Box w="100%">
                     <HStack pl="6"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
-                        <Text fontSize="lg">{qaDetials.labels.QA_ASK_A_QUESTION}</Text>
+                        <Text fontSize="lg">{qaDetials.labels.QA_ASK_A_QUESTION ?? "Ask a Question"}</Text>
                     </HStack>
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
                             <Text color="red.400"> {error} </Text>
                     </Box>}
                     {qaDetials?.speakers?.length > 0 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
-                    <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER}</Text>
+                    <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER ?? "Select Speaker"}</Text>
                     <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                       <View w={'100%'}>
                         <Select
@@ -250,7 +250,7 @@ const Detail = () => {
                     
                     </HStack>}
                     {qaDetials?.paragraph?.length > 0 && <HStack  px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3"  alignItems="center">
-                    <Text  w="30%"  fontSize="lg">{qaDetials.labels.QA_SELECT_PARAGRAPH}</Text>
+                    <Text  w="30%"  fontSize="lg">{qaDetials.labels.QA_SELECT_PARAGRAPH ?? "Select Paragraph"}</Text>
                     <Center  w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                     <View w={'100%'}>
                     <Select
@@ -274,7 +274,7 @@ const Detail = () => {
                     
                     </HStack>}
                     {qaSettings?.line_number == 1 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
-                        <Text w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER}</Text>
+                        <Text w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER ?? "Line Number"}</Text>
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
                     {qaSettings?.paragraph_number == 1 && 
@@ -284,7 +284,7 @@ const Detail = () => {
                     </Box>
                     }
                     <HStack px="3" py="2" space="3" alignItems="center">
-                    {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">{qaDetials.labels.QA_SEND_ANONYMOUSLY}</Checkbox>}
+                    {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">{qaDetials.labels.QA_SEND_ANONYMOUSLY ?? "Send Anonymously"}</Checkbox>}
                     <Spacer />
                     <IconButton
                         variant="transparent"
@@ -299,7 +299,7 @@ const Detail = () => {
                     <HStack px="3" space="0" alignItems="center" bg="primary.darkbox" mb="3">
                     <HStack space="2" alignItems="center">
                         <IcoHistory  />
-                        <Text fontSize="lg">{qaDetials.labels.QA_HISTORY}</Text>
+                        <Text fontSize="lg">{qaDetials.labels.QA_HISTORY ?? "History"}</Text>
                     </HStack>
                     <Spacer />
                     <Text opacity={0.58} fontSize="md">{questionsCount} {qaDetials.labels.QA_QUESTIONS}</Text>
