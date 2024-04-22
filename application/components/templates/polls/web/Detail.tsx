@@ -238,10 +238,25 @@ const Detail = () => {
     }
   
   const module = modules.find((module) => module.alias === 'polls');
+
+  const [canSubmitMultipleTimes,setCanSubmitMultipleTimes]=useState<boolean>(false);
+
+  useEffect(()=>{
+    if(detail?.questions.length! > 0){
+      const mutipleCloudQuestions = detail?.questions.filter((question) => question.question_type === 'world_cloud' && question.is_participants_multiple_times === 1);
+      setCanSubmitMultipleTimes(mutipleCloudQuestions && mutipleCloudQuestions?.length > 0 ? true : false);
+    }
+  },[detail])
+
+  function resetForSubmitAgain(){
+    setFormData({})
+    if (id) {
+      FetchPollDetail({ id: Number(id) });
+    }
+    setcompleted(false)
+    setSubmittingPoll(false)
+  }
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
-  const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
-  const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
-  
   React.useEffect(()=>{
     setGoBack(0)
     setTimeout(()=>{
@@ -300,7 +315,7 @@ const Detail = () => {
                         setsteps(steps - 1);
                       }}
                     >
-                      previous
+                      {poll_labels?.POLL_SURVEY_PREVIOUS}
                     </Button>}
                     <Spacer />
                     {steps < (detail?.questions.length! -1)  && 
@@ -316,7 +331,7 @@ const Detail = () => {
                         setNextStep();
                       }}
                     >
-                      next
+                      {poll_labels?.POLL_SURVEY_NEXT}
                     </Button>}
                   </HStack>
                   {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
@@ -354,13 +369,6 @@ const Detail = () => {
                   </Box>}
                 </Box>
               </Box>}
-            {(completed === true  && showCloudQuestion)&&
-                <>
-              {Object.keys(filterQuestion).length>0 && 
-               <WordCloudAnswer question={filterQuestion} key={filterQuestion?.id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels}  />
-              }
-              </>
-            }
               {completed === true && (
                  <>
                 <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
@@ -369,21 +377,27 @@ const Detail = () => {
                    <IcoTick />
                   </Box>
                   <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
-                  {showCloudQuestion && <Button
-                      id='test'
-                      w="100px"
-                      py="3"
-                      px="1"
-                      isLoading={submittingPoll}
-                      colorScheme="primary"
-                      onPress={()=>{
-                        onSubmit()
-                        setShowCloudQuestion(true)
-                      }}
-                      
-                    >
-                      {poll_labels?.WORD_CLOUD_SUBMIT_AGAIN}
-                    </Button>}
+                  {canSubmitMultipleTimes ? (
+                    <Button
+                    id='test'
+                    w="100px"
+                    py="3"
+                    px="1"
+                    isLoading={false}
+                    colorScheme="primary"
+                    onPress={()=>{
+                      resetForSubmitAgain()
+                    }}
+                    
+                  >
+                    {poll_labels?.WORD_CLOUD_SUBMIT_AGAIN}
+                  </Button>
+                  ):(
+                    <>
+                    <Text fontSize="md">{poll_labels?.POLL_SURVEY_REDIRECT_MSG}</Text>
+                    <CountdownTimer />
+                    </>
+                  )}
                 </VStack>
               </Box>
               </>
@@ -399,5 +413,39 @@ const Detail = () => {
     </>
   );
 };
+
+const CountdownTimer = React.memo(() => {
+  const [timeLeft, setTimeLeft] = useState<number>(15);
+  const { push, back } = useRouter();
+  const {event} = UseEventService();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      onEnd(); // Trigger the function when countdown ends
+    }
+  }, [timeLeft]);
+
+  const onEnd = () => {
+    push(`/${event.url}`);
+  }
+
+  return (
+    <>
+      {timeLeft > 0 ? (
+        <Text fontSize="lg">{timeLeft}</Text>
+      ) : (
+        <WebLoading />
+      )}
+    </>
+  );
+});
 
 export default Detail;

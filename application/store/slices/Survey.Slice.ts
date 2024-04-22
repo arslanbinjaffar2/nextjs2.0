@@ -15,7 +15,7 @@ export interface SurveyState {
     surveys: Surveys,
     completed_surveys: Surveys,
     detail: SurveyDetail | null,
-    survey_settings:SurveySetting | {},
+    survey_settings:SurveySetting | null,
     survey_labels:SurveyLabels
     submitSuccess:boolean,
     mySurveyResult: Surveys,
@@ -26,7 +26,7 @@ export interface SurveyState {
 const initialState: SurveyState = {
     surveys: [],
     completed_surveys: [],
-    survey_settings:{},
+    survey_settings:null,
     detail: null,
     survey_labels:{},
     submitSuccess:false,
@@ -108,6 +108,8 @@ export const SelectMySurveyResult = (state: RootState) => state.surveys.mySurvey
 export const SelectMySurveyResultDetail = (state: RootState) => state.surveys.mySurveyResultDetail
 
 export const SelectMySurveyResultScore = (state: RootState) => state.surveys.mySurveyResultScore
+
+export const SelectSurveySettings = (state: RootState) => state.surveys.survey_settings
 
 
 // Reducer

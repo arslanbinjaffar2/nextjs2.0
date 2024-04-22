@@ -233,8 +233,26 @@ const Detail = () => {
         SubmitSurvey(postData);
 
     }
+
     const module = modules.find((module) => module.alias === 'survey');
+    const [canSubmitMultipleTimes,setCanSubmitMultipleTimes]=useState<boolean>(false);
+    useEffect(()=>{
+      if(detail?.questions.length! > 0){
+        const mutipleCloudQuestions = detail?.questions.filter((question) => question.question_type === 'world_cloud' && question.is_participants_multiple_times === 1);
+        setCanSubmitMultipleTimes(mutipleCloudQuestions && mutipleCloudQuestions?.length > 0 ? true : false);
+      }
+    },[detail])
+
+    function resetForSubmitAgain(){
+      setFormData({})
+      if (id) {
+        FetchSurveyDetail({ id: Number(id) });
+      }
+      setcompleted(false)
+      setSubmittingSurvey(false)
+    }
     const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+
   return (
     <>
       {loading ? (
@@ -283,7 +301,7 @@ const Detail = () => {
                         setsteps(steps - 1);
                       }}
                     >
-                      previous
+                      {survey_labels?.POLL_SURVEY_PREVIOUS}
                     </Button>}
                     <Spacer />
                     {steps < (detail?.questions.length! -1)  && <Button
@@ -297,7 +315,7 @@ const Detail = () => {
                         setNextStep();
                       }}
                     >
-                      next
+                      {survey_labels?.POLL_SURVEY_NEXT}
                     </Button>}
                   </HStack>
                   {steps === (detail?.questions.length! - 1) && 
@@ -337,14 +355,37 @@ const Detail = () => {
                    } 
                 </Box>
               </Box>}
-              {completed === true && <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
+              {completed === true && (
+                <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
                   <Box nativeID='bg-circle-animation' bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
                     <IcoTick />
                   </Box>
                   <Text fontSize="lg">{survey_labels?.SURVEY_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
+                  {canSubmitMultipleTimes ? (
+                    <Button
+                    id='test'
+                    w="100px"
+                    py="3"
+                    px="1"
+                    isLoading={false}
+                    colorScheme="primary"
+                    onPress={()=>{
+                      resetForSubmitAgain()
+                    }}
+                    
+                  >
+                    {survey_labels?.WORD_CLOUD_SUBMIT_AGAIN}
+                  </Button>
+                  ):(
+                    <>
+                    <Text fontSize="md">{survey_labels?.POLL_SURVEY_REDIRECT_MSG}</Text>
+                    <CountdownTimer />
+                    </>
+                  )}
                 </VStack>
-              </Box>}
+              </Box>
+              )}
             </Container>
             </>
       )}
@@ -352,5 +393,39 @@ const Detail = () => {
     </>
   );
 };
+
+const CountdownTimer = React.memo(() => {
+  const [timeLeft, setTimeLeft] = useState<number>(15);
+  const { push, back } = useRouter();
+  const {event} = UseEventService();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      onEnd(); // Trigger the function when countdown ends
+    }
+  }, [timeLeft]);
+
+  const onEnd = () => {
+    push(`/${event.url}`);
+  }
+
+  return (
+    <>
+      {timeLeft > 0 ? (
+        <Text fontSize="lg">{timeLeft}</Text>
+      ) : (
+        <WebLoading />
+      )}
+    </>
+  );
+});
 
 export default Detail;
