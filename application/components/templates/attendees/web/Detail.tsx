@@ -140,7 +140,7 @@ const Detail = ({ speaker }: Props) => {
         return () => { mounted.current = false; };
     }, []);
     const programModule = modules.find((module) => module.alias === (speaker ? "speakers" : "attendees"));
-    const title = (detail.detail as any)?.full_name || '';
+    const title = (detail.detail as any)?.first_name+' '+ (detail?.sort_field_setting.find((s:any)=>(s.name === 'last_name'))?.is_private == 0 ? (detail.detail as any)?.last_name : '');
     return (
         <>
             {in_array('attendee-detail', processing) ? (

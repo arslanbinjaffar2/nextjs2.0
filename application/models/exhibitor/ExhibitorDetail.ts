@@ -48,6 +48,7 @@ export interface ExhibitorsAttendee {
   BIRTHDAY_YEAR?: string;
   SPOKEN_LANGUAGE?: string;
   EMPLOYMENT_DATE?: string;
+  sort_settings?: any;
 }
 
 interface CurrentEventAttendee {
