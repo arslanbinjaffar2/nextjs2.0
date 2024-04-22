@@ -351,7 +351,7 @@ const Detail = () => {
                              
                                     <Box w={'100%'}>
                                         <HStack w={'100%'} space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                            <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                            <Text textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                             <Text w={'100%'} pt={1}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
                                                 
                                         </HStack>   
@@ -425,7 +425,7 @@ const Detail = () => {
                             
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                                <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                                <Text textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                                 <Text w={'100%'} pt={1}>
                                                     <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                                 </Text>
@@ -501,7 +501,7 @@ const Detail = () => {
                                   
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                                <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                                <Text textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                                 <Text w={'100%'} pt={1}>
                                                     <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                                 </Text>
@@ -577,7 +577,7 @@ const Detail = () => {
                                    
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
-                                            <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
+                                            <Text textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                             <Text w={'100%'} pt={1}>
                                                 <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
                                             </Text>
