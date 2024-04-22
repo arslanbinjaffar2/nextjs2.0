@@ -368,7 +368,12 @@ const Detail = () => {
                   >
                     {poll_labels?.WORD_CLOUD_SUBMIT_AGAIN}
                   </Button>
-                  ):null}
+                  ):(
+                    <>
+                    <Text fontSize="md">{poll_labels?.POLL_SURVEY_REDIRECT_MSG}</Text>
+                    <CountdownTimer />
+                    </>
+                  )}
                 </VStack>
               </Box>
               </>
@@ -384,5 +389,39 @@ const Detail = () => {
     </>
   );
 };
+
+const CountdownTimer = React.memo(() => {
+  const [timeLeft, setTimeLeft] = useState<number>(15);
+  const { push, back } = useRouter();
+  const {event} = UseEventService();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      onEnd(); // Trigger the function when countdown ends
+    }
+  }, [timeLeft]);
+
+  const onEnd = () => {
+    push(`/${event.url}`);
+  }
+
+  return (
+    <>
+      {timeLeft > 0 ? (
+        <Text fontSize="lg">{timeLeft}</Text>
+      ) : (
+        <WebLoading />
+      )}
+    </>
+  );
+});
 
 export default Detail;
