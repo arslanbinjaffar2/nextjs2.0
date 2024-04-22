@@ -140,7 +140,7 @@ const Detail = ({ speaker }: Props) => {
         return () => { mounted.current = false; };
     }, []);
     const programModule = modules.find((module) => module.alias === (speaker ? "speakers" : "attendees"));
-    const title = (detail.detail as any)?.full_name || '';
+    const title = (detail.detail as any)?.first_name+' '+ (detail?.sort_field_setting.find((s:any)=>(s.name === 'last_name'))?.is_private == 0 ? (detail.detail as any)?.last_name : '');
     return (
         <>
             {in_array('attendee-detail', processing) ? (
@@ -163,7 +163,7 @@ const Detail = ({ speaker }: Props) => {
                     <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
-                            {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0 && (
+                            {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0 ? (
                                 <Container mb="3" maxW="100%" w="100%">
                                             <HStack  style={{rowGap: 2, columnGap: 1}} mb="3" rounded={8} w={'100%'} overflow={'hidden'}  flexWrap={'wrap'}  space={0} justifyContent="flex-start" >
                                                 {detail?.attendee_tabs_settings?.map((row: any, key: number) =>
@@ -285,7 +285,10 @@ const Detail = ({ speaker }: Props) => {
                                         <LoadMore />
                                     )}
                                 </Container>
-                            )}
+                            ) : <>
+                                    <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
+                                </>
+                        }
                             
                             <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
                         </>

@@ -291,7 +291,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 {event?.labels?.SPEAKER_NAME}
                             </Button>
                         }
-                        {( event?.speaker_settings?.tab == 1) &&
+                        {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
                             <Button 
                                 onPress={() => {
                                     setTab('category')
@@ -347,7 +347,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     )}
                 </>
             )}
-            {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
+            {/* {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
               <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="163px" space="1">
                   {alphabet.map((item, k) =>
                     <React.Fragment key={k}>
@@ -355,7 +355,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     </React.Fragment>
                   )}
               </VStack>
-            )}
+            )} */}
             <>
                 {(in_array('attendee-listing', processing) || in_array('category-listing', processing) || in_array('groups', processing)) && page === 1 ? (
                     <SectionLoading />
@@ -382,8 +382,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                         </React.Fragment>
                              )}
                             {attendees.length <= 0 &&
-                              <Box p={3}   rounded="lg" w="100%">
-                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              <Box p={3} rounded="lg" w="100%">
+                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
                               </Box>
                             }
                         </Container>}
@@ -403,20 +403,20 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </React.Fragment>
                             )}
                             {groups.length <= 0 &&
-                              <Box p={3}  rounded="lg" w="100%">
-                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              <Box p={3} rounded="lg" w="100%">
+                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
                               </Box>
                             }
                         </Container>}
-                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && event?.speaker_settings?.category_group == 1 && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     <RectangleCategoryView category={category} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p={3}  rounded="lg" w="100%">
-                                    <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
+                                <Box p={3} rounded="lg" w="100%">
+                                    <Text fontSize="16px">{event.labels.GENERAL_NO_RECORD}</Text>
                                 </Box>
                             }
                         </Container>}
