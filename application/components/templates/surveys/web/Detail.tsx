@@ -300,7 +300,7 @@ const Detail = () => {
                         setsteps(steps - 1);
                       }}
                     >
-                      previous
+                      {survey_labels?.POLL_SURVEY_PREVIOUS}
                     </Button>}
                     <Spacer />
                     {steps < (detail?.questions.length! -1)  && <Button
@@ -315,7 +315,7 @@ const Detail = () => {
                         setNextStep();
                       }}
                     >
-                      next
+                      {survey_labels?.POLL_SURVEY_NEXT}
                     </Button>}
                   </HStack>
                   {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
