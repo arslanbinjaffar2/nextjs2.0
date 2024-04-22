@@ -121,10 +121,10 @@ const Detail = () => {
     const [error, setError] = React.useState<any>(null);
 
     const TabHeadings:any = {
-        popular: qaDetials.labels.QA_POPULAR,
-        recent:qaDetials.labels.QA_RECENT,
-        archive:qaDetials.labels.QA_ARCHIVE,  
-        my_question:qaDetials.labels.QA_MY_QUESTION
+        popular: qaDetials.labels.QA_POPULAR ?? "Popular",
+        recent:qaDetials.labels.QA_RECENT ?? "My Recent",
+        archive:qaDetials.labels.QA_ARCHIVE ?? "Archive",  
+        my_question:qaDetials.labels.QA_MY_QUESTION ?? "My Questions"
     };
     
     const onSubmit = ( ) => {
