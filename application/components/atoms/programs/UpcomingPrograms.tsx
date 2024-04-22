@@ -53,7 +53,6 @@ const UpcomingPrograms = () => {
     })}
     </> 
   )
-  // <UpcomingBlock title="UPCOMING SESSION" desc="Workshop 2 - The right path" location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
 
 }
 

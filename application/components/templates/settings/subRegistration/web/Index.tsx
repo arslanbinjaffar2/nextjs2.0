@@ -315,7 +315,7 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
         ...answers,
        });
       
-
+       
     }
   }
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
@@ -332,7 +332,7 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
   return (
     <Container mb="3" maxW="100%" w="100%">
 
-
+      
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
         <Text isTruncated pr="6" fontSize="lg">{setting_modules?.find((module: { alias: string; }) => (module.alias == 'subregistration'))?.name ?? 'Subregistration'}</Text>
       </HStack>
@@ -357,11 +357,9 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
           <HStack mb="3" space="3" alignItems="center" justifyContent={'center'} position={'relative'}>
               {mySubReg?.settings?.answer === 1 && mySubReg?.show_save === 1 &&
                   <SwipeBtn
-                    loading={submitting}
-                    onComplete={() => 
-                      onSubmit()
-                    }
-                    />
+                          loading={submitting}
+                          onComplete={onSubmit}
+                          />
                 }
           </HStack>
         </Box>

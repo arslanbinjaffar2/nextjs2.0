@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Button, Container, HStack, Pressable, Spacer, Text, VStack, Icon, Input, Image, Box } from 'native-base'
+import { Button, Container, HStack, Pressable, Spacer, Text, VStack, Icon, Input, Image, Box, View, Flex } from 'native-base'
 import RectangleAttendeeView from 'application/components/atoms/attendees/RectangleView';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -43,6 +43,11 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
     const tabQueryParam = searchParams.get('tab')
 
+    const tab1 = React.useRef<HTMLDivElement>();
+    const tab2 = React.useRef<HTMLDivElement>();
+    const tab3 = React.useRef<HTMLDivElement>();
+    const tab4 = React.useRef<HTMLDivElement>();
+    const tab5 = React.useRef<HTMLDivElement>();
 
     const createQueryString = React.useCallback(
         (name: string, value: string) => {
@@ -173,7 +178,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('my-attendee');
         }
     }, [screen]);
-
     const module = (speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee) => attendee.alias === 'attendees') : modules?.find((attendee) => attendee.alias === 'my-attendee-list')) : modules?.find((speaker) => speaker.alias === 'speakers'))
 
     return (
@@ -182,14 +186,14 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
                 <Text fontSize="2xl">
                 {speaker === 0 ? (screen === 'attendees' ? 
-    (modules?.find(attendee => attendee.alias === 'attendees')?.name ?? '')
-    :  
-    (modules?.find(attendee => attendee.alias === 'my-attendee-list')?.name ?? '')
-  ) 
-  : 
-  (modules?.find(speaker => speaker.alias === 'speakers')?.name ?? '')
+                    (modules?.find(attendee => attendee.alias === 'attendees')?.name ?? '')
+                    :  
+                    (modules?.find(attendee => attendee.alias === 'my-attendee-list')?.name ?? '')
+                ) 
+                : 
+                (modules?.find(speaker => speaker.alias === 'speakers')?.name ?? '')
 
-}
+                }
                 </Text>
                 <Spacer />
                 <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
@@ -201,7 +205,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                 <>
                     {speaker === 0 && <HStack mb="3" space={1} overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%">
                         {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  (event?.attendee_settings?.tab == 1 || modules?.some(module => module.alias === 'my-attendee-list')) && 
-                            <Button 
+                            <Button
+                                ref={tab1} 
                                 onPress={() => {
                                     setTab('attendee'); 
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'attendee'))
@@ -215,14 +220,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 h="42px"
                                 flex={1} 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
-                                w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
-                                _text={{ fontWeight: '600' }}
+                                _text={{ fontWeight: '600', flex: 1 }}
                             >
-                                {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
+                                <Text textAlign={'center'} maxW={tab1?.current?.clientWidth ? tab1?.current?.clientWidth - 24: '' } fontWeight={600} fontSize="md" isTruncated>{event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}</Text>
+                                
                             </Button>}
                         {
                             modules?.some(module => module.alias === 'my-attendee-list') && (
                             <Button
+                                ref={tab2}
                                 onPress={() => {
                                     setTab('my-attendee')
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
@@ -236,17 +242,18 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 _hover={{_text: {color: 'primary.hovercolor'}}} 
                                 flex={1} 
                                 borderRightRadius={0} 
-                                borderLeftRadius={0} 
-                                bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
+                                borderLeftRadius={0}
+                                bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
                                 _text={{ fontWeight: '600' }}
                             >
+                                <Text textAlign={'center'} maxW={tab2?.current?.clientWidth ? tab2?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}</Text>
                                 
-                                {modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
                             </Button>
                             )
                         }
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
-                                <Button 
+                                <Button
+                                    ref={tab3}
                                     onPress={() => {
                                         setTab('group')
                                         push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'group'))
@@ -258,19 +265,18 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     borderRightRadius={0} 
                                     _hover={{_text: {color: 'primary.hovercolor'}}}
                                     h="42px"
-                                     flex={1}  
+                                    flex={1}
                                     bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} 
-                                    w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
-                                    _text={{ fontWeight: '600' }}
-                                >
-                                    {event?.labels?.ATTENDEE_LIST_BY_GROUP}
+                                    _text={{ fontWeight: '600' }}>       
+                                    <Text textAlign={'center'} maxW={tab3?.current?.clientWidth ? tab3?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.ATTENDEE_LIST_BY_GROUP}</Text>
                                 </Button>
                         }
                     </HStack>}
                     {speaker ===  1 && <HStack overflow={'hidden'} rounded={8} flexWrap={'wrap'}  mb="3" space={1} justifyContent="center" w="100%">
                         
                         {(( event?.speaker_settings?.tab == 1)) &&  
-                            <Button 
+                            <Button
+                                ref={tab4} 
                                 onPress={() => {
                                     setTab('attendee') 
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'attendee'))
@@ -288,11 +294,12 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                {event?.labels?.SPEAKER_NAME}
+                                <Text textAlign={'center'} maxW={tab4?.current?.clientWidth ? tab4?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.SPEAKER_NAME}</Text>
                             </Button>
                         }
                         {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
-                            <Button 
+                            <Button
+                                ref={tab5} 
                                 onPress={() => {
                                     setTab('category')
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
@@ -308,7 +315,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                {event?.labels?.SPEAKER_CATEGORY}
+                                <Text textAlign={'center'} maxW={tab5?.current?.clientWidth ? tab5?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.SPEAKER_CATEGORY}</Text>
                             </Button>
                         }
                     </HStack>}
@@ -326,7 +333,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             </Pressable>
                         </HStack>
                         {group_name && (
-                            <Text mb={1}   flex="1" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
+                            <Text flex="1" mb={1}  textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
                         )}
                         </>
                     )}

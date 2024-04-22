@@ -91,8 +91,9 @@ const Index = ({ navigation }: indexProps) => {
 
             <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
                   <Box h={'100%'} flex={1}>
-                  <UpcomingPrograms />
+                    <UpcomingPrograms />
                   </Box>
+                  
                   {/* <Box minH={150}  flex={1}>
                     <UpcomingBlock
                       px="3"
@@ -200,7 +201,7 @@ const Index = ({ navigation }: indexProps) => {
                           <Button onPress={() => {
                             push(`/${event.url}/alerts`)
                           }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                            {event.labels?.GENERAL_LOAD_MORE ?? 'Show all'}
+                            {event.labels?.GENERAL_SHOW_ALL ?? ''}
                           </Button>
                         </Center>
                         }
