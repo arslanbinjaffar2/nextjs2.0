@@ -27,9 +27,7 @@ const ContactInfo = ({ detail }: AppProps) => {
     { name: 'facebook', component: <IcoFacebook width={30} height={30} /> },
     { name: 'twitter', component: <IcoTwitterX width={30} height={30} /> },
     { name: 'linkedin', component: <IcoLinkedIN width={30} height={30} /> },
-    { name: 'website', component: <IcoWebLink width={30} height={30} /> },
-    { name: 'email', component: <IcoEnvelope width={30} height={30} /> },
-    { name: 'phone', component: <IcoPhone width={30} height={30} /> },
+    { name: 'website', component: <IcoWebLink width={30} height={30} /> }
   ];
 
   const isFieldVisible = (fieldName: string) => {
@@ -37,7 +35,7 @@ const ContactInfo = ({ detail }: AppProps) => {
     return field && !field.is_private;
   };
 
-  const hasContactInfo = ['email', 'phone', 'facebook', 'twitter', 'linkedin', 'website']
+  const hasContactInfo = ['facebook', 'twitter', 'linkedin', 'website']
     .some(fieldName => isFieldVisible(fieldName) && detail?.detail?.info?.[fieldName]);
 
   if (!hasContactInfo) return null;
@@ -46,6 +44,15 @@ const ContactInfo = ({ detail }: AppProps) => {
     .filter((field: any) => field.is_private === 0 && socialIcons.some(icon => icon.name === field.name) && detail?.detail?.info?.[field.name] !== '' &&  detail?.detail?.info?.[field.name] !== 'http://' && detail?.detail?.info?.[field.name] !== 'https://')
     .map((field: any) => socialIcons.find(icon => icon.name === field.name))
     .filter((icon: any) => icon !== undefined) as SocialIcon[];
+
+  const sortedFields = detail.sort_field_setting
+    .filter((field: any) => field.is_private === 0 && ['email', 'phone'].includes(field.name) && detail?.detail?.[field.name as keyof typeof detail.detail] !== '')
+    .sort((a: any, b: any) => detail.sort_field_setting.findIndex((field: any) => field.name === a.name) - detail.sort_field_setting.findIndex((field: any) => field.name === b.name))
+    .map((field: any) => ({
+      name: field.name,
+      isVisible: isFieldVisible(field.name) && detail?.detail?.[field.name as keyof typeof detail.detail] !== '',
+      value: detail?.detail?.[field.name as keyof typeof detail.detail] || ''
+    }));
 
   return (
     <Box p="0" w="100%" bg="primary.box" mb={5} rounded={8}>
@@ -63,6 +70,19 @@ const ContactInfo = ({ detail }: AppProps) => {
           />
         </Pressable>
       </HStack>
+      <VStack p="3" pb={1} w="100%" space="3">
+        {sortedFields.map((field: any) => (
+            <HStack key={field.name} space="1" alignItems="center">
+              <Box>
+                {field.name === 'email' && <IcoEnvelope />}
+                {field.name === 'phone' && <IcoPhone />}
+              </Box>
+              <Box pl="1">
+                <Text fontSize="14px">{field.value}</Text>
+              </Box>
+            </HStack>
+          ))}
+        </VStack>
       <Box py="0" px="0" w="100%">
         <HStack space={3} p={3} py={2} w="100%" justifyContent="flex-start" alignItems="center" mt="1">
           {visibleSocialIcons.map(icon => (
