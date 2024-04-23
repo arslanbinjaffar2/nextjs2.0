@@ -5,8 +5,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'application/store/Index'
 import { Status } from '../../components/atoms/toast'
 export type Toast={
-    status:string
+    status:string | 'success' | 'error'
     message:string
+    duration?:number
 }
 
 export interface ToastStateType {
@@ -23,8 +24,11 @@ export const ToastSlice = createSlice({
     name: 'toasts',
     initialState,
     reducers: {
-        AddToast(state, action: PayloadAction<{ status:string ,message:string}>) { 
-            state.toasts.push(action.payload)
+        AddToast(state, action: PayloadAction<{ toast:Toast}>) { 
+            if(!action.payload.toast.duration && action.payload.toast.duration !== 0){
+                action.payload.toast.duration = 3000
+            }
+            state.toasts.push(action.payload.toast)
         },    
         onClose(state, action: PayloadAction<{id:number}>){
             state.toasts =  state.toasts.filter((item,index)=> index !==action.payload.id)
@@ -37,7 +41,7 @@ export const ToastSlice = createSlice({
 
 // Actions
 export const ToastActions = {
-    addtoast:ToastSlice.actions.AddToast,
+    AddToast:ToastSlice.actions.AddToast,
     onclose:ToastSlice.actions.onClose,
     removefirst:ToastSlice.actions.removeFirstToast
 }

@@ -3,6 +3,7 @@ import { View, Text, Pressable } from 'native-base';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks';
 import { UseToastService } from 'application/store/services/UseToastService';
+import { Toast } from 'application/store/slices/Toast.Slice';
 
 export enum Status {
   Success = "success",
@@ -15,12 +16,14 @@ export interface ToastProps {
 }
 
 
-  const SingleToast = ({index,status,message}:{status:string,message:string,index:number}) => {
+  const SingleToast = ({index,toast}:{index:number,toast:Toast}) => {
     const {onClose,removeFirstToast}=UseToastService()
     useEffect(()=>{
-      setTimeout(()=>{
-      removeFirstToast()
-      },3000)
+      if(toast?.duration && toast.duration !== 0){
+        setTimeout(()=>{
+          removeFirstToast()
+          },toast.duration || 3000)
+      }
     },[])
     return(
       <View
@@ -40,9 +43,9 @@ export interface ToastProps {
           />
           <View style={{ marginLeft: 10 }}>
             <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
-              {status}
+              {toast.status}
             </Text>
-            <Text style={{ fontSize: 14, color: 'white' }}>{message}</Text>
+            <Text style={{ fontSize: 14, color: 'white' }}>{toast.message}</Text>
           </View>
         </View>
         <Pressable onPress={()=>onClose({id:index})}>
@@ -62,9 +65,9 @@ const ToastContainer = () => {
     <View position={'absolute'} right={'0'} bottom={'0'}> 
       {toasts.length>0  && 
       <View style={{ gap:6 }}>
-       {toasts?.map(({message,status},index)=>{
+       {toasts?.map((toast,index)=>{
            return(
-               <SingleToast message={message} status={status}
+               <SingleToast toast={toast}
                index={index}
                />
                )
