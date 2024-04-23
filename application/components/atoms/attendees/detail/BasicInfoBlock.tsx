@@ -110,30 +110,34 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </Box>
                     </HStack>
                     <HStack w="100%" space="0">
-                        {(showPrivate == 1 || isPrivate?.initial == 0) && detail?.detail?.info?.initial && (
+                    {detail?.sort_field_setting.map((setting:any, i:number)=>(
+                        <>
+                        {setting.name === 'initial' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.initial! && (
                             <Center alignItems="flex-start" pl="0" w="33.33%">
                                 <VStack space="0">
-                                    <Text lineHeight="sm" fontSize="md">Initials</Text>
+                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.initial}</Text>
                                     <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.initial}</Text>
                                 </VStack>
                             </Center>
                         )}
-                        {(showPrivate == 1 || isPrivate?.delegate_number == 0) && detail?.detail?.info?.delegate_number && (
+                        {setting.name === 'delegate_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.delegate_number! && (
                             <Center borderLeftWidth={detail?.detail?.info?.initial ? 1 : 0} borderColor="primary.bordercolor" alignItems="flex-start" pl={detail?.detail?.info?.initial ? ['3','8'] : 0} w="33.33%">
                                 <VStack space="0">
-                                    <Text lineHeight="sm" fontSize="md">Delegate nr:</Text>
+                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.delegate}</Text>
                                     <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.delegate_number}</Text>
                                 </VStack>
                             </Center>
                         )}
-                        {(showPrivate == 1 || isPrivate?.table_number == 0) && detail?.detail?.info?.table_number && (
+                        {setting.name === 'table_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.table_number! && (
                             <Center borderLeftWidth={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number  ? 1 : 0} borderColor="primary.bordercolor"alignItems="flex-start" pl={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number ? ['3','8'] : 0} w="33.33%">
-                                <VStack space="0">
-                                    <Text lineHeight="sm" fontSize="md">Table nr:</Text>
+                            <VStack space="0">
+                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.table_number}</Text>
                                     <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.table_number}</Text>
                                 </VStack>
                             </Center>
                         )}
+                        </>
+                    ))}
                     </HStack>
                 </Box>
                 {detail?.detail?.attendee_cv && (
