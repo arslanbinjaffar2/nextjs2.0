@@ -38,7 +38,7 @@ export interface ToastProps {
       >
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <DynamicIcon
-            iconType={status === "error" ? 'cancelcircle' : 'checkcircle'}
+            iconType={toast.status === "error" ? 'cancelcircle' : 'checkcircle'}
             iconProps={{ width: 24, height: 24 }}
           />
           <View style={{ marginLeft: 10 }}>
@@ -62,7 +62,7 @@ export interface ToastProps {
 const ToastContainer = () => {
   const {toasts}=UseToastService()
   return (
-    <View position={'absolute'} right={'0'} bottom={'0'}> 
+    <View position={'absolute'} right={'10'} bottom={'10'}> 
       {toasts.length>0  && 
       <View style={{ gap:6 }}>
        {toasts?.map((toast,index)=>{
