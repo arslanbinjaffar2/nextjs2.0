@@ -18,6 +18,7 @@ import AvenirNextCondensed from "application/assets/fonts/AvenirNextCondensed.tt
 import AvenirNextCondensedMedium from "application/assets/fonts/AvenirNextCondensed-Medium.ttf";
 import AvenirNextCondensedDemiBold from "application/assets/fonts/AvenirNextCondensed-DemiBold.ttf";
 import AvenirNextCondensedBold from "application/assets/fonts/AvenirNextCondensedBold.ttf";
+
 import * as React from "react";
 import { AppRegistry } from "react-native";
 
@@ -34,6 +35,7 @@ class Document extends NativebaseDocument {
             charSet="UTF-8"
             href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
           />
+
           <link
             rel="stylesheet"
             type="text/css"
@@ -155,6 +157,9 @@ export const style = `
 }
 body {
   display: flex;
+}
+.rdtPicker {
+  margin-top:10px !important;
 }
 .rdtDays, .ebs-date-wrapper,.rdtCount,.styles_react-code-input__CRulA > input {
   font-family: 'Avenir', sans-serif !important;
@@ -288,6 +293,9 @@ svg#active #svg-elem-3 {
   from {transform: scale(0);}
   to {transform: scale(1);}
 }
+.rsw-toolbar {
+  background-color: rgba(0,0,0,0.2) !important;
+}
 div[data-testID="TitleContainer"]+ div {
   border-radius: 10px !important;
   
@@ -302,6 +310,7 @@ div[data-testID="="Button"]{
 .css-view-1dbjc4n{
   border:transparent !important;
 }
+
 `;
 
 export async function getInitialProps({ renderPage }) {
