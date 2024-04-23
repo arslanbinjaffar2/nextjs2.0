@@ -158,6 +158,9 @@ export const style = `
 body {
   display: flex;
 }
+.rdtPicker {
+  margin-top:10px !important;
+}
 .rdtDays, .ebs-date-wrapper,.rdtCount,.styles_react-code-input__CRulA > input {
   font-family: 'Avenir', sans-serif !important;
 }
@@ -307,6 +310,7 @@ div[data-testID="="Button"]{
 .css-view-1dbjc4n{
   border:transparent !important;
 }
+
 `;
 
 export async function getInitialProps({ renderPage }) {
