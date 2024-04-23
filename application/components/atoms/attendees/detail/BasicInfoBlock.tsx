@@ -33,6 +33,8 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     const { push } = useRouter();
 
     const isPrivate = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s.is_private}),{});
+    const allowedFields = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s}),{});
+    console.log("🚀 ~ BasicInfoBlock ~ allowedFields:", allowedFields)
 
     const [isFav, setIsFav] = React.useState<boolean>(false);
 
@@ -141,7 +143,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                 {detail?.detail?.attendee_cv && (
                 <Box w="100%" bg="primary.secondary" px="5" mt={3} py="3" borderTopWidth="1" borderColor="primary.darkbox">
                 <HStack w="100%" space="0">
-                    {(showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || speaker == 1 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) ? '1' : '0'} borderColor={'primary.box'} alignItems="flex-start"><Pressable
+                    {allowedFields?.resume && (showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || speaker == 1 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) ? '1' : '0'} borderColor={'primary.box'} alignItems="flex-start"><Pressable
                             onPress={async () => {
                                 const url: any = `${_env.eventcenter_base_url}/assets/attendees/cv/${detail?.detail?.attendee_cv}`;
                                 const supported = await Linking.canOpenURL(url);
