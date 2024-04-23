@@ -24,6 +24,7 @@ const MobileNavigation = () => {
   const [leftArrow, setleftArrow] = React.useState<number>(0)
   const [rightArrow, setrightArrow] = React.useState<number>(module_lenght > 4 ? module_lenght : 0)
   const sliderRef = React.useRef<Slider>(null);
+  
    const settings = {
       dots: false,
       arrows: false,
@@ -89,7 +90,16 @@ const MobileNavigation = () => {
                     }}
                   >
                     <DynamicIcon iconType={module?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '')} iconProps={{ width: 34, height: 34 }} />
-                    <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name} </Text>
+                 {module.name.length>=24?   <Text textAlign={'center'} pt={1} fontSize={'sm'}>
+                    {width>480?
+                     `${module.name.substring(0,24)}...` :
+                     width>390?
+                      `${module.name.substring(0,12)}`:
+                      `${module.name.substring(0,10)}`
+                    }
+                      </Text>
+                    :  <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name}</Text>
+                    }
                   </Pressable>
                
               </Box>
