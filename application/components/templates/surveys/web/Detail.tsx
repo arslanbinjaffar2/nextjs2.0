@@ -365,9 +365,9 @@ const Detail = () => {
                   {canSubmitMultipleTimes ? (
                     <Button
                     id='test'
-                    w="100px"
+                    minW="100px"
                     py="3"
-                    px="1"
+                    px="3"
                     isLoading={false}
                     colorScheme="primary"
                     onPress={()=>{

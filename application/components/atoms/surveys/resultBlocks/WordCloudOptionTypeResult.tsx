@@ -65,14 +65,14 @@ const WordCloudOptionTypeResult = ({ question, questionNumber  }: PropTypes) => 
                         
                     ))}
                 </VStack>
-                {Number(question.enable_comments) === 1 && group.results[0]?.comments !== '' &&
+                {Number(question.enable_comments) === 1 && group.results[0]?.comment !== '' &&
                     <>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                     <Icodocument  />
                     <Text fontSize="lg">Comments</Text>
                     </HStack>
                     <Box py="3" px="4" w="100%">
-                        <Text fontSize="md">{group.results[0]?.comments}</Text>
+                        <Text fontSize="md">{group.results[0]?.comment}</Text>
                     </Box>
                     </>
                 }
