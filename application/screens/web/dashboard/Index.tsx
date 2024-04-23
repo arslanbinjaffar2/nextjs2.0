@@ -78,7 +78,7 @@ const Index = ({ navigation }: indexProps) => {
       FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: 1, category_id: 0, screen: 'dashboard-my-speakers', program_id: 0 });
     }
   }, [modules.length]);
-
+   const name=modules?.find((module) => (module.alias == 'agendas'))?.name as string
   return (
     <>
       {(in_array('programs', processing) || in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
@@ -107,8 +107,20 @@ const Index = ({ navigation }: indexProps) => {
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
           {/*  */}
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
-            <Container mt={4} mb={4} rounded="10" bg="primary.box" w="100%" maxW="100%">
-              <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{modules?.find((module) => (module.alias == 'agendas'))?.name}</Heading>
+            <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+             { name.length>57? <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
+              {width>970?
+                `${name.substring(0,57)}...`:
+                width>400?
+                `${name.substring(0,30)}...`:
+                `${name.substring(0,15)}...`
+              }
+                </Heading>:
+                
+                <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
+                  {name}
+                </Heading>
+                }
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
               <Center py="3" px="2" w="100%" alignItems="flex-end">
                 <Button onPress={() => {
