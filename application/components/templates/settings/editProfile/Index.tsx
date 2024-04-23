@@ -943,7 +943,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChange={(item: any) => {
                                         updateInfoDate({ item, name: "EMPLOYMENT_DATE" });
                                     }}
-                                    value={attendeeData?.EMPLOYMENT_DATE !== '' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.EMPLOYMENT_DATE).format(GENERAL_DATE_FORMAT) : ''}
+                                    value={attendeeData?.info?.EMPLOYMENT_DATE !== '' && attendeeData?.info?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.info?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.info?.EMPLOYMENT_DATE).format(GENERAL_DATE_FORMAT) : ''}
                                     showdate={GENERAL_DATE_FORMAT}
                                 />
                             </Center>
