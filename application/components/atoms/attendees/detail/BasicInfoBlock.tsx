@@ -34,7 +34,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
 
     const isPrivate = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s.is_private}),{});
     const allowedFields = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s}),{});
-    console.log("🚀 ~ BasicInfoBlock ~ allowedFields:", allowedFields)
 
     const [isFav, setIsFav] = React.useState<boolean>(false);
 
@@ -110,7 +109,11 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </Box>
                     </HStack>
                     <HStack w="100%" space="0">
-                    {detail?.sort_field_setting.map((setting:any, i:number)=>(
+                    {detail?.sort_field_setting .slice()
+                        .sort((a:any, b:any) => {
+                            const order = { 'initial': 3, 'delegate_number': 1, 'table_number': 4 } as any;
+                            return order[a.name] - order[b.name];
+                        }).map((setting:any, i:number)=>(
                         <>
                         {setting.name === 'initial' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.initial! && (
                             <Center alignItems="flex-start" pl="0" w="33.33%">
