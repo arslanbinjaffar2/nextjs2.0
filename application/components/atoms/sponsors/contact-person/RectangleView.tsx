@@ -6,6 +6,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
+import UseExhibitorService from 'application/store/services/UseExhibitorService'
 
 type AppProps = {
     attendee: SponsorsAttendee,
@@ -19,11 +20,12 @@ const RectangleView = ({ k, attendee }: AppProps) => {
     const { _env } = UseEnvService()
     
     const { event } = UseEventService()
+    const { detail } = UseExhibitorService()
 
     return (
         <Pressable w={'100%'}  onPress={() => { push(`/${event.url}/attendees/detail/${attendee.id}`)}}>
         <HStack w={'100%'} key={`item-${k}`} py="3" px="3" space="4" alignItems="center" borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor">
-            {attendee.image ? (
+            {attendee.image && detail?.detail?.exhibitors_attendee && detail?.detail?.exhibitors_attendee[0]?.sort_settings?.profile_picture?.is_private == 0 ? (
                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="" w="50px" h="50px" rounded={30} />
             ) : (
                 <Avatar
@@ -37,16 +39,25 @@ const RectangleView = ({ k, attendee }: AppProps) => {
                 {(attendee?.first_name || attendee?.last_name) && (
                     <Text fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
                 )}
-                {(attendee?.info?.company_name || attendee?.info?.title) && (
-                    <Text fontSize="lg">
-                        {`${attendee?.info?.company_name}`}
-                        {attendee?.info?.title && (
-                            <>
-                                {` - ${attendee?.info?.title}`}
-                            </>
-                        )}
-                    </Text>
-                )}
+              {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
+                <Text textBreakStrategy='balanced' fontSize="lg">
+                  {attendee?.info?.company_name && (
+                    <>
+                      {`${attendee?.info?.company_name}, `}
+                    </>
+                  )}
+                  {attendee?.info?.title && (
+                    <>
+                      {`${attendee?.info?.title}, `}
+                    </>
+                  )}
+                  {attendee?.info?.department && (
+                    <>
+                      {`${attendee?.info?.department}`}
+                    </>
+                  )}
+                </Text>
+              )}
             </VStack>
             <Spacer />
                    

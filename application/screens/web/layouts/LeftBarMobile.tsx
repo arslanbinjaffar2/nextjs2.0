@@ -11,6 +11,7 @@ import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseInfoService from 'application/store/services/UseInfoService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import {  func } from 'application/styles';
 
 const LeftBarMobile = () => {
 
@@ -27,6 +28,8 @@ const LeftBarMobile = () => {
   const { _env } = UseEnvService();
 
   const { setLoading } = UseLoadingService();
+
+  
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
@@ -61,9 +64,9 @@ const LeftBarMobile = () => {
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <IcoDashboard width="24" height="24" />
+                <IcoDashboard color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"} width="24" height="24" />
               </Center>
-              <Text fontSize={'lg'} color="primary.text">Dashboard</Text>
+              <Text fontSize={'lg'} color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"}>Dashboard</Text>
             </HStack>
           </Pressable>
           {modules.map((row: any, key: any) =>
@@ -96,9 +99,9 @@ const LeftBarMobile = () => {
               }}>
               <HStack space="4" alignItems="center">
                 <Center w="30px">
-                  <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} />
+                  <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 25, height: 25, color: checkActiveRoute(row, router.asPath, info, page) ? func.colorType(event?.settings?.primary_color) : undefined }} />
                 </Center>
-                <Text fontSize={'lg'} color="primary.text">{row?.name}</Text>
+                <Text fontSize={'lg'} color={checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>{row?.name}</Text>
               </HStack>
             </Pressable>
           )}

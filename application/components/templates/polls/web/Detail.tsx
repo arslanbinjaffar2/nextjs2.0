@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image } from 'native-base'
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image, Spinner } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
@@ -27,7 +27,8 @@ import { useRouter } from 'solito/router'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
-
+import { getColorScheme } from 'application/styles/colors';
+import SwipeBtn from '../../../atoms/swipeBtn';
 
 type ScreenParams = { id: string }
 
@@ -60,7 +61,7 @@ const Detail = () => {
   const [formData, setFormData] = useState<FormData>({});
 
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
-
+  const [goBack,setGoBack]=React.useState(0)
   const updateFormData = (question_id:number, type:string, answer:any, index?:number) => {
     setActiveQuestionError(null);
     let newFormData = formData;
@@ -237,11 +238,11 @@ const Detail = () => {
     }
   
   const module = modules.find((module) => module.alias === 'polls');
-  
   const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
-
   const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
   
+
+
   return (
     <>
       {loading ? (
@@ -312,22 +313,13 @@ const Detail = () => {
                     </Button>}
                   </HStack>
                   {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
-                    <Box m="auto" w="230px" bg="primary.darkbox" p="0" rounded="sm" overflow="hidden">
-                      <Button
-                      id='test'
-                        w="100%"
-                        py="3"
-                        px="1"
-                        leftIcon={<IcoLongArrow />}
-                        colorScheme="primary"
-                        isLoading={submittingPoll}
-                        onPress={() => {
-                         setNextStep();
-                        }}
-                      >
-                      {poll_labels?.POLL_SURVEY_AUTHORITY_SUBMIT}
-                      </Button>
-                    </Box>
+                     
+                          <SwipeBtn
+                          loading={submittingPoll}
+                          onComplete={() => 
+                          setNextStep()
+                        }
+                          />
                   </Box>}
                 </Box>
               </Box>}

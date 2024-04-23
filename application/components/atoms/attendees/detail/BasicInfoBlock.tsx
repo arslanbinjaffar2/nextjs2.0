@@ -33,7 +33,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     const { push } = useRouter();
 
     const isPrivate = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s.is_private}),{});
-
     console.log(showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1), 'show_hotel')
 
     const [isFav, setIsFav] = React.useState<boolean>(false);
@@ -77,7 +76,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                     (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
                                     && (
                                     <>
-                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}&nbsp;{detail?.detail?.info?.company_name &&
+                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title && `${detail?.detail?.info?.title} ` }{detail?.detail?.info?.company_name &&
                                                 detail?.detail?.info?.title &&
                                                 ", "}
                                                 {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>

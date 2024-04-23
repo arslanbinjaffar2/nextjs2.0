@@ -7,21 +7,24 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from "in_array";
 import UseToastService from 'application/store/services/UseToastService';
 
+type AppProps = {
+  program_id: any,
+}
 
-const SessionRating = () => {
+const SessionRating = ({program_id}:AppProps) => {
   const { detail,rating,SaveRating,FetchRating } = UseProgramService();
   const { processing } = UseLoadingService();
   const [rate, setRate] = React.useState(0);
   useEffect(()=>{
     if(detail.program !== undefined){
-      FetchRating({program_id:detail.program.id ?? 0});
+      FetchRating({program_id:program_id ?? 0});
     }
   }
   ,[])
 
   useEffect(()=>{
     if(detail.program !== undefined){
-      FetchRating({program_id:detail.program.id ?? 0});
+      FetchRating({program_id:program_id ?? 0});
     }
   }
   ,[detail])
@@ -45,7 +48,7 @@ const SessionRating = () => {
   function save(value:number){
     setRate(value);
     if(value!==0 && !in_array('program-rating',processing) && detail?.program?.id){
-      SaveRating({program_id:detail.program.id ?? 0,rate:value,comment:''});
+      SaveRating({program_id:program_id ?? 0,rate:value,comment:''});
     }
   }
   return (

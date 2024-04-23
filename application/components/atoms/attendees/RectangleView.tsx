@@ -71,28 +71,27 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   borderColor="primary.darkbox"
                   textTransform="uppercase"
                   bg={'#A5A5A5'}
-                  >{ attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}</Avatar>
+                  >
+                    { attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}
+                    </Avatar>
             )}
             <VStack w={'calc(100% - 165px)'} space="0">
-              {(attendee?.first_name || attendee?.last_name) && (
+              {(attendee?.first_name || attendee?.last_name) ? (
                 <>
                   <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
                   {attendee?.info && (
                     <>
                       <Text lineHeight="22px" fontSize="lg">
                         {attendee?.info?.title && attendee?.info?.title}
-                        {attendee?.info?.company_name &&
-                          attendee?.info?.title &&
-                          " "
-                        }
-                        {attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && `${attendee?.info?.department} `}
+                        {attendee?.info?.title && attendee?.info?.company_name && " , "}
                         {attendee?.info?.company_name && attendee?.info?.company_name}
+                        {(attendee?.info?.title || attendee?.info?.company_name) && attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && " , "}
+                        {attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && attendee?.info?.department}
                       </Text>
                     </>
                   )}
-
                 </>
-              )}
+              ) : null}
               {event?.attendee_settings?.display_private_address === 1 &&
                 <Text pt="1" lineHeight="22px" fontSize="md"> 
                   {getPrivateFields(attendee)}
@@ -105,7 +104,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
                   onPress={() => toggleFav()}>
-                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
+                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
                 </Pressable>
                 )}
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />

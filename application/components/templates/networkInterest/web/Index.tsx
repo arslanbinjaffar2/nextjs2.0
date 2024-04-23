@@ -8,7 +8,9 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import { Keyword } from 'application/models/networkInterest/NetworkInterest';
 import { useRouter } from 'solito/router';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
+import BannerAds from 'application/components/atoms/banners/BannerAds';
+import { func } from 'application/styles';
+import { color } from 'native-base/lib/typescript/theme/styled-system';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -116,7 +118,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
   return (
     <Container pt="2" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="uppercase" fontSize="2xl">Network interest</Text>
+                    <Text  fontSize="2xl">Network interest</Text>
                     </HStack>
                     <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
                     <Center mb="3" px="1">
@@ -126,7 +128,8 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         rounded="20px"
                         bg={((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.500" : "primary.box"}
                         borderWidth="0"
-                        _text={{ fontSize: 'lg' }}
+                        _text={{ fontSize: 'lg', color: ((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.hovercolor" : "primary.text" }}
+                        _hover={{_text: {color: 'primary.hovercolor'}}}
                         borderColor="primary.bdBox"
                         colorScheme="primary"
                         onPress={() => {
@@ -145,7 +148,8 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                             bg={filters?.indexOf(keyword?.id) !== -1 ? "primary.500" :"primary.box" }
                             borderWidth="0"
                             borderColor="primary.bdBox"
-                            _text={{ fontSize: 'lg' }}
+                            _text={{ fontSize: 'lg',color: filters?.indexOf(keyword?.id) !== -1 ? "primary.hovercolor" :"primary.text"  }}
+                            _hover={{_text: {color: 'primary.hovercolor'}}}
                             colorScheme="primary"
                             onPress={() => {
                                 setFilter(keyword?.id)
@@ -189,8 +193,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         isLoading={UpdatingMyKeywords}
                         isDisabled={UpdatingMyKeywords}
                         shadow="1"
-                        textTransform="uppercase"
-                        _text={{ fontWeight: 600, fontSize: '2xl' }}
+                        _text={{ fontWeight: 600, fontSize: '2xl', color: func.colorType(event?.settings?.primary_color) }}
                         colorScheme="primary"
                         onPress={() => {
                             SaveMykerwords(mykeywords);
@@ -220,9 +223,10 @@ const CheckboxWrapp = ({ title, checked, addMyKeyword}: checkboxProps) => {
         mb="3"
         _hover={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
         _pressed={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
-        _text={{ fontSize: 'lg' }}
+        _text={{ fontSize: 'lg', color: checked ? 'primary.hovercolor' : 'primary.text' }}
+        _icon={{color: checked ? 'primary.hovercolor' : 'primary.text'}}
         rounded="20px"
-        leftIcon={<Icon color={'primary.text'} as={AntDesign} name={checked ? 'check' : 'plus'} />}
+        leftIcon={<Icon  as={AntDesign} name={checked ? 'check' : 'plus'} />}
         onPress={() => {
             addMyKeyword();
         }}

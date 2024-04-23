@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image } from 'native-base'
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image, Spinner } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
@@ -28,6 +28,9 @@ import { Banner } from 'application/models/Banner'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
+import { SwipeButton } from 'react-native-expo-swipe-button';
+import { getColorScheme } from 'application/styles/colors';
+import SwipeBtn from 'application/components/atoms/swipeBtn';
 
 
 type ScreenParams = { id: string }
@@ -232,6 +235,7 @@ const Detail = () => {
 
     }
     const module = modules.find((module) => module.alias === 'survey');
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   return (
     <>
       {loading ? (
@@ -272,7 +276,6 @@ const Detail = () => {
                       isDisabled={steps <= 0 ? true : false}
                       bg="transparent"
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
                       colorScheme="primary"
@@ -288,7 +291,6 @@ const Detail = () => {
                       bg="transparent"
                       isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       colorScheme="primary"
@@ -299,21 +301,16 @@ const Detail = () => {
                       next
                     </Button>}
                   </HStack>
-                  {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
-                    <Box m="auto" w="230px" bg="primary.darkbox" p="0" rounded="sm" overflow="hidden">
-                      <Button
-                        w="48px"
-                        py="3"
-                        px="1"
-                        leftIcon={<IcoLongArrow />}
-                        colorScheme="primary"
-                        isLoading={submittingSurvey}
-                        onPress={() => {
-                         setNextStep();
-                        }}
-                      />
-                    </Box>
-                  </Box>}
+                  {steps === (detail?.questions.length! - 1) && 
+                  <Box w="100%" mb="6">
+                      <SwipeBtn
+                          loading={submittingSurvey}
+                          onComplete={() => 
+                          setNextStep()
+                        }
+                          />
+                  </Box>
+                   } 
                 </Box>
               </Box>}
               {completed === true && <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
