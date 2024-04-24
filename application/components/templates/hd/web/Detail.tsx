@@ -56,21 +56,12 @@ const Detail = () => {
     const { response  } = UseAuthService();
 
     
-    const {hdSettings, FetchGroupDetail, hdDetails, FetchTabDetails, SubmitHd, SubmitHdLike, HdRecentPopularSocketUpdate, HdSort } = UseHdService();
-    const tabOrder = ['popular', 'recent', 'archive'];
-    const enabledTabs = hdSettings ? Object.keys(hdSettings).reduce((ack:any, item:any)=>{
-        if(in_array(item, ['popular','recent', 'archive',  'my_question']) && hdSettings[item] == 1){
-            ack.push(item);
-        }
-        return ack;
-    }, []).sort((a:any, b:any) => tabOrder.indexOf(a) - tabOrder.indexOf(b)) : [];
-    const { push } = useRouter()
-
+    const {hdSettings, FetchGroupDetail, hdDetails, FetchTabDetails, SubmitHd, SubmitHdLike, HdRecentPopularSocketUpdate, HdSort, labels } = UseHdService();
     const { socket } = UseSocketService();
     const [questionsCount, setQuestionsCount] = React.useState<any>(0);
 
     const [id] = useParam('id');
-    const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | '' >('')
+    const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' >('popular')
 
     React.useEffect(() => {
         if (id) {
@@ -85,6 +76,7 @@ const Detail = () => {
                 console.log("🚀 ~ data:", data)
                 if(data?.data_raw){
                     HdRecentPopularSocketUpdate(data.data_raw);
+                    FetchTabDetails({ id: Number(id) });
                 }
             });
             socket?.on(`event-buizz:hd_block_sort_${event.id}_${id}`, function (data:any):any {
@@ -100,14 +92,6 @@ const Detail = () => {
         }
     }, [socket]);
 
-    React.useEffect(() => {
-        if(!tab){
-            if(enabledTabs.length > 0){
-                setTab(enabledTabs[0])
-            }
-        }
-    }, [enabledTabs]);
-
     const [speaker, setSpeaker] = React.useState<any>(null);
     const [paragraph, setParagraph] = React.useState<any>(null);
     const [lineNumber, setLineNumber] = React.useState<any>('');
@@ -115,10 +99,17 @@ const Detail = () => {
     const [anonymously, setAnonymously] = React.useState<any>(false);
     const [error, setError] = React.useState<any>(null);
 
+    const enabledTabs = hdSettings ? Object.keys(hdSettings).reduce((ack:any, item:any)=>{
+        if(in_array(item, ['archive']) && hdSettings[item] == 1){
+            ack.push(item);
+        }
+        return ack;
+    }, ['popular','recent']) : ['popular','recent'];
+
     const TabHeadings:any = {
-        popular:'Popular',
-        recent:'Recent',
-        archive:'Archive',  
+        popular: labels?.HD_POPULAR ?? 'Popular',
+        recent: labels?.HD_RECENT ?? 'Recent',
+        archive: labels?.HD_ARCHIVE ?? 'Archive',  
     };
 
     const updateQuestionsCount = (tab: string) => {
@@ -146,7 +137,7 @@ const Detail = () => {
         setError(null);
     
         if(question == ''){
-            setError('Please enter a question first');
+            setError(labels?.HD_ENTER_QUESTION ?? "Please enter a question to submit");
             return;
         }
         
@@ -199,7 +190,7 @@ const Detail = () => {
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" mb={3} borderBottomWidth={0} borderColor="primary.bdBox">
                 <Box w="100%">
                     <HStack pl="4"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
-                        <Text fontSize="lg">Ask a question</Text>
+                        <Text fontSize="lg">{labels?.HD_ASK_QUESTION ?? "Ask a question"}</Text>
                     </HStack>
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
                             <Text color="red.400"> {error} </Text>
@@ -234,7 +225,7 @@ const Detail = () => {
                     </Box>
                     {/* <TextArea focusOutlineColor="transparent" _focus={{ bg: 'transparent' }} value={question} onChangeText={(value)=>setQuestion(value)}  px="4" py="0" fontSize="lg" w="100%" borderWidth="0" rounded="0" minH="60px" placeholder="Text Area Placeholder" autoCompleteType={undefined}  /> */}
                     <HStack px="3" py="2" space="3" alignItems="center">
-                    {hdSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">Send anonymously</Checkbox>}
+                    {hdSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">{labels?.HD_SEND_ANONYMOUSLY ?? "Send anonymously"}</Checkbox>}
                     <Spacer />
                     <IconButton
                         variant="transparent"
@@ -251,10 +242,10 @@ const Detail = () => {
                     <HStack px="3" space="0" alignItems="center" bg="primary.darkbox" mb="3">
                     <HStack space="2" alignItems="center">
                         <IcoHistory  />
-                        <Text fontSize="lg">History</Text>
+                        <Text fontSize="lg">{labels?.HD_HISTORY ?? "History"}</Text>
                     </HStack>
                     <Spacer />
-                    <Text opacity={0.58} fontSize="md">{questionsCount} Question{questionsCount !== 1 ? 's' : ''}</Text>
+                    <Text opacity={0.58} fontSize="md">{questionsCount}  {labels?.HD_QUESTIONS ?? "Questions"}</Text>
                     </HStack>
                     <HStack mb="4" space={4} justifyContent="flex-start" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
@@ -273,12 +264,12 @@ const Detail = () => {
                                     <HStack w="100%" space="3" alignItems="center">
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question.anonymous_user === 1 ? (labels?.HD_ANONYMOUS ?? "Anonymous") : question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
@@ -332,12 +323,12 @@ const Detail = () => {
                                     <HStack w="100%" space="3" alignItems="center">
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question.anonymous_user === 1 ? (labels?.HD_ANONYMOUS ?? "Anonymous") : question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
@@ -392,12 +383,12 @@ const Detail = () => {
                                     <HStack w="100%" space="3" alignItems="center">
                                     <Avatar
                                         size="md"
-                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
+                                        source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question.anonymous_user === 1 ? '' : question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
                                     <Text fontWeight="600" fontSize="lg">
-                                    {question?.attendee?.first_name + question?.attendee?.last_name}
+                                    {question.anonymous_user === 1 ? (labels?.HD_ANONYMOUS ?? "Anonymous") : question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
                                     <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
