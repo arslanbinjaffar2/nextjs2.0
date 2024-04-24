@@ -40,10 +40,10 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
     }
     if(isNewNote){
         SaveNote({note:note, note_type:note_type, note_type_id:note_type_id });
-        AddToast({message:"save notes",status:"success"})
+        AddToast({toast:{message:"save notes",status:"success"}})
     }else{
         UpdateNote({notes:note, id:my_note?.id, type:note_type});
-        AddToast({message:"updated notes",status:"success"})
+        AddToast({toast:{message:"updated notes",status:"success"}})
     }
 
   }
