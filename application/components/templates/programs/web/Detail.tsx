@@ -58,6 +58,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBox';
 import { useWindowDimensions } from 'react-native';
 import SessionRating from 'application/components/atoms/programs/SessionRating';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 
 type ScreenParams = { id: string }
 
@@ -233,6 +234,8 @@ const Detail = () => {
                                                         <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
                                                             <Text fontSize="md">{event?.labels?.POLLS_LIVE_POLLS}</Text>
                                                         </VStack>
+                                                        <Spacer />
+                                                        <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                                     </HStack>
                                                 </Box>
                                             </Pressable>

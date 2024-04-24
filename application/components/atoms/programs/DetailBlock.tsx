@@ -7,6 +7,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import moment from 'moment'
 import { useRouter } from 'solito/router';
+import { colorText } from 'application/styles/colors';
 type AppProps = {
     children:
     | JSX.Element
@@ -64,7 +65,7 @@ const DetailBlock = ({ children }: AppProps) => {
                         <>
                             <Text mb="3" fontSize="md">Track:
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
-                                        <Box rounded={'full'} mx={1} my={1} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
+                                        <Box color={colorText(track.color)} rounded={'full'} mx={1} my={1} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
                                     
                                 ))}
                             </Text>
