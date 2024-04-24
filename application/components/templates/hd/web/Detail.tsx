@@ -452,6 +452,7 @@ const Detail = () => {
                 </Box>}
                 
                 </Box>
+                </Box>
                     <BannerAds module_name={'help_desk'} module_type={'detail'} />
             </Container>
             </>
