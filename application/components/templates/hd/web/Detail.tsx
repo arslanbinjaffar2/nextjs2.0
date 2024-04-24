@@ -188,7 +188,7 @@ const Detail = () => {
                     {/* <Text opacity={0.58} fontSize="md">1 Questions</Text> */}
                     </HStack>
                  
-                    <HStack mb="4" space={4} justifyContent="flex-start" px={3} w="100%">
+                    <HStack mb="4" space={10} justifyContent="flex-start" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
                             <Pressable onPress={() => { setTab(item) }} key={index} bg={'transparent'}  borderWidth="0px" p={0} borderColor="primary.darkbox" >
                                 <Text 
