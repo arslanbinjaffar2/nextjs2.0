@@ -150,7 +150,7 @@ const Detail = () => {
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" borderBottomWidth={0} borderColor="primary.bdBox">
                 <Box w="100%">
                     <HStack pl="6"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
-                        <Text fontSize="lg">Ask a question</Text>
+                        <Text fontSize="lg">Ask help desk</Text>
                     </HStack>
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
                             <Text color="red.400"> {error} </Text>
@@ -187,9 +187,14 @@ const Detail = () => {
                     <Spacer />
                     {/* <Text opacity={0.58} fontSize="md">1 Questions</Text> */}
                     </HStack>
-                    <HStack mb="4" space={10} justifyContent="flex-start" px={3} w="100%">
+                 
+                    <HStack mb="4" space={4} justifyContent="flex-start" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
-                            <Button onPress={() => { setTab(item) }} key={index} bg={tab === item ? 'primary.boxbutton' : 'primary.box'} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius={index == (enabledTabs.length - 1) ? 8 : 0} borderLeftRadius={index == 0 ? 8 : 0} h="42px"  w={`${100/enabledTabs.length}%`} _text={{ fontWeight: '600' }}>{TabHeadings[item]}</Button>
+                            <Pressable onPress={() => { setTab(item) }} key={index} bg={'transparent'}  borderWidth="0px" p={0} borderColor="primary.darkbox" >
+                                <Text 
+                                opacity={item==tab?1:0.58}
+                                pb={1} borderBottomWidth={item === tab ? 2 : 0} borderBottomColor={'primary.text'} fontSize="16px" fontWeight={600} textTransform={'uppercase'}>{TabHeadings[item]}</Text>
+                            </Pressable>
                         ))}
                     </HStack>
                     <Box mb="10" px="5" w="100%" position="relative">
