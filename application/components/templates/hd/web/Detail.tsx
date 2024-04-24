@@ -197,11 +197,6 @@ const Detail = () => {
                             <Text color="red.400"> {error} </Text>
                     </Box>}
                     <Box w="100%" px="3">
-                        <TextArea rounded={8} bg="primary.darkbox" borderWidth={1} borderColor={'primary.darkbox'} value={question}
-                         onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%"  minH="60px" placeholder="enter your help" 
-                         autoCompleteType={undefined}  />
-
-                    <Box w="100%" px="3">
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
                                 <EditorProvider>
@@ -451,7 +446,6 @@ const Detail = () => {
                     
                 </Box>}
                 
-                </Box>
                 </Box>
                     <BannerAds module_name={'help_desk'} module_type={'detail'} />
             </Container>
