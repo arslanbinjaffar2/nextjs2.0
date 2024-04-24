@@ -75,6 +75,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory, last_page } = UseAttendeeService();
 
     const [searchQuery, setSearch] = React.useState('')
+    const [parentCategories, setParentCategories] = useState<Category[]>([]);
 
     const [slug] = useParam('slug');
 
@@ -85,6 +86,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         }
         
     }, [searchParams]);
+
+    useEffect(() => {
+        if(categories.length > 0){
+            const filteredCategories = categories.filter(category => category.parent_id === 0);
+            if(filteredCategories.length > 0){
+                setParentCategories(filteredCategories);
+            }       
+        }
+    }, [categories]);
     
 
     useEffect(() => {
@@ -340,20 +350,35 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                         </>
                     )}
                     {category_name && (
-                        <HStack mb="1" pt="2" w="100%" space="3">
+                        <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
+                            <Text flex="1" textTransform="uppercase" fontSize="sm">
+                            {parent_id !== 0 ? (
+                                <>
+                                <Pressable
+                                    onPress={async () => {
+                                        back()
+                                    }}>
+                                    <Text textTransform="uppercase" fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
+                                </Pressable>
+                                {categories.find(category => category.id === Number((searchParams.get('category_id')))) && 
+                                <>
+                                    <Icon color={'primary.text'} as={AntDesign} name="right"  />
+                                    <Text textTransform="uppercase" fontSize="sm">{categories.find(category => category.id === Number((searchParams.get('category_id'))))?.name}</Text>
+                                </>
+                                }
+                                </>
+                            ) : (
+                                <Text textTransform="uppercase" fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
+                            )}
+                            </Text>
                             <Pressable
-                                onPress={() => {
-                                    // if(tab == 'attendee'){
-                                    //     setTab('category');
-                                    // }else{
-                                    //      FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
-                                    // }
-                                    back()
-                                }}>
+                            onPress={async () => {
+                                back()
+                            }}>
+                            <Text textTransform="uppercase" fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  /> Go back</Text>
                             </Pressable>
-                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'left'} textBreakStrategy='simple' w={'100%'} fontSize="sm">{category_name}</Text>
                         </HStack>
-                    )}
+                        )}
                 </>
             )}
             {/* {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
