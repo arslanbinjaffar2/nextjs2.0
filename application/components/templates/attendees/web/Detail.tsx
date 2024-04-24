@@ -203,18 +203,21 @@ const Detail = ({ speaker }: Props) => {
                                                         }
                                                     </React.Fragment>
                                                 )}
-                                            </HStack>
-                                              
+                                            </HStack>          
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<Text textAlign={'left'}><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div></Text>} />}
                                     {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
-                                    {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) && <SubRegistration detail={detail} />}
+                                    {tab === 'sub_registration' && 
+                                    detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) &&
+                                    <SubRegistration detail={detail} /> 
+                             
+                                }
                                     {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) &&
                                             <Container mb="3" rounded="10" bg={`${groups?.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
                                         {in_array('groups', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
                                             <>
-                                                {groups?.map((group: Group, k: number) =>
+                                                { groups?.map((group: Group, k: number) =>
                                                     <React.Fragment key={`${k}`}>
                                                         <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} displayMyGroupSetting={detail?.setting?.attendee_my_group}/>
                                                     </React.Fragment>
@@ -222,9 +225,9 @@ const Detail = ({ speaker }: Props) => {
                                                         
                                                 {
                                                     groups?.length <= 0 && (
-                                                        <>
-                                                         <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
-                                                        </>
+                                                    <Box p={3}  rounded="lg" w="100%">
+                                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                                    </Box>
                                                     )
                                                 }
                                             </>
@@ -240,9 +243,10 @@ const Detail = ({ speaker }: Props) => {
                                             programs.length > 0 ?
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> 
                                                         : (
-                                                            <>
-                                                                <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
-                                                            </>
+                                                            <Box p={3}  rounded="lg" w="100%">
+                                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                                        </Box>
+                                                        
                                                         )
                                         )}
                                     </Container>}
@@ -267,9 +271,9 @@ const Detail = ({ speaker }: Props) => {
                                         )}
                                         {detail?.detail?.categories.length <=0 && 
                                         (
-                                            <>
-                                                <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
-                                            </>
+                                            <Box p={3}  rounded="lg" w="100%">
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                            </Box>
                                             )
                                         }
                                     </Container>}
