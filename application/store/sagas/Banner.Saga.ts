@@ -12,6 +12,7 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
 
+
 function* OnFetchBanners({
 }: {
     type: typeof BannerActions.FetchBanners
