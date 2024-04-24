@@ -296,7 +296,9 @@ const Selectstyles2 = {
        
 
     };
- console.log(attendeeData.attendee_cv)
+//  console.log(attendeeData.attendee_cv)
+ console.log(attendeeData.image)
+ console.log(attendeeData.blob_image)
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
@@ -1029,7 +1031,8 @@ const Selectstyles2 = {
                                                         <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
                                                         : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
                                                     </Center>
-                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
+                                                    <View flexDirection={'row'} alignItems={'center'}>
+                                            <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
                                                             if(inputFileRef.current){
                                                                 inputFileRef.current.click();
                                                             }
@@ -1038,6 +1041,26 @@ const Selectstyles2 = {
                                                      >
                                                    
                                                     </Button>
+                                                    <Box   ml={3}>
+
+                                                        {attendeeData?.blob_image !== undefined ? <Text fontSize="md" color={'primary.text'}>{attendeeData.file?.name}</Text>:
+                                                        <Text fontSize="md" color={'primary.text'}>{attendeeData.image}</Text>
+                                                        }
+                                                    </Box>
+                                                    <Pressable
+                                                        onPress={() => {
+                                                            setAttendeeData({
+                                                                ...attendeeData,
+                                                                image: "",
+                                                                file: ""
+                                                            });
+                                                        }}
+                                                    >
+                                                        <Icon as={AntDesign} name="close" ml={"6px"} size="xl" color="primary.text" />
+                                                    </Pressable>
+
+
+                                                    </View>
                                                 </VStack>
                                                 {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
                                                     <input 
@@ -1088,14 +1111,12 @@ const Selectstyles2 = {
                                                         <LoadImage  path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
                                                     </Pressable>
                                                     : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />}
-                                                {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
-                                                    attendee.attendee_cv === 'string' ? <Text fontSize="md">{attendee.attendee_cv}</Text> :
-                                                        <Text fontSize="md">{attendeeData.attendee_cv}</Text>}
+                                               
 
                                                     
                                                 </Center>
-
-                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
+                                             <View flexDirection={'row'} alignItems={'center'}>
+                                            <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
                                                     isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                     onPress={()=>{
                                                         if(inputresumeFileRef.current){
@@ -1106,6 +1127,25 @@ const Selectstyles2 = {
                                                      >
                                                   
                                                     </Button>
+                                                    <Box   ml={3}>
+                                                    {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
+                                                    attendee.attendee_cv === 'string' ? <Text  fontSize="md" color={'primary.text'}>{attendee.attendee_cv}</Text> :
+                                                        <Text fontSize="md" color={'primary.text'}>{attendeeData.attendee_cv}</Text>}
+                                                    </Box>
+                                                    <Pressable
+                                                  
+                                                  onPress={()=>{
+                                                    setAttendeeData({
+                                                        ...attendeeData,
+                                                        attendee_cv:"",
+                                                        });
+                                                  }}
+                                              
+                                              >
+                                                          <Icon as={AntDesign} name="close" ml={"6px"} size="xl" color="primary.text"  />
+                                              </Pressable>
+                                             </View>
+
                                             </VStack>
                                             {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
                                                 <input 
