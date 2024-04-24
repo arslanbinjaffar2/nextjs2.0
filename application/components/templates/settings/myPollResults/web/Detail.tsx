@@ -48,7 +48,7 @@ const Detail = () => {
 
   const { push, back } = useRouter()
 
-  const { FetchMyPollResultDetail, myPollResultDetail, myPollResultScore } = UsePollService();
+  const { FetchMyPollResultDetail, myPollResultDetail, myPollResultScore,myPollTotalScore } = UsePollService();
 
   const [id] = useParam('id');
 
@@ -73,7 +73,7 @@ const Detail = () => {
                   </HStack>
                 </Pressable>
                 <Spacer />
-                <Text isTruncated  fontSize="xl">{`${myPollResultScore}/${myPollResultDetail?.question.length} Points(s)`}</Text>
+                <Text isTruncated  fontSize="xl">{`${myPollResultScore}/${myPollTotalScore} Points(s)`}</Text>
               </HStack>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
                 <Text textAlign={'center'} w={'100%'} fontSize="2xl">{myPollResultDetail?.program?.info?.topic}</Text>

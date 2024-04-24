@@ -21,6 +21,7 @@ export interface SurveyState {
     mySurveyResult: Surveys,
     mySurveyResultDetail: MySurveyResultSurvey | null,
     mySurveyResultScore:number,
+    mySurveyTotalScore:number,
 }
 
 const initialState: SurveyState = {
@@ -32,7 +33,8 @@ const initialState: SurveyState = {
     submitSuccess:false,
     mySurveyResult: [],
     mySurveyResultDetail:null,
-    mySurveyResultScore:0
+    mySurveyResultScore:0,
+    mySurveyTotalScore:0,
 }
 
 // Slice
@@ -69,6 +71,7 @@ export const SurveySlice = createSlice({
         updateMySurveyResultDetail(state, action: PayloadAction<{ detail: MySurveyResult, survey_labels:SurveyLabels, survey_settings:SurveySetting, }>) {
             state.mySurveyResultDetail = action.payload.detail.survery;
             state.mySurveyResultScore = action.payload.detail.total_score.reduce((ack, s)=>(Number(s.score) == 1 ? (ack +1) : ack),0);
+            state.mySurveyTotalScore = action.payload.detail.total_points;
             state.survey_settings = action.payload.survey_settings;
             state.survey_labels = action.payload.survey_labels;
         },
@@ -108,6 +111,8 @@ export const SelectMySurveyResult = (state: RootState) => state.surveys.mySurvey
 export const SelectMySurveyResultDetail = (state: RootState) => state.surveys.mySurveyResultDetail
 
 export const SelectMySurveyResultScore = (state: RootState) => state.surveys.mySurveyResultScore
+
+export const SelectMySurveyTotalScore = (state: RootState) => state.surveys.mySurveyTotalScore
 
 export const SelectSurveySettings = (state: RootState) => state.surveys.survey_settings
 
