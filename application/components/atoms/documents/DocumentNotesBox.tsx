@@ -79,7 +79,7 @@ const DocumentNotesBox = ({note_type_id, children}:AppProps) => {
 
   return (
     <>
-        <Box p="0" w="100%" bg={'primary.box'} mb={children ? 0 : 5} rounded={8}>
+        <Box p="0" w="100%"  mb={children ? 0 : 5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
                 <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
                 <Text fontSize="lg">Notes</Text>
