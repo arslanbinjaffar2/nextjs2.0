@@ -78,7 +78,8 @@ const Detail = () => {
                 <Text textAlign={'center'} w={'100%'} fontSize="2xl">{mySurveyResultDetail?.info?.name}</Text>
               </HStack>
               <Box w="100%" >
-                {mySurveyResultDetail && mySurveyResultDetail?.question.length > 0 && mySurveyResultDetail.question.map((question, i) => (
+                {mySurveyResultDetail && mySurveyResultDetail?.question.length > 0 && mySurveyResultDetail.question.filter((question) => question.is_anonymous === 0
+                  && question.results && question.results.length > 0).map((question, i) => (
                         <>
                         {(question.question_type == 'open' 
                         || question.question_type == 'number'

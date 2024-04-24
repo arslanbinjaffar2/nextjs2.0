@@ -255,6 +255,7 @@ const Detail = () => {
     }
     setcompleted(false)
     setSubmittingPoll(false)
+    setsteps(0)
   }
   
 

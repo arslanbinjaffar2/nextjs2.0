@@ -251,6 +251,7 @@ const Detail = () => {
       }
       setcompleted(false)
       setSubmittingSurvey(false)
+      setsteps(0)
     }
     
 
