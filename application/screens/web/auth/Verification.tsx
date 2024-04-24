@@ -15,6 +15,7 @@ import Countdown from "react-countdown";
 import UseEnvService from 'application/store/services/UseEnvService';
 import { SwipeButton } from 'react-native-expo-swipe-button';
 import { getColorScheme } from 'application/styles/colors';
+import SwipeBtn from 'application/components/atoms/swipeBtn';
 
 type Inputs = {
     code: string,
@@ -59,7 +60,6 @@ const Verification = ({ props }: any) => {
             loadProvider({ id: Number(id), screen: 'verification' });
         }
     }, [id])
-  console.log(processing,"processing")
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
@@ -119,38 +119,13 @@ const Verification = ({ props }: any) => {
                             <Link href={`/${event.url}/auth/login`}>
                                 <Text textDecorationLine={'underline'}  w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
                             </Link>
-                            <Box position={'relative'} m="auto" w="310px"  p="0" rounded="sm" overflow="hidden">
-
-                                <SwipeButton 
-                                key={processing?"0":"1"}
-                                    Icon={
-                                        <> 
-                                        {
-                                        processing ?
-                                        <Spinner accessibilityLabel="Loading posts" />:
-                                    <IcoLongArrow />
-                                        }    
-                                        </>
-
-                                    }
-                                    width={310}
-                                    circleSize={60}
-                                    circleBackgroundColor={colors.secondary} 
-                                    iconContainerStyle={{borderWidth:0,borderColor:"transparent"}}
-                                    onComplete={
-                                        handleSubmit(onSubmit)
-                                    }
-                                    title=""
-                                    height={60}
-                                    borderRadius={10}
-                                    containerStyle={{ backgroundColor:colors.primary }}
-                                    underlayTitle=""
-                                    underlayTitleStyle={{ color: colors.text ,borderRadius:10}}
-                                    underlayStyle={{ 
-                                    backgroundColor:colors.secondary,
-                                    }}
-                                    />
-                            </Box>
+                            <React.Fragment>
+                              <SwipeBtn
+                                loading={processing}
+                                onComplete={handleSubmit(onSubmit)}
+                                /> 
+                              </React.Fragment>      
+                             
                         </VStack>
                     </VStack>
                 ) : (

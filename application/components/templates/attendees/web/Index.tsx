@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Button, Container, HStack, Pressable, Spacer, Text, VStack, Icon, Input, Image, Box } from 'native-base'
+import { Button, Container, HStack, Pressable, Spacer, Text, VStack, Icon, Input, Image, Box, View, Flex } from 'native-base'
 import RectangleAttendeeView from 'application/components/atoms/attendees/RectangleView';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -43,6 +43,11 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
     const tabQueryParam = searchParams.get('tab')
 
+    const tab1 = React.useRef<HTMLDivElement>();
+    const tab2 = React.useRef<HTMLDivElement>();
+    const tab3 = React.useRef<HTMLDivElement>();
+    const tab4 = React.useRef<HTMLDivElement>();
+    const tab5 = React.useRef<HTMLDivElement>();
 
     const createQueryString = React.useCallback(
         (name: string, value: string) => {
@@ -173,7 +178,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('my-attendee');
         }
     }, [screen]);
-
     const module = (speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee) => attendee.alias === 'attendees') : modules?.find((attendee) => attendee.alias === 'my-attendee-list')) : modules?.find((speaker) => speaker.alias === 'speakers'))
 
     return (
@@ -201,7 +205,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                 <>
                     {speaker === 0 && <HStack mb="3" space={1} overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%">
                         {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  (event?.attendee_settings?.tab == 1 || modules?.some(module => module.alias === 'my-attendee-list')) && 
-                            <Button 
+                            <Button
+                                ref={tab1} 
                                 onPress={() => {
                                     setTab('attendee'); 
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'attendee'))
@@ -215,14 +220,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 h="42px"
                                 flex={1} 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
-                                w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
-                                _text={{ fontWeight: '600' }}
+                                _text={{ fontWeight: '600', flex: 1 }}
                             >
-                                {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
+                                <Text textAlign={'center'} maxW={tab1?.current?.clientWidth ? tab1?.current?.clientWidth - 24: '' } fontWeight={600} fontSize="md" isTruncated>{event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}</Text>
+                                
                             </Button>}
                         {
                             modules?.some(module => module.alias === 'my-attendee-list') && (
                             <Button
+                                ref={tab2}
                                 onPress={() => {
                                     setTab('my-attendee')
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
@@ -236,17 +242,18 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 _hover={{_text: {color: 'primary.hovercolor'}}} 
                                 flex={1} 
                                 borderRightRadius={0} 
-                                borderLeftRadius={0} 
-                                bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
+                                borderLeftRadius={0}
+                                bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
                                 _text={{ fontWeight: '600' }}
                             >
+                                <Text textAlign={'center'} maxW={tab2?.current?.clientWidth ? tab2?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}</Text>
                                 
-                                {modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
                             </Button>
                             )
                         }
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
-                                <Button 
+                                <Button
+                                    ref={tab3}
                                     onPress={() => {
                                         setTab('group')
                                         push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'group'))
@@ -258,19 +265,18 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     borderRightRadius={0} 
                                     _hover={{_text: {color: 'primary.hovercolor'}}}
                                     h="42px"
-                                     flex={1}  
+                                    flex={1}
                                     bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} 
-                                    w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
-                                    _text={{ fontWeight: '600' }}
-                                >
-                                    {event?.labels?.ATTENDEE_LIST_BY_GROUP}
+                                    _text={{ fontWeight: '600' }}>       
+                                    <Text textAlign={'center'} maxW={tab3?.current?.clientWidth ? tab3?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.ATTENDEE_LIST_BY_GROUP}</Text>
                                 </Button>
                         }
                     </HStack>}
                     {speaker ===  1 && <HStack overflow={'hidden'} rounded={8} flexWrap={'wrap'}  mb="3" space={1} justifyContent="center" w="100%">
                         
                         {(( event?.speaker_settings?.tab == 1)) &&  
-                            <Button 
+                            <Button
+                                ref={tab4} 
                                 onPress={() => {
                                     setTab('attendee') 
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'attendee'))
@@ -288,11 +294,12 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                {event?.labels?.SPEAKER_NAME}
+                                <Text textAlign={'center'} maxW={tab4?.current?.clientWidth ? tab4?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.SPEAKER_NAME}</Text>
                             </Button>
                         }
                         {( event?.speaker_settings?.tab == 1) &&
-                            <Button 
+                            <Button
+                                ref={tab5} 
                                 onPress={() => {
                                     setTab('category')
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
@@ -308,7 +315,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                {event?.labels?.SPEAKER_CATEGORY}
+                                <Text textAlign={'center'} maxW={tab5?.current?.clientWidth ? tab5?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.SPEAKER_CATEGORY}</Text>
                             </Button>
                         }
                     </HStack>}
@@ -347,15 +354,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     )}
                 </>
             )}
-            {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
-              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
+            {/* {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
+              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="163px" space="1">
                   {alphabet.map((item, k) =>
                     <React.Fragment key={k}>
                         <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
                     </React.Fragment>
                   )}
               </VStack>
-            )}
+            )} */}
             <>
                 {(in_array('attendee-listing', processing) || in_array('category-listing', processing) || in_array('groups', processing)) && page === 1 ? (
                     <SectionLoading />
@@ -365,7 +372,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {speaker === 0 && GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
+                                            {map?.letter}
+                                            </Text>
                                     )}
                                     {map?.records?.map((attendee: Attendee, k: number) =>
                                         <React.Fragment key={`${k}`}>
@@ -389,7 +398,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
+                                            {map?.letter}
+                                            </Text>
                                     )}
                                     {map?.records?.map((group: Group, k: number) =>
                                         <React.Fragment key={`${k}`}>

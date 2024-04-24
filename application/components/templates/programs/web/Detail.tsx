@@ -59,6 +59,9 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBox';
+import { useWindowDimensions } from 'react-native';
+import SessionRating from 'application/components/atoms/programs/SessionRating';
 
 type ScreenParams = { id: string }
 
@@ -92,6 +95,8 @@ const Detail = () => {
     const [showPolls, setshowPolls] = React.useState<Boolean>(false);
 
     const [tabs, setTabs] = React.useState<any>([]);
+
+    const { width } = useWindowDimensions();
 
     React.useEffect(() => {
         if (mounted.current) {
@@ -173,7 +178,7 @@ const Detail = () => {
                     <Container mb="3" maxW="100%" w="100%">
                         <HStack style={{rowGap: 2, columnGap: 1}} mb="3" space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
                             {tabs.map((mtab: any, key: number) => (
-                                <Button key={mtab[0]} flex={1} rounded={0} minW={'calc(50% - 2px)'} onPress={() => setTab(mtab[0])} borderWidth="1px" py={0} borderColor="primary.boxbutton" h="42px" bg={tab === mtab[0] ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>{mtab[1]}</Button>
+                                <Button key={mtab[0]} flex={1} rounded={0} minW={'calc(50% - 2px)'} onPress={() => setTab(mtab[0])} borderWidth="0" py={0} borderColor="primary.boxbutton" h="42px" bg={tab === mtab[0] ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>{mtab[1]}</Button>
                             ))}
                         </HStack>
                         {group_id > 0 && (
@@ -220,7 +225,7 @@ const Detail = () => {
                                                 <Box w="100%" py="4">
                                                     <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
                                                         <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                                            <Text fontSize="md">{event?.labels?.PROGRAM_LIVE_POLLS}</Text>
+                                                            <Text fontSize="md">{event?.labels?.POLLS_LIVE_POLLS}</Text>
                                                         </VStack>
                                                     </HStack>
                                                 </Box>
@@ -323,10 +328,14 @@ const Detail = () => {
                             </>
                         )}
                     </Container>
-                        <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
+                    {width < 810 && <Container maxW="100%" w="100%" >
+                        { event?.agenda_settings?.enable_notes == 1 && !in_array('program-detail', processing) && <ProgramNotesBox />}
+                        { event?.agenda_settings?.session_ratings == 1 && !in_array('program-detail',processing) &&  <SessionRating program_id={_id} />}
+                    </Container>}
                     {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />
                     )}
+                    <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
                 </>
             )}
         </>
