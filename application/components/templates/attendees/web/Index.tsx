@@ -163,7 +163,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         return debounce(function (query: string, tab:string) {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: group_id, page: 1, attendee_id: 0, program_id: 0 });
-            } else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {console.log('call 5')
+            } else if (tab === "category") {
+                FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+            }else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {console.log('call 5')
                 FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }, 1000);
@@ -349,7 +351,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     back()
                                 }}>
                             </Pressable>
-                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'left'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{category_name}</Text>
+                            <Text flex="1" mb={1} textTransform="uppercase" textAlign={'left'} textBreakStrategy='simple' w={'100%'} fontSize="sm">{category_name}</Text>
                         </HStack>
                     )}
                 </>

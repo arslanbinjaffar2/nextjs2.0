@@ -295,7 +295,6 @@ const Detail = () => {
                       isDisabled={steps <= 0 ? true : false}
                       bg="transparent"
                       p="2"
-                      textTransform={'capitalize'}
                       fontSize="lg"
                       leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
                       colorScheme="primary"
@@ -311,7 +310,6 @@ const Detail = () => {
                       bg="transparent"
                       isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
                       p="2"
-                      textTransform={'capitalize'}
                       fontSize="lg"
                       rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       colorScheme="primary"
@@ -344,9 +342,9 @@ const Detail = () => {
                   {canSubmitMultipleTimes ? (
                     <Button
                     id='test'
-                    w="100px"
+                    minW="100px"
                     py="3"
-                    px="1"
+                    px="3"
                     isLoading={false}
                     colorScheme="primary"
                     onPress={()=>{
