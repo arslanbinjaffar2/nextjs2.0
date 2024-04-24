@@ -82,6 +82,7 @@ const Detail = () => {
             socket?.on(`event-buizz:hd_block_sort_${event.id}_${id}`, function (data:any):any {
                 console.log(data, 'data2');
                 HdSort(data);
+                FetchTabDetails({ id: Number(id) });
             });
         }
         return () =>{

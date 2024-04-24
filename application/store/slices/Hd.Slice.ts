@@ -119,11 +119,11 @@ export const HdSlice = createSlice({
                 archiveHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.like_count! - 1;
             }
 
-            state.hdDetails.popular_questions = popularHd;
+            // state.hdDetails.popular_questions = popularHd;
             
-            state.hdDetails.recent_questions = recentHd;
+            // state.hdDetails.recent_questions = recentHd;
 
-            state.hdDetails.archived_questions = archiveHd;
+            // state.hdDetails.archived_questions = archiveHd;
 
         },
         
