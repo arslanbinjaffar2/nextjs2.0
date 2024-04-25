@@ -81,14 +81,15 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                                 <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
                                             </Pressable>
                                             <Modal
+																						
                                             isOpen={isNotesOpen}
                                             onClose={()=>{
                                             setIsNotesOpen(false);
                                             }}
                                         >
                                             
-                                        <Modal.Content p={0}>
-                                                <Modal.Body position={'relative'} zIndex={1} p={0}>
+                                        <Modal.Content nativeID='ebs-alert-dialog' bg={'primary.box'} p={0}>
+                                                <Modal.Body bg={'red'} position={'relative'} zIndex={1} p={0}>
                                                     <DocumentNotesBox note_type_id={document.id}>
                                                     <Pressable onPress={() => setIsNotesOpen(false)}><Icon as={FontAwesome} name="close" size={'lg'} color={'primary.text'} /></Pressable>
                                                     </DocumentNotesBox>

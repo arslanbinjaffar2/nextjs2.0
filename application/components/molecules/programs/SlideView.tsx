@@ -14,6 +14,7 @@ import UseProgramService from 'application/store/services/UseProgramService';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
+import Icocalendar from 'application/assets/icons/small/Icocalendar'
 
 type AppProps = {
 	programs: Program[],
@@ -65,7 +66,7 @@ const LazySlider = ({ programs, onChange }: any) => {
 	};
 	return (
 		<>
-			<Box mt={'4'} mb={1} bg={'primary.darkbox'} w={'100%'} p={4}>
+			<Box mt={'2'} mb={1} bg={'primary.darkbox'} w={'100%'} p={4}>
 				<HStack w={['100%']}>
 					<View w={[width - 120, width - 120, 'calc(100% - 70px)']}>
 						<Slider
@@ -214,7 +215,9 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
                                 </React.Fragment>
                             )} */}
 
-
+							<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{section === 'program' ? modules?.find((module) => (module.alias == 'agendas'))?.name : modules?.find((module) => (module.alias == 'myprograms'))?.name}</Heading>
+							{!router.asPath.includes('/dashboard') && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">May 2024</Text>
+							</HStack>}
 							<LazySlider onChange={handleChange} programs={programs} />
 							{programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
 							{programs.length <= 0 &&
@@ -224,7 +227,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 									</Box>
 								</Box>
 							}
-							{dates.length > 5 && dashboard === true && <Center py="3" px="2" w="100%" alignItems="flex-end">
+							{dates?.length > 5 && dashboard === true && <Center py="3" px="2" w="100%" alignItems="flex-end">
 								<Button onPress={() => {
 								push(`/${event.url}/agendas?currentIndex=${currentIndex}`)
 								}} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>

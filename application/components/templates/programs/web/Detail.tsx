@@ -58,6 +58,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBox';
 import { useWindowDimensions } from 'react-native';
 import SessionRating from 'application/components/atoms/programs/SessionRating';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 
 type ScreenParams = { id: string }
 
@@ -233,6 +234,8 @@ const Detail = () => {
                                                         <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
                                                             <Text fontSize="md">{event?.labels?.POLLS_LIVE_POLLS}</Text>
                                                         </VStack>
+                                                        <Spacer />
+                                                        <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                                     </HStack>
                                                 </Box>
                                             </Pressable>
@@ -300,7 +303,7 @@ const Detail = () => {
                                             <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
                                             {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
-                                                    <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
+                                                    <RectangleGroupView group={group} k={k} border={k} navigation={true} />
                                                 </React.Fragment>
                                             )}
                                         </React.Fragment>
