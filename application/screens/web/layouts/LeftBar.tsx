@@ -81,7 +81,7 @@ const PressableElement = ({row}: any) => {
         }
       {row?.alias === 'alerts' && unread > 0 &&
         <Badge // bg="red.400"
-          bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid" alignSelf="flex-end" _text={{
+          bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid"  _text={{
           fontSize: 12
         }}>
             {unread}
