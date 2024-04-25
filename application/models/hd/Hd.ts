@@ -297,6 +297,8 @@ export interface Labels {
   HD_NO_ANSWER: string;
   HD_TYPE_ANSWER: string;
   HD_SEND_LABEL: string;
+  HD_HISTORY: string;
+  HD_SEND_ANONYMOUSLY: string;
 }
 
 export interface Setting {
