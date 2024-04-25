@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, useToast, IconButton, Spacer } from 'native-base';
 
@@ -36,6 +36,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
+import UseToastService from 'application/store/services/UseToastService';
 import PolicyModal from 'application/components/atoms/PolicyModal';
 import attendees from 'application/assets/icons/attendees'
 import { 
@@ -92,6 +93,7 @@ const index = () => {
                         updatingAttendee={updatingAttendee}
                         UpdateSuccess={UpdateSuccess}
                         success_message={success_message}
+                    
                     />
                 </>
             )}
@@ -112,35 +114,37 @@ type formProps = {
     event: Event
     attendee_feild_settings: Attendeefeildsettings | null
     updatingAttendee: boolean,
-    success_message: boolean,
+    success_message: boolean | null, 
     updateAttendee: (data: any) => void
     UpdateSuccess: (data: any) => void
 };
 
 
 const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee, success_message, UpdateSuccess }: formProps) => {
-    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+  const {AddToast}=UseToastService()
     const Selectstyles2 = {
-        control: (base: any, state: any) => ({
-            ...base,
-            //   minHeight: "40px",
-            padding: "3px",
-            minHeight: 50,
-            width: '100%',
-            maxWidth: '100%',
-            minWidth: '100%',
-            marginBottom: 10,
-            background: `rgba(0,0,0,0.2)`,
-            color: '#eaeaea',
-            fontFamily: 'Avenir',
-            boxShadow: 'none',
-            borderWidth: 2,
-            borderColor: state.isFocused ? event?.settings?.primary_color : "transparent",
-            "&:hover": {
-                // Overwrittes the different states of border
-                borderColor: state.isFocused ? event?.settings?.primary_color : "transparent"
-            }
-        }), placeholder: (defaultStyles: any) => {
+    control: (base:any, state:any) => ({
+      ...base,
+      minHeight: "40px",
+      padding:"3px",
+    // minHeight:50,
+      width: '100%',
+      maxWidth: '100%',
+	  minWidth: '100%',
+      marginBottom: 10,
+        background: `rgba(0,0,0,0.2)`,
+        color: '#eaeaea',
+        fontFamily: 'Avenir',
+        boxShadow: 'none',
+        borderWidth: 2,
+        borderColor: state.isFocused ? event?.settings?.primary_color : "transparent",
+        "&:hover": {
+            // Overwrittes the different states of border
+            borderColor: state.isFocused ? event?.settings?.primary_color : "transparent"
+        }
+    }),placeholder: (defaultStyles: any) => {
+
             return {
                 ...defaultStyles,
                 color: '#eaeaea',
@@ -351,11 +355,12 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         formData.append('settings', JSON.stringify(data.settings));
         formData.append('file', data.attendeeObj.file);
         formData.append('attendee_cv', data.attendeeObj.att_cv);
-
+   
         updateAttendee(formData);
 
-
     };
+ 
+
     console.log(attendeeData.attendee_cv)
     if (Object.keys(attendeeData).length === 0) {
         return <WebLoading />;

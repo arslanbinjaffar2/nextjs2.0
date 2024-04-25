@@ -95,16 +95,16 @@ const Index = () => {
                 {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <Button ref={tb1} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                     ResetTracks();
                     setTab('program')
-                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}><Text textAlign={'center'} isTruncated w={tb1.current?.clientWidth ? tb1.current?.clientWidth - 10 : '100%'} fontWeight={600}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</Text>
+                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}><Text textAlign={'center'} isTruncated maxW={tb1.current?.clientWidth ? tb1.current?.clientWidth - 24 : ''} fontWeight={600}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</Text>
                 </Button>}
                 {(modules?.find((m)=>(m.alias == 'myprograms'))) && <Button ref={tb2} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                     ResetTracks();
                     setTab('my-program');
                 }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>
-                    <Text textAlign={'center'} isTruncated w={tb2.current?.clientWidth ? tb2.current?.clientWidth - 10 : '100%'} fontWeight={600}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</Text>
+                    <Text textAlign={'center'} isTruncated maxW={tb2.current?.clientWidth ? tb2.current?.clientWidth - 24 : ''} fontWeight={600}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</Text>
                     </Button>}
                 {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <Button ref={tb3} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('track')} borderWidth="0px" py={0} borderColor="primary.darkbox" flex={1} borderLeftRadius="0" borderRightRadius={0} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>
-                    <Text textAlign={'center'} isTruncated w={tb3.current?.clientWidth ? tb3.current?.clientWidth - 10 : '100%'} fontWeight={600}>{event?.labels?.PROGRAM_BY_TRACKS}</Text>
+                    <Text textAlign={'center'} isTruncated maxW={tb3.current?.clientWidth ? tb3.current?.clientWidth - 24 : ''} fontWeight={600}>{event?.labels?.PROGRAM_BY_TRACKS}</Text>
                     </Button>}
             </HStack>
             {Object.keys(track).length > 0 && (
