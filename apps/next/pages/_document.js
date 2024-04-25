@@ -305,6 +305,9 @@ div[data-testID="="Button"]{
 .add-blur {
   backdrop-filter: blur(8px);
 }
+.rsw-toolbar {
+  background-color: rgba(0,0,0,0.2) !important;
+}
 `;
 
 export async function getInitialProps({ renderPage }) {
