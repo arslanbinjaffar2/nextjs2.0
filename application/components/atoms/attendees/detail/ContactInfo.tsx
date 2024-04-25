@@ -7,7 +7,7 @@ import IcoLinkedIN from 'application/assets/icons/small/IcoLinkedIN';
 import IcoWebLink from 'application/assets/icons/small/IcoWebLink';
 import IcoEnvelope from 'application/assets/icons/small/IcoEnvelope';
 import IcoPhone from 'application/assets/icons/small/IcoPhone';
-import IcoUserFilled from 'application/assets/icons/small/IcoUserFilled';
+import IcoUserFilled from 'application/assets/icons/small/IcouserFilled';
 import IcoVCF from 'application/assets/icons/small/IcoVCF';
 import { Detail } from 'application/models/attendee/Detail';
 import { getContactAttendeeApi } from 'application/store/api/Attendee.Api';
