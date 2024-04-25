@@ -1,6 +1,6 @@
 import React from 'react';
 import {  useWindowDimensions } from 'react-native';
-import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon, VStack } from 'native-base'
+import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon, VStack, Tooltip } from 'native-base'
 import { SafeAreaView } from "react-native-safe-area-context";
 import Slider from "react-slick";
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
@@ -89,7 +89,12 @@ const MobileNavigation = () => {
                     }}
                   >
                     <DynamicIcon iconType={module?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '')} iconProps={{ width: 34, height: 34 }} />
-                    <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name} </Text>
+                    <Tooltip   label={module.name}   >
+
+                    <Text textAlign={'center'} pt={1} fontSize={'sm'}>
+                   {module.name.length>=15?`${module.name.substring(0,15)} ...`:`${module.name}`}
+                      </Text>
+                </Tooltip>
                   </Pressable>
                
               </Box>
