@@ -3,6 +3,7 @@ import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, V
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/survey/Detail';
 import { Platform } from 'react-native';
+import UseSurveyService from 'application/store/services/UseSurveyService';
 
 type PropTypes = {
   question: Question,
@@ -14,6 +15,7 @@ type PropTypes = {
 }
 const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
   const [inputTextArray, setInputTextArray] = React.useState(formData[question.id]?.answer ?? {})
+  const { survey_labels } = UseSurveyService();
   return (
     <Center maxW="100%" w="100%" mb="0">
       <Box mb="3" py="3" px="4" w="100%">
@@ -23,7 +25,7 @@ const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: 
           {[...Array(question.entries_per_participant)].map((item, k) =>
             <HStack alignItems="center" key={k} w="100%">
               {/* <Text w="10%" fontSize="lg">{k+1}</Text> */}
-               <Input placeholder="Please Enter" width="100%"  value={inputTextArray[k] !== undefined  ? inputTextArray[k] : ''} onChangeText={(answer)=>{ 
+               <Input placeholder={survey_labels?.WORD_CLOUD_ENTER_YOUR_WORD} width="100%"  value={inputTextArray[k] !== undefined  ? inputTextArray[k] : ''} onChangeText={(answer)=>{ 
                     updateFormData(question.id, question.question_type, answer, k)
                     setInputTextArray({...inputTextArray, [k]:answer});
                   }}
@@ -53,6 +55,11 @@ const WordCloudAnswer = ({ question, formData, updateFormData, error, labels }: 
             <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
         </Box>
         </>
+      }
+      {question?.is_participants_multiple_times === 1 && 
+        <Center w="100%">  
+          <Text fontSize="md">{survey_labels?.SUBMIT_MULTIPLE_ANSWERS}</Text>
+        </Center>
       }
     </Center>
   )

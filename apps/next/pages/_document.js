@@ -213,6 +213,7 @@ body {
   border-radius: 6px !important;
   border-color: transparent !important;
   color: #fff !important;
+  flex: 1 !important;
 }
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
@@ -220,8 +221,8 @@ body {
 #ebs-exhibitor-slider .slick-slide,#ebs-sponsors-slider .slick-slide {
  width: 264px !important; 
 }
-#ebs-alert-dialog {
-  backdrop-filter: blur(8px)
+.add-blur-radius {
+  backdrop-filter: blur(8px);
 } 
 #ebs-button-close {
   z-index: 99 !important;
@@ -286,6 +287,23 @@ svg#active #svg-elem-3 {
 @keyframes example {
   from {transform: scale(0);}
   to {transform: scale(1);}
+}
+div[data-testID="TitleContainer"]+ div {
+  border-radius: 10px !important;
+  
+}
+div[data-testID="IconContainer"] {
+  border:0px solid transparent !important;
+}
+div[data-testID="="Button"]{
+  border:0px solid transparent !important;
+  outline:0px solid transparent !important;
+}
+.css-view-1dbjc4n{
+  border:transparent !important;
+}
+.add-blur {
+  backdrop-filter: blur(8px);
 }
 `;
 

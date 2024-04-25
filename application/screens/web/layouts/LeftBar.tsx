@@ -104,7 +104,7 @@ const LeftBar = () => {
 
 
   return (
-    <Center nativeID='ebs-master-left-bar' overflow="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
+    <Center nativeID='ebs-master-left-bar' overflowX="hidden" overflowY="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Center nativeID='ebs-master-left-bar-wrapper'>
       <Box pb="3">
         <Pressable

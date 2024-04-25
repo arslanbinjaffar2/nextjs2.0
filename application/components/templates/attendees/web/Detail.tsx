@@ -56,6 +56,13 @@ const Detail = ({ speaker }: Props) => {
 
     const { loading, scroll, processing } = UseLoadingService();
 
+    const tab1 = React.useRef<HTMLDivElement>();
+    const tab2 = React.useRef<HTMLDivElement>();
+    const tab3 = React.useRef<HTMLDivElement>();
+    const tab4 = React.useRef<HTMLDivElement>();
+    const tab5 = React.useRef<HTMLDivElement>();
+    const tab6 = React.useRef<HTMLDivElement>();
+
     const [_id] = useParam('id');
     const { _env } = UseEnvService()
     const { push, back } = useRouter()
@@ -106,14 +113,13 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
                             {/* <Pressable onPress={()=> back() }>
                                 <HStack space="3" alignItems="center">
                                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                                     <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
                                 </HStack>
                             </Pressable> */}
-                        <Spacer />
                         <Search tab={tab} />
                     </HStack>
                     <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
@@ -129,27 +135,31 @@ const Detail = ({ speaker }: Props) => {
                                                             (() => {
                                                                 if (row?.tab_name === 'program' && row?.status == 1 && event?.speaker_settings?.program === 1) {
                                                                     return (
-                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('program')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{speaker ? (modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}</Button>
+                                                                        <Button ref={tab1} _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('program')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}><Text textAlign={'center'} maxWidth={tab1?.current?.clientWidth ? tab1?.current?.clientWidth - 24 : '' } fontWeight={600} fontSize="md" isTruncated>{speaker ? (modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}</Text>
+                                                                        </Button>
                                                                     )
                                                                 } else if (row?.tab_name === 'category' && row?.status == 1 && event?.speaker_settings?.category_group === 1) {
                                                                     return (
-                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('category')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.SPEAKER_CATEGORY}</Button>
+                                                                        <Button ref={tab2} _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('category')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}><Text textAlign={'center'} maxWidth={tab2?.current?.clientWidth ? tab2?.current?.clientWidth - 24 : '' } fontWeight={600} fontSize="md" isTruncated>{event?.labels?.SPEAKER_CATEGORY}</Text></Button>
                                                                     )
                                                                 } else if (row?.tab_name === 'documents' && row?.status == 1 && event?.speaker_settings?.show_document === 1) {
                                                                     return (
-                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('documents')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}</Button>
+                                                                        <Button ref={tab3} _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('documents')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>
+                                                                            <Text textAlign={'center'} maxWidth={tab3?.current?.clientWidth ? tab3?.current?.clientWidth - 24 : '' } fontWeight={600} fontSize="md" isTruncated>{modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}</Text></Button>
                                                                     )
                                                                 } else if (row?.tab_name === 'about' && row?.status == 1) {
                                                                     return (
-                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('about')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.ATTENDEE_TAB_ABOUT}</Button>
+                                                                        <Button ref={tab4} _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('about')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}><Text textAlign={'center'} maxWidth={tab4?.current?.clientWidth ? tab4?.current?.clientWidth - 24 : '' } fontWeight={600} fontSize="md" isTruncated>{event?.labels?.ATTENDEE_TAB_ABOUT}</Text></Button>
                                                                     )
                                                                 } else if (row?.tab_name === 'groups' && row?.status == 1 && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group)))) {
                                                                     return (
-                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('groups')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.ATTENDEE_TAB_GROUP}</Button>
+                                                                        <Button ref={tab5} _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('groups')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>
+                                                                            <Text textAlign={'center'} maxWidth={tab5?.current?.clientWidth ? tab5?.current?.clientWidth - 24 : '' } fontWeight={600} fontSize="md" isTruncated>{event?.labels?.ATTENDEE_TAB_GROUP}</Text></Button>
                                                                     )
                                                                 } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id)) {
                                                                     return (
-                                                                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('sub_registration')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'sub_registration' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{modules?.find((module)=>(module.alias == 'subregistration'))?.name ?? 'SUB REGISTRATIONS'}</Button>
+                                                                        <Button ref={tab6} _hover={{_text: {color: 'primary.hovercolor'}}} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('sub_registration')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'sub_registration' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>
+                                                                            <Text textAlign={'center'} maxWidth={tab6?.current?.clientWidth ? tab6?.current?.clientWidth - 24 : '' } fontWeight={600} fontSize="md" isTruncated>{modules?.find((module)=>(module.alias == 'subregistration'))?.name ?? 'SUB REGISTRATIONS'}</Text></Button>
                                                                     )
                                                                 }
                                                             })()

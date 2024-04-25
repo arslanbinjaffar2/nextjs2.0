@@ -25,7 +25,7 @@ const Index = () => {
 
     const [query, setQuery] = React.useState('');
     
-    const { FetchSurveys, surveys, completed_surveys, survey_labels } = UseSurveyService();
+    const { FetchSurveys, surveys, completed_surveys, survey_labels, survey_settings } = UseSurveyService();
 
     const { event, modules  } = UseEventService();
     const { _env } = UseEnvService()
@@ -39,9 +39,9 @@ const Index = () => {
 
     useEffect(() => {
         
-        // if(surveys.length == 1 && completed_surveys.length == 0){
-        //     push(`/${event.url}/survey/detail/${surveys[0]?.id}`);
-        // }
+        if(surveys.length == 1 && completed_surveys.length == 0){
+            push(`/${event.url}/survey/detail/${surveys[0]?.id}`);
+        }
 
         if(surveys && surveys.length > 0) {
 
@@ -85,13 +85,13 @@ const Index = () => {
                     <NextBreadcrumbs module={module} />
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text textTransform="capitalize" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'survey'))?.name ?? 'Surveys'}</Text>
+                            <Text  fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'survey'))?.name ?? 'surveys'}</Text>
                             <Spacer />
                             <Input rounded="10" w={["100%","60%" ]}bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
-                            <Button onPress={() => setTab('pending')} _hover={{_text: {color: 'primary.hovercolor'}}} borderWidth="0px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{event?.labels?.NATIVE_APP_SURVEY_NOT_ATTENDED}</Button>
-                            <Button onPress={() => setTab('completed')} _hover={{_text: {color: 'primary.hovercolor'}}}  borderWidth="0px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{event?.labels?.NATIVE_APP_SURVEY_COMPLETED}</Button>
+                            <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('pending')} borderWidth="0px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{survey_labels?.NATIVE_APP_SURVEY_NOT_ATTENDED}</Button>
+                            <Button _hover={{_text: {color: 'primary.hovercolor'}}} isDisabled={survey_settings?.user_settings == 1 ? false:true} onPress={() => setTab('completed')} borderWidth="0px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{survey_labels?.NATIVE_APP_SURVEY_COMPLETED}</Button>
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">

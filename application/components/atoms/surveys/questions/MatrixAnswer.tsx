@@ -13,7 +13,7 @@ type PropTypes = {
     labels:any,
     forceRender:number,
 }
-const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: PropTypes) => {
+const MatrixAnswer = ({ question, formData, updateFormData, error, labels,forceRender }: PropTypes) => {
   const {width} = useWindowDimensions();
   const [matrix, setmatrix] = React.useState(false)
   return (
@@ -31,7 +31,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, labels }: Pro
               </React.Fragment>
             )}
           </HStack>
-          <VStack  w="100%" space="0">
+          <VStack  w="100%" space="0" key={forceRender}>
             {question?.answer.map((answer, k) =>
             <Radio.Group w="100%" display={'flex'} key={k} name={`group-${k}`} aria-label={answer?.answer}  value={formData[question.id]?.answer !== null ? `${formData[question.id]?.answer[answer.id] ?? ''}` : ``}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
               <HStack w="100%" key={k} space="1" alignItems="center">

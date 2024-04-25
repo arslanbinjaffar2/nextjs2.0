@@ -32,6 +32,7 @@ import HdSlice from './slices/Hd.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 import GallerySlice from './slices/Gallery.Slice'
 import SocialWallSlice, { SocialWallActions } from './slices/SocialWall.Slice'
+import ToastSlice from './slices/Toast.Slice'
 
 const makeStore = () => {
 
@@ -69,6 +70,7 @@ const makeStore = () => {
             notifications:NotificationSlice,
             socket:SocketSlice,
             hd:HdSlice,
+            toast:ToastSlice
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
