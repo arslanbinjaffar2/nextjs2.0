@@ -1,6 +1,6 @@
 import React from 'react';
 import {  useWindowDimensions } from 'react-native';
-import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon, VStack, Spacer } from 'native-base'
+import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon, VStack, Spacer, Tooltip } from 'native-base'
 import { SafeAreaView } from "react-native-safe-area-context";
 import Slider from "react-slick";
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
@@ -89,16 +89,11 @@ const MobileNavigation = () => {
                     }}
                   >
                     <DynamicIcon iconType={module?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '')} iconProps={{ width: 34, height: 34 }} />
-                 {module.name.length>=24?   <Text textAlign={'center'} pt={1} fontSize={'sm'}>
-                    {width>480?
-                     `${module.name.substring(0,24)}...` :
-                     width>390?
-                      `${module.name.substring(0,12)}`:
-                      `${module.name.substring(0,10)}`
-                    }
+                    <Tooltip label={module.name}>
+                      <Text textAlign={'center'} pt={1} fontSize={'sm'}>
+                        {module.name.length>=15?`${module.name.substring(0,15)} ...`:`${module.name}`}
                       </Text>
-                    :  <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name}</Text>
-                    }
+                    </Tooltip>
                   </Pressable>
                
               </Box>

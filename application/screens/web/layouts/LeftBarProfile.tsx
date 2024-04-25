@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Center, HStack, Pressable, Text, VStack } from 'native-base';
+import { Center, HStack, Pressable, Text, Tooltip, VStack } from 'native-base';
 
 import { useWindowDimensions } from 'react-native';
 
@@ -41,11 +41,13 @@ const PressableElement = ({row}: any) => {
           {console.log(row?.icon)}
           <DynamicIcon iconType={row?.icon?.replace("-icon", "").replace("-","_").replace('.png','') } iconProps={{ width: 26, height: 26, color: isHovered || router.pathname.includes(row?.alias) ? func.colorType(event?.settings?.primary_color)  : undefined }} />
         </Center>
+        <Tooltip   label={row.name}>
         <Text fontSize={'lg'} color={isHovered || router.pathname.includes(row?.alias) ? 'primary.hovercolor'  : "primary.text"}>
-          {row?.name.replace('label','')}
+        {row.name.length>=22?`${row.name.substring(0,22).replace('label','')} ...`:`${row.name}`}
           {/* {row?.alias.replace('-','_')} */}
         {/* {row?.icon?.replace("-icon", "").replace("-", "_").replace('.png', '')} */}
         </Text>
+     </Tooltip>
       </HStack>
     </Pressable>
 
