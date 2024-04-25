@@ -166,7 +166,7 @@ const Detail = () => {
                 </HStack>
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" borderBottomWidth={0} borderColor="primary.bdBox">
                 <Box w="100%">
-                    <HStack pl="6"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
+                    <HStack pl="14px"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
                         <Text fontSize="lg">Ask help desk</Text>
                     </HStack>
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
