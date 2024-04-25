@@ -255,16 +255,11 @@ const Detail = () => {
     }
     setcompleted(false)
     setSubmittingPoll(false)
+    setsteps(0)
   }
-  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
-  React.useEffect(()=>{
-    setGoBack(0)
-    setTimeout(()=>{
-      if(submittingPoll){
-        setGoBack(1)
-      }
-        },1300)
-  },[submittingPoll,goBack])
+  
+
+
   return (
     <>
       {loading ? (
