@@ -18,7 +18,24 @@ import UseSocketService from 'application/store/services/UseSocketService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoSend from 'application/assets/icons/small/IcoSend'
-
+import { 
+    BtnBold,
+    BtnBulletList,
+    BtnClearFormatting,
+    BtnItalic,
+    BtnLink,
+    BtnNumberedList,
+    BtnRedo,
+    BtnStrikeThrough,
+    BtnStyles,
+    BtnUnderline,
+    BtnUndo,
+    HtmlButton,
+    Separator,
+    Editor,
+    EditorProvider,
+    Toolbar
+} from 'react-simple-wysiwyg';
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
@@ -156,10 +173,31 @@ const Detail = () => {
                             <Text color="red.400"> {error} </Text>
                     </Box>}
                     <Box w="100%" px="3">
-                        <TextArea rounded={8} bg="primary.darkbox" borderWidth={1} borderColor={'primary.darkbox'} value={question}
-                         onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%"  minH="60px" placeholder="enter your help" 
-                         autoCompleteType={undefined}  />
-
+                         <Text w={'100%'} color={'primary.text'} fontSize="md">
+                            <Box w={'100%'} bg="primary.darkbox" rounded={8}>
+                                <EditorProvider>
+                                    <Editor style={{width: '100%'}} value={question} onChange={(e) => {
+                                        setQuestion(e.target.value) }}  >
+                                                <Toolbar>
+                                                <BtnUndo />
+                                                <BtnRedo />
+                                                <Separator />
+                                                <BtnBold />
+                                                <BtnItalic />
+                                                <BtnUnderline />
+                                                <BtnStrikeThrough />
+                                                <Separator />
+                                                <BtnNumberedList />
+                                                <BtnBulletList />
+                                                <Separator />
+                                                <BtnLink />
+                                                <BtnClearFormatting />
+                                                <HtmlButton />
+                                            </Toolbar>
+                                    </Editor>
+                                </EditorProvider>
+                            </Box>
+                        </Text>
                     </Box>
                   
                     {/* <TextArea focusOutlineColor="transparent" _focus={{ bg: 'transparent' }} value={question} 
