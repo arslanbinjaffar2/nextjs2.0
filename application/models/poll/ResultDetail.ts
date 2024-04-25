@@ -1,6 +1,7 @@
 export interface MyPollResultDetail {
   poll:MyPollResultDetailPoll
   total_score:TotalScore[]
+  total_points:number
 }
 export interface MyPollResultDetailPoll {
   id: number;

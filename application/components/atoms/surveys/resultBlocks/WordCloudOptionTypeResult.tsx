@@ -3,6 +3,8 @@ import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, V
 import Icodocument from 'application/assets/icons/PollCommentIcon';
 import { Question } from 'application/models/survey/ResultDetail';
 import { Platform } from 'react-native';
+import UseSurveyService from 'application/store/services/UseSurveyService';
+import UseEventService from 'application/store/services/UseEventService';
 
 type PropTypes = {
   question: Question
@@ -11,6 +13,9 @@ type PropTypes = {
 const WordCloudOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
 
     const [groupedResults, setGroupedResults] = React.useState<any[]>([])
+    const { survey_labels } = UseSurveyService();
+    const { event } = UseEventService();
+
 
     React.useEffect(() => {
         const grouped = question.results.reduce((acc:any, result) => {
@@ -55,7 +60,7 @@ const WordCloudOptionTypeResult = ({ question, questionNumber  }: PropTypes) => 
             {groupedResults.map((group) => (
                 <>
                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" alignItems="center">
-                    <Text fontWeight="600" maxW="80%" fontSize="lg">Your Answer</Text>
+                    <Text fontWeight="600" maxW="80%" fontSize="lg">{survey_labels?.POLL_YOUR_ANSWER}</Text>
                 </HStack>
                 <VStack key={group.key} w="100%" px="3" py="1" space="3" alignItems="flex-start">
                     {group.results.map((answer:any) => (
@@ -69,7 +74,7 @@ const WordCloudOptionTypeResult = ({ question, questionNumber  }: PropTypes) => 
                     <>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                     <Icodocument  />
-                    <Text fontSize="lg">Comments</Text>
+                    <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
                     </HStack>
                     <Box py="3" px="4" w="100%">
                         <Text fontSize="md">{group.results[0]?.comment}</Text>

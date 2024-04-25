@@ -25,8 +25,6 @@ import { getColorScheme } from 'application/styles/colors';
 
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
 
-import PolicyModal from 'application/components/atoms/PolicyModal'
-
 import moment from 'moment';
 
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
@@ -39,7 +37,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
 import UseToastService from 'application/store/services/UseToastService';
-
+import PolicyModal from 'application/components/atoms/PolicyModal';
 import attendees from 'application/assets/icons/attendees'
 import { 
     BtnBold,

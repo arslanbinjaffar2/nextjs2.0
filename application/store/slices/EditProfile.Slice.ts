@@ -21,9 +21,8 @@ export interface EditProfileState {
     order_attendee_count: number;
     settings: Setting[] | null;
     labels: Labels | null;
-    updatingAttendee:boolean
-    success_message:boolean
-
+    updatingAttendee:boolean,
+    success_message: boolean,
 }
 
 const initialState: EditProfileState = {

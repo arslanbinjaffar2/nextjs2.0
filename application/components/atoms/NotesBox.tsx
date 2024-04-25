@@ -11,11 +11,12 @@ type AppProps = {
     children?: React.ReactNode
 }
 const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
-  const { event } = UseEventService()
   const { my_note,saving_notes, SaveNote,GetNote,UpdateNote } = UseNoteService();
   const [note, setNote] = React.useState('')
   const [isNewNote, setIsNewNote] = React.useState(true)
   const {AddToast}=UseToastService()
+  const {event} = UseEventService();
+
   useEffect(()=>{
     GetNote({note_type:note_type, note_type_id:note_type_id});
   },[])

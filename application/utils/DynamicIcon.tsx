@@ -62,14 +62,14 @@ import business from 'application/assets/icons/IcoNetworkInterest';
 import document from 'application/assets/icons/document'
 import download from 'application/assets/icons/download'
 import checkcircle from 'application/assets/icons/checkcircle'
+import cancelcircle from 'application/assets/icons/cancelcircle'
+import close from 'application/assets/icons/close'
 import floorplan_basic from 'application/assets/icons/floorplan_basic'
 import editprofile from 'application/assets/icons/editprofile'
 import myreservation from 'application/assets/icons/myreservation'
 import upcoming_events from 'application/assets/icons/upcoming_events'
-import cancelcircle from 'application/assets/icons/cancelcircle'
 import certificate from 'application/assets/icons/certificate'
 import mybookings from 'application/assets/icons/mybookings'
-import close from 'application/assets/icons/close'
 type IconProps = {
     name?: string;
     color?: string;
