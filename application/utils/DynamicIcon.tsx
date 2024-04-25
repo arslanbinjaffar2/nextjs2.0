@@ -70,7 +70,6 @@ import myreservation from 'application/assets/icons/myreservation'
 import upcoming_events from 'application/assets/icons/upcoming_events'
 import certificate from 'application/assets/icons/certificate'
 import mybookings from 'application/assets/icons/mybookings'
-
 type IconProps = {
     name?: string;
     color?: string;

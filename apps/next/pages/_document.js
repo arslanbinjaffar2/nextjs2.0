@@ -293,9 +293,6 @@ svg#active #svg-elem-3 {
   from {transform: scale(0);}
   to {transform: scale(1);}
 }
-.rsw-toolbar {
-  background-color: rgba(0,0,0,0.2) !important;
-}
 div[data-testID="TitleContainer"]+ div {
   border-radius: 10px !important;
   
@@ -309,6 +306,12 @@ div[data-testID="="Button"]{
 }
 .css-view-1dbjc4n{
   border:transparent !important;
+}
+.add-blur {
+  backdrop-filter: blur(8px);
+}
+.rsw-toolbar {
+  background-color: rgba(0,0,0,0.2) !important;
 }
 
 `;
