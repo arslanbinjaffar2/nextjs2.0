@@ -218,7 +218,7 @@ const Detail = () => {
                                     <>
                                         {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
-                                            <Text fontSize="md">Polls</Text>
+                                            <Text fontSize="md">{event?.labels?.POLLS}</Text>
                                         </HStack>}
                                         {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
                                             <Pressable onPress={() => {
