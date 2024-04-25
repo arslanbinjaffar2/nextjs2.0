@@ -31,20 +31,6 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
 
     return (
         <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.box" : ""}`} w="100%"  p="0" rounded="10">
-            {(showPrivate == 1 ||  detail?.sort_field_setting.find((s:any)=>(s.name === 'bio_info'))?.is_private == 0 ) && detail?.detail?.info?.about! && (
-                <>
-                    <HStack px="3" py="1"  w="100%" space={2} bg="primary.box" alignItems="center">
-                        <IcoInfo />
-                        <Text fontSize="sm">{detail?.sort_field_labels?.about}</Text>
-                    </HStack>
-                    
-                    <VStack py="5" px="4" space="0" alignItems="center">
-                        <View w={'100%'}>
-                            {info}
-                        </View>
-                    </VStack>
-                </>
-            )}
             {(detail?.sort_field_setting.length > 0) ? (
                 <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
@@ -55,6 +41,16 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                         {
                             detail?.sort_field_setting.map((setting:any, i:number)=>(
                                 <React.Fragment key={i}>
+                                    {setting.name === 'bio_info' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.about! && (
+                                        <HStack w={'100%'} borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
+                                            <Box w="150px">
+                                                <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.about}:</Heading>
+                                            </Box>
+                                            <Box w="calc(100% - 200px)" pl="1">
+                                                <Text fontSize="sm">{info}</Text>
+                                            </Box>
+                                        </HStack>
+                                    )}
                                     {setting.name === 'show_job_tasks' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.jobs! && (
                                         <HStack w={'100%'} borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
                                             <Box w="150px">
@@ -327,12 +323,6 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
             ) :  <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
             <Text>{event.labels.GENERAL_NO_RECORD}</Text>
         </Box>  }
-            {!hasAboutData && 
-                <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
-                    <Text>{event.labels.GENERAL_NO_RECORD}</Text>
-                </Box>  
-            }
-            
         </Box>
     )
 

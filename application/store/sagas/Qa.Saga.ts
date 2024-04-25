@@ -39,7 +39,8 @@ function* OnFetchProgramDetail({
             qa_settings:response.data.data.qa_settings!,
             program_settings:response.data.data.program_settings!,
             client_ip:response.data.data.client_ip!,
-            all_languages:response.data.data.all_languages!
+            all_languages:response.data.data.all_languages!,
+            labels:response.data.data.labels!
         }))
     yield put(LoadingActions.removeProcess({process:'qa-detail'}));
 }

@@ -14,6 +14,8 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { Platform } from 'react-native';
+import IntersectionObserverComponent from 'application/components/atoms/IntersectionObserverComponent';
 
 const LazySlider = ({ programs, onChange }: any) => {
 
@@ -120,12 +122,11 @@ const Index = () => {
 
     const [query, setQuery] = React.useState('');
     
-    const { programs, FetchPrograms, track_id} = UseProgramService();
+    const { programs, FetchPrograms, track_id, page, total_pages} = UseProgramService();
     
     const { push } = useRouter()
 
     const [dates, setDates] = React.useState<any>([]);
-    console.log("🚀 ~ Index ~ dates:", dates)
 	  const [currentIndex, setCurrentIndex] = React.useState<number>();
 
     React.useEffect(() => {
@@ -154,9 +155,20 @@ const Index = () => {
       }
     }, [programs])
 
+    React.useEffect(() => {
+      mounted.current = true;
+        return () => { mounted.current = false; };
+    }, []);
+
+    function loadMore() {
+      if (mounted.current) {
+        FetchPrograms({ query: query, page: page + 1, screen: "program", id: 0, track_id: track_id });
+      }
+    }
+
     useEffect(() => {
         // FetchPrograms();
-        FetchPrograms({ page: 1, query: '', screen: tab, id: 0, track_id: track_id });
+        FetchPrograms({ page: 1, query: '', screen: 'program', id: 0, track_id: track_id });
     }, []);
 
     const module = modules.find((module) => module.alias === 'qa');
@@ -184,21 +196,30 @@ const Index = () => {
             <Box w="100%" key={k} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" py="3">
               <Pressable onPress={() => { push(`/${event.url}/qa/detail/${program.id}`) }}>
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
-                <Box position="absolute" left="0" top="0" w="15px">
-                <ZStack>
-                      {program?.tracks?.length > 0 && program.tracks.slice(0,3).map((track: any, i: number) =>
-                        <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
+              {Platform.OS === 'web' && event?.agenda_settings?.show_tracks == 1 && <Box  width={['35px','35px']} h={'55px'} ml="-30px">
+                    <ZStack top={'50%'} mt={`-${program.program_tracks.slice(0,3).length === 3 ?  10 : program.program_tracks.slice(0,3).length === 2 ? 20 : 30 }px`}  reversed>
+                      {program?.program_tracks?.length > 0 && program.program_tracks.slice(0,3).map((track: any, i: number) =>
+                        <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w={'15px'} top={`-${i*10}px`}   height={`${i === 0 && program?.program_tracks?.length === 1 ? '55px' : '35px'}`} borderRightRadius="10" shadow={2} />
                       )}
                     </ZStack>
-                </Box>
+                  </Box>}
                 <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
+                <VStack w={["45px","60px"]} space="0">
+                      {(event.agenda_settings?.agenda_display_time == 1 && program?.hide_time == 0)  &&<>
+                      <Text lineHeight="22px">{moment(`${program.date} ${program.start_time}`).format('HH:mm')}</Text>
+                      <Text lineHeight="22px">{moment(`${program.date} ${program.end_time}`).format('HH:mm')}</Text>
+                      </>}
+                    </VStack>
                   <VStack maxW={'calc(100% - 80px)'} space="1">
+                    <Pressable
+                      onPress={() => {
+                        push(`/${event.url}/qa/detail/${program.id}`)
+                      }}
+                    >
                     <Text fontSize="md" lineHeight="22px">
                       {program?.topic}
                     </Text>
-                    <Text fontSize="sm" lineHeight="16px">
-                      {moment(program.start_date).format('DD MMM YYYY')} 
-                    </Text>
+                    </Pressable>
 
                   </VStack>
 
@@ -221,6 +242,9 @@ const Index = () => {
             </Box>)}
         </Box>
         : <SectionLoading />}
+        {page < total_pages && total_pages > 1 &&
+          <IntersectionObserverComponent onIntersect={loadMore} />
+        }
       </Container>
       </>)
     }

@@ -213,6 +213,7 @@ body {
   border-radius: 6px !important;
   border-color: transparent !important;
   color: #fff !important;
+  flex: 1 !important;
 }
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
@@ -291,8 +292,15 @@ div[data-testID="TitleContainer"]+ div {
   border-radius: 10px !important;
   
 }
-div[data-testID="IconContainer"]{
-  border-color:transparent !important;
+div[data-testID="IconContainer"] {
+  border:0px solid transparent !important;
+}
+div[data-testID="="Button"]{
+  border:0px solid transparent !important;
+  outline:0px solid transparent !important;
+}
+.css-view-1dbjc4n{
+  border:transparent !important;
 }
 `;
 
