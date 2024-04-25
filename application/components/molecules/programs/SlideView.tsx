@@ -217,7 +217,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 									</Box>
 								</Box>
 							}
-							{dates.length > 5 && dashboard === true && <Center py="3" px="2" w="100%" alignItems="flex-end">
+							{dates?.length > 5 && dashboard === true && <Center py="3" px="2" w="100%" alignItems="flex-end">
 								<Button onPress={() => {
 								push(`/${event.url}/agendas?currentIndex=${currentIndex}`)
 								}} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
