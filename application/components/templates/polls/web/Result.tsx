@@ -49,10 +49,9 @@ const Detail = () => {
 
   const { back } = useRouter()
 
-  const { FetchMyPollResultDetail, myPollResultDetail, myPollResultScore, poll_labels } = UsePollService();
+  const { FetchMyPollResultDetail, myPollResultDetail, myPollResultScore, poll_labels,myPollTotalScore } = UsePollService();
 
   const [id] = useParam('id');
-  const [totalPoints,setTotalPoints] = useState<number>(0);   
 
   React.useEffect(() => {
     if (id) {
@@ -60,18 +59,8 @@ const Detail = () => {
     }
   }, [id]);
 
-  React.useEffect(() => {
-    let totalPoints = 0;
-    if(myPollResultDetail && myPollResultDetail?.question.length > 0){
-      totalPoints = myPollResultDetail.question.filter(question => question.is_anonymous === 0).length;
-    }
-    setTotalPoints(totalPoints);
-  }
-  , [myPollResultDetail]);
 
 
-
-  console.log(myPollResultDetail);
 
   const module = modules.find((module) => module.alias === "polls");
   return (
@@ -89,7 +78,7 @@ const Detail = () => {
                   </HStack>
                 </Pressable> */}
                 <Spacer />
-                <Text isTruncated  fontSize="xl">{`${myPollResultScore}/${totalPoints} Points(s)`}</Text>
+                <Text isTruncated  fontSize="xl">{`${myPollResultScore}/${myPollTotalScore} Points(s)`}</Text>
               </HStack>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
                 <Text textAlign={'center'} fontSize="2xl">{myPollResultDetail?.program?.info?.topic}</Text>
