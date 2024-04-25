@@ -10,6 +10,8 @@ import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
 import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
+import AvatarColors from 'application/utils/AvatarColors'
+import UseAuthService from 'application/store/services/UseAuthService'
 
 type boxItemProps = {
   attendee: Attendee
@@ -25,6 +27,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   const { event } = UseEventService();
 
   const { _env } = UseEnvService()
+  const { response } = UseAuthService()
 
   const { push } = useRouter()
 
@@ -63,7 +66,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
         }}>
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
           <HStack  w="100%" space="5" alignItems="center" justifyContent="space-between">
-            {attendee?.image && attendee.field_settings.profile_picture.is_private == 0 ? (
+            {attendee?.image && attendee.field_settings.profile_picture.is_private == 0 || attendee.id == response?.data?.user?.id  ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar
