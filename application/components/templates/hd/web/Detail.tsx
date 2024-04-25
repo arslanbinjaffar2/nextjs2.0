@@ -36,7 +36,6 @@ import {
     EditorProvider,
     Toolbar
 } from 'react-simple-wysiwyg';
-
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()

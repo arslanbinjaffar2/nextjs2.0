@@ -6,6 +6,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ToastContainer ,{Status} from 'application/components/atoms/toast/index';
 import {Button, Toast } from 'native-base';
 
+import { Text } from 'native-base';
 
 type indexProps = {
     navigation: unknown
@@ -13,6 +14,7 @@ type indexProps = {
 
 const Index = ({ navigation }: indexProps) => {
     const [ONoff,setOnOff]=React.useState(false)
+    const { event } = UseEventService()
     const { modules } = UseEventService();
     const module = modules.find((module) => module.alias === 'upcomingEvents');
     // const { showToast,Toast } = useToast();
@@ -41,10 +43,7 @@ const Index = ({ navigation }: indexProps) => {
     return (
         <>
             <NextBreadcrumbs module={module} />
-            <Button onPress={()=>setOnOff(true)} >
-           Show Success Toast
-            </Button>
-
+            <Text p={5} mb="3" bg="primary.box" rounded="lg" w="100%">{event?.labels?.GENERAL_NO_RECORD}</Text>
         </>
     );
 };

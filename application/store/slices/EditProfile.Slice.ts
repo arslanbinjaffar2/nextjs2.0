@@ -40,7 +40,7 @@ const initialState: EditProfileState = {
     settings: [],
     labels: null,
     updatingAttendee:false,
-    success_message:true
+    success_message:false
 }
 
 // Slice
