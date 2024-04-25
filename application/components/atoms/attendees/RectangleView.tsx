@@ -55,7 +55,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
         }}>
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
           <HStack  w="100%" space="5" alignItems="center" justifyContent="space-between">
-            {attendee?.image && attendee.field_settings.profile_picture.is_private == 0 || attendee.id == response?.data?.user?.id  ? (
+            {attendee?.image && attendee.field_settings.profile_picture.is_private == 0  ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar
