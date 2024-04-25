@@ -66,24 +66,24 @@ export const HdSlice = createSlice({
         SubmitHd(state, action: PayloadAction<any>) {},
         SubmitHdLike(state, action: PayloadAction<{question_id:number, group_id:number}>) {},
         HdRecentPopularSocketUpdate(state, action: PayloadAction<any>) {
-            if(action.payload.hd == undefined){
-                let hd_data = action.payload
-                delete hd_data.info;
-                hd_data.info = hd_data.hd_detail;
-                delete hd_data.detail;
-                hd_data.attendee = hd_data.attendee_info;
-                delete hd_data.attendee_info;
-                hd_data.attendee.info = hd_data.attendee_detail;
-                delete hd_data.attendee_detail
-                state.hdDetails.popular_questions = [...state.hdDetails?.popular_questions, hd_data];
-                state.hdDetails.recent_questions = [...state.hdDetails?.recent_questions, hd_data ];
+            if(action.payload.qa == undefined){
+                let qa_data = action.payload
+                delete qa_data.info;
+                qa_data.info = qa_data.qa_detail;
+                delete qa_data.detail;
+                qa_data.attendee = qa_data.attendee_info;
+                delete qa_data.attendee_info;
+                delete qa_data.attendee_detail
+                // state.hdDetails.popular_questions = [...state.hdDetails?.popular_questions, qa_data];
+                // state.hdDetails.recent_questions = [...state.hdDetails?.recent_questions, qa_data ];
             }
             else{
                 let hd_data = action.payload.hd;
                 hd_data.attendee = action.payload.hd_attendee;
                 hd_data.info = action.payload.hd_info;
-                state.hdDetails.popular_questions = [...state.hdDetails?.popular_questions, hd_data];
-                state.hdDetails.recent_questions = [...state.hdDetails?.recent_questions, hd_data ];
+                // state.hdDetails.popular_questions = [...state.hdDetails?.popular_questions, hd_data];
+                // state.hdDetails.recent_questions = [...state.hdDetails?.recent_questions, hd_data ];
+                // state.hdDetails.archived_questions = [...state.hdDetails?.archived_questions, hd_data ];
             }
         },
         HdSort(state, action: PayloadAction<any>) {
@@ -119,11 +119,11 @@ export const HdSlice = createSlice({
                 archiveHd?.find((q:any)=>(q.id == action.payload.update_like_hd_id))?.like_count! - 1;
             }
 
-            state.hdDetails.popular_questions = popularHd;
+            // state.hdDetails.popular_questions = popularHd;
             
-            state.hdDetails.recent_questions = recentHd;
+            // state.hdDetails.recent_questions = recentHd;
 
-            state.hdDetails.archived_questions = archiveHd;
+            // state.hdDetails.archived_questions = archiveHd;
 
         },
         
