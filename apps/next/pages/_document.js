@@ -302,6 +302,9 @@ div[data-testID="="Button"]{
 .css-view-1dbjc4n{
   border:transparent !important;
 }
+.add-blur {
+  backdrop-filter: blur(8px);
+}
 `;
 
 export async function getInitialProps({ renderPage }) {
