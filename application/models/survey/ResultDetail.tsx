@@ -1,6 +1,7 @@
 export interface MySurveyResult {
   survery: MySurveyResultSurvey;
   total_score: TotalScore[];
+  total_points: number;
 }
 export interface MySurveyResultSurvey {
   id: number;

@@ -238,7 +238,7 @@ const Detail = () => {
     }
   
   const module = modules.find((module) => module.alias === 'polls');
-  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+
   const [canSubmitMultipleTimes,setCanSubmitMultipleTimes]=useState<boolean>(false);
 
   useEffect(()=>{
@@ -255,19 +255,8 @@ const Detail = () => {
     }
     setcompleted(false)
     setSubmittingPoll(false)
+    setsteps(0)
   }
-  
-  React.useEffect(()=>{
-    setGoBack(0)
-    setTimeout(()=>{
-      if(submittingPoll){
-        setGoBack(1)
-      }
-        },1300)
-  },[submittingPoll,goBack])
-  
-  const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
-  const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
   
 
 
@@ -374,7 +363,6 @@ const Detail = () => {
                   </Button>
                   ):(
                     <>
-                    <Text fontSize="md">{poll_labels?.POLL_SURVEY_REDIRECT_MSG}</Text>
                     <CountdownTimer />
                     </>
                   )}
@@ -398,6 +386,8 @@ const CountdownTimer = React.memo(() => {
   const [timeLeft, setTimeLeft] = useState<number>(15);
   const { push, back } = useRouter();
   const {event} = UseEventService();
+  const { poll_labels } = UsePollService();
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -420,7 +410,7 @@ const CountdownTimer = React.memo(() => {
   return (
     <>
       {timeLeft > 0 ? (
-        <Text fontSize="lg">{timeLeft}</Text>
+        <Text fontSize="md">{poll_labels?.POLL_SURVEY_REDIRECT_MSG} {timeLeft}</Text>
       ) : (
         <WebLoading />
       )}

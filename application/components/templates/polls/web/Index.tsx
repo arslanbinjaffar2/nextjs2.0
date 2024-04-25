@@ -114,7 +114,7 @@ const Index = () => {
                         </HStack>
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
                             <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('pending')} borderWidth="0px" py={0} borderColor="primary.boxbutton" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{poll_labels?.NATIVE_APP_SURVEY_NOT_ATTENDED}</Button>
-                            <Button isDisabled={pollSettings?.user_settings == 1 ? false:true } _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('completed')} borderWidth="0px" py={0} color="primary.100" borderColor="primary.boxbutton" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{poll_labels?.NATIVE_APP_SURVEY_COMPLETED}</Button>
+                            <Button _hover={{_text: {color: 'primary.hovercolor'}}} isDisabled={pollSettings?.user_settings == 1 ? false:true } onPress={() => setTab('completed')} borderWidth="0px" py={0} color="primary.100" borderColor="primary.boxbutton" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>{poll_labels?.NATIVE_APP_SURVEY_COMPLETED}</Button>
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">

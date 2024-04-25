@@ -16,6 +16,8 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
   const [note, setNote] = React.useState('')
   const [isNewNote, setIsNewNote] = React.useState(true)
   const {AddToast}=UseToastService()
+  const {event} = UseEventService();
+
   useEffect(()=>{
     GetNote({note_type:note_type, note_type_id:note_type_id});
   },[])
@@ -39,11 +41,10 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
     }
     if(isNewNote){
         SaveNote({note:note, note_type:note_type, note_type_id:note_type_id });
-        AddToast({message:"notes saved",status:"success"})
+        AddToast({toast:{message:"save notes",status:"success"}})
     }else{
         UpdateNote({notes:note, id:my_note?.id, type:note_type});
-        AddToast({message:"updated notes saved",status:"success"})
-     
+        AddToast({toast:{message:"updated notes",status:"success"}})
     }
 
   }

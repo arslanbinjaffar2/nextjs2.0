@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '../Hooks'
 
 export type ToastServiceOperators = {
     toasts:Toast[]
-    AddToast: (payload: { status:string ,message:string}) => void
+    AddToast: (payload: { toast:Toast}) => void
     onClose: (payload: { id: number }) => void
     removeFirstToast: () => void
 }
@@ -30,8 +30,8 @@ export const UseToastService = (): Readonly<ToastServiceOperators> => {
     return {
         toasts: useAppSelector(ToastsState),
         AddToast: useCallback(
-            (payload: { status:string ,message:string}) => {
-                dispatch(ToastActions.addtoast(payload))
+            (payload: { toast:Toast}) => {
+                dispatch(ToastActions.AddToast({toast:payload.toast}))
             },
             [dispatch],
         ),

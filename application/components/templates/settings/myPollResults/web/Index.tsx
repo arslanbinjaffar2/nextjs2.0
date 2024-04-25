@@ -69,7 +69,6 @@ const Index = () => {
                                             <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
                                         </Box>
                                     ))}
-                                    <Divider h="20px" bg="transparent" />
                                 </Box>
                             
                        

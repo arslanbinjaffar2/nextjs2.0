@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, Spacer, IconButton } from 'native-base';
+import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, useToast, IconButton, Spacer } from 'native-base';
 
 import { default as ReactSelect } from "react-select";
 
@@ -25,8 +25,6 @@ import { getColorScheme } from 'application/styles/colors';
 
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
 
-import PolicyModal from 'application/components/atoms/PolicyModal'
-
 import moment from 'moment';
 
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
@@ -38,6 +36,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
+import UseToastService from 'application/store/services/UseToastService';
+import PolicyModal from 'application/components/atoms/PolicyModal';
 import attendees from 'application/assets/icons/attendees'
 import { 
     BtnBold,
@@ -65,8 +65,9 @@ const index = () => {
     const { FetchEditProfiles, settings, labels, attendee, languages, callingCodes, countries, customFields, attendee_feild_settings, UpdateAttendee, updatingAttendee, success_message, UpdateSuccess } = UseEditProfileService();
     
     const { loading, scroll } = UseLoadingService();
-
-		const { event } = UseEventService();
+    const toast = useToast();
+    const toastIdRef = React.useRef();
+    const { event } = UseEventService();
 
 
     React.useEffect(() => {
@@ -92,6 +93,7 @@ const index = () => {
                         updatingAttendee={updatingAttendee}
                         UpdateSuccess={UpdateSuccess}
                         success_message={success_message}
+                    
                     />
                 </>
             )}
@@ -112,15 +114,16 @@ type formProps = {
     event: Event
     attendee_feild_settings: Attendeefeildsettings | null
     updatingAttendee: boolean,
-    success_message: boolean,
+    success_message: boolean | null, 
     updateAttendee: (data: any) => void
     UpdateSuccess: (data: any) => void
 };
 
 
-const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee,success_message,UpdateSuccess }: formProps) => {
+const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee, success_message, UpdateSuccess }: formProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
-const Selectstyles2 = {
+  const {AddToast}=UseToastService()
+    const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
       minHeight: "40px",
@@ -128,38 +131,39 @@ const Selectstyles2 = {
     // minHeight:50,
       width: '100%',
       maxWidth: '100%',
-			minWidth: '100%',
+	  minWidth: '100%',
       marginBottom: 10,
-			background: `rgba(0,0,0,0.2)`,
-			color: '#eaeaea',
-			fontFamily: 'Avenir',
-			boxShadow: 'none',
-			borderWidth: 2,
-			borderColor: state.isFocused ? event?.settings?.primary_color : "transparent",
-			"&:hover": {
-				// Overwrittes the different states of border
-				borderColor: state.isFocused ? event?.settings?.primary_color : "transparent"
-			}
-    }),placeholder: (defaultStyles: any) => {
-        return {
-            ...defaultStyles,
-            color: '#eaeaea',
+        background: `rgba(0,0,0,0.2)`,
+        color: '#eaeaea',
+        fontFamily: 'Avenir',
+        boxShadow: 'none',
+        borderWidth: 2,
+        borderColor: state.isFocused ? event?.settings?.primary_color : "transparent",
+        "&:hover": {
+            // Overwrittes the different states of border
+            borderColor: state.isFocused ? event?.settings?.primary_color : "transparent"
         }
-    },
-		option: (provided:any, state:any) => ({
-				...provided,
-				fontFamily: 'Avenir',
-				backgroundColor: state.isSelected ? event?.settings?.primary_color : "",
-				"&:hover": {
-					backgroundColor: event?.settings?.primary_color,
-					color: '#fff'
-				}
-		}),
-		singleValue: (provided:any) => ({
-    ...provided,
-    color: '#eaeaea'
-  })
-}
+    }),placeholder: (defaultStyles: any) => {
+
+            return {
+                ...defaultStyles,
+                color: '#eaeaea',
+            }
+        },
+        option: (provided: any, state: any) => ({
+            ...provided,
+            fontFamily: 'Avenir',
+            backgroundColor: state.isSelected ? event?.settings?.primary_color : "",
+            "&:hover": {
+                backgroundColor: event?.settings?.primary_color,
+                color: '#fff'
+            }
+        }),
+        singleValue: (provided: any) => ({
+            ...provided,
+            color: '#eaeaea'
+        })
+    }
     const { _env } = UseEnvService()
 
     const [gender, setGender] = React.useState(attendee?.info?.gender ?? '');
@@ -354,8 +358,14 @@ const Selectstyles2 = {
         formData.append('attendee_cv', data.attendeeObj.att_cv);
    
         updateAttendee(formData);
-    };
 
+    };
+ 
+
+    console.log(attendeeData.attendee_cv)
+    if (Object.keys(attendeeData).length === 0) {
+        return <WebLoading />;
+    }
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
