@@ -375,7 +375,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             onPress={async () => {
                                 back()
                             }}>
-                            <Text textTransform="uppercase" fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  /> Go back</Text>
+                            {/* <Text textTransform="uppercase" fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  /> Go back</Text> */}
                             </Pressable>
                             <Text flex="1" mb={1}  textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{category_name}</Text>
                         </HStack>
