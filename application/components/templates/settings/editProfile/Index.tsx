@@ -227,6 +227,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     };
 
     const updateAttendeeFeild = (name: string, value: any) => {
+        console.log("🚀 ~ updateAttendeeFeild ~ value:", value)
         setAttendeeData({
             ...attendeeData,
             [name]: value,
@@ -279,7 +280,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     };
 
     const updateAttendeeData = () => {
-
+        
         let attendeeObj: any = {
             phone: `${attendeeData?.info.callingCode}-${attendeeData?.phone}`,
         };
@@ -976,7 +977,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
-                                        updateInfoDate({ item, name: "EMPLOYMENT_DATE" });
+                                        updateAttendeeFeild("EMPLOYMENT_DATE", moment(item).format("YYYY-MM-DD"));
                                     }}
                                     value={attendeeData?.EMPLOYMENT_DATE !== '' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.EMPLOYMENT_DATE).format(GENERAL_DATE_FORMAT) : ''}
                                     showdate={GENERAL_DATE_FORMAT}

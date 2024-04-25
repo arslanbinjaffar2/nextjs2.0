@@ -20,7 +20,7 @@ type AppProps = {
 
 const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => {
 
-    const { UpdateCategory, FetchCategories, query } = UseAttendeeService();
+    const { UpdateCategory, FetchCategories, query, categories } = UseAttendeeService();
 
     const { event } = UseEventService();
 
@@ -51,8 +51,8 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
                 onPress={() => {
                     if (category.parent_id > 0) {
                         if (updateTab) updateTab('category-attendee');
-                        push(pathname + '?' + createQueryString([{name:'tab', value:'category-attendee'}, {name:'category_id', value:`${category.id}`}]))
                         UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
+                        push(pathname + '?' + createQueryString([{name:'tab', value:'category-attendee'}, {name:'category_id', value:`${category.id}`}]))
                         if (screen === "detail") {
                             if (Platform.OS === "web") {
                                 push(`/${event.url}/speakers`);
@@ -64,6 +64,7 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
                         }
                     } else {
                         // FetchCategories({ parent_id: category.id, query: query, page: 1, cat_type: 'speakers' })
+                        // UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
                         push(pathname + '?' + createQueryString([{name:'tab', value:'sub-category'}, {name:'category_id', value:`${category.id}`}]))
                     }
                 }}>
