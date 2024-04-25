@@ -116,7 +116,7 @@ const Header = ({ width }: any) => {
         title={alertData?.title}
         text={alertData?.text}
         btnLeftText={alertData?.btnLeftText ? alertData?.btnLeftText : 'OK'}
-        btnRightText={alertData?.btnRightText ? alertData?.btnRightText : 'Detail'}
+        btnRightText={alertData?.btnRightText ? alertData?.btnRightText : ''}
       />}
     </>
   );
