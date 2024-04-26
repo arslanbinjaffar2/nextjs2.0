@@ -22,8 +22,7 @@ const RectangleView = ({ k, attendee, total }: AppProps) => {
     
     const { event } = UseEventService()
     const { detail } = UseExhibitorService()
-    console.log(total)
-
+    
     const showLastName = attendee?.sort_settings?.last_name?.status ? 1 : 0;
     return (
         <Pressable w={'100%'} onPress={() => {push(`/${event.url}/attendees/detail/${attendee.id}`)}}>

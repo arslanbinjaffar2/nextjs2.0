@@ -127,4 +127,4 @@ const downloadFile = (fileData: any, filename: any) => {
   window.URL.revokeObjectURL(url);
 };
 
-export default ContactInfo;
+export default ContactInfo
