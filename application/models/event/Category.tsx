@@ -12,4 +12,5 @@ export interface Category {
     name: string;
     children?: Category[];
     subcategories_count?: number | undefined;
+    speaker_count?: number | undefined;
 }

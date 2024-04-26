@@ -65,6 +65,7 @@ const Detail = ({ speaker }: Props) => {
          
         }
     }, [_id]);
+    console.log("🚀 ~ Detail ~ detail?.detail?.categories.length:", detail?.detail?.categories.length)
     React.useEffect(() => {
         if (detail?.attendee_tabs_settings) {
             // Filter and sort enabled tabs based on sort order
