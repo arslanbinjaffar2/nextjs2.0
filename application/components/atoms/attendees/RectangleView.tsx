@@ -88,7 +88,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                       {attendee?.info?.department && (
                         <>
                           {`${attendee?.info?.department}`}
-                          {attendee?.info?.title || attendee?.info?.company_name ? ', ' : ''}
+                          {attendee?.info?.company_name ? ', ' : ''}
                         </>
                       )}
                       {attendee?.info?.company_name && (

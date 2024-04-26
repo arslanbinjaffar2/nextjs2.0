@@ -72,19 +72,29 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             {detail?.detail?.info &&
                                 (detail?.detail?.info.department ||
                                     detail?.detail?.info.title) &&
-                                    (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.department == 0))
+                                    (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.department == 0 || isPrivate?.company_name == 0))
                                     && (
                                     <>
-                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}{detail?.detail?.info?.department &&
-                                                detail?.detail?.info?.title &&
-                                                ", "}
-                                                {detail?.detail?.info?.department && detail?.detail?.info?.department}</Text>
+                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title && (
+                                            <>
+                                            {`${detail?.detail?.info?.title}`}
+                                            {detail?.detail?.info?.department || detail?.detail?.info?.company_name ? ', ' : ''}
+                                            </>
+                                        )}
+                                        {detail?.detail?.info?.department && (
+                                            <>
+                                            {`${detail?.detail?.info?.department}`}
+                                            {detail?.detail?.info?.company_name ? ', ' : ''}
+                                            </>
+                                        )}
+                                        {detail?.detail?.info?.company_name && (
+                                            <>
+                                            {`${detail?.detail?.info?.company_name}`}
+                                            </>
+                                        )}</Text>
 
                                     </>
                                 )}
-                            {(showPrivate == 1 || isPrivate?.company_name == 0) && detail?.detail?.info?.company_name && (
-                                <Text lineHeight="sm" fontSize="18px">{detail?.detail?.info?.company_name}</Text>
-                            )}
                         </VStack>
                         <Spacer />
                         <Box flexDirection="row" alignItems="center" justifyContent="space-between">
