@@ -29,7 +29,8 @@ const LeftBarMobile = () => {
 
   const { setLoading } = UseLoadingService();
 
-  
+  const [dahboardHover, setdahboardHover] = React.useState(false)
+  const [logoutHover, setlogoutHover] = React.useState(false)
 
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
@@ -58,13 +59,15 @@ const LeftBarMobile = () => {
             py="2"
             bg={`${ router.asPath.includes('/dashboard') && 'primary.500'}`}
             _hover={{ bg: 'primary.500' }}
+            onHoverIn={() => setdahboardHover(true)}
+            onHoverOut={() => setdahboardHover(false)}
             borderRadius="4"
             onPress={() => {
               router.push(`/${event.url}/dashboard`)
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <IcoDashboard color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"} width="24" height="24" />
+                <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : undefined} width="24" height="24" />
               </Center>
               <Text fontSize={'lg'} color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"}>Dashboard</Text>
             </HStack>
@@ -116,13 +119,15 @@ const LeftBarMobile = () => {
             px="4"
             py="2"
             _hover={{ bg: 'primary.500' }}
+            onHoverIn={() => setlogoutHover(true)}
+            onHoverOut={() => setlogoutHover(false)}
             borderRadius="4"
             onPress={() => {
               logout();
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <IcoLogin />
+                <IcoLogin color={logoutHover ? func.colorType(event?.settings?.primary_color) : undefined} />
               </Center>
               <Text fontSize={'lg'} color="primary.text">Logout</Text>
             </HStack>

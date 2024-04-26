@@ -1,6 +1,7 @@
-import { AlertDialog, Center, HStack, Text, Spacer } from "native-base";
+import { AlertDialog, Center, HStack, Text, Spacer, IconButton, Icon, ScrollView } from "native-base";
 import React from 'react';
 import IcoNewsUpdate from "application/assets/icons/IcoNewsUpdate";
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const PolicyModal = ({ isOpen, onClose, cancelRef, title, body}:any) => {
   const _item = React.useRef<HTMLDivElement>()
@@ -21,12 +22,23 @@ const PolicyModal = ({ isOpen, onClose, cancelRef, title, body}:any) => {
                
                <Text pl={3} w={'calc(100% - 80px)'} fontSize="lg" fontWeight={600}>{title}</Text>
                <Spacer />
-              <AlertDialog.CloseButton right={0} top={'-5px'} />
+              <IconButton
+                p={1}
+                variant="unstyled"
+                icon={<Icon size="md" as={AntDesign} name="close" color="primary.text" />}
+                onPress={onClose}
+                
+              />
+              
+              
               </HStack>
             </AlertDialog.Header>
             {body && <AlertDialog.Body bg={'transparent'}>
               <Text fontSize="md">
+                <ScrollView maxHeight={350}>
                 <div className="ebs-iframe-content" dangerouslySetInnerHTML={{ __html: body }} />
+
+                </ScrollView>
               </Text>
             </AlertDialog.Body>}
           </AlertDialog.Content>
