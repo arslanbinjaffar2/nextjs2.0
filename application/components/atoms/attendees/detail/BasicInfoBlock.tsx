@@ -111,7 +111,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     <HStack w="100%" space="0">
                     {detail?.sort_field_setting .slice()
                         .sort((a:any, b:any) => {
-                            const order = { 'initial': 3, 'delegate_number': 1, 'table_number': 4 } as any;
+                            const order = { 'initial': 1, 'delegate_number': 2, 'table_number': 3 } as any;
                             return order[a.name] - order[b.name];
                         }).map((setting:any, i:number)=>(
                         <>
