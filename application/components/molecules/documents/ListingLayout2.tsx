@@ -74,7 +74,7 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
                     )}
                     { filteredDocuments.length <= 0 &&
                         <Box>
-                            <Text bg={'primary.box'} p={4} rounded="10" fontSize="md">{event.labels.GENERAL_NO_RECORD}</Text>
+                            <Text  p={4} rounded="10" fontSize="md">{event.labels.GENERAL_NO_RECORD}</Text>
                         </Box>
                     }
                 </Box>
