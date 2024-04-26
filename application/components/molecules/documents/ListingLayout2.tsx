@@ -39,13 +39,13 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
     const { event  } = UseEventService();
     return (
         <View w="100%">
-            {!disableTitle && documents.length > 0 && <HStack pt="3" w="100%" space="3" alignItems="center" bg={disableTitle ? "" : "primary.box"} flexWrap={'wrap'}>
+            {!disableTitle && documents.length > 0 && <HStack pt={3} px="4" w="100%" space="3" alignItems="center"  flexWrap={'wrap'}>
                 {!disableTitle && <Pressable
                     onPress={async () => {
                         FilterDocuments({ document_id: 0, query: '' });
                         setBreadCrumbs([]);
                     }}>
-                    <Box pl={4}>
+                    <Box>
                         <Text fontSize="md">{module ?? 'Documents'}</Text>
                     </Box>
                 </Pressable>}
@@ -65,7 +65,7 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
                 )}
             </HStack>}
             {Platform.OS === 'web' ? (
-                <Box overflow="hidden" w="100%" bg={disableTitle ? "" : "primary.box"} p="0">
+                <Box overflow="hidden" w="100%" p="0">
                     {filteredDocuments.map((document: Document, key: number) => {
                                return <React.Fragment key={key}>
                                     <RectangleViewLayout2 length={filteredDocuments.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
@@ -73,8 +73,8 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
                         }
                     )}
                     { filteredDocuments.length <= 0 &&
-                        <Box p="3">
-                            <Text rounded="10" fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
+                        <Box>
+                            <Text bg={'primary.box'} p={4} rounded="10" fontSize="md">{event.labels.GENERAL_NO_RECORD}</Text>
                         </Box>
                     }
                 </Box>
