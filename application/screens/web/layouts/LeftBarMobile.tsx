@@ -104,7 +104,7 @@ const LeftBarMobile = () => {
                 <Tooltip   label={row.name}  
      >
                 <Text fontSize={'lg'} color={checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>
-                {row.name.length>=15?`${row.name.substring(0,23)} ...`:`${row.name}`}
+                {row.name.length>=15?`${row.name.substring(0,23)} ...`:`${row.name.substring(0,23)}`}
                   </Text>
      </Tooltip>
               </HStack>

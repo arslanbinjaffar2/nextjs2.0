@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, Button, Container, HStack, Icon, IconButton, Input, Spacer, Text, ScrollView, Image } from 'native-base'
+import { Box, Button, Container, HStack, Icon, IconButton, Input, Spacer, Text, ScrollView, Image, Tooltip } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
@@ -75,7 +75,7 @@ const Index = React.memo(() => {
         setSearch(query);
     }, [query]);
     const module = modules.find((module) => module.alias === 'exhibitors');
-    const category = categories.find((category) => {
+    const category = categories?.find((category) => {
         return category.id ===  Number(categoryIdQueryParam)
     })
     return (
@@ -92,17 +92,32 @@ const Index = React.memo(() => {
                     </HStack>
                     {(event?.exhibitor_settings?.exhibitorTab == 1 ) && (
                         <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
+                        {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') && 
+                         <Tooltip label= {labels?.EXHIBITORS_NAME}>
+                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                             setTab('name')
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'name'))
 
-                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={8} borderRightRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? 0 : 8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_NAME}</Button>}
-                        {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
+                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={8} borderRightRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? 0 : 8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? "50%": "100%"} _text={{ fontWeight: '600' }}>
+                              
+                            {labels?.EXHIBITORS_NAME?.length>=22?`${labels?.EXHIBITORS_NAME?.substring(0,22)}....`:`${labels?.EXHIBITORS_NAME?.substring(0,22)}`}
+                           
+                            </Button>
+                            </Tooltip>
+                            }
+                        {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') && 
+                           <Tooltip label={labels?.EXHIBITORS_CATEGORY} >
+                        <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                             setTab('category')
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'))
-                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
+                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>
+                         
+                            {labels?.EXHIBITORS_CATEGORY?.length>=22?`${labels?.EXHIBITORS_CATEGORY?.substring(0,22)}....`:`${labels?.EXHIBITORS_CATEGORY?.substring(0,22)}`}
+                            </Button>
+                            </Tooltip>
+                            }
                     </HStack>
                     )}
                     {loading ? (  

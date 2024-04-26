@@ -92,7 +92,7 @@ const MobileNavigation = () => {
                     <Tooltip   label={module.name}   >
 
                     <Text textAlign={'center'} pt={1} fontSize={'sm'}>
-                   {module.name.length>=15?`${module.name.substring(0,15)} ...`:`${module.name}`}
+                   {module.name.length>=15?`${module.name.substring(0,15)} ...`:`${module.name.substring(0,15)}`}
                       </Text>
                 </Tooltip>
                   </Pressable>
