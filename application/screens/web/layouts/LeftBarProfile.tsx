@@ -23,6 +23,7 @@ const PressableElement = ({row}: any) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
   return (
+    <Tooltip   label={row.name}>
      <Pressable
       w="100%"
       px="4"
@@ -41,15 +42,14 @@ const PressableElement = ({row}: any) => {
           {console.log(row?.icon)}
           <DynamicIcon iconType={row?.icon?.replace("-icon", "").replace("-","_").replace('.png','') } iconProps={{ width: 26, height: 26, color: isHovered || router.pathname.includes(row?.alias) ? func.colorType(event?.settings?.primary_color)  : undefined }} />
         </Center>
-        <Tooltip   label={row.name}>
         <Text fontSize={'lg'} color={isHovered || router.pathname.includes(row?.alias) ? 'primary.hovercolor'  : "primary.text"}>
         {row.name.length>=22?`${row.name.substring(0,22).replace('label','')}....`:`${row.name}`}
           {/* {row?.alias.replace('-','_')} */}
         {/* {row?.icon?.replace("-icon", "").replace("-", "_").replace('.png', '')} */}
         </Text>
-     </Tooltip>
       </HStack>
     </Pressable>
+     </Tooltip>
 
   )
 }

@@ -29,6 +29,8 @@ const PressableElement = ({row}: any) => {
     }
   }, []);
   return (
+    <Tooltip label={row.name}  
+    >   
    <Pressable
     w="100%"
     px="4"
@@ -67,37 +69,10 @@ const PressableElement = ({row}: any) => {
       </Center>
 
       {width > 1200 && 
-      <Tooltip label={row.name}  
-      >
-        <Pressable
-         
-          onPress={() => {
-            if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
-              // setLoading(true);
-              router.push(`/${event.url}/${row?.alias}/event-info/0`)
-            } else if (in_array(row?.alias, ['information_pages'])) {
-              // setLoading(true);
-              // if(row?.section_type === 'link') {
-              //   router.push(`${row?.url}`)
-              //  if(row?.section_type === 'page') {
-              //   router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
-              // } else {
-                router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
-              // }
-            } else if (row?.alias === 'my-registrations') {
-              router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
-            } else {
-              router.push(`/${event.url}/${row?.alias}`)
-            }
-          }}
-        
-        >
-         
+       
       <Text fontSize={'20px'} fontWeight={400} color={isHovered || checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>
        {row.name.length>=22? `${row?.name.substring(0,22)}...`:`${row?.name}`}
        </Text>
-        </Pressable>
-      </Tooltip>
       }
       {row?.alias === 'alerts' && unread > 0 &&
         <Badge // bg="red.400"
@@ -111,6 +86,8 @@ const PressableElement = ({row}: any) => {
     </HStack>
     
   </Pressable>
+  </Tooltip>
+
     
   )
 }

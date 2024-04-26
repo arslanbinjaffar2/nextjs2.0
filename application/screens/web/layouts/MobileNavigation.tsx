@@ -66,6 +66,7 @@ const MobileNavigation = () => {
            {...settings}>
             {modules.filter((item: any) => item.show_on_dashboard === 1).map((module, index) => (
               <Box key={index}>
+                         <Tooltip   label={module.name}   >
                   <Pressable
                     p="0"
                     display={'flex'}
@@ -89,31 +90,14 @@ const MobileNavigation = () => {
                     }}
                   >
                     <DynamicIcon iconType={module?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '')} iconProps={{ width: 34, height: 34 }} />
-                    <Tooltip   label={module.name}   >
-                    <Pressable
-                       onPress={() => {
-                        if (in_array(module?.alias, ['practical-info', 'general-info', 'additional-info'])) {
-                          router.push(`/${event.url}/${module?.alias}/event-info/0`)
-                        } else if (in_array(module?.alias, ['information_pages'])) {
-                          if(module?.section_type === 'link') {
-                            push(`${event.url}`)
-                          } else {
-                            router.push(`/${event.url}/information-pages${module?.section_type === 'child_section' ? '/sub' : ''}/${module?.id}`)
-                          }
-                        } else if (module?.alias === 'my-registrations') {
-                          push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
-                        } else {
-                          router.push(`/${event.url}/${module?.alias}`)
-                        }
-                      }}
-            >
+           
+            
                     <Text textAlign={'center'} pt={1} fontSize={'sm'}>
                    {module.name.length>=15?`${module.name.substring(0,15)} ...`:`${module.name}`}
                       </Text>
+               
                   </Pressable>
                 </Tooltip>
-                  </Pressable>
-               
               </Box>
             ))}
           </Slider>

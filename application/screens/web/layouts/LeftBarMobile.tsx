@@ -101,34 +101,9 @@ const LeftBarMobile = () => {
                 <Center w="30px">
                   <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 25, height: 25, color: checkActiveRoute(row, router.asPath, info, page) ? func.colorType(event?.settings?.primary_color) : undefined }} />
                 </Center>
-                <Tooltip   label={row.name}  
-     >
-      <Pressable         
-              onPress={() => {
-                if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
-                  // setLoading(true);
-                  router.push(`/${event.url}/${row?.alias}/event-info/0`)
-                } else if (in_array(row?.alias, ['information_pages'])) {
-                  // setLoading(true); 
-                  
-                  if(row?.section_type === 'link') {
-                    router.push(`${row?.url}`)
-                  } else {
-                    router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
-                  }
-                  
-                } else if (row?.alias === 'my-registrations') {
-                  router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
-                } else {
-                  router.push(`/${event.url}/${row?.alias}`)
-                }
-              }}>
-
                 <Text fontSize={'lg'} color={checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>
                 {row.name.length>=15?`${row.name.substring(0,23)} ...`:`${row.name}`}
                   </Text>
-              </Pressable>
-     </Tooltip>
               </HStack>
             </Pressable>
           )}

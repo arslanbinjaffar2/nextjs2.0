@@ -74,6 +74,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
               </HStack>
             </Pressable>
           ) : (
+            <Tooltip label={breadcrumb.label} >
             <Pressable
               disabled={!title}
               py="1"
@@ -88,21 +89,11 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
                   iconType={breadcrumb.icon}
                   iconProps={{ width: 24, height: 21, color }}
                 />
-                <Tooltip label={breadcrumb.label} >
-                <Pressable
-              disabled={!title}
-              py="1"
-              px={3}
-              borderWidth="0"
-              rounded={'full'}
-              onPress={() => {
-                if (title) handlePress(breadcrumb.alias);
-              }}>
+              
                   <Text color={color}>{breadcrumb.label.length>=22?`${breadcrumb.label.substring(0,22)}`:`${breadcrumb.label}`}</Text>
-              </Pressable>
-                </Tooltip>
               </HStack>
             </Pressable>
+                </Tooltip>
           )}
           {index < breadcrumbs.length - 1 && (
             <Icon size="3" as={AntDesign} name="right" color={color} />
