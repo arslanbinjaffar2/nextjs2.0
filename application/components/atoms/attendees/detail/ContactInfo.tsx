@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Pressable, Text, VStack, HStack, IconButton } from 'native-base';
+import { Box, Pressable, Text, VStack, HStack, IconButton, Spacer } from 'native-base';
 import { Linking } from 'react-native';
 import IcoFacebook from 'application/assets/icons/small/IcoFacebook';
 import IcoTwitterX from 'application/assets/icons/small/IcoTwitterX';
@@ -87,6 +87,7 @@ const ContactInfo = ({ detail }: AppProps) => {
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="2" alignItems="center" roundedTop={8}>
         <IcoUserFilled width="18px" height="18px" />
         <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
+        <Spacer />
         {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.current_event_attendee?.speaker == '0' ? (
             <Pressable>
               <IconButton
@@ -100,7 +101,8 @@ const ContactInfo = ({ detail }: AppProps) => {
             </Pressable>
           ) : ''}
       </HStack>
-      <VStack p="3" pb={1} w="100%" space="3">
+      <Box py={3}>
+      {sortedFields.length > 0 && <VStack px="3" pb={3}  w="100%" space="3">
         {sortedFields.map((field: any) => (
             <HStack key={field.name} space="1" alignItems="center">
               <Box>
@@ -112,9 +114,8 @@ const ContactInfo = ({ detail }: AppProps) => {
               </Box>
             </HStack>
           ))}
-        </VStack>
-      <Box py="0" px="0" w="100%">
-        <HStack space={3} p={3} py={2} w="100%" justifyContent="flex-start" alignItems="center" mt="1">
+        </VStack>}
+        <HStack space={3} px={3} pt={0} w="100%" justifyContent="flex-start" alignItems="center">
           {visibleSocialIcons.map(icon => (
             <Pressable
               key={icon.name}
