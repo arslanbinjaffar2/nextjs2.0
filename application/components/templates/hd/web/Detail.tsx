@@ -36,7 +36,6 @@ import {
     EditorProvider,
     Toolbar
 } from 'react-simple-wysiwyg';
-
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
@@ -196,7 +195,6 @@ const Detail = () => {
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
                             <Text color="red.400"> {error} </Text>
                     </Box>}
-
                     <Box w="100%" px="3">
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
@@ -248,10 +246,13 @@ const Detail = () => {
                     <Spacer />
                     <Text opacity={0.58} fontSize="md">{questionsCount}  {labels?.HD_QUESTIONS ?? "Questions"}</Text>
                     </HStack>
-                    <HStack mb="4" space={4} justifyContent="flex-start" px={3} w="100%">
+                 
+                    <HStack mb="4" space={10} justifyContent="flex-start" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
                             <Pressable onPress={() => { setTab(item) }} key={index} bg={'transparent'}  borderWidth="0px" p={0} borderColor="primary.darkbox" >
-                                <Text pb={1} borderBottomWidth={item === tab ? 2 : 0} borderBottomColor={'primary.text'} fontSize="16px" fontWeight={600} textTransform={'uppercase'}>{TabHeadings[item]}</Text>
+                                <Text 
+                                opacity={item==tab?1:0.58}
+                                pb={1} borderBottomWidth={item === tab ? 2 : 0} borderBottomColor={'primary.text'} fontSize="16px" fontWeight={600} textTransform={'uppercase'}>{TabHeadings[item]}</Text>
                             </Pressable>
                         ))}
                     </HStack>

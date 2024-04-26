@@ -320,9 +320,15 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                         }
                     </VStack>
                 </Box>
-            ) :  <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
-            <Text>{event.labels.GENERAL_NO_RECORD}</Text>
+            ) :  <Box  overflow="hidden">
+            <Text fontSize={'md'} p="4" rounded="10" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
         </Box>  }
+            {!hasAboutData && 
+                <Box w="100%" rounded="lg" overflow="hidden">
+                    <Text fontSize={'md'} p="4" rounded="10" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
+                </Box>  
+            }
+            
         </Box>
     )
 
