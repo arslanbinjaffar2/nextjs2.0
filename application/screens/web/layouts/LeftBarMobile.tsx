@@ -102,7 +102,7 @@ const LeftBarMobile = () => {
                   <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 25, height: 25, color: checkActiveRoute(row, router.asPath, info, page) ? func.colorType(event?.settings?.primary_color) : undefined }} />
                 </Center>
                 <Text fontSize={'lg'} color={checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>
-                {row.name.length>=15?`${row.name.substring(0,23)} ...`:`${row.name}`}
+                {row.name.length>=23?`${row.name.substring(0,23)} ...`:`${row.name}`}
                   </Text>
               </HStack>
             </Pressable>
