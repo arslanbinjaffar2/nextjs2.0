@@ -13,6 +13,7 @@ import { Detail } from 'application/models/attendee/Detail';
 import { getContactAttendeeApi } from 'application/store/api/Attendee.Api';
 import { store } from 'application/store/Index';
 import UseEventService from 'application/store/services/UseEventService';
+import UseAuthService from 'application/store/services/UseAuthService'
 
 type SocialIcon = {
   name: string;
@@ -34,23 +35,41 @@ const ContactInfo = ({ detail }: AppProps) => {
   const [sortedFields, setSortedFields]=useState([]);
   
   const { event } = UseEventService();
+  const { response } = UseAuthService()
+  const loggedInUser = detail?.detail?.id === response.data?.user?.id;
+
 
   const isFieldVisible = (fieldName: string) => {
     const field = detail.sort_field_setting.find((field: any) => field.name === fieldName);
-    return field && !field.is_private;
+    if (!loggedInUser) {
+      return field && !field.is_private;
+    }
+    return !!field;
   };
 
   const hasContactInfo = ['facebook', 'twitter', 'linkedin', 'website']
     .some(fieldName => isFieldVisible(fieldName) && detail?.detail?.info?.[fieldName]);
 
   const visibleSocialIcons = detail.sort_field_setting
-    .filter((field: any) => field.is_private === 0 && socialIcons.some(icon => icon.name === field.name) && detail?.detail?.info?.[field.name] !== '' &&  detail?.detail?.info?.[field.name] !== 'http://' && detail?.detail?.info?.[field.name] !== 'https://')
+    .filter((field: any) => {
+      if (loggedInUser) {
+        return socialIcons.some(icon => icon.name === field.name) && detail?.detail?.info?.[field.name] !== '' && detail?.detail?.info?.[field.name] !== 'http://' && detail?.detail?.info?.[field.name] !== 'https://';
+      } else {
+        return field.is_private === 0 && socialIcons.some(icon => icon.name === field.name) && detail?.detail?.info?.[field.name] !== '' && detail?.detail?.info?.[field.name] !== 'http://' && detail?.detail?.info?.[field.name] !== 'https://';
+      }
+    })
     .map((field: any) => socialIcons.find(icon => icon.name === field.name))
     .filter((icon: any) => icon !== undefined) as SocialIcon[];
 
   React.useEffect(() => { 
     const fields=detail.sort_field_setting
-    .filter((field: any) => field.is_private === 0 && ['email', 'phone'].includes(field.name) && detail?.detail?.[field.name as keyof typeof detail.detail] !== '')
+    .filter((field: any) => {
+      if (loggedInUser) {
+        return ['email', 'phone'].includes(field.name) && detail?.detail?.[field.name as keyof typeof detail.detail] !== '';
+      } else {
+        return field.is_private === 0 && ['email', 'phone'].includes(field.name) && detail?.detail?.[field.name as keyof typeof detail.detail] !== '';
+      }
+    })
     .sort((a: any, b: any) => detail.sort_field_setting.findIndex((field: any) => field.name === a.name) - detail.sort_field_setting.findIndex((field: any) => field.name === b.name))
     .map((field: any) => ({
       name: field.name,
