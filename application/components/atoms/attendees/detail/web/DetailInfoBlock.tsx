@@ -27,11 +27,17 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
         }
 
     }, [detail])
-    
+
+    const hasFirstName = detail?.sort_field_setting.some((setting:any) => setting.name === 'first_name');
+    const hasLastName = detail?.sort_field_setting.some((setting:any) => setting.name === 'last_name');
+    const shouldShowNoRecord = detail?.sort_field_setting.length === 0 ||
+        (detail?.sort_field_setting.length === 2 && hasFirstName && hasLastName) ||
+        (hasFirstName && detail?.sort_field_setting.length === 1) ||
+        (hasLastName && detail?.sort_field_setting.length === 1);
 
     return (
         <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.box" : ""}`} w="100%"  p="0" rounded="10">
-            {(detail?.sort_field_setting.length > 0) ? (
+            {(detail?.sort_field_setting.length > 0 && !shouldShowNoRecord) ? (
                 <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
                         <IcoInfo  />
