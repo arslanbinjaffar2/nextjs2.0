@@ -65,7 +65,11 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
     useEffect(() => {
       if(Object.keys(event).length > 0){
             if(event?.event_language_code){
-                moment.locale(event?.event_language_code);
+							if (event?.event_language_code === 'no') {
+								moment.locale('nb');
+							} else {
+								moment.locale(event?.event_language_code);
+							}
             }
            const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
            const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
