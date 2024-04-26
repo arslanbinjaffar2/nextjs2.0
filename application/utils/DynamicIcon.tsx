@@ -53,6 +53,7 @@ import upcomingEvents from 'application/assets/icons/upcomingEvents';
 import qa from 'application/assets/icons/qa';
 import survey from 'application/assets/icons/survey';
 import polls from 'application/assets/icons/polls';
+import myPollResults from 'application/assets/icons/myPollResults';
 import attendee_authority from 'application/assets/icons/attendee_authority';
 import checkin_agendas from 'application/assets/icons/checkin_agendas';
 import checkin from 'application/assets/icons/checkin_agendas';
@@ -70,6 +71,8 @@ import myreservation from 'application/assets/icons/myreservation'
 import upcoming_events from 'application/assets/icons/upcoming_events'
 import certificate from 'application/assets/icons/certificate'
 import mybookings from 'application/assets/icons/mybookings'
+import mySurveyResults from 'application/assets/icons/mySurveyResults'
+
 type IconProps = {
     name?: string;
     color?: string;
@@ -80,7 +83,7 @@ type IconProps = {
 
 type IconType ='qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
 'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin' | 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | 'editnotes' | 'mybookings' 
-|'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | any;
+|'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | 'myPollResults' | 'mySurveyResults' | any;
 
 type Props = {
     iconType: IconType;
@@ -158,6 +161,8 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         certificate,
         editnotes,
         mybookings,
+        myPollResults,
+        mySurveyResults,
     };
 
     const IconComponent = iconMap[iconType];
