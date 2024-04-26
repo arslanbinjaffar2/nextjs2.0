@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import React, { useEffect } from 'react'
-import {Avatar, Box, HStack, Icon, Image, Pressable, Spacer, Text, Toast, VStack } from 'native-base'
-=======
 import React from 'react'
 import { Avatar, Box, HStack, Icon, Image, Pressable, Spacer, Text, VStack } from 'native-base'
->>>>>>> bugfix/WA20-1279
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'application/assets/icons/Icoribbon'
 import { Attendee } from 'application/models/attendee/Attendee'
