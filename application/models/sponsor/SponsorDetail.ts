@@ -47,6 +47,7 @@ export interface SponsorsAttendee {
   BIRTHDAY_YEAR?: string;
   SPOKEN_LANGUAGE?: string;
   EMPLOYMENT_DATE?: string;
+  sort_settings?: any;
 }
 
 interface CurrentEventAttendee {
@@ -98,6 +99,7 @@ interface Info {
   linkedin_protocol?: string;
   twitter_protocol?: string;
   facebook_protocol?: string;
+  department?: string;
 }
 
 interface AttendeeSponsors {

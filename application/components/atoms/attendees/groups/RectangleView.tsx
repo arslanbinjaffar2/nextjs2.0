@@ -36,6 +36,16 @@ const RectangleView = ({ group, border, k, updateTab, navigation, displayMyGroup
         [searchParams]
     )
 
+    const createQueryStringGroup = React.useCallback(
+        (name: string, value: string) => {
+          const params = new URLSearchParams(searchParams.toString())
+          params.set(name, value)
+     
+          return params.toString()
+        },
+        [searchParams]
+    )
+
     const { query, FetchGroups, group_id } = UseAttendeeService();
 
     const { push } = useRouter()
@@ -46,7 +56,7 @@ const RectangleView = ({ group, border, k, updateTab, navigation, displayMyGroup
                 console.log("Press disabled cause Display My Group setting is On:", displayMyGroupSetting)
             }else{
                 if (navigation) {
-                    push(`/${event.url}/attendees/${group?.id!}`)
+                    push(`/${event.url}/attendees` + '?' + createQueryStringGroup('tab', 'group'))
                 } else {
                     if (group_id === 0) {
                         // FetchGroups({ query: query, page: 1, group_id: group?.id!, attendee_id: 0, program_id: 0 });

@@ -19,7 +19,7 @@ import { store } from 'application/store/Index';
 import { getContactAttendeeApi } from 'application/store/api/Attendee.Api'
 
 type AppProps = {
-    detail: Detail,
+  detail: Detail,
 }
 
 interface SortFieldSetting {
@@ -57,23 +57,29 @@ const downloadFile = (fileData:any, filename:any) => {
 };
 const ContactInfo = ({ detail }: AppProps) => {
 
-    const { event  } = UseEventService();
+  const { event } = UseEventService();
 
-    const isFieldVisible = (fieldName: string) => {
-      const field = detail.sort_field_setting.find((field: SortFieldSetting) => field.name === fieldName);
-      return field && !field.is_private;
-    };
-     
-    // Check if any contact information is available and its corresponding field setting is enabled
-    const hasContactInfo = isFieldVisible('email') && detail?.detail?.email ||
-                           isFieldVisible('phone') && detail?.detail?.phone ||
-                           isFieldVisible('facebook') && detail?.detail?.info?.facebook ||
-                           isFieldVisible('twitter') && detail?.detail?.info?.twitter ||
-                           isFieldVisible('linkedin') && detail?.detail?.info?.linkedin ||
-                           isFieldVisible('website') && detail?.detail?.info?.website;
-                           
-    // Only render the component if there's contact info
-    if (!hasContactInfo) return null;
+  const isFieldVisible = (fieldName: string) => {
+    const field = detail.sort_field_setting.find((field: SortFieldSetting) => field.name === fieldName);
+    return field && !field.is_private;
+  };
+
+  const isContactInfoTabActive = () => {
+    return detail.attendee_tabs_settings.some((tab: any) => tab.tab_name === 'contact_info' && tab.status === 1);
+  };
+
+  if (!isContactInfoTabActive()) return null;
+
+  // Check if any contact information is available and its corresponding field setting is enabled
+  const hasContactInfo = isFieldVisible('email') && detail?.detail?.email ||
+    isFieldVisible('phone') && detail?.detail?.phone ||
+    isFieldVisible('facebook') && detail?.detail?.info?.facebook ||
+    isFieldVisible('twitter') && detail?.detail?.info?.twitter ||
+    isFieldVisible('linkedin') && detail?.detail?.info?.linkedin ||
+    isFieldVisible('website') && detail?.detail?.info?.website;
+
+  // Only render the component if there's contact info
+  if (!hasContactInfo) return null;
 
   return (
     <>
@@ -82,7 +88,7 @@ const ContactInfo = ({ detail }: AppProps) => {
           <IcouserFilled width="18px" height="18px" />
           <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
           <Spacer />
-          {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.attendee_type_name =='Attendee' ? (
+          {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.current_event_attendee?.speaker == '0' ? (
             <Pressable>
               <IconButton
                 variant="unstyled"
@@ -95,96 +101,88 @@ const ContactInfo = ({ detail }: AppProps) => {
             </Pressable>
           ) : ''}
         </HStack>
-        {detail?.attendee_tabs_settings?.map((row: any, key: number) => (
-          <React.Fragment key={key}>
-            {row?.tab_name === 'contact_info' && row?.status == 1 ? (
-              <>
-              {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && <VStack p="3" pb={1} w="100%" space="3">
-                {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') ? (
-                  <>
-                    {detail?.detail?.email && detail?.detail?.email !== '' && isFieldVisible('email') ? (
-                      <HStack space="1" alignItems="center">
-                        <Box>
-                        <IcoEnvelope />
-                        </Box>
-                        <Box pl="1">
-                            <Text fontSize="14px">{detail?.detail?.email}</Text>
-                        </Box>
-                      </HStack>
-                    ) : ''}
-                    {detail?.detail?.phone && detail?.detail?.phone !== '' && isFieldVisible('phone') ? (
-                      <HStack space="1" alignItems="center">
-                       <Box>
-                        <IcoPhone />
-                        </Box>
-                        <Box pl="1">
-                            <Text fontSize="14px">{detail?.detail?.phone}</Text>
-                        </Box>
-                      </HStack>
-                    ) : ''}
-                  </>
-                ) : ''}
-              </VStack>}
-              </>
-            ) : ''}
-          </React.Fragment>
-        ))}
+        {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') && <VStack p="3" pb={1} w="100%" space="3">
+          {(detail?.detail?.email !== '' || detail?.detail?.phone !== '') ? (
+            <>
+              {detail?.detail?.email && detail?.detail?.email !== '' && isFieldVisible('email') ? (
+                <HStack space="1" alignItems="center">
+                  <Box>
+                    <IcoEnvelope />
+                  </Box>
+                  <Box pl="1">
+                    <Text fontSize="14px">{detail?.detail?.email}</Text>
+                  </Box>
+                </HStack>
+              ) : ''}
+              {detail?.detail?.phone && detail?.detail?.phone !== '' && isFieldVisible('phone') ? (
+                <HStack space="1" alignItems="center">
+                  <Box>
+                    <IcoPhone />
+                  </Box>
+                  <Box pl="1">
+                    <Text fontSize="14px">{detail?.detail?.phone}</Text>
+                  </Box>
+                </HStack>
+              ) : ''}
+            </>
+          ) : ''}
+        </VStack>}
         {(detail?.detail?.info?.facebook && isFieldVisible('facebook')) || (detail?.detail?.info?.twitter && isFieldVisible('twitter')) || (detail?.detail?.info?.linkedin && isFieldVisible('linkedin')) || (detail?.detail?.info?.website && isFieldVisible('website')) ?
-        <Box py="0" px="0" w="100%">
-          <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
-            {detail?.detail?.info?.facebook  && isFieldVisible('facebook') && detail?.detail?.info?.facebook !== '' && detail?.detail?.info?.facebook !== 'http://' &&  detail?.detail?.info?.facebook !== 'https://' ? (
-              <Pressable
-                onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.facebook_protocol}${detail?.detail?.info?.facebook}`;
-                  const supported = await Linking.canOpenURL(url);
-                  if (supported) {
-                    
-                    await Linking.openURL(url);
-                  }
-                }}>
-                <IcoFacebook width={30} height={30} />
-              </Pressable>
-            ) : null}
-            {detail?.detail?.info?.twitter && isFieldVisible('twitter') && detail?.detail?.info?.twitter !== '' && detail?.detail?.info?.twitter !== 'http://' &&  detail?.detail?.info?.twitter !== 'https://' ? (
-              <Pressable
-                onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.twitter_protocol}${detail?.detail?.info?.twitter}`;
-                  const supported = await Linking.canOpenURL(url);
-                  if (supported) {
-                    await Linking.openURL(url);
-                  }
-                }}>
-                <IcoTwitterX width={30} height={30} />
-              </Pressable>
-            ) : null}
-            {detail?.detail?.info?.linkedin && isFieldVisible('linkedin') && detail?.detail?.info?.linkedin !== '' && detail?.detail?.info?.linkedin !== 'http://' &&  detail?.detail?.info?.linkedin !== 'https://' ? (
-              <Pressable
-                onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.linkedin_protocol}${detail?.detail?.info?.linkedin}`;
-                  const supported = await Linking.canOpenURL(url);
-                  if (supported) {
-                    await Linking.openURL(url);
-                  }
-                }}>
-                <IcoLinkedIN width={30} height={30} />
-              </Pressable>
-            ) : null}
-            {detail?.detail?.info?.website && isFieldVisible('website') && detail?.detail?.info?.website !== '' && detail?.detail?.info?.website !== 'http://' &&  detail?.detail?.info?.website !== 'https://' ? (
-              <Pressable
-                onPress={async () => {
-                  const url: any = `${detail?.detail?.info?.website_protocol}${detail?.detail?.info?.website}`;
-                  const supported = await Linking.canOpenURL(url);
-                  if (supported) {
-                    await Linking.openURL(url);
-                  }
-                }}>
-                <IcoWebLink width={30} height={30} />
-              </Pressable>
-            ) : null}
+          <Box py="0" px="0" w="100%">
+            <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
+              {detail?.detail?.info?.facebook && isFieldVisible('facebook') && detail?.detail?.info?.facebook !== '' && detail?.detail?.info?.facebook !== 'http://' && detail?.detail?.info?.facebook !== 'https://' ? (
+                <Pressable
+                  onPress={async () => {
+                    const url: any = `${detail?.detail?.info?.facebook_protocol}${detail?.detail?.info?.facebook}`;
+                    const supported = await Linking.canOpenURL(url);
+                    if (supported) {
 
-          </HStack>
-        </Box>
-        : null}
+                      await Linking.openURL(url);
+                    }
+                  }}>
+                  <IcoFacebook width={30} height={30} />
+                </Pressable>
+              ) : null}
+              {detail?.detail?.info?.twitter && isFieldVisible('twitter') && detail?.detail?.info?.twitter !== '' && detail?.detail?.info?.twitter !== 'http://' && detail?.detail?.info?.twitter !== 'https://' ? (
+                <Pressable
+                  onPress={async () => {
+                    const url: any = `${detail?.detail?.info?.twitter_protocol}${detail?.detail?.info?.twitter}`;
+                    const supported = await Linking.canOpenURL(url);
+                    if (supported) {
+                      await Linking.openURL(url);
+                    }
+                  }}>
+                  <IcoTwitterX width={30} height={30} />
+                </Pressable>
+              ) : null}
+              {detail?.detail?.info?.linkedin && isFieldVisible('linkedin') && detail?.detail?.info?.linkedin !== '' && detail?.detail?.info?.linkedin !== 'http://' && detail?.detail?.info?.linkedin !== 'https://' ? (
+                <Pressable
+                  onPress={async () => {
+                    const url: any = `${detail?.detail?.info?.linkedin_protocol}${detail?.detail?.info?.linkedin}`;
+                    const supported = await Linking.canOpenURL(url);
+                    if (supported) {
+                      await Linking.openURL(url);
+                    }
+                  }}>
+                  <IcoLinkedIN width={30} height={30} />
+                </Pressable>
+              ) : null}
+              {detail?.detail?.info?.website && isFieldVisible('website') && detail?.detail?.info?.website !== '' && detail?.detail?.info?.website !== 'http://' && detail?.detail?.info?.website !== 'https://' ? (
+                <Pressable
+                  onPress={async () => {
+                    const url: any = `${detail?.detail?.info?.website_protocol}${detail?.detail?.info?.website}`;
+                    const supported = await Linking.canOpenURL(url);
+                    if (supported) {
+                      await Linking.openURL(url);
+                    }
+                  }}>
+                  <IcoWebLink width={30} height={30} />
+                </Pressable>
+              ) : null}
+
+            </HStack>
+          </Box>
+          : null}
       </Box>
     </>
   )
