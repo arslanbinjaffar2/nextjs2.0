@@ -41,16 +41,27 @@ const RectangleView = ({ k, attendee, total }: AppProps) => {
                 {(attendee?.first_name || attendee?.last_name) && (
                     <Text  textBreakStrategy='simple' fontSize="lg">{`${attendee?.first_name} ${showLastName ? attendee?.last_name : ''}`}</Text>
                 )}
-                {(attendee?.info?.company_name || attendee?.info?.title) && (
+                {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
                     <Text textBreakStrategy='balanced' fontSize="lg">
-                        {`${attendee?.info?.company_name}`}
-                        {attendee?.info?.title && (
-                            <>
-                                {`, ${attendee?.info?.title}`}
-                            </>
-                        )}
+                      {attendee?.info?.title && (
+                        <>
+                          {`${attendee?.info?.title}`}
+                          {attendee?.info?.department || attendee?.info?.company_name ? ', ' : ''}
+                        </>
+                      )}
+                      {attendee?.info?.department && (
+                        <>
+                          {`${attendee?.info?.department}`}
+                          {attendee?.info?.title || attendee?.info?.company_name ? ', ' : ''}
+                        </>
+                      )}
+                      {attendee?.info?.company_name && (
+                        <>
+                          {`${attendee?.info?.company_name}`}
+                        </>
+                      )}
                     </Text>
-                )}
+                  )}
             </VStack>
             <Spacer />
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />

@@ -70,20 +70,20 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 {`${detail?.detail?.first_name}`} {detail?.sort_field_setting.find((s:any)=>(s.name === 'last_name')) && detail?.detail?.last_name }
                             </Text>
                             {detail?.detail?.info &&
-                                (detail?.detail?.info.company_name ||
+                                (detail?.detail?.info.department ||
                                     detail?.detail?.info.title) &&
-                                    (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
+                                    (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.department == 0))
                                     && (
                                     <>
-                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}&nbsp;{detail?.detail?.info?.company_name &&
+                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title}{detail?.detail?.info?.department &&
                                                 detail?.detail?.info?.title &&
                                                 ", "}
-                                                {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>
+                                                {detail?.detail?.info?.department && detail?.detail?.info?.department}</Text>
 
                                     </>
                                 )}
-                            {(showPrivate == 1 || isPrivate?.department == 0) && detail?.detail?.info?.department && (
-                                <Text lineHeight="sm" fontSize="18px">{detail?.detail?.info?.department}</Text>
+                            {(showPrivate == 1 || isPrivate?.company_name == 0) && detail?.detail?.info?.company_name && (
+                                <Text lineHeight="sm" fontSize="18px">{detail?.detail?.info?.company_name}</Text>
                             )}
                         </VStack>
                         <Spacer />

@@ -91,6 +91,7 @@ interface CurrentEventAttendee {
 interface Info {
   title?: string;
   company_name?: string;
+  department?: string;
   website?: string;
   facebook?: string;
   twitter?: string;
