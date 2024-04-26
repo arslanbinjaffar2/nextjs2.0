@@ -8,6 +8,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseExhibitorService from 'application/store/services/UseExhibitorService'
 import UseProgramService from 'application/store/services/UseProgramService'
 import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg'
+import UseAuthService from 'application/store/services/UseAuthService'
 
 type boxItemProps = {
     k: number,
@@ -20,6 +21,7 @@ const RectangleView = ({ k, attendee, total }: boxItemProps) => {
     const { _env } = UseEnvService()
 
     const { push } = useRouter()
+    const { response } = UseAuthService()
 
     const { event } = UseEventService();
     const { FetchProgramDetail, detail } = UseProgramService();
@@ -30,7 +32,7 @@ const RectangleView = ({ k, attendee, total }: boxItemProps) => {
             <HStack key={k} borderBottomWidth={total !== (k + 1) ? '1px' : '0'} borderColor="primary.bordercolor" px="3" py="3" w="100%" space="0" alignItems="center">
                 <Center alignItems="flex-start" w="70%" p="0">
                     <HStack space="3" alignItems="center">
-                        {detail?.program?.program_speakers && detail?.program?.program_speakers[0].sort_settings.profile_picture.is_private == 0 ? (
+                        {detail?.program?.program_speakers && detail?.program?.program_speakers[0].sort_settings.profile_picture.is_private == 0 || attendee.id == response?.data?.user?.id ? (
                         <Avatar
                             source={{
                                 uri: attendee?.image ? `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` : 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
