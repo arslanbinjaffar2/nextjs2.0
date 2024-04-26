@@ -6,6 +6,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from "in_array";
 import UseToastService from 'application/store/services/UseToastService';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 type AppProps = {
   program_id: any,
@@ -69,7 +70,9 @@ const SessionRating = ({program_id}:AppProps) => {
                 <Pressable onPress={() => save(5)}><Icon size={'xl'} as={AntDesign} name={rate >= 5 ? "star" :"staro"}  color={rate >= 5 ? "secondary.500" :"primary.text"}  /></Pressable>
               </HStack>
               <Text fontSize="md" color={'primary.text'}>Please give us your feedback here…</Text>
-              
+              <HStack pt={1} justifyContent={'flex-end'} alignItems={'flex-end'} space={2}>
+                    <Pressable onPress={() => console.log('first')}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
+                </HStack>
               </Box>
           </Box>
         </>

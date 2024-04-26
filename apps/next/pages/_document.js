@@ -293,6 +293,12 @@ svg#active #svg-elem-3 {
   from {transform: scale(0);}
   to {transform: scale(1);}
 }
+.rsw-toolbar,.rsw-editor {
+  border: none !important;
+}
+.rsw-toolbar {
+  flex-wrap: wrap;
+}
 div[data-testID="TitleContainer"]+ div {
   border-radius: 10px !important;
   
@@ -309,9 +315,6 @@ div[data-testID="="Button"]{
 }
 .add-blur {
   backdrop-filter: blur(8px);
-}
-.rsw-toolbar {
-  background-color: rgba(0,0,0,0.2) !important;
 }
 
 `;

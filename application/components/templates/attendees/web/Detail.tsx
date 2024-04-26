@@ -225,9 +225,9 @@ const Detail = ({ speaker }: Props) => {
                                                         
                                                 {
                                                     groups?.length <= 0 && (
-                                                    <Box p={3}  rounded="lg" w="100%">
-                                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                                    </Box>
+                                                        <>
+                                                         <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                        </>
                                                     )
                                                 }
                                             </>
@@ -243,10 +243,9 @@ const Detail = ({ speaker }: Props) => {
                                             programs.length > 0 ?
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> 
                                                         : (
-                                                            <Box p={3}  rounded="lg" w="100%">
-                                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                                        </Box>
-                                                        
+                                                            <>
+                                                                <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                            </>
                                                         )
                                         )}
                                     </Container>}
@@ -271,9 +270,9 @@ const Detail = ({ speaker }: Props) => {
                                         )}
                                         {detail?.detail?.categories.length <=0 && 
                                         (
-                                            <Box p={3}  rounded="lg" w="100%">
-                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                            </Box>
+                                            <>
+                                                <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                            </>
                                             )
                                         }
                                     </Container>}

@@ -456,7 +456,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
+                            <Center overflow={'hidden'} justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Text  w={'100%'} color={'primary.text'} fontSize="md">
                                     <Box opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'} pointerEvents={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? 'auto' : 'none'} w={'100%'} bg="primary.darkbox" rounded={8}>
                                         <EditorProvider>
@@ -1105,7 +1105,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
                             <HStack mb="0" alignItems="start" flexDirection={['column', 'row']} w="100%" >
                                 <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
-                                    <Text isTruncated fontWeight="500" fontSize="16px">Profile picture</Text>
+                                    <Text isTruncated fontWeight="500" fontSize="16px">{labels?.profile_picture ?? "Profile picture"}</Text>
                                 </Center>
                                 <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                     <HStack w="100%">
@@ -1122,7 +1122,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             }}
                                                 size={'lg'}
                                             >
-                                                Browse
+                                                {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>
                                         </VStack>
                                         {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
@@ -1156,7 +1156,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
                             <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} w="100%" >
                                 <Center alignItems="flex-start" width={'225px'} pb={[2, 0]} maxW={["100%", "225px"]}>
-                                    <Text isTruncated fontWeight="500" fontSize="16px">Resume</Text>
+                                    <Text isTruncated fontWeight="500" fontSize="16px">{labels?.resume ?? "Resume"}</Text>
                                 </Center>
                                 <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                     <HStack w="100%">
@@ -1190,7 +1190,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                 }}
                                                 size={'lg'}
                                             >
-                                                Browse
+                                                {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>
                                         </VStack>
                                         {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
@@ -1219,16 +1219,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'website' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"Website"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('website', answer);
                                 }}
@@ -1237,16 +1237,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                     </HStack>}
                     {setting?.name === 'facebook' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"Facebook"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('facebook', answer);
                                 }}
@@ -1255,16 +1255,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                     </HStack>}
                     {setting?.name === 'twitter' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <IcoTwitterXsm width={20} height={20} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <IcoTwitterXsm width={20} height={20} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"Twitter"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('twitter', answer);
                                 }}
@@ -1273,16 +1273,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                     </HStack>}
                     {setting?.name === 'linkedin' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"LinkedIn"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('linkedin', answer);
                                 }}
