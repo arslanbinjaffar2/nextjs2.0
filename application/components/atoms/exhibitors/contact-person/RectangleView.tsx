@@ -46,7 +46,7 @@ const RectangleView = ({ k, attendee, total }: AppProps) => {
                         {`${attendee?.info?.company_name}`}
                         {attendee?.info?.title && (
                             <>
-                                {` - ${attendee?.info?.title}`}
+                                {`, ${attendee?.info?.title}`}
                             </>
                         )}
                     </Text>
