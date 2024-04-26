@@ -76,7 +76,8 @@ export interface Labels {
   private_state: string;
   company_street_2: string;
   company_state: string;
-  ATTENDEE_PROFILE_PICTURE?:string;
+  profile_picture?:string;
+  resume?: string;
 }
 
 export interface Setting {
