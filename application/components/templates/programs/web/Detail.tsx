@@ -135,17 +135,17 @@ const Detail = () => {
 
         let tabs=[];
         if(detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 && (resShowSpeaker || resShowPoll)){
-            tabs.push(['about', event?.labels?.GENERAL_ABOUT.length>=22?`${event?.labels?.GENERAL_ABOUT.substring(0,22)}`:`${event?.labels?.GENERAL_ABOUT.substring(0,22)}`]);
+            tabs.push(['about', event?.labels?.GENERAL_ABOUT.length>=22?`${event?.labels?.GENERAL_ABOUT.substring(0,22)}`:`${event?.labels?.GENERAL_ABOUT}`]);
         }
         if(event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0){
-            tabs.push(['group', event?.labels?.ATTENDEE_TAB_GROUP.length>=22?`${event?.labels?.ATTENDEE_TAB_GROUP.substring(0,22)}`:`${event?.labels?.ATTENDEE_TAB_GROUP.substring(0,22)}`]);
+            tabs.push(['group', event?.labels?.ATTENDEE_TAB_GROUP.length>=22?`${event?.labels?.ATTENDEE_TAB_GROUP.substring(0,22)}`:`${event?.labels?.ATTENDEE_TAB_GROUP}`]);
         }
         if(modules?.find((polls) => (polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 ){
-            const attendees_label = (modules?.find((module) => (module.alias == 'attendees'))?.name.length??0)>=22?`${modules?.find((module) => (module.alias == 'attendees'))?.name.substring(0,22)}...`:`${modules?.find((module) => (module.alias == 'attendees'))?.name.substring(0,22)}`
+            const attendees_label = (modules?.find((module) => (module.alias == 'attendees'))?.name.length??0)>=22?`${modules?.find((module) => (module.alias == 'attendees'))?.name.substring(0,22)}...`:`${modules?.find((module) => (module.alias == 'attendees'))?.name}`
             tabs.push(['attendee', attendees_label]);
         }
         if(modules?.find((polls)=>(polls.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 ){
-            const documents_label = (modules?.find((module) => (module.alias == 'ddirectory'))?.name.length?? 0)>=22?`${(modules?.find((module) => (module.alias == 'ddirectory'))?.name.substring(0,22))}....`:`${(modules?.find((module) => (module.alias == 'ddirectory'))?.name.substring(0,22))}`
+            const documents_label = (modules?.find((module) => (module.alias == 'ddirectory'))?.name.length?? 0)>=22?`${(modules?.find((module) => (module.alias == 'ddirectory'))?.name.substring(0,22))}....`:`${(modules?.find((module) => (module.alias == 'ddirectory'))?.name)}`
             tabs.push(['documents', documents_label]);
         }
         setTabs(tabs);

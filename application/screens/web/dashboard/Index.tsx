@@ -110,7 +110,8 @@ const Index = ({ navigation }: indexProps) => {
      
      >
               <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
-              {modules?.find((module) => (module.alias == 'agendas'))?.name.substring(0,22)}...
+
+              {(modules?.find((module) => (module.alias == 'agendas'))?.name.length ?? 0)>=22? `${modules?.find((module) => (module.alias == 'agendas'))?.name.substring(0,22)}...`:`${modules?.find((module) => (module.alias == 'agendas'))?.name}`}...
                 </Heading>
      </Tooltip>
               <SlideView section="program" programs={programs} my={0} dashboard={true} />

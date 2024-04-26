@@ -43,7 +43,7 @@ const PressableElement = ({row}: any) => {
         </Center>
         <Tooltip   label={row.name}>
         <Text fontSize={'lg'} color={isHovered || router.pathname.includes(row?.alias) ? 'primary.hovercolor'  : "primary.text"}>
-        {row.name.length>=22?`${row.name.substring(0,22).replace('label','')} ...`:`${row.name}`}
+        {row.name.length>=22?`${row.name.substring(0,22).replace('label','')}....`:`${row.name}`}
           {/* {row?.alias.replace('-','_')} */}
         {/* {row?.icon?.replace("-icon", "").replace("-", "_").replace('.png', '')} */}
         </Text>

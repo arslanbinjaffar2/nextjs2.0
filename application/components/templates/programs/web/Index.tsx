@@ -100,7 +100,7 @@ const Index = () => {
                 }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>
                     <Text textAlign={'center'} isTruncated maxW={tb1.current?.clientWidth ? tb1.current?.clientWidth - 24 : ''} fontWeight={600}>
                     
-                    {(modules?.find((module)=>(module.alias == 'agendas'))?.name.length ??0)>=22?`${modules?.find((module)=>(module.alias == 'agendas'))?.name.substring(0,22)}...`:`${modules?.find((module)=>(module.alias == 'agendas'))?.name.substring(0,22)}` ?? 'Program'}
+                    {(modules?.find((module)=>(module.alias == 'agendas'))?.name.length ??0)>=22?`${modules?.find((module)=>(module.alias == 'agendas'))?.name.substring(0,22)}...`:`${modules?.find((module)=>(module.alias == 'agendas'))?.name}` ?? 'Program'}
                     </Text>
                 </Button>
                     </Tooltip>
@@ -113,7 +113,7 @@ const Index = () => {
                     setTab('my-program');
                 }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>
                     <Text textAlign={'center'} isTruncated maxW={tb1.current?.clientWidth ? tb1.current?.clientWidth - 24 : ''} fontWeight={600}>   
-                    {(modules?.find((module)=>(module.alias == 'myprograms'))?.name.length ??0)>=22?`${modules?.find((module)=>(module.alias == 'myprograms'))?.name.substring(0,22)}...`:`${modules?.find((module)=>(module.alias == 'myprograms'))?.name.substring(0,22)}` ?? 'Program'}
+                    {(modules?.find((module)=>(module.alias == 'myprograms'))?.name.length ??0)>=22?`${modules?.find((module)=>(module.alias == 'myprograms'))?.name.substring(0,22)}...`:`${modules?.find((module)=>(module.alias == 'myprograms'))?.name}` ?? 'Program'}
                     </Text>
                     {/* <Text textAlign={'center'} isTruncated maxW={tb2.current?.clientWidth ? tb2.current?.clientWidth - 24 : ''} fontWeight={600}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</Text> */}
                     </Button>
@@ -124,8 +124,8 @@ const Index = () => {
                   <Tooltip label= {event?.labels?.PROGRAM_BY_TRACKS}>
                 <Button ref={tb3} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('track')} borderWidth="0px" py={0} borderColor="primary.darkbox" flex={1} borderLeftRadius="0" borderRightRadius={0} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>
                     <Text textAlign={'center'} isTruncated maxW={tb3.current?.clientWidth ? tb3.current?.clientWidth - 24 : ''} fontWeight={600}>
-                        {event?.labels?.PROGRAM_BY_TRACKS.length>=22?`${event?.labels?.PROGRAM_BY_TRACKS.substring(0,22).substring(0,22)}`:
-                        `${event?.labels?.PROGRAM_BY_TRACKS.substring(0,22)}`}
+                        {event?.labels?.PROGRAM_BY_TRACKS.length>=22?`${event?.labels?.PROGRAM_BY_TRACKS.substring(0,22)}`:
+                        `${event?.labels?.PROGRAM_BY_TRACKS}`}
                         </Text>
                     </Button>
                   </Tooltip>

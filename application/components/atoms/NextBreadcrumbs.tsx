@@ -59,8 +59,17 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
               <HStack space="2" alignItems="center">
                 <IcoDashboard width="18" height="18" color={'primary.text'} />
                 <Tooltip label={breadcrumb.label} >
+                <Pressable
+              py="1"
+              px={3}
+              borderWidth="0"
+              rounded={'full'}
+              onPress={() => {
+                handlePress(breadcrumb.alias);
+              }}>
 
                 <Text>{breadcrumb.label.length>=22?`${breadcrumb.label.substring(0,22)}`:`${breadcrumb.label}`}</Text>
+              </Pressable>
                 </Tooltip>
               </HStack>
             </Pressable>
@@ -80,7 +89,17 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title }) => {
                   iconProps={{ width: 24, height: 21, color }}
                 />
                 <Tooltip label={breadcrumb.label} >
+                <Pressable
+              disabled={!title}
+              py="1"
+              px={3}
+              borderWidth="0"
+              rounded={'full'}
+              onPress={() => {
+                if (title) handlePress(breadcrumb.alias);
+              }}>
                   <Text color={color}>{breadcrumb.label.length>=22?`${breadcrumb.label.substring(0,22)}`:`${breadcrumb.label}`}</Text>
+              </Pressable>
                 </Tooltip>
               </HStack>
             </Pressable>

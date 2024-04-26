@@ -219,7 +219,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             >
                                 <Tooltip label={event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}>
                                 <Text textAlign={'center'} maxW={tab1?.current?.clientWidth ? tab1?.current?.clientWidth - 24: '' } fontWeight={600} fontSize="md" isTruncated>
-                                    {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES.length>=22?`${event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES.substring(0,22)}....`:`${event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES.substring(0,22)}`}
+                                    {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES.length>=22?`${event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES.substring(0,22)}....`:`${event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}`}
                                 </Text>
                                 </Tooltip>
                                 
@@ -248,8 +248,11 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 <Tooltip label={modules?.find((module)=>(module.alias == 'my-attendee-list'))?.
                                  name ?? 'My attendees'}>
                                 <Text textAlign={'center'} maxW={tab2?.current?.clientWidth ? tab2?.current?.clientWidth - 24: '' }
-                                 fontWeight={600} fontSize="md" isTruncated>{modules?.find((module)=>(module.alias == 'my-attendee-list'))?.
-                                 name ?? 'My attendees'}</Text>
+                                 fontWeight={600} fontSize="md" isTruncated>
+                                    {(modules?.find((module)=>(module.alias == 'my-attendee-list'))?.
+                                 name.length??0)>=22?(modules?.find((module)=>(module.alias == 'my-attendee-list'))?.
+                                 name.substring(0,22)):(modules?.find((module)=>(module.alias == 'my-attendee-list'))?.
+                                 name) ?? 'My attendees'}</Text>
                               
                                 </Tooltip>
                             </Button>
@@ -276,7 +279,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 <Text textAlign={'center'} maxW={tab1?.current?.clientWidth ? tab1?.current?.clientWidth - 24: '' } 
                                 fontWeight={600} fontSize="md" >
                                     {event?.labels?.ATTENDEE_LIST_BY_GROUP.length>=22?`${event?.labels?.ATTENDEE_LIST_BY_GROUP.substring(0,22)}
-                                    ....`:`${event?.labels?.ATTENDEE_LIST_BY_GROUP.substring(0,22)}`}
+                                    ....`:`${event?.labels?.ATTENDEE_LIST_BY_GROUP}`}
                                 </Text>
                                 </Tooltip>   
                                
@@ -312,7 +315,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 fontWeight={600} fontSize="md" isTruncated>
                                     
                                     {event?.labels?.SPEAKER_NAME.length>=22?`${event?.labels?.SPEAKER_NAME.substring(0,22)}
-                                    ....`:`${event?.labels?.SPEAKER_NAME.substring(0,22)}`}
+                                    ....`:`${event?.labels?.SPEAKER_NAME}`}
                                     </Text>
                                     </Tooltip>
                             </Button>
@@ -340,7 +343,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 <Text textAlign={'center'} maxW={tab5?.current?.clientWidth ? tab5?.current?.clientWidth - 24: '' }  
                                 fontWeight={600} fontSize="md" isTruncated>
                                     {event?.labels?.SPEAKER_CATEGORY.length>=22?`${event?.labels?.SPEAKER_CATEGORY.substring(0,22)}
-                                    ....`:`${event?.labels?.SPEAKER_CATEGORY.substring(0,22)}`}
+                                    ....`:`${event?.labels?.SPEAKER_CATEGORY}`}
                                 </Text>
                                 </Tooltip>
                             </Button>
@@ -363,7 +366,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                <Tooltip label={group_name} >
                             <Text flex="1" mb={1}  textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">
                             {group_name.length>=22?`${group_name.substring(0,22)}
-                                    ....`:`${group_name.substring(0,22)}`}
+                                    ....`:`${group_name}`}
                                 </Text>
                                </Tooltip>
                         )}
@@ -385,7 +388,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
                             <Text flex="1" mb={1}  textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">
                             {category_name.length>=22?`${category_name.substring(0,22)}
-                                    ....`:`${category_name.substring(0,22)}`}
+                                    ....`:`${category_name}`}
                                 </Text>
                             </Tooltip>
                         </HStack>

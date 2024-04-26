@@ -110,7 +110,7 @@ const Index = React.memo(() => {
                         
                         
                         
-                        {labels?.SPONSOR_NAME?.length>=22 ? `${labels?.SPONSOR_NAME?.substring(0,22)}.....`:`${labels?.SPONSOR_NAME?.substring(0,22)}`|| "Name"}
+                        {labels?.SPONSOR_NAME?.length>=22 ? `${labels?.SPONSOR_NAME?.substring(0,22)}.....`:`${labels?.SPONSOR_NAME}`|| "Name"}
                     </Button>
                     </Tooltip>
                         }
@@ -124,7 +124,7 @@ const Index = React.memo(() => {
                     }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-sponsor' ? 'primary.boxbutton' : 'primary.box'}
                     w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>
 
-                        {labels?.SPONSOR_CATEGORY?.length>=22 ? `${labels?.SPONSOR_CATEGORY?.substring(0,22)}.....`:`${labels?.SPONSOR_CATEGORY?.substring(0,22)}`|| "Category"}
+                        {labels?.SPONSOR_CATEGORY?.length>=22 ? `${labels?.SPONSOR_CATEGORY?.substring(0,22)}.....`:`${labels?.SPONSOR_CATEGORY}`|| "Category"}
                     </Button>
                     </Tooltip>
                                                                                                                                   }

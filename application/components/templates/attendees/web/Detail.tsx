@@ -144,7 +144,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     speaker
                                                                     ? (modules?.find((module) => module.alias === 'agendas')?.name?.length ?? 0) >= 22
                                                                         ? `${modules?.find((module) => module.alias === 'agendas')?.name.substring(0, 22)}...`
-                                                                        : `${modules?.find((module) => module.alias === 'agendas')?.name?.substring(0, 22)}` ?? 'PROGRAMS'
+                                                                        : `${modules?.find((module) => module.alias === 'agendas')?.name}` ?? 'PROGRAMS'
                                                                     : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}
 
                                                                         {/* {speaker ? (modules?.find((module) => (module.alias == 'agendas'))?.name.length>=22?`${name.substring(0,22)}...`:`${name.substring(0,22)}` ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM} */}
@@ -160,7 +160,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     <Tooltip label={event?.labels?.SPEAKER_CATEGORY}>
 
                                                                     <Text textAlign={'center'} maxWidth={tab2?.current?.clientWidth ? tab2?.current?.clientWidth - 24 : ''} fontWeight={600} fontSize="md" isTruncated>
-                                                                    {event?.labels?.SPEAKER_CATEGORY.length>=22?`${event?.labels?.SPEAKER_CATEGORY.substring(0,22)}....`:`${event?.labels?.SPEAKER_CATEGORY.substring(0,22)}`}                           
+                                                                    {event?.labels?.SPEAKER_CATEGORY.length>=22?`${event?.labels?.SPEAKER_CATEGORY.substring(0,22)}....`:`${event?.labels?.SPEAKER_CATEGORY}`}                           
                                                                     </Text>
                                                                     </Tooltip>
                                                                     </Button>
@@ -172,7 +172,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     
                                                                     <Text textAlign={'center'} maxWidth={tab3?.current?.clientWidth ? tab3?.current?.clientWidth - 24 : ''} fontWeight={600} fontSize="md" isTruncated>
 
-                                                                        {(modules?.find((module) => (module.alias == 'ddirectory'))?.name.length ?? 0)>=22?`${modules?.find((module) => (module.alias == 'ddirectory'))?.name.substring(0,22)}...`:`${modules?.find((module) => (module.alias == 'ddirectory'))?.name.substring(0,22)}`?? 'DOCUMENTS' }
+                                                                        {(modules?.find((module) => (module.alias == 'ddirectory'))?.name.length ?? 0)>=22?`${modules?.find((module) => (module.alias == 'ddirectory'))?.name.substring(0,22)}...`:`${modules?.find((module) => (module.alias == 'ddirectory'))?.name}`?? 'DOCUMENTS' }
                                                                     
                                                                         </Text>
                                                                     </Tooltip>
@@ -184,7 +184,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     <Tooltip label={event?.labels?.ATTENDEE_TAB_ABOUT} >
                                                             
                                                                     <Text textAlign={'center'} maxWidth={tab4?.current?.clientWidth ? tab4?.current?.clientWidth - 24 : ''} fontWeight={600} fontSize="md" isTruncated>
-                                                                    {event?.labels?.ATTENDEE_TAB_ABOUT.length>=22?`${event?.labels?.ATTENDEE_TAB_ABOUT.substring(0,22)}....`:`${event?.labels?.ATTENDEE_TAB_ABOUT.substring(0,22)}`}                           
+                                                                    {event?.labels?.ATTENDEE_TAB_ABOUT.length>=22?`${event?.labels?.ATTENDEE_TAB_ABOUT.substring(0,22)}....`:`${event?.labels?.ATTENDEE_TAB_ABOUT}`}                           
 
                                                                         </Text>
                                                                     </Tooltip>
@@ -195,7 +195,7 @@ const Detail = ({ speaker }: Props) => {
                                                                 <Button ref={tab5} _hover={{ _text: { color: 'primary.hovercolor' } }} flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm', 'md']} onPress={() => setTab('groups')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>
                                                                       <Tooltip label={event?.labels?.ATTENDEE_TAB_GROUP} >
                                                                     <Text textAlign={'center'} maxWidth={tab5?.current?.clientWidth ? tab5?.current?.clientWidth - 24 : ''} fontWeight={600} fontSize="md" isTruncated>
-                                                                    {event?.labels?.ATTENDEE_TAB_GROUP.length>=22?`${event?.labels?.ATTENDEE_TAB_GROUP.substring(0,22)}....`:`${event?.labels?.ATTENDEE_TAB_GROUP.substring(0,22)}`}  
+                                                                    {event?.labels?.ATTENDEE_TAB_GROUP.length>=22?`${event?.labels?.ATTENDEE_TAB_GROUP.substring(0,22)}....`:`${event?.labels?.ATTENDEE_TAB_GROUP}`}  
                                                                         </Text>
                                                                       </Tooltip>
                                                                         </Button>
@@ -207,7 +207,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     <Text textAlign={'center'} maxWidth={tab6?.current?.clientWidth ? tab6?.current?.clientWidth - 24 : ''} fontWeight={600} fontSize="md" isTruncated>
                                                                     {(modules?.find((module) => (module.alias == 'subregistration'))?.name.length ?? 0)>=22?
                                                                     `${modules?.find((module) => (module.alias == 'subregistration'))?.name.substring(0,22)}...`:
-                                                                    `${modules?.find((module) => (module.alias == 'subregistration'))?.name.substring(0,22)}`?? 'SUB REGISTRATIONS'}
+                                                                    `${modules?.find((module) => (module.alias == 'subregistration'))?.name}`?? 'SUB REGISTRATIONS'}
 
                                                                         </Text>
                                                                     </Tooltip>

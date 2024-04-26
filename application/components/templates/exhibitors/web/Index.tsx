@@ -101,7 +101,7 @@ const Index = React.memo(() => {
 
                         }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={8} borderRightRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? 0 : 8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? "50%": "100%"} _text={{ fontWeight: '600' }}>
                               
-                            {labels?.EXHIBITORS_NAME?.length>=22?`${labels?.EXHIBITORS_NAME?.substring(0,22)}....`:`${labels?.EXHIBITORS_NAME?.substring(0,22)}`}
+                            {labels?.EXHIBITORS_NAME?.length>=22?`${labels?.EXHIBITORS_NAME?.substring(0,22)}....`:`${labels?.EXHIBITORS_NAME}`}
                            
                             </Button>
                             </Tooltip>
@@ -114,7 +114,7 @@ const Index = React.memo(() => {
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'))
                         }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>
                          
-                            {labels?.EXHIBITORS_CATEGORY?.length>=22?`${labels?.EXHIBITORS_CATEGORY?.substring(0,22)}....`:`${labels?.EXHIBITORS_CATEGORY?.substring(0,22)}`}
+                            {labels?.EXHIBITORS_CATEGORY?.length>=22?`${labels?.EXHIBITORS_CATEGORY?.substring(0,22)}....`:`${labels?.EXHIBITORS_CATEGORY}`}
                             </Button>
                             </Tooltip>
                             }
