@@ -1105,7 +1105,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
                             <HStack mb="0" alignItems="start" flexDirection={['column', 'row']} w="100%" >
                                 <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
-                                    <Text isTruncated fontWeight="500" fontSize="16px">Profile picture</Text>
+                                    <Text isTruncated fontWeight="500" fontSize="16px">{labels?.profile_picture ?? "Profile picture"}</Text>
                                 </Center>
                                 <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                     <HStack w="100%">
@@ -1122,7 +1122,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             }}
                                                 size={'lg'}
                                             >
-                                                Browse
+                                                {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>
                                         </VStack>
                                         {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
@@ -1156,7 +1156,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
                             <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} w="100%" >
                                 <Center alignItems="flex-start" width={'225px'} pb={[2, 0]} maxW={["100%", "225px"]}>
-                                    <Text isTruncated fontWeight="500" fontSize="16px">Resume</Text>
+                                    <Text isTruncated fontWeight="500" fontSize="16px">{labels?.resume ?? "Resume"}</Text>
                                 </Center>
                                 <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                     <HStack w="100%">
@@ -1190,7 +1190,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                 }}
                                                 size={'lg'}
                                             >
-                                                Browse
+                                                {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>
                                         </VStack>
                                         {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
