@@ -323,7 +323,7 @@ const Detail = () => {
                                     )}
                                 </Container>}
                                 {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
-                                    <ListingLayout2 />
+                                    <ListingLayout2 module={module?.name}/>
                                 </Container>}
                             </>
                         )}
