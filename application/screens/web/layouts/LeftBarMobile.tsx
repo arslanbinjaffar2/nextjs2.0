@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Avatar, Box, Center, Flex, HStack, Pressable, ScrollView, Text, VStack } from 'native-base';
+import { Avatar, Box, Center, Flex, HStack, Pressable, ScrollView, Text, Tooltip, VStack } from 'native-base';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 import IcoLogin from 'application/assets/icons/IcoLogin';
 import { useWindowDimensions } from 'react-native';
@@ -104,13 +104,11 @@ const LeftBarMobile = () => {
                 <Center w="30px">
                   <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 25, height: 25, color: checkActiveRoute(row, router.asPath, info, page) ? func.colorType(event?.settings?.primary_color) : undefined }} />
                 </Center>
-              {row?.name.length>=28?  <Text fontSize={'lg'} color={checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>
-                  {row?.name.substring(0,28)}...
-                  </Text>:
-                  <Text fontSize={'lg'} color={checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>
-                    {row?.name}
-                  </Text>
-                  }
+                <Tooltip   label={row.name}>
+                <Text fontSize={'lg'} color={checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>
+                  {row.name.length>=15?`${row.name.substring(0,23)} ...`:`${row.name}`}
+                </Text>
+                </Tooltip>
               </HStack>
             </Pressable>
           )}

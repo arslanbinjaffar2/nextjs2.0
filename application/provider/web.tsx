@@ -149,6 +149,20 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                         dropdownIcon: <Icon as={AntDesign} name='caretdown' mr={3} />
                     }
                 },
+                Tooltip: {
+                    defaultProps: {
+                        colorScheme: 'secondary',
+                        bg: 'primary.boxsolid',
+                        color:"primary.text",
+                        px:5,
+                        maxWidth:"230px",
+                        w:"100%",
+                        rounded:'10px',
+                        openDelay:300
+                        
+                    }
+                },
+        
                 Radio: {
                     defaultProps: {
                         colorScheme: 'secondary',

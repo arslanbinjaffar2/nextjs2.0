@@ -7,7 +7,7 @@ import SpeakerListing from 'application/components/organisms/speakers/Listing';
 import QAListing from 'application/components/organisms/qa/Listing';
 import ChatClient from 'application/components/organisms/chat/ChatClient';
 import Master from 'application/screens/web/layouts/Master';
-import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack, Spacer, Box } from 'native-base'
+import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack, Spacer, Box, Tooltip } from 'native-base'
 import PollListingByDate from 'application/components/organisms/polls/PollListingByDate'
 import SurveyListing from 'application/components/organisms/survey/SurveyListing'
 import UsePollService from 'application/store/services/UsePollService';
@@ -108,19 +108,11 @@ const Index = ({ navigation }: indexProps) => {
           {/*  */}
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
             <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-             { name.length>57? <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
-              {width>970?
-                `${name.substring(0,57)}...`:
-                width>400?
-                `${name.substring(0,30)}...`:
-                `${name.substring(0,15)}...`
-              }
-                </Heading>:
-                
-                <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
-                  {name}
-                </Heading>
-                }
+                 <Tooltip   label= {modules?.find((module) => (module.alias == 'agendas'))?.name as string} >
+                    <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
+                      {modules?.find((module) => (module.alias == 'agendas'))?.name.substring(0,22)}...
+                    </Heading>
+              </Tooltip>
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
               <Center py="3" px="2" w="100%" alignItems="flex-end">
                 <Button onPress={() => {
