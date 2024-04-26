@@ -156,7 +156,7 @@ const Detail = ({ speaker }: Props) => {
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>
                     {!speaker &&
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
+                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
                         <Search tab={tab} />
                     </HStack>
                     }
@@ -290,7 +290,7 @@ const Detail = ({ speaker }: Props) => {
                                     )}
                                 </Container>
                             ) : <>
-                                    <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
+                                    <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
                                 </>
                         }
                             

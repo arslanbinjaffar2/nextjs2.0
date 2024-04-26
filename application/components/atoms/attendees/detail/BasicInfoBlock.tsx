@@ -34,7 +34,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
 
     const isPrivate = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s.is_private}),{});
     const allowedFields = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s}),{});
-    console.log(showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1), 'show_hotel')
 
     const [isFav, setIsFav] = React.useState<boolean>(false);
 

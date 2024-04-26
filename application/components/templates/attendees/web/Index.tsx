@@ -310,7 +310,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             </Button>
                         }
                         {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
-                            <Button
+                            <Button 
                                 ref={tab5} 
                                 onPress={() => {
                                     setTab('category')
@@ -323,6 +323,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 py={0} 
                                 borderColor="primary.darkbox" 
                                 h="42px" 
+                                _hover={{_text: {color: 'primary.hovercolor'}}}
                                 bg={tab === 'category' || tab === 'sub-category' || tab === 'category-attendee' ? 'primary.boxbutton' : 'primary.box'} 
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
