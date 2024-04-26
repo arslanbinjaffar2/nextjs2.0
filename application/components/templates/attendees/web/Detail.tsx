@@ -86,6 +86,10 @@ const Detail = ({ speaker }: Props) => {
                 } else if (row.tab_name === 'documents' && event?.speaker_settings?.show_document === 1) {
                     defaultTab = 'documents';
                     break;
+                }
+                else if (row.tab_name === 'about' && event?.speaker_settings?.show_document === 1) {
+                    defaultTab = 'about';
+                    break;
                 } else if (
                     row.tab_name === 'groups' &&
                     ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) ||
