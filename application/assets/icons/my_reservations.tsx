@@ -7,10 +7,9 @@ const SVGComponent = (props: SvgProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
     return (
     <Svg
-        width={props.width}
-        height={props.height}
+        width={25}
+        height={40}
         viewBox="0 0 16 33.75"
-        {...props}
     >
         <Path
             id="Path_1878"
