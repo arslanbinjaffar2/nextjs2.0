@@ -57,7 +57,10 @@ const Index = React.memo(() => {
                             <Spacer />
                             <Search />
                         </HStack>
-                        <ListingLayout2 updateBreadcrumbs={updateBreadcrumbs} disableTitle/>
+                        <Box w={'100%'} bg="primary.box" rounded="lg">
+                            <ListingLayout2 updateBreadcrumbs={updateBreadcrumbs} disableTitle/>
+                        </Box>
+                        
                     </Container>
                 </>
 

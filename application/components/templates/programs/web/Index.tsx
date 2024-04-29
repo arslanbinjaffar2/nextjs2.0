@@ -17,6 +17,9 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { Platform, useWindowDimensions } from 'react-native';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseEnvService from 'application/store/services/UseEnvService';
+import ButtonElement from 'application/components/atoms/ButtonElement'
+
+
 
 const Index = () => {
     
@@ -28,11 +31,7 @@ const Index = () => {
     
     const { response } = UseAuthService();
     const { _env } = UseEnvService()
-
-    const tb1 = React.useRef<HTMLDivElement>(null);
-    const tb2 = React.useRef<HTMLDivElement>(null);
-    const tb3 = React.useRef<HTMLDivElement>(null);
-    
+  
     const { event, modules  } = UseEventService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
     const { width } = useWindowDimensions();
@@ -92,20 +91,10 @@ const Index = () => {
             
 
             <HStack flexWrap={'wrap'} mb="3" overflow={'hidden'} rounded={8} space={1} justifyContent="center" w="100%">
-                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <Button ref={tb1} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
-                    ResetTracks();
-                    setTab('program')
-                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}><Text textAlign={'center'} isTruncated maxW={tb1.current?.clientWidth ? tb1.current?.clientWidth - 24 : ''} fontWeight={600}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</Text>
-                </Button>}
-                {(modules?.find((m)=>(m.alias == 'myprograms'))) && <Button ref={tb2} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
-                    ResetTracks();
-                    setTab('my-program');
-                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>
-                    <Text textAlign={'center'} isTruncated maxW={tb2.current?.clientWidth ? tb2.current?.clientWidth - 24 : ''} fontWeight={600}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</Text>
-                    </Button>}
-                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <Button ref={tb3} _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('track')} borderWidth="0px" py={0} borderColor="primary.darkbox" flex={1} borderLeftRadius="0" borderRightRadius={0} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>
-                    <Text textAlign={'center'} isTruncated maxW={tb3.current?.clientWidth ? tb3.current?.clientWidth - 24 : ''} fontWeight={600}>{event?.labels?.PROGRAM_BY_TRACKS}</Text>
-                    </Button>}
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <ButtonElement  bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'} onPress={() => {ResetTracks();setTab('program')}}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</ButtonElement>}
+                {(modules?.find((m)=>(m.alias == 'myprograms'))) && <ButtonElement  bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'} onPress={() => {ResetTracks();setTab('my-program');
+                }}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</ButtonElement>}
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <ButtonElement onPress={() => setTab('track')} bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'} >{event?.labels?.PROGRAM_BY_TRACKS}</ButtonElement>}
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
