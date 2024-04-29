@@ -62,6 +62,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBox';
 import { useWindowDimensions } from 'react-native';
 import SessionRating from 'application/components/atoms/programs/SessionRating';
+import ButtonElement from 'application/components/atoms/ButtonElement'
 
 type ScreenParams = { id: string }
 
@@ -178,7 +179,7 @@ const Detail = () => {
                     <Container mb="3" maxW="100%" w="100%">
                         <HStack mb="3" style={{rowGap: 2, columnGap: 1}} space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
                             {tabs.map((mtab: any, key: number) => (
-                                <Button key={mtab[0]} flex={1} rounded={0} minW={'calc(50% - 2px)'} onPress={() => setTab(mtab[0])} borderWidth="0" py={0} borderColor="primary.boxbutton" h="42px" bg={tab === mtab[0] ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>{mtab[1]}</Button>
+                                <ButtonElement key={mtab[0]} minW={'calc(50% - 2px)'} onPress={() => setTab(mtab[0])}  bg={tab === mtab[0] ? 'primary.boxbutton' : 'primary.box'}>{mtab[1]}</ButtonElement>
                             ))}
                         </HStack>
                         {group_id > 0 && (
