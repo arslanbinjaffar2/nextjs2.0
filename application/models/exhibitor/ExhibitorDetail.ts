@@ -92,12 +92,12 @@ interface CurrentEventAttendee {
 interface Info {
   title?: string;
   company_name?: string;
+  department?: string;
   website?: string;
   facebook?: string;
   twitter?: string;
   linkedin?: string;
   phone?: string;
-  department?: string;
   linkedin_protocol?: string;
   twitter_protocol?: string;
   facebook_protocol?: string;

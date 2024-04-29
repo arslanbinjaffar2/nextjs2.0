@@ -133,7 +133,7 @@ const Index = ({ navigation }: indexProps) => {
             <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
                <HStack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
-              {my_attendees?.length > 4 &&
+              {my_attendees?.length > 6 &&
                 <Button onPress={() => {
                   push(`/${event.url}/speakers`)
                 }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
@@ -143,7 +143,7 @@ const Index = ({ navigation }: indexProps) => {
               </HStack>
               <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
                 <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
-                  {my_attendees.slice(0, 4).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
+                  {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
                     <RoundedView attendee={attendee} />
                     <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
                   </VStack>)}

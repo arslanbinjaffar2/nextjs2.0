@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import {Avatar, Box, HStack, Icon, Image, Pressable, Spacer, Text, Toast, VStack } from 'native-base'
+import React from 'react'
+import { Avatar, Box, HStack, Icon, Image, Pressable, Spacer, Text, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'application/assets/icons/Icoribbon'
 import { Attendee } from 'application/models/attendee/Attendee'
@@ -39,7 +39,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
     setIsFav(attendee?.favourite == 1 ? true : false)
   }, [attendee?.favourite])
 
-  function toggleFav(){
+  function toggleFav() {
     setIsFav(!isFav);
     MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
   }
@@ -65,53 +65,61 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
           }
         }}>
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-          <HStack  w="100%" space="5" alignItems="center" justifyContent="space-between">
-            {attendee?.image && attendee.field_settings.profile_picture.is_private == 0  ? (
+          <HStack w="100%" space="5" alignItems="center" justifyContent="space-between">
+            {attendee?.image && attendee.field_settings.profile_picture.is_private == 0 ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar
-                  borderWidth={0}
-                  borderColor="primary.darkbox"
-                  textTransform="uppercase"
-                  bg={'#A5A5A5'}
-                  >
-                    { attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}
-                    </Avatar>
+                borderWidth={0}
+                borderColor="primary.darkbox"
+                textTransform="uppercase"
+                bg={'#A5A5A5'}
+              >{attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0, 1) + attendee?.last_name?.substring(0, 1) : attendee?.first_name?.substring(0, 1)}</Avatar>
             )}
             <VStack w={'calc(100% - 165px)'} space="0">
               {(attendee?.first_name || attendee?.last_name) ? (
                 <>
                   <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
-                  {attendee?.info && (
-                    <>
-                      <Text lineHeight="22px" fontSize="lg">
-                        {attendee?.info?.title && attendee?.info?.title}
-                        {attendee?.info?.title && attendee?.info?.company_name && " , "}
-                        {attendee?.info?.company_name && attendee?.info?.company_name}
-                        {(attendee?.info?.title || attendee?.info?.company_name) && attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && " , "}
-                        {attendee?.field_settings?.department.is_private === 0 && attendee?.info?.department && attendee?.info?.department}
-                      </Text>
-                    </>
+                  {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
+                    <Text textBreakStrategy='balanced' fontSize="lg">
+                      {attendee?.info?.title && (
+                        <>
+                          {`${attendee?.info?.title}`}
+                          {attendee?.info?.department || attendee?.info?.company_name ? ', ' : ''}
+                        </>
+                      )}
+                      {attendee?.info?.department && (
+                        <>
+                          {`${attendee?.info?.department}`}
+                          {attendee?.info?.company_name ? ', ' : ''}
+                        </>
+                      )}
+                      {attendee?.info?.company_name && (
+                        <>
+                          {`${attendee?.info?.company_name}`}
+                        </>
+                      )}
+                    </Text>
                   )}
                 </>
               ) : null}
               {event?.attendee_settings?.display_private_address === 1 &&
-                <Text pt="1" lineHeight="22px" fontSize="md"> 
+                <Text pt="1" lineHeight="22px" fontSize="md">
                   {getPrivateFields(attendee)}
-                 </Text>
+                </Text>
               }
-              
+
             </VStack>
             <Spacer />
-              <HStack space="4" alignItems="center">
+            <HStack space="4" alignItems="center">
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
                   onPress={() => toggleFav()}>
                   <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
                 </Pressable>
-                )}
-                <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
-              </HStack>
+              )}
+              <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
+            </HStack>
           </HStack>
         </HStack>
       </Pressable>
@@ -122,22 +130,22 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 export default RectangleView
 
 
-const getPrivateFields = (attendee:any) => {
+const getPrivateFields = (attendee: any) => {
   let fields = '';
 
-  if(attendee?.field_settings?.pa_street.is_private == 0 && attendee?.info?.private_street){
+  if (attendee?.field_settings?.pa_street.is_private == 0 && attendee?.info?.private_street) {
     fields += fields !== '' ? `, ${attendee?.info?.private_street}` : attendee?.info?.private_street;
   }
-  if(attendee?.field_settings?.pa_house_no.is_private == 0 && attendee?.info?.private_house_number){
+  if (attendee?.field_settings?.pa_house_no.is_private == 0 && attendee?.info?.private_house_number) {
     fields += fields !== '' ? `, ${attendee?.info?.private_house_number}` : attendee?.info?.private_house_number;
   }
-  if(attendee?.field_settings?.pa_post_code.is_private == 0 && attendee?.info?.private_post_code){
+  if (attendee?.field_settings?.pa_post_code.is_private == 0 && attendee?.info?.private_post_code) {
     fields += fields !== '' ? `, ${attendee?.info?.private_post_code}` : attendee?.info?.private_post_code;
   }
-  if(attendee?.field_settings?.pa_city.is_private == 0 && attendee?.info?.private_city){
+  if (attendee?.field_settings?.pa_city.is_private == 0 && attendee?.info?.private_city) {
     fields += fields !== '' ? `, ${attendee?.info?.private_city}` : attendee?.info?.private_city;
   }
-  if(attendee?.field_settings?.pa_country.is_private == 0 && attendee?.private_country_display_name){
+  if (attendee?.field_settings?.pa_country.is_private == 0 && attendee?.private_country_display_name) {
     fields += fields !== '' ? `, ${attendee?.private_country_display_name}` : attendee?.private_country_display_name;
   }
 

@@ -43,21 +43,21 @@ const RectangleView = ({ k, attendee }: AppProps) => {
                 )}
               {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
                 <Text textBreakStrategy='balanced' fontSize="lg">
-                  {attendee?.info?.company_name && (
-                    <>
-                      {`${attendee?.info?.company_name}`}
-                      {attendee?.info?.title || attendee?.info?.department ? ', ' : ''}
-                    </>
-                  )}
                   {attendee?.info?.title && (
                     <>
                       {`${attendee?.info?.title}`}
-                      {attendee?.info?.department && ', '}
+                      {attendee?.info?.department || attendee?.info?.company_name ? ', ' : ''}
                     </>
                   )}
                   {attendee?.info?.department && (
                     <>
                       {`${attendee?.info?.department}`}
+                      {attendee?.info?.company_name ? ', ' : ''}
+                    </>
+                  )}
+                  {attendee?.info?.company_name && (
+                    <>
+                      {`${attendee?.info?.company_name}`}
                     </>
                   )}
                 </Text>
