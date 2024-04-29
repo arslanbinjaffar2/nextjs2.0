@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, Button, Container, HStack, Icon, IconButton, Input, Spacer, Text, ScrollView, Image } from 'native-base'
+import { Box, Button, Container, HStack, Icon, IconButton, Input, Spacer, Text, ScrollView, Image, Tooltip } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import UseSponsorService from 'application/store/services/UseSponsorService';
@@ -99,18 +99,35 @@ const Index = React.memo(() => {
                 </HStack>
                 {(event?.sponsor_settings?.sponsorTab == 1) && (
                     <HStack mb="3" space={1} justifyContent="center" w="100%">
-                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
+                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && 
+                                           <Tooltip label={labels?.SPONSOR_NAME}>
+                    <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                         setTab('name')
                         FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
                         push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'name'))
                     }} 
-                    borderWidth="0px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_NAME}</Button>}
-                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
+                    borderWidth="0px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>
+                        
+                        
+                        
+                        {labels?.SPONSOR_NAME?.length>=22 ? `${labels?.SPONSOR_NAME?.substring(0,22)}.....`:`${labels?.SPONSOR_NAME}`|| "Name"}
+                    </Button>
+                    </Tooltip>
+                        }
+                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') &&
+                       <Tooltip label={labels?.SPONSOR_CATEGORY } >
+
+                    <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                         setTab('category')
                         FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
                         push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'category'))
-                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-sponsor' ? 'primary.boxbutton' : 'primary.box'}
-                                                                                                                                  w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_CATEGORY || "Category"}</Button>}
+                    }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-sponsor' ? 'primary.boxbutton' : 'primary.box'}
+                    w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>
+
+                        {labels?.SPONSOR_CATEGORY?.length>=22 ? `${labels?.SPONSOR_CATEGORY?.substring(0,22)}.....`:`${labels?.SPONSOR_CATEGORY}`|| "Category"}
+                    </Button>
+                    </Tooltip>
+                                                                                                                                  }
                     </HStack>
                     )}
 
