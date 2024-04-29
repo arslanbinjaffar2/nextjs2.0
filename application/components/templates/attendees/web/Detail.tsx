@@ -286,7 +286,10 @@ const Detail = ({ speaker }: Props) => {
                                         {in_array('documents', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
-                                            <ListingLayout2 />
+                                            <Box  bg="primary.box" w={'100%'} rounded="lg">
+																							<ListingLayout2 />
+																						</Box>
+																						
                                         )}
                                     </Container>}
                                       </>

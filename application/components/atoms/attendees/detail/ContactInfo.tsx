@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Pressable, Text, VStack, HStack, IconButton } from 'native-base';
 import { Linking } from 'react-native';
 import IcoFacebook from 'application/assets/icons/small/IcoFacebook';
@@ -7,11 +7,13 @@ import IcoLinkedIN from 'application/assets/icons/small/IcoLinkedIN';
 import IcoWebLink from 'application/assets/icons/small/IcoWebLink';
 import IcoEnvelope from 'application/assets/icons/small/IcoEnvelope';
 import IcoPhone from 'application/assets/icons/small/IcoPhone';
-import IcouserFilled from 'application/assets/icons/small/IcouserFilled';
+import IcoUserFilled from 'application/assets/icons/small/IcouserFilled';
 import IcoVCF from 'application/assets/icons/small/IcoVCF';
 import { Detail } from 'application/models/attendee/Detail';
 import { getContactAttendeeApi } from 'application/store/api/Attendee.Api';
 import { store } from 'application/store/Index';
+import UseEventService from 'application/store/services/UseEventService';
+import UseAuthService from 'application/store/services/UseAuthService'
 
 type SocialIcon = {
   name: string;
@@ -30,45 +32,73 @@ const ContactInfo = ({ detail }: AppProps) => {
     { name: 'website', component: <IcoWebLink width={30} height={30} /> }
   ];
 
+  const [sortedFields, setSortedFields]=useState([]);
+  
+  const { event } = UseEventService();
+  const { response } = UseAuthService()
+  const loggedInUser = detail?.detail?.id === response.data?.user?.id;
+
+
   const isFieldVisible = (fieldName: string) => {
     const field = detail.sort_field_setting.find((field: any) => field.name === fieldName);
-    return field && !field.is_private;
+    if (!loggedInUser) {
+      return field && !field.is_private;
+    }
+    return !!field;
   };
 
   const hasContactInfo = ['facebook', 'twitter', 'linkedin', 'website']
     .some(fieldName => isFieldVisible(fieldName) && detail?.detail?.info?.[fieldName]);
 
-  if (!hasContactInfo) return null;
-  // detail?.detail?.info?.facebook !== '' && detail?.detail?.info?.facebook !== 'http://' && detail?.detail?.info?.facebook !== 'https://'
   const visibleSocialIcons = detail.sort_field_setting
-    .filter((field: any) => field.is_private === 0 && socialIcons.some(icon => icon.name === field.name) && detail?.detail?.info?.[field.name] !== '' &&  detail?.detail?.info?.[field.name] !== 'http://' && detail?.detail?.info?.[field.name] !== 'https://')
+    .filter((field: any) => {
+      if (loggedInUser) {
+        return socialIcons.some(icon => icon.name === field.name) && detail?.detail?.info?.[field.name] !== '' && detail?.detail?.info?.[field.name] !== 'http://' && detail?.detail?.info?.[field.name] !== 'https://';
+      } else {
+        return field.is_private === 0 && socialIcons.some(icon => icon.name === field.name) && detail?.detail?.info?.[field.name] !== '' && detail?.detail?.info?.[field.name] !== 'http://' && detail?.detail?.info?.[field.name] !== 'https://';
+      }
+    })
     .map((field: any) => socialIcons.find(icon => icon.name === field.name))
     .filter((icon: any) => icon !== undefined) as SocialIcon[];
 
-  const sortedFields = detail.sort_field_setting
-    .filter((field: any) => field.is_private === 0 && ['email', 'phone'].includes(field.name) && detail?.detail?.[field.name as keyof typeof detail.detail] !== '')
+  React.useEffect(() => { 
+    const fields=detail.sort_field_setting
+    .filter((field: any) => {
+      if (loggedInUser) {
+        return ['email', 'phone'].includes(field.name) && detail?.detail?.[field.name as keyof typeof detail.detail] !== '';
+      } else {
+        return field.is_private === 0 && ['email', 'phone'].includes(field.name) && detail?.detail?.[field.name as keyof typeof detail.detail] !== '';
+      }
+    })
     .sort((a: any, b: any) => detail.sort_field_setting.findIndex((field: any) => field.name === a.name) - detail.sort_field_setting.findIndex((field: any) => field.name === b.name))
     .map((field: any) => ({
       name: field.name,
       isVisible: isFieldVisible(field.name) && detail?.detail?.[field.name as keyof typeof detail.detail] !== '',
       value: detail?.detail?.[field.name as keyof typeof detail.detail] || ''
     }));
+    setSortedFields(fields);
+  }
+  , [detail]);
+
+  if (!hasContactInfo) return null;
 
   return (
     <Box p="0" w="100%" bg="primary.box" mb={5} rounded={8}>
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="2" alignItems="center" roundedTop={8}>
-        <IcouserFilled width="18px" height="18px" />
-        <Text fontSize="lg">Contact Info</Text>
-        <Pressable ml="auto">
-          <IconButton
-            variant="unstyled"
-            p={0}
-            icon={<IcoVCF />}
-            onPress={() => {
-              getAttendeeContact(detail?.detail?.id ?? 0);
-            }}
-          />
-        </Pressable>
+        <IcoUserFilled width="18px" height="18px" />
+        <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
+        {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.current_event_attendee?.speaker == '0' ? (
+            <Pressable>
+              <IconButton
+                variant="unstyled"
+                p={0}
+                icon={<IcoVCF />}
+                onPress={() => {
+                  getAttendeeContact(detail?.detail?.id ?? 0);
+                }}>
+              </IconButton>
+            </Pressable>
+          ) : ''}
       </HStack>
       <VStack p="3" pb={1} w="100%" space="3">
         {sortedFields.map((field: any) => (
@@ -127,4 +157,4 @@ const downloadFile = (fileData: any, filename: any) => {
   window.URL.revokeObjectURL(url);
 };
 
-export default ContactInfo
+export default ContactInfo;
