@@ -119,13 +119,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </Box>
                     </HStack>
                     <HStack w="100%" space="0">
-                    {detail?.sort_field_setting .slice()
-                        .sort((a:any, b:any) => {
-                            const order = { 'initial': 1, 'delegate_number': 2, 'table_number': 3 } as any;
-                            return order[a.name] - order[b.name];
-                        }).map((setting:any, i:number)=>(
-                        <>
-                        {setting.name === 'initial' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.initial! && (
+                        {detail?.sort_field_setting && detail.sort_field_setting.find((setting:any) => setting.name === 'initial' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.initial) && (
                             <Center alignItems="flex-start" pl="0" w="33.33%">
                                 <VStack space="0">
                                     <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.initial}</Text>
@@ -133,7 +127,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 </VStack>
                             </Center>
                         )}
-                        {setting.name === 'delegate_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.delegate_number! && (
+                        {detail?.sort_field_setting && detail.sort_field_setting.find((setting:any) => setting.name === 'delegate_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.delegate_number) && (
                             <Center borderLeftWidth={detail?.detail?.info?.initial ? 1 : 0} borderColor="primary.bordercolor" alignItems="flex-start" pl={detail?.detail?.info?.initial ? ['3','8'] : 0} w="33.33%">
                                 <VStack space="0">
                                     <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.delegate}</Text>
@@ -141,16 +135,14 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 </VStack>
                             </Center>
                         )}
-                        {setting.name === 'table_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.table_number! && (
+                        {detail?.sort_field_setting && detail.sort_field_setting.find((setting:any) => setting.name === 'table_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.table_number) && (
                             <Center borderLeftWidth={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number  ? 1 : 0} borderColor="primary.bordercolor"alignItems="flex-start" pl={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number ? ['3','8'] : 0} w="33.33%">
-                            <VStack space="0">
+                                <VStack space="0">
                                     <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.table_number}</Text>
                                     <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.table_number}</Text>
                                 </VStack>
                             </Center>
                         )}
-                        </>
-                    ))}
                     </HStack>
                 </Box>
                 {detail?.detail?.attendee_cv && (
