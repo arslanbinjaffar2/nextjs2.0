@@ -27,11 +27,26 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
         }
 
     }, [detail])
-    
 
+    const hasFirstName = detail?.sort_field_setting.some((setting:any) => setting.name === 'first_name');
+    const hasLastName = detail?.sort_field_setting.some((setting:any) => setting.name === 'last_name');
+    const hasDeligateNumber = detail?.sort_field_setting.some((setting:any) => setting.name === 'deligate_number');
+    const hasTableNumber = detail?.sort_field_setting.some((setting:any) => setting.name === 'table_number');
+    const hasInitial = detail?.sort_field_setting.some((setting:any) => setting.name === 'initial');
+    const shouldShowNoRecord = detail?.sort_field_setting.length === 0 ||
+        (detail?.sort_field_setting.length === 2 && hasFirstName && hasLastName) ||
+        (detail?.sort_field_setting.length === 3 && hasFirstName && hasLastName && hasDeligateNumber) ||
+        (detail?.sort_field_setting.length === 4 && hasFirstName && hasLastName && hasDeligateNumber && hasTableNumber) ||
+        (detail?.sort_field_setting.length === 5 && hasFirstName && hasLastName && hasDeligateNumber && hasTableNumber && hasInitial) ||
+        (hasFirstName && detail?.sort_field_setting.length === 1) ||
+        (hasDeligateNumber && detail?.sort_field_setting.length === 1) ||
+        (hasTableNumber && detail?.sort_field_setting.length === 1) ||
+        (hasInitial && detail?.sort_field_setting.length === 1) ||
+        (hasLastName && detail?.sort_field_setting.length === 1);
+        
     return (
         <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.box" : ""}`} w="100%"  p="0" rounded="10">
-            {(detail?.sort_field_setting.length > 0) ? (
+            {(detail?.sort_field_setting.length > 0 && !shouldShowNoRecord) ? (
                 <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
                         <IcoInfo  />

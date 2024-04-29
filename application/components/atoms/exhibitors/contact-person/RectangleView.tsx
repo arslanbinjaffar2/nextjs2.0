@@ -3,7 +3,6 @@ import { HStack, Icon, Spacer, Text, VStack, Image, Pressable, Avatar } from 'na
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { ExhibitorsAttendee } from 'application/models/exhibitor/ExhibitorDetail'
 import UseEnvService from 'application/store/services/UseEnvService';
-import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
 import UseExhibitorService from 'application/store/services/UseExhibitorService'
@@ -44,25 +43,27 @@ const RectangleView = ({ k, attendee, total }: AppProps) => {
                 {(attendee?.first_name || attendee?.last_name) && (
                     <Text  textBreakStrategy='simple' fontSize="lg">{`${attendee?.first_name} ${showLastName ? attendee?.last_name : ''}`}</Text>
                 )}
-              {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
-                <Text textBreakStrategy='balanced' fontSize="lg">
-                  {attendee?.info?.company_name && (
-                    <>
-                      {`${attendee?.info?.company_name}, `}
-                    </>
+                {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
+                    <Text textBreakStrategy='balanced' fontSize="lg">
+                      {attendee?.info?.title && (
+                        <>
+                          {`${attendee?.info?.title}`}
+                          {attendee?.info?.department || attendee?.info?.company_name ? ', ' : ''}
+                        </>
+                      )}
+                      {attendee?.info?.department && (
+                        <>
+                          {`${attendee?.info?.department}`}
+                          {attendee?.info?.company_name ? ', ' : ''}
+                        </>
+                      )}
+                      {attendee?.info?.company_name && (
+                        <>
+                          {`${attendee?.info?.company_name}`}
+                        </>
+                      )}
+                    </Text>
                   )}
-                  {attendee?.info?.title && (
-                    <>
-                      {`${attendee?.info?.title}, `}
-                    </>
-                  )}
-                  {attendee?.info?.department && (
-                    <>
-                      {`${attendee?.info?.department}`}
-                    </>
-                  )}
-                </Text>
-              )}
             </VStack>
             <Spacer />
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />

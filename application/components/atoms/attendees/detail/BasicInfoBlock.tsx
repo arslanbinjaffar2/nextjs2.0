@@ -10,8 +10,6 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
-import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
-import AvatarColors from 'application/utils/AvatarColors'
 import UseAuthService from 'application/store/services/UseAuthService';
 
 
@@ -70,21 +68,31 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 {`${detail?.detail?.first_name}`} {detail?.sort_field_setting.find((s:any)=>(s.name === 'last_name')) && detail?.detail?.last_name }
                             </Text>
                             {detail?.detail?.info &&
-                                (detail?.detail?.info.company_name ||
+                                (detail?.detail?.info.department ||
                                     detail?.detail?.info.title) &&
-                                    (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
+                                    (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.department == 0 || isPrivate?.company_name == 0))
                                     && (
                                     <>
-                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title && `${detail?.detail?.info?.title} ` }{detail?.detail?.info?.company_name &&
-                                                detail?.detail?.info?.title &&
-                                                ", "}
-                                                {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>
+                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title && (
+                                            <>
+                                            {`${detail?.detail?.info?.title}`}
+                                            {detail?.detail?.info?.department || detail?.detail?.info?.company_name ? ', ' : ''}
+                                            </>
+                                        )}
+                                        {detail?.detail?.info?.department && (
+                                            <>
+                                            {`${detail?.detail?.info?.department}`}
+                                            {detail?.detail?.info?.company_name ? ', ' : ''}
+                                            </>
+                                        )}
+                                        {detail?.detail?.info?.company_name && (
+                                            <>
+                                            {`${detail?.detail?.info?.company_name}`}
+                                            </>
+                                        )}</Text>
 
                                     </>
                                 )}
-                            {(showPrivate == 1 || isPrivate?.department == 0) && detail?.detail?.info?.department && (
-                                <Text lineHeight="sm" fontSize="18px">{detail?.detail?.info?.department}</Text>
-                            )}
                         </VStack>
                         <Spacer />
                         <Box flexDirection="row" alignItems="center" justifyContent="space-between">
@@ -111,7 +119,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     <HStack w="100%" space="0">
                     {detail?.sort_field_setting .slice()
                         .sort((a:any, b:any) => {
-                            const order = { 'initial': 3, 'delegate_number': 1, 'table_number': 4 } as any;
+                            const order = { 'initial': 1, 'delegate_number': 2, 'table_number': 3 } as any;
                             return order[a.name] - order[b.name];
                         }).map((setting:any, i:number)=>(
                         <>
