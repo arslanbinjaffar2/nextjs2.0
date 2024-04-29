@@ -68,7 +68,7 @@ const PressableElement = ({row}: any) => {
       {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color={isHovered || checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>{row?.name}</Text>}
       {row?.alias === 'alerts' && unread > 0 &&
         <Badge // bg="red.400"
-          bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid" alignSelf="flex-end" _text={{
+          bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid"  _text={{
           fontSize: 12
         }}>
             {unread}
