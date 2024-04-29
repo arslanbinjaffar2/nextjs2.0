@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea, Toast } from 'native-base';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseNoteService from 'application/store/services/UseNoteService';
 import UseEventService from 'application/store/services/UseEventService';
 import DynamicIcon from 'application/utils/DynamicIcon';
-import UseToastService from 'application/store/services/UseToastService';
+import UseToastService from '../../store/services/UseToastService';
 type AppProps = {
     note_type: string,
     note_type_id: any,

@@ -14,6 +14,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { usePathname } from 'next/navigation';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { color } from 'native-base/lib/typescript/theme/styled-system';
+import moment from 'moment';
+import 'moment/min/locales';
 
 function hex2rgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -62,6 +64,9 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
 
     useEffect(() => {
       if(Object.keys(event).length > 0){
+            if(event?.event_language_code){
+                moment.locale(event?.event_language_code);
+            }
            const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
            const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
            const type = colourIsLight(rgb[0],rgb[1],rgb[2]) ? '#1e1e1e' : '#EAEAEA'

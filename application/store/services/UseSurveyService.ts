@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectSurveys, SelectCompletedSurveys, SurveyActions, SelectSurveyLabelDetail, SelectSurveySubmitSuccess, SelectSurveyDetail, SelectMySurveyResult, SelectMySurveyResultDetail, SelectMySurveyResultScore, SelectSurveySettings } from 'application/store/slices/Survey.Slice'
+import { SelectSurveys, SelectCompletedSurveys, SurveyActions, SelectSurveyLabelDetail, SelectSurveySubmitSuccess, SelectSurveyDetail, SelectMySurveyResult, SelectMySurveyResultDetail, SelectMySurveyResultScore, SelectSurveySettings, SelectMySurveyTotalScore } from 'application/store/slices/Survey.Slice'
 
 import { SurveyLabels, SurveySetting, SurveySubmitData, Surveys } from 'application/models/survey/Survey'
 import { SurveyDetail } from 'application/models/survey/Detail'
@@ -18,6 +18,7 @@ export type SurveyServiceOperators = {
     mySurveyResult: Surveys,
     mySurveyResultDetail:MySurveyResultSurvey | null,
     mySurveyResultScore:number,
+    mySurveyTotalScore:number,
     FetchSurveys: () => void,
     FetchSurveyDetail: (payload:{id:number}) => void,
     SubmitSurvey: (payload:SurveySubmitData) => void,
@@ -45,6 +46,7 @@ export const UseSurveyService = (): Readonly<SurveyServiceOperators> => {
         mySurveyResult: useAppSelector(SelectMySurveyResult),
         mySurveyResultDetail: useAppSelector(SelectMySurveyResultDetail),
         mySurveyResultScore: useAppSelector(SelectMySurveyResultScore),
+        mySurveyTotalScore: useAppSelector(SelectMySurveyTotalScore),
         FetchSurveys: useCallback(
             () => {
                 dispatch(SurveyActions.FetchSurveys())

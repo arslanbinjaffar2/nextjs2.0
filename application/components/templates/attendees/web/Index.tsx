@@ -75,6 +75,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory, last_page } = UseAttendeeService();
 
     const [searchQuery, setSearch] = React.useState('')
+    const [parentCategories, setParentCategories] = useState<Category[]>([]);
 
     const [slug] = useParam('slug');
 
@@ -85,6 +86,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         }
         
     }, [searchParams]);
+
+    useEffect(() => {
+        if(categories.length > 0){
+            const filteredCategories = categories.filter(category => category.parent_id === 0);
+            if(filteredCategories.length > 0){
+                setParentCategories(filteredCategories);
+            }       
+        }
+    }, [categories]);
     
 
     useEffect(() => {
@@ -129,11 +139,16 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         } else if ((slug === undefined || slug.length === 0) && tab === 'attendee') {
             setTab('attendee'); console.log('call 4')
             FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
-        } else if ((slug === undefined || slug.length === 0) && tab === 'category') {
+        }
+        else if ((slug === undefined || slug.length === 0) && tab === 'category-attendee') {
+            setTab('category-attendee'); console.log('call 4')
+            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), screen: 'speakers', program_id: 0 });
+        }
+         else if ((slug === undefined || slug.length === 0) && tab === 'category') {
             setTab('category');
             FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
         } else if ((slug === undefined || slug.length === 0) && tab === 'sub-category') {
-            setTab('category');
+            setTab('sub-category');
             FetchCategories({ parent_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), query: query, page: 1, cat_type: 'speakers' })
         } else if ((slug === undefined || slug.length === 0) && tab === 'group') {
             setTab('group');
@@ -158,7 +173,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         return debounce(function (query: string, tab:string) {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: group_id, page: 1, attendee_id: 0, program_id: 0 });
-            } else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {console.log('call 5')
+            } else if (tab === "category") {
+                FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
+            }else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {console.log('call 5')
                 FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }, 1000);
@@ -191,7 +208,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                 }
                 </Text>
                 <Spacer />
-                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
+                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} 
+                borderColor={'transparent'}
+                value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
@@ -320,7 +339,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     </Tooltip>
                             </Button>
                         }
-                        {( event?.speaker_settings?.tab == 1) &&
+                        {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
                             <Button
                                 ref={tab5} 
                                 onPress={() => {
@@ -335,7 +354,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 borderColor="primary.darkbox" 
                                 h="42px" 
                                 _hover={{_text: {color: 'primary.hovercolor'}}}
-                                bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} 
+                                bg={tab === 'category' || tab === 'sub-category' || tab === 'category-attendee' ? 'primary.boxbutton' : 'primary.box'} 
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
@@ -358,7 +377,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 }}>
                                     <HStack alignItems={'center'} space={3}>
                                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                                        <Text fontSize="2xl">BACK</Text>
+                                        <Text>{event?.labels?.GENERAL_BACK}</Text>
                                     </HStack>
                             </Pressable>
                         </HStack>
@@ -373,16 +392,32 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                         </>
                     )}
                     {category_name && (
-                        <HStack mb="1" pt="2" w="100%" space="3">
+                        <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
+                            <Text flex="1" textTransform="uppercase" fontSize="sm">
+                            {parent_id !== 0 ? (
+                                <>
+                                <Pressable
+                                    onPress={async () => {
+                                        back()
+                                    }}>
+                                    <Text textTransform="uppercase" fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
+                                </Pressable>
+                                {categories.find(category => category.id === Number((searchParams.get('category_id')))) && 
+                                <>
+                                    <Icon color={'primary.text'} as={AntDesign} name="right"  />
+                                    <Text textTransform="uppercase" fontSize="sm">{categories.find(category => category.id === Number((searchParams.get('category_id'))))?.name}</Text>
+                                </>
+                                }
+                                </>
+                            ) : (
+                                <Text textTransform="uppercase" fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
+                            )}
+                            </Text>
                             <Pressable
-                                onPress={() => {
-                                    // if(tab == 'attendee'){
-                                    //     setTab('category');
-                                    // }else{
-                                    //      FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
-                                    // }
-                                    back()
-                                }}>
+                            onPress={async () => {
+                                back()
+                            }}>
+                            {/* <Text textTransform="uppercase" fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  /> Go back</Text> */}
                             </Pressable>
                             <Tooltip label={category_name} >
 
@@ -392,7 +427,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </Text>
                             </Tooltip>
                         </HStack>
-                    )}
+                        )}
                 </>
             )}
             {/* {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
@@ -430,8 +465,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                         </React.Fragment>
                              )}
                             {attendees.length <= 0 &&
-                              <Box p={3} mb="3"  rounded="lg" w="100%">
-                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              <Box p={3} rounded="lg" w="100%">
+                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
                               </Box>
                             }
                         </Container>}
@@ -451,20 +486,20 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </React.Fragment>
                             )}
                             {groups.length <= 0 &&
-                              <Box p={3} mb="3" rounded="lg" w="100%">
-                                  <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              <Box p={3} rounded="lg" w="100%">
+                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
                               </Box>
                             }
                         </Container>}
-                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && event?.speaker_settings?.category_group == 1 && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     <RectangleCategoryView category={category} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p={3} mb="3" rounded="lg" w="100%">
-                                    <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
+                                <Box p={3} rounded="lg" w="100%">
+                                    <Text fontSize="16px">{event.labels.GENERAL_NO_RECORD}</Text>
                                 </Box>
                             }
                         </Container>}

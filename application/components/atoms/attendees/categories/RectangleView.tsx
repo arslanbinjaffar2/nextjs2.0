@@ -1,7 +1,8 @@
 import React from 'react'
-import { Box, HStack, Text, VStack, ZStack, Pressable } from 'native-base'
+import { Box, HStack, Text, VStack, ZStack, Pressable, Icon } from 'native-base'
 import { Category } from 'application/models/event/Category'
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
@@ -19,7 +20,7 @@ type AppProps = {
 
 const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => {
 
-    const { UpdateCategory, FetchCategories, query } = UseAttendeeService();
+    const { UpdateCategory, FetchCategories, query, categories } = UseAttendeeService();
 
     const { event } = UseEventService();
 
@@ -50,8 +51,8 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
                 onPress={() => {
                     if (category.parent_id > 0) {
                         if (updateTab) updateTab('category-attendee');
-                        push(pathname + '?' + createQueryString([{name:'tab', value:'category-attendee'}, {name:'category_id', value:`${category.id}`}]))
                         UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
+                        push(pathname + '?' + createQueryString([{name:'tab', value:'category-attendee'}, {name:'category_id', value:`${category.id}`}]))
                         if (screen === "detail") {
                             if (Platform.OS === "web") {
                                 push(`/${event.url}/speakers`);
@@ -63,6 +64,7 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
                         }
                     } else {
                         // FetchCategories({ parent_id: category.id, query: query, page: 1, cat_type: 'speakers' })
+                        // UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
                         push(pathname + '?' + createQueryString([{name:'tab', value:'sub-category'}, {name:'category_id', value:`${category.id}`}]))
                     }
                 }}>
@@ -72,13 +74,19 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
                             <Box bg={category.color} borderWidth="1" borderColor="primary.darkbox" w="15px" mt='0px' h={`58px`} borderRightRadius="10" shadow={2} />
                         </ZStack>
                     </Box>
-                    <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
+                    <HStack pt="0" px={4} w="100%" space="5" alignItems="center" justifyContent="space-between">
                         <VStack maxW={['62%', '70%', '40%']} space="1">
                             <Text fontSize="lg" lineHeight="22px">
                                 {category.name}
                             </Text>
                         </VStack>
+                        {(category.subcategories_count !== undefined && category.subcategories_count > 0) || (category.speaker_count !== undefined && category.speaker_count > 0) ? (
+                        <HStack space="4" alignItems="center">
+                            <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
+                        </HStack>
+                        ) : null}
                     </HStack>
+                   
                 </HStack>
             </Pressable>
         </Box>

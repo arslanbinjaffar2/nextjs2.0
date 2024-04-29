@@ -79,9 +79,10 @@ export interface Event {
     eventsite_settings?: EventSiteSettings
     keyword_settings?: KeywordSettings
     document_settings?: DocumentSettings
-    calling_code?: any
     sponsor_tab_settings?: any
     exhibitor_tab_settings?: any
+    calling_code?: any
+    event_language_code?: string
 }
 interface Setting {
     poll_setting?: string;

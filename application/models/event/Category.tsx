@@ -11,4 +11,6 @@ export interface Category {
     deleted_at: string;
     name: string;
     children?: Category[];
+    subcategories_count?: number | undefined;
+    speaker_count?: number | undefined;
 }

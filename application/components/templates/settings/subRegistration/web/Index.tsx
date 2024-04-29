@@ -25,6 +25,7 @@ import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
+import { func } from 'application/styles';
 import { getColorScheme } from 'application/styles/colors';
 import SwipeBtn from 'application/components/atoms/swipeBtn';
 

@@ -27,8 +27,8 @@ const Detail = ({ id, title, description, date, time }: { id: number, title: str
     };
 
     return (
-        <Box w="100%" borderBottomWidth='0' borderColor="primary.bordercolor" py="3">
-            <HStack px="4" w="100%" space="2" alignItems="flex-start" justifyContent={'space-between'}>
+        <Box w="100%" py="3">
+            <HStack px="3" w="100%" space="2" alignItems="flex-start" justifyContent={'space-between'}>
 
                 <VStack bg="red" width={'100%'} space="1">
                     <Text fontSize="2xl" fontWeight={500}>{title}</Text>

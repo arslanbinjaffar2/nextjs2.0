@@ -15,7 +15,7 @@ type AppProps = {
 const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     const { event  } = UseEventService();
     const [hasAboutData,setHasAboutData] = useState<boolean>(true);
-    
+
     React.useEffect(() => {
       var _wrapper =document.getElementById('about-wrapper');
       var _content =document.getElementById('about-content');
@@ -27,25 +27,26 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
         }
 
     }, [detail])
-    
 
+    const hasFirstName = detail?.sort_field_setting.some((setting:any) => setting.name === 'first_name');
+    const hasLastName = detail?.sort_field_setting.some((setting:any) => setting.name === 'last_name');
+    const hasDeligateNumber = detail?.sort_field_setting.some((setting:any) => setting.name === 'deligate_number');
+    const hasTableNumber = detail?.sort_field_setting.some((setting:any) => setting.name === 'table_number');
+    const hasInitial = detail?.sort_field_setting.some((setting:any) => setting.name === 'initial');
+    const shouldShowNoRecord = detail?.sort_field_setting.length === 0 ||
+        (detail?.sort_field_setting.length === 2 && hasFirstName && hasLastName) ||
+        (detail?.sort_field_setting.length === 3 && hasFirstName && hasLastName && hasDeligateNumber) ||
+        (detail?.sort_field_setting.length === 4 && hasFirstName && hasLastName && hasDeligateNumber && hasTableNumber) ||
+        (detail?.sort_field_setting.length === 5 && hasFirstName && hasLastName && hasDeligateNumber && hasTableNumber && hasInitial) ||
+        (hasFirstName && detail?.sort_field_setting.length === 1) ||
+        (hasDeligateNumber && detail?.sort_field_setting.length === 1) ||
+        (hasTableNumber && detail?.sort_field_setting.length === 1) ||
+        (hasInitial && detail?.sort_field_setting.length === 1) ||
+        (hasLastName && detail?.sort_field_setting.length === 1);
+        
     return (
         <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.box" : ""}`} w="100%"  p="0" rounded="10">
-            {(showPrivate == 1 ||  detail?.sort_field_setting.find((s:any)=>(s.name === 'bio_info'))?.is_private == 0 ) && detail?.detail?.info?.about! && (
-                <>
-                    <HStack px="3" py="1"  w="100%" space={2} bg="primary.box" alignItems="center">
-                        <IcoInfo />
-                        <Text fontSize="sm">{detail?.sort_field_labels?.about}</Text>
-                    </HStack>
-                    
-                    <VStack py="5" px="4" space="0" alignItems="center">
-                        <View w={'100%'}>
-                            {info}
-                        </View>
-                    </VStack>
-                </>
-            )}
-            {(detail?.sort_field_setting.length > 0) ? (
+            {(detail?.sort_field_setting.length > 0 && !shouldShowNoRecord) ? (
                 <Box p="0" nativeID='about-wrapper'>
                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space={2} alignItems="center">
                         <IcoInfo  />
@@ -55,6 +56,16 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                         {
                             detail?.sort_field_setting.map((setting:any, i:number)=>(
                                 <React.Fragment key={i}>
+                                    {setting.name === 'bio_info' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.about! && (
+                                        <HStack w={'100%'} borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
+                                            <Box w="150px">
+                                                <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.about}:</Heading>
+                                            </Box>
+                                            <Box w="calc(100% - 200px)" pl="1">
+                                                <Text fontSize="sm">{info}</Text>
+                                            </Box>
+                                        </HStack>
+                                    )}
                                     {setting.name === 'show_job_tasks' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.jobs! && (
                                         <HStack w={'100%'} borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} alignItems="flex-start">
                                             <Box w="150px">
@@ -324,12 +335,12 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                         }
                     </VStack>
                 </Box>
-            ) :  <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
-            <Text>{event.labels.GENERAL_NO_RECORD}</Text>
+            ) :  <Box overflow="hidden">
+            <Text bg="primary.box" fontSize={'md'} p="4" rounded="10" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
         </Box>  }
             {!hasAboutData && 
-                <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
-                    <Text>{event.labels.GENERAL_NO_RECORD}</Text>
+                <Box w="100%" rounded="lg" overflow="hidden">
+                    <Text fontSize={'md'} p="4" rounded="10" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
                 </Box>  
             }
             

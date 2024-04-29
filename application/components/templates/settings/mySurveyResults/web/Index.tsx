@@ -62,7 +62,6 @@ const Index = () => {
                                             <Text>{survey_labels?.NO_SURVEY_AVAILABL}</Text>
                                         </Box>
                                     )}
-                                    <Divider h="20px" bg="transparent" />
                                 </Box>
                             
                        

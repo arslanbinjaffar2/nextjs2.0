@@ -72,12 +72,58 @@ const Detail = ({ speaker }: Props) => {
 
         }
     }, [_id]);
-
+    console.log("🚀 ~ Detail ~ detail?.detail?.categories.length:", detail?.detail?.categories.length)
     React.useEffect(() => {
-        if (detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0) {
-            setTab(detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1)[0]?.tab_name!)
+        if (detail?.attendee_tabs_settings) {
+            // Filter and sort enabled tabs based on sort order
+            const enabledTabs = detail.attendee_tabs_settings
+                .filter((tab: any) => tab.status === 1)
+                .sort((a: any, b: any) => a.sort_order - b.sort_order);
+    
+            let defaultTab: string = '';
+    
+            // Iterate through the sorted enabled tabs and set the default tab based on conditions
+            for (let i = 0; i < enabledTabs.length; i++) {
+                const row = enabledTabs[i];
+                if (row.tab_name === 'program' && event?.speaker_settings?.program === 1) {
+                    defaultTab = 'program';
+                    break;
+                } else if (row.tab_name === 'category' && event?.speaker_settings?.category_group === 1) {
+                    defaultTab = 'category';
+                    break;
+                } else if (row.tab_name === 'documents' && event?.speaker_settings?.show_document === 1) {
+                    defaultTab = 'documents';
+                    break;
+                }
+                else if (row.tab_name === 'about' && event?.speaker_settings?.show_document === 1) {
+                    defaultTab = 'about';
+                    break;
+                } else if (
+                    row.tab_name === 'groups' &&
+                    ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) ||
+                        ((detail?.is_speaker && detail?.speaker_setting?.show_group) ||
+                            (!detail?.is_speaker && detail?.setting?.attendee_group)))
+                ) {
+                    defaultTab = 'groups';
+                    break;
+                } else if (
+                    speaker === 0 &&
+                    row.tab_name === 'sub_registration' &&
+                    detail?.sub_registration_module_status === 1 &&
+                    detail?.sub_registration &&
+                    (response?.data?.user?.id === _id)
+                ) {
+                    defaultTab = 'sub_registration';
+                    break;
+                }
+            }
+    
+            // Set the active tab based on the defaultTab or the first enabled tab
+            setTab(defaultTab);
         }
     }, [detail]);
+    
+    
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
@@ -105,27 +151,22 @@ const Detail = ({ speaker }: Props) => {
         return () => { mounted.current = false; };
     }, []);
     const programModule = modules.find((module) => module.alias === (speaker ? "speakers" : "attendees"));
-    const title = (detail.detail as any)?.full_name || '';
+    const title = (detail.detail as any)?.first_name+' '+ (detail?.sort_field_setting.find((s:any)=>(s.name === 'last_name'))?.is_private == 0 ? (detail.detail as any)?.last_name : '');
     return (
         <>
             {in_array('attendee-detail', processing) ? (
                 <WebLoading />
             ) : (
                 <>
-                    <NextBreadcrumbs module={programModule} title={title} />
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
-                        {/* <Pressable onPress={()=> back() }>
-                                <HStack space="3" alignItems="center">
-                                    <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                                    <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
-                                </HStack>
-                            </Pressable> */}
+                    <NextBreadcrumbs module={programModule} title={title}/>
+                    {!speaker && <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
                         <Search tab={tab} />
                     </HStack>
+                    }
                     <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
-                            {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0 && (
+                            {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1 && tab.tab_name !== 'contact_info').length > 0 ? (
                                 <Container mb="3" maxW="100%" w="100%">
                                     <HStack style={{ rowGap: 2, columnGap: 1 }} mb="3" rounded={8} w={'100%'} overflow={'hidden'} flexWrap={'wrap'} space={0} justifyContent="flex-start" >
                                         {detail?.attendee_tabs_settings?.map((row: any, key: number) =>
@@ -222,7 +263,11 @@ const Detail = ({ speaker }: Props) => {
 
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<Text textAlign={'left'}><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div></Text>} />}
                                     {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
-                                    {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) && <SubRegistration detail={detail} />}
+                                    {tab === 'sub_registration' && 
+                                    detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) &&
+                                    <SubRegistration detail={detail} /> 
+                             
+                                }
                                     {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) &&
                                         <Container mb="3" rounded="10" bg={`${groups?.length > 0 ? "primary.box" : ""}`} w="100%" maxW="100%">
                                             {in_array('groups', processing) && page === 1 ? (
@@ -256,15 +301,15 @@ const Detail = ({ speaker }: Props) => {
                                                         <SlideView speaker={speaker} section="program" programs={programs} />
                                                         : (
                                                             <>
-                                                                <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                                <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
                                                             </>
                                                         )
                                                 )}
                                             </Container>}
                                         </>
                                     )}
-                                    {tab === 'category' && <Container mb="3" rounded="10" bg={`${detail?.detail?.categories.length > 0 ? "primary.box" : ""}`} w="100%" maxW="100%">
-                                        {detail?.detail?.categories.map((map: any, k: number) =>
+                                        {tab === 'category' && <Container mb="3" rounded="10" bg={`${detail?.detail?.categories.length > 0 ? "primary.box" :""}`} w="100%" maxW="100%">
+                                        {detail?.detail?.categories.slice().sort((a, b) => a.sort_order - b.sort_order).map((map: any, k: number) =>
                                             <React.Fragment key={`item-box-group-${k}`}>
                                                 {event?.speaker_settings?.category_group === 1 && (
                                                     <>
@@ -280,32 +325,41 @@ const Detail = ({ speaker }: Props) => {
                                                 )}
                                             </React.Fragment>
                                         )}
-                                        {detail?.detail?.categories.length <= 0 &&
-                                            (
-                                                <>
-                                                    <Text p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
-                                                </>
+                                        {detail?.detail?.categories.length <=0 && 
+                                        (
+                                            <>
+                                                <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                            </>
                                             )
                                         }
                                     </Container>}
                                     {event?.speaker_settings?.show_document === 1 && (
-                                        <>
-                                            {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
-                                                {in_array('documents', processing) && page === 1 ? (
-                                                    <SectionLoading />
-                                                ) : (
-                                                    <ListingLayout2 />
-                                                )}
-                                            </Container>}
-                                        </>
-                                    )}
+                                      <>
+                                    {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
+                                        {in_array('documents', processing) && page === 1 ? (
+                                            <SectionLoading />
+                                        ) : (
+                                            <Box  bg="primary.box" w={'100%'} rounded="lg">
+																							<ListingLayout2 />
+																						</Box>
+																						
+                                        )}
+                                    </Container>}
+                                      </>
+                                      )}
                                     {(in_array('programs', processing) || in_array('groups', processing)) && page > 1 && (
                                         <LoadMore />
                                     )}
                                 </Container>
-                            )}
-
-                            <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id} />
+                            ) : <>
+                                   <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
+                                        <Text>{event.labels.GENERAL_NO_RECORD}</Text>
+                                    </Box>
+                                </>
+                        }
+                            
+                            
+                            <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
                         </>
                     )}
                 </>

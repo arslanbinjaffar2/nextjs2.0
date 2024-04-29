@@ -212,9 +212,9 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 							{programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
 							{programs.length <= 0 &&
 								<Box overflow="hidden" w="100%" rounded="lg">
-									<Box padding={5}>
-										<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-									</Box>
+									<Box p={3}  rounded="lg" w="100%">
+                                  		<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                              		</Box>
 								</Box>
 							}
 							{dates?.length > 5 && dashboard === true && <Center py="3" px="2" w="100%" alignItems="flex-end">

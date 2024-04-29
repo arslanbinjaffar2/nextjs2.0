@@ -231,6 +231,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     };
 
     const updateAttendeeFeild = (name: string, value: any) => {
+        console.log("🚀 ~ updateAttendeeFeild ~ value:", value)
         setAttendeeData({
             ...attendeeData,
             [name]: value,
@@ -283,7 +284,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     };
 
     const updateAttendeeData = () => {
-
+        
         let attendeeObj: any = {
             phone: `${attendeeData?.info.callingCode}-${attendeeData?.phone}`,
         };
@@ -455,7 +456,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
+                            <Center overflow={'hidden'} justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Text  w={'100%'} color={'primary.text'} fontSize="md">
                                     <Box opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'} pointerEvents={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? 'auto' : 'none'} w={'100%'} bg="primary.darkbox" rounded={8}>
                                         <EditorProvider>
@@ -858,7 +859,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <View w={'100%'}>
                                     <Select
-                                        placeholder="Please Select"
+                                        placeholder="Please select"
                                         minWidth="64"
                                         h="50px"
                                         isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
@@ -981,7 +982,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
-                                        updateInfoDate({ item, name: "EMPLOYMENT_DATE" });
+                                        updateAttendeeFeild("EMPLOYMENT_DATE", moment(item).format("YYYY-MM-DD"));
                                     }}
                                     value={attendeeData?.EMPLOYMENT_DATE !== '' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.EMPLOYMENT_DATE).format(GENERAL_DATE_FORMAT) : ''}
                                     showdate={GENERAL_DATE_FORMAT}
@@ -997,7 +998,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <View w={'100%'}>
                                     <Select
-                                        placeholder="Please Select"
+                                        placeholder="Please select"
                                         minWidth="64"
                                         w="100%"
                                         h="50px"
@@ -1073,7 +1074,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <HStack w="100%">
                                     <Center w="100px">
                                         <Select
-                                            placeholder="Please Select"
+                                            placeholder="Please select"
                                             w={'100%'}
                                             h="50px"
                                             isDisabled={setting?.is_editable === 1 ? false : true}
@@ -1100,62 +1101,85 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'profile_picture' && (
-                        <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} px="6" w="100%" >
+                            <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} px="6"  w="100%" >
+                                
+                                    <HStack mb="0" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
+                                        <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
+                                            <Text isTruncated fontWeight="500" fontSize="16px">Profile picture</Text>
+                                        </Center>
+                                        <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
+                                            <HStack w="100%">
+                                                <VStack w={'100%'} space={2}>
+                                                    <Center w="150px">
+                                                        {((attendeeData && attendeeData?.image && attendeeData?.image !== "") || attendeeData?.blob_image !== undefined) ? 
+                                                        <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
+                                                        : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
+                                                    </Center>
+                                                    <View flexDirection={'row'} alignItems={'center'}>
+                                            <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
+                                                            if(inputFileRef.current){
+                                                                inputFileRef.current.click();
+                                                            }
+                                                        }} 
+                                                        size={'lg'}
+                                                     >
+                                                   
+                                                    </Button>
+                                                    <Box   ml={3}>
 
-                            <HStack mb="0" alignItems="start" flexDirection={['column', 'row']} w="100%" >
-                                <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
-                                    <Text isTruncated fontWeight="500" fontSize="16px">Profile picture</Text>
-                                </Center>
-                                <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
-                                    <HStack w="100%">
-                                        <VStack w={'100%'} space={2}>
-                                            <Center w="150px">
-                                                {((attendeeData && attendeeData?.image && attendeeData?.image !== "") || attendeeData?.blob_image !== undefined) ?
-                                                    <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image : `${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
-                                                    : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
-                                            </Center>
-                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
-                                                if (inputFileRef.current) {
-                                                    inputFileRef.current.click();
-                                                }
-                                            }}
-                                                size={'lg'}
-                                            >
-                                                Browse
-                                            </Button>
-                                        </VStack>
-                                        {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
-                                            <input
-                                                width="100%"
-                                                height="50px"
-                                                type='file'
-                                                style={{ display: 'none' }}
-                                                accept="image/*"
-                                                placeholder={labels?.phone}
-                                                readOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
-                                                onChange={(e) => {
-                                                    if (e?.target?.files! && e?.target?.files?.length > 0) {
-                                                        setAttendeeData({
-                                                            ...attendeeData,
-                                                            file: e.target.files[0],
-                                                            blob_image: URL.createObjectURL(e.target.files[0]),
-                                                        });
-                                                    }
-                                                }}
-                                                ref={inputFileRef}
-                                            />
-                                        </Center>}
+                                                        {attendeeData?.blob_image !== undefined ? <Text fontSize="md" color={'primary.text'}>{attendeeData.file?.name}</Text>:
+                                                        <Text fontSize="md" color={'primary.text'}>{attendeeData.image}</Text>
+                                                        }
+                                                    </Box>
+                                                    <Pressable
+                                                        onPress={() => {
+                                                            setAttendeeData({
+                                                                ...attendeeData,
+                                                                image: "",
+                                                                file: ""
+                                                            });
+                                                        }}
+                                                    >
+                                                        <Icon as={AntDesign} name="close" ml={"6px"} size="xl" color="primary.text" />
+                                                    </Pressable>
+
+
+                                                    </View>
+                                                </VStack>
+                                                {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
+                                                    <input 
+                                                    width="100%"
+                                                        height="50px"
+                                                        type='file'
+                                                        style={{display:'none'}}
+                                                        accept="image/*"
+                                                        placeholder={labels?.phone}
+                                                        readOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                                        onChange={(e) => {
+                                                            if (e?.target?.files! && e?.target?.files?.length > 0) {
+                                                                setAttendeeData({
+                                                                ...attendeeData,
+                                                                file: e.target.files[0],
+                                                                blob_image: URL.createObjectURL(e.target.files[0]),
+                                                                });
+                                                            }
+                                                        }}
+                                                        ref={inputFileRef}
+                                                    />
+                                                </Center>}
+                                            </HStack>
+                                        </Center>
                                     </HStack>
-                                </Center>
+                                {/* </Center> */}
                             </HStack>
-                        </HStack>
+                        // </HStack>
                     )}
                     {setting?.name === 'resume' && (
                         <HStack mb="3" alignItems="start" px="6" w="100%" >
 
                             <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} w="100%" >
                                 <Center alignItems="flex-start" width={'225px'} pb={[2, 0]} maxW={["100%", "225px"]}>
-                                    <Text isTruncated fontWeight="500" fontSize="16px">Resume</Text>
+                                    <Text isTruncated fontWeight="500" fontSize="16px">{labels?.resume ?? "Resume"}</Text>
                                 </Center>
                                 <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                     <HStack w="100%">
@@ -1173,37 +1197,54 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                         <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
                                                     </Pressable>
                                                     : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />}
-                                                {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
-                                                    attendee.attendee_cv === 'string' ? <Text fontSize="md">{attendee.attendee_cv}</Text> :
-                                                        <Text fontSize="md">{attendeeData.attendee_cv}</Text>}
+                                               
 
+                                                    
+                                                </Center>
+                                             <View flexDirection={'row'} alignItems={'center'}>
+                                            <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
+                                                    isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                                    onPress={()=>{
+                                                        if(inputresumeFileRef.current){
+                                                            inputresumeFileRef.current.click();
+                                                        }
+                                                    }}
+                                                    size={'lg'}
+                                                     >
+                                                  
+                                                    </Button>
+                                                    <Box   ml={3}>
+                                                    {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
+                                                    attendee.attendee_cv === 'string' ? <Text  fontSize="md" color={'primary.text'}>{attendee.attendee_cv}</Text> :
+                                                        <Text fontSize="md" color={'primary.text'}>{attendeeData.attendee_cv}</Text>}
+                                                    </Box>
+                                                    <Pressable
+                                                  
+                                                  onPress={()=>{
+                                                    setAttendeeData({
+                                                        ...attendeeData,
+                                                        attendee_cv:"",
+                                                        });
+                                                  }}
+                                              
+                                              >
+                                                          <Icon as={AntDesign} name="close" ml={"6px"} size="xl" color="primary.text"  />
+                                              </Pressable>
+                                             </View>
 
-                                            </Center>
-
-                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
-                                                isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
-                                                onPress={() => {
-                                                    if (inputresumeFileRef.current) {
-                                                        inputresumeFileRef.current.click();
-                                                    }
-                                                }}
-                                                size={'lg'}
-                                            >
-                                                Browse
-                                            </Button>
-                                        </VStack>
-                                        {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
-                                            <input
-                                                width="100%"
-                                                height="50px"
-                                                type='file'
-                                                style={{ display: 'none' }}
-                                                accept="application/pdf"
-                                                placeholder={labels?.phone}
-                                                readOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
-                                                onChange={(e) => {
-                                                    if (e?.target?.files! && e?.target?.files?.length > 0) {
-                                                        setAttendeeData({
+                                            </VStack>
+                                            {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
+                                                <input 
+                                                		width="100%"
+                                                    height="50px"
+                                                    type='file'
+                                                    style={{display:'none'}}
+                                                    accept="application/pdf"
+                                                    placeholder={labels?.phone}
+                                                    readOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                                    onChange={(e) => {
+                                                        if (e?.target?.files! && e?.target?.files?.length > 0) {
+                                                            setAttendeeData({
                                                             ...attendeeData,
                                                             attendee_cv: e.target.files[0],
                                                         });
@@ -1218,16 +1259,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'website' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"Website"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('website', answer);
                                 }}
@@ -1236,16 +1277,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                     </HStack>}
                     {setting?.name === 'facebook' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"Facebook"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('facebook', answer);
                                 }}
@@ -1254,16 +1295,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                     </HStack>}
                     {setting?.name === 'twitter' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <IcoTwitterXsm width={20} height={20} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <IcoTwitterXsm width={20} height={20} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"Twitter"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('twitter', answer);
                                 }}
@@ -1272,16 +1313,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                     </HStack>}
                     {setting?.name === 'linkedin' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"LinkedIn"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('linkedin', answer);
                                 }}
@@ -1330,26 +1371,26 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         updateAttendeeData();
                     }}
                 >
-                    <Text fontSize="2xl" color={"primary.hovercolor"} fontWeight={600}>SAVE</Text>
+                    <Text fontSize="2xl" color={"primary.hovercolor"} fontWeight={600}>{event?.labels?.GENERAL_SAVE}</Text>
                 </Button>
             </HStack>
-            {success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'} p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
-                <Text fontSize="md">profile updated successfully</Text>
-                <Spacer />
-                <IconButton
-                    variant="unstyled"
-                    p={2}
-                    rounded={'full'}
-                    icon={<Icon size="md" as={AntDesign} name="close" color="white" />}
-                    onPress={() => {
-                        UpdateSuccess(false)
-                    }}
-
-                />
-
-
-            </HStack></Box>}
-            <PolicyModal title={modalContent.title} body={modalContent.body} isOpen={isModalOpen} onClose={closeModal} cancelRef ={cancelRef}/>
+						{success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'}  p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
+								<Text fontSize="md">profile updated successfully</Text>
+								<Spacer />
+								<IconButton
+									variant="unstyled"
+									p={2}
+									rounded={'full'}
+									icon={<Icon size="md" as={AntDesign} name="close" color="white" />}
+									onPress={()=>{
+									UpdateSuccess(false)
+									}}
+									
+								/>
+								
+								
+						</HStack></Box>}
+						<PolicyModal title={modalContent.title} body={modalContent.body} isOpen={isModalOpen} onClose={closeModal} cancelRef ={cancelRef}/>
         </Container>
     )
 }

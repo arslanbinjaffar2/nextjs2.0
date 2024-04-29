@@ -303,7 +303,6 @@ const Detail = () => {
                       <Button
                       bg="transparent"
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       colorScheme="primary"
                       _hover={{_text: {color: 'primary.hovercolor'}}}

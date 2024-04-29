@@ -31,8 +31,8 @@ export interface AttendeeState {
     total: number,
     program_id: number,
     hotels:any,
-    registration: any
     last_page:number
+    registration: any
 }
 
 const initialState: AttendeeState = {
@@ -64,8 +64,8 @@ const initialState: AttendeeState = {
     total: 0,
     program_id: 0,
     hotels:null,
-    registration: null,
-    last_page:1
+    last_page:1,
+    registration: null
 }
 
 // Slice
@@ -212,9 +212,8 @@ export const SelectCategoryName = (state: RootState) => state.attendees.category
 
 export const SelectHotels = (state: RootState) => state.attendees.hotels
 
-export const SelectMyRegistration = (state: RootState) => state.attendees.registration
-
 export const SelectLastPage = (state: RootState) => state.attendees.last_page
+export const SelectMyRegistration = (state: RootState) => state.attendees.registration
 
 // Reducer
 export default AttendeeSlice.reducer
