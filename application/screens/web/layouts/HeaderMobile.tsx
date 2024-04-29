@@ -11,6 +11,8 @@ import { useRouter } from 'next/router';
 import { images } from 'application/styles';
 import UseNotificationService from 'application/store/services/UseNotificationService';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
+import UseAlertService from 'application/store/services/UseAlertService';
+import AlertPopup from 'application/components/atoms/AlertPopup';
 
 const HeaderMobile = ({ width }: any) => {
   const { _env } = UseEnvService();
@@ -18,13 +20,39 @@ const HeaderMobile = ({ width }: any) => {
   const { event } = UseEventService();
 const [open, setOpen] = React.useState(false)
   const { popupCount, setCurrentPopup, currentPopup, clearCurrentPopup } = UseNotificationService();
-
-
+  const { unread, setUnreadCount } = UseAlertService();
   const router = useRouter();
   
+  const [alertCount, setAlertCount] = React.useState(0);
+
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const [alertData, setAlertData] = React.useState<any>(null);
+  
+  const onClose = () => setIsOpen(false)
+  
+  const cancelRef = React.useRef(null);
 
 
 
+  const onBtnLeftClick = () => {
+    console.log(alertData);
+    clearCurrentPopup();
+    onClose();
+  };
+
+  const onBtnRightClick = () =>{
+    
+    if(alertData.type == 'alert'){
+      router.push(`/${event.url}/alerts/detail/${alertData.id}`)
+    }else {
+      if(alertData.url !== undefined){
+        router.push(`/${event.url}${alertData.url}`)
+      }
+    }
+    clearCurrentPopup();
+    onClose();
+  };
 
 
   React.useEffect(() => {
@@ -36,6 +64,19 @@ const [open, setOpen] = React.useState(false)
   React.useEffect(() => {
     setOpen(false)
   }, [router])
+
+    React.useEffect(() => {
+    if(currentPopup !== null){
+      setAlertData(currentPopup);
+      if(currentPopup.type == 'alert'){
+        setUnreadCount(unread + 1);
+      }
+      setAlertCount(alertCount+1);
+      setIsOpen(true);
+    }else{
+      setAlertData(null);
+    }
+  }, [currentPopup])
   
   return (
     <>
@@ -104,7 +145,21 @@ const [open, setOpen] = React.useState(false)
         </Container>
         
       </Drawer>
-
+       {alertData !== null && <AlertPopup
+        key={alertCount}
+        isOpen={isOpen}
+        onClose={()=>{
+          clearCurrentPopup();
+          onClose();
+        }}
+        btnLeftFunc={onBtnLeftClick}
+        btnRightFunc={onBtnRightClick}
+        cancelRef ={cancelRef}
+        title={alertData?.title}
+        text={alertData?.text}
+        btnLeftText={alertData?.btnLeftText ? alertData?.btnLeftText : 'OK'}
+        btnRightText={alertData?.btnRightText ? alertData?.btnRightText : 'Detail'}
+      />}         
     </>
   );
 }
