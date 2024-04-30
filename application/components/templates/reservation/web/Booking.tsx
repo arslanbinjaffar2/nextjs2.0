@@ -13,7 +13,10 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEnvService from 'application/store/services/UseEnvService';
 import LoadImage from 'application/components/atoms/LoadImage';
-import moment from 'moment';
+import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
+import moment, { months } from 'moment';
+import { MeetingSlot } from 'application/models/meetingReservation/MeetingReservation';
+import { func } from '../../../../styles';
 
 type ScreenParams = { id: string }
 
@@ -23,7 +26,7 @@ type AppProps = {
     detail: Detail,
 }
 
-		const DataList = () => {
+		const DataList = ({slot}: {slot: MeetingSlot}) => {
 			const [active, setactive] = useState(true)
 			const [showpopup, setshowpopup] = useState(false)
 			return(
@@ -43,7 +46,7 @@ type AppProps = {
 					}}
 				
 				>
-					12:30 - 01:30
+					{slot?.start_time} - {slot?.end_time}
 				</Button>) :
 				
 				<HStack mb="2" space={1} w="100%" >
@@ -123,25 +126,64 @@ type AppProps = {
 			)
 		}
 
+type AvailableDate = { day: number, month:number, year :number,full_date: string }
 
 const BookingSection = () => {
 
 		const [year, setYear] = useState(new Date().getFullYear());
 		const [month, setMonth] = useState(moment().month());
-		const [eventday, seteventDay] = useState({});
-		const [active, setActive] = useState(false)
-		const _events_name = [{
-			day: '12',
-			month: 'January'
-		},{
-			day: '16',
-			month: 'January'
-		}, 
-	{
-			day: '22',
-			month: 'January'
+		const [activeDay, setActiveDay] = useState<AvailableDate | null>(null);
+		const {FetchAvailableSlots,available_slots,available_dates} = UseMeetingReservationService();
+
+		const [filteredSlots, setFilteredSlots] = useState<MeetingSlot[]>([]);
+		const fullDateFormat = 'YYYY-MM-DD';
+
+		React.useEffect(() => {
+			FetchAvailableSlots()
 		}
-		]
+		, []);
+
+		React.useEffect(() => {			
+			if(available_dates && available_dates.length > 0){
+				let newDates: AvailableDate[] = [];
+				available_dates.map((date:any)=>{
+					let tempDate=moment(date.full_date);
+					newDates.push({
+						day: Number(tempDate.format('DD')),
+						month: Number(tempDate.format('MM')),
+						year: Number(tempDate.format('YYYY')),
+						full_date: tempDate.format(fullDateFormat)
+					});
+					
+				})
+				console.log("🚀 ~ React.useEffect ~ newDates:", newDates)
+				setDates(newDates)
+			}
+			
+		}
+		, [available_dates]);
+
+		React.useEffect(() => {
+			let tempSlots: MeetingSlot[] = [];
+			activeDay && available_slots.filter((slot:MeetingSlot)=>{
+				if(moment(slot.date,'DD/MM/YYYY').format(fullDateFormat) === moment(activeDay?.full_date).format(fullDateFormat)){
+					tempSlots.push(slot);
+				}
+			})
+			console.log("🚀 ~ React.useEffect ~ tempSlots:", tempSlots)
+			setFilteredSlots(tempSlots)
+		}
+		, [available_slots,activeDay]);
+
+		const [dates, setDates] = useState<AvailableDate[]>([]);
+
+		function addActiveDay(day: number) {
+			const date = dates.find((e:AvailableDate) => e.day === day && e.month == Number(moment().month(month).format("MM")));
+			if(date){
+				setActiveDay(date);
+				console.log('active date: ',date);
+			}
+		}
 
 		const nextMonth = () => {
 			if (month <= 10) {
@@ -204,17 +246,16 @@ const BookingSection = () => {
 								{isExtraDays(index, day) ? (
                   <Text></Text>
                 ) : (
-                 (_events_name.some(e => e.day === day) ?  <Button
+                 (dates.some((e:AvailableDate) => e.day === Number(day) && e.month == Number(moment().month(month).format("MM"))) ?  <Button
 									size={'md'}
 									rounded={'50%'}
 									p={0}
 									w={'30px'}
 									h={'30px'}
 									colorScheme="unstyled"
-									bg={day === eventday && active ? 'primary.500' : 'transparent'}
+									bg={activeDay && Number(day) == activeDay.day ? 'primary.500' : 'transparent'}
 									onPress={()=>{
-										setActive(day === eventday ?  false : true);
-										seteventDay(day === eventday ? '' : day);
+										addActiveDay(Number(day));
 									}}
 								
 								>
@@ -229,6 +270,8 @@ const BookingSection = () => {
       ));
     }
   };
+
+
 return (
 <>
 <HStack  w="100%" space="1">
@@ -275,17 +318,18 @@ return (
     </Center>
     <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w="35%">
 			{
-				active && 
+				activeDay && 
 				<Center py="3" px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
 					<Text mb={2} fontSize="sm">
 						<>
-							{eventday} {moment().month(month).format("MMMM")}
+						{console.log('activeDay: ',activeDay)}
+							{moment(activeDay.full_date).format("DD MMMM")}
 						</>
 					</Text>
 					<ScrollView w={'100%'} maxHeight={320}>
-						{[...Array(12)].map(item =>
+						{filteredSlots.map((slot:MeetingSlot) =>
 							
-							<DataList />
+							<DataList slot={slot} />
 							
 							)}
 					</ScrollView>
@@ -300,6 +344,8 @@ return (
 </>
 )
 }
+
+
 const RectangleView = () => {
     const { loading } = UseLoadingService();
     const { FetchHotels, hotels } = UseAttendeeService();
