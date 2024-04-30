@@ -107,7 +107,7 @@ const Index = () => {
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
-                    <Text flex="1" textTransform="uppercase" fontSize="sm">
+                    <Text flex="1"  fontSize="sm">
                     {track.parent_id !== 0 ? (
                         <>
                         <Pressable
@@ -121,13 +121,13 @@ const Index = () => {
                                 FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                                 }
                             }}>
-                            <Text textTransform="uppercase" fontSize="sm">{parent_track.name}</Text>
+                            <Text  fontSize="sm">{parent_track.name}</Text>
                         </Pressable>
                         <Icon color={'primary.text'} as={AntDesign} name="right"  />
-                        <Text textTransform="uppercase" fontSize="sm">{track?.name}</Text>
+                        <Text fontSize="sm">{track?.name}</Text>
                         </>
                     ) : (
-                        <Text textTransform="uppercase" fontSize="sm">{track?.name}</Text>
+                        <Text fontSize="sm">{track?.name}</Text>
                     )}
                     </Text>
                     <Pressable
