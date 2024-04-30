@@ -1,9 +1,10 @@
 import * as React from 'react';
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
 import { Button, Container, HStack, Spacer, Text } from 'native-base';
-import MeetingReservationListing from 'application/components/atoms/reservation/MeetingReservationListing';
+import MeetingRequestBox from 'application/components/atoms/reservation/MeetingRequestBox';
 import useMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
+import moment from 'moment';
 
 const Index = () => {
 const [tab, setTab] = React.useState('all');
@@ -12,17 +13,23 @@ const { FetchMyMeetingRequests,my_meeting_listing} = useMeetingReservationServic
 const [filteredRequests,setFilteredRequests] = React.useState<MeetingRequest[]>([])
 const [dates,setDates] = React.useState<any>([])
 const [statuses,setStatuses] = React.useState<any>([]);
+const [filterDate,setFilterDate] = React.useState<string>('');
+const [dateFormat]= React.useState('DD-MM-YYYY');
 
   React.useEffect(() => {
       FetchMyMeetingRequests({})
   },[])
 
   function filterRequests(){
-    if(tab === 'all'){
-      setFilteredRequests(my_meeting_listing.my_meeting_requests)
-    }else{
-      setFilteredRequests(my_meeting_listing.my_meeting_requests.filter((item:MeetingRequest) => item.status === tab))
+    let requests = my_meeting_listing.my_meeting_requests;
+    if(tab !== 'all'){
+      requests= requests.filter((item:MeetingRequest) => item.status === tab)
     }
+
+    if(filterDate){
+      requests = requests.filter((item:MeetingRequest) => moment(item.slot.date,dateFormat).format(dateFormat) === moment(filterDate,dateFormat).format(dateFormat))
+    }
+    setFilteredRequests(requests)
   }
 
   React.useEffect(() => {
@@ -33,7 +40,19 @@ const [statuses,setStatuses] = React.useState<any>([]);
   
   React.useEffect(() => {
     filterRequests();
-  },[tab])
+  },[tab,filterDate])
+
+  function setDateFilterValue(date:any){
+    console.log('dt filter: ',date)
+    if(date === null){
+      setFilterDate('')
+      return;
+    }
+    if(date === filterDate){
+      return;
+    }
+    setFilterDate(date.format(dateFormat));
+  }
 
 
   return (
@@ -43,7 +62,7 @@ const [statuses,setStatuses] = React.useState<any>([]);
             Reservation
         </Text>
         <Spacer />
-         <DateTimePicker readOnly={false} label={"DD-MM-YYYY"}  />
+         <DateTimePicker value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
       </HStack>
       <HStack mb="3" space={1} overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%">
       <Button 
@@ -124,27 +143,27 @@ const [statuses,setStatuses] = React.useState<any>([]);
         {filteredRequests.length === 0 && <Text textAlign="center" fontSize="lg" fontWeight={500} p="5">No Reservations Found</Text>}
         {filteredRequests.map((request:MeetingRequest,k:number) =>
           <React.Fragment key={k}>
-            <MeetingReservationListing meeting_request={request} border={k}/>
+            <MeetingRequestBox meeting_request={request} border={k}/>
           </React.Fragment>
         )}
           {/* {tab === 'all' && <>
               {[...Array(1)].map((item,k) =>
                 <React.Fragment key={k}>
-                  <MeetingReservationListing  border={k} type='all'/>   
+                  <MeetingRequestBox  border={k} type='all'/>   
                 </React.Fragment>
               )}
           </>}
           {tab === 'accepted' && <>
               {[...Array(5)].map((item,k) =>
                 <React.Fragment key={k}>
-                  <MeetingReservationListing  border={k} type='accepted'/>   
+                  <MeetingRequestBox  border={k} type='accepted'/>   
                 </React.Fragment>
               )}
           </>}
           {tab === 'rejected' && <>
               {[...Array(5)].map((item,k) =>
                 <React.Fragment key={k}>
-                  <MeetingReservationListing  border={k} type='rejected'/>   
+                  <MeetingRequestBox  border={k} type='rejected'/>   
                 </React.Fragment>
               )}
           </>} */}

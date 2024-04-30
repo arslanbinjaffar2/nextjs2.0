@@ -20,7 +20,7 @@ type boxItemProps = {
   meeting_request: MeetingRequest
 }
 
-const MeetingReservationListing = ({ border, meeting_request }: boxItemProps) => {
+const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 	const { event } = UseEventService()
   	const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 	const [toggle, settoggle] = React.useState(false);
@@ -125,4 +125,4 @@ const MeetingReservationListing = ({ border, meeting_request }: boxItemProps) =>
   )
 }
 
-export default MeetingReservationListing
+export default MeetingRequestBox
