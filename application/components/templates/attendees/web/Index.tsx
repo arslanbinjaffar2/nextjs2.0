@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Button, Container, HStack, Pressable, Spacer, Text, VStack, Icon, Input, Image, Box, View, Flex, Tooltip } from 'native-base'
+import { Button, Container, HStack, Pressable, Spacer, Text, VStack, Icon, Input, Image, Box, View, Flex } from 'native-base'
 import RectangleAttendeeView from 'application/components/atoms/attendees/RectangleView';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -236,11 +236,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                 _text={{ fontWeight: '600', flex: 1 }}
                             >
-                                <Tooltip label={event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}>
-                                <Text textAlign={'center'} maxW={tab1?.current?.clientWidth ? tab1?.current?.clientWidth - 24: '' } fontWeight={600} fontSize="md" isTruncated>
-                                    {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES.length>=22?`${event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES.substring(0,22)}....`:`${event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}`}
-                                </Text>
-                                </Tooltip>
+                                <Text textAlign={'center'} maxW={tab1?.current?.clientWidth ? tab1?.current?.clientWidth - 24: '' } fontWeight={600} fontSize="md" isTruncated>{event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}</Text>
                                 
                             </Button>}
                         {
@@ -264,16 +260,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                <Tooltip label={modules?.find((module)=>(module.alias == 'my-attendee-list'))?.
-                                 name ?? 'My attendees'}>
-                                <Text textAlign={'center'} maxW={tab2?.current?.clientWidth ? tab2?.current?.clientWidth - 24: '' }
-                                 fontWeight={600} fontSize="md" isTruncated>
-                                    {(modules?.find((module)=>(module.alias == 'my-attendee-list'))?.
-                                 name.length??0)>=22?(modules?.find((module)=>(module.alias == 'my-attendee-list'))?.
-                                 name.substring(0,22)):(modules?.find((module)=>(module.alias == 'my-attendee-list'))?.
-                                 name) ?? 'My attendees'}</Text>
-                              
-                                </Tooltip>
+                                <Text textAlign={'center'} maxW={tab2?.current?.clientWidth ? tab2?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}</Text>
+                                
                             </Button>
                             )
                         }
@@ -293,15 +281,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     h="42px"
                                     flex={1}
                                     bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} 
-                                    _text={{ fontWeight: '600' }}>    
-                                      <Tooltip label= {event?.labels?.ATTENDEE_LIST_BY_GROUP}>
-                                <Text textAlign={'center'} maxW={tab1?.current?.clientWidth ? tab1?.current?.clientWidth - 24: '' } 
-                                fontWeight={600} fontSize="md" >
-                                    {event?.labels?.ATTENDEE_LIST_BY_GROUP.length>=22?`${event?.labels?.ATTENDEE_LIST_BY_GROUP.substring(0,22)}
-                                    ....`:`${event?.labels?.ATTENDEE_LIST_BY_GROUP}`}
-                                </Text>
-                                </Tooltip>   
-                               
+                                    _text={{ fontWeight: '600' }}>       
+                                    <Text textAlign={'center'} maxW={tab3?.current?.clientWidth ? tab3?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.ATTENDEE_LIST_BY_GROUP}</Text>
                                 </Button>
                         }
                     </HStack>}
@@ -327,16 +308,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                 <Tooltip label={event?.labels?.SPEAKER_NAME}>
-
-                                <Text textAlign={'center'} maxW={tab4?.current?.clientWidth ? tab4?.current?.clientWidth - 24: '' } 
-                                
-                                fontWeight={600} fontSize="md" isTruncated>
-                                    
-                                    {event?.labels?.SPEAKER_NAME.length>=22?`${event?.labels?.SPEAKER_NAME.substring(0,22)}
-                                    ....`:`${event?.labels?.SPEAKER_NAME}`}
-                                    </Text>
-                                    </Tooltip>
+                                <Text textAlign={'center'} maxW={tab4?.current?.clientWidth ? tab4?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.SPEAKER_NAME}</Text>
                             </Button>
                         }
                         {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
@@ -358,13 +330,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 w={'50%'} 
                                 _text={{ fontWeight: '600' }}
                             >
-                                    <Tooltip label={event?.labels?.SPEAKER_CATEGORY}>
-                                <Text textAlign={'center'} maxW={tab5?.current?.clientWidth ? tab5?.current?.clientWidth - 24: '' }  
-                                fontWeight={600} fontSize="md" isTruncated>
-                                    {event?.labels?.SPEAKER_CATEGORY.length>=22?`${event?.labels?.SPEAKER_CATEGORY.substring(0,22)}
-                                    ....`:`${event?.labels?.SPEAKER_CATEGORY}`}
-                                </Text>
-                                </Tooltip>
+                                <Text textAlign={'center'} maxW={tab5?.current?.clientWidth ? tab5?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.SPEAKER_CATEGORY}</Text>
                             </Button>
                         }
                     </HStack>}
@@ -382,12 +348,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             </Pressable>
                         </HStack>
                         {group_name && (
-                               <Tooltip label={group_name} >
-                            <Text flex="1" mb={1}  textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">
-                            {group_name.length>=22?`${group_name.substring(0,22)}
-                                    ....`:`${group_name}`}
-                                </Text>
-                               </Tooltip>
+                            <Text flex="1" mb={1}  textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
                         )}
                         </>
                     )}
@@ -419,13 +380,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             }}>
                             {/* <Text textTransform="uppercase" fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  /> Go back</Text> */}
                             </Pressable>
-                            <Tooltip label={category_name} >
-
-                            <Text flex="1" mb={1}  textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">
-                            {category_name.length>=22?`${category_name.substring(0,22)}
-                                    ....`:`${category_name}`}
-                                </Text>
-                            </Tooltip>
                         </HStack>
                         )}
                 </>

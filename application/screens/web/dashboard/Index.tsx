@@ -108,14 +108,11 @@ const Index = ({ navigation }: indexProps) => {
           {/*  */}
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
             <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                 <Tooltip   label= {modules?.find((module) => (module.alias == 'agendas'))?.name as string} 
-     
-     >
-              <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
-
-              {(modules?.find((module) => (module.alias == 'agendas'))?.name.length ?? 0)>=22? `${modules?.find((module) => (module.alias == 'agendas'))?.name.substring(0,22)}...`:`${modules?.find((module) => (module.alias == 'agendas'))?.name}`}...
-                </Heading>
-     </Tooltip>
+                 <Tooltip   label= {modules?.find((module) => (module.alias == 'agendas'))?.name as string} >
+                    <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
+                      {modules?.find((module) => (module.alias == 'agendas'))?.name.substring(0,22)}...
+                    </Heading>
+              </Tooltip>
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
               <Center py="3" px="2" w="100%" alignItems="flex-end">
                 <Button onPress={() => {

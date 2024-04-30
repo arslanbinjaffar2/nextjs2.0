@@ -66,7 +66,6 @@ const MobileNavigation = () => {
            {...settings}>
             {modules.filter((item: any) => item.show_on_dashboard === 1).map((module, index) => (
               <Box key={index}>
-                         <Tooltip   label={module.name}   >
                   <Pressable
                     p="0"
                     display={'flex'}
@@ -90,14 +89,13 @@ const MobileNavigation = () => {
                     }}
                   >
                     <DynamicIcon iconType={module?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '')} iconProps={{ width: 34, height: 34 }} />
-           
-            
-                    <Text textAlign={'center'} pt={1} fontSize={'sm'}>
-                   {module.name.length>=15?`${module.name.substring(0,15)} ...`:`${module.name}`}
+                    <Tooltip label={module.name}>
+                      <Text textAlign={'center'} pt={1} fontSize={'sm'}>
+                        {module.name.length>=15?`${module.name.substring(0,15)} ...`:`${module.name}`}
                       </Text>
-               
+                    </Tooltip>
                   </Pressable>
-                </Tooltip>
+               
               </Box>
             ))}
           </Slider>
