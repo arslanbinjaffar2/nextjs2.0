@@ -57,8 +57,8 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 			setBookingSlot(true);
 			try {
 				const response = await bookMeetingSlotApi({slot_id:slot.id,participant_attendee_id:attendeeId},mystate);
-				console.log('response data:',response)
-				if(response?.data?.status == true){
+				console.log('response data:',response.data);
+				if(response?.data?.success == true){
 					slotBooked(slot.id)
 					setSelectedSlot(null);
 					setBookingSlot(false);
@@ -153,10 +153,7 @@ const BookingSection = () => {
 		const [bookedSlots, setBookedSlots] = useState<number[]>([]);
 
 		
-		React.useEffect(() => {
-			FetchAvailableSlots()
-		}
-		, []);
+		
 
 		React.useEffect(() => {			
 			if(available_dates && available_dates.length > 0){
@@ -358,13 +355,20 @@ return (
 
 
 const RectangleView = () => {
-    const { loading } = UseLoadingService();
+    const { loading,processing } = UseLoadingService();
     const { FetchHotels, hotels } = UseAttendeeService();
     const { event } = UseEventService();
     const { push } = useRouter()
     const [_id] = useParam('id');
     const { response } = UseAuthService();
-    const { _env } = UseEnvService()
+    const { _env } = UseEnvService();
+
+	const {FetchAvailableSlots} = UseMeetingReservationService();
+
+	React.useEffect(() => {
+		FetchAvailableSlots()
+	}
+	, []);
 
   
 
@@ -378,14 +382,18 @@ const RectangleView = () => {
                     </HStack>
                 </Pressable>
             </HStack>
-            <Container borderWidth="1px" bg={'primary.box'} borderColor="primary.darkbox" rounded="8" overflow="hidden" mb="3" maxW="100%" w="100%">
+			<Container borderWidth="1px" bg={'primary.box'} borderColor="primary.darkbox" rounded="8" overflow="hidden" mb="3" maxW="100%" w="100%">
                 <Center bg={'primary.darkbox'} w="100%" px="3" roundedTop={8} py="1">
                     <HStack w="100%" space="2" alignItems="center">
                         <Icon size="md" as={SimpleLineIcons} name="clock" color="primary.text" />
                         <Text fontSize="md">Select date and time</Text>
                     </HStack>
                 </Center>
-                <BookingSection />
+				
+				{in_array('get-available-slots',processing) ? (
+					<SectionLoading />
+				):<BookingSection />}
+
             </Container>        
         </>
     )
