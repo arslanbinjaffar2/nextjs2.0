@@ -17,7 +17,7 @@ type boxItemProps = {
   type: string
 }
 
-const RectangleView = ({ border, type }: boxItemProps) => {
+const MeetingReservationListing = ({ border, type }: boxItemProps) => {
 	const { event } = UseEventService()
   	const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 	const [toggle, settoggle] = React.useState(false);
@@ -122,4 +122,4 @@ const RectangleView = ({ border, type }: boxItemProps) => {
   )
 }
 
-export default RectangleView
+export default MeetingReservationListing

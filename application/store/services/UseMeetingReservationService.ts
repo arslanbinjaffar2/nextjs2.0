@@ -4,16 +4,16 @@ import {
     MeetingReservationActions,
     SelectAvailableDates,
     SelectAvailableSlots,
-    SelectMyMeetingRequests,
+    SelectMyMeetingListing,
     SelectSiteLabel
 } from 'application/store/slices/MeetingReservation.Slice'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
-import { MeetingRequest, MeetingSlot } from 'application/models/meetingReservation/MeetingReservation'
+import { MeetingRequest, MeetingSlot, MyMeetingListing } from 'application/models/meetingReservation/MeetingReservation'
 
 export type MeetingReservationServiceOperators = {
-    my_meeting_requests: MeetingRequest[],
+    my_meeting_listing: MyMeetingListing,
     labels: any,
     available_slots: MeetingSlot[],
     available_dates: any,
@@ -30,7 +30,7 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
     const dispatch = useAppDispatch()
 
     return {
-        my_meeting_requests: useAppSelector(SelectMyMeetingRequests),
+        my_meeting_listing: useAppSelector(SelectMyMeetingListing),
         labels: useAppSelector(SelectSiteLabel),
         available_slots: useAppSelector(SelectAvailableSlots),
         available_dates: useAppSelector(SelectAvailableDates),

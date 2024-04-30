@@ -1,19 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation'
+import { MeetingRequest, MyMeetingListing } from 'application/models/meetingReservation/MeetingReservation'
 import { MeetingSlot } from 'application/models/meetingReservation/MeetingReservation'
 
 import type { RootState } from 'application/store/Index'
 
 export interface MeetingReservationState {
-    my_meeting_requests: MeetingRequest[],
+    my_meeting_listing: MyMeetingListing,
     available_slots: MeetingSlot[],
     available_dates: any,
     labels: any,
 }
 
 const initialState: MeetingReservationState = {
-    my_meeting_requests: [],
+    my_meeting_listing: {   
+        my_meeting_requests: [],
+        labels: [],
+        dates: [],
+        status_colors: [],
+        statuses: [],
+        isChatModuleActive: false,
+    },
     labels: [],
     available_slots: [],
     available_dates: [],
@@ -27,8 +34,8 @@ export const MeetingReservationSlice = createSlice({
         FetchMyMeetingRequests(state, action: PayloadAction<{  }>) {
             
         },
-        updateMyMeetingRequests(state, action: PayloadAction<MeetingRequest[]>) {
-            
+        updateMyMeetingRequests(state, action: PayloadAction<MyMeetingListing>) {
+            state.my_meeting_listing = action.payload
         },
         FetchAvailableSlots(state, action: PayloadAction<{}>) {},
         updateAvailableSlots(state, action: PayloadAction<{slots:MeetingSlot[], dates:any}>) {
@@ -46,7 +53,7 @@ export const MeetingReservationActions = {
     updateAvailableSlots: MeetingReservationSlice.actions.updateAvailableSlots,
 }
 
-export const SelectMyMeetingRequests = (state: RootState) => state.meetingReservation.my_meeting_requests
+export const SelectMyMeetingListing = (state: RootState) => state.meetingReservation.my_meeting_listing
 
 export const SelectSiteLabel = (state: RootState) => state.meetingReservation.labels
 
