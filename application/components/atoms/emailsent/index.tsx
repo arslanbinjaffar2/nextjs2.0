@@ -1,16 +1,16 @@
 import { sendDocumentEmailApi } from 'application/store/api/DocumentApi';
 import { store } from 'application/store/Index';
-import { Center, HStack, TextArea,Input, Text, Container, Button, FormControl } from 'native-base';
+import { Center, HStack, TextArea, Input, Text, Container, Button, FormControl, Pressable } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import UseEventService from 'application/store/services/UseEventService';
-
+import { useRouter } from 'next/router';
 const EmailSend = ({id}:{id:any}) => {
     const [emailData, setEmailData] = React.useState({ email: '',  subject: '', comments: '' });
     const [errors, setErrors] = React.useState({ email: '',  subject: '', comments: '' });
     const [loading,setLoading]=useState(false)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const { event } = UseEventService();
-
+    const { push } = useRouter();
     const validateForm = () => {
         if (emailData.email.trim() === "") {
             return setErrors({...errors, email: event?.labels?.REGISTRATION_FORM_FIELD_REQUIRED});
@@ -40,7 +40,15 @@ const EmailSend = ({id}:{id:any}) => {
     }
 
   return (
-    <> 
+    <>
+     <HStack>
+       <Pressable
+         onPress={async () => {
+           push(`/${event.url}/ddirectory`)
+         }}>
+         <Text  fontSize="xs" style={{padding: 8}}>{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
+       </Pressable>
+     </HStack>
     <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%" p={2}>
                         <HStack alignItems={["flex-start","center"]} px="6" pb={3} pt={3} flexDirection={['column', 'row']}  w="100%">
                             <FormControl isRequired isInvalid={emailData.email.trim().length < 3 && emailData.email.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
