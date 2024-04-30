@@ -20,6 +20,8 @@ import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import in_array from 'in_array';
 import { store } from 'application/store/Index';
 import { bookMeetingSlotApi } from 'application/store/api/MeetingReservation.api';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { getAttendeeDetailApi } from 'application/store/api/Attendee.Api';
 
 type ScreenParams = { id: string }
 
@@ -42,12 +44,25 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 
 	const [attendeeId] = useParam('id');
 
+	async function getAttendee(){
+		const mystate=store.getState()
+		try {
+			const response = await getAttendeeDetailApi({id:attendeeId},mystate);
+			if(response?.status == 200){
+				setAttendee(response?.data?.data?.detail);
+			}
+		} catch (error) {
+			console.log('error', error);
+		}
+	}
+
 	React.useEffect(() => {
 		// if(attendeeId){
 		// 	// setAttendee()
 		// }else{
 		// 	setAttendee(null);
 		// }
+		getAttendee();
 		console.log('attendeeId:',attendeeId);
 	}
 	, [attendeeId]);
