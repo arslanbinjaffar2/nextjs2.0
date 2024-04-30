@@ -20,7 +20,6 @@ export interface MyMeetingListing{
     my_meeting_requests:MeetingRequest[],
     labels:any,
     dates:any,
-    status_colors:any,
     statuses:any,
     isChatModuleActive:boolean,
 }

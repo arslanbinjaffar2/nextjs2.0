@@ -4,6 +4,7 @@ import { Button, Container, HStack, Spacer, Text } from 'native-base';
 import MeetingRequestBox from 'application/components/atoms/reservation/MeetingRequestBox';
 import useMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
+import UseEventService from 'application/store/services/UseEventService';
 import moment from 'moment';
 
 const Index = () => {
@@ -15,6 +16,7 @@ const [dates,setDates] = React.useState<any>([])
 const [statuses,setStatuses] = React.useState<any>([]);
 const [filterDate,setFilterDate] = React.useState<string>('');
 const [dateFormat]= React.useState('DD-MM-YYYY');
+const { event } = UseEventService();
 
   React.useEffect(() => {
       FetchMyMeetingRequests({})
@@ -140,7 +142,7 @@ const [dateFormat]= React.useState('DD-MM-YYYY');
         </Button> */}
       </HStack>
       <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-        {filteredRequests.length === 0 && <Text textAlign="center" fontSize="lg" fontWeight={500} p="5">No Reservations Found</Text>}
+        {filteredRequests.length === 0 && <Text textAlign="center" fontSize="lg" fontWeight={500} p="5">{event?.labels?.GENERAL_NO_RECORD}</Text>}
         {filteredRequests.map((request:MeetingRequest,k:number) =>
           <React.Fragment key={k}>
             <MeetingRequestBox meeting_request={request} border={k}/>

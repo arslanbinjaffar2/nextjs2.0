@@ -17,7 +17,6 @@ const initialState: MeetingReservationState = {
         my_meeting_requests: [],
         labels: [],
         dates: [],
-        status_colors: [],
         statuses: [],
         isChatModuleActive: false,
     },
