@@ -89,6 +89,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     boxsolidtext: `${colors.darkboxtext}`,
                     hovercolor: `${type}`,
                     darkbox: `rgba(0,0,0,0.2)`,
+                    toastbg:`rgba(0,0,0,0.7)`,
                     primarycolor : `rgba(${[...rgb]},0.2)`,
                     boxTransparent: `rgba(${colors.box},0.5)`,
                     text: `${colors.text}`,

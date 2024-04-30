@@ -27,7 +27,7 @@ export interface ToastProps {
     },[])
     return(
       <View
-        bg={'primary.darkbox'}
+        bg={'primary.toastbg'}
         w={'396px'}
         h={'77px'}
         p={'5'}
