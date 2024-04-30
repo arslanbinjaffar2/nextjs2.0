@@ -53,7 +53,7 @@ const RectangleView = () => {
                     <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
                         <HStack space="3" alignItems="center">
                             <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                            <Text fontSize="2xl">BACK</Text>
+                            <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
                         </HStack>
                     </Pressable>
                     <Text fontSize="2xl" textTransform={'uppercase'}>Hotel</Text>
