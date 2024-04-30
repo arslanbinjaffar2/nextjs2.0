@@ -72,7 +72,8 @@ const ContactInfo = () => {
               </IconButton>
               ) : ''}
             </HStack>
-            {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
+            <Box py={3}>
+            {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack pt={0} p="3" w="100%" space="0">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
                     <Box>
                     <IcoEnvelope />
@@ -81,7 +82,7 @@ const ContactInfo = () => {
                         <Text fontSize="14px">{detail?.detail?.email}</Text>
                     </Box>
                 </HStack>}
-                {detail?.detail?.phone_number && detail?.detail?.phone_number !== '' && <HStack space="0" alignItems="center">
+                {detail?.detail?.phone_number && detail?.detail?.phone_number !== '' && <HStack mt={detail?.detail?.email && detail?.detail?.email !== '' ? 2 : 0} space="0" alignItems="center">
                     <Box>
                     <IcoPhone />
                     </Box>
@@ -90,7 +91,7 @@ const ContactInfo = () => {
                     </Box>
                 </HStack>}
             </VStack>}
-            <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
+            <HStack space={3} px={3} w={'100%'} justifyContent={'flex-start'} alignItems={'center'}>
                         {detail?.detail?.facebook && detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://' && (
                             <Pressable
                                 onPress={async () => {
@@ -141,6 +142,7 @@ const ContactInfo = () => {
                         )}
 
                     </HStack>
+                    </Box>
     
         </Box>}
     </>

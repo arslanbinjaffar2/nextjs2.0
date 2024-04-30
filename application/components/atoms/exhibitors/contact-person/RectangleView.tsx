@@ -3,7 +3,6 @@ import { HStack, Icon, Spacer, Text, VStack, Image, Pressable, Avatar } from 'na
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { ExhibitorsAttendee } from 'application/models/exhibitor/ExhibitorDetail'
 import UseEnvService from 'application/store/services/UseEnvService';
-import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
 import UseExhibitorService from 'application/store/services/UseExhibitorService'

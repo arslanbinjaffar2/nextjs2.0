@@ -22,6 +22,7 @@ import RectangleCategoryView from 'application/components/atoms/attendees/catego
 import { Category } from 'application/models/event/Category';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import ButtonElement from 'application/components/atoms/ButtonElement'
 
 type ScreenParams = { slug: any }
 
@@ -208,7 +209,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                 }
                 </Text>
                 <Spacer />
-                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
+                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} 
+                borderColor={'transparent'}
+                value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
@@ -217,119 +220,71 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                 <>
                     {speaker === 0 && <HStack mb="3" space={1} overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%">
                         {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  (event?.attendee_settings?.tab == 1 || modules?.some(module => module.alias === 'my-attendee-list')) && 
-                            <Button
-                                ref={tab1} 
+                            <ButtonElement
                                 onPress={() => {
                                     setTab('attendee'); 
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'attendee'))
                                 }} 
-                                borderWidth="0px" 
-                                py={0} 
-                                borderColor="primary.darkbox" 
-                                borderRightRadius="0" 
-                                borderLeftRadius={0} 
-                                _hover={{_text: {color: 'primary.hovercolor'}}}
-                                h="42px"
-                                flex={1} 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
-                                _text={{ fontWeight: '600', flex: 1 }}
+                               
                             >
-                                <Text textAlign={'center'} maxW={tab1?.current?.clientWidth ? tab1?.current?.clientWidth - 24: '' } fontWeight={600} fontSize="md" isTruncated>{event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}</Text>
+                                {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
                                 
-                            </Button>}
+                            </ButtonElement>}
                         {
                             modules?.some(module => module.alias === 'my-attendee-list') && (
-                            <Button
-                                ref={tab2}
+                            <ButtonElement
                                 onPress={() => {
                                     setTab('my-attendee')
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
 
                                 }} 
-                                borderRadius="0" 
-                                borderWidth="0px" 
-                                py={0} 
-                                borderColor="primary.darkbox" 
-                                h="42px"
-                                _hover={{_text: {color: 'primary.hovercolor'}}} 
-                                flex={1} 
-                                borderRightRadius={0} 
-                                borderLeftRadius={0}
+                              
                                 bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
-                                _text={{ fontWeight: '600' }}
                             >
-                                <Text textAlign={'center'} maxW={tab2?.current?.clientWidth ? tab2?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}</Text>
+                                {modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
                                 
-                            </Button>
+                            </ButtonElement>
                             )
                         }
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
-                                <Button
-                                    ref={tab3}
+                                <ButtonElement
                                     onPress={() => {
                                         setTab('group')
                                         push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'group'))
                                     }} 
-                                    borderWidth="0px" 
-                                    py={0} 
-                                    borderColor="primary.darkbox" 
-                                    borderLeftRadius="0" 
-                                    borderRightRadius={0} 
-                                    _hover={{_text: {color: 'primary.hovercolor'}}}
-                                    h="42px"
-                                    flex={1}
+                                  
                                     bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} 
-                                    _text={{ fontWeight: '600' }}>       
-                                    <Text textAlign={'center'} maxW={tab3?.current?.clientWidth ? tab3?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.ATTENDEE_LIST_BY_GROUP}</Text>
-                                </Button>
+                                    >       
+                                    {event?.labels?.ATTENDEE_LIST_BY_GROUP}
+                                </ButtonElement>
                         }
                     </HStack>}
                     {speaker ===  1 && <HStack overflow={'hidden'} rounded={8} flexWrap={'wrap'}  mb="3" space={1} justifyContent="center" w="100%">
                         
                         {(( event?.speaker_settings?.tab == 1)) &&  
-                            <Button
-                                ref={tab4} 
+                            <ButtonElement
                                 onPress={() => {
                                     setTab('attendee') 
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'attendee'))
                                     UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
                                 }} 
-                                borderWidth="0px" 
-                                py={0} 
-                                borderColor="primary.darkbox" 
-                                borderRightRadius={0} 
-                                borderLeftRadius={0} 
-                                h="42px"
-                                _hover={{_text: {color: 'primary.hovercolor'}}}
-                                flex={1} 
+                                
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
-                                w={'50%'} 
-                                _text={{ fontWeight: '600' }}
                             >
-                                <Text textAlign={'center'} maxW={tab4?.current?.clientWidth ? tab4?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.SPEAKER_NAME}</Text>
-                            </Button>
+                                {event?.labels?.SPEAKER_NAME}
+                            </ButtonElement>
                         }
                         {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
-                            <Button 
-                                ref={tab5} 
+                            <ButtonElement 
                                 onPress={() => {
                                     setTab('category')
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
                                 }} 
-                                borderRightRadius={0} 
-                                borderLeftRadius={0} 
-                                borderWidth="0px" 
-                                flex={1}
-                                py={0} 
-                                borderColor="primary.darkbox" 
-                                h="42px" 
-                                _hover={{_text: {color: 'primary.hovercolor'}}}
                                 bg={tab === 'category' || tab === 'sub-category' || tab === 'category-attendee' ? 'primary.boxbutton' : 'primary.box'} 
-                                w={'50%'} 
-                                _text={{ fontWeight: '600' }}
                             >
-                                <Text textAlign={'center'} maxW={tab5?.current?.clientWidth ? tab5?.current?.clientWidth - 24: '' }  fontWeight={600} fontSize="md" isTruncated>{event?.labels?.SPEAKER_CATEGORY}</Text>
-                            </Button>
+                               {event?.labels?.SPEAKER_CATEGORY}
+                            </ButtonElement>
                         }
                     </HStack>}
                     {group_id > 0 && (

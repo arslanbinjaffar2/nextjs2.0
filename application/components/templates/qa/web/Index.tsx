@@ -210,7 +210,7 @@ const Index = () => {
                       <Text lineHeight="22px">{moment(`${program.date} ${program.end_time}`).format('HH:mm')}</Text>
                       </>}
                     </VStack>
-                  <VStack maxW={'calc(100% - 80px)'} space="1">
+                  <VStack maxW={['calc(100% - 148px)','calc(100% - 175px)']} space="1">
                     <Pressable
                       onPress={() => {
                         push(`/${event.url}/qa/detail/${program.id}`)

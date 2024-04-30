@@ -10,8 +10,6 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
-import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
-import AvatarColors from 'application/utils/AvatarColors'
 import UseAuthService from 'application/store/services/UseAuthService';
 
 
@@ -130,7 +128,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         {detail?.sort_field_setting && detail.sort_field_setting.find((setting:any) => setting.name === 'delegate_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.delegate_number) && (
                             <Center borderLeftWidth={detail?.detail?.info?.initial ? 1 : 0} borderColor="primary.bordercolor" alignItems="flex-start" pl={detail?.detail?.info?.initial ? ['3','8'] : 0} w="33.33%">
                                 <VStack space="0">
-                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.delegate}</Text>
+                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.delegate} </Text>
                                     <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.delegate_number}</Text>
                                 </VStack>
                             </Center>
