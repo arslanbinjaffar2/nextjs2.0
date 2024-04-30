@@ -18,3 +18,8 @@ export interface MeetingSpace {
     persons:number,
     event_id:number,
 }
+export interface MeetingAttendee {
+    id:number,
+    name:string,
+    email:number,
+}
