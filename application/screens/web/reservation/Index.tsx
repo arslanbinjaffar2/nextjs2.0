@@ -9,7 +9,7 @@ const Index = () => {
 const [tab, setTab] = React.useState('all');
 const { FetchMyMeetingRequests,my_meeting_listing} = useMeetingReservationService();
 
-const [meetingRequests,setMeetingRequests] = React.useState<MeetingRequest[]>([])
+const [filteredRequests,setFilteredRequests] = React.useState<MeetingRequest[]>([])
 const [dates,setDates] = React.useState<any>([])
 const [statuses,setStatuses] = React.useState<any>([]);
 
@@ -17,11 +17,23 @@ const [statuses,setStatuses] = React.useState<any>([]);
       FetchMyMeetingRequests({})
   },[])
 
+  function filterRequests(){
+    if(tab === 'all'){
+      setFilteredRequests(my_meeting_listing.my_meeting_requests)
+    }else{
+      setFilteredRequests(my_meeting_listing.my_meeting_requests.filter((item:MeetingRequest) => item.status === tab))
+    }
+  }
+
   React.useEffect(() => {
-    setMeetingRequests(my_meeting_listing.my_meeting_requests)
     setDates(my_meeting_listing.dates)
     setStatuses(my_meeting_listing.statuses)
-  },[my_meeting_listing])  
+    filterRequests();
+  },[my_meeting_listing]) 
+  
+  React.useEffect(() => {
+    filterRequests();
+  },[tab])
 
 
   return (
@@ -34,6 +46,20 @@ const [statuses,setStatuses] = React.useState<any>([]);
          <DateTimePicker readOnly={false} label={"DD-MM-YYYY"}  />
       </HStack>
       <HStack mb="3" space={1} overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%">
+      <Button 
+            onPress={() => {setTab('all')}} 
+            borderWidth="0px" 
+            py={0} 
+            borderColor="primary.darkbox" 
+            borderRightRadius="0" 
+            borderLeftRadius={0} 
+            _hover={{_text: {color: 'primary.hovercolor'}}}
+            h="42px"
+            flex={1} 
+            bg={tab === 'all' ? 'primary.boxbutton' :'primary.box'} 
+            _text={{ fontWeight: '600' }}>
+          All
+        </Button>
         {statuses.map((status:any,k:number) =>
           <Button 
               key={k}
@@ -95,8 +121,14 @@ const [statuses,setStatuses] = React.useState<any>([]);
         </Button> */}
       </HStack>
       <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-          {tab === 'all' && <>
-              {[...Array(5)].map((item,k) =>
+        {filteredRequests.length === 0 && <Text textAlign="center" fontSize="lg" fontWeight={500} p="5">No Reservations Found</Text>}
+        {filteredRequests.map((request:MeetingRequest,k:number) =>
+          <React.Fragment key={k}>
+            <MeetingReservationListing meeting_request={request} border={k}/>
+          </React.Fragment>
+        )}
+          {/* {tab === 'all' && <>
+              {[...Array(1)].map((item,k) =>
                 <React.Fragment key={k}>
                   <MeetingReservationListing  border={k} type='all'/>   
                 </React.Fragment>
@@ -115,7 +147,7 @@ const [statuses,setStatuses] = React.useState<any>([]);
                   <MeetingReservationListing  border={k} type='rejected'/>   
                 </React.Fragment>
               )}
-          </>}
+          </>} */}
       </Container>
       </>
   );

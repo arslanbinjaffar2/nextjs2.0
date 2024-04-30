@@ -10,14 +10,17 @@ import Icoaddcalendar from 'application/assets/icons/small/Icoaddcalendar'
 import ReservationModal from 'application/components/atoms/reservation/ReservationModal';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
+import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
+import moment from 'moment';
+import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 
 
 type boxItemProps = {
   border: number,
-  type: string
+  meeting_request: MeetingRequest
 }
 
-const MeetingReservationListing = ({ border, type }: boxItemProps) => {
+const MeetingReservationListing = ({ border, meeting_request }: boxItemProps) => {
 	const { event } = UseEventService()
   	const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 	const [toggle, settoggle] = React.useState(false);
@@ -42,15 +45,15 @@ const MeetingReservationListing = ({ border, type }: boxItemProps) => {
 									<Text fontSize="lg" fontWeight={500}>Stephen Hendry</Text>
 									<HStack  space="3" alignItems="center">
 										<HStack  space="2" alignItems="center">
-											<Icocalendar width={16} height={18} /><Text fontSize="16px">12-12-2023</Text>
+											<Icocalendar width={16} height={18} /><Text fontSize="16px">{moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
 										</HStack>
 										<HStack  space="2" alignItems="center">
-											<Icoclock width={16} height={18} /><Text fontSize="16px">12:30 - 01:30 (1 hr)</Text>
+											<Icoclock width={16} height={18} /><Text fontSize="16px">{meeting_request?.slot?.start_time} - {meeting_request?.slot?.end_time} ({meeting_request?.slot?.duration})</Text>
 										</HStack>
 										
 									</HStack>
 										<HStack  space="2" alignItems="center">
-											<Icopin width={16} height={18} /><Text fontSize="16px">514-A Conference Room</Text>
+											<Icopin width={16} height={18} /><Text fontSize="16px">{meeting_request?.slot?.meeting_space?.name}</Text>
 										</HStack>
 								</VStack>
 								
@@ -59,8 +62,8 @@ const MeetingReservationListing = ({ border, type }: boxItemProps) => {
 						</HStack>
 						
             <Spacer />
-						{type !== 'rejected' && <HStack  space="1" alignItems="center">
-							 {type === 'all' && <Tooltip px={5} rounded={'full'} label="Accept" openDelay={100} bg="primary.box" _text={{
+						{meeting_request?.status !== 'rejected' && <HStack  space="1" alignItems="center">
+							 {meeting_request?.status === 'all' && <Tooltip px={5} rounded={'full'} label="Accept" openDelay={100} bg="primary.box" _text={{
 									color: 'primary.text'
 								}}>
 								<IconButton
