@@ -7,11 +7,13 @@ import IcoLinkedIN from 'application/assets/icons/small/IcoLinkedIN';
 import IcoWebLink from 'application/assets/icons/small/IcoWebLink';
 import IcoEnvelope from 'application/assets/icons/small/IcoEnvelope';
 import IcoPhone from 'application/assets/icons/small/IcoPhone';
-import IcoUserFilled from 'application/assets/icons/small/IcouserFilled';
+import IcouserFilled from 'application/assets/icons/small/IcouserFilled';
 import IcoVCF from 'application/assets/icons/small/IcoVCF';
 import { Detail } from 'application/models/attendee/Detail';
 import { getContactAttendeeApi } from 'application/store/api/Attendee.Api';
 import { store } from 'application/store/Index';
+import { Spacer } from 'native-base';
+import UseEventService from '../../../../store/services/UseEventService';
 
 type SocialIcon = {
   name: string;
@@ -22,6 +24,7 @@ type AppProps = {
   detail: Detail;
 };
 
+
 const ContactInfo = ({ detail }: AppProps) => {
   const socialIcons: SocialIcon[] = [
     { name: 'facebook', component: <IcoFacebook width={30} height={30} /> },
@@ -31,6 +34,7 @@ const ContactInfo = ({ detail }: AppProps) => {
   ];
 
   const [sortedFields, setSortedFields]=useState([]);
+  const { event } = UseEventService();
 
   const isFieldVisible = (fieldName: string) => {
     const field = detail.sort_field_setting.find((field: any) => field.name === fieldName);
@@ -63,19 +67,22 @@ const ContactInfo = ({ detail }: AppProps) => {
   return (
     <Box p="0" w="100%" bg="primary.box" mb={5} rounded={8}>
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="2" alignItems="center" roundedTop={8}>
-        <IcoUserFilled width="18px" height="18px" />
-        <Text fontSize="lg">Contact Info</Text>
-        <Pressable ml="auto">
-          <IconButton
-            variant="unstyled"
-            p={0}
-            icon={<IcoVCF />}
-            onPress={() => {
-              getAttendeeContact(detail?.detail?.id ?? 0);
-            }}
-          />
-        </Pressable>
-      </HStack>
+          <IcouserFilled width="18px" height="18px" />
+          <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
+          <Spacer />
+          {detail?.setting?.contact_vcf && detail?.setting?.contact_vcf && detail?.detail?.current_event_attendee?.speaker == '0' ? (
+            <Pressable>
+              <IconButton
+                variant="unstyled"
+                p={0}
+                icon={<IcoVCF />}
+                onPress={() => {
+                  getAttendeeContact(detail?.detail?.id ?? 0);
+                }}>
+              </IconButton>
+            </Pressable>
+          ) : ''}
+        </HStack>
       <VStack p="3" pb={1} w="100%" space="3">
         {sortedFields.map((field: any) => (
             <HStack key={field.name} space="1" alignItems="center">

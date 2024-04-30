@@ -72,7 +72,7 @@ const Detail = ({ speaker }: Props) => {
          
         }
     }, [_id]);
-
+    console.log("🚀 ~ Detail ~ detail?.detail?.categories.length:", detail?.detail?.categories.length)
     React.useEffect(() => {
         if (detail?.attendee_tabs_settings) {
             // Filter and sort enabled tabs based on sort order
@@ -93,6 +93,10 @@ const Detail = ({ speaker }: Props) => {
                     break;
                 } else if (row.tab_name === 'documents' && event?.speaker_settings?.show_document === 1) {
                     defaultTab = 'documents';
+                    break;
+                }
+                else if (row.tab_name === 'about' && event?.speaker_settings?.show_document === 1) {
+                    defaultTab = 'about';
                     break;
                 } else if (
                     row.tab_name === 'groups' &&
@@ -156,14 +160,14 @@ const Detail = ({ speaker }: Props) => {
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>
                     {!speaker &&
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
+                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
                         <Search tab={tab} />
                     </HStack>
                     }
                     <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
-                            {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1).length > 0 ? (
+                            {detail?.attendee_tabs_settings?.filter((tab: any, key: number) => tab?.status === 1 && tab.tab_name !== 'contact_info').length > 0 ? (
                                 <Container mb="3" maxW="100%" w="100%">
                                             <HStack  style={{rowGap: 2, columnGap: 1}} mb="3" rounded={8} w={'100%'} overflow={'hidden'}  flexWrap={'wrap'}  space={0} justifyContent="flex-start" >
                                                 {detail?.attendee_tabs_settings?.map((row: any, key: number) =>
@@ -290,9 +294,12 @@ const Detail = ({ speaker }: Props) => {
                                     )}
                                 </Container>
                             ) : <>
-                                    <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
+                                   <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
+                                        <Text>{event.labels.GENERAL_NO_RECORD}</Text>
+                                    </Box>
                                 </>
                         }
+                            
                             
                             <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
                         </>

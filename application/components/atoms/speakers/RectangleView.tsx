@@ -47,18 +47,27 @@ const RectangleView = ({ k, attendee, total }: boxItemProps) => {
                             {(attendee?.first_name || attendee?.last_name) && (
                                 <>
                                     <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.sort_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
-                                    {attendee?.info &&
-                                        (attendee?.info.company_name ||
-                                            attendee?.info.title) && (
+                                    {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
+                                        <Text textBreakStrategy='balanced' fontSize="lg">
+                                        {attendee?.info?.title && (
                                             <>
-                                                {attendee?.info.title && (
-                                                    <Text lineHeight="22px" fontSize="lg">{attendee?.info?.title}&nbsp;{attendee?.info?.company_name &&
-                                                        attendee?.info?.title &&
-                                                        ", "}
-                                                        {attendee?.info?.company_name && attendee?.info?.company_name}</Text>
-                                                )}
+                                            {`${attendee?.info?.title}`}
+                                            {attendee?.info?.department || attendee?.info?.company_name ? ', ' : ''}
                                             </>
                                         )}
+                                        {attendee?.info?.department && (
+                                            <>
+                                            {`${attendee?.info?.department}`}
+                                            {attendee?.info?.company_name ? ', ' : ''}
+                                            </>
+                                        )}
+                                        {attendee?.info?.company_name && (
+                                            <>
+                                            {`${attendee?.info?.company_name}`}
+                                            </>
+                                        )}
+                                    </Text>
+                                )}
                                 </>
                             )}
                         </VStack>
