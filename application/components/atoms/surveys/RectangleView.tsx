@@ -24,9 +24,9 @@ const RectangleView = ({survey, completed, settings}:{survey:Survey, completed:b
           push(`/${event.url}/survey/result/${survey.id}`)
         }
        }}>
-      <Box w="100%" borderBottomWidth='1' borderColor="primary.bordercolor" py="3">
+      <Box w="100%" borderBottomWidth='1' borderColor="primary.bordercolor" py="4">
         <HStack px="3" w="100%" space="0" alignItems="center" justifyContent="space-between">
-          <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="1">
+          <VStack w="100%" maxW="calc(100% - 40px)" space="1">
             <Text fontSize="md">{survey.info.name}</Text>
           </VStack>
           <Spacer />
