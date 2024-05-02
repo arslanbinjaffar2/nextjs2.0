@@ -237,7 +237,7 @@ const Detail = () => {
                     </HStack>
                 </Box>
                 <Box w="100%">
-                    <HStack pl="6"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
+                    <HStack pl={"3"}  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
                         <Text fontSize="lg">{qaDetials.labels.QA_ASK_A_QUESTION ?? "Ask a Question"}</Text>
                     </HStack>
                     {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
@@ -245,8 +245,8 @@ const Detail = () => {
                     </Box>}
                     {qaDetials?.speakers?.length > 0 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
                     <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER ?? "Select Speaker"}</Text>
-                    <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
-                      <View w={'100%'}>
+                    <Center  alignItems={'flex-start'} justifyContent={'flex-start'} p="0"   w={'72%'}>
+                      <View w={'100%'} >
                         <Select
                         placeholder={qaDetials.labels.QA_SELECT_SPEAKER}
                         w="100%"
@@ -267,10 +267,10 @@ const Detail = () => {
                     </Center>
                     
                     </HStack>}
-                    {qaDetials?.paragraph?.length > 0 && <HStack  px="3"  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3"  alignItems="center">
-                    <Text  w="30%"  fontSize="lg">{qaDetials.labels.QA_SELECT_PARAGRAPH ?? "Select Paragraph"}</Text>
+                    {qaDetials?.paragraph?.length > 0 && <HStack  pr="3"   w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3"  alignItems="center">
+                    <Text pl={'5'} w="30%"  fontSize="lg">{qaDetials.labels.QA_SELECT_PARAGRAPH ?? "Select Paragraph"}</Text>
                     <Center  w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
-                    <View w={'100%'}>
+                    <View w={'100%'}  >
                     <Select
                         placeholder={qaDetials.labels.QA_SELECT_PARAGRAPH}
                         w="100%"
@@ -291,12 +291,12 @@ const Detail = () => {
                     
                     
                     </HStack>}
-                    {qaSettings?.line_number == 1 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
-                        <Text w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER ?? "Line Number"}</Text>
+                    {qaSettings?.line_number == 1 && <HStack pr={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
+                        <Text pl={'5'} w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER ?? "Line Number"}</Text>
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
                     {qaSettings?.paragraph_number == 1 && 
-                    <Box w="100%" px="3">
+                    <Box w="100%" px="4" >
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
                                 <EditorProvider>
@@ -346,7 +346,7 @@ const Detail = () => {
                     <Text opacity={0.58} fontSize="md">{questionsCount} {qaDetials.labels.QA_QUESTIONS}</Text>
                     </HStack>
                  
-                    <HStack mb="4" space={4} justifyContent="flex-start" px={3} w="100%">
+                    <HStack mb="4" space={'10'} justifyContent="flex-start" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
                             <Pressable onPress={() => { setTab(item) }} key={index} bg={'transparent'}  borderWidth="0px" p={0} borderColor="primary.darkbox" >
                                 <Text pb={1} borderBottomWidth={item === tab ? 2 : 0} borderBottomColor={'primary.text'}
@@ -541,7 +541,7 @@ const Detail = () => {
                                     </HStack>
                                   
                                     <Box w={'100%'}>
-                                        <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
+                                        <HStack space={"3"} alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                                 <Text w={'100%'} pt={1}>
                                                     <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
