@@ -48,8 +48,8 @@ const Index = () => {
                                     ))}
                             </Box>
                         ) : (
-                          <Box p="3">
-                              <Text fontSize="18px">{event.labels.GENERAL_NO_RECORD}</Text>
+                          <Box rounded={'lg'} bg={'primary.box'} w={'100%'} p="4">
+                              <Text fontSize="md">{event.labels.GENERAL_NO_RECORD}</Text>
                           </Box>
                         )}
                     </Container>

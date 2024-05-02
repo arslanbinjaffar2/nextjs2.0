@@ -110,6 +110,7 @@ const LeftBar = () => {
 
   const [dahboardHover, setdahboardHover] = React.useState(false)
   const [logoutHover, setlogoutHover] = React.useState(false)
+  const [dashhover, setdashhover] = React.useState(false)
 
 
   return (
@@ -120,6 +121,8 @@ const LeftBar = () => {
             w="100%"
             p="1"
             _hover={{ bg: 'primary.500' }}
+            onHoverIn={() => setdashhover(true)}
+            onHoverOut={() => setdashhover(false)}
             borderRadius="8"
             onPress={() => {
               router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
@@ -134,8 +137,8 @@ const LeftBar = () => {
 								}}>
 
               {width > 1200 && <VStack w={'calc(100% - 100px)'} pl="3" space="0">
-                <Text fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
-                <Text p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
+                <Text  color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"} fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
+                <Text color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"}  p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
               </VStack>}
               </Tooltip>
 
@@ -146,7 +149,7 @@ const LeftBar = () => {
             onPress={() => {
               router.push(`/${event.url}/settings/editprofile`)
             }}>
-              <DynamicIcon iconType={'edit_profile'} iconProps={{ width:18,height:18}}/>
+              <DynamicIcon  iconType={'edit_profile'} iconProps={{ width:18,height:18,  color: dashhover  ? func.colorType(event?.settings?.primary_color) : undefined}}/>
             </Pressable>
             </Flex>
         </Pressable>
