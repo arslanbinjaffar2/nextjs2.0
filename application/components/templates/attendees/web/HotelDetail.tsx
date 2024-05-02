@@ -18,13 +18,12 @@ import moment from 'moment';
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
-
 type AppProps = {
     detail: Detail,
 }
 
 const RectangleView = () => {
-   
+	const {event} = UseEventService()
 
    
     return (
@@ -33,7 +32,7 @@ const RectangleView = () => {
             <Pressable onPress={()=> console.log('first')}>
                 <HStack space="3" alignItems="center">
                     <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                    <Text fontSize="2xl">BACK</Text>
+                    <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
                 </HStack>
             </Pressable>
             <Text fontSize="2xl">Hotel Details</Text>
