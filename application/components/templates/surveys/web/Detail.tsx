@@ -356,7 +356,6 @@ const Detail = () => {
                   </Button>
                   ):(
                     <>
-                    <Text fontSize="md">{survey_labels?.POLL_SURVEY_REDIRECT_MSG}</Text>
                     <CountdownTimer />
                     </>
                   )}
@@ -375,6 +374,7 @@ const CountdownTimer = React.memo(() => {
   const [timeLeft, setTimeLeft] = useState<number>(15);
   const { push, back } = useRouter();
   const {event} = UseEventService();
+  const { survey_labels } = UseSurveyService();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -397,7 +397,7 @@ const CountdownTimer = React.memo(() => {
   return (
     <>
       {timeLeft > 0 ? (
-        <Text fontSize="lg">{timeLeft}</Text>
+        <Text fontSize="md">{survey_labels?.POLL_SURVEY_REDIRECT_MSG} {timeLeft}</Text>
       ) : (
         <WebLoading />
       )}

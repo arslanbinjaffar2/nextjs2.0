@@ -77,6 +77,7 @@ function* OnFetchMySurveyResultDetail({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getMySurveyResultDetailApi, payload, state)
     yield put(SurveyActions.updateMySurveyResultDetail({ detail: response.data.data.survey_detail!, survey_labels: response.data.data.survey_labels, survey_settings: response.data.data.surveySettings }))
+    console.log('total_points_survey',response.data.data.survey_detail?.total_points)
     yield put(LoadingActions.set(false));
 }
 
