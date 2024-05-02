@@ -13,7 +13,7 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 import { select } from 'redux-saga/effects';
 
 import { ToastActions } from '../slices/Toast.Slice'
-
+import UseEventService from '../services/UseEventService'
 function* OnFetchEditProfileData({
 }: {
     type: typeof EditProfileActions.FetchEditProfileData
@@ -31,11 +31,12 @@ function* OnUpdateAttendee({
     type: typeof EditProfileActions.UpdateAttendee
     payload: any
 }): SagaIterator {
+ const { event  } = UseEventService()
     const state = yield select(state => state);
     const response: HttpResponse = yield call(updateAttendeeApi, payload, state)
     if (response?.status === 200) {
         yield put(EditProfileActions.AttendeeUpdatedSuccessfully())
-        yield put(ToastActions.AddToast({toast:{status:"success", message:"updated profile successfully",duration:1000}}))                
+        yield put(ToastActions.AddToast({toast:{status:"success", message:event?.labels?.GENERAL_EDIT_PROFILE || "Congratulation! your action has been completed successfully",duration:5000}}))                
     }
 }
 
