@@ -80,7 +80,9 @@ const Index = () => {
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 {width > 480 &&
                     <>
-                        <Text fontSize="2xl">{modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}</Text>
+                        <Text  fontSize="2xl">
+                            {modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}
+                        </Text>
                         <Spacer />
                     </>}
                     <Search tab={tab} />
