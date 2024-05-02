@@ -356,9 +356,12 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         formData.append('settings', JSON.stringify(data.settings));
         formData.append('file', data.attendeeObj.file);
         formData.append('attendee_cv', data.attendeeObj.att_cv);
-   
         updateAttendee(formData);
-
+        setTimeout(()=>{
+            if(success_message || !updatingAttendee){
+                AddToast({toast:{status:"success",message:"profile updated successfully"}})
+            }
+        },2000)
     };
  
 
@@ -1318,7 +1321,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     </HStack>
                 </HStack>
             }
-            <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
+              <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                 <Button
                     minW={225}
                     py="2"
@@ -1329,27 +1332,14 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     isLoading={updatingAttendee}
                     onPress={() => {
                         updateAttendeeData();
+                        
+
                     }}
                 >
                     <Text fontSize="2xl" color={"primary.hovercolor"} fontWeight={600}>SAVE</Text>
                 </Button>
             </HStack>
-            {success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'} p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
-                <Text fontSize="md">profile updated successfully</Text>
-                <Spacer />
-                <IconButton
-                    variant="unstyled"
-                    p={2}
-                    rounded={'full'}
-                    icon={<Icon size="md" as={AntDesign} name="close" color="white" />}
-                    onPress={() => {
-                        UpdateSuccess(false)
-                    }}
-
-                />
-
-
-            </HStack></Box>}
+        
             <PolicyModal title={modalContent.title} body={modalContent.body} isOpen={isModalOpen} onClose={closeModal} cancelRef ={cancelRef}/>
         </Container>
     )
