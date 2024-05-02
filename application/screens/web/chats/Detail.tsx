@@ -5,18 +5,19 @@ import Master from 'application/screens/web/layouts/Master';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import Feather from '@expo/vector-icons/Feather';
+import { UseEventService } from 'application/store/services'
 
 type indexProps = {
   navigation: unknown
 }
-
 const Detail = ({ navigation }: indexProps) => {
+  const {event} = UseEventService()
   return (
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <HStack space="3" alignItems="center">
             <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-            <Text fontSize="2xl">BACK</Text>
+            <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
           </HStack>
           <Spacer />
           <Text isTruncated pr="6" fontSize="lg">Janet Fowler</Text>
