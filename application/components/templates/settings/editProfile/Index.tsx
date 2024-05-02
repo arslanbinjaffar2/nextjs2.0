@@ -122,7 +122,6 @@ type formProps = {
 
 const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee, success_message, UpdateSuccess }: formProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
-  const {AddToast}=UseToastService()
     const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
@@ -231,7 +230,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     };
 
     const updateAttendeeFeild = (name: string, value: any) => {
-        console.log("🚀 ~ updateAttendeeFeild ~ value:", value)
         setAttendeeData({
             ...attendeeData,
             [name]: value,
@@ -356,13 +354,10 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         formData.append('settings', JSON.stringify(data.settings));
         formData.append('file', data.attendeeObj.file);
         formData.append('attendee_cv', data.attendeeObj.att_cv);
-   
         updateAttendee(formData);
-
     };
  
 
-    console.log(attendeeData.attendee_cv)
     if (Object.keys(attendeeData).length === 0) {
         return <WebLoading />;
     }
@@ -1057,7 +1052,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                         value={customFieldData[`custom_field_id_q${i}`] !== undefined ? customFieldData[`custom_field_id_q${i}`] : null}
                                         isMulti={question.allow_multiple === 1 ? true : false}
                                         onChange={(item: any) => {
-                                            console.log(item);
                                             updateCustomFieldSelect({ item, name: `custom_field_id_q${i}` });
                                         }}
                                     />
@@ -1358,7 +1352,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     </HStack>
                 </HStack>
             }
-            <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
+              <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                 <Button
                     minW={225}
                     py="2"
@@ -1369,28 +1363,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     isLoading={updatingAttendee}
                     onPress={() => {
                         updateAttendeeData();
+                        
+
                     }}
                 >
                     <Text fontSize="2xl" color={"primary.hovercolor"} fontWeight={600}>{event?.labels?.GENERAL_SAVE}</Text>
                 </Button>
             </HStack>
-						{success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'}  p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">
-								<Text fontSize="md">profile updated successfully</Text>
-								<Spacer />
-								<IconButton
-									variant="unstyled"
-									p={2}
-									rounded={'full'}
-									icon={<Icon size="md" as={AntDesign} name="close" color="white" />}
-									onPress={()=>{
-									UpdateSuccess(false)
-									}}
-									
-								/>
-								
-								
-						</HStack></Box>}
-						<PolicyModal title={modalContent.title} body={modalContent.body} isOpen={isModalOpen} onClose={closeModal} cancelRef ={cancelRef}/>
+        
+            <PolicyModal title={modalContent.title} body={modalContent.body} isOpen={isModalOpen} onClose={closeModal} cancelRef ={cancelRef}/>
         </Container>
     )
 }
