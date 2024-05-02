@@ -34,7 +34,8 @@ import {
     Separator,
     Editor,
     EditorProvider,
-    Toolbar
+    Toolbar,
+    
 } from 'react-simple-wysiwyg';
 
 type ScreenParams = { id: string }
@@ -208,6 +209,7 @@ const Detail = () => {
   
       }
       const module = modules.find((module) => module.alias === 'qa');
+      console.log(qaDetials.labels)
   return (
     <>
     {
@@ -300,7 +302,10 @@ const Detail = () => {
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
                                 <EditorProvider>
-                                    <Editor style={{width: '100%'}} value={question} onChange={(e) => {
+                                    <Editor style={{width: '100%'}} value={question}
+                                    placeholder={qaDetials.labels.QA_TYPE_YOUR_QUESTION }
+                                    
+                                    onChange={(e) => {
                                         setQuestion(e.target.value) }}  >
                                                 <Toolbar>
                                                 <BtnUndo />
