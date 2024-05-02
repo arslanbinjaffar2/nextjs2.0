@@ -1,9 +1,10 @@
 import { sendDocumentEmailApi } from 'application/store/api/DocumentApi';
 import { store } from 'application/store/Index';
-import { Center, HStack, TextArea, Input, Text, Container, Button, FormControl, Pressable } from 'native-base'
+import { Center, HStack, TextArea, Input, Text, Container, Button, FormControl, Pressable, Icon } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
+import AntDesign from '@expo/vector-icons/AntDesign'
 const EmailSend = ({id}:{id:any}) => {
     const [emailData, setEmailData] = React.useState({ email: '',  subject: '', comments: '' });
     const [errors, setErrors] = React.useState({ email: '',  subject: '', comments: '' });
@@ -41,14 +42,14 @@ const EmailSend = ({id}:{id:any}) => {
 
   return (
     <>
-     <HStack>
-       <Pressable
-         onPress={async () => {
-           push(`/${event.url}/ddirectory`)
-         }}>
-         <Text  fontSize="xs" style={{padding: 8}}>{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
-       </Pressable>
-     </HStack>
+      <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
+        <Pressable onPress={()=> push(`/${event.url}/ddirectory`)}>
+          <HStack space="3" alignItems="center">
+            <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+            <Text fontSize="2xl">{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
+          </HStack>
+        </Pressable>
+      </HStack>
     <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%" p={2}>
                         <HStack alignItems={["flex-start","center"]} px="6" pb={3} pt={3} flexDirection={['column', 'row']}  w="100%">
                             <FormControl isRequired isInvalid={emailData.email.trim().length < 3 && emailData.email.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
