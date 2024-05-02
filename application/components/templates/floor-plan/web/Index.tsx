@@ -36,7 +36,7 @@ const Index = () => {
 
             <Container pt="2" maxW="100%" w="100%">
               <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text textTransform="capitalize" fontSize="2xl">{module?.name ?? "FLoor Plan"}</Text>
+                <Text fontSize="2xl">{module?.name ?? "FLoor plan"}</Text>
                 <Spacer />
                 <HStack  space="1" alignItems="center">
                  <Input rounded="10" w={'320px'} bg="primary.box" borderWidth={0} value={query} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setQuery} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />

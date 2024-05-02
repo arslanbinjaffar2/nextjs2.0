@@ -20,7 +20,7 @@ function* OnGetMyMeetingRequests({
     yield put(LoadingActions.addProcess({ process: 'my-meeting-requests' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getMyMeetingRequestsApi, { ...payload, limit: 20 }, state)
-    yield put(MeetingReservationActions.updateMyMeetingRequests(response.data.data.my_meeting_requests))
+    yield put(MeetingReservationActions.updateMyMeetingRequests(response.data.data))
     yield put(LoadingActions.removeProcess({ process: 'my-meeting-requests' }))
 }
 
