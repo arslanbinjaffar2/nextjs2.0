@@ -3,6 +3,8 @@ import {  Avatar, Button, Container, HStack, Modal, Pressable, ScrollView, Space
 import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import moment from 'moment';
+import Icocheck from 'application/assets/icons/Icocheck';
+import Icocross from 'application/assets/icons/Icocross';
 
 type ReservationModalProps = {
 	onClose: any
@@ -79,10 +81,10 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
 							<Button.Group variant={'unstyled'} space={0}>
 								<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={onClose} textTransform={'uppercase'}>{cancelButtonText}</Button>
+									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={onClose} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
 								</Container>
 								<Container borderRightWidth={0}  w="50%">
-									<Button onPress={onAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}>{confirmButtonText}</Button>
+									<Button onPress={onAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}><Icocheck width={19} height={19} /></Button>
 								</Container>
 							</Button.Group>
 						</Modal.Footer>

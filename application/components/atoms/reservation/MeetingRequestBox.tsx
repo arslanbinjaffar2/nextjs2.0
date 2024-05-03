@@ -7,6 +7,7 @@ import Icoaccept from 'application/assets/icons/small/Icoaccept'
 import Icoreject from 'application/assets/icons/small/Icoreject'
 import Icosendemail from 'application/assets/icons/small/Icosendemail'
 import Icoaddcalendar from 'application/assets/icons/small/Icoaddcalendar'
+import RescheduleIcon from 'application/assets/icons/reschedule';
 import ReservationModal from 'application/components/atoms/reservation/ReservationModal';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
@@ -182,7 +183,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 						{/* Re Schedule Icon */}
 						<Tooltip px={5} rounded={'full'} label="Re Schedule" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
-								icon={<Icoaddcalendar color={colors.text} width={19} height={19} />}
+								icon={<RescheduleIcon color={colors.text} width={19} height={19} />}
 								onPress={()=>{reScheduleMeeting()}}
 							/>
 						</Tooltip>

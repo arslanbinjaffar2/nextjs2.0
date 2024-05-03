@@ -6,10 +6,14 @@ import useMeetingReservationService from 'application/store/services/UseMeetingR
 import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
 import UseEventService from 'application/store/services/UseEventService';
 import moment from 'moment';
+import WebLoading from 'application/components/atoms/WebLoading';
+import in_array from 'in_array';
+import UseLoadingService from 'application/store/services/UseLoadingService';
 
 const Index = () => {
 const [tab, setTab] = React.useState('all');
 const { FetchMyMeetingRequests,my_meeting_listing} = useMeetingReservationService();
+const { processing } = UseLoadingService();
 
 const [filteredRequests,setFilteredRequests] = React.useState<MeetingRequest[]>([])
 const [dates,setDates] = React.useState<any>([])
@@ -17,6 +21,7 @@ const [statuses,setStatuses] = React.useState<any>([]);
 const [filterDate,setFilterDate] = React.useState<string>('');
 const [dateFormat]= React.useState('DD-MM-YYYY');
 const { event } = UseEventService();
+const [loadCount,setLoadCount] = React.useState<number>(0)
 
   React.useEffect(() => {
       FetchMyMeetingRequests({})
@@ -38,6 +43,9 @@ const { event } = UseEventService();
     setDates(my_meeting_listing.dates)
     setStatuses(my_meeting_listing.statuses)
     filterRequests();
+    if(loadCount < 2){
+      setLoadCount(loadCount+1)
+    }
   },[my_meeting_listing]) 
   
   React.useEffect(() => {
@@ -98,78 +106,19 @@ const { event } = UseEventService();
             {status}
           </Button>
         )}
-        {/* <Button 
-            onPress={() => {setTab('all')}} 
-            borderWidth="0px" 
-            py={0} 
-            borderColor="primary.darkbox" 
-            borderRightRadius="0" 
-            borderLeftRadius={0} 
-            _hover={{_text: {color: 'primary.hovercolor'}}}
-            h="42px"
-            flex={1} 
-            bg={tab === 'all' ? 'primary.boxbutton' :'primary.box'} 
-            _text={{ fontWeight: '600' }}>
-          All
-        </Button>
-        <Button 
-            onPress={() => {setTab('accepted')}} 
-            borderWidth="0px" 
-            py={0} 
-            borderColor="primary.boxbutton" 
-            borderRightRadius="0" 
-            borderLeftRadius={0} 
-            _hover={{_text: {color: 'primary.hovercolor'}}}
-            h="42px"
-            flex={1} 
-            bg={tab === 'accepted' ? 'primary.boxbutton' :'primary.box'} 
-            _text={{ fontWeight: '600' }}>
-          Accepted
-        </Button>
-        <Button 
-            onPress={() => {setTab('rejected')}} 
-            borderWidth="0px" 
-            py={0} 
-            borderColor="primary.boxbutton" 
-            borderRightRadius="0" 
-            borderLeftRadius={0} 
-            _hover={{_text: {color: 'primary.hovercolor'}}}
-            h="42px"
-            flex={1} 
-            bg={tab === 'rejected' ? 'primary.boxbutton' :'primary.box'} 
-            _text={{ fontWeight: '600' }}>
-          Rejected
-        </Button> */}
       </HStack>
-      <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+      {loadCount < 2 && in_array('my-meeting-requests',processing) ? (
+        <WebLoading />
+      ):(
+        <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
         {filteredRequests.length === 0 && <Text textAlign="center" fontSize="lg" fontWeight={500} p="5">{event?.labels?.GENERAL_NO_RECORD}</Text>}
         {filteredRequests.map((request:MeetingRequest,k:number) =>
           <React.Fragment key={k}>
             <MeetingRequestBox meeting_request={request} border={k}/>
           </React.Fragment>
         )}
-          {/* {tab === 'all' && <>
-              {[...Array(1)].map((item,k) =>
-                <React.Fragment key={k}>
-                  <MeetingRequestBox  border={k} type='all'/>   
-                </React.Fragment>
-              )}
-          </>}
-          {tab === 'accepted' && <>
-              {[...Array(5)].map((item,k) =>
-                <React.Fragment key={k}>
-                  <MeetingRequestBox  border={k} type='accepted'/>   
-                </React.Fragment>
-              )}
-          </>}
-          {tab === 'rejected' && <>
-              {[...Array(5)].map((item,k) =>
-                <React.Fragment key={k}>
-                  <MeetingRequestBox  border={k} type='rejected'/>   
-                </React.Fragment>
-              )}
-          </>} */}
       </Container>
+      )}
       </>
   );
 
