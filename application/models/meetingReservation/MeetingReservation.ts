@@ -13,6 +13,7 @@ export interface MeetingRequest {
     slot:MeetingSlot,
     host_attendee:MeetingAttendee,
     participant_attendee:MeetingAttendee,
+    message:string,
 
 }
 
