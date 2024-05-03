@@ -971,7 +971,6 @@ const Selectstyles2 = {
                                 value={customFieldData[`custom_field_id_q${i}`] !== undefined ? customFieldData[`custom_field_id_q${i}`] : null}
                                 isMulti={question.allow_multiple === 1 ? true : false}
                                 onChange={(item:any) => {
-                                    console.log(item);
                                     updateCustomFieldSelect({ item, name: `custom_field_id_q${i}` });
                                 }}
                             />
