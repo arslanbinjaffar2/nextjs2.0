@@ -1050,7 +1050,8 @@ const Selectstyles2 = {
                                                             setAttendeeData({
                                                                 ...attendeeData,
                                                                 image: "",
-                                                                file: ""
+                                                                file: "",
+                                                                blob_image:undefined
                                                             });
                                                         }}
                                                       
