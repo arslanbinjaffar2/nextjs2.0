@@ -22,6 +22,7 @@ import { store } from 'application/store/Index';
 import { bookMeetingSlotApi } from 'application/store/api/MeetingReservation.api';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { getAttendeeDetailApi } from 'application/store/api/Attendee.Api';
+import UseNotificationService from 'application/store/services/UseNotificationService';
 
 type ScreenParams = { id: string }
 
@@ -41,6 +42,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const [activeSlot, setActiveSlot] = useState<Number | null>(null);
 	const [attendee, setAttendee] = useState<MeetingAttendee | null >(null);
 	const [bookingSlot,setBookingSlot] = useState<boolean>(false);
+	const { AddNotification } = UseNotificationService();
 
 	const [attendeeId] = useParam('id');
 
@@ -77,7 +79,11 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 					slotBooked(slot.id)
 					setSelectedSlot(null);
 					setBookingSlot(false);
-					alert('Meeting request sent successfully');
+					AddNotification({notification:{
+						type:'reservation',
+						title:'Alert',
+						text:'Meeting request sent successfully',
+					}});
 				}
 			} catch (error) {
 			  	console.log('error', error);

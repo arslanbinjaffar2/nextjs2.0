@@ -41,6 +41,10 @@ export const MeetingReservationSlice = createSlice({
             state.available_slots = action.payload.slots
             state.available_dates = action.payload.dates
         },
+        AcceptMeetingRequest(state, action: PayloadAction<{ meeting_request_id:number }>) {},
+        RejectMeetingRequest(state, action: PayloadAction<{ meeting_request_id:number }>) {},
+        CancelMeetingRequest(state, action: PayloadAction<{ meeting_request_id:number }>) {},
+        SendReminder(state, action: PayloadAction<{ meeting_request_id:number }>) {},
     },
 })
 
@@ -50,6 +54,10 @@ export const MeetingReservationActions = {
     updateMyMeetingRequests: MeetingReservationSlice.actions.updateMyMeetingRequests,
     FetchAvailableSlots: MeetingReservationSlice.actions.FetchAvailableSlots,
     updateAvailableSlots: MeetingReservationSlice.actions.updateAvailableSlots,
+    AcceptMeetingRequest: MeetingReservationSlice.actions.AcceptMeetingRequest,
+    RejectMeetingRequest: MeetingReservationSlice.actions.RejectMeetingRequest,
+    CancelMeetingRequest: MeetingReservationSlice.actions.CancelMeetingRequest,
+    SendReminder: MeetingReservationSlice.actions.SendReminder,
 }
 
 export const SelectMyMeetingListing = (state: RootState) => state.meetingReservation.my_meeting_listing
