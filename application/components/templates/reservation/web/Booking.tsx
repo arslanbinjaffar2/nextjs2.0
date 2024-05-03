@@ -44,6 +44,8 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const [bookingSlot,setBookingSlot] = useState<boolean>(false);
 	const { AddNotification } = UseNotificationService();
 
+	const [message, setMessage] = useState<string>('');
+
 	const [attendeeId] = useParam('id');
 
 	async function getAttendee(){
@@ -59,26 +61,27 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	}
 
 	React.useEffect(() => {
-		// if(attendeeId){
-		// 	// setAttendee()
-		// }else{
-		// 	setAttendee(null);
-		// }
 		getAttendee();
 		console.log('attendeeId:',attendeeId);
 	}
 	, [attendeeId]);
 
+	React.useEffect(() => {
+		setMessage('');
+	}, [activeSlot]);
+	
+
 	async function bookSlot(slot:MeetingSlot){
 			const mystate=store.getState()
 			setBookingSlot(true);
 			try {
-				const response = await bookMeetingSlotApi({slot_id:slot.id,participant_attendee_id:attendeeId},mystate);
+				const response = await bookMeetingSlotApi({slot_id:slot.id,participant_attendee_id:attendeeId,message:message},mystate);
 				console.log('response data:',response.data);
 				if(response?.data?.success == true){
 					slotBooked(slot.id)
 					setSelectedSlot(null);
 					setBookingSlot(false);
+					setMessage('');
 					AddNotification({notification:{
 						type:'reservation',
 						title:'Alert',
@@ -137,7 +140,10 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 								</VStack>
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
 									<Text  fontSize="md">Message</Text>
-									<TextArea autoCompleteType={false} w="100%" h={120} placeholder="Please write your message here …" bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+									<TextArea
+										value={message}
+										onChangeText={(text)=>setMessage(text)}
+									 autoCompleteType={false} w="100%" h={120} placeholder="Please write your message here …" bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>
 								
