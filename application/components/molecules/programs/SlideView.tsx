@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack, View, Spacer, Button } from 'native-base';
+import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack, View, Spacer, Button, Tooltip } from 'native-base';
 import Slider from "react-slick";
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
 import WorkshopCollapsableView from 'application/components/atoms/programs/WorkshopCollapsableView';
@@ -209,8 +209,18 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				<>
 					{Platform.OS === 'web' ? (
 						<>
-							<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{section === 'program' ? modules?.find((module) => (module.alias == 'agendas'))?.name : modules?.find((module) => (module.alias == 'myprograms'))?.name}</Heading>
-							{!router.asPath.includes('/dashboard') && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">May 2024</Text>
+						
+							{router.asPath.includes('/myprograms') ? (
+								<Tooltip label= {modules?.find((module) => (module.alias == 'myprograms'))?.name as string} >
+									<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{modules?.find((module) => (module.alias == 'myprograms'))?.name as string}</Heading>
+								</Tooltip>
+							):(
+								<Tooltip label= {section === 'program' ? modules?.find((module) => (module.alias == 'agendas'))?.name as string : modules?.find((module) => (module.alias == 'myprograms'))?.name as string} >
+									<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{section === 'program' ? modules?.find((module) => (module.alias == 'agendas'))?.name : modules?.find((module) => (module.alias == 'myprograms'))?.name}</Heading>
+								</Tooltip>
+							)}
+              				
+							{!router.asPath.includes('/dashboard') && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">May 2024 {section}</Text>
 							</HStack>}
 							<LazySlider onChange={handleChange} programs={programs} />
 							{programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
