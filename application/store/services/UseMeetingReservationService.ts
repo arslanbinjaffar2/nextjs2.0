@@ -19,6 +19,10 @@ export type MeetingReservationServiceOperators = {
     available_dates: any,
     FetchMyMeetingRequests: (payload: {  }) => void
     FetchAvailableSlots: () => void
+    AcceptMeetingRequest: (payload: { meeting_request_id:number }) => void
+    RejectMeetingRequest: (payload: { meeting_request_id:number }) => void
+    CancelMeetingRequest: (payload: { meeting_request_id:number }) => void
+    SendReminder: (payload: { meeting_request_id:number }) => void
 }
 
 /**
@@ -43,6 +47,30 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
         FetchAvailableSlots: useCallback(
             () => {
                 dispatch(MeetingReservationActions.FetchAvailableSlots({}))
+            },
+            [dispatch],
+        ),
+        AcceptMeetingRequest: useCallback(
+            (payload: { meeting_request_id:number }) => {
+                dispatch(MeetingReservationActions.AcceptMeetingRequest(payload))
+            },
+            [dispatch],
+        ),
+        RejectMeetingRequest: useCallback(
+            (payload: { meeting_request_id:number }) => {
+                dispatch(MeetingReservationActions.RejectMeetingRequest(payload))
+            },
+            [dispatch],
+        ),
+        CancelMeetingRequest: useCallback(
+            (payload: { meeting_request_id:number }) => {
+                dispatch(MeetingReservationActions.CancelMeetingRequest(payload))
+            },
+            [dispatch],
+        ),
+        SendReminder: useCallback(
+            (payload: { meeting_request_id:number }) => {
+                dispatch(MeetingReservationActions.SendReminder(payload))
             },
             [dispatch],
         ),

@@ -1,13 +1,51 @@
 import React from 'react';
 import {  Avatar, Button, Container, HStack, Modal, Pressable, ScrollView, Spacer, Text, TextArea, View, VStack } from 'native-base';
+import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
+import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
+import moment from 'moment';
 
-const ReservationModal = ({isOpen, onClose}: any) => {
+type ReservationModalProps = {
+	onClose: any
+	onAccept: any,
+	action: any,
+	isOpen: boolean,
+	meeting_request: MeetingRequest,
+	loggedInAttendeeId: number,
+}
+const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,onAccept,action}: any) => {
+	const [title, setTitle] = React.useState<string>('');
+	const [message, setMessage] = React.useState<string>('');
+	const [cancelButtonText, setCancelButtonText] = React.useState<string>('');
+	const [confirmButtonText, setConfirmButtonText] = React.useState<string>('');
 	const _element = React.useRef<HTMLDivElement>() 
 	React.useEffect(() => {
 		setTimeout(() => {
 			_element.current?.classList.add('add-blur')
 		}, 300);
 	}, [isOpen])
+
+	React.useEffect(() => {
+		updateMessage(action)
+	}
+	, [meeting_request])
+
+	const updateMessage = (action: any) => {
+		setCancelButtonText('No');
+		setConfirmButtonText('Yes');	
+		if(action === 'acceptMeeting'){
+			setTitle('Accept Meeting Request');
+			setMessage('Are you sure you want to accept this meeting request?');
+		}else if(action === 'rejectMeeting'){
+			setTitle('Reject Meeting Request');
+			setMessage('Are you sure you want to reject this meeting request?');
+		}else if(action === 'cancelMeeting'){
+			setTitle('Cancel Meeting Request');
+			setMessage('Are you sure you want to cancel this meeting request?');
+		}else if(action === 'sendMeetingReminder'){
+			setTitle('Send Reminder');
+			setMessage('Are you sure you want to send reminder for this meeting request?');
+		}
+	}
 	
   return (
 	<Modal
@@ -15,36 +53,36 @@ const ReservationModal = ({isOpen, onClose}: any) => {
 			
 			isOpen={isOpen}
 			onClose={()=>{
-			
+			onClose()
 			}}>
 					<Modal.Content ref={_element}  bg={'primary.box'}>
 						
 						<Modal.Header px={6} pt={6} pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
-							<Text fontSize="lg" fontWeight={600}>Accept meeting</Text>
+							<Text fontSize="lg" fontWeight={600}>{title}</Text>
 						</Modal.Header>
 						<Modal.Body pb={0} bg="primary.box" px={0}>
-							<Text mb={3} px={6} fontSize="lg" fontWeight={500}>Are you sure you want to accept meeting Request.</Text>
+							<Text mb={3} px={6} fontSize="lg" fontWeight={500}>{message}</Text>
 							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
-								<HStack space={2} alignItems={'center'}><Text  fontSize="sm">Person :</Text>
+								<HStack space={2} alignItems={'center'}><Text  fontSize="sm">Person : {meeting_request?.slot?.meeting_space?.persons}</Text>
 								 <HStack  space="1" alignItems="center">
 									<Avatar bg={'primary.100'} size={'22px'} source={{uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"}}>
 									SS
 								</Avatar>
-								<Text fontSize="sm"> Stephen Hendry</Text>
+								<Text fontSize="sm">{meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee.full_name : meeting_request?.host_attendee.full_name}</Text>
 								
 								</HStack>
 								</HStack>
-								<Text  fontSize="sm">Meeting space : 514-A Conference Room</Text>
-								<Text  fontSize="sm">Meeting date : 12-12-2023</Text>
+								<Text  fontSize="sm">Meeting space : {meeting_request?.slot?.meeting_space?.name}</Text>
+								<Text  fontSize="sm">Meeting date : {moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
 							</VStack>
 						</Modal.Body>
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
 							<Button.Group variant={'unstyled'} space={0}>
 								<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={onClose} textTransform={'uppercase'}>Close</Button>
+									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={onClose} textTransform={'uppercase'}>{cancelButtonText}</Button>
 								</Container>
 								<Container borderRightWidth={0}  w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}>Send</Button>
+									<Button onPress={onAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}>{confirmButtonText}</Button>
 								</Container>
 							</Button.Group>
 						</Modal.Footer>
