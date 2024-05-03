@@ -35,6 +35,7 @@ import UseAlertService from 'application/store/services/UseAlertService'
 import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import { Banner } from 'application/models/Banner'
+import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
 
 type indexProps = {
   navigation: unknown
@@ -88,35 +89,25 @@ const Index = ({ navigation }: indexProps) => {
            <MobileNavigation />
          </Box>
          
-            {/* <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
-                  <Box minH={150} h={'100%'} flex={1}>
-                  <UpcomingBlock
-                      px="3"
-                      py="4"
-                      h='150px'
-                      title="UPCOMING SESSION" desc='Talk on w http://localhost:3000/checking-clone-3479/dashboard?currentIndex=0' location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+            <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
+                  <Box h={'100%'} flex={1}>
+                    <UpcomingPrograms />
                   </Box>
-                  <Box minH={150}  flex={1}>
+                  
+                  {/* <Box minH={150}  flex={1}>
                     <UpcomingBlock 
                       px="3"
                       py="4"
                       h='150px'
                     title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
-                </Box>
-            </HStack>  */}
+                </Box>*/}
+            </HStack>  
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
           {/*  */}
           {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
-            <Container my={4}  rounded="10" bg="primary.box" w="100%" maxW="100%">
-              <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>PROGRAM</Heading>
+            <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+              <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{modules?.find((module) => (module.alias == 'agendas'))?.name}</Heading>
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
-              <Center py="3" px="2" w="100%" alignItems="flex-end">
-                <Button onPress={() => {
-                  push(`/${event.url}/agendas`)
-                }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                  {event.labels?.GENERAL_LOAD_MORE ?? 'Show all'}
-                </Button>
-              </Center>
             </Container>
           ) : <></>}
           {/*  */}
@@ -127,12 +118,21 @@ const Index = ({ navigation }: indexProps) => {
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
 
             <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
-              <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={poll_labels?.MEET_OUR_SPEAKERS ? poll_labels?.MEET_OUR_SPEAKERS : 'MEET OUR SPEAKERS'} />
-              <ScrollView w={[width - 30,'100%']} pb={2} showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
+               <HStack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
+              <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
+              {my_attendees?.length > 6 &&
+                <Button onPress={() => {
+                  push(`/${event.url}/speakers`)
+                }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                    {event.labels?.GENERAL_SEE_ALL ?? 'See all'}
+                  </Button>
+              }
+              </HStack>
+              <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
                 <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
-                  {my_attendees.map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
+                  {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
                     <RoundedView attendee={attendee} />
-                    <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
+                    <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
                   </VStack>)}
                 </HStack>
               </ScrollView>
@@ -141,7 +141,7 @@ const Index = ({ navigation }: indexProps) => {
           {/*  */}
               <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
 
-{/*  */}
+          {/*  */}
               <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
           {/*  */}
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
@@ -176,27 +176,25 @@ const Index = ({ navigation }: indexProps) => {
                 <>
                   {alert_setting && (alert_setting as any).display_in_dashboard === 1 && alerts.length > 0 &&
                   <Container mt={0} pt="0" maxW="100%" w="100%">
-                    <HStack  pt="0" w="100%" space="3" alignItems="center">
-                      <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
-                      <Spacer />
-                    </HStack>
                     
-                    
-                      <Box overflow="hidden" bg="primary.box" mb={4} pb={5}  w="100%" rounded="lg">
+                      <Box overflow="hidden" bg="primary.box" mb={4} pb={alerts.length > 3 ? 0 : 5}  w="100%" rounded="lg">
+                      <HStack  pt="0" w="100%" space="3" alignItems="center">
+                        <Text w={'100%'} pt={2} textAlign={'center'} fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
+                      </HStack>
                         {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
                           <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
                         ))}
+                        {alerts.length > 3 &&
+                        <Center py="3" px="2" w="100%" alignItems="flex-end">
+                          <Button onPress={() => {
+                            push(`/${event.url}/alerts`)
+                          }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                            {event.labels?.GENERAL_SHOW_ALL ?? ''}
+                          </Button>
+                        </Center>
+                        }
                       </Box>
                       
-                    {alerts.length > 3 &&
-                    <Center py="3" px="2" w="100%" alignItems="flex-end">
-                      <Button onPress={() => {
-                        push(`/${event.url}/alerts`)
-                      }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                        {event.labels?.GENERAL_LOAD_MORE ?? 'Show all'}
-                      </Button>
-                    </Center>
-                    }
                   </Container>
                   }
                 </>

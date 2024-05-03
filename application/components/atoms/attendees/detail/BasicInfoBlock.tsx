@@ -10,8 +10,6 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
-import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
-import AvatarColors from 'application/utils/AvatarColors'
 import UseAuthService from 'application/store/services/UseAuthService';
 
 
@@ -33,7 +31,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     const { push } = useRouter();
 
     const isPrivate = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s.is_private}),{});
-    console.log(showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1), 'show_hotel')
+    const allowedFields = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s}),{});
 
     const [isFav, setIsFav] = React.useState<boolean>(false);
 
@@ -47,7 +45,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     }
 
     function handleRegistrationPress(){
-        console.log("🚀 ~ handleRegistrationPress ~ router:", router)
         router.push(`/${event.url}/attendees/my-registration/${response?.data?.user?.id}`)
     }
 
@@ -68,24 +65,34 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         )}
                         <VStack w="calc(100% - 160px)" space="0">
                             <Text lineHeight="sm" fontSize="xl">
-                                {`${detail?.detail?.first_name} ${detail?.detail?.last_name}`}
+                                {`${detail?.detail?.first_name}`} {detail?.sort_field_setting.find((s:any)=>(s.name === 'last_name')) && detail?.detail?.last_name }
                             </Text>
                             {detail?.detail?.info &&
-                                (detail?.detail?.info.company_name ||
+                                (detail?.detail?.info.department ||
                                     detail?.detail?.info.title) &&
-                                    (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.company_name == 0))
+                                    (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.department == 0 || isPrivate?.company_name == 0))
                                     && (
                                     <>
-                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title && `${detail?.detail?.info?.title} ` }{detail?.detail?.info?.company_name &&
-                                                detail?.detail?.info?.title &&
-                                                ", "}
-                                                {detail?.detail?.info?.company_name && detail?.detail?.info?.company_name}</Text>
+                                            <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title && (
+                                            <>
+                                            {`${detail?.detail?.info?.title}`}
+                                            {detail?.detail?.info?.department || detail?.detail?.info?.company_name ? ', ' : ''}
+                                            </>
+                                        )}
+                                        {detail?.detail?.info?.department && (
+                                            <>
+                                            {`${detail?.detail?.info?.department}`}
+                                            {detail?.detail?.info?.company_name ? ', ' : ''}
+                                            </>
+                                        )}
+                                        {detail?.detail?.info?.company_name && (
+                                            <>
+                                            {`${detail?.detail?.info?.company_name}`}
+                                            </>
+                                        )}</Text>
 
                                     </>
                                 )}
-                            {(showPrivate == 1 || isPrivate?.department == 0) && detail?.detail?.info?.department && (
-                                <Text lineHeight="sm" fontSize="18px">{detail?.detail?.info?.department}</Text>
-                            )}
                         </VStack>
                         <Spacer />
                         <Box flexDirection="row" alignItems="center" justifyContent="space-between">
@@ -110,36 +117,44 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </Box>
                     </HStack>
                     <HStack w="100%" space="0">
-                        {(showPrivate == 1 || isPrivate?.initial == 0) && detail?.detail?.info?.initial && (
+                    {detail?.sort_field_setting .slice()
+                        .sort((a:any, b:any) => {
+                            const order = { 'initial': 1, 'delegate_number': 2, 'table_number': 3 } as any;
+                            return order[a.name] - order[b.name];
+                        }).map((setting:any, i:number)=>(
+                        <>
+                        {setting.name === 'initial' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.initial! && (
                             <Center alignItems="flex-start" pl="0" w="33.33%">
                                 <VStack space="0">
-                                    <Text lineHeight="sm" fontSize="md">Initials</Text>
+                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.initial}</Text>
                                     <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.initial}</Text>
                                 </VStack>
                             </Center>
                         )}
-                        {(showPrivate == 1 || isPrivate?.delegate_number == 0) && detail?.detail?.info?.delegate_number && (
+                        {setting.name === 'delegate_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.delegate_number! && (
                             <Center borderLeftWidth={detail?.detail?.info?.initial ? 1 : 0} borderColor="primary.bordercolor" alignItems="flex-start" pl={detail?.detail?.info?.initial ? ['3','8'] : 0} w="33.33%">
                                 <VStack space="0">
-                                    <Text lineHeight="sm" fontSize="md">Delegate nr:</Text>
+                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.delegate} </Text>
                                     <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.delegate_number}</Text>
                                 </VStack>
                             </Center>
                         )}
-                        {(showPrivate == 1 || isPrivate?.table_number == 0) && detail?.detail?.info?.table_number && (
-                            <Center borderLeftWidth={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number  ? 1 : 0} borderColor="primary.bordercolor"alignItems="flex-start" pl={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number ? ['3','8'] : 0} w="33.33%">
-                                <VStack space="0">
-                                    <Text lineHeight="sm" fontSize="md">Table nr:</Text>
+                        {setting.name === 'table_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.table_number! && (
+                            <Center borderLeftWidth={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number  ? 1 : 0} borderColor="primary.bordercolor" alignItems="flex-start" pl={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number ? ['3','8'] : 0} w="33.33%">
+                            <VStack space="0">
+                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.table_number}</Text>
                                     <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.table_number}</Text>
                                 </VStack>
                             </Center>
                         )}
+                        </>
+                    ))}
                     </HStack>
                 </Box>
                 {detail?.detail?.attendee_cv && (
                 <Box w="100%" bg="primary.secondary" px="5" mt={3} py="3" borderTopWidth="1" borderColor="primary.darkbox">
                 <HStack w="100%" space="0">
-                    {(showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || speaker == 1 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) ? '1' : '0'} borderColor={'primary.box'} alignItems="flex-start"><Pressable
+                    {allowedFields?.resume && (showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || speaker == 1 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) ? '1' : '0'} borderColor={'primary.box'} alignItems="flex-start"><Pressable
                             onPress={async () => {
                                 const url: any = `${_env.eventcenter_base_url}/assets/attendees/cv/${detail?.detail?.attendee_cv}`;
                                 const supported = await Linking.canOpenURL(url);

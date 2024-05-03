@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image } from 'native-base'
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image, Spinner } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
@@ -28,6 +28,9 @@ import { Banner } from 'application/models/Banner'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
+import { SwipeButton } from 'react-native-expo-swipe-button';
+import { getColorScheme } from 'application/styles/colors';
+import SwipeBtn from 'application/components/atoms/swipeBtn';
 
 
 type ScreenParams = { id: string }
@@ -231,7 +234,27 @@ const Detail = () => {
         SubmitSurvey(postData);
 
     }
+
     const module = modules.find((module) => module.alias === 'survey');
+    const [canSubmitMultipleTimes,setCanSubmitMultipleTimes]=useState<boolean>(false);
+    useEffect(()=>{
+      if(detail?.questions.length! > 0){
+        const mutipleCloudQuestions = detail?.questions.filter((question) => question.question_type === 'world_cloud' && question.is_participants_multiple_times === 1);
+        setCanSubmitMultipleTimes(mutipleCloudQuestions && mutipleCloudQuestions?.length > 0 ? true : false);
+      }
+    },[detail])
+
+    function resetForSubmitAgain(){
+      setFormData({})
+      if (id) {
+        FetchSurveyDetail({ id: Number(id) });
+      }
+      setcompleted(false)
+      setSubmittingSurvey(false)
+      setsteps(0)
+    }
+    
+
   return (
     <>
       {loading ? (
@@ -272,7 +295,6 @@ const Detail = () => {
                       isDisabled={steps <= 0 ? true : false}
                       bg="transparent"
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
                       colorScheme="primary"
@@ -281,14 +303,13 @@ const Detail = () => {
                         setsteps(steps - 1);
                       }}
                     >
-                      previous
+                      {survey_labels?.POLL_SURVEY_PREVIOUS}
                     </Button>}
                     <Spacer />
                     {steps < (detail?.questions.length! -1)  && <Button
                       bg="transparent"
                       isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       colorScheme="primary"
@@ -296,34 +317,51 @@ const Detail = () => {
                         setNextStep();
                       }}
                     >
-                      next
+                      {survey_labels?.POLL_SURVEY_NEXT}
                     </Button>}
                   </HStack>
-                  {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
-                    <Box m="auto" w="230px" bg="primary.darkbox" p="0" rounded="sm" overflow="hidden">
-                      <Button
-                        w="48px"
-                        py="3"
-                        px="1"
-                        leftIcon={<IcoLongArrow />}
-                        colorScheme="primary"
-                        isLoading={submittingSurvey}
-                        onPress={() => {
-                         setNextStep();
-                        }}
-                      />
-                    </Box>
-                  </Box>}
+                  {steps === (detail?.questions.length! - 1) && 
+                  <Box w="100%" mb="6">
+                      <SwipeBtn
+                          loading={submittingSurvey}
+                          onComplete={() => 
+                          setNextStep()
+                        }
+                          />
+                  </Box>
+                   } 
                 </Box>
               </Box>}
-              {completed === true && <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
+              {completed === true && (
+                <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
                 <VStack alignItems="center" space="5">
                   <Box nativeID='bg-circle-animation' bg="primary.500" w="67px" h="67px" borderWidth="1" borderColor="primary.bordercolor" rounded="100%" alignItems="center" justifyContent="center">
                     <IcoTick />
                   </Box>
                   <Text fontSize="lg">{survey_labels?.SURVEY_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
+                  {canSubmitMultipleTimes ? (
+                    <Button
+                    id='test'
+                    minW="100px"
+                    py="3"
+                    px="3"
+                    isLoading={false}
+                    colorScheme="primary"
+                    onPress={()=>{
+                      resetForSubmitAgain()
+                    }}
+                    
+                  >
+                    {survey_labels?.WORD_CLOUD_SUBMIT_AGAIN}
+                  </Button>
+                  ):(
+                    <>
+                    <CountdownTimer />
+                    </>
+                  )}
                 </VStack>
-              </Box>}
+              </Box>
+              )}
             </Container>
             </>
       )}
@@ -331,5 +369,40 @@ const Detail = () => {
     </>
   );
 };
+
+const CountdownTimer = React.memo(() => {
+  const [timeLeft, setTimeLeft] = useState<number>(15);
+  const { push, back } = useRouter();
+  const {event} = UseEventService();
+  const { survey_labels } = UseSurveyService();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      onEnd(); // Trigger the function when countdown ends
+    }
+  }, [timeLeft]);
+
+  const onEnd = () => {
+    push(`/${event.url}`);
+  }
+
+  return (
+    <>
+      {timeLeft > 0 ? (
+        <Text fontSize="md">{survey_labels?.POLL_SURVEY_REDIRECT_MSG} {timeLeft}</Text>
+      ) : (
+        <WebLoading />
+      )}
+    </>
+  );
+});
 
 export default Detail;

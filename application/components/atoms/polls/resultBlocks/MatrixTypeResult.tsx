@@ -3,11 +3,16 @@ import { Box, Center, Checkbox, Divider, HStack, Input, Radio, ScrollView, Text,
 import Icodocument from 'application/assets/icons/PollCommentIcon';
 import { Question } from 'application/models/poll/ResultDetail';
 import { Platform } from 'react-native';
+import UsePollService from 'application/store/services/UsePollService';
+import UseEventService from 'application/store/services/UseEventService';
+
 type PropTypes = {
   question: Question,
   questionNumber:number
 }
 const MatrixTypeResult = ({ question, questionNumber }: PropTypes) => {
+  const { poll_labels } = UsePollService();
+  const { event } = UseEventService();
   
 
   return (
@@ -24,7 +29,7 @@ const MatrixTypeResult = ({ question, questionNumber }: PropTypes) => {
         </Box>
         <Box mb="3" w="100%">
           <HStack px="3" py="1" bg="primary.darkbox" w="100%" alignItems="center">
-                <Text fontWeight="600" maxW="80%" fontSize="lg">Your Answer</Text>
+                <Text fontWeight="600" maxW="80%" fontSize="lg">{poll_labels?.POLL_YOUR_ANSWER}</Text>
             </HStack>
           <ScrollView w={['320px','100%']} pb="5" showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
             <Box position="relative" w="100%" rounded="lg">
@@ -65,7 +70,7 @@ const MatrixTypeResult = ({ question, questionNumber }: PropTypes) => {
               <>
               <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
               <Icodocument width="15px" height="18px" />
-              <Text fontSize="lg">Comments</Text>
+              <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
               </HStack>
               <Box py="3" px="4" w="100%">
                   <TextArea

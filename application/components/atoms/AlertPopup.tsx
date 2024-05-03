@@ -1,11 +1,17 @@
-import { AlertDialog, Button, Center, Container, HStack, Text, Spacer } from "native-base";
+import { AlertDialog, Button, Center, Container, HStack, Text, Spacer, Wrap, Box } from "native-base";
 import React from 'react';
 import IcoNewsUpdate from "application/assets/icons/IcoNewsUpdate";
 
 const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, title, text, btnLeftText, btnRightText}:any) => {
+  const _item = React.useRef<HTMLDivElement>()
+    React.useEffect(() => {
+      setTimeout(() => {
+      _item?.current?.classList.add('add-blur-radius')
+      }, 300);
 
+    }, [isOpen])
     return <AlertDialog  size={'lg'} leastDestructiveRef={cancelRef} isOpen={isOpen} onClose={onClose}>
-          <AlertDialog.Content nativeID="ebs-alert-dialog" bg={'primary.box'}>
+          <AlertDialog.Content ref={_item} bg={'primary.box'}>
             <AlertDialog.Header borderColor={'primary.bordercolor'} bg={'transparent'} fontWeight={600}>
               <HStack  space="0" alignItems="center">
                <Center w="40px">
@@ -22,18 +28,18 @@ const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, tit
               
             </AlertDialog.Body>}
             <AlertDialog.Footer borderColor={'primary.bordercolor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0} bg={'transparent'}>
-              <Button.Group variant={'unstyled'} space={0}>
-                {btnRightText && <Center w="50%">
+              <Button.Group flexWrap="wrap" variant={'unstyled'} space={0}>
+                {btnRightText && <Box flex={1}>
                   <Button  _text={{fontSize: 'xl',textTransform: 'uppercase'}} fontWeight={500} bg={'none'} w="100%" rounded={0} variant="unstyled"  onPress={btnRightFunc}>
                     {btnRightText}
                   </Button>
-                </Center>
+                </Box>
                 }
-              {btnLeftText  && <Container borderLeftWidth={1} borderLeftColor={'primary.bordercolor'} w="50%">
+              {btnLeftText  && <Box borderLeftWidth={btnRightText ? '1':'0'} borderLeftColor={'primary.bordercolor'} flex={1}>
                 <Button _text={{fontSize: 'xl',textTransform: 'uppercase'}}  bg={'none'} w="100%" rounded={0} variant="unstyled"  fontWeight={500} onPress={btnLeftFunc} ref={cancelRef}>
                   {btnLeftText}
                 </Button>
-              </Container>
+              </Box>
               }
               </Button.Group>
             </AlertDialog.Footer>

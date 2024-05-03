@@ -49,7 +49,7 @@ const Detail = () => {
 
   const { back } = useRouter()
 
-  const { FetchMyPollResultDetail, myPollResultDetail, myPollResultScore, poll_labels } = UsePollService();
+  const { FetchMyPollResultDetail, myPollResultDetail, myPollResultScore, poll_labels,myPollTotalScore } = UsePollService();
 
   const [id] = useParam('id');
 
@@ -61,7 +61,6 @@ const Detail = () => {
 
 
 
-  console.log(myPollResultDetail);
 
   const module = modules.find((module) => module.alias === "polls");
   return (
@@ -79,13 +78,13 @@ const Detail = () => {
                   </HStack>
                 </Pressable> */}
                 <Spacer />
-                <Text isTruncated  fontSize="xl">{`${myPollResultScore}/${myPollResultDetail?.question.length} Points(s)`}</Text>
+                <Text isTruncated  fontSize="xl">{`${myPollResultScore}/${myPollTotalScore} Points(s)`}</Text>
               </HStack>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
                 <Text textAlign={'center'} fontSize="2xl">{myPollResultDetail?.program?.info?.topic}</Text>
               </HStack>
               <Box w="100%" >
-                {myPollResultDetail && myPollResultDetail?.question.length > 0 && myPollResultDetail.question.map((question, i) => (
+                {myPollResultDetail && myPollResultDetail?.question.length > 0 && myPollResultDetail.question.filter((question) => question.is_anonymous === 0 && question.results && question.results.length > 0).map((question, i) => (
                         <>
                         {(question.question_type == 'open' 
                         || question.question_type == 'number'

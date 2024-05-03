@@ -33,6 +33,7 @@ import { RootSaga } from 'application/store/sagas/Root'
 import GallerySlice from './slices/Gallery.Slice'
 import SocialWallSlice, { SocialWallActions } from './slices/SocialWall.Slice'
 import MeetingReservationSlice from './slices/MeetingReservation.Slice'
+import ToastSlice from './slices/Toast.Slice'
 
 const makeStore = () => {
 
@@ -71,6 +72,7 @@ const makeStore = () => {
             socket:SocketSlice,
             hd:HdSlice,
             meetingReservation:MeetingReservationSlice,
+            toast:ToastSlice
         },
         devTools: true,
         middleware: getDefaultMiddleware =>

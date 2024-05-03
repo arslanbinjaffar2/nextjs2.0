@@ -37,7 +37,6 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             title:notification?.title,
             text:notification?.text,
             btnLeftText:'OK',
-            btnRightText:'Detail',
         }
     }
     if(type == 'reservation'){

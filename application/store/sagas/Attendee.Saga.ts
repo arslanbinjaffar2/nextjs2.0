@@ -23,7 +23,7 @@ function* OnGetAttendees({
     yield put(LoadingActions.addProcess({ process: in_array(payload.screen, ['dashboard-my-speakers']) ? payload.screen : 'attendee-listing' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAttendeeApi, payload, state)
-    yield put(AttendeeActions.Update({ attendee: response.data.data!, group_id: payload.group_id, query: payload.query, page: payload.page, group_name: response?.data?.meta?.group_name, screen: payload.screen, total: response.data.meta?.total! }))
+    yield put(AttendeeActions.Update({ attendee: response.data.data!, group_id: payload.group_id, query: payload.query, page: payload.page, group_name: response?.data?.meta?.group_name, screen: payload.screen, total: response.data.meta?.total!, last_page: response.data.meta?.last_page!}))
     yield put(LoadingActions.removeProcess({ process: in_array(payload.screen, ['dashboard-my-speakers']) ? payload.screen : 'attendee-listing' }))
 }
 

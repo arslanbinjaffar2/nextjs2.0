@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Spinner } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
@@ -25,6 +25,8 @@ import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
+import { getColorScheme } from 'application/styles/colors';
+import SwipeBtn from 'application/components/atoms/swipeBtn';
 
 
 type ScreenParams = { id: string }
@@ -57,6 +59,7 @@ const Detail = () => {
 
 
   const programModule = modules.find((module) => module.alias === "attendees");
+  
   return (
     <>
 
@@ -124,6 +127,7 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
   const [errors, setErrors] = useState<FormData>({});
   const [updates, setUpdates] = useState(0);
   const [submitcount, setsubmitcount] = useState(0);
+  const [goBack,setGoBack]=React.useState(0)
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
 
 
@@ -308,13 +312,26 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
         ),
         questions: mySubReg?.questions?.question.reduce((ack: any, item: any) => { return ack.concat(item.id) }, []),
         ...answers,
-      });
+       });
+      
+       
     }
   }
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+  console.log(goBack,"goback")
+  React.useEffect(()=>{
+    setGoBack(0)
+    setTimeout(()=>{
+      if(submitting){
+        setGoBack(1)
+      }
+       },1300)
+  },[submitting,goBack])
+  
   return (
     <Container mb="3" maxW="100%" w="100%">
 
-
+      
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
         <Text isTruncated pr="6" fontSize="lg">{setting_modules?.find((module: { alias: string; }) => (module.alias == 'subregistration'))?.name ?? 'Subregistration'}</Text>
       </HStack>
@@ -337,22 +354,12 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
         <Box py="0" px="4" w="100%">
           <Divider mb="15" opacity={0.27} bg="primary.text" />
           <HStack mb="3" space="3" alignItems="center" justifyContent={'center'} position={'relative'}>
-
-            {mySubReg?.settings?.answer === 1 && mySubReg?.show_save === 1 && <Button
-              w="225px"
-              h={52}
-              py="3"
-              px="3"
-              textTransform={'capitalize'}
-              rightIcon={<IcoLongArrow />}
-              colorScheme="primary"
-              isLoading={submitting}
-              onPress={() => {
-                onSubmit();
-              }}
-            />
-            }
-            {!submitting && sucess_message && <Text fontSize="lg" position={'absolute'} right={'0'}>{event.labels.EVENTSITES_SUBREGISTRATION_UPDATE_MESSAGE}</Text>}
+              {mySubReg?.settings?.answer === 1 && mySubReg?.show_save === 1 &&
+                  <SwipeBtn
+                          loading={submitting}
+                          onComplete={onSubmit}
+                          />
+                }
           </HStack>
         </Box>
       </Box>

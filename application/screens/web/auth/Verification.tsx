@@ -13,6 +13,9 @@ import { createParam } from 'solito';
 import ReactCodeInput from 'react-verification-code-input';
 import Countdown from "react-countdown";
 import UseEnvService from 'application/store/services/UseEnvService';
+import { SwipeButton } from 'react-native-expo-swipe-button';
+import { getColorScheme } from 'application/styles/colors';
+import SwipeBtn from 'application/components/atoms/swipeBtn';
 
 type Inputs = {
     code: string,
@@ -39,7 +42,7 @@ const Verification = ({ props }: any) => {
     const onSubmit: SubmitHandler<Inputs> = input => {
         verification({ code: input.code, id: Number(id), authentication_id: Number(id), screen: 'verification', provider: 'email' })
     };
-
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
     React.useEffect(() => {
         if (response.redirect === "verification") {
             push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
@@ -57,7 +60,6 @@ const Verification = ({ props }: any) => {
             loadProvider({ id: Number(id), screen: 'verification' });
         }
     }, [id])
-
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
@@ -114,32 +116,16 @@ const Verification = ({ props }: any) => {
                                     }}
                                 />
                             </Flex>
-                           <Text fontSize="md" > 
-                            <Button
-                                p="0"
-                                bg={'transparent'}
-                                borderWidth="0"
-                                textDecorationLine={'underline'}
-                                variant={'unstyled'}
-                                _hover={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
-                                _pressed={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
-                                onPress={()=>{
-                                    router.push(`/${event.url}/auth/login`)
-                                }}
-                            
-                            >
-                                {`${event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO} ${event?.labels?.DESKTOP_APP_LABEL_LOGIN}`}
-                            </Button>
-                        </Text>
-                            <Button
-                                width={'100%'}
-                                isLoading={processing}
-                                onPress={handleSubmit(onSubmit)}
-                                minH='48px'
-                                endIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />}
-                                _hover={{ bg: 'primary.secondary' }}
-                            >
-                            </Button>
+                            <Link href={`/${event.url}/auth/login`}>
+                                <Text textDecorationLine={'underline'}  w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
+                            </Link>
+                            <React.Fragment>
+                              <SwipeBtn
+                                loading={processing}
+                                onComplete={handleSubmit(onSubmit)}
+                                /> 
+                              </React.Fragment>      
+                             
                         </VStack>
                     </VStack>
                 ) : (

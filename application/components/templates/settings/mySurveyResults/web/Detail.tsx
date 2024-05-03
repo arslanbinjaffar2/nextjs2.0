@@ -48,7 +48,7 @@ const Detail = () => {
 
   const { push, back } = useRouter()
 
-  const { FetchMySurveyResultDetail, mySurveyResultDetail, mySurveyResultScore } = UseSurveyService();
+  const { FetchMySurveyResultDetail, mySurveyResultDetail, mySurveyResultScore,mySurveyTotalScore } = UseSurveyService();
 
   const [id] = useParam('id');
 
@@ -68,17 +68,18 @@ const Detail = () => {
                 <Pressable onPress={()=> back()}>
                   <HStack space="3" alignItems="center">
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                        <Text fontSize="2xl">BACK</Text>
+                        <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
                   </HStack>
                 </Pressable>
                 <Spacer />
-                <Text isTruncated  fontSize="xl">{`${mySurveyResultScore}/${mySurveyResultDetail?.question.length} Points(s)`}</Text>
+                <Text isTruncated  fontSize="xl">{`${mySurveyResultScore}/${mySurveyTotalScore} Points(s)`}</Text>
               </HStack>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
                 <Text textAlign={'center'} w={'100%'} fontSize="2xl">{mySurveyResultDetail?.info?.name}</Text>
               </HStack>
               <Box w="100%" >
-                {mySurveyResultDetail && mySurveyResultDetail?.question.length > 0 && mySurveyResultDetail.question.map((question, i) => (
+                {mySurveyResultDetail && mySurveyResultDetail?.question.length > 0 && mySurveyResultDetail.question.filter((question) => question.is_anonymous === 0
+                  && question.results && question.results.length > 0).map((question, i) => (
                         <>
                         {(question.question_type == 'open' 
                         || question.question_type == 'number'

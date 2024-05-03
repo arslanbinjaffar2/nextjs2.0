@@ -20,7 +20,8 @@ export type QaServiceOperators = {
         archived_questions:Question[],
         my_questions:Question[],
         clientIp:string,
-        all_languages:number[]
+        all_languages:number[],
+        labels: any
     },
     FetchPrograms: () => void,
     FetchProgramDetail: (payload:{id:number}) => void,

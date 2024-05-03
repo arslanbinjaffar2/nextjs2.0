@@ -68,7 +68,7 @@ const PressableElement = ({row}: any) => {
       {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color={isHovered || checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>{row?.name}</Text>}
       {row?.alias === 'alerts' && unread > 0 &&
         <Badge // bg="red.400"
-          bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid" alignSelf="flex-end" _text={{
+          bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid"  _text={{
           fontSize: 12
         }}>
             {unread}
@@ -101,16 +101,19 @@ const LeftBar = () => {
 
   const [dahboardHover, setdahboardHover] = React.useState(false)
   const [logoutHover, setlogoutHover] = React.useState(false)
+  const [dashhover, setdashhover] = React.useState(false)
 
 
   return (
-    <Center nativeID='ebs-master-left-bar' overflow="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
+    <Center nativeID='ebs-master-left-bar' overflowX="hidden" overflowY="auto" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
       <Center nativeID='ebs-master-left-bar-wrapper'>
       <Box pb="3">
         <Pressable
             w="100%"
             p="1"
             _hover={{ bg: 'primary.500' }}
+            onHoverIn={() => setdashhover(true)}
+            onHoverOut={() => setdashhover(false)}
             borderRadius="8"
             onPress={() => {
               router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
@@ -121,8 +124,8 @@ const LeftBar = () => {
                 {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
               </Avatar>
               {width > 1200 && <VStack w={'calc(100% - 100px)'} pl="3" space="0">
-                <Text fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
-                <Text p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
+                <Text  color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"} fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
+                <Text color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"}  p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
               </VStack>}
             <Pressable
             w="100%"
@@ -131,7 +134,7 @@ const LeftBar = () => {
             onPress={() => {
               router.push(`/${event.url}/settings/editprofile`)
             }}>
-              <DynamicIcon iconType={'edit_profile'} iconProps={{ width:18,height:18}}/>
+              <DynamicIcon  iconType={'edit_profile'} iconProps={{ width:18,height:18,  color: dashhover  ? func.colorType(event?.settings?.primary_color) : undefined}}/>
             </Pressable>
             </Flex>
         </Pressable>

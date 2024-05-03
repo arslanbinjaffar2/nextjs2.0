@@ -17,6 +17,9 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { Platform, useWindowDimensions } from 'react-native';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseEnvService from 'application/store/services/UseEnvService';
+import ButtonElement from 'application/components/atoms/ButtonElement'
+
+
 
 const Index = () => {
     
@@ -28,8 +31,7 @@ const Index = () => {
     
     const { response } = UseAuthService();
     const { _env } = UseEnvService()
-
-    
+  
     const { event, modules  } = UseEventService();
     const [tab, setTab] = useState<string>(event?.agenda_settings?.agenda_list == 1 ? 'track' : 'program');
     const { width } = useWindowDimensions();
@@ -78,28 +80,25 @@ const Index = () => {
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                 {width > 480 &&
                     <>
-                        <Text textTransform="capitalize" fontSize="2xl">{modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}</Text>
+                        <Text  fontSize="2xl">
+                            {modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}
+                        </Text>
                         <Spacer />
                     </>}
-                {event?.eventsite_settings?.agenda_search_filter == 1 && <Search tab={tab} />}
+                    <Search tab={tab} />
             </HStack>
           
             
 
-            <HStack mb="3" overflow={'hidden'} rounded={8} space={1} justifyContent="center" w="100%">
-                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
-                    ResetTracks();
-                    setTab('program')
-                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox"  h="42px" bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</Button>}
-                {(modules?.find((m)=>(m.alias == 'myprograms'))) &&<Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
-                    ResetTracks();
-                    setTab('my-program');
-                }}  flex={1} borderWidth="0px" borderRightRadius={0} borderLeftRadius={0} py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</Button>}
-                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) &&<Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('track')} borderWidth="0px" py={0} borderColor="primary.darkbox" flex={1} borderLeftRadius="0" borderRightRadius={0} h="42px" bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'}  _text={{ fontWeight: '600' }}>TRACKS</Button>}
+            <HStack flexWrap={'wrap'} mb="3" overflow={'hidden'} rounded={8} space={1} justifyContent="center" w="100%">
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <ButtonElement  bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'} onPress={() => {ResetTracks();setTab('program')}}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</ButtonElement>}
+                {(modules?.find((m)=>(m.alias == 'myprograms'))) && <ButtonElement  bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'} onPress={() => {ResetTracks();setTab('my-program');
+                }}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</ButtonElement>}
+                {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <ButtonElement onPress={() => setTab('track')} bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'} >{event?.labels?.PROGRAM_BY_TRACKS}</ButtonElement>}
             </HStack>
             {Object.keys(track).length > 0 && (
                 <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
-                    <Text flex="1" textTransform="uppercase" fontSize="sm">
+                    <Text flex="1"  fontSize="sm">
                     {track.parent_id !== 0 ? (
                         <>
                         <Pressable
@@ -113,13 +112,13 @@ const Index = () => {
                                 FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                                 }
                             }}>
-                            <Text textTransform="uppercase" fontSize="sm">{parent_track.name}</Text>
+                            <Text  fontSize="sm">{parent_track.name}</Text>
                         </Pressable>
                         <Icon color={'primary.text'} as={AntDesign} name="right"  />
-                        <Text textTransform="uppercase" fontSize="sm">{track?.name}</Text>
+                        <Text fontSize="sm">{track?.name}</Text>
                         </>
                     ) : (
-                        <Text textTransform="uppercase" fontSize="sm">{track?.name}</Text>
+                        <Text fontSize="sm">{track?.name}</Text>
                     )}
                     </Text>
                     <Pressable
@@ -133,7 +132,7 @@ const Index = () => {
                         FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                         }
                     }}>
-                    <Text textTransform="uppercase" fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  /> Go back</Text>
+                    <Text fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  />{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
                     </Pressable>
                 </HStack>
                 )}
@@ -149,7 +148,7 @@ const Index = () => {
                         {tracks?.map((track: any, key: any) =>
                             <TrackRectangleDetailView key={key} track={track} border={tracks.length != (key + 1)} updateTab={updateTab} />
                         )}
-                        {tracks?.length <= 0 && <Text textAlign="center" fontSize="lg" p="5">{event?.labels?.EVENT_NORECORD_FOUND}</Text>}
+                        {tracks?.length <= 0 && <Text textAlign="center" fontSize="lg" p="5">{event?.labels?.GENERAL_NO_RECORD}</Text>}
                     </Container>}
                          <BannerAds module_name={'agendas'} module_type={'listing'} />
                 </>
@@ -158,7 +157,7 @@ const Index = () => {
                 <LoadMore />
             )}
 
-            {!(in_array('programs', processing) || in_array('tracks', processing)) && (page < total_pages && total_pages>1) && (in_array(tab, ['program', 'my-program'])) && (
+            {!in_array('programs', processing) && !in_array('tracks', processing) && (page < total_pages && total_pages>1) && (in_array(tab, ['program', 'my-program','track'])) && (
                 <>
                 <IntersectionObserverComponent onIntersect={loadMore} />
                 </>

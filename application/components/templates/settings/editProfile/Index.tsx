@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Text, Container, Box, Divider, Input, Checkbox, Radio, Select, Button, HStack, Center, VStack, Icon, View, useToast, IconButton, Spacer } from 'native-base';
 
@@ -36,6 +36,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
+import UseToastService from 'application/store/services/UseToastService';
 import PolicyModal from 'application/components/atoms/PolicyModal';
 import attendees from 'application/assets/icons/attendees'
 import { 
@@ -92,6 +93,7 @@ const index = () => {
                         updatingAttendee={updatingAttendee}
                         UpdateSuccess={UpdateSuccess}
                         success_message={success_message}
+                    
                     />
                 </>
             )}
@@ -112,35 +114,37 @@ type formProps = {
     event: Event
     attendee_feild_settings: Attendeefeildsettings | null
     updatingAttendee: boolean,
-    success_message: boolean,
+    success_message: boolean | null, 
     updateAttendee: (data: any) => void
     UpdateSuccess: (data: any) => void
 };
 
 
 const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee, success_message, UpdateSuccess }: formProps) => {
-    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+  const {AddToast}=UseToastService()
     const Selectstyles2 = {
-        control: (base: any, state: any) => ({
-            ...base,
-            //   minHeight: "40px",
-            padding: "3px",
-            minHeight: 50,
-            width: '100%',
-            maxWidth: '100%',
-            minWidth: '100%',
-            marginBottom: 10,
-            background: `rgba(0,0,0,0.2)`,
-            color: '#eaeaea',
-            fontFamily: 'Avenir',
-            boxShadow: 'none',
-            borderWidth: 2,
-            borderColor: state.isFocused ? event?.settings?.primary_color : "transparent",
-            "&:hover": {
-                // Overwrittes the different states of border
-                borderColor: state.isFocused ? event?.settings?.primary_color : "transparent"
-            }
-        }), placeholder: (defaultStyles: any) => {
+    control: (base:any, state:any) => ({
+      ...base,
+      minHeight: "40px",
+      padding:"3px",
+    // minHeight:50,
+      width: '100%',
+      maxWidth: '100%',
+	  minWidth: '100%',
+      marginBottom: 10,
+        background: `rgba(0,0,0,0.2)`,
+        color: '#eaeaea',
+        fontFamily: 'Avenir',
+        boxShadow: 'none',
+        borderWidth: 2,
+        borderColor: state.isFocused ? event?.settings?.primary_color : "transparent",
+        "&:hover": {
+            // Overwrittes the different states of border
+            borderColor: state.isFocused ? event?.settings?.primary_color : "transparent"
+        }
+    }),placeholder: (defaultStyles: any) => {
+
             return {
                 ...defaultStyles,
                 color: '#eaeaea',
@@ -227,6 +231,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     };
 
     const updateAttendeeFeild = (name: string, value: any) => {
+        console.log("🚀 ~ updateAttendeeFeild ~ value:", value)
         setAttendeeData({
             ...attendeeData,
             [name]: value,
@@ -279,7 +284,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     };
 
     const updateAttendeeData = () => {
-
+        
         let attendeeObj: any = {
             phone: `${attendeeData?.info.callingCode}-${attendeeData?.phone}`,
         };
@@ -351,11 +356,12 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         formData.append('settings', JSON.stringify(data.settings));
         formData.append('file', data.attendeeObj.file);
         formData.append('attendee_cv', data.attendeeObj.att_cv);
-
+   
         updateAttendee(formData);
 
-
     };
+ 
+
     console.log(attendeeData.attendee_cv)
     if (Object.keys(attendeeData).length === 0) {
         return <WebLoading />;
@@ -450,7 +456,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.about}</Text>
                             </Center>
-                            <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
+                            <Center overflow={'hidden'} justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Text  w={'100%'} color={'primary.text'} fontSize="md">
                                     <Box opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'} pointerEvents={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? 'auto' : 'none'} w={'100%'} bg="primary.darkbox" rounded={8}>
                                         <EditorProvider>
@@ -853,7 +859,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <View w={'100%'}>
                                     <Select
-                                        placeholder="Please Select"
+                                        placeholder="Please select"
                                         minWidth="64"
                                         h="50px"
                                         isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
@@ -976,7 +982,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
-                                        updateInfoDate({ item, name: "EMPLOYMENT_DATE" });
+                                        updateAttendeeFeild("EMPLOYMENT_DATE", moment(item).format("YYYY-MM-DD"));
                                     }}
                                     value={attendeeData?.EMPLOYMENT_DATE !== '' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.EMPLOYMENT_DATE).format(GENERAL_DATE_FORMAT) : ''}
                                     showdate={GENERAL_DATE_FORMAT}
@@ -992,7 +998,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <View w={'100%'}>
                                     <Select
-                                        placeholder="Please Select"
+                                        placeholder="Please select"
                                         minWidth="64"
                                         w="100%"
                                         h="50px"
@@ -1068,7 +1074,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <HStack w="100%">
                                     <Center w="100px">
                                         <Select
-                                            placeholder="Please Select"
+                                            placeholder="Please select"
                                             w={'100%'}
                                             h="50px"
                                             isDisabled={setting?.is_editable === 1 ? false : true}
@@ -1099,7 +1105,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
                             <HStack mb="0" alignItems="start" flexDirection={['column', 'row']} w="100%" >
                                 <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
-                                    <Text isTruncated fontWeight="500" fontSize="16px">Profile picture</Text>
+                                    <Text isTruncated fontWeight="500" fontSize="16px">{labels?.profile_picture ?? "Profile picture"}</Text>
                                 </Center>
                                 <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                     <HStack w="100%">
@@ -1116,7 +1122,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             }}
                                                 size={'lg'}
                                             >
-                                                Browse
+                                                {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>
                                         </VStack>
                                         {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
@@ -1146,11 +1152,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'resume' && (
-                        <HStack mb="3" alignItems="start" px="3" w="100%" >
+                        <HStack mb="3" alignItems="start" px="6" w="100%" >
 
                             <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} w="100%" >
                                 <Center alignItems="flex-start" width={'225px'} pb={[2, 0]} maxW={["100%", "225px"]}>
-                                    <Text isTruncated fontWeight="500" fontSize="16px">Resume</Text>
+                                    <Text isTruncated fontWeight="500" fontSize="16px">{labels?.resume ?? "Resume"}</Text>
                                 </Center>
                                 <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                     <HStack w="100%">
@@ -1184,7 +1190,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                 }}
                                                 size={'lg'}
                                             >
-                                                Browse
+                                                {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>
                                         </VStack>
                                         {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
@@ -1213,16 +1219,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'website' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <Icon color={'primary.text'} as={AntDesign} name="link" size={'lg'} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"Website"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('website', answer);
                                 }}
@@ -1231,16 +1237,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                     </HStack>}
                     {setting?.name === 'facebook' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'lg'} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"Facebook"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('facebook', answer);
                                 }}
@@ -1249,16 +1255,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                     </HStack>}
                     {setting?.name === 'twitter' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <IcoTwitterXsm width={20} height={20} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <IcoTwitterXsm width={20} height={20} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"Twitter"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('twitter', answer);
                                 }}
@@ -1267,16 +1273,16 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                     </HStack>}
                     {setting?.name === 'linkedin' && <HStack pb={3} borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} mb="3" alignItems={["flex-start", "center"]} px="6" w="100%">
-                        <Center w="42" h="42" rounded={6} mr={3} alignItems={["center"]} bg={'primary.darkbox'}>
-                            <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'} />
+                        <Center w={["60px","225px"]} h="42" rounded={6} alignItems={["flex-start"]} >
+                            <Box width={'42px'} h={'42px'}  bg="primary.darkbox" rounded="6" alignItems={'center'} justifyContent={'center'}>
+                                <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'lg'} />
+                            </Box>
                         </Center>
-                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w="calc(100% - 60px)">
+                        <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
                                 placeholder={"LinkedIn"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                bg={'transparent'}
-                                borderWidth={0}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('linkedin', answer);
                                 }}
@@ -1325,7 +1331,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         updateAttendeeData();
                     }}
                 >
-                    <Text fontSize="2xl" color={"primary.hovercolor"} fontWeight={600}>SAVE</Text>
+                    <Text fontSize="2xl" color={"primary.hovercolor"} fontWeight={600}>{event?.labels?.GENERAL_SAVE}</Text>
                 </Button>
             </HStack>
             {success_message && <Box width={'100%'} px={3} py={3}><HStack m={'auto'} p={3} rounded={5} bg={'success.500'} space="3" w={'320px'} alignItems="center">

@@ -82,6 +82,7 @@ export interface Event {
     calling_code?: any
     sponsor_tab_settings?: any
     exhibitor_tab_settings?: any
+    event_language_code?: string
 }
 interface Setting {
     poll_setting?: string;

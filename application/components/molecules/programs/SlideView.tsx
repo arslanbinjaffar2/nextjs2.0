@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack, View, Spacer } from 'native-base';
+import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack, View, Spacer, Button } from 'native-base';
 import Slider from "react-slick";
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
 import WorkshopCollapsableView from 'application/components/atoms/programs/WorkshopCollapsableView';
@@ -10,8 +10,10 @@ import { Platform, useWindowDimensions } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
+import UseProgramService from 'application/store/services/UseProgramService';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 
 type AppProps = {
 	programs: Program[],
@@ -24,20 +26,28 @@ type AppProps = {
 const LazySlider = ({ programs, onChange }: any) => {
 
 	const { width } = useWindowDimensions();
-	const [currentIndex, setCurrentIndex] = React.useState<number>(0);
 	const sliderRef = React.useRef<Slider>(null);
 	const router = useRouter();
-	React.useEffect(() => {
+	const { select_day } = UseProgramService();
+
+	const [currentIndex, setCurrentIndex] = React.useState<number>(() => {
 		let indexFromQuery = router.asPath.split('currentIndex=')[1];
-		const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
-		setCurrentIndex(currentIndex);
-	}, [])
+		let currentIndex = 0;
+		if(indexFromQuery){
+			currentIndex = parseInt(indexFromQuery);
+		}else if(select_day) {
+			currentIndex=select_day;
+		}
+		return currentIndex;
+	});
+
 	const settings = {
 		dots: false,
 		arrows: false,
 		infinite: false,
 		speed: 500,
 		swipe: true,
+		initialSlide: currentIndex,
 		slidesToShow: 7,
 		slidesToScroll: 3,
 		swipeToSlide: true,
@@ -122,11 +132,17 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 	const [dates, setDates] = React.useState<any>([]);
 	const [currentIndex, setCurrentIndex] = React.useState<number>();
 	const router = useRouter();
+	const { select_day } = UseProgramService();
 
 
 	React.useEffect(() => {
 		let indexFromQuery = router.asPath.split('currentIndex=')[1];
-		const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
+		let currentIndex = 0;
+		if(indexFromQuery){
+			currentIndex = parseInt(indexFromQuery);
+		}else if(select_day) {
+			currentIndex=select_day;
+		}
 		setDates(programs[currentIndex]);
 		setCurrentIndex(currentIndex);
 	}, [])
@@ -185,6 +201,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 		setCurrentIndex(value);
 		setDates(programs[value]);
 	}
+	const { push } = useRouter();
 	return (
 		<>
 			{in_array(section, ['program', 'my-program', 'track-program']) && (
@@ -196,10 +213,17 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 							{programs.length <= 0 &&
 								<Box overflow="hidden" w="100%" rounded="lg">
 									<Box padding={5}>
-										<Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+										<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
 									</Box>
 								</Box>
 							}
+							{dates?.length > 5 && dashboard === true && <Center py="3" px="2" w="100%" alignItems="flex-end">
+								<Button onPress={() => {
+								push(`/${event.url}/agendas?currentIndex=${currentIndex}`)
+								}} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+								{event.labels?.GENERAL_SHOW_ALL}
+								</Button>
+							</Center>}
 
 						</>
 					) : (

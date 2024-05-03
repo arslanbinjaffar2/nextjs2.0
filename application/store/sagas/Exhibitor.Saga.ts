@@ -86,11 +86,13 @@ function* OnGetExhibitorDetail({
     payload: { id: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'exhibitor-detail' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getExhibitorDetailApi, payload, state)
     yield put(ExhibitorActions.updateExhibitorDetail(response.data.data!))
     yield put(DocumentActions.update(response.data.data.documents!))
     yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'exhibitor-detail' }))
 }
 function* OnGetExhibitorContact({
     payload,
