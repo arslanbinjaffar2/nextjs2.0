@@ -17,8 +17,8 @@ import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 import { useRouter } from 'solito/router';
-
-
+import { store } from 'application/store/Index';
+import { downloadMeetingSlotDetailApi } from 'application/store/api/MeetingReservation.api';
 
 type boxItemProps = {
   border: number,
@@ -48,8 +48,31 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 		CancelMeetingRequest({meeting_request_id:meeting_request.id})
 	}
 
+	async function downloadCalendarFile(slot_id:number){
+		const mystate = store.getState();
+		try {
+		  const response = await downloadMeetingSlotDetailApi({slot_id: slot_id}, mystate); // Call the API function
+		  downloadFile(response.data,'meeting_slot_detail.ics');
+		} catch (error) {
+		  console.log('error', error);
+		}
+	}
+	  
+	const downloadFile = (fileData: any, filename: any) => {
+		const blob = new Blob([fileData], { type: 'application/octet-stream' });
+		const url = window.URL.createObjectURL(blob);
+		const anchorElement = document.createElement('a');
+		anchorElement.href = url;
+		anchorElement.download = filename;
+		anchorElement.style.display = 'none';
+		document.body.appendChild(anchorElement);
+		anchorElement.click();
+		document.body.removeChild(anchorElement);
+		window.URL.revokeObjectURL(url);
+	};
+
 	function addToCalender(){
-		alert('add to calender api call here');
+		downloadCalendarFile(meeting_request?.event_meeting_space_slot_id)
 	}
 
 	function sendMeetingReminder(){
