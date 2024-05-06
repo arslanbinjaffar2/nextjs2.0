@@ -12,6 +12,8 @@ import { Platform } from 'react-native'
 import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
 import AvatarColors from 'application/utils/AvatarColors'
 import UseAuthService from 'application/store/services/UseAuthService'
+import { useSearchParams, usePathname } from 'next/navigation'
+
 
 type boxItemProps = {
   attendee: Attendee
@@ -30,6 +32,10 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   const { response } = UseAuthService()
 
   const { push } = useRouter()
+
+  const searchParams = useSearchParams()
+
+    const tabQueryParam = searchParams.get('tab')
 
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
@@ -111,15 +117,17 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 
             </VStack>
             <Spacer />
-            <HStack space="4" alignItems="center">
-              {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
-                <Pressable
-                  onPress={() => toggleFav()}>
-                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
-                </Pressable>
-              )}
-              <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
-            </HStack>
+            {tabQueryParam !== 'category-attendee' &&  
+              <HStack space="4" alignItems="center">
+                {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
+                  <Pressable
+                    onPress={() => toggleFav()}>
+                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
+                  </Pressable>
+                )}
+                <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
+              </HStack>
+            }
           </HStack>
         </HStack>
       </Pressable>

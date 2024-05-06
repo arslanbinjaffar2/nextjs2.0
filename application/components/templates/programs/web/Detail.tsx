@@ -201,8 +201,8 @@ const Detail = () => {
                                 {showSpeakers && (
                                     <>
                                         {detail?.program?.program_speakers!?.length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <DynamicIcon iconType="speakers" iconProps={{ width: 12, height: 18 }} />
-                                            <Text fontSize="md">Speaker</Text>
+                                            <DynamicIcon iconType={modules?.find((documents) => (documents.alias == 'speakers'))?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') ?? 'speakers'} iconProps={{ width: 12, height: 18 }} />
+                                            <Text fontSize="md">{modules?.find((documents) => (documents.alias == 'speakers'))?.name ?? 'Speakers'}</Text>
                                         </HStack>}
                                         {detail?.program?.program_speakers?.map((attendee: Attendee, k: number) =>
                                             <SpeakerRectangleView key={k} attendee={attendee} k={k} total={detail?.program?.program_speakers!?.length} />
@@ -212,8 +212,8 @@ const Detail = () => {
                                 {showPolls && (
                                     <>
                                         {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
-                                            <Text fontSize="md">{event?.labels?.POLLS}</Text>
+                                            <DynamicIcon iconType={modules?.find((documents) => (documents.alias == 'polls'))?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') ?? 'polls'} iconProps={{ width: 17, height: 17 }} />
+                                            <Text fontSize="md">{modules?.find((documents) => (documents.alias == 'polls'))?.name ?? 'Polls'}</Text>
                                         </HStack>}
                                         {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
                                             <Pressable onPress={() => {
