@@ -63,6 +63,7 @@ import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBo
 import { useWindowDimensions } from 'react-native';
 import SessionRating from 'application/components/atoms/programs/SessionRating';
 import ButtonElement from 'application/components/atoms/ButtonElement'
+import UseQaService from 'application/store/services/UseQaService';
 
 type ScreenParams = { id: string }
 
@@ -98,7 +99,7 @@ const Detail = () => {
     const [tabs, setTabs] = React.useState<any>([]);
 
     const { width } = useWindowDimensions();
-
+    const {qaDetials}=UseQaService()
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['attendee']) && page < last_page ) {
@@ -163,7 +164,6 @@ const Detail = () => {
         return () => { mounted.current = false; };
     }, []);
     const module = modules.find((module) => module.alias === 'agendas');
-
     return (
         <>
             {in_array('program-detail', processing) ? (
@@ -272,7 +272,7 @@ const Detail = () => {
                                       <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="myquestions" iconProps={{ width: 12, height: 18 }} />
-                                            <Text fontSize="md">Ask a Question</Text>
+                                            <Text fontSize="md">{qaDetials.labels.QA_ASK_A_QUESTION ?? "Ask a Question"}</Text>
                                         </HStack>
                                         <Center>
                                             <Box w="90%">
@@ -281,7 +281,7 @@ const Detail = () => {
                                                 }}>
                                                     <Box w="100%" py="4">
                                                         <HStack p="4" bg="primary.darkbox" space="0" alignItems="center" justifyContent="space-between">
-                                                            <Text opacity={0.4} fontSize="lg">Type your Question</Text>
+                                                            <Text opacity={0.4} fontSize="lg">{qaDetials.labels.QA_TYPE_YOUR_QUESTION }</Text>
                                                             <Center p="0">
                                                                 <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                                             </Center>
