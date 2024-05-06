@@ -173,6 +173,7 @@ const Detail = () => {
   
       }
       const module = modules.find((module) => module.alias === 'help_desk');
+      console.log(labels)
   return (
     <>
     {
@@ -199,7 +200,11 @@ const Detail = () => {
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
                                 <EditorProvider>
-                                    <Editor style={{width: '100%'}} value={question} onChange={(e) => {
+                                    <Editor style={{width: '100%',opacity:1}} value={question} 
+                                    placeholder={labels?.HD_TYPE_YOUR_QUESTION}
+                                    
+                                    onChange={(e) => {
+                                        
                                         setQuestion(e.target.value) }}  >
                                                 <Toolbar>
                                                 <BtnUndo />
