@@ -22,6 +22,7 @@ import { store } from 'application/store/Index';
 import { bookMeetingSlotApi } from 'application/store/api/MeetingReservation.api';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { getAttendeeDetailApi } from 'application/store/api/Attendee.Api';
+import UseNotificationService from 'application/store/services/UseNotificationService';
 
 type ScreenParams = { id: string }
 
@@ -41,6 +42,9 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const [activeSlot, setActiveSlot] = useState<Number | null>(null);
 	const [attendee, setAttendee] = useState<MeetingAttendee | null >(null);
 	const [bookingSlot,setBookingSlot] = useState<boolean>(false);
+	const { AddNotification } = UseNotificationService();
+
+	const [message, setMessage] = useState<string>('');
 
 	const [attendeeId] = useParam('id');
 
@@ -57,27 +61,32 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	}
 
 	React.useEffect(() => {
-		// if(attendeeId){
-		// 	// setAttendee()
-		// }else{
-		// 	setAttendee(null);
-		// }
 		getAttendee();
 		console.log('attendeeId:',attendeeId);
 	}
 	, [attendeeId]);
 
+	React.useEffect(() => {
+		setMessage('');
+	}, [activeSlot]);
+	
+
 	async function bookSlot(slot:MeetingSlot){
 			const mystate=store.getState()
 			setBookingSlot(true);
 			try {
-				const response = await bookMeetingSlotApi({slot_id:slot.id,participant_attendee_id:attendeeId},mystate);
+				const response = await bookMeetingSlotApi({slot_id:slot.id,participant_attendee_id:attendeeId,message:message},mystate);
 				console.log('response data:',response.data);
 				if(response?.data?.success == true){
 					slotBooked(slot.id)
 					setSelectedSlot(null);
 					setBookingSlot(false);
-					alert('Meeting request sent successfully');
+					setMessage('');
+					AddNotification({notification:{
+						type:'reservation',
+						title:'Alert',
+						text:'Meeting request sent successfully',
+					}});
 				}
 			} catch (error) {
 			  	console.log('error', error);
@@ -131,7 +140,10 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 								</VStack>
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
 									<Text  fontSize="md">Message</Text>
-									<TextArea autoCompleteType={false} w="100%" h={120} placeholder="Please write your message here …" bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+									<TextArea
+										value={message}
+										onChangeText={(text)=>setMessage(text)}
+									 autoCompleteType={false} w="100%" h={120} placeholder="Please write your message here …" bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>
 								

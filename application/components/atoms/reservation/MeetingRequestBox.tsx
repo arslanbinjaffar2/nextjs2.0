@@ -7,6 +7,7 @@ import Icoaccept from 'application/assets/icons/small/Icoaccept'
 import Icoreject from 'application/assets/icons/small/Icoreject'
 import Icosendemail from 'application/assets/icons/small/Icosendemail'
 import Icoaddcalendar from 'application/assets/icons/small/Icoaddcalendar'
+import RescheduleIcon from 'application/assets/icons/reschedule';
 import ReservationModal from 'application/components/atoms/reservation/ReservationModal';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
@@ -14,6 +15,9 @@ import { MeetingRequest } from 'application/models/meetingReservation/MeetingRes
 import moment from 'moment';
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import UseAuthService from 'application/store/services/UseAuthService';
+import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
+import { useRouter } from 'solito/router';
+
 
 
 type boxItemProps = {
@@ -24,34 +28,67 @@ type boxItemProps = {
 const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 	const { event } = UseEventService()
   	const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
-	const [toggle, settoggle] = React.useState(false);
-	const handleClose = () => {
-		settoggle(false)
-	}
+	const [showConfirmation, setShowConfirmation] = React.useState(false);
+	const [confirmAction, setConfirmAction] = React.useState<any>(null);
+	const {AcceptMeetingRequest,RejectMeetingRequest,CancelMeetingRequest,SendReminder} = UseMeetingReservationService();
+	const { push } = useRouter();
 	const { response } = UseAuthService();
 	const [loggedInAttendeeId]= React.useState(response?.data?.user?.id);
 	const [isChatModuleActive]= React.useState(false);
 
 	function acceptMeeting(){
-		alert('accept meeting api call here');
+		AcceptMeetingRequest({meeting_request_id:meeting_request.id})
 	}
 	
 	function rejectMeeting(){
-		alert('reject meeting api call here');
+		RejectMeetingRequest({meeting_request_id:meeting_request.id})
 	}
 
 	function cancelMeeting(){
-		alert('cancel meeting api call here');
+		CancelMeetingRequest({meeting_request_id:meeting_request.id})
 	}
 
 	function addToCalender(){
 		alert('add to calender api call here');
 	}
 
-	function sendReminder(){
-		alert('send reminder api call here');
+	function sendMeetingReminder(){
+		SendReminder({meeting_request_id:meeting_request.id})
+	}
+
+	function reScheduleMeeting(){
+		let attendeeId=meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee_id : meeting_request?.host_attendee_id
+		push(`/${event.url}/reservation/${attendeeId}`);
 	}
 	
+	const onConfirm = () => {
+		if(confirmAction === 'acceptMeeting'){
+			acceptMeeting()
+		}else if(confirmAction === 'rejectMeeting'){
+			rejectMeeting()
+		}else if(confirmAction === 'cancelMeeting'){
+			cancelMeeting()
+		}else if(confirmAction === 'sendMeetingReminder'){
+			sendMeetingReminder()
+		}
+		handleClose();
+	}
+
+	const handleClose = () => {
+		setShowConfirmation(false)
+	}
+
+	function getAttendeeFullName(){
+		return meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee.full_name : meeting_request?.host_attendee.full_name
+	}
+
+	function getAttendeeAvatarName(){
+		if(meeting_request?.host_attendee_id === loggedInAttendeeId){
+			return meeting_request?.participant_attendee.first_name.charAt(0).toUpperCase() + meeting_request?.participant_attendee.last_name.charAt(0).toUpperCase()
+		}else{
+			return meeting_request?.host_attendee.first_name.charAt(0).toUpperCase() + meeting_request?.host_attendee.last_name.charAt(0).toUpperCase()	
+		}
+	}
 
   return (
     <Box w="100%" borderTopWidth={border === 0 ? 0 : 1} borderColor="primary.bordercolor" p="4">
@@ -61,12 +98,12 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 					source={{
 						uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"
 					}}>
-					SS
+					{getAttendeeAvatarName()}
 				</Avatar>
 							
 				<Center>
 					<VStack  space="1">
-						<Text fontSize="lg" fontWeight={500}>{meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee.full_name : meeting_request?.host_attendee.full_name}</Text>
+						<Text fontSize="lg" fontWeight={500}>{getAttendeeFullName()}</Text>
 						<HStack  space="3" alignItems="center">
 							<HStack  space="2" alignItems="center">
 								<Icocalendar width={16} height={18} /><Text fontSize="16px">{moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
@@ -92,7 +129,8 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							<IconButton p={1} variant="unstyled"
 								icon={<Icoaccept color={event?.settings?.secondary_color} width={19} height={19} />}
 								onPress={()=>{
-									settoggle(true)
+									setConfirmAction('acceptMeeting')
+									setShowConfirmation(true)
 								}}/>
 						</Tooltip>
 						{/* Reject Icon */}
@@ -100,7 +138,8 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							<IconButton p={1} variant="unstyled"
 								icon={<Icoreject color={'red'} width={19} height={19} />}
 								onPress={()=>{
-									rejectMeeting()
+									setConfirmAction('rejectMeeting')
+									setShowConfirmation(true)
 								}} />
 						</Tooltip>
 					</>
@@ -111,11 +150,12 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							{/* Chat Icon */}
 						)}
 						{/* Cancel Icon */}
-						<Tooltip px={5} rounded={'full'} label="Reject" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
+						<Tooltip px={5} rounded={'full'} label="Cancel" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
 								icon={<Icoreject color={'red'} width={19} height={19} />}
 								onPress={()=>{
-									cancelMeeting()
+									setConfirmAction('cancelMeeting')
+									setShowConfirmation(true)
 								}} />
 						</Tooltip>
 						{/* Add To Calendar Icon */}
@@ -129,7 +169,10 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 						<Tooltip px={5} rounded={'full'} label="Send email" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
 								icon={<Icosendemail color={colors.text} width={19} height={19} />}
-								onPress={()=>{sendReminder()}}
+								onPress={()=>{
+									setConfirmAction('sendMeetingReminder')
+									setShowConfirmation(true)
+								}}
 							/>
 						</Tooltip>
 					</>
@@ -138,11 +181,17 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 				{meeting_request?.status === 'rejected' && (
 					<>
 						{/* Re Schedule Icon */}
+						<Tooltip px={5} rounded={'full'} label="Re Schedule" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
+							<IconButton p={1} variant="unstyled"
+								icon={<RescheduleIcon color={colors.text} width={19} height={19} />}
+								onPress={()=>{reScheduleMeeting()}}
+							/>
+						</Tooltip>
 					</>
 				)}
 			</HStack>
         </HStack>
-        {toggle && <ReservationModal onClose={handleClose} isOpen={toggle} />}
+        {showConfirmation && <ReservationModal meeting_request={meeting_request} onClose={handleClose} onAccept={onConfirm} action={confirmAction} title="hello" message="hello" isOpen={showConfirmation} />}
     </Box>
   )
 }

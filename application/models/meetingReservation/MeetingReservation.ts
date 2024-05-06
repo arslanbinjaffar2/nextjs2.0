@@ -13,6 +13,7 @@ export interface MeetingRequest {
     slot:MeetingSlot,
     host_attendee:MeetingAttendee,
     participant_attendee:MeetingAttendee,
+    message:string,
 
 }
 
@@ -43,5 +44,7 @@ export interface MeetingSpace {
 export interface MeetingAttendee {
     id:number,
     full_name:string,
+    first_name:string,
+    last_name:string,
     email:number,
 }
