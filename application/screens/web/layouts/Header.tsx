@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import AlertPopup from 'application/components/atoms/AlertPopup';
 import UseNotificationService from 'application/store/services/UseNotificationService';
 import UseAlertService from 'application/store/services/UseAlertService';
+import SocketRequestModal from 'application/components/atoms/reservation/SocketRequestModal';
 
 
 const Header = ({ width }: any) => {
@@ -103,6 +104,7 @@ const Header = ({ width }: any) => {
           </Center>
         </HStack>
       </Container>
+      <SocketRequestModal />
       {alertData !== null && <AlertPopup
         key={alertCount}
         isOpen={isOpen}

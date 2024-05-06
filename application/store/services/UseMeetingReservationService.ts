@@ -5,7 +5,8 @@ import {
     SelectAvailableDates,
     SelectAvailableSlots,
     SelectMyMeetingListing,
-    SelectSiteLabel
+    SelectSiteLabel,
+    SelectSocketRequests
 } from 'application/store/slices/MeetingReservation.Slice'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
@@ -17,12 +18,15 @@ export type MeetingReservationServiceOperators = {
     labels: any,
     available_slots: MeetingSlot[],
     available_dates: any,
+    socket_requests: any,
     FetchMyMeetingRequests: (payload: {  }) => void
     FetchAvailableSlots: () => void
     AcceptMeetingRequest: (payload: { meeting_request_id:number }) => void
     RejectMeetingRequest: (payload: { meeting_request_id:number }) => void
     CancelMeetingRequest: (payload: { meeting_request_id:number }) => void
     SendReminder: (payload: { meeting_request_id:number }) => void
+    AddSocketRequest: (payload: { request:any }) => void
+    RemoveFirstSocketRequest: () => void
 }
 
 /**
@@ -38,6 +42,7 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
         labels: useAppSelector(SelectSiteLabel),
         available_slots: useAppSelector(SelectAvailableSlots),
         available_dates: useAppSelector(SelectAvailableDates),
+        socket_requests: useAppSelector(SelectSocketRequests),
         FetchMyMeetingRequests: useCallback(
             (payload: {  }) => {
                 dispatch(MeetingReservationActions.FetchMyMeetingRequests(payload))
@@ -71,6 +76,19 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
         SendReminder: useCallback(
             (payload: { meeting_request_id:number }) => {
                 dispatch(MeetingReservationActions.SendReminder(payload))
+            },
+            [dispatch],
+        ),
+        AddSocketRequest: useCallback(
+            (payload: { request:any }) => {
+                console.log('add socket request');
+                dispatch(MeetingReservationActions.AddSocketRequest(payload))
+            },
+            [dispatch],
+        ),
+        RemoveFirstSocketRequest: useCallback(
+            () => {
+                dispatch(MeetingReservationActions.RemoveFirstSocketRequest())
             },
             [dispatch],
         ),
