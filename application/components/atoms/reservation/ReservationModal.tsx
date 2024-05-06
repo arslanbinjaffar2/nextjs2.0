@@ -5,6 +5,7 @@ import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import moment from 'moment';
 import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
+import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 
 type ReservationModalProps = {
 	onClose: any
@@ -19,6 +20,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 	const [message, setMessage] = React.useState<string>('');
 	const [cancelButtonText, setCancelButtonText] = React.useState<string>('');
 	const [confirmButtonText, setConfirmButtonText] = React.useState<string>('');
+	const {labels}= UseMeetingReservationService();
 	const _element = React.useRef<HTMLDivElement>() 
 	React.useEffect(() => {
 		setTimeout(() => {
@@ -35,17 +37,14 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 		setCancelButtonText('No');
 		setConfirmButtonText('Yes');	
 		if(action === 'acceptMeeting'){
-			setTitle('Accept Meeting Request');
-			setMessage('Are you sure you want to accept this meeting request?');
+			setTitle(labels?.RESERVATION_ACCEPT_MEETING_ALERT_TITLE);
+			setMessage(labels?.RESERVATION_ACCEPT_MEETING_ALERT_MESSAGE);
 		}else if(action === 'rejectMeeting'){
-			setTitle('Reject Meeting Request');
-			setMessage('Are you sure you want to reject this meeting request?');
+			setTitle(labels?.RESERVATION_REJECT_MEETING_ALERT_TITLE);
+			setMessage(labels?.RESERVATION_REJECT_MEETING_ALERT_MESSAGE);
 		}else if(action === 'cancelMeeting'){
-			setTitle('Cancel Meeting Request');
-			setMessage('Are you sure you want to cancel this meeting request?');
-		}else if(action === 'sendMeetingReminder'){
-			setTitle('Send Reminder');
-			setMessage('Are you sure you want to send reminder for this meeting request?');
+			setTitle(labels?.RESERVATION_CANCEL_MEETING_ALERT_TITLE);
+			setMessage(labels?.RESERVATION_CANCEL_MEETING_ALERT_MESSAGE);
 		}
 	}
 	

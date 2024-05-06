@@ -12,7 +12,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 
 const Index = () => {
 const [tab, setTab] = React.useState('all');
-const { FetchMyMeetingRequests,my_meeting_listing} = useMeetingReservationService();
+const { FetchMyMeetingRequests,my_meeting_listing,labels} = useMeetingReservationService();
 const { processing } = UseLoadingService();
 
 const [filteredRequests,setFilteredRequests] = React.useState<MeetingRequest[]>([])
@@ -20,7 +20,7 @@ const [dates,setDates] = React.useState<any>([])
 const [statuses,setStatuses] = React.useState<any>([]);
 const [filterDate,setFilterDate] = React.useState<string>('');
 const [dateFormat]= React.useState('DD-MM-YYYY');
-const { event } = UseEventService();
+const { event,modules } = UseEventService();
 const [loadCount,setLoadCount] = React.useState<number>(0)
 
   React.useEffect(() => {
@@ -69,7 +69,7 @@ const [loadCount,setLoadCount] = React.useState<number>(0)
       <>
       <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
         <Text fontSize="2xl">
-            Reservation
+            {modules.find((module: any, key: number) => module.alias === 'reservation')?.name}
         </Text>
         <Spacer />
          <DateTimePicker value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
@@ -103,7 +103,7 @@ const [loadCount,setLoadCount] = React.useState<number>(0)
               flex={1} 
               bg={tab === status ? 'primary.boxbutton' :'primary.box'} 
               _text={{ fontWeight: '600' }}>
-            {status}
+            {labels?.['RESERVATION_REQUEST_STATUS_' + status]}
           </Button>
         )}
       </HStack>

@@ -22,6 +22,7 @@ function* OnGetMyMeetingRequests({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getMyMeetingRequestsApi, { ...payload, limit: 20 }, state)
     yield put(MeetingReservationActions.updateMyMeetingRequests(response.data.data))
+    yield put(MeetingReservationActions.updateLabels({labels:response.data.data.labels}))
     yield put(LoadingActions.removeProcess({ process: 'my-meeting-requests' }))
 }
 
@@ -35,6 +36,7 @@ function* OnGetAvailableSlots({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAvailableMeetingSlotsApi, { ...payload, limit: 20 }, state)
     yield put(MeetingReservationActions.updateAvailableSlots({slots:response.data.data.meeting_slots, dates:response.data.data.dates}))
+    yield put(MeetingReservationActions.updateLabels({labels:response.data.data.labels}))
     yield put(LoadingActions.removeProcess({ process: 'get-available-slots' }))
 }
 

@@ -45,6 +45,9 @@ export const MeetingReservationSlice = createSlice({
         RejectMeetingRequest(state, action: PayloadAction<{ meeting_request_id:number }>) {},
         CancelMeetingRequest(state, action: PayloadAction<{ meeting_request_id:number }>) {},
         SendReminder(state, action: PayloadAction<{ meeting_request_id:number }>) {},
+        updateLabels(state, action: PayloadAction<{labels:any}>) {
+            state.labels = action.payload.labels
+        }
     },
 })
 
@@ -58,6 +61,7 @@ export const MeetingReservationActions = {
     RejectMeetingRequest: MeetingReservationSlice.actions.RejectMeetingRequest,
     CancelMeetingRequest: MeetingReservationSlice.actions.CancelMeetingRequest,
     SendReminder: MeetingReservationSlice.actions.SendReminder,
+    updateLabels: MeetingReservationSlice.actions.updateLabels,
 }
 
 export const SelectMyMeetingListing = (state: RootState) => state.meetingReservation.my_meeting_listing
