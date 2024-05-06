@@ -46,6 +46,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const [bookingSlot,setBookingSlot] = useState<boolean>(false);
 	const { AddNotification } = UseNotificationService();
 	const {labels} = UseMeetingReservationService();
+	const {event}= UseEventService();
 
 	const [message, setMessage] = useState<string>('');
 
@@ -142,11 +143,11 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 									<Text  fontSize="sm">Meeting time : {selectedSlot?.start_time} - {selectedSlot?.end_time} ({selectedSlot?.duration})</Text>
 								</VStack>
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
-									<Text  fontSize="md">Message</Text>
+									<Text  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
 									<TextArea
 										value={message}
 										onChangeText={(text)=>setMessage(text)}
-									 autoCompleteType={false} w="100%" h={120} placeholder="Please write your message here …" bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+									 autoCompleteType={false} w="100%" h={120} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>
 								
@@ -416,7 +417,7 @@ const RectangleView = () => {
                 <Center bg={'primary.darkbox'} w="100%" px="3" roundedTop={8} py="1">
                     <HStack w="100%" space="2" alignItems="center">
                         <Icon size="md" as={SimpleLineIcons} name="clock" color="primary.text" />
-                        <Text fontSize="md">Select date and time</Text>
+                        <Text fontSize="md">{event?.labels?.RESERVATION_SELECT_DATE_TIME}</Text>
                     </HStack>
                 </Center>
 				

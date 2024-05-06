@@ -90,9 +90,9 @@ const SocketRequestModal = () => {
 								
 								</HStack>
 								</HStack>
-								<Text  fontSize="sm">Meeting space : {socketRequest?.meeting_space}</Text>
-								<Text  fontSize="sm">Meeting date : {socketRequest?.date}</Text>
-								<Text  fontSize="sm">Meeting time : {socketRequest?.time} ({socketRequest?.duration})</Text>
+								<Text  fontSize="sm">{event?.labels?.RESERVATION_MEETING_SPACE} : {socketRequest?.meeting_space}</Text>
+								<Text  fontSize="sm">{event?.labels?.RESERVATION_MEETING_DATE} : {socketRequest?.date}</Text>
+								<Text  fontSize="sm">{event?.labels?.RESERVATION_MEETING_TIME} : {socketRequest?.time} ({socketRequest?.duration})</Text>
 							</VStack>
 						</Modal.Body>
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
