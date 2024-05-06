@@ -32,7 +32,6 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   const searchParams = useSearchParams()
 
     const tabQueryParam = searchParams.get('tab')
-    console.log("🚀 ~ RectangleView ~ tabQueryParam:", tabQueryParam)
 
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 

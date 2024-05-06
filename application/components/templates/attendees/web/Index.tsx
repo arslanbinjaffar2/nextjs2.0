@@ -337,7 +337,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </Pressable>
                                 {categories.find(category => category.id === Number((searchParams.get('category_id')))) && 
                                 <>
-                                    <Icon color={'primary.text'} as={AntDesign} name="right"  />
+                                    {parentCategories.find(category => category.id === parent_id)?.name &&
+                                        <Icon color={'primary.text'} as={AntDesign} name="right"  />
+                                    } 
                                     <Text textTransform="uppercase" fontSize="sm">{categories.find(category => category.id === Number((searchParams.get('category_id'))))?.name}</Text>
                                 </>
                                 }

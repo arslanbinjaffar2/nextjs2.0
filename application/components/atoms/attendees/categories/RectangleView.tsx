@@ -50,12 +50,13 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
             <Pressable
                 onPress={() => {
                     if (category.parent_id > 0) {
-                        if (updateTab) updateTab('category-attendee');
+                        if (updateTab){
+                            updateTab('category-attendee');
+                        }
                         UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
-                        push(pathname + '?' + createQueryString([{name:'tab', value:'category-attendee'}, {name:'category_id', value:`${category.id}`}]))
                         if (screen === "detail") {
                             if (Platform.OS === "web") {
-                                push(`/${event.url}/speakers`);
+                                push(`/${event.url}/speakers?`+ createQueryString([{name:'tab', value:'category-attendee'}, {name:'category_id', value:`${category.id}`}]));
                             } else {
                                 navigation.replace('app', {
                                     screen: 'speakers'
