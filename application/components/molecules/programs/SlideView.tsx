@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import moment from 'moment';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Icocalendar from 'application/assets/icons/small/Icocalendar'
+import { func } from 'application/styles';
 
 type AppProps = {
 	programs: Program[],
@@ -30,7 +31,7 @@ const LazySlider = ({ programs, onChange }: any) => {
 	const sliderRef = React.useRef<Slider>(null);
 	const router = useRouter();
 	const { select_day } = UseProgramService();
-
+	const { event } = UseEventService();
 	const [currentIndex, setCurrentIndex] = React.useState<number>(() => {
 		let indexFromQuery = router.asPath.split('currentIndex=')[1];
 		let currentIndex = 0;
@@ -80,8 +81,8 @@ const LazySlider = ({ programs, onChange }: any) => {
 								}}>
 									<Box justifyContent={'center'} display={'flex'} alignItems={'center'} w={'60px'} h={'60px'} px={2} bg={currentIndex === index ? "secondary.500" : "primary.box"} rounded="md">
 										<VStack space="1">
-											<Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
-											<Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? "primary.text" : "primary.text"} fontWeight={500}>{moment(item[0]?.date).format('D')}</Text>
+											<Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? func.colorType(event?.settings?.secondary_color) : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
+											<Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? func.colorType(event?.settings?.secondary_color) : "primary.text"} fontWeight={500}>{moment(item[0]?.date).format('D')}</Text>
 										</VStack>
 
 									</Box>
@@ -161,7 +162,6 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 	}, [currentIndex]);
 
 	React.useEffect(() => {
-		console.log(programs, 'programs')
 		if (currentIndex !== undefined) {
 			setDates(programs[currentIndex]);
 		}
