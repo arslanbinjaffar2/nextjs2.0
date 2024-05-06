@@ -180,7 +180,7 @@ const LeftBar = () => {
           <PressableElement key={key} row={row} />
           ) : null
         ))}
-        <Pressable
+        {/* <Pressable
           w="100%"
           px="4"
           py="2"
@@ -197,7 +197,7 @@ const LeftBar = () => {
             </Center>
             {width > 1200 && <Text fontSize={'lg'} color={logoutHover ? func.colorType(event?.settings?.primary_color) : "primary.text"}>Logout</Text>}
           </HStack>
-        </Pressable>
+        </Pressable> */}
       </VStack>
     </Center>
     </Center>
