@@ -114,7 +114,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 
             </VStack>
             <Spacer />
-            {tabQueryParam && tabQueryParam !== 'category-attendee' &&  
+            {tabQueryParam !== 'category-attendee' &&  
               <HStack space="4" alignItems="center">
                 {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                   <Pressable
