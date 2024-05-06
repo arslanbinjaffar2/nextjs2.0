@@ -31,7 +31,7 @@ const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean
           {/* <VStack marginRight={5}>
             <Icon size="lg" as={AntDesign} name={poll?.agenda_favs?.length > 0 ? 'heart' :'hearto'} color={poll?.agenda_favs?.length > 0 ? 'secondary.500' : 'primary.text'} />
           </VStack> */}
-          <VStack bg="red" w="100%" maxW={['90%', '85%', '85%']} space="1">
+          <VStack bg="red" w="100%" maxW={'calc(100% - 70px)'} space="1">
             <Text fontSize="md">{poll.program.info.topic}</Text>
             {!poll.program.hide_time &&
               <Text fontSize="sm">
