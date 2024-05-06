@@ -13,6 +13,7 @@ import UseNotificationService from 'application/store/services/UseNotificationSe
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import UseAlertService from 'application/store/services/UseAlertService';
 import AlertPopup from 'application/components/atoms/AlertPopup';
+import SocketRequestModal from 'application/components/atoms/reservation/SocketRequestModal';
 
 const HeaderMobile = ({ width }: any) => {
   const { _env } = UseEnvService();
@@ -121,7 +122,7 @@ const [open, setOpen] = React.useState(false)
               <Heading textAlign={'center'} fontWeight={600} fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
         </Box>}
-            
+      <SocketRequestModal />
       </Container>
       
       <Drawer isOpen={open} placement='left'>
