@@ -22,6 +22,7 @@ function* OnGetMyMeetingRequests({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getMyMeetingRequestsApi, { ...payload, limit: 20 }, state)
     yield put(MeetingReservationActions.updateMyMeetingRequests(response.data.data))
+    yield put(MeetingReservationActions.updateLabels({labels:response.data.data.labels}))
     yield put(LoadingActions.removeProcess({ process: 'my-meeting-requests' }))
 }
 
@@ -35,6 +36,7 @@ function* OnGetAvailableSlots({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAvailableMeetingSlotsApi, { ...payload, limit: 20 }, state)
     yield put(MeetingReservationActions.updateAvailableSlots({slots:response.data.data.meeting_slots, dates:response.data.data.dates}))
+    yield put(MeetingReservationActions.updateLabels({labels:response.data.data.labels}))
     yield put(LoadingActions.removeProcess({ process: 'get-available-slots' }))
 }
 
@@ -50,8 +52,8 @@ function* OnAcceptMeetingRequest({
     yield put(MeetingReservationActions.FetchMyMeetingRequests({}))
     yield put(NotificationActions.addNotification({notification:{
             type:'reservation',
-            title:'Alert',
-            text:'Meeting request accepted',
+            title:state?.event?.event?.labels?.RESERVATION_ACCEPT_MEETING_SUCCESS_TITLE,
+            text:state?.event?.event?.labels?.RESERVATION_ACCEPT_MEETING_SUCCESS_MSG,
           }
     }))
     yield put(LoadingActions.removeProcess({ process: `accept-meeting-request-${payload.meeting_request_id}` }))
@@ -69,8 +71,8 @@ function* OnRejectMeetingRequest({
     yield put(MeetingReservationActions.FetchMyMeetingRequests({}))
     yield put(NotificationActions.addNotification({notification:{
         type:'reservation',
-        title:'Alert',
-        text:'Meeting request rejected',
+        title:state?.event?.event?.labels?.RESERVATION_REJECT_MEETING_SUCCESS_TITLE,
+        text:state?.event?.event?.labels?.RESERVATION_REJECT_MEETING_SUCCESS_MSG,
       }
 }))
     yield put(LoadingActions.removeProcess({ process: `reject-meeting-request-${payload.meeting_request_id}` }))
@@ -88,8 +90,8 @@ function* OnCancelMeetingRequest({
     yield put(MeetingReservationActions.FetchMyMeetingRequests({}))
     yield put(NotificationActions.addNotification({notification:{
         type:'reservation',
-        title:'Alert',
-        text:'Meeting request cancelled',
+        title:state?.event?.event?.labels?.RESERVATION_CANCEL_MEETING_SUCCESS_TITLE,
+        text:state?.event?.event?.labels?.RESERVATION_CANCEL_MEETING_SUCCESS_MSG,
       }
     })
 )
@@ -107,8 +109,8 @@ function* OnSendReminder({
     const response: HttpResponse = yield call(sendMeetingReminderApi, payload, state)
     yield put(NotificationActions.addNotification({notification:{
         type:'reservation',
-        title:'Alert',
-        text:'Reminder sent successfully',
+        title:state?.event?.event?.labels?.RESERVATION_EMAIL_SENT_TITLE,
+        text:state?.event?.event?.labels?.RESERVATION_EMAIL_SENT_MSG,
       }
     }))
     yield put(LoadingActions.removeProcess({ process: `send-reminder-${payload.meeting_request_id}` }))

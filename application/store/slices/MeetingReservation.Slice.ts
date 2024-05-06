@@ -10,6 +10,7 @@ export interface MeetingReservationState {
     available_slots: MeetingSlot[],
     available_dates: any,
     labels: any,
+    socket_requests: any,
 }
 
 const initialState: MeetingReservationState = {
@@ -23,6 +24,7 @@ const initialState: MeetingReservationState = {
     labels: [],
     available_slots: [],
     available_dates: [],
+    socket_requests: [],
 }
 
 // Slice
@@ -45,6 +47,17 @@ export const MeetingReservationSlice = createSlice({
         RejectMeetingRequest(state, action: PayloadAction<{ meeting_request_id:number }>) {},
         CancelMeetingRequest(state, action: PayloadAction<{ meeting_request_id:number }>) {},
         SendReminder(state, action: PayloadAction<{ meeting_request_id:number }>) {},
+        updateLabels(state, action: PayloadAction<{labels:any}>) {
+            state.labels = action.payload.labels
+        },
+        AddSocketRequest(state, action: PayloadAction<{ request:any }>) {
+            state.socket_requests = [...state.socket_requests, action.payload.request];
+        },
+        RemoveFirstSocketRequest(state) {
+            if(state.socket_requests.length > 0){
+                state.socket_requests = state.socket_requests.slice(1);
+            }
+        }
     },
 })
 
@@ -58,6 +71,9 @@ export const MeetingReservationActions = {
     RejectMeetingRequest: MeetingReservationSlice.actions.RejectMeetingRequest,
     CancelMeetingRequest: MeetingReservationSlice.actions.CancelMeetingRequest,
     SendReminder: MeetingReservationSlice.actions.SendReminder,
+    updateLabels: MeetingReservationSlice.actions.updateLabels,
+    AddSocketRequest: MeetingReservationSlice.actions.AddSocketRequest,
+    RemoveFirstSocketRequest: MeetingReservationSlice.actions.RemoveFirstSocketRequest,
 }
 
 export const SelectMyMeetingListing = (state: RootState) => state.meetingReservation.my_meeting_listing
@@ -67,6 +83,8 @@ export const SelectSiteLabel = (state: RootState) => state.meetingReservation.la
 export const SelectAvailableSlots = (state: RootState) => state.meetingReservation.available_slots
 
 export const SelectAvailableDates = (state: RootState) => state.meetingReservation.available_dates
+
+export const SelectSocketRequests = (state: RootState) => state.meetingReservation.socket_requests
 
 // Reducer
 export default MeetingReservationSlice.reducer

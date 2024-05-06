@@ -23,6 +23,8 @@ import { bookMeetingSlotApi } from 'application/store/api/MeetingReservation.api
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { getAttendeeDetailApi } from 'application/store/api/Attendee.Api';
 import UseNotificationService from 'application/store/services/UseNotificationService';
+import Icocheck from 'application/assets/icons/Icocheck';
+import Icocross from 'application/assets/icons/Icocross';
 
 type ScreenParams = { id: string }
 
@@ -43,6 +45,8 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const [attendee, setAttendee] = useState<MeetingAttendee | null >(null);
 	const [bookingSlot,setBookingSlot] = useState<boolean>(false);
 	const { AddNotification } = UseNotificationService();
+	const {labels} = UseMeetingReservationService();
+	const {event}= UseEventService();
 
 	const [message, setMessage] = useState<string>('');
 
@@ -84,8 +88,8 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 					setMessage('');
 					AddNotification({notification:{
 						type:'reservation',
-						title:'Alert',
-						text:'Meeting request sent successfully',
+						title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
+						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.email}`,
 					}});
 				}
 			} catch (error) {
@@ -109,7 +113,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 								onPress={()=>{
 									setSelectedSlot(slot)
 								}}
-							>Book</Button>
+							>{labels?.RESERVATION_BOOK_MEETING_LABEL}</Button>
 						</Center>
 					</HStack>
 				) :(
@@ -129,21 +133,21 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						<Modal.Content  bg={'primary.box'}>
 							
 							<Modal.Header pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
-								<Text fontSize="lg" fontWeight={600}>Book a meeting</Text>
+								<Text fontSize="lg" fontWeight={600}>{labels?.RESERVATION_BOOK_MEEETING_ALERT_TITLE}</Text>
 							</Modal.Header>
 							<Modal.Body bg="primary.box" px={0}>
-								<Text mb={2} px={4} fontSize="md">Are you sure you want to send meeting request to this attendee “{attendee?.email}”</Text>
+								<Text mb={2} px={4} fontSize="md">{labels?.RESERVATION_BOOK_MEEETING_ALERT_MSG} “{attendee?.email}”</Text>
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start" bg="primary.darkbox">
 									<Text  fontSize="sm">Meeting space : {selectedSlot?.meeting_space?.name}</Text>
 									<Text  fontSize="sm">Meeting date : {moment(selectedSlot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
 									<Text  fontSize="sm">Meeting time : {selectedSlot?.start_time} - {selectedSlot?.end_time} ({selectedSlot?.duration})</Text>
 								</VStack>
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
-									<Text  fontSize="md">Message</Text>
+									<Text  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
 									<TextArea
 										value={message}
 										onChangeText={(text)=>setMessage(text)}
-									 autoCompleteType={false} w="100%" h={120} placeholder="Please write your message here …" bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+									 autoCompleteType={false} w="100%" h={120} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>
 								
@@ -151,12 +155,12 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 							<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
 								<Button.Group variant={'unstyled'} space={0}>
 									<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-										<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setSelectedSlot(null)} textTransform={'uppercase'}>Close</Button>
+										<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setSelectedSlot(null)} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
 									</Container>
 									<Container borderRightWidth={0}  w="50%">
-										<Button isDisabled={bookingSlot ? true:false} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}
+										<Button isLoading={bookingSlot ? true:false} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}
 										onPress={()=>{ bookSlot(selectedSlot) }} 
-										>Send</Button>
+										><Icocheck width={19} height={19} /></Button>
 									</Container>
 								</Button.Group>
 							</Modal.Footer>
@@ -413,7 +417,7 @@ const RectangleView = () => {
                 <Center bg={'primary.darkbox'} w="100%" px="3" roundedTop={8} py="1">
                     <HStack w="100%" space="2" alignItems="center">
                         <Icon size="md" as={SimpleLineIcons} name="clock" color="primary.text" />
-                        <Text fontSize="md">Select date and time</Text>
+                        <Text fontSize="md">{event?.labels?.RESERVATION_SELECT_DATE_TIME}</Text>
                     </HStack>
                 </Center>
 				

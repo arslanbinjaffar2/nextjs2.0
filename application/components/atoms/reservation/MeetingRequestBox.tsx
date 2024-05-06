@@ -17,8 +17,9 @@ import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 import { useRouter } from 'solito/router';
-
-
+import { store } from 'application/store/Index';
+import { downloadMeetingSlotDetailApi, sendMeetingReminderApi } from 'application/store/api/MeetingReservation.api';
+import UseNotificationService from 'application/store/services/UseNotificationService';
 
 type boxItemProps = {
   border: number,
@@ -30,11 +31,14 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
   	const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 	const [showConfirmation, setShowConfirmation] = React.useState(false);
 	const [confirmAction, setConfirmAction] = React.useState<any>(null);
-	const {AcceptMeetingRequest,RejectMeetingRequest,CancelMeetingRequest,SendReminder} = UseMeetingReservationService();
+	const {AcceptMeetingRequest,RejectMeetingRequest,CancelMeetingRequest,labels} = UseMeetingReservationService();
 	const { push } = useRouter();
 	const { response } = UseAuthService();
 	const [loggedInAttendeeId]= React.useState(response?.data?.user?.id);
 	const [isChatModuleActive]= React.useState(false);
+	const [sendingReminder,setSendingReminder]= React.useState<number>(0);
+	const [downloadingCalendar,setDownloadingCalendar]= React.useState<number>(0);
+	const {AddNotification} = UseNotificationService();
 
 	function acceptMeeting(){
 		AcceptMeetingRequest({meeting_request_id:meeting_request.id})
@@ -48,12 +52,52 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 		CancelMeetingRequest({meeting_request_id:meeting_request.id})
 	}
 
+	async function downloadCalendarFile(slot_id:number){
+		const mystate = store.getState();
+		try {
+		  setDownloadingCalendar(meeting_request?.id)
+		  const response = await downloadMeetingSlotDetailApi({slot_id: slot_id}, mystate); // Call the API function
+		  downloadFile(response.data,'meeting_slot_detail.ics');
+		  setDownloadingCalendar(0)
+		} catch (error) {
+		  console.log('error', error);
+		}
+	}
+	  
+	const downloadFile = (fileData: any, filename: any) => {
+		const blob = new Blob([fileData], { type: 'application/octet-stream' });
+		const url = window.URL.createObjectURL(blob);
+		const anchorElement = document.createElement('a');
+		anchorElement.href = url;
+		anchorElement.download = filename;
+		anchorElement.style.display = 'none';
+		document.body.appendChild(anchorElement);
+		anchorElement.click();
+		document.body.removeChild(anchorElement);
+		window.URL.revokeObjectURL(url);
+	};
+
 	function addToCalender(){
-		alert('add to calender api call here');
+		downloadCalendarFile(meeting_request?.event_meeting_space_slot_id)
 	}
 
-	function sendMeetingReminder(){
-		SendReminder({meeting_request_id:meeting_request.id})
+	async function sendMeetingReminder(){
+		const mystate = store.getState();
+		try {
+			setSendingReminder(meeting_request?.id)
+		  const response = await sendMeetingReminderApi({meeting_request_id:meeting_request?.id}, mystate); // Call the API function
+		  if(response.status === 200){
+			setSendingReminder(0)
+			AddNotification({notification:{
+				type:'reservation',
+				title:labels?.RESERVATION_EMAIL_SENT_TITLE,
+				text: labels?.RESERVATION_EMAIL_SENT_MSG,
+			  }
+			})
+		  }
+		} catch (error) {
+		  console.log('error', error);
+		}
 	}
 
 	function reScheduleMeeting(){
@@ -68,8 +112,6 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 			rejectMeeting()
 		}else if(confirmAction === 'cancelMeeting'){
 			cancelMeeting()
-		}else if(confirmAction === 'sendMeetingReminder'){
-			sendMeetingReminder()
 		}
 		handleClose();
 	}
@@ -160,18 +202,17 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 						</Tooltip>
 						{/* Add To Calendar Icon */}
 						<Tooltip px={5} rounded={'full'} label="Add calendar" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
-							<IconButton p={1} variant="unstyled"
+							<IconButton isDisabled={downloadingCalendar === meeting_request?.id ? true:false} p={1} variant="unstyled"
 								icon={<Icoaddcalendar color={colors.text} width={19} height={19} />}
 								onPress={()=>{addToCalender()}}
 							/>
 						</Tooltip>
 						{/* Send Email Icon */}
 						<Tooltip px={5} rounded={'full'} label="Send email" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
-							<IconButton p={1} variant="unstyled"
+							<IconButton isDisabled={sendingReminder === meeting_request?.id ? true :false} p={1} variant="unstyled"
 								icon={<Icosendemail color={colors.text} width={19} height={19} />}
 								onPress={()=>{
-									setConfirmAction('sendMeetingReminder')
-									setShowConfirmation(true)
+									sendMeetingReminder()
 								}}
 							/>
 						</Tooltip>
