@@ -232,7 +232,7 @@ const Detail = ({ speaker }: Props) => {
                                         {in_array('documents', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
-                                            <ListingLayout2 />
+                                            <ListingLayout2 module={modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}/>
                                         )}
                                     </Container>}
                                       </>
