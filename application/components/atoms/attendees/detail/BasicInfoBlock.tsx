@@ -3,7 +3,7 @@ import Icoribbon from 'application/assets/icons/Icoribbon';
 import Icoresume from 'application/assets/icons/Icoresume';
 import Icohotelbed from 'application/assets/icons/Icohotelbed';
 import IcoClipboard from 'application/assets/icons/small/IcoClipboard';
-import { Box, Center, Container, HStack, Spacer, Text, VStack, Avatar, Image, Pressable, IconButton } from 'native-base';
+import { Box, Center, Container, HStack, Spacer, Text, VStack, Avatar, Image, Pressable, IconButton, Tooltip } from 'native-base';
 import { Detail } from 'application/models/attendee/Detail';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
@@ -11,6 +11,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
 import UseAuthService from 'application/store/services/UseAuthService';
+import Icobookmeeting from 'application/assets/icons/Icobookmeeting'
 
 
 type AppProps = {
@@ -26,7 +27,11 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     const { MakeFavourite } = UseAttendeeService();
     const router = useRouter()
 
-    const { event } = UseEventService();
+    const { event,modules } = UseEventService();
+
+    const [isReservationModuleOn] = React.useState<boolean>(
+        modules.filter((module: any) => module?.alias === 'reservation').length > 0 ? true : false
+    );
 
     const { push } = useRouter();
 
@@ -96,10 +101,17 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </VStack>
                         <Spacer />
                         <Box flexDirection="row" alignItems="center" justifyContent="space-between">
+                                {isReservationModuleOn && response?.data?.user?.id !== detail?.detail?.id && (
+                                    <Tooltip px={5} rounded={'full'} label="Book Meeting" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
+                                        <Pressable onPress={() => { push(`/${event.url}/reservation/${detail?.detail?.id}`) }}>
+                                            <Icobookmeeting width={"20"} height="28" />
+                                        </Pressable>
+                                    </Tooltip>
+                                )}
                             
                             {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
                                 <Pressable onPress={() => { toggleFav() }}>
-                                    <Icoribbon width={"20"} height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+                                    IcoBi
                                 </Pressable>
                             )}
 
