@@ -33,6 +33,10 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
         modules.filter((module: any) => module?.alias === 'reservation').length > 0 ? true : false
     );
 
+    const [isAppointmentTabEnabled] = React.useState<boolean>(
+        event?.attendee_tab_settings?.filter((tab: any) => tab?.tab_name === 'appointment' && Number(tab?.status) === 1).length > 0 ? true : false
+    );
+
     const { push } = useRouter();
 
     const isPrivate = detail?.sort_field_setting?.reduce((ack:any, s:any)=>({...ack, [s.name]:s.is_private}),{});
@@ -101,7 +105,8 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </VStack>
                         <Spacer />
                         <Box flexDirection="row" alignItems="center" justifyContent="space-between">
-                                {isReservationModuleOn && response?.data?.user?.id !== detail?.detail?.id && (
+                                {console.log('enab:',isAppointmentTabEnabled)}
+                                {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== detail?.detail?.id && (
                                     <Tooltip px={5} rounded={'full'} label="Book Meeting" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
                                         <Pressable onPress={() => { push(`/${event.url}/reservation/${detail?.detail?.id}`) }}>
                                             <Icobookmeeting width={"20"} height="28" />

@@ -51,6 +51,18 @@ const SocketRequestModal = () => {
 	function onClose() {
 
 	}
+
+	function getShortName (name: string){
+		if(!name) return ('');
+		let names = name.split(' ');
+		let shortName = '';
+		names.forEach((name, index) => {
+			if(index < 2){
+				shortName += name.charAt(0).toUpperCase();
+			}
+		});
+		return shortName;
+	}
 	
   return (
 	<Modal
@@ -68,10 +80,11 @@ const SocketRequestModal = () => {
 						<Modal.Body pb={0} bg="primary.box" px={0}>
 							<Text mb={3} px={6} fontSize="lg" fontWeight={500}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_MSG}</Text>
 							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
-								<HStack space={2} alignItems={'center'}><Text  fontSize="sm">Person : </Text>
+								<HStack space={2} alignItems={'center'}>
+								{/* <Text  fontSize="sm">Person : </Text> */}
 								 <HStack  space="1" alignItems="center">
 									<Avatar bg={'primary.100'} size={'22px'} source={{uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"}}>
-									SS
+									{getShortName(socketRequest?.host_attendee_name)}
 								</Avatar>
 								<Text fontSize="sm">{socketRequest?.host_attendee_name}</Text>
 								
@@ -79,7 +92,7 @@ const SocketRequestModal = () => {
 								</HStack>
 								<Text  fontSize="sm">Meeting space : {socketRequest?.meeting_space}</Text>
 								<Text  fontSize="sm">Meeting date : {socketRequest?.date}</Text>
-								<Text  fontSize="sm">Meeting time : {socketRequest?.time}</Text>
+								<Text  fontSize="sm">Meeting time : {socketRequest?.time} ({socketRequest?.duration})</Text>
 							</VStack>
 						</Modal.Body>
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>

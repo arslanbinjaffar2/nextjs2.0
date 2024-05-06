@@ -37,6 +37,10 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
     modules.filter((module: any) => module?.alias === 'reservation').length > 0 ? true : false
   );
 
+  const [isAppointmentTabEnabled] = React.useState<boolean>(
+    event?.attendee_tab_settings?.filter((tab: any) => tab?.tab_name === 'appointment' && Number(tab?.status) === 1).length > 0 ? true : false
+  );
+
   React.useMemo(() => {
     setIsFav(attendee?.favourite == 1 ? true : false)
   }, [attendee?.favourite])
@@ -114,7 +118,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
             </VStack>
             <Spacer />
             <HStack space="4" alignItems="center">
-                {isReservationModuleOn && response?.data?.user?.id !== attendee?.id && (
+                {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== attendee?.id && (
                   <Tooltip px={5} rounded={'full'} label="Book Meeting" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
                     <Pressable
                       onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
