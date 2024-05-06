@@ -11,6 +11,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
 import UseAuthService from 'application/store/services/UseAuthService';
+import { func } from 'application/styles';
 
 
 type AppProps = {
@@ -47,7 +48,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     function handleRegistrationPress(){
         router.push(`/${event.url}/attendees/my-registration/${response?.data?.user?.id}`)
     }
-
+ 
     return (
         <Box mb={3} bg="primary.box" p="0" w={'100%'} rounded="10">
             <Container borderWidth="0" borderColor="primary.darkbox" bg="primary.primarycolor" rounded="10" overflow="hidden" maxW="100%" w="100%">
@@ -170,7 +171,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 onPress={async () => {
                                     push(`/${event.url}/attendees/hotel/${detail?.detail?.id}`)
                         }}>
-                            <Icohotelbed width="24" height="18" />
+                            <Icohotelbed width="24" height="18" color={func.colorType(event?.settings?.secondary_color)}/>
                         </Pressable>
                     </Center>}
                     </HStack>
