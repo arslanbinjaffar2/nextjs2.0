@@ -13,7 +13,6 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 import { select } from 'redux-saga/effects';
 
 import { ToastActions } from '../slices/Toast.Slice'
-
 function* OnFetchEditProfileData({
 }: {
     type: typeof EditProfileActions.FetchEditProfileData
@@ -33,9 +32,10 @@ function* OnUpdateAttendee({
 }): SagaIterator {
     const state = yield select(state => state);
     const response: HttpResponse = yield call(updateAttendeeApi, payload, state)
+   const editProfileLabel=state?.event?.event?.labels?.GENERAL_EDIT_PROFILE
     if (response?.status === 200) {
         yield put(EditProfileActions.AttendeeUpdatedSuccessfully())
-        yield put(ToastActions.AddToast({toast:{status:"success", message:"updated profile successfully",duration:1000}}))                
+        yield put(ToastActions.AddToast({toast:{status:"success", message:editProfileLabel,duration:5000}}))                
     }
 }
 
