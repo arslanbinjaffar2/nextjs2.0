@@ -16,6 +16,7 @@ import { useRouter } from 'solito/router';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { UseEventService } from 'application/store/services';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import ThingsToIncludeOnAllLayouts from 'application/components/atoms/common/ThingsToIncludeOnAllLayouts';
 
 
 type indexProps = {
@@ -59,6 +60,7 @@ const AfterLoginLayout = ({ children }: indexProps) => {
                 </Center>
               </HStack>
             </Container>
+            <ThingsToIncludeOnAllLayouts />
           </Flex>
         </ScrollView>
       </Flex>
