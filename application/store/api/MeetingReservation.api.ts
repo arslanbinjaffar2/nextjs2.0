@@ -13,7 +13,7 @@ export const bookMeetingSlotApi = (payload: any, state: any): Promise<HttpRespon
 }
 
 export const downloadMeetingSlotDetailApi = (payload: any, state: any): Promise<HttpResponse> => {
-    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/reservation/download-slot-detail`, payload);
+    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/reservation/download-slot-detail/${payload.slot_id}`, payload);
 }
 
 export const sendMeetingReminderApi = (payload: any, state: any): Promise<HttpResponse> => {

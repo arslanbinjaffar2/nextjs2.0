@@ -5,6 +5,7 @@ import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import moment from 'moment';
 import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
+import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 
 type ReservationModalProps = {
 	onClose: any
@@ -19,6 +20,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 	const [message, setMessage] = React.useState<string>('');
 	const [cancelButtonText, setCancelButtonText] = React.useState<string>('');
 	const [confirmButtonText, setConfirmButtonText] = React.useState<string>('');
+	const {labels}= UseMeetingReservationService();
 	const _element = React.useRef<HTMLDivElement>() 
 	React.useEffect(() => {
 		setTimeout(() => {
@@ -35,17 +37,14 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 		setCancelButtonText('No');
 		setConfirmButtonText('Yes');	
 		if(action === 'acceptMeeting'){
-			setTitle('Accept Meeting Request');
-			setMessage('Are you sure you want to accept this meeting request?');
+			setTitle(labels?.RESERVATION_ACCEPT_MEETING_ALERT_TITLE);
+			setMessage(labels?.RESERVATION_ACCEPT_MEETING_ALERT_MESSAGE);
 		}else if(action === 'rejectMeeting'){
-			setTitle('Reject Meeting Request');
-			setMessage('Are you sure you want to reject this meeting request?');
+			setTitle(labels?.RESERVATION_REJECT_MEETING_ALERT_TITLE);
+			setMessage(labels?.RESERVATION_REJECT_MEETING_ALERT_MESSAGE);
 		}else if(action === 'cancelMeeting'){
-			setTitle('Cancel Meeting Request');
-			setMessage('Are you sure you want to cancel this meeting request?');
-		}else if(action === 'sendMeetingReminder'){
-			setTitle('Send Reminder');
-			setMessage('Are you sure you want to send reminder for this meeting request?');
+			setTitle(labels?.RESERVATION_CANCEL_MEETING_ALERT_TITLE);
+			setMessage(labels?.RESERVATION_CANCEL_MEETING_ALERT_MESSAGE);
 		}
 	}
 	
@@ -74,8 +73,9 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 								
 								</HStack>
 								</HStack>
-								<Text  fontSize="sm">Meeting space : {meeting_request?.slot?.meeting_space?.name}</Text>
-								<Text  fontSize="sm">Meeting date : {moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
+								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {meeting_request?.slot?.meeting_space?.name}</Text>
+								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
+								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_TIME} : {meeting_request?.slot?.start_time} - {meeting_request?.slot?.end_time} ({meeting_request?.slot?.duration})</Text>
 							</VStack>
 						</Modal.Body>
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
