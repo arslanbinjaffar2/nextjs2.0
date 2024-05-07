@@ -61,7 +61,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
         <Box mb={3} bg="primary.box" p="0" w={'100%'} rounded="10">
             <Container borderWidth="0" borderColor="primary.darkbox" bg="primary.primarycolor" rounded="10" overflow="hidden" maxW="100%" w="100%">
                 <Box w="100%" p="4" py="5" rounded="10">
-                    <HStack mb="4" space="5">
+                    <HStack mb="4" space="5" alignItems={'center'}>
                         {detail?.detail?.image && isPrivate.profile_picture === 0 ? (
                         <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
                         ) : (
@@ -108,15 +108,15 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 {console.log('enab:',isAppointmentTabEnabled)}
                                 {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== detail?.detail?.id && (
                                     <Tooltip px={5} rounded={'full'} label="Book Meeting" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
-                                        <Pressable onPress={() => { push(`/${event.url}/reservation/${detail?.detail?.id}`) }}>
-                                            <Icobookmeeting width={"20"} height="28" />
+                                        <Pressable onPress={() => { push(`/${event.url}/reservation/${detail?.detail?.id}`) }} mr={'2'}>
+                                            <Icobookmeeting  width={"20"} height="28" />
                                         </Pressable>
                                     </Tooltip>
                                 )}
                             
                             {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
                                 <Pressable onPress={() => { toggleFav() }}>
-                                    IcoBi
+                                <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
                                 </Pressable>
                             )}
 
