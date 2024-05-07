@@ -17,8 +17,9 @@ function* OnFetchBanners({
 }: {
     type: typeof BannerActions.FetchBanners
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({process:'banner-listing'}))
     const state = yield select(state => state);
+    if(state.banners.fetch_count > 1) return;  
+    yield put(LoadingActions.addProcess({process:'banner-listing'}))
     const response: HttpResponse = yield call(getBannerApi, {}, state)
     yield put(BannerActions.update({ banners: response.data.data.banners!, banner_setting:response.data.data.banner_setting! }))
     yield put(LoadingActions.removeProcess({process:'banner-listing'}));
