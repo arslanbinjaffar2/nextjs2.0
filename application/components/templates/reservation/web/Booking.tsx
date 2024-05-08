@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Center, Container, Flex, Heading, HStack, Icon, IconButton, Modal, Pressable, ScrollView, Spacer, Text, TextArea, View, VStack } from 'native-base';
+import { Box, Button, Center, CheckIcon, Container, Flex, Heading, HStack, Icon, IconButton, Modal, Pressable, ScrollView, Select, Spacer, Text, TextArea, View, VStack } from 'native-base';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { Detail } from 'application/models/attendee/Detail';
@@ -102,18 +102,30 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		{slots.map((slot:MeetingSlot) => (
 			<React.Fragment key={slot.id}>
 				{ slot.id === activeSlot ? (
-					<HStack mb="2" space={1} w="100%" >
-						<Center  flex="1">
-							<Button px={1} py={2} size={'sm'} bg={'primary.darkbox'} w={'100%'}
+					<HStack mb="2" space={2} w="100%" >
+						<Center  flex="1" rounded={8}>
+							<Button px={1} py={2} size={'sm'} bg={'primary.box'} w={'100%'} rounded={8}
 								onPress={()=>{}}
-							> {slot?.start_time} - {slot?.end_time}</Button>
+							>
+								<Box flexDirection={'row'} display={'flex'}>
+									<Text fontSize={'sm'}> {slot?.start_time}</Text>
+									<Text mx={0.5} fontSize={'sm'}> - </Text>
+									<Text fontSize={'sm'}> {slot?.end_time}</Text>
+								</Box>
+							</Button>
 						</Center>
-						<Center flex="1">
-							<Button w={'100%'} px={1} py={2} size={'sm'}
+						<Center flex="1" >
+							<Button w={'100%'} px={1} py={2} size={'sm'} h={'100%'} rounded={8}
+
 								onPress={()=>{
 									setSelectedSlot(slot)
 								}}
-							>{labels?.RESERVATION_BOOK_MEETING_LABEL}</Button>
+							>
+								<Text fontSize={'sm'}>
+
+								{labels?.RESERVATION_BOOK_MEETING_LABEL}
+								</Text>
+								</Button>
 						</Center>
 					</HStack>
 				) :(
@@ -121,7 +133,14 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						onPress={()=>{
 							setActiveSlot(slot.id)
 						}}
-					>{slot?.start_time} - {slot?.end_time}</Button>
+					>
+						<Box flexDirection={'row'} display={'flex'}>
+
+									<Text fontSize={'sm'}>{slot?.start_time} </Text>
+									<Text fontSize={'sm'} mx={0.5}> - </Text>
+									<Text fontSize={'sm'}>{slot?.end_time}</Text>
+						</Box>
+						</Button>
 				)}
 			</React.Fragment>
 		)
@@ -297,7 +316,8 @@ const BookingSection = () => {
 									w={'30px'}
 									h={'30px'}
 									colorScheme="unstyled"
-									bg={activeDay && Number(day) == activeDay.day ? 'primary.500' : 'transparent'}
+									_hover={{ bg:"secondary" }}
+									bg={activeDay && Number(day) == activeDay.day ? 'secondary' : 'transparent'}
 									onPress={()=>{
 										addActiveDay(Number(day));
 									}}
@@ -401,7 +421,7 @@ const RectangleView = () => {
 	}
 	, []);
 
-  
+    const [service, setService] = React.useState("Meeting space");
 
     return (
         <>
@@ -409,9 +429,15 @@ const RectangleView = () => {
                 <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
                     <HStack space="3" alignItems="center">
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                        <Text fontSize="2xl">BACK</Text>
+                        <Text fontSize="2xl">Book Meeting</Text>
                     </HStack>
                 </Pressable>
+					<Select bg={'primary.box'} w={376} selectedValue={service} minWidth="200" accessibilityLabel="Choose Service" placeholder="Choose Service" _selectedItem={{
+        bg: "teal.600",
+        endIcon: <CheckIcon size="5" />
+      }} mt={1} onValueChange={itemValue => setService(itemValue)}>
+          <Select.Item label="Meeting space" value="Meeting space" />
+        </Select>
             </HStack>
 			<Container borderWidth="1px" bg={'primary.box'} borderColor="primary.darkbox" rounded="8" overflow="hidden" mb="3" maxW="100%" w="100%">
                 <Center bg={'primary.darkbox'} w="100%" px="3" roundedTop={8} py="1">
