@@ -12,7 +12,6 @@ const AlertPopups = () => {
     const { event } = UseEventService();
   
     const { popupCount, setCurrentPopup, currentPopup, clearCurrentPopup } = UseNotificationService();
-    console.log("🚀 ~ AlertPopups ~ currentPopup:", currentPopup)
   
     const { unread, setUnreadCount } = UseAlertService();
     
