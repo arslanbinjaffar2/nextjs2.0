@@ -13,7 +13,7 @@ const { useParam } = createParam<ScreenParams>()
 
 const Detail = () => {
   const [id] = useParam('id');
-  const { FetchFloorPlanDetail,detail } = UseFloorPlanService();
+  const { FetchFloorPlanDetail,detail,labels } = UseFloorPlanService();
   const [json, setJson] = useState({});
   const { event } = UseEventService();
   const { _env } = UseEnvService()
@@ -52,7 +52,7 @@ const Detail = () => {
     floorPlanPins.forEach((pin: any) => {
       const { id, type, exhibitor, sponsor, coordinateX, coordinateY } = pin;
       const categoryImage = getCategoryImage(pin);
-      const detailLink= type === "exhibitor" ? `/${event.url}/exhibitors/${exhibitor.id}` : `/${event.url}/sponsors/${sponsor.id}`;
+      const detailLink= type === "exhibitor" ? `/${event.url}/exhibitors/detail/${exhibitor.id}` : `/${event.url}/sponsors/detail/${sponsor.id}`;
       const associatedGroups = getAssociatedGroups(pin);
       const subCategories = getSubCategories(pin);
       const categories = type === "exhibitor" ? exhibitor?.categories : sponsor?.categories;

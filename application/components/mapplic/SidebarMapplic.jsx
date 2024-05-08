@@ -3,6 +3,8 @@ import React from 'react';
 import useMapplicStore from './MapplicStore';
 import { View, Input, Icon, HStack, Button, Box, Pressable, Text, Badge, Spacer } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import UseFloorPlanService from 'application/store/services/UseFloorPlanService';
+import UseEventService from 'application/store/services/UseEventService';
 const SidebarMapplic = (json) => {
 	const openLocation = useMapplicStore(state => state.openLocation);
 	const closeLocation = useMapplicStore(state => state.closeLocation);
@@ -10,7 +12,9 @@ const SidebarMapplic = (json) => {
 	const [data, setdata] = React.useState(null);
 	const [filteredGroups, setFilteredGroups] = React.useState([]);
 	const [search, setSearch] = React.useState('');
-	const [activeIndex, setactiveIndex] = React.useState(0)
+	const [activeIndex, setactiveIndex] = React.useState(0);
+  const { labels } = UseFloorPlanService();
+  const {event} = UseEventService();
 
 
 	React.useEffect(() => {
@@ -40,7 +44,7 @@ const SidebarMapplic = (json) => {
 	
   return (
 	<View mt={5} w={'100%'}>
-      <Input mb={5} rounded="10" w={['100%']} bg="primary.box" borderWidth={0} value={search} placeholder={'Search'} onChangeText={(text) => {
+      <Input mb={5} rounded="10" w={['100%']} bg="primary.box" borderWidth={0} value={search} placeholder={event?.labels?.GENERAL_SEARCH} onChangeText={(text) => {
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
       <HStack mb={5} space="2">
@@ -54,7 +58,7 @@ const SidebarMapplic = (json) => {
             onPress={()=>{
               setactive('sponsor'); closeLocation()
             }}>
-            Sponsor
+            {labels?.FLOOR_PLAN_SPONSOR_LABEL}
           </Button>
           <Button
            rounded={'full'}
@@ -66,7 +70,7 @@ const SidebarMapplic = (json) => {
             onPress={()=>{
               setactive('exhibitor');closeLocation()
             }}>
-            Exibitor
+            {labels?.FLOOR_PLAN_EXHIBITOR_LABEL}
           </Button>
                 
       </HStack>
@@ -114,7 +118,7 @@ const SidebarMapplic = (json) => {
           }
 				</>	
 				)}
-				{filteredGroups.length < 1 && <Text p={3}>{'labels?.GENERAL_NO_RECORD'}</Text>}
+				{filteredGroups.length < 1 && <Text p={3}>{event?.labels?.GENERAL_NO_RECORD}</Text>}
 			</Box>
 	</View>
   )
