@@ -40,10 +40,6 @@ const SocketHandler = () => {
     const options: any = React.useMemo(() => ({
         transports: ["websocket", "polling"]
     }), []);
-
-    function replaceMessageDetail(messageDetail, pleaseClick) {
-        return strReplace('{message_detail}', messageDetail, pleaseClick);
-    }
   
     React.useEffect(() => {
       setDetailId(Number(nextRouter?.query?.id));
