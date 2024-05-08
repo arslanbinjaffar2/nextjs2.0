@@ -7,12 +7,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseQaService from 'application/store/services/UseQaService';
 import WebLoading from 'application/components/atoms/WebLoading';
 
-
-type indexProps = {
-    navigation: unknown
-}
-
-const Index = ({ navigation }: indexProps) => {
+const Index = () => {
 
     const { loading } = UseLoadingService();
 
@@ -21,7 +16,6 @@ const Index = ({ navigation }: indexProps) => {
     const module = setting_modules?.find((module) => module.alias === 'myquestions');
 
     const { my_questions, FetchMyQuestions } = UseQaService();
-    console.log("🚀 ~ Index ~ my_questions:", my_questions)
 
     React.useEffect(() => {
         FetchMyQuestions();
@@ -77,11 +71,6 @@ const Index = ({ navigation }: indexProps) => {
             )}
         </>
     );
-};
-
-
-Index.propTypes = {
-    navigation: PropTypes.object.isRequired,
 };
 
 export default Index;
