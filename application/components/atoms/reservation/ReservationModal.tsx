@@ -24,7 +24,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 	const _element = React.useRef<HTMLDivElement>() 
 	React.useEffect(() => {
 		setTimeout(() => {
-			_element.current?.classList.add('add-blur')
+			_element.current?.classList.add('add-blur-radius')
 		}, 300);
 	}, [isOpen])
 

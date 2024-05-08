@@ -20,6 +20,8 @@ import { useRouter } from 'solito/router';
 import { store } from 'application/store/Index';
 import { downloadMeetingSlotDetailApi, sendMeetingReminderApi } from 'application/store/api/MeetingReservation.api';
 import UseNotificationService from 'application/store/services/UseNotificationService';
+import UseEnvService from 'application/store/services/UseEnvService';
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 type boxItemProps = {
   border: number,
@@ -39,7 +41,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 	const [sendingReminder,setSendingReminder]= React.useState<number>(0);
 	const [downloadingCalendar,setDownloadingCalendar]= React.useState<number>(0);
 	const {AddNotification} = UseNotificationService();
-
+	const { _env } = UseEnvService()
 	function acceptMeeting(){
 		AcceptMeetingRequest({meeting_request_id:meeting_request.id})
 	}
@@ -131,15 +133,19 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 			return meeting_request?.host_attendee.first_name.charAt(0).toUpperCase() + meeting_request?.host_attendee.last_name.charAt(0).toUpperCase()	
 		}
 	}
+    function getAttendeeAvatarImage(){
+		return meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee.image : meeting_request?.host_attendee.image
 
+	}
   return (
     <Box w="100%" borderTopWidth={border === 0 ? 0 : 1} borderColor="primary.bordercolor" p="4">
         <HStack  space="3" alignItems="center">
             <HStack  space="3" alignItems="center">
 				<Avatar 
-					source={{
-						uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"
-					}}>
+					
+						source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${getAttendeeAvatarImage()}` }}
+						// uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"
+					>
 					{getAttendeeAvatarName()}
 				</Avatar>
 							
@@ -156,7 +162,16 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							
 						</HStack>
 							<HStack  space="2" alignItems="center">
-								<Icopin width={16} height={18} /><Text fontSize="16px">{meeting_request?.slot?.meeting_space?.name}</Text>
+								<Icopin width={16} height={18} />
+								<Text fontSize="16px">
+									{meeting_request?.slot?.meeting_space?.name}
+								</Text>
+								<Text fontSize="16px" color={meeting_request?.status === 'requested'?"#0D6EFD":meeting_request?.status === 'accepted'?"#198754":
+									meeting_request?.status === 'rejected'?"#DC3545":meeting_request?.status === 'cancelled'?"#DC3545":""
+								}>
+									
+									{labels?.['RESERVATION_REQUEST_STATUS_' + meeting_request?.status]}
+								</Text>
 							</HStack>
 					</VStack>
 				</Center>
@@ -189,7 +204,10 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 				{meeting_request?.status === 'accepted' && (
 					<>
 						{isChatModuleActive && (
+							<>
 							{/* Chat Icon */}
+							<DynamicIcon iconType="chat" iconProps={{ width: 19, height: 19 }} />
+							</>
 						)}
 						{/* Cancel Icon */}
 						<Tooltip px={5} rounded={'full'} label="Cancel" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
