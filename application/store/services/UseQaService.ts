@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectPrograms, QaActions, SelectProgramSettings, SelectQaSettings, SelectQaDetails,  } from 'application/store/slices/Qa.Slice'
+import { SelectPrograms, QaActions, SelectProgramSettings, SelectQaSettings, SelectQaDetails,  SelectMyQuestions} from 'application/store/slices/Qa.Slice'
 
 import { Program, ProgramSettings, QaSettings } from 'application/models/qa/Qa'
 
@@ -23,7 +23,9 @@ export type QaServiceOperators = {
         all_languages:number[],
         labels: any
     },
+    my_questions: any,
     FetchPrograms: () => void,
+    FetchMyQuestions: () => void,
     FetchProgramDetail: (payload:{id:number}) => void,
     FetchTabDetails: (payload:{id:number}) => void,
     SubmitQa: (payload:any) => void,
@@ -46,6 +48,7 @@ export const UseQaService = (): Readonly<QaServiceOperators> => {
         programSettings: useAppSelector(SelectProgramSettings),
         qaSettings: useAppSelector(SelectQaSettings),
         qaDetials: useAppSelector(SelectQaDetails),
+        my_questions: useAppSelector(SelectMyQuestions),
         FetchPrograms: useCallback(
             () => {
                 dispatch(QaActions.OnFetchPrograms())
@@ -85,6 +88,12 @@ export const UseQaService = (): Readonly<QaServiceOperators> => {
         QaSort: useCallback(
             (payload:any) => {
                 dispatch(QaActions.QaSort(payload))
+            },
+            [dispatch],
+        ),
+        FetchMyQuestions: useCallback(
+            () => {
+                dispatch(QaActions.FetchMyQuestions())
             },
             [dispatch],
         ),
