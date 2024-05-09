@@ -7,7 +7,9 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { getColorScheme } from 'application/styles/colors';
 import { Text } from 'native-base';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-
+import UseLoadingService from 'application/store/services/UseLoadingService';
+import in_array from "in_array";
+import WebLoading from 'application/components/atoms/WebLoading';
 
 type ScreenParams = { id: string}
 const { useParam } = createParam<ScreenParams>()
@@ -18,6 +20,7 @@ const Detail = () => {
   const [json, setJson] = useState({});
   const { event,modules } = UseEventService();
   const { _env } = UseEnvService();
+  const { processing } = UseLoadingService();
   const module = modules.find((module) => {
     return module.alias === 'plans'
   });
@@ -128,9 +131,11 @@ const Detail = () => {
     <NextBreadcrumbs module={module} title={detail?.floorPlan?.floor_plan_name} />
     <Text w={'100%'} fontSize="md">
       <div style={{width: '100%'}}>
-        {(json as { settings?: any })?.settings ?
+        { !in_array('floor_plan_detail',processing) &&  (json as { settings?: any })?.settings ?
             <Mapplic json={json} id={id} />
-            : null}
+            : (
+              <WebLoading />
+        )}
       </div>
     </Text>
     </>
