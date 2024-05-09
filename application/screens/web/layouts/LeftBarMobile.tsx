@@ -31,11 +31,13 @@ const LeftBarMobile = () => {
 
   const [dahboardHover, setdahboardHover] = React.useState(false)
   const [logoutHover, setlogoutHover] = React.useState(false)
-
+  const [dashhover, setdashhover] = React.useState(false)
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
       <Box borderBottomWidth={1} mb="3" w="100%" borderBottomColor={'primary.bordercolor'} pb="3" px="3">
       <Pressable
+         onHoverIn={() => setdashhover(true)}
+         onHoverOut={() => setdashhover(false)}
             onPress={() => {
               router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
             }}>
@@ -48,8 +50,18 @@ const LeftBarMobile = () => {
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.jobs}</Text>
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.company_name}</Text>
           </VStack>
+        <Pressable
+            w="100%"
+            p="1"
+            borderRadius="8"
+            onPress={() => {
+              router.push(`/${event.url}/settings/editprofile`)
+            }}>
+              <DynamicIcon  iconType={'edit_profile'} iconProps={{ width:18,height:18,  color: dashhover  ? func.colorType(event?.settings?.primary_color) : undefined}}/>
+            </Pressable>
         </Flex>
         </Pressable>
+       
       </Box>
       <ScrollView w={'100%'} h={height - 150}>
         <VStack space={1} px={'0'} w="100%" maxW="100%" >
