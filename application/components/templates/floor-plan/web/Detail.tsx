@@ -6,6 +6,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import { getColorScheme } from 'application/styles/colors';
 import { Text } from 'native-base';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 
 type ScreenParams = { id: string}
@@ -15,8 +16,11 @@ const Detail = () => {
   const [id] = useParam('id');
   const { FetchFloorPlanDetail,detail,labels } = UseFloorPlanService();
   const [json, setJson] = useState({});
-  const { event } = UseEventService();
-  const { _env } = UseEnvService()
+  const { event,modules } = UseEventService();
+  const { _env } = UseEnvService();
+  const module = modules.find((module) => {
+    return module.alias === 'plans'
+  });
 
   React.useEffect(() => {
     if (id) {
@@ -120,6 +124,8 @@ const Detail = () => {
   }
 
   return (
+    <>
+    <NextBreadcrumbs module={module} title={detail?.floorPlan?.floor_plan_name} />
     <Text w={'100%'} fontSize="md">
       <div style={{width: '100%'}}>
         {(json as { settings?: any })?.settings ?
@@ -127,6 +133,7 @@ const Detail = () => {
             : null}
       </div>
     </Text>
+    </>
   )
 }
 
