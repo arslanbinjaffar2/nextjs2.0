@@ -73,7 +73,12 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	React.useEffect(() => {
 		setMessage('');
 	}, [activeSlot]);
-	
+	const _element = React.useRef<HTMLDivElement>() 
+	React.useEffect(() => {
+		setTimeout(() => {
+			_element.current?.classList.add('add-blur-radius')
+		}, 300);
+	}, [selectedSlot])
 
 	async function bookSlot(slot:MeetingSlot){
 			const mystate=store.getState()
@@ -98,32 +103,39 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	}
 
 	return(
-		<>
+		 <ScrollView mt={'5'} >
 		{slots.map((slot:MeetingSlot) => (
 			<React.Fragment key={slot.id}>
 				{ slot.id === activeSlot ? (
-					<HStack mb="2" space={2} w="100%" >
-						<Center  flex="1" rounded={8}>
-							<Button px={1} py={2} size={'sm'} bg={'primary.box'} w={'100%'} rounded={8}
+					<HStack mb="3" p={2} size={'sm'}  w={'100%'}  space={2}  flexDirection={'column'} rounded={8} bg={'primary.box'}				
+					>
+						<Center>
+							<Button bg={''} p={0}
 								onPress={()=>{}}
+								_hover={{ bg:"" }}
 							>
 								<Box flexDirection={'row'} display={'flex'}>
 									<Text fontSize={'sm'}> {slot?.start_time}</Text>
 									<Text mx={0.5} fontSize={'sm'}> - </Text>
 									<Text fontSize={'sm'}> {slot?.end_time}</Text>
+									<Text fontSize={'sm'} mx={1} > ({slot?.duration})</Text>
+
 								</Box>
 							</Button>
 						</Center>
-						<Center flex="1" >
-							<Button w={'100%'} px={1} py={2} size={'sm'} h={'100%'} rounded={8}
+						<Center>
+						<Text fontSize={'sm'} textAlign={'center'}>{slot?.meeting_space?.name}</Text>
+						</Center>
+						<Center flex="1" mt={'6px'}>
+							<Button  h={'100%'} rounded={"10px"}
 
 								onPress={()=>{
 									setSelectedSlot(slot)
 								}}
 							>
-								<Text fontSize={'sm'}>
-
-								{labels?.RESERVATION_BOOK_MEETING_LABEL}
+								<Text fontSize={'sm'} maxW={'145px'} w={'100%'} textAlign={'center'}>
+								{labels?.RESERVATION_BOOK_MEETING_LABEL}	
+							
 								</Text>
 								</Button>
 						</Center>
@@ -134,12 +146,20 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 							setActiveSlot(slot.id)
 						}}
 					>
-						<Box flexDirection={'row'} display={'flex'}>
-
+						<View flexDirection={'column'} display={'flex'} alignItems={'center'}>
+						<Box flexDirection={'row'} display={'flex'} >
 									<Text fontSize={'sm'}>{slot?.start_time} </Text>
 									<Text fontSize={'sm'} mx={0.5}> - </Text>
 									<Text fontSize={'sm'}>{slot?.end_time}</Text>
+									<Text fontSize={'sm'} ml={1}>({slot?.duration})</Text>
+
 						</Box>
+						<Text fontSize={'sm'}>{slot?.meeting_space?.name}
+						
+						
+						</Text>
+						</View>
+
 						</Button>
 				)}
 			</React.Fragment>
@@ -154,7 +174,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		
 		{/* Confirmation popup  */}
 		{selectedSlot && (
-					<Modal size={'lg'} isOpen={true} onClose={()=>{}} >
+					<Modal size={'lg'} isOpen={true} onClose={()=>{}} ref={_element}>
 						<Modal.Content  bg={'primary.box'}>
 							
 							<Modal.Header pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
@@ -192,7 +212,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						</Modal.Content>
 					</Modal>
 				)}
-		</>
+		</ScrollView>
 	)
 }
 
@@ -325,7 +345,7 @@ const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
 									h={'30px'}
 									colorScheme="unstyled"
 									_hover={{ bg:"secondary" }}
-									bg={activeDay && Number(day) == activeDay.day ? 'secondary' : 'transparent'}
+									bg={activeDay && Number(day) == activeDay.day ? "secondary.500" : "transparent"}
 									onPress={()=>{
 										addActiveDay(Number(day));
 									}}
@@ -392,7 +412,7 @@ return (
 			{
 				activeDay && 
 				<Center py="3" px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
-					<Text mb={2} fontSize="sm">
+					<Text my={2} fontSize="sm">
 						<>
 							{moment(activeDay.full_date).format("DD MMMM")}
 						</>
@@ -437,19 +457,21 @@ const RectangleView = () => {
 
     return (
         <>
-            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
+            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'} flexWrap={'wrap'}>
                 <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
                     <HStack space="3" alignItems="center">
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                        <Text fontSize="2xl">{labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                        <Text fontSize="2xl">
+							{labels?.RESERVATION_BOOK_MEETING_LABEL}
+							</Text>
                     </HStack>
                 </Pressable>
-				<Select bg={'primary.box'} w={376}  selectedValue={selectedMeetingSpace} minWidth="200" _selectedItem={{
+				<Select mx={'auto'} bg={'primary.box'} w={376}   selectedValue={selectedMeetingSpace} minWidth="200" _selectedItem={{
 					bg: "teal.600",
 					endIcon: <CheckIcon size="5" />
 					}} mt={1} onValueChange={itemValue => setSelectedMeetingSpace(itemValue)}>
 						<Select.Item label={labels?.RESERVATION_MEETING_SPACE} value={''} />
-						{available_meeting_spaces.map((space:MeetingSpace) => (
+						{available_meeting_spaces?.map((space:MeetingSpace) => (
 							<Select.Item key={space?.id} label={space?.name} value={space?.id.toString()} />
 					))}
         		</Select>

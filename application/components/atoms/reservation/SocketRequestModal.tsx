@@ -17,7 +17,7 @@ const SocketRequestModal = () => {
 	const _element = React.useRef<HTMLDivElement>() 
 	React.useEffect(() => {
 		setTimeout(() => {
-			_element.current?.classList.add('add-blur')
+			_element.current?.classList.add('add-blur-radius')
 		}, 300);
 	}, [isOpen])
 
@@ -63,7 +63,7 @@ const SocketRequestModal = () => {
 		});
 		return shortName;
 	}
-	
+
   return (
 	<Modal
 			size={'md'}
@@ -98,10 +98,10 @@ const SocketRequestModal = () => {
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
 							<Button.Group variant={'unstyled'} space={0}>
 								<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={handleReject} textTransform={'uppercase'}>{event?.labels?.GENERAL_REJECT}</Button>
+									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={handleReject} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
 								</Container>
 								<Container borderRightWidth={0}  w="50%">
-									<Button onPress={handleAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}>{event?.labels?.GENERAL_ACCEPT}</Button>
+									<Button onPress={handleAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}><Icocheck width={19} height={19} /></Button>
 								</Container>
 							</Button.Group>
 						</Modal.Footer>

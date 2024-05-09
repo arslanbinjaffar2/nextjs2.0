@@ -192,12 +192,13 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 						</Tooltip>
 						{/* Reject Icon */}
 						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_REJECT_MEETING_ALERT_TITLE} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
-							<IconButton p={1} variant="unstyled"
+							{/* <IconButton p={1} variant="unstyled"
 								icon={<Icoreject color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									setConfirmAction('rejectMeeting')
 									setShowConfirmation(true)
-								}} />
+								}} /> */}
+								<Text>asa</Text>
 						</Tooltip>
 					</>
 				)}
