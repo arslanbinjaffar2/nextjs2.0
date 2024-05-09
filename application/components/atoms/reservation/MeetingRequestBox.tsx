@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Center, HStack, IconButton, Spacer, Text, Tooltip, VStack } from 'native-base';
+import { Avatar, Box, Center, HStack, IconButton, Spacer, Text, VStack } from 'native-base';
 import Icocalendar from 'application/assets/icons/small/Icocalendar'
 import Icoclock from 'application/assets/icons/small/Icoclock'
 import Icopin from 'application/assets/icons/small/Icopin'
@@ -182,24 +182,19 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 				{meeting_request?.status === 'requested' && loggedInAttendeeId === meeting_request?.participant_attendee_id && (
 					<>
 						{/* Accept Icon */}
-						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_ACCEPT_MEETING_ALERT_TITLE} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
 								icon={<Icoaccept color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									setConfirmAction('acceptMeeting')
 									setShowConfirmation(true)
 								}}/>
-						</Tooltip>
 						{/* Reject Icon */}
-						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_REJECT_MEETING_ALERT_TITLE} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
-							{/* <IconButton p={1} variant="unstyled"
+							<IconButton p={1} variant="unstyled"
 								icon={<Icoreject color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									setConfirmAction('rejectMeeting')
 									setShowConfirmation(true)
-								}} /> */}
-								<Text>asa</Text>
-						</Tooltip>
+								}} />
 					</>
 				)}
 				{meeting_request?.status === 'accepted' && (
@@ -207,53 +202,43 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 						{isChatModuleActive && (
 							<>
 							{/* Chat Icon */}
-							<Tooltip px={5} rounded={'full'} label={modules?.find((module:any) => module.alias === 'chat')?.name ?? ''} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
 								icon={<DynamicIcon iconType="chat" iconProps={{ width: 19, height: 19 }} />}
 								onPress={()=>{
 									push(`/${event.url}/chat/${loggedInAttendeeId === meeting_request?.participant_attendee_id ? meeting_request?.host_attendee_id : meeting_request?.participant_attendee_id}`);
 								}} />
-							</Tooltip>
 							
 							</>
 						)}
 						{/* Cancel Icon */}
-						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_CANCEL_MEETING_ALERT_TITLE} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
 								icon={<Icoreject color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									setConfirmAction('cancelMeeting')
 									setShowConfirmation(true)
 								}} />
-						</Tooltip>
 						{/* Add To Calendar Icon */}
-						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_ADD_TO_CALENDAR} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton isDisabled={downloadingCalendar === meeting_request?.id ? true:false} p={1} variant="unstyled"
 								icon={<Icoaddcalendar color={colors.text} width={19} height={19} />}
 								onPress={()=>{addToCalender()}}
 							/>
-						</Tooltip>
 						{/* Send Email Icon */}
-						<Tooltip px={5} rounded={'full'} label={event?.labels?.GENERAL_SEND_EMAIL} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton isDisabled={sendingReminder === meeting_request?.id ? true :false} p={1} variant="unstyled"
 								icon={<Icosendemail color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									sendMeetingReminder()
 								}}
 							/>
-						</Tooltip>
 					</>
 				)}
 
 				{meeting_request?.status === 'rejected' && (
 					<>
 						{/* Re Schedule Icon */}
-						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_RESCHEDULE} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
 								icon={<RescheduleIcon color={colors.text} width={19} height={19} />}
 								onPress={()=>{reScheduleMeeting()}}
 							/>
-						</Tooltip>
 					</>
 				)}
 			</HStack>
