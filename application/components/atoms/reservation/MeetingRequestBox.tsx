@@ -182,18 +182,18 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 				{meeting_request?.status === 'requested' && loggedInAttendeeId === meeting_request?.participant_attendee_id && (
 					<>
 						{/* Accept Icon */}
-						<Tooltip px={5} rounded={'full'} label="Accept" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
+						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_ACCEPT_MEETING_ALERT_TITLE} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
-								icon={<Icoaccept color={event?.settings?.secondary_color} width={19} height={19} />}
+								icon={<Icoaccept color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									setConfirmAction('acceptMeeting')
 									setShowConfirmation(true)
 								}}/>
 						</Tooltip>
 						{/* Reject Icon */}
-						<Tooltip px={5} rounded={'full'} label="Reject" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
+						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_REJECT_MEETING_ALERT_TITLE} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
-								icon={<Icoreject color={'red'} width={19} height={19} />}
+								icon={<Icoreject color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									setConfirmAction('rejectMeeting')
 									setShowConfirmation(true)
@@ -217,23 +217,23 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							</>
 						)}
 						{/* Cancel Icon */}
-						<Tooltip px={5} rounded={'full'} label="Cancel" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
+						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_CANCEL_MEETING_ALERT_TITLE} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
-								icon={<Icoreject color={'red'} width={19} height={19} />}
+								icon={<Icoreject color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									setConfirmAction('cancelMeeting')
 									setShowConfirmation(true)
 								}} />
 						</Tooltip>
 						{/* Add To Calendar Icon */}
-						<Tooltip px={5} rounded={'full'} label="Add calendar" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
+						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_ADD_TO_CALENDAR} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton isDisabled={downloadingCalendar === meeting_request?.id ? true:false} p={1} variant="unstyled"
 								icon={<Icoaddcalendar color={colors.text} width={19} height={19} />}
 								onPress={()=>{addToCalender()}}
 							/>
 						</Tooltip>
 						{/* Send Email Icon */}
-						<Tooltip px={5} rounded={'full'} label="Send email" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
+						<Tooltip px={5} rounded={'full'} label={event?.labels?.GENERAL_SEND_EMAIL} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton isDisabled={sendingReminder === meeting_request?.id ? true :false} p={1} variant="unstyled"
 								icon={<Icosendemail color={colors.text} width={19} height={19} />}
 								onPress={()=>{
@@ -247,7 +247,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 				{meeting_request?.status === 'rejected' && (
 					<>
 						{/* Re Schedule Icon */}
-						<Tooltip px={5} rounded={'full'} label="Re Schedule" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
+						<Tooltip px={5} rounded={'full'} label={labels?.RESERVATION_RESCHEDULE} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
 							<IconButton p={1} variant="unstyled"
 								icon={<RescheduleIcon color={colors.text} width={19} height={19} />}
 								onPress={()=>{reScheduleMeeting()}}

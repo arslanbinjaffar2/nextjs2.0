@@ -75,7 +75,6 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 								</HStack>
 								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {meeting_request?.slot?.meeting_space?.name}</Text>
 								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
-								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_TIME} : {meeting_request?.slot?.start_time} - {meeting_request?.slot?.end_time} ({meeting_request?.slot?.duration})</Text>
 							</VStack>
 						</Modal.Body>
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
