@@ -30,25 +30,44 @@ const Detail = () => {
 
   const { questionAnswers, FetchMyQuestionsAnswers } = UseQaService();
 
+  const [answers, setAnswers] = React.useState<any[]>([]);
+  const [message, setMessage] = React.useState<string>('');
+
   React.useEffect(() => {
     if (id) {
       FetchMyQuestionsAnswers({ id: Number(id) });
     }
   }, []);
 
-    React.useEffect(() => {
-      if(socket !== null){
-          socket?.on(`event-buizz:qa_block_sort_${event.id}_${id}`, function (data:any):any {
-              console.log(data, 'data');
-          });
+  React.useEffect(() => {
+    if (questionAnswers?.answers) {
+      setAnswers(questionAnswers.answers);
+    }
+  }, [questionAnswers]);
+
+  React.useEffect(() => {
+    if (socket !== null) {
+      socket?.on(`event-buizz:qa_question_answer_action${event.id}_${response.data?.user?.id}_${id}`, function (data: any): any {
+        console.log(data, 'data');
+        if(data?.answers){
+          setAnswers(data?.answers);
+        }
+      });
+    }
+    return () => {
+      if (socket !== null) {
+        socket?.off(`event-buizz:qa_question_answer_action${event.id}_${id}`);
       }
-      return () =>{
-          if(socket !== null){
-              socket?.off(`event-buizz:qa_admin_block_listing_${event.id}_${id}`);
-              socket?.off(`event-buizz:qa_block_sort_${event.id}_${id}`);
-          }
-      }
+    }
   }, [socket]);
+
+  const handleMessageSend = () => {
+    if (message.trim() !== '') {
+      console.log("🚀 ~ handleMessageSend ~ message:", message)
+      // SendMessage({ id: Number(id), message });
+      setMessage('');
+    }
+  };
 
   return (
     <>
@@ -73,8 +92,8 @@ const Detail = () => {
           </HStack>
           <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
             <ScrollView w="100%" minH="450px" py="4" px="3">
-              {questionAnswers?.answers?.length > 0 ? (
-                questionAnswers?.answers.map((answer: any, index: number) => {
+              {answers?.length > 0 ? (
+                answers.map((answer: any, index: number) => {
                   const isSenderMe = answer?.sender_id === response.data?.user?.id;
                   return (
                     <HStack direction={isSenderMe ? "row-reverse" : "row"} mb="3" space="0" alignItems="flex-end">
@@ -106,13 +125,13 @@ const Detail = () => {
                 <Text fontSize="lg">Write Message </Text>
               </HStack>
               <VStack p="1" w="100%" space="0">
-                <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder="Your message…" autoCompleteType={undefined} />
+                <TextArea borderWidth="0" value={message} borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder="Your message…" autoCompleteType={undefined} onChangeText={(text) => setMessage(text)} />
                 <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
                   <IconButton
                     variant="transparent"
                     icon={<Icon size="lg" as={Feather} name="send" color="primary.text" />}
                     onPress={() => {
-                      console.log('hello')
+                      handleMessageSend()
                     }}
                   />
                 </HStack>
