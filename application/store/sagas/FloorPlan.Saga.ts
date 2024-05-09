@@ -20,6 +20,7 @@ function* OnFetchFloorPlans({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getFloorPlanApi, {}, state)
     yield put(FloorPlanActions.update({ floor_plans:response.data.data.floorPlans!, filters:response.data.data.filters!, sponsorCount:response.data.data.sponsorCount!, exhibitorCount:response.data.data.exhibitorCount! }))
+    yield put(FloorPlanActions.updateLabels({ labels:response.data.data.labels!}))
     yield put(LoadingActions.set(false));
 }
 
@@ -30,10 +31,13 @@ function* OnFetchFloorPlanDetail({
     payload: { id: number}
 }): SagaIterator {
     yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'floor_plan_detail' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getFloorPlanDetailApi,payload, state)
     yield put(FloorPlanActions.updateFloorPlanDetail({ floor_plan:response.data.data.details!}))
+    yield put(FloorPlanActions.updateLabels({ labels:response.data.data.labels!}))
     yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'floor_plan_detail' }))
 }
 
 

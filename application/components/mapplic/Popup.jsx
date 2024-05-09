@@ -5,11 +5,13 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { RouteButton } from './Routes'
 import { replaceVars } from './utils'
 import classNames from 'classnames'
-import { HStack, Icon, Link, View, Text, Spacer, IconButton } from 'native-base'
+import { HStack, Icon, Link, View, Text, Spacer, IconButton } from 'native-base';
+import { useRouter } from 'solito/router';
 
 export const Popup = ({location, type}) => {
 	const closeLocation = useMapplicStore(state => state.closeLocation);
 	const settings = useMapplicStore(state => state.data.settings);
+	const { push } = useRouter();
 
 	const [details, setDetails] = useState(false);
 
@@ -46,7 +48,7 @@ export const Popup = ({location, type}) => {
 				{ (location?.link || location?.hours || location?.phone || settings.wayfinding) && (
 					<>
 					{ location.link && <HStack mt={2} justifyContent={'center'} alignItems={'center'} w={'100%'} px={3} py={2} borderColor={'#888'} borderTopWidth={1}>
-						<Link px={6} py={1} rounded={'full'} shadow={2}  fontSize={'lg'} bg={'primary.500'} color={'primary.text'} href={location.link}><Text fontSize="md">Detail</Text>
+						<Link px={6} py={1} rounded={'full'} shadow={2}  fontSize={'lg'} bg={'primary.500'} color={'primary.text'} onPress={() => push(location.link)}><Text fontSize="md">Detail</Text>
 						 <Icon ml={2} mt={1} color={'primary.text'} as={AntDesign} name="rightcircleo"  />
 						</Link>
 						

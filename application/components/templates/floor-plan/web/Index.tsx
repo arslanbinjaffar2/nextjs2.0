@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Container, Divider, HStack, Icon, Image, Input, Pressable, Radio, Spacer, Text, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseFloorPlanService from 'application/store/services/UseFloorPlanService';
 import WebLoading from 'application/components/atoms/WebLoading';
-import { FloorPlan } from 'application/models/floorPlans/FloorPlans';
+import { FloorPlan,FloorPlanCategory } from 'application/models/floorPlans/FloorPlans';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useRouter } from 'solito/router';
@@ -16,14 +16,76 @@ const Index = () => {
   const [query, setQuery] = React.useState("");
   const [toggle, setToggle] = React.useState<boolean>(false)
 
-  const { FetchFloorPlans, floor_plans, sponsorCount,exhibitorCount } = UseFloorPlanService();
+  const { FetchFloorPlans, floor_plans, sponsorCount,exhibitorCount,labels,categories } = UseFloorPlanService();    
   const { event, modules } = UseEventService();
   const module = modules.find((module) => {
     return module.alias === 'plans'
-  })
+  });
+
+  const [selectedfilter, setSelectedfilter] = useState('sponsors');
+  const [search, setSearch] = useState('');
+  const [filteredFloorPlans, setFilteredFloorPlans] = useState<FloorPlan[]>([]);
+  const [filteredCategories, setFilteredCategories] = useState<FloorPlanCategory[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<FloorPlanCategory[]>([]);
+
+
   useEffect(()=>{
       FetchFloorPlans();
   },[]);
+
+  useEffect(() => {
+    filterFloorPlans();
+  },[floor_plans]);
+
+  function selectCategory(category: FloorPlanCategory) {
+    if (isSelected(category.id)) {
+      setSelectedCategories(selectedCategories.filter(sCategory => sCategory.id !== category.id));
+    } else {
+      setSelectedCategories([...selectedCategories, category]);
+    }
+  }
+
+  function filterFloorPlans(){
+    const searchFiltered = search ? floor_plans.filter(floorPlan => floorPlan.floor_plan_name.toLowerCase().includes(search.toLowerCase())) : floor_plans;
+    if(selectedCategories.length < 1){
+      setFilteredFloorPlans(searchFiltered);
+      return;
+    }
+    // filter and keep all the floor plans which have any of the selected categories.id in floorPlan.categories.id
+    const filtered = searchFiltered.filter(floorPlan => {
+      if (!floorPlan.categories) {
+        return [];
+      }
+      return floorPlan?.categories.some(category => selectedCategories.some(sCategory => sCategory.id === category.id));
+    });
+    setFilteredFloorPlans(filtered);
+  }
+
+  function isSelected(id:number) {
+    return selectedCategories.some(category => category.id === id);
+  }
+
+  function filterCategories() {
+    const filtered= categories.filter(category => category.cat_type === selectedfilter);
+    setFilteredCategories(filtered);
+  }
+
+  useEffect(() => {
+    filterCategories();
+  },[categories]);
+
+  useEffect(() => {
+    setSelectedCategories([]);
+    filterCategories();
+  },[selectedfilter]);
+
+  useEffect(() => {
+    filterFloorPlans();
+  },[selectedCategories]);
+
+  useEffect(() => {
+    filterFloorPlans();
+  },[search]);
 
   return (
     <>
@@ -36,10 +98,10 @@ const Index = () => {
 
             <Container pt="2" maxW="100%" w="100%">
               <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text fontSize="2xl">{module?.name ?? "FLoor plan"}</Text>
+                <Text fontSize="2xl">{module?.name}</Text>
                 <Spacer />
                 <HStack  space="1" alignItems="center">
-                 <Input rounded="10" w={'320px'} bg="primary.box" borderWidth={0} value={query} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setQuery} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                 <Input rounded="10" w={'320px'} bg="primary.box" borderWidth={0} value={search} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setSearch} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                  <Spacer />
                  <Button
                   w={'42px'}
@@ -58,96 +120,30 @@ const Index = () => {
                 
               </HStack>
               {toggle && <Box mb={4} w="100%" bg="primary.box" overflow="hidden" rounded="10px">
-                <Text bg={'primary.darkbox'} px={4} py={1} fontSize="lg">Advance filters</Text>
+                <Text bg={'primary.darkbox'} px={4} py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
                 <Box p={4} w={'100%'}>
-                  <Radio.Group  name="MyRadioGroup">
+                  <Radio.Group  name="MyRadioGroup" value={selectedfilter} onChange={nextValue => {setSelectedfilter(nextValue);}}>
                     <HStack fontSize={'lg'}  space="3" alignItems="center">
-                      <Radio _text={{fontSize: 'lg'}} value="one">Sponsors (30)</Radio>
-                      <Radio _text={{fontSize: 'lg'}}  value="two">Exhibitors (24)</Radio>
+                      <Radio _text={{fontSize: 'lg'}} value="sponsors">{labels?.FLOOR_PLAN_SPONSORS_LABEL} ({sponsorCount})</Radio>
+                      <Radio _text={{fontSize: 'lg'}}  value="exhibitors">{labels?.FLOOR_PLAN_EXHIBITORS_LABEL} ({exhibitorCount})</Radio>
                     </HStack>
                     
                   </Radio.Group>
                 </Box>
                 <HStack flexWrap={'wrap'}  p={4} borderTopColor={'primary.bordercolor'} borderTopWidth={1} space="3" alignItems="center">
-                  <Pressable
-                    p="0"
-                    borderWidth="0"
-                    onPress={()=>{
-                      console.log('hello')
-                    }}
-                  
-                  >
-                    <HStack px={6} py={2} rounded={'full'} bg={'secondary.500'} space="3" alignItems="center" mb={3}>
-                      <Icon size="md" as={AntDesign} name="check" color={'primary.text'} />
-                      <Text  fontSize="lg">Gold  (53)</Text>
-                    </HStack>
+                  {filteredCategories.map((category:FloorPlanCategory) => (
+                    <Pressable
+                      p="0"
+                      borderWidth="0"
+                      onPress={()=>{selectCategory(category)}}
+                    >
+                      <HStack px={6} py={2} rounded={'full'} bg={isSelected(category?.id) ? 'secondary.500' : 'primary.box'} space="3" alignItems="center" mb={3}>
+                        <Text  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
+                      </HStack>
+                      
+                    </Pressable>
                     
-                  </Pressable>
-                  <Pressable
-                    p="0"
-                    borderWidth="0"
-                    onPress={()=>{
-                      console.log('hello')
-                    }}
-                  
-                  >
-                    <HStack px={6} py={2} rounded={'full'} bg={'primary.box'} space="3" alignItems="center" mb={3}>
-                      <Text  fontSize="lg">Silver (23)</Text>
-                    </HStack>
-                    
-                  </Pressable>
-                  <Pressable
-                    p="0"
-                    borderWidth="0"
-                    onPress={()=>{
-                      console.log('hello')
-                    }}
-                  
-                  >
-                    <HStack px={6} py={2} rounded={'full'} bg={'primary.box'} space="3" alignItems="center" mb={3}>
-                      <Text  fontSize="lg">Silver (23)</Text>
-                    </HStack>
-                    
-                  </Pressable>
-                  <Pressable
-                    p="0"
-                    borderWidth="0"
-                    onPress={()=>{
-                      console.log('hello')
-                    }}
-                  
-                  >
-                    <HStack px={6} py={2} rounded={'full'} bg={'primary.box'} space="3" alignItems="center" mb={3}>
-                      <Text  fontSize="lg">Silver (23)</Text>
-                    </HStack>
-                    
-                  </Pressable>
-                  <Pressable
-                    p="0"
-                    borderWidth="0"
-                    onPress={()=>{
-                      console.log('hello')
-                    }}
-                  
-                  >
-                    <HStack px={6} py={2} rounded={'full'} bg={'primary.box'} space="3" alignItems="center" mb={3}>
-                      <Text  fontSize="lg">Silver (23)</Text>
-                    </HStack>
-                    
-                  </Pressable>
-                  <Pressable
-                    p="0"
-                    borderWidth="0"
-                    onPress={()=>{
-                      console.log('hello')
-                    }}
-                  
-                  >
-                    <HStack px={6} py={2} rounded={'full'} bg={'primary.box'} space="3" alignItems="center" mb={3}>
-                      <Text  fontSize="lg">Silver (23)</Text>
-                    </HStack>
-                    
-                  </Pressable>
+                  ))}
                   
                 </HStack>
                 
@@ -156,22 +152,14 @@ const Index = () => {
               <Box w="100%" bg="primary.box" overflow="hidden" rounded="10px">
                
                 <VStack mb="0" w="100%" space="0">
-                  {floor_plans.filter((plan) => {
-                    if (query !== '') {
-                      if (plan.floor_plan_name.toLowerCase().indexOf(query.toLowerCase()) > -1) {
-                        return plan;
-                      }
-                    } else {
-                      return plan;
-                    }
-                  }).map((plan: FloorPlan,i) => (
+                  {filteredFloorPlans.map((plan: FloorPlan,i) => (
                     <Pressable
                       p="0"
                       borderWidth="0"
                       onPress={()=>{push(`/${event.url}/plans/detail/${plan.id}`)}}
                     >
                       <HStack p={4} borderTopWidth={i === 0 ? 0 : 1} borderTopColor="primary.bordercolor"  space="3" alignItems="center">
-                        <Text fontWeight={500} fontSize="16px" >{plan.floor_plan_name}</Text>
+                        <Text fontWeight={500} fontSize="16px" >{plan?.floor_plan_name}</Text>
                         <Spacer />
                          <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
                       </HStack>
@@ -180,6 +168,7 @@ const Index = () => {
                     
                     
                   ))}
+                  {filteredFloorPlans.length < 1 && <Text p={4} fontSize="lg">{event?.labels?.GENERAL_NO_RECORD}</Text>}
                 </VStack>
               </Box>
             </Container>
@@ -190,28 +179,3 @@ const Index = () => {
 }
 
 export default Index
-
-{/* <Container pt="2" maxW="100%" w="100%">
-              <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text textTransform="uppercase" fontSize="2xl">FLoor Plan</Text>
-              </HStack>
-              <Image
-                source={{
-                  uri: 'https://wallpaperaccess.com/full/317510.jpg'
-                }}
-                alt="Alternate Text"
-                w="100%"
-                h="650px"
-                rounded="10"
-                mb="3"
-              />
-              <Box w="100%" bg="primary.box" overflow="hidden" rounded="10px">
-                <Input bg="transparent" rounded="0" w="100%" borderWidth={0} placeholder={event.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-                <Divider w="100%" bg="primary.text" h="1px" />
-                <VStack mb="10" w="100%" space="0">
-                  <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md">A1, Amnesty youth</Text>
-                  <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md">A2, Ungdomssken & UU kobenhavn</Text>
-                  <Text borderBottomWidth="1" borderBottomColor="primary.bordercolor" px="3" py="2" fontSize="md">A3, Dansk Industry (DI)</Text>
-                </VStack>
-              </Box>
-              </Container> */}
