@@ -29,7 +29,7 @@ type boxItemProps = {
 }
 
 const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
-	const { event } = UseEventService()
+	const { event,modules } = UseEventService()
   	const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 	const [showConfirmation, setShowConfirmation] = React.useState(false);
 	const [confirmAction, setConfirmAction] = React.useState<any>(null);
@@ -37,7 +37,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 	const { push } = useRouter();
 	const { response } = UseAuthService();
 	const [loggedInAttendeeId]= React.useState(response?.data?.user?.id);
-	const [isChatModuleActive]= React.useState(false);
+	const [isChatModuleActive]= React.useState(modules?.find((module:any) => module.alias === 'chat') ? true : false);
 	const [sendingReminder,setSendingReminder]= React.useState<number>(0);
 	const [downloadingCalendar,setDownloadingCalendar]= React.useState<number>(0);
 	const {AddNotification} = UseNotificationService();
@@ -206,7 +206,14 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 						{isChatModuleActive && (
 							<>
 							{/* Chat Icon */}
-							<DynamicIcon iconType="chat" iconProps={{ width: 19, height: 19 }} />
+							<Tooltip px={5} rounded={'full'} label={modules?.find((module:any) => module.alias === 'chat')?.name ?? ''} openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
+							<IconButton p={1} variant="unstyled"
+								icon={<DynamicIcon iconType="chat" iconProps={{ width: 19, height: 19 }} />}
+								onPress={()=>{
+									push(`/${event.url}/chat/${loggedInAttendeeId === meeting_request?.participant_attendee_id ? meeting_request?.host_attendee_id : meeting_request?.participant_attendee_id}`);
+								}} />
+							</Tooltip>
+							
 							</>
 						)}
 						{/* Cancel Icon */}
