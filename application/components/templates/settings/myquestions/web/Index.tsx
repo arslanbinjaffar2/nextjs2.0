@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { Avatar, Box, Button, Container, Heading, HStack, Icon, Image, Input, Spacer, Text, VStack, Pressable } from 'native-base';
+import { Avatar, Box, Container, Heading, HStack, Icon, Image, Input, Spacer, Text, VStack, Pressable } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService';
-import PropTypes from 'prop-types';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseQaService from 'application/store/services/UseQaService';
 import WebLoading from 'application/components/atoms/WebLoading';
+import { useRouter } from 'solito/router';
 
 const Index = () => {
+
+    const { push } = useRouter()
 
     const { loading } = UseLoadingService();
 
@@ -38,7 +40,9 @@ const Index = () => {
                                     my_questions.map((question: any, index: number) => (
                                         <Pressable
                                             onPress={() => {
-                                            }}>
+                                                push(`/${event.url}/settings/myquestions/detail/${question.id}`)
+                                            }}
+                                        >
                                             <HStack key={index} borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                                                 <Avatar
                                                     source={{

@@ -26,6 +26,7 @@ export interface QaState {
         labels: any[]
     },
     my_questions:Question[],
+    questionAnswers: any[],
 }
 
 const initialState: QaState = {
@@ -45,6 +46,7 @@ const initialState: QaState = {
         labels:[]
     },
     my_questions:[],
+    questionAnswers: [],
 }
 
 // Slice
@@ -78,6 +80,9 @@ export const QaSlice = createSlice({
         },
         updateMyQuestions(state, action: PayloadAction<any>) {
             state.my_questions = action.payload;
+        },
+        updateMyQuestionAnswers(state, action: PayloadAction<any>) {
+            state.questionAnswers = action.payload;
         },
         SubmitQa(state, action: PayloadAction<any>) {},
         SubmitQaLike(state, action: PayloadAction<{question_id:number, agenda_id:number}>) {},
@@ -139,6 +144,7 @@ export const QaSlice = createSlice({
             state.qaDetails.my_questions = myQA;
         },
         FetchMyQuestions() {},
+        FetchMyQuestionsAnswers(state, action: PayloadAction<{ id: number }>) {},
         
     },
 })
@@ -156,7 +162,9 @@ export const QaActions = {
     QaRecentPopularSocketUpdate:QaSlice.actions.QaRecentPopularSocketUpdate,
     QaSort:QaSlice.actions.QaSort,
     FetchMyQuestions:QaSlice.actions.FetchMyQuestions,
+    FetchMyQuestionsAnswers:QaSlice.actions.FetchMyQuestionsAnswers,
     updateMyQuestions:QaSlice.actions.updateMyQuestions,
+    updateMyQuestionAnswers:QaSlice.actions.updateMyQuestionAnswers,
 }
 
 export const SelectPrograms = (state: RootState) => state.qa.programs
@@ -168,6 +176,8 @@ export const SelectQaSettings = (state: RootState) => state.qa.qaSettings
 export const SelectQaDetails = (state: RootState) => state.qa.qaDetails
 
 export const SelectMyQuestions = (state: RootState) => state.qa.my_questions
+
+export const SelectMyQuestionAnswers = (state: RootState) => state.qa.questionAnswers
 
 
 // Reducer
