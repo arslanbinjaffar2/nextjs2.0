@@ -7,13 +7,15 @@ import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
 import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 import UseEventService from 'application/store/services/UseEventService';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 const SocketRequestModal = () => {
 	const {socket_requests,AcceptMeetingRequest,RejectMeetingRequest,RemoveFirstSocketRequest}= UseMeetingReservationService();
 	const [isOpen,setIsOpen] = useState<boolean>(false);
 	const [socketRequest,setSocketRequest] = useState<any>({});
 	const {event} = UseEventService();
-	const _element = React.useRef<HTMLDivElement>() 
+	const _element = React.useRef<HTMLDivElement>() ;
+	const {_env} =UseEnvService();
 	React.useEffect(() => {
 		setTimeout(() => {
 			_element.current?.classList.add('add-blur-radius')
@@ -51,10 +53,6 @@ const SocketRequestModal = () => {
 
 	}
 
-	// function getAttendeeAvatarImage(){
-	// 	return socketRequest?.host_attendee_id === loggedInAttendeeId ? socketRequest?.participant_attendee.image : socketRequest?.host_attendee.image
-
-	// }
 	function getShortName (name: string){
 		if(!name) return ('');
 		let names = name.split(' ');
@@ -85,7 +83,7 @@ const SocketRequestModal = () => {
 								<HStack space={2} alignItems={'center'}>
 								{/* <Text  fontSize="sm">Person : </Text> */}
 								 <HStack  space="1" alignItems="center">
-									<Avatar bg={'primary.100'} size={'22px'} source={{uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"}}>
+									<Avatar bg={'primary.100'} size={'22px'} source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${socketRequest?.image}`}}>
 									{getShortName(socketRequest?.host_attendee_name)}
 								</Avatar>
 								<Text fontSize="sm">{socketRequest?.host_attendee_name}</Text>
