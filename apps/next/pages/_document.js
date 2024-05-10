@@ -158,6 +158,12 @@ export const style = `
 body {
   display: flex;
 }
+
+.rsw-ce[contentEditable=true]:empty:not(:focus):before {
+  color: inherit !important;
+  content: attr(placeholder);
+  opacity:0.7;
+}
 .rdtPicker {
   margin-top:10px !important;
 }
