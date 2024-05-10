@@ -43,6 +43,10 @@ const Detail = () => {
     if (questionAnswers?.answers) {
       setAnswers(questionAnswers.answers);
     }
+
+    return () => {
+      setAnswers([])
+    }
   }, [questionAnswers]);
 
   React.useEffect(() => {
@@ -67,6 +71,10 @@ const Detail = () => {
       setMessage('');
     }
   };
+
+  if (questionAnswers && Number(questionAnswers?.question_id) !== Number(id)) {
+    return <WebLoading />;
+  }
 
   return (
     <>
