@@ -123,7 +123,8 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 	}
 
 	function getAttendeeAvatarName(){
-		return attendeeToShow?.first_name.charAt(0).toUpperCase() + attendeeToShow?.last_name.charAt(0).toUpperCase();
+		let last_name=attendeeToShow?.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : ''
+		return attendeeToShow?.first_name.charAt(0).toUpperCase() + last_name.charAt(0).toUpperCase();
 	}
 
   return (
@@ -132,7 +133,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
             <HStack  space="3" alignItems="center">
 				<Avatar 
 					
-						source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendeeToShow?.image}` }}
+						source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendeeToShow?.field_settings?.profile_picture?.is_private == 0 ? attendeeToShow?.image:''}` }}
 						// uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"
 					>
 					{getAttendeeAvatarName()}
@@ -140,7 +141,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							
 				<Center>
 					<VStack  space="1">
-						<Text fontSize="lg" fontWeight={500}>{attendeeToShow?.full_name}</Text>
+						<Text fontSize="lg" fontWeight={500}>{attendeeToShow?.first_name} {attendeeToShow.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : ''}</Text>
 						<HStack  space="3" alignItems="center">
 							<HStack  space="2" alignItems="center">
 								<Icocalendar width={16} height={18} /><Text fontSize="16px">{moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>

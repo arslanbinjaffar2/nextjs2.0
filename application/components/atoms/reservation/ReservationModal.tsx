@@ -52,16 +52,9 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 		}
 	}
 	
-	function getShortName (name: string|undefined){
-		if(!name) return ('');
-		let names = name.split(' ');
-		let shortName = '';
-		names.forEach((name, index) => {
-			if(index < 2){
-				shortName += name.charAt(0).toUpperCase();
-			}
-		});
-		return shortName;
+	function getShortName (){
+		let last_name = attendeeToShow?.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : '';
+		return attendeeToShow?.first_name.charAt(0).toUpperCase() + last_name.charAt(0).toUpperCase();
 	}
 
   return (
@@ -83,13 +76,13 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 								<HStack space={2} alignItems={'center'}><Text  fontSize="sm">Person : {meeting_request?.slot?.meeting_space?.persons}</Text>
 								 <HStack  space="1" alignItems="center">
 									<Avatar bg={'primary.100'} size={'22px'}
-											source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendeeToShow?.image}` }}
+											source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendeeToShow?.field_settings?.profile_picture?.is_private == 0 ? attendeeToShow?.image:''}` }}
 									>
 										<Text fontWeight={600}>
-											{getShortName(attendeeToShow?.full_name)}
+											{getShortName()}
 										</Text>
 								</Avatar>
-								<Text fontSize="sm">{attendeeToShow?.full_name}</Text>
+								<Text fontSize="sm">{attendeeToShow?.first_name} {attendeeToShow?.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : ''}</Text>
 								
 								</HStack>
 								</HStack>
