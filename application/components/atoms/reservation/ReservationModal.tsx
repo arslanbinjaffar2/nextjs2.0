@@ -1,11 +1,12 @@
 import React from 'react';
 import {  Avatar, Button, Container, HStack, Modal, Pressable, ScrollView, Spacer, Text, TextArea, View, VStack } from 'native-base';
-import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
+import { MeetingAttendee, MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import moment from 'moment';
 import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
 import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 type ReservationModalProps = {
 	onClose: any
@@ -15,27 +16,30 @@ type ReservationModalProps = {
 	meeting_request: MeetingRequest,
 	loggedInAttendeeId: number,
 }
-const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,onAccept,action}: any) => {
+const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,onAccept,action}: ReservationModalProps) => {
 	const [title, setTitle] = React.useState<string>('');
 	const [message, setMessage] = React.useState<string>('');
-	const [cancelButtonText, setCancelButtonText] = React.useState<string>('');
-	const [confirmButtonText, setConfirmButtonText] = React.useState<string>('');
 	const {labels}= UseMeetingReservationService();
-	const _element = React.useRef<HTMLDivElement>() 
+	const { _env } = UseEnvService();
+	const [attendeeToShow,setAttendeeToShow]=React.useState<MeetingAttendee>();
+	const _element = React.useRef<HTMLDivElement>() ;
 	React.useEffect(() => {
 		setTimeout(() => {
 			_element.current?.classList.add('add-blur-radius')
 		}, 300);
 	}, [isOpen])
 
+	function updateAttendeeToShow(){
+		setAttendeeToShow(meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee : meeting_request?.host_attendee);
+	}
+
 	React.useEffect(() => {
 		updateMessage(action)
+		updateAttendeeToShow();
 	}
 	, [meeting_request])
 
 	const updateMessage = (action: any) => {
-		setCancelButtonText('No');
-		setConfirmButtonText('Yes');	
 		if(action === 'acceptMeeting'){
 			setTitle(labels?.RESERVATION_ACCEPT_MEETING_ALERT_TITLE);
 			setMessage(labels?.RESERVATION_ACCEPT_MEETING_ALERT_MESSAGE);
@@ -48,6 +52,11 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 		}
 	}
 	
+	function getShortName (){
+		let last_name = attendeeToShow?.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : '';
+		return attendeeToShow?.first_name.charAt(0).toUpperCase() + last_name.charAt(0).toUpperCase();
+	}
+
   return (
 	<Modal
 			size={'md'}
@@ -66,16 +75,19 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
 								<HStack space={2} alignItems={'center'}><Text  fontSize="sm">Person : {meeting_request?.slot?.meeting_space?.persons}</Text>
 								 <HStack  space="1" alignItems="center">
-									<Avatar bg={'primary.100'} size={'22px'} source={{uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"}}>
-									SS
+									<Avatar bg={'primary.100'} size={'22px'}
+											source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendeeToShow?.field_settings?.profile_picture?.is_private == 0 ? attendeeToShow?.image:''}` }}
+									>
+										<Text fontWeight={600}>
+											{getShortName()}
+										</Text>
 								</Avatar>
-								<Text fontSize="sm">{meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee.full_name : meeting_request?.host_attendee.full_name}</Text>
+								<Text fontSize="sm">{attendeeToShow?.first_name} {attendeeToShow?.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : ''}</Text>
 								
 								</HStack>
 								</HStack>
 								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {meeting_request?.slot?.meeting_space?.name}</Text>
 								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
-								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_TIME} : {meeting_request?.slot?.start_time} - {meeting_request?.slot?.end_time} ({meeting_request?.slot?.duration})</Text>
 							</VStack>
 						</Modal.Body>
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
@@ -90,6 +102,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 						</Modal.Footer>
 					</Modal.Content>
 				</Modal>
+	
   )
 }
 

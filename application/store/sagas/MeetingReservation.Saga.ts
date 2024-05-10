@@ -37,6 +37,7 @@ function* OnGetAvailableSlots({
     const response: HttpResponse = yield call(getAvailableMeetingSlotsApi, { ...payload, limit: 20 }, state)
     yield put(MeetingReservationActions.updateAvailableSlots({slots:response.data.data.meeting_slots, dates:response.data.data.dates}))
     yield put(MeetingReservationActions.updateLabels({labels:response.data.data.labels}))
+    yield put(MeetingReservationActions.updateAvailableMeetingSpaces({meeting_spaces:response.data?.data?.meeting_spaces!}))
     yield put(LoadingActions.removeProcess({ process: 'get-available-slots' }))
 }
 
