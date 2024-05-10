@@ -83,7 +83,7 @@ const SocketRequestModal = () => {
 								<HStack space={2} alignItems={'center'}>
 								{/* <Text  fontSize="sm">Person : </Text> */}
 								 <HStack  space="1" alignItems="center">
-									<Avatar bg={'primary.100'} size={'22px'} source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${socketRequest?.image}`}}>
+									<Avatar bg={'primary.100'} size={'22px'} source={{uri:``}}>
 									{getShortName(socketRequest?.host_attendee_name)}
 								</Avatar>
 								<Text fontSize="sm">{socketRequest?.host_attendee_name}</Text>
