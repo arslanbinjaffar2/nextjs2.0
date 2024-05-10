@@ -74,7 +74,9 @@ const [loadCount,setLoadCount] = React.useState<number>(0)
         <Spacer />
          <DateTimePicker value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
       </HStack>
-      <HStack mb="3" space={1} overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%">
+      <HStack mb="3" space={2}  overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%" 
+      style={{ rowGap:10 }}
+      >
       <Button 
             onPress={() => {setTab('all')}} 
             borderWidth="0px" 
@@ -84,27 +86,32 @@ const [loadCount,setLoadCount] = React.useState<number>(0)
             borderLeftRadius={0} 
             _hover={{_text: {color: 'primary.hovercolor'}}}
             h="42px"
-            flex={1} 
+            flexGrow={1}
             bg={tab === 'all' ? 'primary.boxbutton' :'primary.box'} 
             _text={{ fontWeight: '600' }}>
           All
         </Button>
+     
         {statuses.map((status:any,k:number) =>
-          <Button 
-              key={k}
+
+          <Button
+              flexGrow={1}
               onPress={() => {setTab(status)}} 
               borderWidth="0px" 
               py={0} 
               borderColor="primary.darkbox" 
               borderRightRadius="0" 
-              borderLeftRadius={0} 
+              borderLeftRadius={1} 
               _hover={{_text: {color: 'primary.hovercolor'}}}
               h="42px"
-              flex={1} 
               bg={tab === status ? 'primary.boxbutton' :'primary.box'} 
               _text={{ fontWeight: '600' }}>
+                <Text>
             {labels?.['RESERVATION_REQUEST_STATUS_' + status]}
+          
+                </Text>
           </Button>
+
         )}
       </HStack>
       {loadCount < 2 && in_array('my-meeting-requests',processing) ? (
