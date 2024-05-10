@@ -343,6 +343,11 @@ const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
     }
   };
 
+  	const daysOfWeek = [];
+	for (let i = 0; i < 7; i++) {
+	const dayName = moment().day(i).format('ddd');
+	daysOfWeek.push(dayName);
+	}
 
 return (
 <>
@@ -374,13 +379,9 @@ return (
             </Center>
         </HStack>
 				<HStack  borderWidth={1} borderColor={'primary.darkbox'} borderLeftWidth={0} borderRightWidth={0} w="100%" px="3" py="3"  space="0"  alignItems="center">
-					<Center flex={1}><Text fontSize="md">Sun</Text></Center>
-					<Center flex={1}><Text fontSize="md">Mon</Text></Center>
-					<Center flex={1}><Text fontSize="md">Tue</Text></Center>
-					<Center flex={1}><Text fontSize="md">Wed</Text></Center>
-					<Center flex={1}><Text fontSize="md">Thu</Text></Center>
-					<Center flex={1}><Text fontSize="md">Fri</Text></Center>
-					<Center flex={1}><Text fontSize="md">Sat</Text></Center>
+					{daysOfWeek.map((day:string)=>(
+						<Center flex={1}><Text fontSize="md">{day}</Text></Center>
+					))}
 				</HStack>
 				<Flex p="3" w="100%" flexWrap={'wrap'}  direction="row">
 					{getDate(month)}
