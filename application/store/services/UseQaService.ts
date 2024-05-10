@@ -34,6 +34,7 @@ export type QaServiceOperators = {
     SubmitQaLike: (payload:{question_id:number, agenda_id:number}) => void,
     QaRecentPopularSocketUpdate: (payload:any) => void,
     QaSort: (payload:any) => void,
+    SendMessage: (payload:{question_id:number, message:string}) => void,
 }
 
 /**
@@ -103,6 +104,12 @@ export const UseQaService = (): Readonly<QaServiceOperators> => {
         FetchMyQuestionsAnswers: useCallback(
             (payload: { id: number }) => {
                 dispatch(QaActions.FetchMyQuestionsAnswers(payload))
+            },
+            [dispatch],
+        ),
+        SendMessage: useCallback(
+            (payload: {question_id:number, message:string}) => {
+                dispatch(QaActions.SendMessage(payload))
             },
             [dispatch],
         ),

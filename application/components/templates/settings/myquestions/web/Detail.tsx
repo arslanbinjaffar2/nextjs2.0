@@ -28,7 +28,7 @@ const Detail = () => {
 
   const { response } = UseAuthService()
 
-  const { questionAnswers, FetchMyQuestionsAnswers } = UseQaService();
+  const { questionAnswers, FetchMyQuestionsAnswers, SendMessage } = UseQaService();
 
   const [answers, setAnswers] = React.useState<any[]>([]);
   const [message, setMessage] = React.useState<string>('');
@@ -63,8 +63,7 @@ const Detail = () => {
 
   const handleMessageSend = () => {
     if (message.trim() !== '') {
-      console.log("🚀 ~ handleMessageSend ~ message:", message)
-      // SendMessage({ id: Number(id), message });
+      SendMessage({ question_id: Number(id), message });
       setMessage('');
     }
   };

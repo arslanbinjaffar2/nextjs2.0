@@ -145,7 +145,7 @@ export const QaSlice = createSlice({
         },
         FetchMyQuestions() {},
         FetchMyQuestionsAnswers(state, action: PayloadAction<{ id: number }>) {},
-        
+        SendMessage(state, action: PayloadAction<{question_id:number, message:string}>) {},   
     },
 })
 
@@ -165,6 +165,7 @@ export const QaActions = {
     FetchMyQuestionsAnswers:QaSlice.actions.FetchMyQuestionsAnswers,
     updateMyQuestions:QaSlice.actions.updateMyQuestions,
     updateMyQuestionAnswers:QaSlice.actions.updateMyQuestionAnswers,
+    SendMessage:QaSlice.actions.SendMessage,
 }
 
 export const SelectPrograms = (state: RootState) => state.qa.programs
