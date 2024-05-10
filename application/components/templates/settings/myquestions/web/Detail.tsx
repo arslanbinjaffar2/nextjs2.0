@@ -28,7 +28,7 @@ const Detail = () => {
 
   const { response } = UseAuthService()
 
-  const { questionAnswers, FetchMyQuestionsAnswers } = UseQaService();
+  const { questionAnswers, FetchMyQuestionsAnswers, SendMessage } = UseQaService();
 
   const [answers, setAnswers] = React.useState<any[]>([]);
   const [message, setMessage] = React.useState<string>('');
@@ -42,6 +42,10 @@ const Detail = () => {
   React.useEffect(() => {
     if (questionAnswers?.answers) {
       setAnswers(questionAnswers.answers);
+    }
+
+    return () => {
+      setAnswers([])
     }
   }, [questionAnswers]);
 
@@ -63,11 +67,14 @@ const Detail = () => {
 
   const handleMessageSend = () => {
     if (message.trim() !== '') {
-      console.log("🚀 ~ handleMessageSend ~ message:", message)
-      // SendMessage({ id: Number(id), message });
+      SendMessage({ question_id: Number(id), message });
       setMessage('');
     }
   };
+
+  if (questionAnswers && Number(questionAnswers?.question_id) !== Number(id)) {
+    return <WebLoading />;
+  }
 
   return (
     <>

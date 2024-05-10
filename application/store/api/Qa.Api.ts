@@ -30,3 +30,7 @@ export const getQaMyQuestionListingApi = (payload: any, state: any): Promise<Htt
 export const getQaMyQuestionAnswersListingApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/qa/my-question-answers-listing/${payload.id}`);
 }
+
+export const submitSendMessageAnswerApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/qa/answer-question/${payload.question_id}`, { ...payload });
+}
