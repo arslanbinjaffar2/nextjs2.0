@@ -9,7 +9,6 @@ import UseMeetingReservationService from 'application/store/services/UseMeetingR
 import UseEventService from 'application/store/services/UseEventService';
 
 const SocketRequestModal = () => {
-
 	const {socket_requests,AcceptMeetingRequest,RejectMeetingRequest,RemoveFirstSocketRequest}= UseMeetingReservationService();
 	const [isOpen,setIsOpen] = useState<boolean>(false);
 	const [socketRequest,setSocketRequest] = useState<any>({});
@@ -52,6 +51,10 @@ const SocketRequestModal = () => {
 
 	}
 
+	// function getAttendeeAvatarImage(){
+	// 	return socketRequest?.host_attendee_id === loggedInAttendeeId ? socketRequest?.participant_attendee.image : socketRequest?.host_attendee.image
+
+	// }
 	function getShortName (name: string){
 		if(!name) return ('');
 		let names = name.split(' ');
@@ -63,7 +66,6 @@ const SocketRequestModal = () => {
 		});
 		return shortName;
 	}
-
   return (
 	<Modal
 			size={'md'}

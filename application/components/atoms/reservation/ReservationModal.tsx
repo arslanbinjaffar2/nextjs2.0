@@ -6,6 +6,7 @@ import moment from 'moment';
 import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
 import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
+import UseEnvService from '../../../store/services/UseEnvService';
 
 type ReservationModalProps = {
 	onClose: any
@@ -21,6 +22,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 	const [cancelButtonText, setCancelButtonText] = React.useState<string>('');
 	const [confirmButtonText, setConfirmButtonText] = React.useState<string>('');
 	const {labels}= UseMeetingReservationService();
+	const { _env } = UseEnvService();
 	const _element = React.useRef<HTMLDivElement>() 
 	React.useEffect(() => {
 		setTimeout(() => {
@@ -47,7 +49,23 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 			setMessage(labels?.RESERVATION_CANCEL_MEETING_ALERT_MESSAGE);
 		}
 	}
-	
+	function getAttendeeAvatarImage(){
+		return meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee.image : meeting_request?.host_attendee.image
+
+	}
+	function getShortName (name: string){
+		if(!name) return ('');
+		let names = name.split(' ');
+		let shortName = '';
+		names.forEach((name, index) => {
+			if(index < 2){
+				shortName += name.charAt(0).toUpperCase();
+			}
+		});
+		return shortName;
+	}
+	console.log(getShortName("Sadsadkgjsa"),"shortname")
+	console.log(meeting_request?.host_attendee_name?.full_name,"meeting_request?.host_attendee_name")
   return (
 	<Modal
 			size={'md'}
@@ -66,8 +84,12 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
 								<HStack space={2} alignItems={'center'}><Text  fontSize="sm">Person : {meeting_request?.slot?.meeting_space?.persons}</Text>
 								 <HStack  space="1" alignItems="center">
-									<Avatar bg={'primary.100'} size={'22px'} source={{uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"}}>
-									SS
+									<Avatar bg={'primary.100'} size={'22px'}
+											// source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${getAttendeeAvatarImage()}` }}
+									>
+										<Text fontWeight={600}>
+									{getShortName(meeting_request?.host_attendee_name)}
+										</Text>
 								</Avatar>
 								<Text fontSize="sm">{meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee.full_name : meeting_request?.host_attendee.full_name}</Text>
 								
@@ -89,6 +111,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 						</Modal.Footer>
 					</Modal.Content>
 				</Modal>
+	
   )
 }
 
