@@ -478,16 +478,18 @@ const RectangleView = () => {
 
     return (
         <>
-            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'} flexWrap={'wrap'}>
-                <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
-                    <HStack space="3" alignItems="center">
+            <HStack mb="3" pt="2" w="100%" space="3"  justifyContent={'space-between'}>
+                <Pressable onPress={()=> push(`/${event.url}/attendees`)} w={'50%'}>
+                    <HStack space="3" alignItems="center" >
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                         <Text fontSize="2xl">
 							{labels?.RESERVATION_BOOK_MEETING_LABEL}
 							</Text>
                     </HStack>
                 </Pressable>
-				<Select mx={'auto'} bg={'primary.box'} w={376}   selectedValue={selectedMeetingSpace} minWidth="200" _selectedItem={{
+				<Select mx={'auto'} bg={'primary.box'}  
+				flex={1}
+				selectedValue={selectedMeetingSpace}_selectedItem={{
 					bg: "teal.600",
 					endIcon: <CheckIcon size="5" />
 					}} mt={1} onValueChange={itemValue => setSelectedMeetingSpace(itemValue)}>
@@ -497,6 +499,7 @@ const RectangleView = () => {
 					))}
         		</Select>
             </HStack>
+		
 			<Container borderWidth="1px" bg={'primary.box'} borderColor="primary.darkbox" rounded="8" overflow="hidden" mb="3" maxW="100%" w="100%">
                 <Center bg={'primary.darkbox'} w="100%" px="3" roundedTop={8} py="1">
                     <HStack w="100%" space="2" alignItems="center">
