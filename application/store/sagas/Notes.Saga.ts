@@ -58,16 +58,16 @@ function* OnUpdateNote({
 
     switch(note_type){
         case "sponsors":
-            yield put (ToastActions.AddToast({toast:{message:`${labels.GENERAL_SPONSORS_NOTES } updated successfully`,status:"success"}}))
+            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_SPONSORS_NOTES ,status:"success"}}))
           break;
           case "programs":
-            yield put (ToastActions.AddToast({toast:{message:`${labels.GENERAL_PROGRAM_NOTES} updated successfully`,status:"success"}}))
+            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_PROGRAM_NOTES,status:"success"}}))
             break;
             case "documents":
-            yield put (ToastActions.AddToast({toast:{message:`${labels.GENERAL_DOCUMENTS_NOTES  } updated successfully`,status:"success"}}))
+            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_DOCUMENTS_NOTES  ,status:"success"}}))
             break;
             case "exhibitors":
-            yield put (ToastActions.AddToast({toast:{message:`${labels.GENERAL_EXHIBITORS_NOTES } updated successfully`,status:"success"}}))
+            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_EXHIBITORS_NOTES ,status:"success"}}))
               break;
         default:
       }
@@ -87,21 +87,6 @@ function* OnGetMyNote({
     const labels=state?.event?.event.labels;
     const note_type=payload?.note_type
 
-    switch(note_type){
-        case "sponsors":
-            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_SPONSORS_NOTES,status:"success"}}))
-          break;
-          case "programs":
-            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_PROGRAM_NOTES,status:"success"}}))
-            break;
-            case "directory":
-                yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_DOCUMENTS_NOTES ,status:"success"}}))
-            break;
-            case "exhibitors":
-                yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_EXHIBITORS_NOTES,status:"success"}}))
-              break;
-        default:
-      }
 }
 
 // Watcher Saga
