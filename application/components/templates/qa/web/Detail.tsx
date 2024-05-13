@@ -37,6 +37,7 @@ import {
     Toolbar,
     
 } from 'react-simple-wysiwyg';
+import { getColorScheme } from 'application/styles/colors';
 
 type ScreenParams = { id: string }
 
@@ -68,7 +69,7 @@ const Detail = () => {
     
     const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | 'my_question' | ''>('');
     const [id] = useParam('id');
-
+    const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
     const updateQuestionsCount = (tab: string) => {
         switch (tab) {
             case 'popular':
@@ -302,7 +303,7 @@ const Detail = () => {
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
                                 <EditorProvider>
-                                    <Editor style={{width: '100%'}} value={question}
+                                    <Editor style={{width: '100%',color:colors.text}} value={question}
                                     placeholder={qaDetials.labels.QA_TYPE_YOUR_QUESTION }
                                     
                                     onChange={(e) => {
