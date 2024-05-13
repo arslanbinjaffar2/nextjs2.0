@@ -42,9 +42,9 @@ export interface ToastProps {
             iconProps={{ width: 24, height: 24 }}
           />
           <View style={{ marginLeft: 10 }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
+            {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
               {toast.status}
-            </Text>
+            </Text> */}
             <Text style={{ fontSize: 14, color: 'white' }}>{toast.message}</Text>
           </View>
         </View>
