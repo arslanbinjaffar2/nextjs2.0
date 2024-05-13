@@ -6,7 +6,6 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
 import { images } from 'application/styles';
-import SocketRequestModal from 'application/components/atoms/reservation/SocketRequestModal';
 import Icosettings from '../../../assets/icons/Icosettings';
 
 const HeaderMobile = ({ width }: any) => {
@@ -61,7 +60,6 @@ const [open, setOpen] = React.useState(false)
               <Heading textAlign={'center'} fontWeight={600} fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
         </Box>}
-      <SocketRequestModal />
       </Container>
       
       <Drawer isOpen={open} placement='left'>
