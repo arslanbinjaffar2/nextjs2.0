@@ -94,7 +94,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 					AddNotification({notification:{
 						type:'reservation',
 						title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
-						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.email}`,
+						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${attendee?.last_name}`,
 					}});
 				}
 			} catch (error) {
