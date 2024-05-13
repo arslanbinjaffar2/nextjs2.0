@@ -128,7 +128,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
        
        >
             <Text>
-            All
+            {event?.labels?.GENERAL_ALL}
             </Text>
           </ButtonElement>
         {statuses.map((status:any,k:number) =>

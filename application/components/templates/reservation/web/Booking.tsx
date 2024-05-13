@@ -229,6 +229,7 @@ const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
 		const [filteredSlots, setFilteredSlots] = useState<MeetingSlot[]>([]);
 		const fullDateFormat = 'YYYY-MM-DD';
 		const [bookedSlots, setBookedSlots] = useState<number[]>([]);
+		const {labels} = UseMeetingReservationService();
 
 		
 		
@@ -411,7 +412,7 @@ return (
     </Center>
     <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w="35%">
 			{
-				activeDay && 
+				activeDay ?( 
 				<Center py="3" px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
 					<Text my={2} fontSize="sm">
 						<>
@@ -423,6 +424,13 @@ return (
 					</ScrollView>
 					
 				</Center>
+				):(
+					<Center py="3" px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
+						<Box p={2} bg="primary.box" rounded="lg" w="100%">
+							<Text>{labels?.RESERVATION_SELECT_DATE}</Text>
+						</Box>
+					</Center>
+				)
 				
 			}
 
