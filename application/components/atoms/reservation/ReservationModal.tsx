@@ -65,29 +65,29 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 			onClose={()=>{
 			onClose()
 			}}>
-					<Modal.Content ref={_element}  bg={'primary.box'}>
+					<Modal.Content ref={_element}  bg={'primary.boxsolid'}>
 						
-						<Modal.Header px={6} pt={6} pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
-							<Text fontSize="lg" fontWeight={600}>{title}</Text>
+						<Modal.Header px={6} pt={6} pb={0} bg="primary.boxsolid" borderWidth={0} borderColor={'transparent'}>
+							<Text color={'primary.text'} fontSize="lg" fontWeight={600}>{title}</Text>
 						</Modal.Header>
 						<Modal.Body pb={0} bg="primary.box" px={0}>
-							<Text mb={3} px={6} fontSize="lg" fontWeight={500}>{message}</Text>
+							<Text color={'primary.text'} mb={3} px={6} fontSize="lg" fontWeight={500}>{message}</Text>
 							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
-								<HStack space={2} alignItems={'center'}><Text  fontSize="sm">Person : {meeting_request?.slot?.meeting_space?.persons}</Text>
+								<HStack space={2} alignItems={'center'}><Text color={'primary.text'}  fontSize="sm">Person : {meeting_request?.slot?.meeting_space?.persons}</Text>
 								 <HStack  space="1" alignItems="center">
 									<Avatar bg={'primary.100'} size={'22px'}
 											source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendeeToShow?.field_settings?.profile_picture?.is_private == 0 ? attendeeToShow?.image:''}` }}
 									>
-										<Text fontWeight={600}>
+										<Text  fontWeight={600}>
 											{getShortName()}
 										</Text>
 								</Avatar>
-								<Text fontSize="sm">{attendeeToShow?.first_name} {attendeeToShow?.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : ''}</Text>
+								<Text color={'primary.text'} fontSize="sm">{attendeeToShow?.first_name} {attendeeToShow?.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : ''}</Text>
 								
 								</HStack>
 								</HStack>
-								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {meeting_request?.slot?.meeting_space?.name}</Text>
-								<Text  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
+								<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {meeting_request?.slot?.meeting_space?.name}</Text>
+								<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
 							</VStack>
 						</Modal.Body>
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
