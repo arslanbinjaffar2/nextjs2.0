@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {  Avatar, Button, Container, HStack, Modal, Pressable, ScrollView, Spacer, Text, TextArea, View, VStack } from 'native-base';
-import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
+import { MeetingAttendee, MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import moment from 'moment';
 import Icocheck from 'application/assets/icons/Icocheck';
@@ -13,6 +13,7 @@ const SocketRequestModal = () => {
 	const {socket_requests,AcceptMeetingRequest,RejectMeetingRequest,RemoveFirstSocketRequest}= UseMeetingReservationService();
 	const [isOpen,setIsOpen] = useState<boolean>(false);
 	const [socketRequest,setSocketRequest] = useState<any>({});
+	const [attendeeToShow,setAttendeeToShow]=React.useState<MeetingAttendee>();
 	const {event} = UseEventService();
 	const _element = React.useRef<HTMLDivElement>() ;
 	const {_env} =UseEnvService();
@@ -37,6 +38,10 @@ const SocketRequestModal = () => {
 	}
 	, [socket_requests])
 
+	React.useEffect(() => {
+		setAttendeeToShow(socketRequest?.host_attendee);
+	}, [socketRequest]);
+
 	function handleAccept(){
 		AcceptMeetingRequest({meeting_request_id:socketRequest?.request_id});
 		setSocketRequest({});
@@ -53,17 +58,25 @@ const SocketRequestModal = () => {
 
 	}
 
-	function getShortName (name: string){
-		if(!name) return ('');
-		let names = name.split(' ');
-		let shortName = '';
-		names.forEach((name, index) => {
-			if(index < 2){
-				shortName += name.charAt(0).toUpperCase();
-			}
-		});
-		return shortName;
+	function getShortName (){
+		let last_name = shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : '';
+		return attendeeToShow?.first_name.charAt(0).toUpperCase() + (last_name ?? '').charAt(0).toUpperCase();
 	}
+
+	function shouldShow(field_setting:any){
+		if (field_setting?.status === 0){
+			return false;
+		}
+
+		if (field_setting?.is_private === 1){
+			return false;
+		}
+
+		return true;
+	}
+
+
+
   return (
 	<Modal
 			size={'md'}
@@ -72,27 +85,29 @@ const SocketRequestModal = () => {
 			onClose={()=>{
 			onClose()
 			}}>
-					<Modal.Content ref={_element}  bg={'primary.box'}>
+					<Modal.Content ref={_element}  bg={'primary.boxsolid'}>
 						
-						<Modal.Header px={6} pt={6} pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
-							<Text fontSize="lg" fontWeight={600}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_TITLE}</Text>
+						<Modal.Header px={6} pt={6} pb={0} bg="primary.boxsolid" borderWidth={0} borderColor={'transparent'}>
+							<Text color={'primary.text'} fontSize="lg" fontWeight={600}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_TITLE}</Text>
 						</Modal.Header>
-						<Modal.Body pb={0} bg="primary.box" px={0}>
-							<Text mb={3} px={6} fontSize="lg" fontWeight={500}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_MSG} "{socketRequest?.host_attendee_name}"</Text>
+						<Modal.Body pb={0} bg="primary.boxsolid" px={0}>
+							<Text color={'primary.text'} mb={3} px={6} fontSize="lg" fontWeight={500}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_MSG} "{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}"</Text>
 							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
 								<HStack space={2} alignItems={'center'}>
 								{/* <Text  fontSize="sm">Person : </Text> */}
 								 <HStack  space="1" alignItems="center">
-									<Avatar bg={'primary.100'} size={'22px'} source={{uri:``}}>
-									{getShortName(socketRequest?.host_attendee_name)}
+									<Avatar bg={'primary.100'} size={'22px'}
+										source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }} 
+									>
+									{getShortName()}
 								</Avatar>
-								<Text fontSize="sm">{socketRequest?.host_attendee_name}</Text>
+								<Text color={'primary.text'} fontSize="sm">{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}</Text>
 								
 								</HStack>
 								</HStack>
-								<Text  fontSize="sm">{event?.labels?.RESERVATION_MEETING_SPACE} : {socketRequest?.meeting_space}</Text>
-								<Text  fontSize="sm">{event?.labels?.RESERVATION_MEETING_DATE} : {socketRequest?.date}</Text>
-								<Text  fontSize="sm">{event?.labels?.RESERVATION_MEETING_TIME} : {socketRequest?.time} ({socketRequest?.duration})</Text>
+								<Text color={'primary.text'}  fontSize="sm">{event?.labels?.RESERVATION_MEETING_SPACE} : {socketRequest?.meeting_space}</Text>
+								<Text color={'primary.text'}  fontSize="sm">{event?.labels?.RESERVATION_MEETING_DATE} : {socketRequest?.date}</Text>
+								<Text color={'primary.text'}  fontSize="sm">{event?.labels?.RESERVATION_MEETING_TIME} : {socketRequest?.time} ({socketRequest?.duration})</Text>
 							</VStack>
 						</Modal.Body>
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>

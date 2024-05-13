@@ -123,8 +123,20 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 	}
 
 	function getAttendeeAvatarName(){
-		let last_name=attendeeToShow?.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : ''
+		let last_name=shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''
 		return attendeeToShow?.first_name.charAt(0).toUpperCase() + last_name.charAt(0).toUpperCase();
+	}
+
+	function shouldShow(field_setting:any){
+		if (field_setting?.status === 0){
+			return false;
+		}
+
+		if (field_setting?.is_private === 1){
+			return false;
+		}
+
+		return true;
 	}
 
   return (
@@ -133,7 +145,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
             <HStack  space="3" alignItems="center">
 				<Avatar 
 					
-						source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendeeToShow?.field_settings?.profile_picture?.is_private == 0 ? attendeeToShow?.image:''}` }}
+						source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
 						// uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"
 					>
 					{getAttendeeAvatarName()}
@@ -141,7 +153,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							
 				<Center>
 					<VStack  space="1">
-						<Text fontSize="lg" fontWeight={500}>{attendeeToShow?.first_name} {attendeeToShow.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : ''}</Text>
+						<Text fontSize="lg" fontWeight={500}>{attendeeToShow?.first_name} {shouldShow(attendeeToShow.field_settings?.last_name) ? attendeeToShow?.last_name : ''}</Text>
 						<HStack  space="3" alignItems="center">
 							<HStack  space="2" alignItems="center">
 								<Icocalendar width={16} height={18} /><Text fontSize="16px">{moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>

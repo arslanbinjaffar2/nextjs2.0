@@ -119,12 +119,10 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
             <Spacer />
             <HStack space="4" alignItems="center">
                 {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== attendee?.id && (
-                  <Tooltip px={5} rounded={'full'} label="Book Meeting" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
-                    <Pressable
-                      onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                      <Icobookmeeting width="20" height="28" />
-                    </Pressable>
-                  </Tooltip>
+                  <Pressable
+                    onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
+                    <Icobookmeeting width="20" height="28" />
+                  </Pressable>
                 )}
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Pressable
