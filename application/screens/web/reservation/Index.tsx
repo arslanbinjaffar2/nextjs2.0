@@ -76,35 +76,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
         </Text>
         <Spacer />
         <View position={'relative'} width={'calc(100% - 200px)'}>
-        <Pressable
-          onHoverIn={()=>{
-            setShowClose(true)
-          }}
-        
-        >
-        
-         <DateTimePicker value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
-      {filterDate && showClose &&   <Button 
-            onPress={() =>
-              {
-                setFilterDate('')
-                setShowClose(false)
-              }
-             } 
-            borderWidth="0px" 
-            borderColor="primary.darkbox" 
-            borderRightRadius="0" 
-            borderLeftRadius={0} 
-            _hover={{_text: {color: 'red',bg:""}}}
-            h="100%"
-            position={'absolute'}
-            top={0}
-            right={'12%'}
-            bg={''} 
-            _text={{ fontWeight: '600' }}>
-       <Icocross width={12} height={12} />
-        </Button>}
-        </Pressable>
+        <DateTimePicker showClearBtn={true} value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
         </View>
 
       </HStack>
