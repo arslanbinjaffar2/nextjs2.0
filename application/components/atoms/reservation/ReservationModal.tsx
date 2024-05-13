@@ -58,11 +58,11 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 	}
 
 	function shouldShow(field_setting:any){
-		if (field_setting.status === 0){
+		if (field_setting?.status === 0){
 			return false;
 		}
 
-		if (field_setting.is_private === 1){
+		if (field_setting?.is_private === 1){
 			return false;
 		}
 
@@ -85,7 +85,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 						<Modal.Body pb={0} bg="primary.box" px={0}>
 							<Text color={'primary.text'} mb={3} px={6} fontSize="lg" fontWeight={500}>{message}</Text>
 							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
-								<HStack space={2} alignItems={'center'}><Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_PERSON} : {meeting_request?.slot?.meeting_space?.persons}</Text>
+								<HStack space={2} alignItems={'center'}><Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_PERSON} :</Text>
 								 <HStack  space="1" alignItems="center">
 									<Avatar bg={'primary.100'} size={'22px'}
 											source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
