@@ -18,6 +18,7 @@ import UseNotificationService from 'application/store/services/UseNotificationSe
 import { useRouter as UseNextRouter } from 'next/router';
 import SocketHandler from 'application/provider/Socket/SocketHandler';
 import ToastContainer from 'application/components/atoms/toast';
+import ThingsToIncludeOnAllLayouts from 'application/components/atoms/common/ThingsToIncludeOnAllLayouts';
 
 type Props = {
   children:
@@ -139,6 +140,7 @@ const Master = ({ children, section }: Props) => {
                     </Center>}
                   </HStack>
                 </Container>
+                <ThingsToIncludeOnAllLayouts />
               </Flex>
             </ScrollView>
           </Flex>

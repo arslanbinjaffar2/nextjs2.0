@@ -93,7 +93,7 @@ const Verification = ({ props }: any) => {
                                         if (completed) {
                                             return (
                                                 Number(minutes) < 4 && (
-                                                    <Text onPress={() => {
+                                                    <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
                                                         verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
                                                     }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
                                                 )

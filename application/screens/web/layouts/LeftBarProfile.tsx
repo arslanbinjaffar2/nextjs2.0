@@ -7,6 +7,7 @@ import { useWindowDimensions } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
 
 import DynamicIcon from 'application/utils/DynamicIcon';
+import UseAuthService from 'application/store/services/UseAuthService';
 
 import { useRouter } from 'next/router';
 
@@ -19,6 +20,7 @@ const PressableElement = ({row}: any) => {
   const router = useRouter()
 
   const { event, setting_modules } = UseEventService();
+  const { logout, response } = UseAuthService();
 
   const [isHovered, setIsHovered] = React.useState(false);
 
@@ -33,7 +35,12 @@ const PressableElement = ({row}: any) => {
       onHoverOut={() => setIsHovered(false)}
       borderRadius="4"
       onPress={() => {
-        router.push(`/${event.url}/settings/${row?.alias}`)
+        if(row?.alias === 'logout'){
+          logout()
+        }else{
+          router.push(`/${event.url}/settings/${row?.alias}`)
+        }
+        
       }}>
 
       <HStack space="4" alignItems="center">
@@ -41,11 +48,11 @@ const PressableElement = ({row}: any) => {
           {console.log(row?.icon)}
           <DynamicIcon iconType={row?.icon?.replace("-icon", "").replace("-","_").replace('.png','') } iconProps={{ width: 26, height: 26, color: isHovered || router.pathname.includes(row?.alias) ? func.colorType(event?.settings?.primary_color)  : undefined }} />
         </Center>
-        <Text fontSize={'lg'} color={isHovered || router.pathname.includes(row?.alias) ? 'primary.hovercolor'  : "primary.text"}>
+       { width > 1200 &&  <Text fontSize={'lg'} color={isHovered || router.pathname.includes(row?.alias) ? 'primary.hovercolor'  : "primary.text"}>
           {row?.name.replace('label','')}
           {/* {row?.alias.replace('-','_')} */}
         {/* {row?.icon?.replace("-icon", "").replace("-", "_").replace('.png', '')} */}
-        </Text>
+        </Text>}
       </HStack>
     </Pressable>
 
