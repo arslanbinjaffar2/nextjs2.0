@@ -53,7 +53,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 	}
 	
 	function getShortName (){
-		let last_name = attendeeToShow?.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : '';
+		let last_name = attendeeToShow?.field_settings?.last_name?.status === 1 && attendeeToShow?.field_settings?.last_name?.is_private === 0 ? attendeeToShow?.last_name : '';
 		return attendeeToShow?.first_name.charAt(0).toUpperCase() + last_name.charAt(0).toUpperCase();
 	}
 
@@ -82,7 +82,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 											{getShortName()}
 										</Text>
 								</Avatar>
-								<Text color={'primary.text'} fontSize="sm">{attendeeToShow?.first_name} {attendeeToShow?.field_settings?.last_name?.status === 1 ? attendeeToShow?.last_name : ''}</Text>
+								<Text color={'primary.text'} fontSize="sm">{attendeeToShow?.first_name} {(attendeeToShow?.field_settings?.last_name?.status === 1 && attendeeToShow?.field_settings?.last_name?.is_private === 0) ? attendeeToShow?.last_name : ''}</Text>
 								
 								</HStack>
 								</HStack>
