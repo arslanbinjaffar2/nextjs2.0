@@ -9,8 +9,6 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
-import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
-import AvatarColors from 'application/utils/AvatarColors'
 import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
 
