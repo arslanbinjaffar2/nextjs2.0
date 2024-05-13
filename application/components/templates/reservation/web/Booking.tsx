@@ -94,12 +94,24 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 					AddNotification({notification:{
 						type:'reservation',
 						title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
-						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${attendee?.last_name}`,
+						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}`,
 					}});
 				}
 			} catch (error) {
 			  	console.log('error', error);
 			}
+	}
+
+	function shouldShow(field_setting:any){
+		if (field_setting?.status === 0){
+			return false;
+		}
+
+		if (field_setting?.is_private === 1){
+			return false;
+		}
+
+		return true;
 	}
 
 	return(
@@ -181,7 +193,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 								<Text fontSize="lg" fontWeight={600}>{labels?.RESERVATION_BOOK_MEEETING_ALERT_TITLE}</Text>
 							</Modal.Header>
 							<Modal.Body bg="primary.box" px={0}>
-								<Text mb={2} px={4} fontSize="md">{labels?.RESERVATION_BOOK_MEEETING_ALERT_MSG} “{attendee?.email}”</Text>
+								<Text mb={2} px={4} fontSize="md">{labels?.RESERVATION_BOOK_MEEETING_ALERT_MSG} “{attendee?.first_name} {shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}”</Text>
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start" bg="primary.darkbox">
 									<Text  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {selectedSlot?.meeting_space?.name}</Text>
 									<Text  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(selectedSlot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
@@ -466,16 +478,18 @@ const RectangleView = () => {
 
     return (
         <>
-            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'} flexWrap={'wrap'}>
-                <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
-                    <HStack space="3" alignItems="center">
+            <HStack mb="3" pt="2" w="100%" space="3"  justifyContent={'space-between'}>
+                <Pressable onPress={()=> push(`/${event.url}/attendees`)} w={'50%'}>
+                    <HStack space="3" alignItems="center" >
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                         <Text fontSize="2xl">
 							{labels?.RESERVATION_BOOK_MEETING_LABEL}
 							</Text>
                     </HStack>
                 </Pressable>
-				<Select mx={'auto'} bg={'primary.box'} w={376}   selectedValue={selectedMeetingSpace} minWidth="200" _selectedItem={{
+				<Select mx={'auto'} bg={'primary.box'}  
+				flex={1}
+				selectedValue={selectedMeetingSpace}_selectedItem={{
 					bg: "teal.600",
 					endIcon: <CheckIcon size="5" />
 					}} mt={1} onValueChange={itemValue => setSelectedMeetingSpace(itemValue)}>
@@ -485,6 +499,7 @@ const RectangleView = () => {
 					))}
         		</Select>
             </HStack>
+		
 			<Container borderWidth="1px" bg={'primary.box'} borderColor="primary.darkbox" rounded="8" overflow="hidden" mb="3" maxW="100%" w="100%">
                 <Center bg={'primary.darkbox'} w="100%" px="3" roundedTop={8} py="1">
                     <HStack w="100%" space="2" alignItems="center">

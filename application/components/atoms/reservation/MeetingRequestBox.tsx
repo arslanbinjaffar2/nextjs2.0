@@ -153,7 +153,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							
 				<Center>
 					<VStack  space="1">
-						<Text fontSize="lg" fontWeight={500}>{attendeeToShow?.first_name} {shouldShow(attendeeToShow.field_settings?.last_name) ? attendeeToShow?.last_name : ''}</Text>
+						<Text fontSize="lg" fontWeight={500}>{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}</Text>
 						<HStack  space="3" alignItems="center">
 							<HStack  space="2" alignItems="center">
 								<Icocalendar width={16} height={18} /><Text fontSize="16px">{moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
