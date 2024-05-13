@@ -123,23 +123,43 @@ const Index = () => {
                 <Text bg={'primary.darkbox'} px={4} py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
                 <Box p={4} w={'100%'}>
                   <Radio.Group  name="MyRadioGroup" value={selectedfilter} onChange={nextValue => {setSelectedfilter(nextValue);}}>
-                    <HStack fontSize={'lg'}  space="3" alignItems="center">
-                      <Radio _text={{fontSize: 'lg'}} value="sponsors">{labels?.FLOOR_PLAN_SPONSORS_LABEL} ({sponsorCount})</Radio>
-                      <Radio _text={{fontSize: 'lg'}}  value="exhibitors">{labels?.FLOOR_PLAN_EXHIBITORS_LABEL} ({exhibitorCount})</Radio>
+                    <HStack    alignItems="center">
+                    <Box flexDirection={'row'}  alignItems="center" >
+                      <Radio  value="sponsors"
+                      width={'18px'}
+                      height={'18px'}
+                      >{labels?.FLOOR_PLAN_SPONSORS_LABEL}</Radio>
+                      <Text fontSize={'lg'} ml={'2px'}>
+                      ({sponsorCount})
+                      </Text>
+                    </Box>
+                      <Box flexDirection={'row'}  alignItems="center" ml={'2'}>
+                      <Radio
+                       width={'18px'}
+                       height={'18px'}
+                      value="exhibitors">{labels?.FLOOR_PLAN_EXHIBITORS_LABEL}</Radio>
+                      <Text fontSize={'lg'} ml={'2'}>
+                      ({exhibitorCount})
+                      </Text>
+                      </Box>
                     </HStack>
                     
                   </Radio.Group>
                 </Box>
-                <HStack flexWrap={'wrap'}  p={4} borderTopColor={'primary.bordercolor'} borderTopWidth={1} space="3" alignItems="center">
+                <HStack flexWrap={'wrap'}  p={4} borderTopColor={'primary.bordercolor'} borderTopWidth={1}  alignItems="center"
+               >
                   {filteredCategories.map((category:FloorPlanCategory) => (
                     <Pressable
                       p="0"
                       borderWidth="0"
                       onPress={()=>{selectCategory(category)}}
+                      bg={isSelected(category?.id) ? 'secondary.500' : 'primary.box'}
+                      px={6} py={2} rounded={'full'}   alignItems="center" 
+                      mb={'8px'}
+                      mr={'6px'}
                     >
-                      <HStack px={6} py={2} rounded={'full'} bg={isSelected(category?.id) ? 'secondary.500' : 'primary.box'} space="3" alignItems="center" mb={3}>
+                     
                         <Text  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
-                      </HStack>
                       
                     </Pressable>
                     
