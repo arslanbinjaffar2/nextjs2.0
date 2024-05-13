@@ -59,9 +59,23 @@ const SocketRequestModal = () => {
 	}
 
 	function getShortName (){
-		let last_name = attendeeToShow?.field_settings?.last_name?.status === 1 && attendeeToShow?.field_settings?.last_name?.is_private === 0 ? attendeeToShow?.last_name : '';
-		return attendeeToShow?.first_name.charAt(0).toUpperCase() + last_name.charAt(0).toUpperCase();
+		let last_name = shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : '';
+		return attendeeToShow?.first_name.charAt(0).toUpperCase() + (last_name ?? '').charAt(0).toUpperCase();
 	}
+
+	function shouldShow(field_setting:any){
+		if (field_setting?.status === 0){
+			return false;
+		}
+
+		if (field_setting?.is_private === 1){
+			return false;
+		}
+
+		return true;
+	}
+
+
 
   return (
 	<Modal
@@ -77,17 +91,17 @@ const SocketRequestModal = () => {
 							<Text color={'primary.text'} fontSize="lg" fontWeight={600}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_TITLE}</Text>
 						</Modal.Header>
 						<Modal.Body pb={0} bg="primary.boxsolid" px={0}>
-							<Text color={'primary.text'} mb={3} px={6} fontSize="lg" fontWeight={500}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_MSG} "{attendeeToShow?.first_name} {(attendeeToShow?.field_settings?.last_name?.status === 1 && attendeeToShow?.field_settings?.last_name?.is_private === 0) ? attendeeToShow?.last_name : ''}"</Text>
+							<Text color={'primary.text'} mb={3} px={6} fontSize="lg" fontWeight={500}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_MSG} "{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}"</Text>
 							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
 								<HStack space={2} alignItems={'center'}>
 								{/* <Text  fontSize="sm">Person : </Text> */}
 								 <HStack  space="1" alignItems="center">
 									<Avatar bg={'primary.100'} size={'22px'}
-										source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendeeToShow?.field_settings?.profile_picture?.is_private == 0 ? attendeeToShow?.image:''}` }} 
+										source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }} 
 									>
 									{getShortName()}
 								</Avatar>
-								<Text color={'primary.text'} fontSize="sm">{attendeeToShow?.first_name} {(attendeeToShow?.field_settings?.last_name?.status === 1 && attendeeToShow?.field_settings?.last_name?.is_private === 0) ? attendeeToShow?.last_name : ''}</Text>
+								<Text color={'primary.text'} fontSize="sm">{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}</Text>
 								
 								</HStack>
 								</HStack>
