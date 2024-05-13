@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { MeetingRequest, MyMeetingListing } from 'application/models/meetingReservation/MeetingReservation'
+import { MeetingRequest, MeetingSpace, MyMeetingListing } from 'application/models/meetingReservation/MeetingReservation'
 import { MeetingSlot } from 'application/models/meetingReservation/MeetingReservation'
 
 import type { RootState } from 'application/store/Index'
@@ -8,6 +8,7 @@ import type { RootState } from 'application/store/Index'
 export interface MeetingReservationState {
     my_meeting_listing: MyMeetingListing,
     available_slots: MeetingSlot[],
+    available_meeting_spaces: MeetingSpace[],
     available_dates: any,
     labels: any,
     socket_requests: any,
@@ -23,6 +24,7 @@ const initialState: MeetingReservationState = {
     },
     labels: [],
     available_slots: [],
+    available_meeting_spaces: [],
     available_dates: [],
     socket_requests: [],
 }
@@ -57,6 +59,9 @@ export const MeetingReservationSlice = createSlice({
             if(state.socket_requests.length > 0){
                 state.socket_requests = state.socket_requests.slice(1);
             }
+        },
+        updateAvailableMeetingSpaces(state, action: PayloadAction<{ meeting_spaces:MeetingSpace[] }>) {
+            state.available_meeting_spaces = action.payload.meeting_spaces
         }
     },
 })
@@ -74,6 +79,7 @@ export const MeetingReservationActions = {
     updateLabels: MeetingReservationSlice.actions.updateLabels,
     AddSocketRequest: MeetingReservationSlice.actions.AddSocketRequest,
     RemoveFirstSocketRequest: MeetingReservationSlice.actions.RemoveFirstSocketRequest,
+    updateAvailableMeetingSpaces: MeetingReservationSlice.actions.updateAvailableMeetingSpaces,
 }
 
 export const SelectMyMeetingListing = (state: RootState) => state.meetingReservation.my_meeting_listing
@@ -85,6 +91,8 @@ export const SelectAvailableSlots = (state: RootState) => state.meetingReservati
 export const SelectAvailableDates = (state: RootState) => state.meetingReservation.available_dates
 
 export const SelectSocketRequests = (state: RootState) => state.meetingReservation.socket_requests
+
+export const SelectAvailableMeetingSpaces = (state: RootState) => state.meetingReservation.available_meeting_spaces
 
 // Reducer
 export default MeetingReservationSlice.reducer

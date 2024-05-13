@@ -7,6 +7,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
 import { images } from 'application/styles';
 import SocketRequestModal from 'application/components/atoms/reservation/SocketRequestModal';
+import Icosettings from '../../../assets/icons/Icosettings';
 
 const HeaderMobile = ({ width }: any) => {
   const { _env } = UseEnvService();
@@ -47,6 +48,7 @@ const [open, setOpen] = React.useState(false)
           <Center alignItems="flex-end">
             <HStack space="0">
               {/* <Notification /> */}
+        <Box><Pressable onPress={() => { router.push(`/${event.url}/settings/editprofile`) }}><Icosettings width={28} height={28} /></Pressable></Box>
             </HStack>
           </Center>
         </HStack>

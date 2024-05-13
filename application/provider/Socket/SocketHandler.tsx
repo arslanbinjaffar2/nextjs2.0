@@ -17,8 +17,7 @@ const SocketHandler = () => {
     const { _env } = UseEnvService()
 
     const { event } = UseEventService()
-    console.log("🚀 ~ SocketHandler ~ event:", event?.labels?.GENERAL_CHAT_NEW_MESSAGE_FROM)
-
+    
     const { response } = UseAuthService();
 
     const { checkPollVotingPermission } = UsePollService();

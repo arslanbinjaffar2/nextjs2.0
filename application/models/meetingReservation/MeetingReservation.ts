@@ -47,5 +47,6 @@ export interface MeetingAttendee {
     first_name:string,
     last_name:string,
     email:number,
-    image:string
+    image:string,
+    field_settings:any,
 }

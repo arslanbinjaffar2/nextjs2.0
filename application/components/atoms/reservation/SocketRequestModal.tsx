@@ -7,17 +7,18 @@ import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
 import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 import UseEventService from 'application/store/services/UseEventService';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 const SocketRequestModal = () => {
-
 	const {socket_requests,AcceptMeetingRequest,RejectMeetingRequest,RemoveFirstSocketRequest}= UseMeetingReservationService();
 	const [isOpen,setIsOpen] = useState<boolean>(false);
 	const [socketRequest,setSocketRequest] = useState<any>({});
 	const {event} = UseEventService();
-	const _element = React.useRef<HTMLDivElement>() 
+	const _element = React.useRef<HTMLDivElement>() ;
+	const {_env} =UseEnvService();
 	React.useEffect(() => {
 		setTimeout(() => {
-			_element.current?.classList.add('add-blur')
+			_element.current?.classList.add('add-blur-radius')
 		}, 300);
 	}, [isOpen])
 
@@ -63,7 +64,6 @@ const SocketRequestModal = () => {
 		});
 		return shortName;
 	}
-	
   return (
 	<Modal
 			size={'md'}
@@ -83,7 +83,7 @@ const SocketRequestModal = () => {
 								<HStack space={2} alignItems={'center'}>
 								{/* <Text  fontSize="sm">Person : </Text> */}
 								 <HStack  space="1" alignItems="center">
-									<Avatar bg={'primary.100'} size={'22px'} source={{uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"}}>
+									<Avatar bg={'primary.100'} size={'22px'} source={{uri:``}}>
 									{getShortName(socketRequest?.host_attendee_name)}
 								</Avatar>
 								<Text fontSize="sm">{socketRequest?.host_attendee_name}</Text>
@@ -98,10 +98,10 @@ const SocketRequestModal = () => {
 						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
 							<Button.Group variant={'unstyled'} space={0}>
 								<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={handleReject} textTransform={'uppercase'}>{event?.labels?.GENERAL_REJECT}</Button>
+									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={handleReject} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
 								</Container>
 								<Container borderRightWidth={0}  w="50%">
-									<Button onPress={handleAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}>{event?.labels?.GENERAL_ACCEPT}</Button>
+									<Button onPress={handleAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}><Icocheck width={19} height={19} /></Button>
 								</Container>
 							</Button.Group>
 						</Modal.Footer>

@@ -3,6 +3,7 @@ import { useCallback } from 'react'
 import {
     MeetingReservationActions,
     SelectAvailableDates,
+    SelectAvailableMeetingSpaces,
     SelectAvailableSlots,
     SelectMyMeetingListing,
     SelectSiteLabel,
@@ -11,12 +12,13 @@ import {
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
-import { MeetingRequest, MeetingSlot, MyMeetingListing } from 'application/models/meetingReservation/MeetingReservation'
+import { MeetingRequest, MeetingSlot, MeetingSpace, MyMeetingListing } from 'application/models/meetingReservation/MeetingReservation'
 
 export type MeetingReservationServiceOperators = {
     my_meeting_listing: MyMeetingListing,
     labels: any,
     available_slots: MeetingSlot[],
+    available_meeting_spaces: MeetingSpace[],
     available_dates: any,
     socket_requests: any,
     FetchMyMeetingRequests: (payload: {  }) => void
@@ -41,6 +43,7 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
         my_meeting_listing: useAppSelector(SelectMyMeetingListing),
         labels: useAppSelector(SelectSiteLabel),
         available_slots: useAppSelector(SelectAvailableSlots),
+        available_meeting_spaces: useAppSelector(SelectAvailableMeetingSpaces),
         available_dates: useAppSelector(SelectAvailableDates),
         socket_requests: useAppSelector(SelectSocketRequests),
         FetchMyMeetingRequests: useCallback(

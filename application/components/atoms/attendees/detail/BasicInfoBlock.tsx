@@ -172,7 +172,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                     await Linking.openURL(url);
                                 }
                         }}>
-                            <Icoresume width="22" height="25" />
+                            <Icoresume width="22" height="25" color={func.colorType(event?.settings?.secondary_color)}/>
                         </Pressable>
                     </Center>}
 										{showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && <Center w="20%"  borderColor="primary.bordercolor" alignItems="center">

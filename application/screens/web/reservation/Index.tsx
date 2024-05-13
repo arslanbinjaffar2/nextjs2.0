@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
-import { Button, Container, HStack, Spacer, Text } from 'native-base';
+import { Button, Container, HStack, Spacer, Text, View } from 'native-base';
 import MeetingRequestBox from 'application/components/atoms/reservation/MeetingRequestBox';
 import useMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
@@ -9,6 +9,9 @@ import moment from 'moment';
 import WebLoading from 'application/components/atoms/WebLoading';
 import in_array from 'in_array';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import { Pressable } from 'react-native';
+import Icocross from 'application/assets/icons/Icocross';
+import ButtonElement from 'application/components/atoms/ButtonElement';
 
 const Index = () => {
 const [tab, setTab] = React.useState('all');
@@ -22,7 +25,7 @@ const [filterDate,setFilterDate] = React.useState<string>('');
 const [dateFormat]= React.useState('DD-MM-YYYY');
 const { event,modules } = UseEventService();
 const [loadCount,setLoadCount] = React.useState<number>(0)
-
+const [showClose,setShowClose]=React.useState<boolean>(false)
   React.useEffect(() => {
       FetchMyMeetingRequests({})
   },[])
@@ -72,39 +75,83 @@ const [loadCount,setLoadCount] = React.useState<number>(0)
             {modules.find((module: any, key: number) => module.alias === 'reservation')?.name}
         </Text>
         <Spacer />
+        <View position={'relative'} width={'calc(100% - 200px)'}>
+        <Pressable
+          onHoverIn={()=>{
+            setShowClose(true)
+          }}
+        
+        >
+        
          <DateTimePicker value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
-      </HStack>
-      <HStack mb="3" space={1} overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%">
-      <Button 
-            onPress={() => {setTab('all')}} 
+      {filterDate && showClose &&   <Button 
+            onPress={() =>
+              {
+                setFilterDate('')
+                setShowClose(false)
+              }
+             } 
             borderWidth="0px" 
-            py={0} 
             borderColor="primary.darkbox" 
             borderRightRadius="0" 
             borderLeftRadius={0} 
-            _hover={{_text: {color: 'primary.hovercolor'}}}
-            h="42px"
-            flex={1} 
-            bg={tab === 'all' ? 'primary.boxbutton' :'primary.box'} 
+            _hover={{_text: {color: 'red',bg:""}}}
+            h="100%"
+            position={'absolute'}
+            top={0}
+            right={'12%'}
+            bg={''} 
             _text={{ fontWeight: '600' }}>
-          All
-        </Button>
+       <Icocross width={12} height={12} />
+        </Button>}
+        </Pressable>
+        </View>
+
+      </HStack>
+      <HStack mb="3"  overflow={'hidden'} rounded={8} flexWrap={'wrap'} w="100%" 
+      style={{rowGap: 2, columnGap: 1}}     space={0} justifyContent="flex-start" 
+      >
+
+       <ButtonElement minW={'calc(50% - 2px)'} 
+         onPress={() => {setTab('all')}} 
+         borderWidth="0px" 
+         py={0} 
+         borderColor="primary.darkbox" 
+         borderRightRadius="0" 
+         borderLeftRadius={0} 
+         _hover={{_text: {color: 'primary.hovercolor'}}}
+         h="42px"
+         flexGrow={1}
+         bg={tab === 'all' ? 'primary.boxbutton' :'primary.box'} 
+         _text={{ fontWeight: '600' }}
+      
+       
+       >
+            <Text>
+            All
+            </Text>
+          </ButtonElement>
         {statuses.map((status:any,k:number) =>
-          <Button 
-              key={k}
+          <ButtonElement minW={'calc(50% - 2px)'}
               onPress={() => {setTab(status)}} 
               borderWidth="0px" 
               py={0} 
               borderColor="primary.darkbox" 
               borderRightRadius="0" 
-              borderLeftRadius={0} 
+              borderLeftRadius={1} 
               _hover={{_text: {color: 'primary.hovercolor'}}}
               h="42px"
-              flex={1} 
               bg={tab === status ? 'primary.boxbutton' :'primary.box'} 
-              _text={{ fontWeight: '600' }}>
+              _text={{ fontWeight: '600' }}
+          
+          
+          >
+            <Text>
             {labels?.['RESERVATION_REQUEST_STATUS_' + status]}
-          </Button>
+          
+            </Text>
+            
+          </ButtonElement>
         )}
       </HStack>
       {loadCount < 2 && in_array('my-meeting-requests',processing) ? (
