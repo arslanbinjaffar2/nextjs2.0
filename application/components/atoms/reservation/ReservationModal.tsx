@@ -65,7 +65,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 			onClose={()=>{
 			onClose()
 			}}>
-					<Modal.Content ref={_element}  bg={'primary.box'}>
+					<Modal.Content ref={_element}  bg={'primary.boxsolid'}>
 						
 						<Modal.Header px={6} pt={6} pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
 							<Text fontSize="lg" fontWeight={600}>{title}</Text>

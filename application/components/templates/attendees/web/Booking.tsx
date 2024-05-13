@@ -87,20 +87,20 @@ type AppProps = {
 					}}
 					
 				>
-					<Modal.Content  bg={'primary.box'}>
+					<Modal.Content  bg={'primary.boxsolid'}>
 						
-						<Modal.Header pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
-							<Text fontSize="lg" fontWeight={600}>Book a meeting</Text>
+						<Modal.Header pb={0} bg="primary.boxsolid" borderWidth={0} borderColor={'transparent'}>
+							<Text color={'primary.text'} fontSize="lg" fontWeight={600}>Book a meeting</Text>
 						</Modal.Header>
 						<Modal.Body bg="primary.box" px={0}>
-							<Text mb={2} px={4} fontSize="md">Are you sure you want to send meeting request to this attendee “aha@eventbuizz.com”</Text>
+							<Text color={'primary.text'} mb={2} px={4} fontSize="md">Are you sure you want to send meeting request to this attendee “aha@eventbuizz.com”</Text>
 							<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start" bg="primary.darkbox">
-								<Text  fontSize="sm">Meeting space : 514-A Conference Room</Text>
-								<Text  fontSize="sm">Meeting date : 12-12-2023</Text>
-								<Text  fontSize="sm">Meeting time : 01:00 - 02:30 (1hr 30min)</Text>
+								<Text color={'primary.text'}  fontSize="sm">Meeting space : 514-A Conference Room</Text>
+								<Text color={'primary.text'}  fontSize="sm">Meeting date : 12-12-2023</Text>
+								<Text color={'primary.text'}  fontSize="sm">Meeting time : 01:00 - 02:30 (1hr 30min)</Text>
 							</VStack>
 							<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
-								<Text  fontSize="md">Message</Text>
+								<Text color={'primary.text'}  fontSize="md">Message</Text>
 								<TextArea autoCompleteType={false} w="100%" h={120} placeholder="Please write your message here …" bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 								
 							</VStack>
