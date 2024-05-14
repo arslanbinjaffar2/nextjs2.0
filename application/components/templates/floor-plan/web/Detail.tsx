@@ -102,7 +102,7 @@ const Detail = () => {
   function getSubCategories(pin:any) {
     const subCategories = pin.exhibitor?.categories || pin.sponsor?.categories || [];
     return subCategories.map((subCategory:any) => {
-      return `<p style="margin: 0; font-size: 14px"><em style='background-color: ${subCategory.color}; width: 10px; height: 10px; display: inline-block; border-radius: 100%; border: 1px solid; margin-right: 5px; vertical-align: middle'></em>${subCategory.info[0].value}</p>`;
+      return `<p style="margin: 0 0 5px 0; font-size: 14px"><em style='background-color: ${subCategory.color}; width: 10px; height: 10px; display: inline-block; border-radius: 100%; border: 1px solid; margin-right: 5px; vertical-align: middle'></em>${subCategory.info[0].value}</p>`;
     }).join("");
   }
 
