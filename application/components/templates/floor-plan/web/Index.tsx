@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Container, Divider, HStack, Icon, Image, Input, Pressable, Radio, Spacer, Text, VStack } from 'native-base';
+import { Box, Button, Container, Divider, HStack, Icon, Image, Input, Pressable, Radio, Spacer, Text, View, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseFloorPlanService from 'application/store/services/UseFloorPlanService';
@@ -86,7 +86,7 @@ const Index = () => {
   useEffect(() => {
     filterFloorPlans();
   },[search]);
-
+ console.log(selectedCategories)
   return (
     <>
       {
@@ -119,8 +119,32 @@ const Index = () => {
                 </HStack>
                 
               </HStack>
-              {toggle && <Box mb={4} w="100%" bg="primary.box" overflow="hidden" rounded="10px">
-                <Text bg={'primary.darkbox'} px={4} py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
+      { selectedCategories.length>0 && <Box  px={4} py={'6px'} flexDirection={'row'} bg={'primary.darkbox'} roundedTop="10px" w={'100%'}
+              alignItems={'center'} flexWrap={'wrap'}
+              >
+                <Text   mr={'6px'}  py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
+                {selectedCategories.map((category:FloorPlanCategory) => (
+                    <View
+                      p="0"
+                      borderWidth="0"
+                      // onPress={()=>{
+                      //   selectCategory(category)
+                      // }}
+                      bg={'primary.box'}
+                  py={0} 
+                  px={'24px'}
+                      rounded={'full'}   alignItems="center" 
+                      mr={'6px'}
+                      flexDirection={'row'}
+                    >
+                     
+                    <Text mr={'6px'}  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
+                    <Icon size="4" as={AntDesign} name="closecircleo" color="primary.text" />
+                    </View>
+                    
+                  ))}
+              </Box>}
+              {toggle && <Box mb={4} w="100%" bg="primary.box" overflow="hidden"  rounded="10px">
                 <Box p={4} w={'100%'}>
                   <Radio.Group  name="MyRadioGroup" value={selectedfilter} onChange={nextValue => {setSelectedfilter(nextValue);}}>
                     <HStack    alignItems="center">
@@ -152,7 +176,10 @@ const Index = () => {
                     <Pressable
                       p="0"
                       borderWidth="0"
-                      onPress={()=>{selectCategory(category)}}
+                      onPress={()=>{
+                        selectCategory(category)
+                        setToggle(false)
+                      }}
                       bg={isSelected(category?.id) ? 'secondary.500' : 'primary.box'}
                       px={6} py={2} rounded={'full'}   alignItems="center" 
                       mb={'8px'}
@@ -169,7 +196,7 @@ const Index = () => {
                 
                 
               </Box>}
-              <Box w="100%" bg="primary.box" overflow="hidden" rounded="10px">
+              <Box w="100%" bg="primary.box" overflow="hidden" roundedBottom="10px" roundedTop={selectedCategories.length>0?"0":"10px"}>
                
                 <VStack mb="0" w="100%" space="0">
                   {filteredFloorPlans.map((plan: FloorPlan,i) => (
