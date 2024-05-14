@@ -121,7 +121,7 @@ const Index = () => {
               </HStack>
  
               {toggle && <Box mb={4} w="100%" bg="primary.box" overflow="hidden"  rounded="10px">
-              <Text   mr={'6px'} bg={'primary.darkbox'} py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
+              <Text px={3} bg={'primary.darkbox'} py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
 
                 <Box p={4} w={'100%'}>
                   <Radio.Group  name="MyRadioGroup" value={selectedfilter} onChange={nextValue => {setSelectedfilter(nextValue);}}>
@@ -156,15 +156,16 @@ const Index = () => {
                       borderWidth="0"
                       onPress={()=>{
                         selectCategory(category)
-                        setToggle(false)
                       }}
                       bg={isSelected(category?.id) ? 'secondary.500' : 'primary.box'}
-                      px={6} py={2} rounded={'full'}   alignItems="center" 
+                      px={4} py={1} rounded={'full'}   alignItems="center" 
                       mb={'8px'}
-                      mr={'6px'}
-                    >
-                     
-                        <Text  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
+                      mr={'6px'}>
+                        <HStack  space="2" alignItems="center" justifyContent={'center'}>
+                          {isSelected(category?.id) && <Icon color={'primary.text'} as={AntDesign} name="check"  />}
+                          <Text  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
+                        </HStack>
+                        
                       
                     </Pressable>
                     
@@ -174,7 +175,7 @@ const Index = () => {
                 
                 
               </Box>}
-              <Box w="100%" bg="primary.box" overflow="hidden" roundedBottom="10px" roundedTop={selectedCategories.length>0?"0":"10px"}>
+              <Box w="100%" bg="primary.box" overflow="hidden" rounded={'10px'}>
                
                 <VStack mb="0" w="100%" space="0">
                   {filteredFloorPlans.map((plan: FloorPlan,i) => (
