@@ -49,6 +49,9 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 		}else if(action === 'cancelMeeting'){
 			setTitle(labels?.RESERVATION_CANCEL_MEETING_ALERT_TITLE);
 			setMessage(labels?.RESERVATION_CANCEL_MEETING_ALERT_MESSAGE);
+		}else if(action === 'sendReminder'){
+			setTitle(labels?.RESERVATION_SEND_REMINDER_ALERT_TITLE);
+			setMessage(labels?.RESERVATION_SEND_REMINDER_ALERT_MESSAGE);
 		}
 	}
 	
