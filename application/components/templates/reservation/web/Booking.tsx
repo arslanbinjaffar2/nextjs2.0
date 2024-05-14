@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Center, Container, Flex, Heading, HStack, Icon, IconButton, Modal, Pressable, ScrollView, Spacer, Text, TextArea, View, VStack } from 'native-base';
+import { Box, Button, Center, CheckIcon, Container, Flex, Heading, HStack, Icon, IconButton, Modal, Pressable, ScrollView, Select, Spacer, Text, TextArea, View, VStack } from 'native-base';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { Detail } from 'application/models/attendee/Detail';
@@ -13,7 +13,18 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEnvService from 'application/store/services/UseEnvService';
 import LoadImage from 'application/components/atoms/LoadImage';
-import moment from 'moment';
+import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
+import moment, { months } from 'moment';
+import { MeetingAttendee, MeetingSlot, MeetingSpace } from 'application/models/meetingReservation/MeetingReservation';
+import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
+import in_array from 'in_array';
+import { store } from 'application/store/Index';
+import { bookMeetingSlotApi } from 'application/store/api/MeetingReservation.api';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { getAttendeeDetailApi } from 'application/store/api/Attendee.Api';
+import UseNotificationService from 'application/store/services/UseNotificationService';
+import Icocheck from 'application/assets/icons/Icocheck';
+import Icocross from 'application/assets/icons/Icocross';
 
 type ScreenParams = { id: string }
 
@@ -23,125 +34,248 @@ type AppProps = {
     detail: Detail,
 }
 
-		const DataList = () => {
-			const [active, setactive] = useState(true)
-			const [showpopup, setshowpopup] = useState(false)
-			return(
-				<>
-				{active ? (<Button
-					w={'100%'}
-					size={'sm'}
-					bg={'transparent'}
-					mb={2}
-					rounded={8}
-					px={2}
-					py={2}
-					borderWidth={1}
-					borderColor={'primary.box'}
-					onPress={()=>{
-						setactive(false)
-					}}
-				
-				>
-					12:30 - 01:30
-				</Button>) :
-				
-				<HStack mb="2" space={1} w="100%" >
-					<Center  flex="1">
-						
-						<Button
-							px={1}
-							py={2}
-							size={'sm'}
-							bg={'primary.darkbox'}
-							w={'100%'}
-							onPress={()=>{
-								console.log('hello')
-							}}
-						
-						>
-							01:00 - 02:30
-						</Button>
-						
-					</Center>
-					<Center flex="1">
-						<Button
-							w={'100%'}
-							px={1}
-							py={2}
-							size={'sm'}
-							onPress={()=>{
-								setshowpopup(true)
-							}}
-						
-						>
-							Book
-						</Button>
-					</Center>
-				</HStack>}
-				{showpopup && <Modal
-					size={'lg'}
-					isOpen={true}
-					onClose={()=>{
-					
-					}}
-					
-				>
-					<Modal.Content  bg={'primary.box'}>
-						
-						<Modal.Header pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
-							<Text fontSize="lg" fontWeight={600}>Book a meeting</Text>
-						</Modal.Header>
-						<Modal.Body bg="primary.box" px={0}>
-							<Text mb={2} px={4} fontSize="md">Are you sure you want to send meeting request to this attendee “aha@eventbuizz.com”</Text>
-							<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start" bg="primary.darkbox">
-								<Text  fontSize="sm">Meeting space : 514-A Conference Room</Text>
-								<Text  fontSize="sm">Meeting date : 12-12-2023</Text>
-								<Text  fontSize="sm">Meeting time : 01:00 - 02:30 (1hr 30min)</Text>
-							</VStack>
-							<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
-								<Text  fontSize="md">Message</Text>
-								<TextArea autoCompleteType={false} w="100%" h={120} placeholder="Please write your message here …" bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
-								
-							</VStack>
-							
-						</Modal.Body>
-						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
-							<Button.Group variant={'unstyled'} space={0}>
-								<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setshowpopup(false)} textTransform={'uppercase'}>Close</Button>
-								</Container>
-								<Container borderRightWidth={0}  w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}>Send</Button>
-								</Container>
-							</Button.Group>
-						</Modal.Footer>
-					</Modal.Content>
-				</Modal>}
-				
-				</>
-			)
+type SlotsListProps = {
+    slots: MeetingSlot[],
+	slotBooked: (slotId:number) => void
+}
+
+const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
+	const [selectedSlot, setSelectedSlot] = useState<MeetingSlot | null>(null);
+	const [activeSlot, setActiveSlot] = useState<Number | null>(null);
+	const [attendee, setAttendee] = useState<MeetingAttendee | null >(null);
+	const [bookingSlot,setBookingSlot] = useState<boolean>(false);
+	const { AddNotification } = UseNotificationService();
+	const {labels} = UseMeetingReservationService();
+	const {event}= UseEventService();
+
+	const [message, setMessage] = useState<string>('');
+
+	const [attendeeId] = useParam('id');
+
+	async function getAttendee(){
+		const mystate=store.getState()
+		try {
+			const response = await getAttendeeDetailApi({id:attendeeId},mystate);
+			if(response?.status == 200){
+				setAttendee(response?.data?.data?.detail);
+			}
+		} catch (error) {
+			console.log('error', error);
 		}
+	}
 
+	React.useEffect(() => {
+		getAttendee();
+		console.log('attendeeId:',attendeeId);
+	}
+	, [attendeeId]);
 
-const BookingSection = () => {
+	React.useEffect(() => {
+		setMessage('');
+	}, [activeSlot]);
+	const _element = React.useRef<HTMLDivElement>() 
+	React.useEffect(() => {
+		setTimeout(() => {
+			_element.current?.classList.add('add-blur-radius')
+		}, 300);
+	}, [selectedSlot])
+
+	async function bookSlot(slot:MeetingSlot){
+			const mystate=store.getState()
+			setBookingSlot(true);
+			try {
+				const response = await bookMeetingSlotApi({slot_id:slot.id,participant_attendee_id:attendeeId,message:message},mystate);
+				console.log('response data:',response.data);
+				if(response?.data?.success == true){
+					slotBooked(slot.id)
+					setSelectedSlot(null);
+					setBookingSlot(false);
+					setMessage('');
+					AddNotification({notification:{
+						type:'reservation',
+						title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
+						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${attendee?.last_name}`,
+					}});
+				}
+			} catch (error) {
+			  	console.log('error', error);
+			}
+	}
+
+	return(
+		 <ScrollView mt={'5'} >
+		{slots.map((slot:MeetingSlot) => (
+			<React.Fragment key={slot.id}>
+				{ slot.id === activeSlot ? (
+					<HStack mb="3" p={2} size={'sm'}  w={'100%'}  space={2}  flexDirection={'column'} rounded={8} bg={'primary.box'}				
+					>
+						<Center>
+							<Button bg={''} p={0}
+								onPress={()=>{}}
+								_hover={{ bg:"" }}
+							>
+								<Box flexDirection={'row'} display={'flex'}>
+									<Text fontSize={'sm'}> {slot?.start_time}</Text>
+									<Text mx={0.5} fontSize={'sm'}> - </Text>
+									<Text fontSize={'sm'}> {slot?.end_time}</Text>
+									<Text fontSize={'sm'} mx={1} > ({slot?.duration})</Text>
+
+								</Box>
+							</Button>
+						</Center>
+						<Center>
+						<Text fontSize={'sm'} textAlign={'center'}>{slot?.meeting_space?.name}</Text>
+						</Center>
+						<Center flex="1" mt={'6px'}>
+							<Button  h={'100%'} rounded={"10px"}
+
+								onPress={()=>{
+									setSelectedSlot(slot)
+								}}
+							>
+								<Text fontSize={'sm'} maxW={'145px'} w={'100%'} textAlign={'center'}>
+								{labels?.RESERVATION_BOOK_MEETING_LABEL}	
+							
+								</Text>
+								</Button>
+						</Center>
+					</HStack>
+				) :(
+					<Button w={'100%'} size={'sm'} bg={'transparent'} mb={2} rounded={8} px={2} py={2} borderWidth={1} borderColor={'primary.box'}
+						onPress={()=>{
+							setActiveSlot(slot.id)
+						}}
+					>
+						<View flexDirection={'column'} display={'flex'} alignItems={'center'}>
+						<Box flexDirection={'row'} display={'flex'} >
+									<Text fontSize={'sm'}>{slot?.start_time} </Text>
+									<Text fontSize={'sm'} mx={0.5}> - </Text>
+									<Text fontSize={'sm'}>{slot?.end_time}</Text>
+									<Text fontSize={'sm'} ml={1}>({slot?.duration})</Text>
+
+						</Box>
+						<Text fontSize={'sm'}>{slot?.meeting_space?.name}
+						
+						
+						</Text>
+						</View>
+
+						</Button>
+				)}
+			</React.Fragment>
+		)
+		)}
+
+		{slots.length == 0 && (
+			<Box p={2} bg="primary.box" rounded="lg" w="100%">
+			<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+		</Box>
+		)}
+		
+		{/* Confirmation popup  */}
+		{selectedSlot && (
+					<Modal size={'lg'} isOpen={true} onClose={()=>{}} ref={_element}>
+						<Modal.Content  bg={'primary.box'}>
+							
+							<Modal.Header pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
+								<Text fontSize="lg" fontWeight={600}>{labels?.RESERVATION_BOOK_MEEETING_ALERT_TITLE}</Text>
+							</Modal.Header>
+							<Modal.Body bg="primary.box" px={0}>
+								<Text mb={2} px={4} fontSize="md">{labels?.RESERVATION_BOOK_MEEETING_ALERT_MSG} “{attendee?.email}”</Text>
+								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start" bg="primary.darkbox">
+									<Text  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {selectedSlot?.meeting_space?.name}</Text>
+									<Text  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(selectedSlot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
+									<Text  fontSize="sm">{labels?.RESERVATION_MEETING_TIME} : {selectedSlot?.start_time} - {selectedSlot?.end_time} ({selectedSlot?.duration})</Text>
+								</VStack>
+								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
+									<Text  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
+									<TextArea
+										value={message}
+										onChangeText={(text)=>setMessage(text)}
+									 autoCompleteType={false} w="100%" h={120} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+									
+								</VStack>
+								
+							</Modal.Body>
+							<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
+								<Button.Group variant={'unstyled'} space={0}>
+									<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
+										<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setSelectedSlot(null)} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
+									</Container>
+									<Container borderRightWidth={0}  w="50%">
+										<Button isLoading={bookingSlot ? true:false} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}
+										onPress={()=>{ bookSlot(selectedSlot) }} 
+										><Icocheck width={19} height={19} /></Button>
+									</Container>
+								</Button.Group>
+							</Modal.Footer>
+						</Modal.Content>
+					</Modal>
+				)}
+		</ScrollView>
+	)
+}
+
+type AvailableDate = { day: number, month:number, year :number,full_date: string }
+type BookingSectionProps = {
+	selectedMeetingSpace: string	
+}
+const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
 
 		const [year, setYear] = useState(new Date().getFullYear());
 		const [month, setMonth] = useState(moment().month());
-		const [eventday, seteventDay] = useState({});
-		const [active, setActive] = useState(false)
-		const _events_name = [{
-			day: '12',
-			month: 'January'
-		},{
-			day: '16',
-			month: 'January'
-		}, 
-	{
-			day: '22',
-			month: 'January'
+		const [activeDay, setActiveDay] = useState<AvailableDate | null>(null);
+		const {available_slots,available_dates} = UseMeetingReservationService();
+		const [filteredSlots, setFilteredSlots] = useState<MeetingSlot[]>([]);
+		const fullDateFormat = 'YYYY-MM-DD';
+		const [bookedSlots, setBookedSlots] = useState<number[]>([]);
+		const {labels} = UseMeetingReservationService();
+
+		
+		
+
+		React.useEffect(() => {			
+			if(available_dates && available_dates.length > 0){
+				let newDates: AvailableDate[] = [];
+				available_dates.map((date:any)=>{
+					let tempDate=moment(date.full_date);
+					newDates.push({
+						day: Number(tempDate.format('DD')),
+						month: Number(tempDate.format('MM')),
+						year: Number(tempDate.format('YYYY')),
+						full_date: tempDate.format(fullDateFormat)
+					});
+					
+				})
+				setDates(newDates)
+			}
+			
 		}
-		]
+		, [available_dates]);
+
+		React.useEffect(() => {
+			let tempSlots: MeetingSlot[] = [];
+			activeDay && available_slots.map((slot:MeetingSlot)=>{
+				if(moment(slot.date,'DD/MM/YYYY').format(fullDateFormat) === moment(activeDay?.full_date).format(fullDateFormat) && !in_array(slot.id,bookedSlots) && (selectedMeetingSpace == '' || slot.meeting_space?.id == Number(selectedMeetingSpace))){
+					tempSlots.push(slot);
+				}
+			})
+			setFilteredSlots(tempSlots);
+		}
+		, [available_slots,activeDay,bookedSlots,selectedMeetingSpace]);
+
+		const [dates, setDates] = useState<AvailableDate[]>([]);
+
+		function addActiveDay(day: number) {
+			const date = dates.find((e:AvailableDate) => e.day === day && e.month == Number(moment().month(month).format("MM")));
+			if(date){
+				setActiveDay(date);
+			}
+		}
+
+		function slotBooked(slotId:number){
+			setBookedSlots([...bookedSlots,slotId]);
+		}
 
 		const nextMonth = () => {
 			if (month <= 10) {
@@ -204,17 +338,17 @@ const BookingSection = () => {
 								{isExtraDays(index, day) ? (
                   <Text></Text>
                 ) : (
-                 (_events_name.some(e => e.day === day) ?  <Button
+                 (dates.some((e:AvailableDate) => e.day === Number(day) && e.month == Number(moment().month(month).format("MM"))) ?  <Button
 									size={'md'}
 									rounded={'50%'}
 									p={0}
 									w={'30px'}
 									h={'30px'}
 									colorScheme="unstyled"
-									bg={day === eventday && active ? 'primary.500' : 'transparent'}
+									_hover={{ bg:"secondary" }}
+									bg={activeDay && Number(day) == activeDay.day ? "secondary.500" : "transparent"}
 									onPress={()=>{
-										setActive(day === eventday ?  false : true);
-										seteventDay(day === eventday ? '' : day);
+										addActiveDay(Number(day));
 									}}
 								
 								>
@@ -229,6 +363,13 @@ const BookingSection = () => {
       ));
     }
   };
+
+  	const daysOfWeek = [];
+	for (let i = 0; i < 7; i++) {
+	const dayName = moment().day(i).format('ddd');
+	daysOfWeek.push(dayName);
+	}
+
 return (
 <>
 <HStack  w="100%" space="1">
@@ -259,13 +400,9 @@ return (
             </Center>
         </HStack>
 				<HStack  borderWidth={1} borderColor={'primary.darkbox'} borderLeftWidth={0} borderRightWidth={0} w="100%" px="3" py="3"  space="0"  alignItems="center">
-					<Center flex={1}><Text fontSize="md">Sun</Text></Center>
-					<Center flex={1}><Text fontSize="md">Mon</Text></Center>
-					<Center flex={1}><Text fontSize="md">Tue</Text></Center>
-					<Center flex={1}><Text fontSize="md">Wed</Text></Center>
-					<Center flex={1}><Text fontSize="md">Thu</Text></Center>
-					<Center flex={1}><Text fontSize="md">Fri</Text></Center>
-					<Center flex={1}><Text fontSize="md">Sat</Text></Center>
+					{daysOfWeek.map((day:string)=>(
+						<Center flex={1}><Text fontSize="md">{day}</Text></Center>
+					))}
 				</HStack>
 				<Flex p="3" w="100%" flexWrap={'wrap'}  direction="row">
 					{getDate(month)}
@@ -275,22 +412,25 @@ return (
     </Center>
     <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w="35%">
 			{
-				active && 
+				activeDay ?( 
 				<Center py="3" px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
-					<Text mb={2} fontSize="sm">
+					<Text my={2} fontSize="sm">
 						<>
-							{eventday} {moment().month(month).format("MMMM")}
+							{moment(activeDay.full_date).format("DD MMMM")}
 						</>
 					</Text>
 					<ScrollView w={'100%'} maxHeight={320}>
-						{[...Array(12)].map(item =>
-							
-							<DataList />
-							
-							)}
+						<SlotsList slots={filteredSlots} slotBooked={slotBooked} />
 					</ScrollView>
 					
 				</Center>
+				):(
+					<Center py="3" px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
+						<Box p={2} bg="primary.box" rounded="lg" w="100%">
+							<Text>{labels?.RESERVATION_SELECT_DATE}</Text>
+						</Box>
+					</Center>
+				)
 				
 			}
 
@@ -300,38 +440,64 @@ return (
 </>
 )
 }
+
+
 const RectangleView = () => {
-    const { loading } = UseLoadingService();
+    const { loading,processing } = UseLoadingService();
     const { FetchHotels, hotels } = UseAttendeeService();
     const { event } = UseEventService();
     const { push } = useRouter()
     const [_id] = useParam('id');
     const { response } = UseAuthService();
-    const { _env } = UseEnvService()
+    const { _env } = UseEnvService();
 
-  
+	const {FetchAvailableSlots,labels,available_slots,available_meeting_spaces} = UseMeetingReservationService();
+
+	React.useEffect(() => {
+		FetchAvailableSlots()
+	}
+	, []);
+
+	React.useEffect(() => {
+		
+	}, [available_slots]);	
+
+    const [selectedMeetingSpace, setSelectedMeetingSpace] = React.useState<string>('');
 
     return (
         <>
-            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
+            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'} flexWrap={'wrap'}>
                 <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
                     <HStack space="3" alignItems="center">
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                        <Text fontSize="2xl">BACK</Text>
+                        <Text fontSize="2xl">
+							{labels?.RESERVATION_BOOK_MEETING_LABEL}
+							</Text>
                     </HStack>
                 </Pressable>
+				<Select mx={'auto'} bg={'primary.box'} w={376}   selectedValue={selectedMeetingSpace} minWidth="200" _selectedItem={{
+					bg: "teal.600",
+					endIcon: <CheckIcon size="5" />
+					}} mt={1} onValueChange={itemValue => setSelectedMeetingSpace(itemValue)}>
+						<Select.Item label={labels?.RESERVATION_MEETING_SPACE} value={''} />
+						{available_meeting_spaces?.map((space:MeetingSpace) => (
+							<Select.Item key={space?.id} label={space?.name} value={space?.id.toString()} />
+					))}
+        		</Select>
             </HStack>
-            <Container borderWidth="1px" bg={'primary.box'} borderColor="primary.darkbox" rounded="8" overflow="hidden" mb="3" maxW="100%" w="100%">
+			<Container borderWidth="1px" bg={'primary.box'} borderColor="primary.darkbox" rounded="8" overflow="hidden" mb="3" maxW="100%" w="100%">
                 <Center bg={'primary.darkbox'} w="100%" px="3" roundedTop={8} py="1">
                     <HStack w="100%" space="2" alignItems="center">
                         <Icon size="md" as={SimpleLineIcons} name="clock" color="primary.text" />
-                        <Text fontSize="md">Select date and time</Text>
+                        <Text fontSize="md">{event?.labels?.RESERVATION_SELECT_DATE_TIME}</Text>
                     </HStack>
                 </Center>
-                <BookingSection />
+				
+				{in_array('get-available-slots',processing) ? (
+					<SectionLoading />
+				):<BookingSection selectedMeetingSpace={selectedMeetingSpace} />}
 
-            </Container>
-        
+            </Container>        
         </>
     )
 
