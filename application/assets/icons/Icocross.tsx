@@ -20,7 +20,7 @@ const SVGComponent = (props: SvgProps) => {
             data-name="Path 279"
             d="M14.074,12.251,24.123,2.2A1.29,1.29,0,1,0,22.3.379L12.25,10.428,2.2.379A1.29,1.29,0,1,0,.378,2.2L10.427,12.251.378,22.3A1.29,1.29,0,0,0,2.2,24.124L12.25,14.075,22.3,24.124A1.29,1.29,0,0,0,24.123,22.3Z"
             transform="translate(0 -0.001)"
-            fill={props.color ? props.color : colors.text}
+            fill={colors.text ? colors.text : "#fff"}
           />
         </G>
       </G>

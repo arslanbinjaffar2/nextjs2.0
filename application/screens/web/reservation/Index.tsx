@@ -76,7 +76,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
         </Text>
         <Spacer />
         <View position={'relative'} width={'calc(100% - 200px)'}>
-        <DateTimePicker showClearBtn={true} value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
+        <DateTimePicker setClearDate={() => setFilterDate('')} showClearBtn={true} value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
         </View>
 
       </HStack>
