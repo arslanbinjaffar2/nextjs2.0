@@ -39,6 +39,29 @@ type SlotsListProps = {
 	slotBooked: (slotId:number) => void
 }
 
+const PressableElement = ({slot,onPress}: any) => {
+ const [hover, sethover] = React.useState(false)
+	return (
+		<Button onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} w={'100%'} size={'sm'} bg={'transparent'} mb={2} rounded={8} px={2} py={2} borderWidth={1} borderColor={'primary.box'}
+						onPress={onPress}
+					>
+						<View flexDirection={'column'} display={'flex'} alignItems={'center'}>
+						<Box flexDirection={'row'} display={'flex'} >
+									<Text color={hover ? 'primary.hovercolor' : 'primary.text'} fontSize={'sm'}>{slot?.start_time} </Text>
+									<Text color={hover ? 'primary.hovercolor' : 'primary.text'} fontSize={'sm'} mx={0.5}> - </Text>
+									<Text color={hover ? 'primary.hovercolor' : 'primary.text'} fontSize={'sm'}>{slot?.end_time}</Text>
+									<Text color={hover ? 'primary.hovercolor' : 'primary.text'} fontSize={'sm'} ml={1}>({slot?.duration})</Text>
+						</Box>
+						<Text color={hover ? 'primary.hovercolor' : 'primary.text'} fontSize={'sm'}>
+							{slot?.meeting_space?.name}
+						</Text>
+						</View>
+
+					</Button>
+	)
+	
+}
+
 const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const [selectedSlot, setSelectedSlot] = useState<MeetingSlot | null>(null);
 	const [activeSlot, setActiveSlot] = useState<Number | null>(null);
@@ -139,40 +162,18 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						<Text fontSize={'sm'} textAlign={'center'}>{slot?.meeting_space?.name}</Text>
 						</Center>
 						<Center flex="1" mt={'6px'}>
-							<Button  h={'100%'} rounded={"10px"}
-
+							<Button  h={'100%'} rounded={"8px"}
+								_text={{color: 'primary.hovercolor'}}
 								onPress={()=>{
 									setSelectedSlot(slot)
 								}}
 							>
-								<Text fontSize={'sm'} maxW={'145px'} w={'100%'} textAlign={'center'}>
-								{labels?.RESERVATION_BOOK_MEETING_LABEL}	
-							
-								</Text>
+									{labels?.RESERVATION_BOOK_MEETING_LABEL}								
 								</Button>
 						</Center>
 					</HStack>
 				) :(
-					<Button w={'100%'} size={'sm'} bg={'transparent'} mb={2} rounded={8} px={2} py={2} borderWidth={1} borderColor={'primary.box'}
-						onPress={()=>{
-							setActiveSlot(slot.id)
-						}}
-					>
-						<View flexDirection={'column'} display={'flex'} alignItems={'center'}>
-						<Box flexDirection={'row'} display={'flex'} >
-									<Text fontSize={'sm'}>{slot?.start_time} </Text>
-									<Text fontSize={'sm'} mx={0.5}> - </Text>
-									<Text fontSize={'sm'}>{slot?.end_time}</Text>
-									<Text fontSize={'sm'} ml={1}>({slot?.duration})</Text>
-
-						</Box>
-						<Text fontSize={'sm'}>{slot?.meeting_space?.name}
-						
-						
-						</Text>
-						</View>
-
-						</Button>
+					<PressableElement slot={slot} onPress={() => setActiveSlot(slot.id)} />
 				)}
 			</React.Fragment>
 		)
@@ -188,11 +189,10 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		{selectedSlot && (
 					<Modal size={'lg'} isOpen={true} onClose={()=>{}} ref={_element}>
 						<Modal.Content  bg={'primary.boxsolid'}>
-							
-							<Modal.Header pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
+							<Modal.Header py={3} bg="primary.boxsolid" borderBottomWidth={1} borderColor={'primary.bordercolor'}>
 								<Text color={'primary.text'} fontSize="lg" fontWeight={600}>{labels?.RESERVATION_BOOK_MEEETING_ALERT_TITLE}</Text>
 							</Modal.Header>
-							<Modal.Body bg="primary.box" px={0}>
+							<Modal.Body bg="primary.boxsolid" px={0}>
 								<Text color={'primary.text'} mb={2} px={4} fontSize="md">{labels?.RESERVATION_BOOK_MEEETING_ALERT_MSG} “{attendee?.first_name} {shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}”</Text>
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start" bg="primary.darkbox">
 									<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {selectedSlot?.meeting_space?.name}</Text>
@@ -204,18 +204,18 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 									<TextArea
 										value={message}
 										onChangeText={(text)=>setMessage(text)}
-									 autoCompleteType={false} w="100%" h={120} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+									 autoCompleteType={false} borderColor={'primary.bordercolor'} w="100%" h={120} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>
 								
 							</Modal.Body>
-							<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
+							<Modal.Footer bg="primary.boxsolid" borderColor={'primary.bordercolor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
 								<Button.Group variant={'unstyled'} space={0}>
-									<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-										<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setSelectedSlot(null)} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
+									<Container borderRightWidth={1} borderRightColor={'primary.bordercolor'} w="50%">
+										<Button py={4} bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setSelectedSlot(null)} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
 									</Container>
 									<Container borderRightWidth={0}  w="50%">
-										<Button isLoading={bookingSlot ? true:false} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}
+										<Button py={4} isLoading={bookingSlot ? true:false} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}
 										onPress={()=>{ bookSlot(selectedSlot) }} 
 										><Icocheck width={19} height={19} /></Button>
 									</Container>
