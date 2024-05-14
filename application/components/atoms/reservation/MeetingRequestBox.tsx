@@ -114,6 +114,8 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 			rejectMeeting()
 		}else if(confirmAction === 'cancelMeeting'){
 			cancelMeeting()
+		}else if(confirmAction === 'sendReminder'){
+			sendMeetingReminder()
 		}
 		handleClose();
 	}
@@ -228,7 +230,8 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							<IconButton isDisabled={sendingReminder === meeting_request?.id ? true :false} p={1} variant="unstyled"
 								icon={<Icosendemail color={colors.text} width={19} height={19} />}
 								onPress={()=>{
-									sendMeetingReminder()
+									setConfirmAction('sendReminder')
+									setShowConfirmation(true)
 								}}
 							/>
 					</>
