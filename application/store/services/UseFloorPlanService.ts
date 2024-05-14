@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectFloorPlans, FloorPlanActions, SelectFloorPlanSponsorCount, SelectFloorPlanDetail, SelectFloorPlanLabels, SelectFloorPlanCategories,  } from 'application/store/slices/FloorPlan.Slice'
+import { SelectFloorPlans, FloorPlanActions, SelectFloorPlanSponsorCount, SelectFloorPlanDetail, SelectFloorPlanLabels, SelectFloorPlanCategories, SelectFloorPlanExhibitorCount,  } from 'application/store/slices/FloorPlan.Slice'
 
 import {  FloorPlan, FloorPlanCategory, FloorPlanDetail } from 'application/models/floorPlans/FloorPlans'
 
@@ -30,7 +30,7 @@ export const UseFloorPlanService = (): Readonly<FloorPlanServiceOperators> => {
         
         floor_plans: useAppSelector(SelectFloorPlans),
         sponsorCount: useAppSelector(SelectFloorPlanSponsorCount),
-        exhibitorCount: useAppSelector(SelectFloorPlanSponsorCount),
+        exhibitorCount: useAppSelector(SelectFloorPlanExhibitorCount),
         detail: useAppSelector(SelectFloorPlanDetail),
         labels: useAppSelector(SelectFloorPlanLabels),
         categories: useAppSelector(SelectFloorPlanCategories),
