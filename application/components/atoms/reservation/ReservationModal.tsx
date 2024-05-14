@@ -79,10 +79,10 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 			}}>
 					<Modal.Content ref={_element}  bg={'primary.boxsolid'}>
 						
-						<Modal.Header px={6} pt={6} pb={0} bg="primary.boxsolid" borderWidth={0} borderColor={'transparent'}>
+						<Modal.Header px={6} py={3} bg="primary.boxsolid" borderWidth={0} borderColor={'primary.bordercolor'}>
 							<Text color={'primary.text'} fontSize="lg" fontWeight={600}>{title}</Text>
 						</Modal.Header>
-						<Modal.Body pb={0} bg="primary.box" px={0}>
+						<Modal.Body pb={0} bg="primary.boxsolid" px={0}>
 							<Text color={'primary.text'} mb={3} px={6} fontSize="lg" fontWeight={500}>{message}</Text>
 							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
 								<HStack space={2} alignItems={'center'}><Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_PERSON} :</Text>
@@ -102,13 +102,13 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 								<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
 							</VStack>
 						</Modal.Body>
-						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
+						<Modal.Footer bg="primary.boxsolid" borderColor={'primary.bordercolor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
 							<Button.Group variant={'unstyled'} space={0}>
-								<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={onClose} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
+								<Container borderRightWidth={1} borderRightColor={'primary.bordercolor'} w="50%">
+									<Button py={4} bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={onClose} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
 								</Container>
 								<Container borderRightWidth={0}  w="50%">
-									<Button onPress={onAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}><Icocheck width={19} height={19} /></Button>
+									<Button py={4} onPress={onAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}><Icocheck width={19} height={19} /></Button>
 								</Container>
 							</Button.Group>
 						</Modal.Footer>
