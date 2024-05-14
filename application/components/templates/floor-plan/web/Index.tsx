@@ -119,32 +119,10 @@ const Index = () => {
                 </HStack>
                 
               </HStack>
-      { selectedCategories.length>0 && <Box  px={4} py={'6px'} flexDirection={'row'} bg={'primary.darkbox'} roundedTop="10px" w={'100%'}
-              alignItems={'center'} flexWrap={'wrap'}
-              >
-                <Text   mr={'6px'}  py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
-                {selectedCategories.map((category:FloorPlanCategory) => (
-                    <View
-                      p="0"
-                      borderWidth="0"
-                      // onPress={()=>{
-                      //   selectCategory(category)
-                      // }}
-                      bg={'primary.box'}
-                  py={0} 
-                  px={'24px'}
-                      rounded={'full'}   alignItems="center" 
-                      mr={'6px'}
-                      flexDirection={'row'}
-                    >
-                     
-                    <Text mr={'6px'}  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
-                    <Icon size="4" as={AntDesign} name="closecircleo" color="primary.text" />
-                    </View>
-                    
-                  ))}
-              </Box>}
+ 
               {toggle && <Box mb={4} w="100%" bg="primary.box" overflow="hidden"  rounded="10px">
+              <Text   mr={'6px'} bg={'primary.darkbox'} py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
+
                 <Box p={4} w={'100%'}>
                   <Radio.Group  name="MyRadioGroup" value={selectedfilter} onChange={nextValue => {setSelectedfilter(nextValue);}}>
                     <HStack    alignItems="center">
