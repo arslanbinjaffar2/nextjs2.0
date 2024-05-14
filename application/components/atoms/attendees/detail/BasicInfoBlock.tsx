@@ -108,11 +108,9 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         <Box flexDirection="row" alignItems="center" justifyContent="space-between">
                                 {console.log('enab:',isAppointmentTabEnabled)}
                                 {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== detail?.detail?.id && (
-                                    <Tooltip px={5} rounded={'full'} label="Book Meeting" openDelay={100} bg="primary.box" _text={{color: 'primary.text'}}>
-                                        <Pressable onPress={() => { push(`/${event.url}/reservation/${detail?.detail?.id}`) }} mr={'2'}>
-                                            <Icobookmeeting  width={"20"} height="28" />
-                                        </Pressable>
-                                    </Tooltip>
+                                    <Pressable onPress={() => { push(`/${event.url}/reservation/${detail?.detail?.id}`) }} mr={'2'}>
+                                        <Icobookmeeting  width={"20"} height="28" />
+                                    </Pressable>
                                 )}
                             
                             {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (

@@ -34,7 +34,6 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
       const response = await getMyNoteApi({note_type:noteType, note_type_id:note_type_id},mystate); // Call the API function
       setMyNote(response.data.data.note);
       setLoadingNote(false);
-      AddToast({toast:{message:event.labels.GENERAL_DOCUMENTS_NOTES,status:"success"}})
     } catch (error) {
       console.log('error', error);
     }
@@ -60,7 +59,7 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
       await updateNote ({notes: note,id:myNote?.id, type:noteType},mystate); // Call the API function
       if(myNote !== null){
         setMyNote({...myNote, notes: note});
-      AddToast({toast:{message:`${event.labels.GENERAL_DOCUMENTS_NOTES } updated successfully`,status:"success"}})
+      AddToast({toast:{message:event.labels.GENERAL_DOCUMENTS_NOTES ,status:"success"}})
       }
       setLoadingNote(false);
     } catch (error) {

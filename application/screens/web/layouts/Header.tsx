@@ -6,7 +6,6 @@ import { images } from 'application/styles';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
-import SocketRequestModal from 'application/components/atoms/reservation/SocketRequestModal';
 
 const Header = ({ width }: any) => {
   const { _env } = UseEnvService();
@@ -44,7 +43,6 @@ const Header = ({ width }: any) => {
           </Center>
         </HStack>
       </Container>
-      <SocketRequestModal />
     </>
   );
 }
