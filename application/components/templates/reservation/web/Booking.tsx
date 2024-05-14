@@ -39,6 +39,29 @@ type SlotsListProps = {
 	slotBooked: (slotId:number) => void
 }
 
+const PressableElement = ({slot,onPress}: any) => {
+ const [hover, sethover] = React.useState(false)
+	return (
+		<Button onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} w={'100%'} size={'sm'} bg={'transparent'} mb={2} rounded={8} px={2} py={2} borderWidth={1} borderColor={'primary.box'}
+						onPress={onPress}
+					>
+						<View flexDirection={'column'} display={'flex'} alignItems={'center'}>
+						<Box flexDirection={'row'} display={'flex'} >
+									<Text color={hover ? 'primary.hovercolor' : 'primary.text'} fontSize={'sm'}>{slot?.start_time} </Text>
+									<Text color={hover ? 'primary.hovercolor' : 'primary.text'} fontSize={'sm'} mx={0.5}> - </Text>
+									<Text color={hover ? 'primary.hovercolor' : 'primary.text'} fontSize={'sm'}>{slot?.end_time}</Text>
+									<Text color={hover ? 'primary.hovercolor' : 'primary.text'} fontSize={'sm'} ml={1}>({slot?.duration})</Text>
+						</Box>
+						<Text color={hover ? 'primary.hovercolor' : 'primary.text'} fontSize={'sm'}>
+							{slot?.meeting_space?.name}
+						</Text>
+						</View>
+
+					</Button>
+	)
+	
+}
+
 const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const [selectedSlot, setSelectedSlot] = useState<MeetingSlot | null>(null);
 	const [activeSlot, setActiveSlot] = useState<Number | null>(null);
@@ -94,12 +117,24 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 					AddNotification({notification:{
 						type:'reservation',
 						title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
-						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${attendee?.last_name}`,
+						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}`,
 					}});
 				}
 			} catch (error) {
 			  	console.log('error', error);
 			}
+	}
+
+	function shouldShow(field_setting:any){
+		if (field_setting?.status === 0){
+			return false;
+		}
+
+		if (field_setting?.is_private === 1){
+			return false;
+		}
+
+		return true;
 	}
 
 	return(
@@ -127,40 +162,18 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						<Text fontSize={'sm'} textAlign={'center'}>{slot?.meeting_space?.name}</Text>
 						</Center>
 						<Center flex="1" mt={'6px'}>
-							<Button  h={'100%'} rounded={"10px"}
-
+							<Button  h={'100%'} rounded={"8px"}
+								_text={{color: 'primary.hovercolor'}}
 								onPress={()=>{
 									setSelectedSlot(slot)
 								}}
 							>
-								<Text fontSize={'sm'} maxW={'145px'} w={'100%'} textAlign={'center'}>
-								{labels?.RESERVATION_BOOK_MEETING_LABEL}	
-							
-								</Text>
+									{labels?.RESERVATION_BOOK_MEETING_LABEL}								
 								</Button>
 						</Center>
 					</HStack>
 				) :(
-					<Button w={'100%'} size={'sm'} bg={'transparent'} mb={2} rounded={8} px={2} py={2} borderWidth={1} borderColor={'primary.box'}
-						onPress={()=>{
-							setActiveSlot(slot.id)
-						}}
-					>
-						<View flexDirection={'column'} display={'flex'} alignItems={'center'}>
-						<Box flexDirection={'row'} display={'flex'} >
-									<Text fontSize={'sm'}>{slot?.start_time} </Text>
-									<Text fontSize={'sm'} mx={0.5}> - </Text>
-									<Text fontSize={'sm'}>{slot?.end_time}</Text>
-									<Text fontSize={'sm'} ml={1}>({slot?.duration})</Text>
-
-						</Box>
-						<Text fontSize={'sm'}>{slot?.meeting_space?.name}
-						
-						
-						</Text>
-						</View>
-
-						</Button>
+					<PressableElement slot={slot} onPress={() => setActiveSlot(slot.id)} />
 				)}
 			</React.Fragment>
 		)
@@ -175,35 +188,34 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		{/* Confirmation popup  */}
 		{selectedSlot && (
 					<Modal size={'lg'} isOpen={true} onClose={()=>{}} ref={_element}>
-						<Modal.Content  bg={'primary.box'}>
-							
-							<Modal.Header pb={0} bg="primary.box" borderWidth={0} borderColor={'transparent'}>
-								<Text fontSize="lg" fontWeight={600}>{labels?.RESERVATION_BOOK_MEEETING_ALERT_TITLE}</Text>
+						<Modal.Content  bg={'primary.boxsolid'}>
+							<Modal.Header py={3} bg="primary.boxsolid" borderBottomWidth={1} borderColor={'primary.bordercolor'}>
+								<Text color={'primary.text'} fontSize="lg" fontWeight={600}>{labels?.RESERVATION_BOOK_MEEETING_ALERT_TITLE}</Text>
 							</Modal.Header>
-							<Modal.Body bg="primary.box" px={0}>
-								<Text mb={2} px={4} fontSize="md">{labels?.RESERVATION_BOOK_MEEETING_ALERT_MSG} “{attendee?.email}”</Text>
+							<Modal.Body bg="primary.boxsolid" px={0}>
+								<Text color={'primary.text'} mb={2} px={4} fontSize="md">{labels?.RESERVATION_BOOK_MEEETING_ALERT_MSG} “{attendee?.first_name} {shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}”</Text>
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start" bg="primary.darkbox">
-									<Text  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {selectedSlot?.meeting_space?.name}</Text>
-									<Text  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(selectedSlot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
-									<Text  fontSize="sm">{labels?.RESERVATION_MEETING_TIME} : {selectedSlot?.start_time} - {selectedSlot?.end_time} ({selectedSlot?.duration})</Text>
+									<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {selectedSlot?.meeting_space?.name}</Text>
+									<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(selectedSlot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
+									<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_TIME} : {selectedSlot?.start_time} - {selectedSlot?.end_time} ({selectedSlot?.duration})</Text>
 								</VStack>
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
-									<Text  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
+									<Text color={'primary.text'}  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
 									<TextArea
 										value={message}
 										onChangeText={(text)=>setMessage(text)}
-									 autoCompleteType={false} w="100%" h={120} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+									 autoCompleteType={false} borderColor={'primary.bordercolor'} w="100%" h={120} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>
 								
 							</Modal.Body>
-							<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
+							<Modal.Footer bg="primary.boxsolid" borderColor={'primary.bordercolor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
 								<Button.Group variant={'unstyled'} space={0}>
-									<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-										<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setSelectedSlot(null)} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
+									<Container borderRightWidth={1} borderRightColor={'primary.bordercolor'} w="50%">
+										<Button py={4} bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setSelectedSlot(null)} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
 									</Container>
 									<Container borderRightWidth={0}  w="50%">
-										<Button isLoading={bookingSlot ? true:false} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}
+										<Button py={4} isLoading={bookingSlot ? true:false} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}
 										onPress={()=>{ bookSlot(selectedSlot) }} 
 										><Icocheck width={19} height={19} /></Button>
 									</Container>
@@ -466,16 +478,18 @@ const RectangleView = () => {
 
     return (
         <>
-            <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'} flexWrap={'wrap'}>
-                <Pressable onPress={()=> push(`/${event.url}/attendees`)}>
-                    <HStack space="3" alignItems="center">
+            <HStack mb="3" pt="2" w="100%" space="3"  justifyContent={'space-between'}>
+                <Pressable onPress={()=> push(`/${event.url}/attendees`)} w={'50%'}>
+                    <HStack space="3" alignItems="center" >
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                         <Text fontSize="2xl">
 							{labels?.RESERVATION_BOOK_MEETING_LABEL}
 							</Text>
                     </HStack>
                 </Pressable>
-				<Select mx={'auto'} bg={'primary.box'} w={376}   selectedValue={selectedMeetingSpace} minWidth="200" _selectedItem={{
+				<Select mx={'auto'} bg={'primary.box'}  
+				flex={1}
+				selectedValue={selectedMeetingSpace}_selectedItem={{
 					bg: "teal.600",
 					endIcon: <CheckIcon size="5" />
 					}} mt={1} onValueChange={itemValue => setSelectedMeetingSpace(itemValue)}>
@@ -485,6 +499,7 @@ const RectangleView = () => {
 					))}
         		</Select>
             </HStack>
+		
 			<Container borderWidth="1px" bg={'primary.box'} borderColor="primary.darkbox" rounded="8" overflow="hidden" mb="3" maxW="100%" w="100%">
                 <Center bg={'primary.darkbox'} w="100%" px="3" roundedTop={8} py="1">
                     <HStack w="100%" space="2" alignItems="center">
