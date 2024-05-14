@@ -24,8 +24,8 @@ export const useQueryParamsState = (param) => {
 		if (newUrl.searchParams.get(param) !== value) {
 			if (value) newUrl.searchParams.set(param, value);
 			else newUrl.searchParams.delete(param);
-
-			window.history.pushState(window.history.state, '', newUrl);
+			
+			window.history.replaceState(window.history.state, '', newUrl);
 		}
 	}, [param, value]);
 
