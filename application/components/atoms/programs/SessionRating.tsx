@@ -5,7 +5,7 @@ import UseProgramService from 'application/store/services/UseProgramService';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from "in_array";
-import UseToastService from 'application/store/services/UseToastService';
+import UseEventService from '../../../store/services/UseEventService'
 
 type AppProps = {
   program_id: any,
@@ -15,6 +15,7 @@ const SessionRating = ({program_id}:AppProps) => {
   const { detail,rating,SaveRating,FetchRating } = UseProgramService();
   const { processing } = UseLoadingService();
   const [rate, setRate] = React.useState(0);
+  const { event  } = UseEventService();
   useEffect(()=>{
     if(detail.program !== undefined){
       FetchRating({program_id:program_id ?? 0});
@@ -56,9 +57,9 @@ const SessionRating = ({program_id}:AppProps) => {
         {detail.program !== undefined && 
         <>
           <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
-              <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="2" alignItems="center" roundedTop={8}>
-                  <Icon size={'md'} as={AntDesign} name="staro" color={'primary.text'}  />
-                  <Text fontSize="lg">Rating</Text>
+              <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
+                  <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
+                  <Text fontSize="lg">{event?.labels?.PROGRAM_RATING}</Text>
               </HStack>
               <Box py="3" px="4" w="100%">
              <HStack mb={3} space="1" alignItems="center">
