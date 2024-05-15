@@ -194,7 +194,7 @@ const Index = () => {
                     
                     
                   ))}
-                  {filteredFloorPlans.length < 1 && <Text p={4} fontSize="lg">{event?.labels?.GENERAL_NO_RECORD}</Text>}
+                  {filteredFloorPlans.length < 1 && <Text p={3} fontSize="md">{event?.labels?.GENERAL_NO_RECORD}</Text>}
                 </VStack>
               </Box>
             </Container>
