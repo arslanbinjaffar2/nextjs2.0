@@ -4,12 +4,14 @@ import { SwipeButton } from 'react-native-expo-swipe-button'
 import IcoLongArrow from '../../../assets/icons/IcoLongArrow'
 import { getColorScheme } from 'application/styles/colors'
 import UseEventService from 'application/store/services/UseEventService'
+import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 interface Props{
   loading:boolean | any,
   onComplete:()=>void
 }
 const SwipeBtn = ({loading,onComplete}:Props) => {
-  const {event}=UseEventService()
+  const {event}=UseEventService();
+  const { SubmitPageScroll } = UseSubRegistrationService()
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   return (
     <>
@@ -32,6 +34,8 @@ const SwipeBtn = ({loading,onComplete}:Props) => {
       backgroundColor:event.settings?.secondary_color,
       }}
       onComplete={onComplete}
+      onSwipeStart={() => SubmitPageScroll(false)}
+      onSwipeEnd={() => SubmitPageScroll(true)}
       title=""
       height={60}
       borderRadius={10}

@@ -41,7 +41,7 @@ const Master = ({ children, section }: Props) => {
 
   const { FetchNotifications } = UseNotificationService();
 
-  const { skip } = UseSubRegistrationService();
+  const { skip, page_scroll } = UseSubRegistrationService();
 
   const { push } = useRouter();
 
@@ -88,7 +88,7 @@ const Master = ({ children, section }: Props) => {
       ) : (
         <>
           <Flex w="100%" h="100%" direction="column">
-            <ScrollView nativeID="body-scroll"
+            <ScrollView scrollEnabled={page_scroll} nativeID="body-scroll"
               onScroll={({ nativeEvent }) => {
                
                 if (ScrollCloseToBottom(nativeEvent) && !loading) {
