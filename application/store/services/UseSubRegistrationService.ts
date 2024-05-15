@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectSubRegistrationAfterLogin,  SelectSubRegistrationMySubreg,  SelectSubRegistrationSkip,  SelectSubRegistrationSubmitting,  SubRegistrationActions, sucessMessageSubmitting,  } from 'application/store/slices/SubRegistration.Slice'
+import { SelectSubRegistrationAfterLogin,  SelectSubRegistrationMySubreg,  SelectSubRegistrationSkip,  SelectSubRegistrationSubmitting,  SubRegistrationActions, sucessMessageSubmitting, sucessPageScrolling } from 'application/store/slices/SubRegistration.Slice'
 
 import {  AfterLogin, Allprogram, Questions, Settings } from 'application/models/subRegistration/SubRegistration'
 
@@ -23,9 +23,11 @@ export type SubRegistrationServiceOperators = {
     mySubReg:any,
     submitting:boolean,
     sucess_message:boolean,
+    page_scroll:boolean,
     skip:boolean,
     FetchSubRegistrationAfterLogin: () => void
     FetchMySubRegistration: () => void
+    SubmitPageScroll: (payload:any) => void
     setSkip: () => void
     SaveSubRegistration: (payload:any) => void
 }
@@ -44,6 +46,7 @@ export const UseSubRegistrationService = (): Readonly<SubRegistrationServiceOper
         mySubReg: useAppSelector(SelectSubRegistrationMySubreg),
         submitting: useAppSelector(SelectSubRegistrationSubmitting),
         sucess_message: useAppSelector(sucessMessageSubmitting),
+        page_scroll: useAppSelector(sucessPageScrolling),
         skip: useAppSelector(SelectSubRegistrationSkip),
         FetchSubRegistrationAfterLogin: useCallback(
             () => {
@@ -54,6 +57,12 @@ export const UseSubRegistrationService = (): Readonly<SubRegistrationServiceOper
         FetchMySubRegistration: useCallback(
             () => {
                 dispatch(SubRegistrationActions.FetchMySubRegistration())
+            },
+            [dispatch],
+        ),
+        SubmitPageScroll: useCallback(
+            (payload:any) => {
+                dispatch(SubRegistrationActions.SubmitPageScroll(payload))
             },
             [dispatch],
         ),
