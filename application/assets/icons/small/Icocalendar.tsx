@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Svg, { SvgProps, Path, G } from 'react-native-svg';
+import Svg, { SvgProps, Defs, ClipPath, Rect, G, Path } from 'react-native-svg';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
 

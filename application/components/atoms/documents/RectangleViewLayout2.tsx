@@ -116,28 +116,14 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                         <DynamicIcon iconType={'email_icon'} iconProps={{ width: 15, height: 18 }} />
                                     </Pressable>
                                     {event.document_settings?.show_documents_notes == 1 && 
-                                        <>
-                                         <Pressable
-                                                onPress={async () => {
-                                                    setIsNotesOpen(true);
-                                                }}>
-                                                <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
-                                            </Pressable>
-                                            <Modal
-																						
-                                            isOpen={isNotesOpen}
-                                            onClose={()=>{
-                                            setIsNotesOpen(false);
-                                            }}
-                                        >
-                                            
-                                        <Modal.Content nativeID='ebs-alert-dialog' bg={'primary.box'} p={0}>
-                                                <Modal.Body bg={'red'} position={'relative'} zIndex={1} p={0}>
-                                                    <DocumentNotesBox showModal={setIsNotesOpen} note_type_id={document.id}/>
-                                                </Modal.Body>
-                                            </Modal.Content>
-                                        </Modal>
-                                        </>
+                                        (
+                                            <Pressable
+                                                    onPress={async () => {
+                                                        setIsNotesOpen(true);
+                                                    }}>
+                                                    <DynamicIcon iconType={'editnotes'} iconProps={{ width: 20, height: 20 }} />
+                                                </Pressable>
+                                        )
                                     }
                                     <Pressable
                                         onPress={async () => {
