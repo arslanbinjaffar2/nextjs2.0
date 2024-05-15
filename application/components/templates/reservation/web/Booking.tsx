@@ -163,12 +163,15 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						</Center>
 						<Center flex="1" mt={'6px'}>
 							<Button  h={'100%'} rounded={"8px"}
+							  
 								_text={{color: 'primary.hovercolor'}}
 								onPress={()=>{
 									setSelectedSlot(slot)
 								}}
 							>
+								<Text  isTruncated>
 									{labels?.RESERVATION_BOOK_MEETING_LABEL}								
+								</Text>
 								</Button>
 						</Center>
 					</HStack>
@@ -384,8 +387,8 @@ const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
 
 return (
 <>
-<HStack  w="100%" space="1">
-    <Center bg="primary.box" pb="5" alignItems={'flex-start'} justifyContent={'flex-start'} w="65%">
+<HStack  w="100%" space="1" flexDirection={['column','row']}>
+    <Center bg="primary.box" pb="5" alignItems={'flex-start'} justifyContent={'flex-start'} w={["100%","65%"]}>
         <HStack w="100%" px="5" py="4" space="0" alignItems="center">
             <Center>
                 <IconButton
@@ -422,7 +425,7 @@ return (
 				</Flex>
 				
     </Center>
-    <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w="35%">
+    <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w={["100%","35%"]}>
 			{
 				activeDay ?( 
 				<Center py="3" px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
@@ -478,17 +481,17 @@ const RectangleView = () => {
 
     return (
         <>
-            <HStack mb="3" pt="2" w="100%" space="3"  justifyContent={'space-between'}>
-                <Pressable onPress={()=> push(`/${event.url}/attendees`)} w={'50%'}>
+            <HStack mb="3" pt="2" w="100%" space="3"  justifyContent={'space-between'} flexDirection={['column','row']}>
+                <Pressable onPress={()=> push(`/${event.url}/attendees`)} w={['100%','50%']}>
                     <HStack space="3" alignItems="center" >
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                        <Text fontSize="2xl">
+                        <Text fontSize="2xl" isTruncated>
 							{labels?.RESERVATION_BOOK_MEETING_LABEL}
 							</Text>
                     </HStack>
                 </Pressable>
-				<Select mx={'auto'} bg={'primary.box'}  
-				flex={1}
+				 <View w={['100%','calc(100% - 312px)']}>
+				 <Select w={'100%'}  bg={'primary.box'}  
 				selectedValue={selectedMeetingSpace}_selectedItem={{
 					bg: "teal.600",
 					endIcon: <CheckIcon size="5" />
@@ -498,6 +501,8 @@ const RectangleView = () => {
 							<Select.Item key={space?.id} label={space?.name} value={space?.id.toString()} />
 					))}
         		</Select>
+				 </View>
+				 
             </HStack>
 		
 			<Container borderWidth="1px" bg={'primary.box'} borderColor="primary.darkbox" rounded="8" overflow="hidden" mb="3" maxW="100%" w="100%">

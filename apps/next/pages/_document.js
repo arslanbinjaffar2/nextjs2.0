@@ -158,6 +158,9 @@ export const style = `
 body {
   display: flex;
 }
+#break_Word{
+  
+}
 .rdtPicker {
   margin-top:10px !important;
 }
