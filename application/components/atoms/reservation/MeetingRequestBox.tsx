@@ -143,8 +143,8 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 
   return (
     <Box w="100%" borderTopWidth={border === 0 ? 0 : 1} borderColor="primary.bordercolor" p={["3","4"]}>
-        <HStack  space="3" alignItems="center" >
-            <HStack  space="2" alignItems="center" w={'100%'}>
+        <HStack  space="3" alignItems={"center"} >
+            <HStack  space="2" alignItems={['flex-start',"center"]} w={'100%'}>
 				<Avatar 
 					
 						source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
@@ -153,7 +153,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 					{getAttendeeAvatarName()}
 				</Avatar>
 							
-				<View flexDirection={['column','row']} w={['100%','calc(100% - 88px)']} alignItems={['flex-start','center']}>
+				<View flexDirection={['column','row']} w={['100%','calc(100% - 56px)']} alignItems={['flex-start','center']}>
 					<VStack  space="1">
 						<Text fontSize="lg" fontWeight={500}>{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}</Text>
 						<HStack  space="3" alignItems="center">

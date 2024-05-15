@@ -12,6 +12,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import { Pressable } from 'react-native';
 import Icocross from 'application/assets/icons/Icocross';
 import ButtonElement from 'application/components/atoms/ButtonElement';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 const Index = () => {
 const [tab, setTab] = React.useState('all');
@@ -67,15 +68,17 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
     setFilterDate(date.format(dateFormat));
   }
 
+	const module = modules.find((module) => module.alias === 'reservation');
 
   return (
       <>
+      <NextBreadcrumbs module={module} />
       <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center" >
-        <Text fontSize="2xl" textAlign={['center','start']} w={['100%','']} marginBottom={['2','']}>
+        <Text fontSize="2xl" textAlign={['center','start']} w={['100%','']} >
             {modules.find((module: any, key: number) => module.alias === 'reservation')?.name}
         </Text>
         <Spacer />
-        <View position={'relative'} width={['100%','calc(100% - 200px)']}>
+        <View position={'relative'} width={['100%','calc(100% - 200px)']} mt={['3','']}>
         <DateTimePicker setClearDate={() => setFilterDate('')} showClearBtn={true} value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
         </View>
 
@@ -102,7 +105,8 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
             {event?.labels?.GENERAL_ALL}
           </ButtonElement>
         {statuses.map((status:any,k:number) =>
-          <ButtonElement minW={'calc(50% - 2px)'}
+          <ButtonElement minW={[    
+            'calc(50% - 2px)']} 
               onPress={() => {setTab(status)}} 
               borderWidth="0px" 
               py={0} 
