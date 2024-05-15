@@ -163,6 +163,8 @@ body {
   color: inherit !important;
   content: attr(placeholder);
   opacity:0.7;
+#break_Word{
+  
 }
 .rdtPicker {
   margin-top:10px !important;

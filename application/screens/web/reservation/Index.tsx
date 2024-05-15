@@ -70,13 +70,13 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
 
   return (
       <>
-      <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-        <Text fontSize="2xl">
+      <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center" >
+        <Text fontSize="2xl" textAlign={['center','start']} w={['100%','']} marginBottom={['2','']}>
             {modules.find((module: any, key: number) => module.alias === 'reservation')?.name}
         </Text>
         <Spacer />
-        <View position={'relative'} width={'calc(100% - 200px)'}>
-        <DateTimePicker showClearBtn={true} value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
+        <View position={'relative'} width={['100%','calc(100% - 200px)']}>
+        <DateTimePicker setClearDate={() => setFilterDate('')} showClearBtn={true} value={filterDate} onChange={setDateFilterValue} key={filterDate} readOnly={false} label={"DD-MM-YYYY"}  />
         </View>
 
       </HStack>
@@ -84,7 +84,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
       style={{rowGap: 2, columnGap: 1}}     space={0} justifyContent="flex-start" 
       >
 
-       <ButtonElement minW={'calc(50% - 2px)'} 
+       <ButtonElement minW={['calc(50% - 2px)']} 
          onPress={() => {setTab('all')}} 
          borderWidth="0px" 
          py={0} 
@@ -99,9 +99,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
       
        
        >
-            <Text>
             {event?.labels?.GENERAL_ALL}
-            </Text>
           </ButtonElement>
         {statuses.map((status:any,k:number) =>
           <ButtonElement minW={'calc(50% - 2px)'}
@@ -118,10 +116,8 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
           
           
           >
-            <Text>
             {labels?.['RESERVATION_REQUEST_STATUS_' + status]}
           
-            </Text>
             
           </ButtonElement>
         )}

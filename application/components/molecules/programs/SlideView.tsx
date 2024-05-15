@@ -209,7 +209,6 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				<>
 					{Platform.OS === 'web' ? (
 						<>
-
 							<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{section === 'program' ? modules?.find((module) => (module.alias == 'agendas'))?.name : modules?.find((module) => (module.alias == 'myprograms'))?.name}</Heading>
 							{/* {!router.asPath.includes('/dashboard') && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">May 2024</Text>
 							</HStack>} */}

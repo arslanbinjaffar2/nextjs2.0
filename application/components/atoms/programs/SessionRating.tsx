@@ -5,7 +5,6 @@ import UseProgramService from 'application/store/services/UseProgramService';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from "in_array";
-import UseToastService from 'application/store/services/UseToastService';
 import UseEventService from '../../../store/services/UseEventService'
 
 type AppProps = {
