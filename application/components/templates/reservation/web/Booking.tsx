@@ -43,7 +43,9 @@ type SlotsListProps = {
 const PressableElement = ({slot,onPress}: any) => {
  const [hover, sethover] = React.useState(false)
 	return (
-		<Button onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} w={'100%'} size={'sm'} bg={'transparent'} mb={2} rounded={8} px={2} py={2} borderWidth={1} borderColor={'primary.box'}
+		<Button onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} w={'100%'} size={'sm'} bg={'transparent'} mb={2} rounded={8} px={2} py={2} 
+		borderWidth={1} borderColor={'primary.box'} 
+		
 						onPress={onPress}
 					>
 						<View flexDirection={'column'} display={'flex'} alignItems={'center'}>
@@ -143,7 +145,8 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		{slots.map((slot:MeetingSlot) => (
 			<React.Fragment key={slot.id}>
 				{ slot.id === activeSlot ? (
-					<HStack mb="3" p={2} size={'sm'}  w={'100%'}  space={2}  flexDirection={'column'} rounded={8} bg={'primary.box'}				
+					<HStack 
+					mb="3" p={2} size={'sm'}  w={'100%'}  space={2}  flexDirection={'column'} rounded={8} bg={'primary.box'} 				
 					>
 						<Center>
 							<Button bg={''} p={0}
@@ -387,8 +390,8 @@ const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
 
 return (
 <>
-<HStack  w="100%" space="1" flexDirection={['column','row']}>
-    <Center bg="primary.box" pb="5" alignItems={'flex-start'} justifyContent={'flex-start'} w={["100%","65%"]}>
+<HStack  w="100%" space={["","1"]} flexDirection={['column','row']} >
+    <Center bg="primary.box" pb={["2","5"]} alignItems={'flex-start'} justifyContent={'flex-start'} w={["100%","65%"]}>
         <HStack w="100%" px="5" py="4" space="0" alignItems="center">
             <Center>
                 <IconButton
@@ -425,10 +428,10 @@ return (
 				</Flex>
 				
     </Center>
-    <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w={["100%","35%"]}>
+    <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w={["100%","35%"]} borderTopColor={'primary.darkbox'} borderTopWidth={'2'}>
 			{
 				activeDay ?( 
-				<Center py="3" px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
+				<Center py={["2","3"]} px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
 					<Text my={2} fontSize="sm">
 						<>
 							{moment(activeDay.full_date).format("DD MMMM")}
