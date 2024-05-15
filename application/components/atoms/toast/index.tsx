@@ -28,7 +28,7 @@ export interface ToastProps {
     return(
       <View
         bg={'primary.toastbg'}
-        w={'396px'}
+        w={['100%','396px']}
         h={'77px'}
         p={'5'}
         borderRadius={"lg"}
@@ -42,13 +42,13 @@ export interface ToastProps {
             iconProps={{ width: 24, height: 24 }}
           />
           <View style={{ marginLeft: 10 }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
+            {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
               {toast.status}
-            </Text>
+            </Text> */}
             <Text style={{ fontSize: 14, color: 'white' }}>{toast.message}</Text>
           </View>
         </View>
-        <Pressable onPress={()=>onClose({id:index})}>
+        <Pressable onPress={()=>onClose({id:index})} ml={['3','']}>
           <DynamicIcon iconType={'close'} iconProps={{ width: 14, height: 14, color: 'white' }} />
         </Pressable>
       </View>
@@ -62,7 +62,7 @@ export interface ToastProps {
 const ToastContainer = () => {
   const {toasts}=UseToastService()
   return (
-    <View position={'absolute'} right={'10'} bottom={'10'}> 
+    <View position={'absolute'} right={['50','10']} bottom={'10'}> 
       {toasts.length>0  && 
       <View style={{ gap:6 }}>
        {toasts?.map((toast,index)=>{

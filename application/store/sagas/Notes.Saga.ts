@@ -11,6 +11,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
+import { ToastActions } from '../slices/Toast.Slice'
 
 function* OnSaveNote({
     payload
@@ -23,6 +24,23 @@ function* OnSaveNote({
     const response: HttpResponse = yield call(saveNote, payload, state)
     yield put(NoteActions.GetMyNote({note_type:payload.note_type, note_type_id:payload.note_type_id}));
     yield put(NoteActions.SetSaving(false));
+    const labels=state?.event?.event.labels;
+    const note_type=payload?.note_type
+    switch(note_type){
+        case "sponsors":
+            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_SPONSORS_NOTES  ,status:"success"}}))
+          break;
+          case "programs":
+            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_PROGRAM_NOTES ,status:"success"}}))
+            break;
+            case "documents":
+                yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_DOCUMENTS_NOTES   ,status:"success"}}))
+            break;
+            case "exhibitors":
+                yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_EXHIBITORS_NOTES ,status:"success"}}))
+              break;
+        default:
+      }
 }
 
 function* OnUpdateNote({
@@ -35,6 +53,25 @@ function* OnUpdateNote({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(updateNote, payload, state)
     yield put(NoteActions.SetSaving(false));
+    const labels=state?.event?.event.labels;
+    const note_type=payload?.type
+
+    switch(note_type){
+        case "sponsors":
+            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_SPONSORS_NOTES ,status:"success"}}))
+          break;
+          case "programs":
+            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_PROGRAM_NOTES,status:"success"}}))
+            break;
+            case "documents":
+            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_DOCUMENTS_NOTES  ,status:"success"}}))
+            break;
+            case "exhibitors":
+            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_EXHIBITORS_NOTES ,status:"success"}}))
+              break;
+        default:
+      }
+
 }
 
 function* OnGetMyNote({
@@ -47,6 +84,9 @@ function* OnGetMyNote({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getMyNoteApi, payload, state)
     yield put(NoteActions.update(response.data.data));
+    const labels=state?.event?.event.labels;
+    const note_type=payload?.note_type
+
 }
 
 // Watcher Saga
