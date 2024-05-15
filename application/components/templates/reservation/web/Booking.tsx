@@ -25,6 +25,7 @@ import { getAttendeeDetailApi } from 'application/store/api/Attendee.Api';
 import UseNotificationService from 'application/store/services/UseNotificationService';
 import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 type ScreenParams = { id: string }
 
@@ -161,9 +162,8 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						<Center>
 						<Text fontSize={'sm'} textAlign={'center'}>{slot?.meeting_space?.name}</Text>
 						</Center>
-						<Center flex="1" mt={'6px'}>
-							<Button  h={'100%'} rounded={"8px"}
-							  
+						<Center flex="1" mt={'6px'} w={"100%"}>
+							<Button  h={'100%'} rounded={"8px"} w={"100%"}  
 								_text={{color: 'primary.hovercolor'}}
 								onPress={()=>{
 									setSelectedSlot(slot)
@@ -478,19 +478,21 @@ const RectangleView = () => {
 	}, [available_slots]);	
 
     const [selectedMeetingSpace, setSelectedMeetingSpace] = React.useState<string>('');
-
+	const { modules } = UseEventService();
+	const module = modules.find((module) => module.alias === 'reservation');
     return (
         <>
+		<NextBreadcrumbs module={module} title={labels?.RESERVATION_BOOK_MEETING_LABEL}/>
             <HStack mb="3" pt="2" w="100%" space="3"  justifyContent={'space-between'} flexDirection={['column','row']}>
-                <Pressable onPress={()=> push(`/${event.url}/attendees`)} w={['100%','50%']}>
+                {/* <Pressable onPress={()=> push(`/${event.url}/attendees`)} w={['100%','50%']}>
                     <HStack space="3" alignItems="center" >
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
                         <Text fontSize="2xl" isTruncated>
 							{labels?.RESERVATION_BOOK_MEETING_LABEL}
 							</Text>
                     </HStack>
-                </Pressable>
-				 <View w={['100%','calc(100% - 312px)']}>
+                </Pressable> */}
+				 <View w={['100%']}>
 				 <Select w={'100%'}  bg={'primary.box'}  
 				selectedValue={selectedMeetingSpace}_selectedItem={{
 					bg: "teal.600",
