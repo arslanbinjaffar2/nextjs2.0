@@ -44,9 +44,14 @@ const SidebarMapplic = (json) => {
 	
   return (
 	<View mt={5} w={'100%'}>
-      <Input mb={5} rounded="10" w={['100%']} bg="primary.box" borderWidth={0} value={search} placeholder={event?.labels?.GENERAL_SEARCH} onChangeText={(text) => {
+      <HStack mb={5} space="3" alignItems="center">
+        <Text w={['40%']} fontSize={20} fontWeight="semibold">{labels?.FLOOR_PLAN_CATEGORIES_LABEL}</Text>
+        
+          <Input rounded="10" w={['60%']} bg="primary.box" borderWidth={0} value={search} placeholder={event?.labels?.GENERAL_SEARCH} onChangeText={(text) => {
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+      </HStack>
+      
       <HStack mb={5} space="2">
           <Button
             rounded={'full'}
@@ -58,7 +63,8 @@ const SidebarMapplic = (json) => {
             onPress={()=>{
               setactive('sponsor'); closeLocation()
             }}>
-            {labels?.FLOOR_PLAN_SPONSOR_LABEL}
+            <Text>{labels?.FLOOR_PLAN_SPONSOR_LABEL}</Text>
+            
           </Button>
           <Button
            rounded={'full'}
@@ -70,7 +76,8 @@ const SidebarMapplic = (json) => {
             onPress={()=>{
               setactive('exhibitor');closeLocation()
             }}>
-            {labels?.FLOOR_PLAN_EXHIBITOR_LABEL}
+            <Text >{labels?.FLOOR_PLAN_EXHIBITOR_LABEL}</Text>
+            
           </Button>
                 
       </HStack>

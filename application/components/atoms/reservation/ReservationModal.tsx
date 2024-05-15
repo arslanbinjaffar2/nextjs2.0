@@ -49,6 +49,9 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 		}else if(action === 'cancelMeeting'){
 			setTitle(labels?.RESERVATION_CANCEL_MEETING_ALERT_TITLE);
 			setMessage(labels?.RESERVATION_CANCEL_MEETING_ALERT_MESSAGE);
+		}else if(action === 'sendReminder'){
+			setTitle(labels?.RESERVATION_SEND_REMINDER_ALERT_TITLE);
+			setMessage(labels?.RESERVATION_SEND_REMINDER_ALERT_MESSAGE);
 		}
 	}
 	
@@ -85,7 +88,7 @@ const ReservationModal = ({isOpen, onClose,meeting_request,loggedInAttendeeId,on
 						<Modal.Body pb={0} bg="primary.boxsolid" px={0}>
 							<Text color={'primary.text'} mb={3} px={6} fontSize="lg" fontWeight={500}>{message}</Text>
 							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
-								<HStack space={2} alignItems={'center'}><Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_PERSON} : {meeting_request?.slot?.meeting_space?.persons}</Text>
+								<HStack space={2} alignItems={'center'}><Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_PERSON} :</Text>
 								 <HStack  space="1" alignItems="center">
 									<Avatar bg={'primary.100'} size={'22px'}
 											source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
