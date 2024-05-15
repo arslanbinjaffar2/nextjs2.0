@@ -108,7 +108,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                         </HStack>
                                     </VStack>
                                     <Spacer />
-                                    <HStack  space="3" alignItems="center" justifyContent={'flex-end'}>
+                                    <HStack   alignItems="center" justifyContent={'flex-end'}>
                                     <Pressable
                                         onPress={async () => {
                                             push(`/${event.url}/document-send-email/detail/${document.id}`)
@@ -162,7 +162,9 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                             <Pressable
                                                     onPress={async () => {
                                                         setIsNotesOpen(true);
-                                                    }}>
+                                                    }}
+                                                    mx={'3'}
+                                                    >
                                                     <DynamicIcon iconType={'editnotes'} iconProps={{ width: 20, height: 20 }} />
                                                 </Pressable>
                                         )
