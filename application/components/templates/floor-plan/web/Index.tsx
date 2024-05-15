@@ -121,7 +121,7 @@ const Index = () => {
               </HStack>
  
               {toggle && <Box mb={4} w="100%" bg="primary.box" overflow="hidden"  rounded="10px">
-              <Text px={3} bg={'primary.darkbox'} py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
+              <Text px={4} bg={'primary.darkbox'} py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
 
                 <Box p={4} w={'100%'}>
                   <Radio.Group  name="MyRadioGroup" value={selectedfilter} onChange={nextValue => {setSelectedfilter(nextValue);}}>
@@ -131,7 +131,7 @@ const Index = () => {
                       width={'18px'}
                       height={'18px'}
                       >{labels?.FLOOR_PLAN_SPONSORS_LABEL}</Radio>
-                      <Text fontSize={'lg'} ml={'2px'}>
+                      <Text fontSize={'lg'}>
                       ({sponsorCount})
                       </Text>
                     </Box>
@@ -140,7 +140,7 @@ const Index = () => {
                        width={'18px'}
                        height={'18px'}
                       value="exhibitors">{labels?.FLOOR_PLAN_EXHIBITORS_LABEL}</Radio>
-                      <Text fontSize={'lg'} ml={'2'}>
+                      <Text fontSize={'lg'} >
                       ({exhibitorCount})
                       </Text>
                       </Box>
