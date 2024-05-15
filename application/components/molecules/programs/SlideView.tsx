@@ -209,12 +209,15 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				<>
 					{Platform.OS === 'web' ? (
 						<>
-							<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{section === 'program' ? modules?.find((module) => (module.alias == 'agendas'))?.name : modules?.find((module) => (module.alias == 'myprograms'))?.name}</Heading>
+							<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
+								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
+								{section === 'my-program' ? modules?.find((module) => (module.alias == 'myprograms'))?.name:null}
+								</Heading>
 							{/* {!router.asPath.includes('/dashboard') && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">May 2024</Text>
 							</HStack>} */}
 							<LazySlider onChange={handleChange} programs={programs} />
-							{programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
-							{programs.length <= 0 &&
+							{programs?.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates?.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
+							{programs?.length <= 0 &&
 								<Box overflow="hidden" w="100%" rounded="lg">
 									<Box padding={5}>
 										<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
