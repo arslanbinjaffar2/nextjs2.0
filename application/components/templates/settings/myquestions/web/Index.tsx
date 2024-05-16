@@ -27,7 +27,7 @@ const Index = () => {
     }, []);
     return (
         <>
-            {loading || my_questions.length <= 0 ? (
+            {loading ? (
                 <WebLoading />
             ) : (
                 <>
