@@ -10,7 +10,7 @@ const CustomNotes = () => {
     const Moduletype:any="documents"
   return (
     <VStack flexDirection={'row'}  w={'100%'} p={'16px'}>
-    {Moduletype=="sponsors" && <Box w={'114px'} h={'46px'} ml={'16px'}>
+    {Moduletype=="sponsors" && <Box w={'114px'} h={'46px'} mr={'16px'}>
         <Image
         src="https://wallpaperaccess.com/full/317501.jpg"
         alt='image'
@@ -19,10 +19,10 @@ const CustomNotes = () => {
         rounded={'lg'}
         />
      </Box>}
-    {Moduletype=="documents" &&  <Box w={'20px'} h={'20px'}>
+    {Moduletype=="documents" &&  <Box w={'20px'} h={'20px'} mr={'12px'}>
     <Icon as={AntDesign} name="pdffile1" size="md" color="primary.text" />
      </Box>}
-    <HStack   flexDirection={'column'}  w={Moduletype=="sponsors"?'calc(100% - 160px)':'calc(100% - 100px)'}>
+    <HStack   flexDirection={'column'}  w={Moduletype=="sponsors"?'calc(100% - 160px)':'calc(100% - 28px)'}>
        {Moduletype=="programs" && <View flexDirection={'row'} justifyContent={'space-between'}>
             <Text  fontSize="md">Meeting Notes - Project X development</Text>
             <Box flexDirection={'row'} style={{ gap:12 }} alignItems={'center'}>
@@ -42,9 +42,9 @@ const CustomNotes = () => {
         </View>}
         {Moduletype=="sponsors" && <View flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} >
             <Text>HK - Synergy Software Solutions</Text>
-            <Box flexDirection={'row'} alignItems={'center'} style={{ gap:6 }}>
+            <Box flexDirection={'row'} alignItems={'center'} >
             <DynamicIcon iconType={'help_desk'} iconProps={{ width: 13, height: 12 }} />
-             <Text>ALK-14565416-4154413</Text>
+             <Text ml={'6px'}>ALK-14565416-4154413</Text>
              </Box>
         </View>}
         <View flexDirection={'row'} justifyContent={'space-between'} mt={'8px'}>
