@@ -168,7 +168,26 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 	}, [programs])
 
 
-	const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard }: any) => {
+	const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard,handleShowAllButton,limit }: any) => {
+		const [skipShowAllCalculation,setSkipShowAllCalculation]=React.useState<boolean>(false);
+		
+		React.useEffect(()=>{
+			if(!skipShowAllCalculation && dashboard == true){
+				dates?.map((program: Program, key: number) => {
+					if (program?.workshop_programs?.length > limit) {
+						handleShowAllButton(true);
+						setSkipShowAllCalculation(true);
+						return false;
+					}
+					else {
+						handleShowAllButton(false);
+					}
+				});
+
+			}else{
+				setSkipShowAllCalculation(false);
+			}
+		},[dates])
 
 		return (
 			<>
@@ -176,15 +195,15 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				{dates?.length > 0 && currentIndex !== undefined && <>
 
 					{dates?.map((program: Program, key: number) => {
-						if (program.workshop_programs?.length > 0) {
+						if (program?.workshop_programs?.length > 0) {
 							let newProgram = { ...program };
 							if (dashboard == true) {
-								newProgram.workshop_programs = dates.length <= 5 ? program.workshop_programs.slice(0, (5 - (dates.length - 1))) : (dates.length > 5 ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
+								newProgram.workshop_programs = dates.length <= limit ? program.workshop_programs.slice(0, (limit - (dates.length - 1))) : (dates.length > limit ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
 							}
-							return <WorkshopCollapsableView section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+							return <WorkshopCollapsableView currentIndex={currentIndex} section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
 						}
 						else {
-							return <RectangleDetailView workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+							return <RectangleDetailView currentIndex={currentIndex} workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
 						}
 					}
 					)}
@@ -203,25 +222,42 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 		setDates(programs[value]);
 	}
 	const { push } = useRouter();
+	const limit = 5;
+	const [showAllButton,setShowallButton]=React.useState<boolean>(false);
+	function handleShowAllButton(workshopsMoreThanLimit:boolean){
+		if(dashboard != true){
+			setShowallButton(false);
+			return;
+		}
+
+		if(workshopsMoreThanLimit || (dates?.length > limit)){
+			setShowallButton(true);
+		}else{
+			setShowallButton(false);
+		}
+	}
 	return (
 		<>
 			{in_array(section, ['program', 'my-program', 'track-program']) && (
 				<>
 					{Platform.OS === 'web' ? (
 						<>
-							<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{section === 'program' ? modules?.find((module) => (module.alias == 'agendas'))?.name : modules?.find((module) => (module.alias == 'myprograms'))?.name}</Heading>
+							<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
+								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
+								{section === 'my-program' ? modules?.find((module) => (module.alias == 'myprograms'))?.name:null}
+								</Heading>
 							{/* {!router.asPath.includes('/dashboard') && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">May 2024</Text>
 							</HStack>} */}
 							<LazySlider onChange={handleChange} programs={programs} />
-							{programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
-							{programs.length <= 0 &&
+							{programs?.length > 0 && <RenderPrograms handleShowAllButton={handleShowAllButton} limit={limit} programs={programs} dates={dashboard == true ? dates?.slice(0, limit) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
+							{programs?.length <= 0 &&
 								<Box overflow="hidden" w="100%" rounded="lg">
 									<Box padding={5}>
 										<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
 									</Box>
 								</Box>
 							}
-							{dates?.length > 5 && dashboard === true && <Center py="3" px="2" w="100%" alignItems="flex-end">
+							{showAllButton && <Center py="3" px="2" w="100%" alignItems="flex-end">
 								<Button onPress={() => {
 								push(`/${event.url}/agendas?currentIndex=${currentIndex}`)
 								}} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>

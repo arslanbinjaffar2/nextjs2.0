@@ -15,9 +15,10 @@ type AppProps = {
   border: boolean,
   speaker?:number,
   section?:string,
+  currentIndex?:number
 }
 // agenda_collapse_workshop
-const WorkshopCollapsableView = ({ program, k, border, speaker, section }: AppProps) => {
+const WorkshopCollapsableView = ({ program, k, border, speaker, section,currentIndex }: AppProps) => {
   const { event } = UseEventService();
   const [open, setOpen] = React.useState(event?.agenda_settings?.agenda_collapse_workshop ?? false);
 
@@ -34,7 +35,7 @@ const WorkshopCollapsableView = ({ program, k, border, speaker, section }: AppPr
       </Box>
       {!open && <>
         {program.workshop_programs?.map((workshop_program: Program, i: number) =>
-            <RectangleDetailView workshop={true} key={i} section={section} speaker={speaker} program={workshop_program} k={i} border={program.workshop_programs?.length !== (i + 1)} />
+            <RectangleDetailView currentIndex={currentIndex} workshop={true} key={i} section={section} speaker={speaker} program={workshop_program} k={i} border={border || program.workshop_programs?.length !== (i + 1)} />
             )}
         </>}
     </>
