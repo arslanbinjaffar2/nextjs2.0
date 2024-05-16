@@ -106,7 +106,7 @@ const Index = ({ navigation }: indexProps) => {
             <Box width={"100%"} height={"5%"}>
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
           {/*  */}
-          {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
+          {event?.agenda_settings?.show_program_dashboard && modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
             <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
               <Center py="3" px="2" w="100%" alignItems="flex-end">

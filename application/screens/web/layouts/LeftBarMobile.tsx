@@ -13,8 +13,8 @@ import UseInfoService from 'application/store/services/UseInfoService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import {  func } from 'application/styles';
 
-const LeftBarMobile = () => {
-
+const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
+  console.log(setOpenMenu,"kjsdkljaskldjfsad")
   const router = useRouter()
 
   const { width, height } = useWindowDimensions();
@@ -40,6 +40,9 @@ const LeftBarMobile = () => {
          onHoverOut={() => setdashhover(false)}
             onPress={() => {
               router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
+              setTimeout(()=>{
+                setOpenMenu(false)
+              },800)
             }}>
         <Flex alignItems="center" flexDirection={'row'}>
           <Avatar w="50px" h="50px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
@@ -56,6 +59,9 @@ const LeftBarMobile = () => {
             borderRadius="8"
             onPress={() => {
               router.push(`/${event.url}/settings/editprofile`)
+              setTimeout(()=>{
+                setOpenMenu(false)
+              },800)
             }}>
               <DynamicIcon  iconType={'edit_profile'} iconProps={{ width:18,height:18,  color: dashhover  ? func.colorType(event?.settings?.primary_color) : undefined}}/>
             </Pressable>
@@ -76,6 +82,9 @@ const LeftBarMobile = () => {
             borderRadius="4"
             onPress={() => {
               router.push(`/${event.url}/dashboard`)
+              setTimeout(()=>{
+                setOpenMenu(false)
+              },800)
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
@@ -94,8 +103,12 @@ const LeftBarMobile = () => {
               _hover={{ bg: 'primary.500' }}
               borderRadius="4"
               onPress={() => {
+                setTimeout(()=>{
+                  setOpenMenu(false)
+                },800)
                 if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
                   // setLoading(true);
+                  
                   router.push(`/${event.url}/${row?.alias}/event-info/0`)
                 } else if (in_array(row?.alias, ['information_pages'])) {
                   // setLoading(true); 
@@ -111,6 +124,7 @@ const LeftBarMobile = () => {
                 } else {
                   router.push(`/${event.url}/${row?.alias}`)
                 }
+                
               }}>
               <HStack space="4" alignItems="center">
                 <Center w="30px">
@@ -134,6 +148,9 @@ const LeftBarMobile = () => {
             borderRadius="4"
             onPress={() => {
               logout();
+              setTimeout(()=>{
+                setOpenMenu(false)
+              },800)
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
