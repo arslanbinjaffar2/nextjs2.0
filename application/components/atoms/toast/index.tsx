@@ -28,7 +28,7 @@ export interface ToastProps {
     return(
       <View
         bg={'primary.toastbg'}
-        w={'396px'}
+        w={['250px','396px']}
         h={'77px'}
         p={'5'}
         borderRadius={"lg"}
@@ -62,7 +62,7 @@ export interface ToastProps {
 const ToastContainer = () => {
   const {toasts}=UseToastService()
   return (
-    <View position={'absolute'} right={'10'} bottom={'10'}> 
+    <View position={'absolute'} right={['15px','10']} bottom={'10'}> 
       {toasts.length>0  && 
       <View style={{ gap:6 }}>
        {toasts?.map((toast,index)=>{
