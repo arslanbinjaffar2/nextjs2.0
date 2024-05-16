@@ -202,7 +202,7 @@ const Detail = () => {
                                     <>
                                         {detail?.program?.program_speakers!?.length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="speakers" iconProps={{ width: 12, height: 18 }} />
-                                            <Text fontSize="md">Speaker</Text>
+                                            <Text fontSize="md">{modules?.find((module)=>(module.alias == 'speakers'))?.name}</Text>
                                         </HStack>}
                                         {detail?.program?.program_speakers?.map((attendee: Attendee, k: number) =>
                                             <SpeakerRectangleView key={k} attendee={attendee} k={k} total={detail?.program?.program_speakers!?.length} />
@@ -266,7 +266,7 @@ const Detail = () => {
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <IcoRaiseHand width="14" height="17" />
-                                            <Text fontSize="md">Request to speak</Text>
+                                            <Text fontSize="md">{modules?.find((module)=>(module.alias == 'myturnlist'))?.name}</Text>
                                         </HStack>
                                         <RequestToSpeakRectangleView program={detail?.program} />
                                     </>
