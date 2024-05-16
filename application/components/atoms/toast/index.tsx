@@ -29,19 +29,19 @@ export interface ToastProps {
       <View
         bg={'primary.toastbg'}
         w={['250px','396px']}
-        h={'77px'}
-        p={'5'}
+        minH={'77px'}
+        p={4}
         borderRadius={"lg"}
         flexDirection={'row'}
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View w={['204px','350px']} style={{ flexDirection: 'row', alignItems: 'center' }}>
           <DynamicIcon
             iconType={toast.status === "error" ? 'cancelcircle' : 'checkcircle'}
             iconProps={{ width: 24, height: 24 }}
           />
-          <View style={{ marginLeft: 10 }}>
+          <View w={'calc(100% - 35px)'} style={{ marginLeft: 10 }}>
             <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
               {toast.status}
             </Text>

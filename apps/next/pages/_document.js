@@ -171,6 +171,9 @@ body {
 .rsw-ce {
   min-height: 90px;
 }
+.rsw-toolbar {
+  flex-wrap: wrap;
+}
 .ebs-iframe-content-no-margin {
   display: flex;
   flex-direction: column;
@@ -299,9 +302,6 @@ svg#active #svg-elem-3 {
 }
 .rsw-toolbar,.rsw-editor {
   border: none !important;
-}
-.rsw-toolbar {
-  flex-wrap: wrap;
 }
 div[data-testID="TitleContainer"]+ div {
   border-radius: 10px !important;
