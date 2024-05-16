@@ -95,7 +95,7 @@ const SocketHandler = () => {
       });
 
       socketConnect.on(`event-buizz:qa_admin_block_answer_${event?.id}_${response?.attendee_detail?.id}`, function (data:any):any {
-        // console.log(data, 'data answer agyga');
+        console.log(data, 'data answer agyga');
         let description = event?.labels?.GENERAL_PLEASE_CLICK.replace('{message_detail}', event?.labels?.GENERAL_MESSAGE_DETAIL);
           AddNotification({
             notification:{
