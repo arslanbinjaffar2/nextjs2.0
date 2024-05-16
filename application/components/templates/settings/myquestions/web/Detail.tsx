@@ -129,7 +129,7 @@ const Detail = () => {
                           <Text lineHeight="sm" pr="3" fontSize="md">{answer?.answer}</Text>
                           <Text opacity="0.8" textAlign="right" fontSize="sm">{moment(answer?.created_at).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                         </VStack>
-                         <Text textAlign={isSenderMe ? 'right' : 'left'} lineHeight="sm" fontSize="sm">{isSenderMe ? 'You' : answer?.display_name}:</Text>
+                         <Text textAlign={isSenderMe ? 'right' : 'left'} lineHeight="sm" fontSize="sm">{isSenderMe ? 'You' : answer?.display_name}</Text>
                       </VStack>
 
                     </HStack>
