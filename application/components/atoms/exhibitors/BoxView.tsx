@@ -49,7 +49,7 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
   const [isOpen,setIsOpen]=useState(false)
     return (
         <>
-            <Box  w={w ? w : "49%"}>
+            <Box  w={['100%',w ? w : "49%"]}>
                 <Pressable
                     onPress={async () => {
                         if(exhibitor?.url && exhibitor?.url !== '' && exhibitor.url !== 'http://' && exhibitor.url !== 'https://'){

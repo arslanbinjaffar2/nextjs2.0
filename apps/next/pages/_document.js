@@ -55,6 +55,7 @@ export const style = `
   scrollbar-width: thin;
   scrollbar-color: #9ca3af transparent
 }
+
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px
@@ -174,6 +175,9 @@ body {
 }
 .rdtTime .rdtSwitch,.rdtTimeToggle {
   display: none !important;
+}
+.rsw-ce {
+  min-height: 90px;
 }
 .ebs-iframe-content-no-margin {
   display: flex;

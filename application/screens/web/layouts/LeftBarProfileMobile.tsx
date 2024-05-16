@@ -52,7 +52,6 @@ const PressableElement = ({row,setProfileBar}: any) => {
 
       <HStack space="4" alignItems="center">
         <Center w="30px">
-          {console.log(row?.icon)}
           <DynamicIcon iconType={row?.icon?.replace("-icon", "").replace("-","_").replace('.png','') } iconProps={{ width: 26, height: 26, color: isHovered || router.pathname.includes(row?.alias) ? func.colorType(event?.settings?.primary_color)  : undefined }} />
         </Center>
         <Text fontSize={'lg'} color={isHovered || router.pathname.includes(row?.alias) ? 'primary.hovercolor'  : "primary.text"}>
@@ -77,7 +76,7 @@ const LeftBarProfileMobile = ({setProfileBar}:any) => {
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
         <ScrollView w={'100%'} h={height - 150}>
 
-        <VStack space={1} px={'0'} w="100%" maxW="100%" >
+        <VStack space={1} px={3} w="100%" maxW="100%" >
 
         {setting_modules?.map((row: any, key: any) =>
           <PressableElement row={row} key={key} setProfileBar={setProfileBar}/>

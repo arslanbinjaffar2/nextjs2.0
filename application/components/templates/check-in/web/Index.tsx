@@ -248,7 +248,7 @@ const Index = () => {
         in_array('fetch-checkin-out',processing) ? (
             <WebLoading />
         ):(
-            <Container pt="1" maxW="100%" w="100%">
+            <Container mb={3} pt="1" maxW="100%" w="100%">
               <NextBreadcrumbs module={module} />
 							<Box flexDirection="row" w={'100%'} alignItems="center">
 								<HStack mb={3} w={'100%'} space="0" alignItems="center" justifyContent={'center'} pt={4}>
@@ -350,7 +350,7 @@ const Index = () => {
                   :null}
 
                   {filteredHistory.length === 0 && tab !== ''  ?
-                    <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" padding={5}>
+                    <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" padding={3}>
                       <Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
                     </Box>:null
                   }

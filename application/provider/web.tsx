@@ -259,7 +259,9 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     name="description"
                     content={event.name}
                     />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
                     {event?.settings?.fav_icon !== "" && <link rel="icon" type="image/x-icon"  href={`${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.fav_icon}`} />}
+                    
                 </Head>
                 <NativeBaseProvider config={config} theme={nativebaseTheme}>{children}</NativeBaseProvider>
             </>

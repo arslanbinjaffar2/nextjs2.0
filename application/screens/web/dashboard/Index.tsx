@@ -126,7 +126,7 @@ const Index = ({ navigation }: indexProps) => {
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
 
             <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
-               <HStack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
+               <HStack mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
               {my_attendees?.length > 6 &&
                 <Button onPress={() => {

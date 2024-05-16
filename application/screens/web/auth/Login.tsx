@@ -162,7 +162,7 @@ const Login = ({ props }: any) => {
                                         <Controller
                                             control={control}
                                             render={({ field: { onChange, onBlur, value } }) => (
-                                                <Center><Input onKeyPress={handleKeyPress} onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={['250px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button isLoading={processing} ref={nativeButton} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow color={func.colorType(event?.settings?.primary_color)} /></Button>} /></Center>
+                                                <Center><Input onKeyPress={handleKeyPress} onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={['300px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button isLoading={processing} ref={nativeButton} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow color={func.colorType(event?.settings?.primary_color)} /></Button>} /></Center>
                                             )}
                                             name="email"
                                             rules={{
