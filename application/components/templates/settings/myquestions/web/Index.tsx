@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Avatar, Box, Container, Heading, HStack, Icon, Image, Input, Spacer, Text, VStack, Pressable } from 'native-base';
+import moment from 'moment';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -9,6 +10,7 @@ import { useRouter } from 'solito/router';
 import Icoquestion from 'application/assets/icons/small/Icoquestion';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icocalendar from 'application/assets/icons/small/Icocalendar'
+import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 
 const Index = () => {
 
@@ -47,24 +49,24 @@ const Index = () => {
                                             }}
                                         >
                                             <HStack alignItems={'center'} key={index} borderTopWidth={index === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="5">
-																									<Icoquestion width={22} height={22} />
+                                                <Icoquestion width={22} height={22} />
                                                 <VStack w={'calc(100% - 80px)'} space="0">
-																									<HStack mb={2} space="3" alignItems="center">
-                                                    <Heading fontSize="16px" fontWeight={500}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{ __html: question?.question }}></div></Heading>
-																										<Spacer />
-																										<HStack  space="3" alignItems="center">
-																											<HStack  space="3" alignItems="center">
-																												<Icocalendar width={12} height={12} />
-																												<Text fontWeight={500} fontSize="12px">{question.question_time}</Text>
-																											</HStack>
-																											
-																										</HStack>
-																										
-																									</HStack>
-																									
+                                                    <HStack mb={2} space="3" alignItems="center">
+                                                        <Heading fontSize="16px" fontWeight={500}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{ __html: question?.question }}></div></Heading>
+                                                        <Spacer />
+                                                        <HStack space="3" alignItems="center">
+                                                            <HStack space="3" alignItems="center">
+                                                                <Icocalendar width={12} height={12} />
+                                                                <Text fontWeight={500} fontSize="12px">{moment(question.question_time).format(GENERAL_DATE_FORMAT)}</Text>
+                                                            </HStack>
+
+                                                        </HStack>
+
+                                                    </HStack>
+
                                                     <Text fontSize="sm">{question?.program?.info.find((info: any) => info.name === 'topic')?.value}</Text>
                                                 </VStack>
-																								<Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
+                                                <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
                                             </HStack>
                                         </Pressable>
                                     ))

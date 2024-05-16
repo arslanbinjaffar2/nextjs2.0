@@ -16,6 +16,7 @@ import UseAuthService from 'application/store/services/UseAuthService'
 import { useWindowDimensions } from 'react-native';
 import IcoInfo from 'application/assets/icons/small/IcoInfo';
 import Icoquestion from 'application/assets/icons/small/Icoquestion';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 type ScreenParams = { id: string }
 const Detail = () => {
@@ -23,6 +24,7 @@ const Detail = () => {
   const { useParam } = createParam<ScreenParams>()
   const { event } = UseEventService()
   const { socket } = UseSocketService();
+  const { _env } = UseEnvService()
   
   const { loading } = UseLoadingService();
   const [id] = useParam('id');
@@ -55,7 +57,7 @@ const Detail = () => {
   React.useEffect(() => {
     if (socket !== null) {
       socket?.on(`event-buizz:qa_question_answer_action${event.id}_${response.data?.user?.id}_${id}`, function (data: any): any {
-        console.log(data, 'data');
+        console.log(data, 'data AX');
         if(data?.answers){
           setAnswers(data?.answers);
         }
@@ -97,7 +99,7 @@ const Detail = () => {
               </HStack>
             </Pressable>
             <Spacer />
-            <Text isTruncated pr="6" fontSize="2xl">My Questions</Text>
+            <Text isTruncated pr="6" fontSize="2xl">{questionAnswers?.labels?.QA_MY_QUESTION ?? "My Questions"}</Text>
             <Spacer />
           </HStack>
           <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
@@ -117,7 +119,7 @@ const Detail = () => {
                       <Avatar
                         mb={3}
                         source={{
-                          uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
+                          uri: `${_env.eventcenter_base_url}/assets/attendees/${answer?.display_image}`
                         }}
                       >
                         {answer?.display_name.substring(0, 2)}
@@ -127,7 +129,7 @@ const Detail = () => {
                           <Text lineHeight="sm" pr="3" fontSize="md">{answer?.answer}</Text>
                           <Text opacity="0.8" textAlign="right" fontSize="sm">{moment(answer?.created_at).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                         </VStack>
-                         <Text textAlign={isSenderMe ? 'right' : 'left'} lineHeight="sm" fontSize="sm">{isSenderMe ? 'You' : answer?.display_name}:</Text>
+                         <Text textAlign={isSenderMe ? 'right' : 'left'} lineHeight="sm" fontSize="sm">{isSenderMe ? 'You' : answer?.display_name}</Text>
                       </VStack>
 
                     </HStack>
@@ -147,10 +149,10 @@ const Detail = () => {
             <Center w="100%" maxW="100%">
               <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
                 <Icon size="md" as={Entypo} name="new-message" color="primary.text" />
-                <Text fontSize="lg">Write Message </Text>
+                <Text fontSize="lg">{event?.labels?.GENERAL_CHAT_ENTER_MESSAGE}</Text>
               </HStack>
               <VStack p="1" w="100%" space="0">
-                <TextArea borderWidth="0" value={message} borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder="Your message…" autoCompleteType={undefined} onChangeText={(text) => setMessage(text)} />
+                <TextArea borderWidth="0" value={message} borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder={questionAnswers?.labels?.QA_TYPE_ANSWER ?? "Type your answer"} autoCompleteType={undefined} onChangeText={(text) => setMessage(text)} />
                 <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
                   <IconButton
                     variant="transparent"

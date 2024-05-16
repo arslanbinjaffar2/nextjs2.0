@@ -84,7 +84,7 @@ const SocketHandler = () => {
       });
       
       socketConnect.on(`event-buizz:news_and_updates_alert_${event?.id}_${response?.attendee_detail?.id}`, function (data:any):any {
-          console.log(data, 'data');
+          // console.log(data, 'data');
           AddNotification({
               notification:{
                 type:'alert',
@@ -95,8 +95,10 @@ const SocketHandler = () => {
       });
 
       socketConnect.on(`event-buizz:qa_admin_block_answer_${event?.id}_${response?.attendee_detail?.id}`, function (data:any):any {
-        // console.log(data, 'data');
-        let description = event?.labels?.GENERAL_PLEASE_CLICK.replace('{message_detail}', event?.labels?.GENERAL_MESSAGE_DETAIL);
+        console.log(data, 'data answer');
+        if(nextRouter.asPath.includes('settings/myquestions/detail') && data?.question?.id == detailId){
+        }else {
+          let description = event?.labels?.GENERAL_PLEASE_CLICK.replace('{message_detail}', event?.labels?.GENERAL_MESSAGE_DETAIL);
           AddNotification({
             notification:{
               type:'qa_answer',
@@ -106,6 +108,8 @@ const SocketHandler = () => {
               data: data
             }
           })
+        }
+     
       });
 
       socketConnect.on(`event-buizz:social_wall_post_updated_${event?.id}`, function (data:any):any {
