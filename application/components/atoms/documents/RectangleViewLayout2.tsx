@@ -166,7 +166,7 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                                     onPress={async () => {
                                                         setIsNotesOpen(true);
                                                     }}
-                                                   
+                                                    mr={'3'}
                                                     >
                                                     <DynamicIcon iconType={'editnotes'} iconProps={{ width: 20, height: 20 }} />
                                                 </Pressable>
