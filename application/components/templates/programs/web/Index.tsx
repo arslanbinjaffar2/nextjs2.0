@@ -92,7 +92,7 @@ const Index = () => {
 
             <HStack flexWrap={'wrap'} mb="3" overflow={'hidden'} rounded={8} space={1} justifyContent="center" w="100%">
                 {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <ButtonElement  bg={in_array(tab, ['program', 'track-program']) ? 'primary.boxbutton' : 'primary.box'} onPress={() => {ResetTracks();setTab('program')}}>{modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'Program'}</ButtonElement>}
-                {(modules?.find((m)=>(m.alias == 'myprograms'))) && <ButtonElement  bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'} onPress={() => {ResetTracks();setTab('my-program');
+                {(modules?.find((m)=>(m.alias == 'myprograms'))) && event?.agenda_settings?.agenda_tab === 1 && <ButtonElement  bg={tab === 'my-program' ? 'primary.boxbutton' : 'primary.box'} onPress={() => {ResetTracks();setTab('my-program');
                 }}>{modules?.find((module)=>(module.alias == 'myprograms'))?.name ?? 'My program'}</ButtonElement>}
                 {(event?.agenda_settings?.agenda_list == 1 || event?.agenda_settings?.agenda_tab == 1) && <ButtonElement onPress={() => setTab('track')} bg={tab === 'track' ? 'primary.boxbutton' : 'primary.box'} >{event?.labels?.PROGRAM_BY_TRACKS}</ButtonElement>}
             </HStack>
