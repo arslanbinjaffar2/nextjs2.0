@@ -193,9 +193,6 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                                 </Modal.Body>
                                             </Modal.Content>
                                     </Modal>
-                                    
-                                  
-                                    
                                 </HStack>
                         )
                 })()
