@@ -1,5 +1,5 @@
 import React from 'react';
-import { HStack, Spacer, Text, VStack, Pressable, Icon, Modal, Button, Input, TextArea } from 'native-base'
+import { HStack, Spacer, Text, VStack, Pressable, Icon, Modal, Button, Input, TextArea, Box } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Document } from 'application/models/document/Document'
 import UseDocumentService from 'application/store/services/UseDocumentService';
@@ -112,7 +112,9 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                     <Pressable
                                         onPress={async () => {
                                             push(`/${event.url}/document-send-email/detail/${document.id}`)
-                                        }}>
+                                        }}
+                                        ml={'3'}
+                                        >
                                         <DynamicIcon iconType={'email_icon'} iconProps={{ width: 15, height: 18 }} />
                                     </Pressable>
                                     {/* <Modal
@@ -157,18 +159,21 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                             </Modal.Body>
                                         </Modal.Content>
                                     </Modal> */}
+                                    <Box mx={'3'}>
                                     {event.document_settings?.show_documents_notes == 1 && 
                                         (
                                             <Pressable
                                                     onPress={async () => {
                                                         setIsNotesOpen(true);
                                                     }}
-                                                    mx={'3'}
+                                                   
                                                     >
                                                     <DynamicIcon iconType={'editnotes'} iconProps={{ width: 20, height: 20 }} />
                                                 </Pressable>
                                         )
                                     }
+                                    </Box>
+
                                     <Pressable
                                         onPress={async () => {
                                             const url: any = document.s3 ? `${document.s3_url}` : `${_env.eventcenter_base_url}/assets/directory/${document.path}`;
@@ -176,7 +181,8 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                             if (supported) {
                                                 await Linking.openURL(url);
                                             }
-                                        }}>
+                                        }}
+                                        >
                                         <Icon as={AntDesign} name="download" size="md" color="primary.text" />
                                     </Pressable>     
                                     </HStack>
