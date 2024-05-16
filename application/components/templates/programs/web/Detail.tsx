@@ -131,7 +131,8 @@ const Detail = () => {
         const resShowSpeaker = showSpeaker == undefined ? false : showSpeaker;
         setshowSpeakers(resShowSpeaker);
 
-        const showPolls=modules?.find((module)=>(module.alias == 'polls')) && detail?.polls_count! > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0;
+        const showPolls=modules?.find((module)=>(module.alias == 'polls')) && detail?.has_active_polls && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0;
+        
         const resShowPoll = showPolls == undefined ? false : showPolls;
         setshowPolls(resShowPoll);
 
@@ -211,12 +212,11 @@ const Detail = () => {
                                 )}
                                 {showPolls && (
                                     <>
-                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
                                             <Text fontSize="md">{event?.labels?.POLLS}</Text>
-                                        </HStack>}
-                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
-                                            <Pressable onPress={() => {
+                                        </HStack>
+                                        <Pressable onPress={() => {
                                                 if (detail?.authority_recieved) {
 
                                                 } else {
@@ -232,18 +232,7 @@ const Detail = () => {
                                                         <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                                     </HStack>
                                                 </Box>
-                                            </Pressable>
-                                        )
-                                            // : (
-                                            //     <Box w="100%" py="4">
-                                            //         <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
-                                            //             <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                            //                 <Text fontSize="md">No poll found</Text>
-                                            //             </VStack>
-                                            //         </HStack>
-                                            //     </Box>
-                                            // )
-                                        }
+                                        </Pressable>
                                     </>
                                 )}
                                 {/* {event?.agenda_settings?.enable_notes === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && (
