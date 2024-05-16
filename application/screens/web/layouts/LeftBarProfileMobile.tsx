@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Center, HStack, Pressable, Text, VStack } from 'native-base';
+import { Center, HStack, Pressable, ScrollView, Text, VStack } from 'native-base';
 
 import { useWindowDimensions } from 'react-native';
 
@@ -13,7 +13,7 @@ import { useRouter } from 'next/router';
 
 import {  func } from 'application/styles';
 
-const PressableElement = ({row}: any) => {
+const PressableElement = ({row,setProfileBar}: any) => {
 
   const { width } = useWindowDimensions();
 
@@ -37,8 +37,15 @@ const PressableElement = ({row}: any) => {
       onPress={() => {
         if(row?.alias === 'logout'){
           logout()
+          setTimeout(()=>{
+              setProfileBar(false)
+        },800)
         }else{
           router.push(`/${event.url}/settings/${row?.alias}`)
+          setTimeout(()=>{
+              setProfileBar(false)
+        },800)
+
         }
         
       }}>
@@ -48,35 +55,38 @@ const PressableElement = ({row}: any) => {
           {console.log(row?.icon)}
           <DynamicIcon iconType={row?.icon?.replace("-icon", "").replace("-","_").replace('.png','') } iconProps={{ width: 26, height: 26, color: isHovered || router.pathname.includes(row?.alias) ? func.colorType(event?.settings?.primary_color)  : undefined }} />
         </Center>
-       { width > 1200 &&  <Text fontSize={'lg'} color={isHovered || router.pathname.includes(row?.alias) ? 'primary.hovercolor'  : "primary.text"}>
+        <Text fontSize={'lg'} color={isHovered || router.pathname.includes(row?.alias) ? 'primary.hovercolor'  : "primary.text"}>
           {row?.name.replace('label','')}
           {/* {row?.alias.replace('-','_')} */}
         {/* {row?.icon?.replace("-icon", "").replace("-", "_").replace('.png', '')} */}
-        </Text>}
+        </Text>
       </HStack>
     </Pressable>
 
   )
 }
 
-const LeftBarProfile = () => {
+const LeftBarProfileMobile = ({setProfileBar}:any) => {
 
-  const { width } = useWindowDimensions();
+  const { width,height } = useWindowDimensions();
 
   const router = useRouter()
 
   const { event, setting_modules } = UseEventService();
   return (
-    <Center overflowX="hidden" overflowY="auto" position="sticky" top="2rem" alignItems="flex-start" w={width > 1200 ? '265px' : '70px'}>
-      <VStack space={1} px={width > 1200 ? '0' : '1'} w="100%" maxW="100%" >
-        {setting_modules?.map((row: any, key: any) =>
+    <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
+        <ScrollView w={'100%'} h={height - 150}>
 
-          <PressableElement row={row} key={key} />
+        <VStack space={1} px={'0'} w="100%" maxW="100%" >
+
+        {setting_modules?.map((row: any, key: any) =>
+          <PressableElement row={row} key={key} setProfileBar={setProfileBar}/>
         )}
-      </VStack>
+        </VStack>
+        </ScrollView>
     </Center>
   );
 
 }
 
-export default LeftBarProfile;
+export default LeftBarProfileMobile;

@@ -104,9 +104,8 @@ const Index = ({ navigation }: indexProps) => {
             </HStack>  
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
           {/*  */}
-          {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
+          {event?.agenda_settings?.show_program_dashboard && modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
             <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-              <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{modules?.find((module) => (module.alias == 'agendas'))?.name}</Heading>
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
             </Container>
           ) : <></>}
