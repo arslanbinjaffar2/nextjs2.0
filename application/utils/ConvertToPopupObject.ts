@@ -19,7 +19,7 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             data:notification?.data,
             btnLeftText:'OK',
             btnRightText:notification?.btnText,
-            url:'/qa',
+            url:'/settings/myquestions/detail/'+notification?.data?.question?.id,
         }
     }
     if(type == 'poll'){
