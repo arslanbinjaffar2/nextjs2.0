@@ -11,6 +11,17 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             url:'/alerts',
         }
     }
+    if(type == 'qa_answer'){
+        return  {
+            type:'qa_answer',
+            title:notification?.title+ " Q&A",
+            text:notification?.text,
+            data:notification?.data,
+            btnLeftText:'OK',
+            btnRightText:notification?.btnText,
+            url:'/qa',
+        }
+    }
     if(type == 'poll'){
         return  {
             type:'poll',

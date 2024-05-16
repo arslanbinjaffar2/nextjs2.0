@@ -17,7 +17,7 @@ const SocketHandler = () => {
     const { _env } = UseEnvService()
 
     const { event } = UseEventService()
-
+    
     const { response } = UseAuthService();
 
     const { checkPollVotingPermission } = UsePollService();
@@ -91,6 +91,20 @@ const SocketHandler = () => {
                 detail:data.description,
                 ...data,
               }
+          })
+      });
+
+      socketConnect.on(`event-buizz:qa_admin_block_answer_${event?.id}_${response?.attendee_detail?.id}`, function (data:any):any {
+        // console.log(data, 'data answer agyga');
+        let description = event?.labels?.GENERAL_PLEASE_CLICK.replace('{message_detail}', event?.labels?.GENERAL_MESSAGE_DETAIL);
+          AddNotification({
+            notification:{
+              type:'qa_answer',
+              title: event?.labels?.GENERAL_CHAT_NEW_MESSAGE_FROM,
+              text: description,
+              btnText: event?.labels?.GENERAL_MESSAGE_DETAIL,
+              data: data
+            }
           })
       });
 
