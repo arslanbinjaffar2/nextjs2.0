@@ -64,7 +64,7 @@ import { useWindowDimensions } from 'react-native';
 import SessionRating from 'application/components/atoms/programs/SessionRating';
 import ButtonElement from 'application/components/atoms/ButtonElement'
 
-type ScreenParams = { id: string }
+type ScreenParams = { id: string, currentIndex: string}
 
 const { useParam } = createParam<ScreenParams>()
 
@@ -84,7 +84,7 @@ const Detail = () => {
 
     const { response } = UseAuthService();
 
-    const { push, back } = useRouter()
+    const { push, back, router } = useRouter()
 
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, last_page } = UseAttendeeService();
 
@@ -96,6 +96,8 @@ const Detail = () => {
     const [showPolls, setshowPolls] = React.useState<Boolean>(false);
 
     const [tabs, setTabs] = React.useState<any>([]);
+
+    const [currentIndex] = useParam('currentIndex');
 
     const { width } = useWindowDimensions();
     React.useEffect(() => {
@@ -168,7 +170,7 @@ const Detail = () => {
                 <WebLoading />
             ) : (
                 <>
-                    <NextBreadcrumbs module={module} title={detail?.program?.topic}/>
+                    <NextBreadcrumbs queryParameters={{ 'currentIndex':currentIndex ?? '' }} module={module} title={detail?.program?.topic}/>
                     <DetailBlock>
                         <Text>
                             <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
