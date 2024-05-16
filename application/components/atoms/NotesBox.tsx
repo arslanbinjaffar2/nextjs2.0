@@ -35,7 +35,7 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
   },[my_note])
 
   function save(){
-    if(note === '' || saving_notes){
+    if((note === '' && isNewNote) || saving_notes){
         return;
     }
     if(isNewNote){
