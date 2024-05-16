@@ -138,9 +138,19 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                         <Icon as={AntDesign} name="download" size="md" color="primary.text" />
                                     </Pressable>     
                                     </HStack>
-                                    
-                                  
-                                    
+                                    <Modal
+                                            isOpen={isNotesOpen}
+                                            onClose={()=>{
+                                            setIsNotesOpen(false);
+                                            }}
+                                        >
+                                            
+                                        <Modal.Content p={0}>
+                                                <Modal.Body position={'relative'} zIndex={1} p={0}>
+                                                    <DocumentNotesBox showModal={setIsNotesOpen} note_type_id={document.id}/>
+                                                </Modal.Body>
+                                            </Modal.Content>
+                                    </Modal>
                                 </HStack>
                         )
                 })()
