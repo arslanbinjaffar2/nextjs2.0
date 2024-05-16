@@ -84,7 +84,7 @@ const Detail = () => {
 
     const { response } = UseAuthService();
 
-    const { push, back, router } = useRouter()
+    const { push, back } = useRouter()
 
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, last_page } = UseAttendeeService();
 
