@@ -30,6 +30,7 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
           content="Eventbuizz app"
         />
         <link rel="icon" href="/favicon.ico" />
+        
       </Head>
       {typeof window !== "undefined" && (
         <ReduxProvider store={store}>

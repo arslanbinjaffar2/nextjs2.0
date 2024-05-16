@@ -57,6 +57,8 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
             w="100%"
             p="1"
             borderRadius="8"
+            width={30}
+            h={30}
             onPress={() => {
               router.push(`/${event.url}/settings/editprofile`)
               setTimeout(()=>{
@@ -70,7 +72,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
        
       </Box>
       <ScrollView w={'100%'} h={height - 150}>
-        <VStack space={1} px={'0'} w="100%" maxW="100%" >
+        <VStack px={3} space={1}  w="100%" maxW="100%" >
           <Pressable
             w="100%"
             px="4"
