@@ -271,7 +271,8 @@ const Detail = () => {
                                         <RequestToSpeakRectangleView program={detail?.program} />
                                     </>
                                 )}
-                                      <>
+                                      {modules?.find((polls)=>(polls.alias == 'qa')) && event?.agenda_settings?.qa === 1 &&
+                                        <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType="myquestions" iconProps={{ width: 12, height: 18 }} />
                                             <Text fontSize="md">{event?.labels?.QA_ASK_A_QUESTION}</Text>
@@ -292,7 +293,7 @@ const Detail = () => {
                                                 </Pressable>
                                             </Box>
                                         </Center>
-                                    </>
+                                      </>}
                             </Box>
                         )}
                         {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('documents', processing)) && page === 1 ? (
