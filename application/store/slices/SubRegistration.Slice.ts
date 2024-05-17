@@ -27,6 +27,7 @@ export interface SubRegistrationState {
     mySubReg:any,
     submitting:boolean;
     sucess_message:boolean;
+    page_scroll:boolean;
     redirect:string,
     skip:boolean,
 }
@@ -47,6 +48,7 @@ const initialState: SubRegistrationState = {
     },
     submitting:false,
     sucess_message:false,
+    page_scroll:true,
     redirect:'',
     skip:false,
     mySubReg:null,
@@ -76,6 +78,9 @@ export const SubRegistrationSlice = createSlice({
         },
         SaveSubRegistration(state, action: PayloadAction<any>) {
             state.submitting=true
+        },
+        SubmitPageScroll(state, action: PayloadAction<any>){
+            state.page_scroll = action.payload
         },
         SubmitSuccess(state){
             state.submitting = false;
@@ -130,6 +135,7 @@ export const SubRegistrationActions = {
     updateMySubRegistration:SubRegistrationSlice.actions.updateMySubRegistration,
     SaveSubRegistration:SubRegistrationSlice.actions.SaveSubRegistration,
     SubmitSuccess:SubRegistrationSlice.actions.SubmitSuccess,
+    SubmitPageScroll:SubRegistrationSlice.actions.SubmitPageScroll,
     setSkip:SubRegistrationSlice.actions.setSkip,
     clearState:SubRegistrationSlice.actions.clearState,
 }
@@ -137,6 +143,7 @@ export const SelectSubRegistrationAfterLogin = (state: RootState) => state.subRe
 export const SelectSubRegistrationMySubreg = (state: RootState) => state.subRegistration.mySubReg
 export const SelectSubRegistrationSubmitting = (state: RootState) => state.subRegistration.submitting
 export const sucessMessageSubmitting = (state: RootState) => state.subRegistration.sucess_message
+export const sucessPageScrolling = (state: RootState) => state.subRegistration.page_scroll
 export const SelectSubRegistrationSkip = (state: RootState) => state.subRegistration.skip
 
 
