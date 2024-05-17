@@ -22,7 +22,7 @@ type ScreenParams = { id: string }
 const Detail = () => {
   
   const { useParam } = createParam<ScreenParams>()
-  const { event } = UseEventService()
+  const { event, setting_modules } = UseEventService();
   const { socket } = UseSocketService();
   const { _env } = UseEnvService()
   
@@ -76,7 +76,7 @@ const Detail = () => {
       setMessage('');
     }
   };
-
+  const module = setting_modules?.find((module) => module.alias === 'myquestions');
   if (questionAnswers && Number(questionAnswers?.question_id) !== Number(id)) {
     return <WebLoading />;
   }
@@ -99,7 +99,7 @@ const Detail = () => {
               </HStack>
             </Pressable>
             <Spacer />
-            <Text isTruncated pr="6" fontSize="2xl">{questionAnswers?.labels?.QA_MY_QUESTION ?? "My Questions"}</Text>
+            <Text isTruncated pr="6" fontSize="2xl">{module?.name ?? "My Questions"}</Text>
             <Spacer />
           </HStack>
           <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
