@@ -23,3 +23,7 @@ export const saveNote = (payload: any, state: any): Promise<HttpResponse> => {
 export const updateNote = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/notes/update-note`, payload);
 }
+
+export const emailMyNotesApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/settings/email-my-notes`);
+}

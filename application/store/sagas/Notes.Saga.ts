@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getMyNoteApi, saveNote, updateNote, getMyNotesApi, getMyNotesByTypeApi } from 'application/store/api/Notes.Api'
+import { getMyNoteApi, saveNote, updateNote, getMyNotesApi, getMyNotesByTypeApi, emailMyNotesApi } from 'application/store/api/Notes.Api'
 
 import { NoteActions } from 'application/store/slices/Notes.Slice'
 
@@ -75,6 +75,14 @@ function* FetchMyNotesByType({
     yield put(LoadingActions.removeProcess({ process: 'get-my-notes' }))
 }
 
+function* emailMyNotes({
+}: {
+    type: typeof NoteActions.FetchMyNotes
+}): SagaIterator {
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(emailMyNotesApi, {}, state)
+}
+
 // Watcher Saga
 export function* NoteWatcherSaga(): SagaIterator {
     yield takeEvery(NoteActions.SaveNote.type, OnSaveNote)
@@ -82,6 +90,7 @@ export function* NoteWatcherSaga(): SagaIterator {
     yield takeEvery(NoteActions.UpdateNote.type, OnUpdateNote)
     yield takeEvery(NoteActions.FetchMyNotes.type, FetchMyNotes)
     yield takeEvery(NoteActions.FetchMyNotesByType.type, FetchMyNotesByType)
+    yield takeEvery(NoteActions.emailMyNotes.type, emailMyNotes)
 }
 
 export default NoteWatcherSaga

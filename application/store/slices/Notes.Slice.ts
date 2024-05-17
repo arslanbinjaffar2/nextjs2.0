@@ -47,6 +47,7 @@ export const NoteSlice = createSlice({
             state.myTypeNotes = action.payload;
         },
         FetchMyNotes() {},
+        emailMyNotes() {},
         FetchMyNotesByType(state, action:PayloadAction<{ note_type:string }>){}
     },
 })
@@ -62,6 +63,7 @@ export const NoteActions = {
     updateMyTypeNotes:NoteSlice.actions.updateMyTypeNotes,
     FetchMyNotes:NoteSlice.actions.FetchMyNotes,
     FetchMyNotesByType:NoteSlice.actions.FetchMyNotesByType,
+    emailMyNotes:NoteSlice.actions.emailMyNotes,
 }
 
 export const SelectSavingNote = (state: RootState) => state.notes.saving_notes

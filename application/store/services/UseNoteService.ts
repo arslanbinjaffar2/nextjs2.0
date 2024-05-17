@@ -13,6 +13,7 @@ export type NoteServiceOperators = {
     UpdateNote: (payload:any) => void,
     FetchMyNotesByType: (payload:any) => void,
     FetchMyNotes: () => void,
+    emailMyNotes: () => void,
     myNotes: any | undefined
     myTypeNotes: any | undefined
 }
@@ -51,6 +52,12 @@ export const UseNoteService = (): Readonly<NoteServiceOperators> => {
         FetchMyNotes: useCallback(
             () => {
                 dispatch(NoteActions.FetchMyNotes())
+            },
+            [dispatch],
+        ),
+        emailMyNotes: useCallback(
+            () => {
+                dispatch(NoteActions.emailMyNotes())
             },
             [dispatch],
         ),

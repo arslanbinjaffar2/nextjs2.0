@@ -23,7 +23,6 @@ interface CustomNotesProps {
 }
 
 const CustomNotes: React.FC<CustomNotesProps> = ({ type, note, onUpdate }) => {
-  console.log("🚀 ~ note:", note)
 
   const [isOpen, setIsOpen] = useState(false)
   const [noteValue, setNoteValue] = useState(note.notes)
