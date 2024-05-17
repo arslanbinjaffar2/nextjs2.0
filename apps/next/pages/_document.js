@@ -55,6 +55,7 @@ export const style = `
   scrollbar-width: thin;
   scrollbar-color: #9ca3af transparent
 }
+
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px
@@ -158,6 +159,9 @@ export const style = `
 body {
   display: flex;
 }
+#break_Word{
+  
+}
 .rdtPicker {
   margin-top:10px !important;
 }
@@ -166,6 +170,12 @@ body {
 }
 .rdtTime .rdtSwitch,.rdtTimeToggle {
   display: none !important;
+}
+.rsw-ce {
+  min-height: 90px;
+}
+.rsw-toolbar {
+  flex-wrap: wrap;
 }
 .ebs-iframe-content-no-margin {
   display: flex;
@@ -295,9 +305,6 @@ svg#active #svg-elem-3 {
 }
 .rsw-toolbar,.rsw-editor {
   border: none !important;
-}
-.rsw-toolbar {
-  flex-wrap: wrap;
 }
 div[data-testID="TitleContainer"]+ div {
   border-radius: 10px !important;

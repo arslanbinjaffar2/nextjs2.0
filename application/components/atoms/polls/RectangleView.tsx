@@ -33,7 +33,7 @@ const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean
           </VStack> */}
           <VStack bg="red" w="100%" maxW={['90%', '85%', '85%']} space="1">
             <Text fontSize="md">{poll.program.info.topic}</Text>
-            {!poll.program.hide_time &&
+            {event.agenda_settings?.agenda_display_time == 1 && poll?.program?.hide_time !== 1 &&
               <Text fontSize="sm">
                 {moment(`${poll.program.start_date} ${poll.program.start_time}`).format('HH:mm')} - {moment(`${poll.program.start_date} ${poll.end_time}`).format('HH:mm')} 
               </Text>

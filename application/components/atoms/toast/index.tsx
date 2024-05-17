@@ -28,20 +28,20 @@ export interface ToastProps {
     return(
       <View
         bg={'primary.toastbg'}
-        w={'396px'}
-        h={'77px'}
-        p={'5'}
+        w={['250px','396px']}
+        minH={'77px'}
+        p={4}
         borderRadius={"lg"}
         flexDirection={'row'}
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View w={['204px','350px']} style={{ flexDirection: 'row', alignItems: 'center' }}>
           <DynamicIcon
             iconType={toast.status === "error" ? 'cancelcircle' : 'checkcircle'}
             iconProps={{ width: 24, height: 24 }}
           />
-          <View style={{ marginLeft: 10 }}>
+          <View w={'calc(100% - 35px)'} style={{ marginLeft: 10 }}>
             <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
               {toast.status}
             </Text>
@@ -62,7 +62,7 @@ export interface ToastProps {
 const ToastContainer = () => {
   const {toasts}=UseToastService()
   return (
-    <View position={'absolute'} right={'10'} bottom={'10'}> 
+    <View position={'absolute'} right={['15px','10']} bottom={'10'}> 
       {toasts.length>0  && 
       <View style={{ gap:6 }}>
        {toasts?.map((toast,index)=>{
