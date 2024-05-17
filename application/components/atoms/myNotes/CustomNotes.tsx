@@ -111,14 +111,14 @@ const CustomNotes: React.FC<CustomNotesProps> = ({ type, note, onUpdate }) => {
                 <Text fontSize={'md'}>{note?.sponsor_note?.name}</Text>
                 <Box flexDirection={'row'} alignItems={'center'} >
                   <DynamicIcon iconType={'help_desk'} iconProps={{ width: 13, height: 12 }} />
-                  <Text ml={'6px'} fontSize={'xs'}>ALK-14565416-4154413</Text>
+                  <Text ml={'6px'} fontSize={'xs'}>{note?.sponsor_note?.booth}</Text>
                 </Box>
               </View>}
               {type == "exhibitors" && <View flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} >
                 <Text fontSize={'md'}>{note?.exhibitor_note?.name}</Text>
                 <Box flexDirection={'row'} alignItems={'center'} >
                   <DynamicIcon iconType={'help_desk'} iconProps={{ width: 13, height: 12 }} />
-                  <Text ml={'6px'} fontSize={'xs'}>ALK-14565416-4154413</Text>
+                  <Text ml={'6px'} fontSize={'sm'}>{note?.exhibitor_note?.booth}</Text>
                 </Box>
               </View>}
               {type == "directory" && <View flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} >
