@@ -42,13 +42,10 @@ export interface ToastProps {
             iconProps={{ width: 24, height: 24 }}
           />
           <View w={'calc(100% - 35px)'} style={{ marginLeft: 10 }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
-              {toast.status}
-            </Text>
             <Text style={{ fontSize: 14, color: 'white' }}>{toast.message}</Text>
           </View>
         </View>
-        <Pressable onPress={()=>onClose({id:index})}>
+        <Pressable onPress={()=>onClose({id:index})} ml={['3','']}>
           <DynamicIcon iconType={'close'} iconProps={{ width: 14, height: 14, color: 'white' }} />
         </Pressable>
       </View>
