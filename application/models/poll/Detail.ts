@@ -38,6 +38,7 @@ export interface PollDetail {
     answer: Answer[];
     display: string;
     matrix: Matrix[];
+    answer_time: any;
   }
   
   export interface Matrix {
