@@ -12,13 +12,13 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import UseToastService from 'application/store/services/UseToastService';
 
 const Index = () => {
-    const {push}=useRouter()
+    const { push } = useRouter()
     const { loading } = UseLoadingService();
     const { myNotes, FetchMyNotes } = UseNoteService();
-    const {AddToast}=UseToastService()
-    const { modules,event } = UseEventService();
+    const { AddToast } = UseToastService()
+    const { modules, event } = UseEventService();
     const module = modules.find((module) => module.alias === 'my_notes');
-    
+
     React.useEffect(() => {
         FetchMyNotes();
     }, []);
@@ -28,29 +28,29 @@ const Index = () => {
                 <SectionLoading />
             ) : (
                 <>
-                <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text fontSize="2xl">
-                 {module?.name}
-                </Text>
-                <Spacer />
-                <Box w={['100%','60%']} flexDirection={'row'} alignItems={'center'}>
+                    <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
+                        <Text fontSize="2xl">
+                            {module?.name}
+                        </Text>
+                        <Spacer />
+                        <Box w={['100%', '60%']} flexDirection={'row'} alignItems={'center'}>
 
-                <Input rounded="10"  bg="primary.box" borderWidth={0} mr={'3'}
-                borderColor={'transparent'}
-                placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
-                  
-                }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} width={'90%'}/>
-                <Pressable
-                    onPress={()=>{
-                        AddToast({toast:{message:"Congratulations! Your notes has been sent through email",status:"success"}})
-                    }}
-                >
-                <DynamicIcon iconType={'mail'} iconProps={{ width:26,height:12 }}/>
-                </Pressable>
-                
-                </Box>
+                            <Input rounded="10" bg="primary.box" borderWidth={0} mr={'3'}
+                                borderColor={'transparent'}
+                                placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
 
-            </HStack>
+                                }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} width={'90%'} />
+                            <Pressable
+                                onPress={() => {
+                                    AddToast({ toast: { message: "Congratulations! Your notes has been sent through email", status: "success" } })
+                                }}
+                            >
+                                <DynamicIcon iconType={'mail'} iconProps={{ width: 26, height: 12 }} />
+                            </Pressable>
+
+                        </Box>
+
+                    </HStack>
                     <Container pt="2" maxW="100%" w="100%" >
                         <Box mb="3" bg={`${myNotes ? "primary.box" : ""}`} p="0" w="100%" overflow="hidden" rounded={"lg"}>
                             {myNotes && myNotes.program_notes &&
@@ -68,7 +68,7 @@ const Index = () => {
                             }
 
                             {myNotes && myNotes.exhibitor_notes &&
-                                <Pressable onPress={() =>{
+                                <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/exhibitors`)
                                 }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
