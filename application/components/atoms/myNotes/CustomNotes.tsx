@@ -15,6 +15,7 @@ import UseNoteService from 'application/store/services/UseNoteService';
 import UseToastService from 'application/store/services/UseToastService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import UseEventService from 'application/store/services/UseEventService';
 
 interface CustomNotesProps {
   type: 'sponsors' | 'exhibitors' | 'directory' | 'programs';
@@ -30,6 +31,7 @@ const CustomNotes: React.FC<CustomNotesProps> = ({ type, note, onUpdate }) => {
   const { UpdateNote } = UseNoteService();
   const { AddToast } = UseToastService()
   const { loading } = UseLoadingService();
+  const { event } = UseEventService();
 
   function getValueByNameProgram(name: string) {
     if (note.program_note) {
@@ -147,7 +149,7 @@ const CustomNotes: React.FC<CustomNotesProps> = ({ type, note, onUpdate }) => {
           >
             <Modal.Header height={'42px'} px={'16px'} py={'8px'} flexDirection={'row'} maxWidth={'520px'} width={'100%'} roundedTop={'10px'} alignItems={'center'}>
               <DynamicIcon iconType={'my_notes'} iconProps={{ width: 20, height: 20 }} />
-              <Text ml={2}>Notes</Text>
+              <Text ml={2}>{event?.labels?.GENERAL_NOTES}</Text>
             </Modal.Header>
             <Modal.Content p={0} maxWidth={'520px'} width={'100%'} roundedBottom={'10px'} roundedTop={0}>
               <Modal.Body position={'relative'} zIndex={1} p={4} >
