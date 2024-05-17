@@ -6,7 +6,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from "in_array";
 import UseEventService from '../../../store/services/UseEventService'
-
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 type AppProps = {
   program_id: any,
 }
@@ -58,10 +58,11 @@ const SessionRating = ({program_id}:AppProps) => {
         <>
           <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
               <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
-                  <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
+                  {/* <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} /> */}
+                  <Icon size={'xl'} as={AntDesign} name={"star" } width="15" height="18"/>
                   <Text fontSize="lg">{event?.labels?.PROGRAM_RATING}</Text>
               </HStack>
-              <Box py="3" px="4" w="100%">
+            <Box py="3" px="4" w="100%" flexDirection={'column'}>
              <HStack mb={3} space="1" alignItems="center">
                 <Pressable onPress={() => save(1)}><Icon size={'xl'} as={AntDesign} name={rate >= 1 ? "star" :"staro"} color={rate >= 1 ? "secondary.500" :"primary.text"}  /></Pressable>
                 <Pressable onPress={() => save(2)}><Icon size={'xl'} as={AntDesign} name={rate >= 2 ? "star" :"staro"}  color={rate >= 2 ? "secondary.500" :"primary.text"}  /></Pressable>
@@ -70,7 +71,9 @@ const SessionRating = ({program_id}:AppProps) => {
                 <Pressable onPress={() => save(5)}><Icon size={'xl'} as={AntDesign} name={rate >= 5 ? "star" :"staro"}  color={rate >= 5 ? "secondary.500" :"primary.text"}  /></Pressable>
               </HStack>
               <Text fontSize="md" color={'primary.text'}>Please give us your feedback here…</Text>
-              
+              <Box alignSelf={'flex-end'} mt={'20px'}>
+              <Pressable onPress={() => {}} ><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
+              </Box>
               </Box>
           </Box>
         </>
