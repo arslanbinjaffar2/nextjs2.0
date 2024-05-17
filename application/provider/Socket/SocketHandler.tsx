@@ -102,6 +102,7 @@ const SocketHandler = () => {
               title: event?.labels?.GENERAL_CHAT_NEW_MESSAGE_FROM,
               text: description,
               btnText: event?.labels?.GENERAL_MESSAGE_DETAIL,
+              btnLeftText: event?.labels?.GENERAL_OK,
               data: data
             }
           })
