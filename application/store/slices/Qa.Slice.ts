@@ -25,6 +25,8 @@ export interface QaState {
         all_languages:number[],
         labels: any[]
     },
+    my_questions:Question[],
+    questionAnswers: any[],
 }
 
 const initialState: QaState = {
@@ -42,7 +44,9 @@ const initialState: QaState = {
         clientIp:'',
         all_languages:[],
         labels:[]
-    }
+    },
+    my_questions:[],
+    questionAnswers: [],
 }
 
 // Slice
@@ -73,6 +77,12 @@ export const QaSlice = createSlice({
             state.qaDetails.recent_questions = action.payload.recent_questions;
             state.qaDetails.archived_questions = action.payload.archived_questions;
             state.qaDetails.my_questions = action.payload.my_questions;
+        },
+        updateMyQuestions(state, action: PayloadAction<any>) {
+            state.my_questions = action.payload;
+        },
+        updateMyQuestionAnswers(state, action: PayloadAction<any>) {
+            state.questionAnswers = action.payload;
         },
         SubmitQa(state, action: PayloadAction<any>) {},
         SubmitQaLike(state, action: PayloadAction<{question_id:number, agenda_id:number}>) {},
@@ -133,7 +143,9 @@ export const QaSlice = createSlice({
 
             state.qaDetails.my_questions = myQA;
         },
-        
+        FetchMyQuestions() {},
+        FetchMyQuestionsAnswers(state, action: PayloadAction<{ id: number }>) {},
+        SendMessage(state, action: PayloadAction<{question_id:number, message:string}>) {},   
     },
 })
 
@@ -149,6 +161,11 @@ export const QaActions = {
     SubmitQaLike:QaSlice.actions.SubmitQaLike,
     QaRecentPopularSocketUpdate:QaSlice.actions.QaRecentPopularSocketUpdate,
     QaSort:QaSlice.actions.QaSort,
+    FetchMyQuestions:QaSlice.actions.FetchMyQuestions,
+    FetchMyQuestionsAnswers:QaSlice.actions.FetchMyQuestionsAnswers,
+    updateMyQuestions:QaSlice.actions.updateMyQuestions,
+    updateMyQuestionAnswers:QaSlice.actions.updateMyQuestionAnswers,
+    SendMessage:QaSlice.actions.SendMessage,
 }
 
 export const SelectPrograms = (state: RootState) => state.qa.programs
@@ -159,7 +176,9 @@ export const SelectQaSettings = (state: RootState) => state.qa.qaSettings
 
 export const SelectQaDetails = (state: RootState) => state.qa.qaDetails
 
+export const SelectMyQuestions = (state: RootState) => state.qa.my_questions
 
+export const SelectMyQuestionAnswers = (state: RootState) => state.qa.questionAnswers
 
 
 // Reducer
