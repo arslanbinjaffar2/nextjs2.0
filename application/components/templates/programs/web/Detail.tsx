@@ -64,6 +64,8 @@ import { useWindowDimensions } from 'react-native';
 import SessionRating from 'application/components/atoms/programs/SessionRating';
 import ButtonElement from 'application/components/atoms/ButtonElement'
 
+
+
 type ScreenParams = { id: string, currentIndex: string}
 
 const { useParam } = createParam<ScreenParams>()
@@ -100,6 +102,9 @@ const Detail = () => {
     const [currentIndex] = useParam('currentIndex');
 
     const { width } = useWindowDimensions();
+
+    const RenderHtml = require('react-native-render-html').default;
+
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['attendee']) && page < last_page ) {
@@ -165,6 +170,7 @@ const Detail = () => {
         return () => { mounted.current = false; };
     }, []);
     const module = modules.find((module) => module.alias === 'agendas');
+    const htmlContent = detail?.program?.description || '';
     return (
         <>
             {in_array('program-detail', processing) ? (
@@ -173,9 +179,13 @@ const Detail = () => {
                 <>
                     <NextBreadcrumbs queryParameters={{ 'currentIndex':currentIndex ?? '' }} module={module} title={detail?.program?.topic}/>
                     <DetailBlock>
-                        <Text>
+                        {/* <Text>
                             <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
-                        </Text>
+                        </Text> */}
+                           <RenderHtml
+                contentWidth={width}
+                source={{ html: htmlContent }}
+            />
                     </DetailBlock>
                     <Container mb="3" maxW="100%" w="100%">
                         <HStack mb="3" style={{rowGap: 2, columnGap: 1}} space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
