@@ -6,13 +6,14 @@ import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseEventService from 'application/store/services/UseEventService';
 import UseNoteService from 'application/store/services/UseNoteService';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
+import { useRouter } from 'solito/router';
 
 type indexProps = {
     navigation: unknown
 }
 
 const Index = ({ navigation }: indexProps) => {
-
+    const {push}=useRouter()
     const { loading } = UseLoadingService();
     const { myNotes, FetchMyNotes } = UseNoteService();
     const { event } = UseEventService();
@@ -20,7 +21,6 @@ const Index = ({ navigation }: indexProps) => {
     React.useEffect(() => {
         FetchMyNotes();
     }, []);
-
     return (
         <>
             {loading ? (
@@ -30,7 +30,9 @@ const Index = ({ navigation }: indexProps) => {
                     <Container pt="2" maxW="100%" w="100%">
                         <Box mb="3" bg={`${myNotes ? "primary.box" : ""}`} p="0" w="100%" overflow="hidden">
                             {myNotes && myNotes.program_notes &&
-                                <Pressable onPress={() => console.log("🚀 ~ Index ~ key:")}>
+                                <Pressable onPress={() => {
+                                    push(`/${event.url}/my_notes/detail/programs`)
+                                }}>
                                     <HStack borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                         <Text textTransform={'capitalize'} fontSize="lg">Program Notes ({myNotes.program_notes.length})</Text>
                                         <Spacer />
@@ -42,7 +44,9 @@ const Index = ({ navigation }: indexProps) => {
                             }
 
                             {myNotes && myNotes.exhibitor_notes &&
-                                <Pressable onPress={() => console.log("🚀 ~ Index ~ key:")}>
+                                <Pressable onPress={() =>{
+                                    push(`/${event.url}/my_notes/detail/exhibitors`)
+                                }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                         <Text textTransform={'capitalize'} fontSize="lg">Exhibitor Notes ({myNotes.exhibitor_notes.length})</Text>
                                         <Spacer />
@@ -53,7 +57,9 @@ const Index = ({ navigation }: indexProps) => {
                                 </Pressable>
                             }
                             {myNotes && myNotes.sponsor_notes &&
-                                <Pressable onPress={() => console.log("🚀 ~ Index ~ key:")}>
+                                <Pressable onPress={() => {
+                                    push(`/${event.url}/my_notes/detail/exhibitors`)
+                                }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                         <Text textTransform={'capitalize'} fontSize="lg">Sponsor Notes ({myNotes.sponsor_notes.length})</Text>
                                         <Spacer />
@@ -65,7 +71,9 @@ const Index = ({ navigation }: indexProps) => {
                             }
 
                             {myNotes && myNotes.directory_notes &&
-                                <Pressable onPress={() => console.log("🚀 ~ Index ~ key:")}>
+                                <Pressable onPress={() => {
+                                    push(`/${event.url}/my_notes/detail/documents`)
+                                }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                         <Text textTransform={'capitalize'} fontSize="lg">Document Notes ({myNotes.directory_notes.length})</Text>
                                         <Spacer />

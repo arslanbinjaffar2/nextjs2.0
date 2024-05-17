@@ -15,6 +15,7 @@ console.log("🚀 ~ ListBox ~ info:", info)
     return (
         <Pressable
             onPress={async () => {
+                alert("gello")
                 }}>
             <HStack borderTopWidth={info?.index === 0 ? 0 : "1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                 <Text fontSize="lg">{info?.detail?.name}</Text>
