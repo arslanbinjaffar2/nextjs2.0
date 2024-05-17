@@ -33,9 +33,6 @@ const Details = () => {
       ) : (
         <>
           <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-            <Text fontSize="2xl">
-              {Moduletype}
-            </Text>
             <Spacer />
             <Input rounded="10" w={['100%', '60%']} bg="primary.box" borderWidth={0}
               borderColor={'transparent'}
