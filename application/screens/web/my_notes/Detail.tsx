@@ -16,9 +16,14 @@ const Index = ({ navigation }: indexProps) => {
     const router = useRouter();
     const { type } = router.query;
     const ModuleTitle:any=type
+
+    function capitalizeFirstLetter(string: string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     return (
         <>
-            <NextBreadcrumbs module={module} title={ModuleTitle}/>
+            <NextBreadcrumbs module={module} title={capitalizeFirstLetter(ModuleTitle)}/>
             <IndexTemplate/> 
         </>
     );

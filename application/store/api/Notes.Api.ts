@@ -12,6 +12,10 @@ export const getMyNoteApi = (payload: any, state: any): Promise<HttpResponse> =>
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/notes/my-note`, payload);
 }
 
+export const getMyNotesByTypeApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/notes/type-notes`, payload);
+}
+
 export const saveNote = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/notes/save-note`, payload);
 }

@@ -8,11 +8,9 @@ import UseNoteService from 'application/store/services/UseNoteService';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { useRouter } from 'solito/router';
 
-type indexProps = {
-    navigation: unknown
-}
 
-const Index = ({ navigation }: indexProps) => {
+
+const Index = () => {
     const {push}=useRouter()
     const { loading } = UseLoadingService();
     const { myNotes, FetchMyNotes } = UseNoteService();
@@ -58,7 +56,7 @@ const Index = ({ navigation }: indexProps) => {
                             }
                             {myNotes && myNotes.sponsor_notes &&
                                 <Pressable onPress={() => {
-                                    push(`/${event.url}/my_notes/detail/exhibitors`)
+                                    push(`/${event.url}/my_notes/detail/sponsors`)
                                 }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                         <Text textTransform={'capitalize'} fontSize="lg">Sponsor Notes ({myNotes.sponsor_notes.length})</Text>
@@ -72,7 +70,7 @@ const Index = ({ navigation }: indexProps) => {
 
                             {myNotes && myNotes.directory_notes &&
                                 <Pressable onPress={() => {
-                                    push(`/${event.url}/my_notes/detail/documents`)
+                                    push(`/${event.url}/my_notes/detail/directory`)
                                 }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                         <Text textTransform={'capitalize'} fontSize="lg">Document Notes ({myNotes.directory_notes.length})</Text>
@@ -90,10 +88,6 @@ const Index = ({ navigation }: indexProps) => {
 
         </>
     );
-};
-
-Index.propTypes = {
-    navigation: PropTypes.object.isRequired,
 };
 
 export default Index;

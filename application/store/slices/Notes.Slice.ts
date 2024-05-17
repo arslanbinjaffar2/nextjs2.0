@@ -12,12 +12,14 @@ export interface NoteState {
     my_note: MyNote | null,
     saving_notes:boolean,
     myNotes: any | null,
+    myTypeNotes: any | null,
 }
 
 const initialState: NoteState = {
     my_note: null,
     saving_notes:false,
     myNotes: null,
+    myTypeNotes: []
 }
 
 // Slice
@@ -41,7 +43,11 @@ export const NoteSlice = createSlice({
         updateMyNotes(state, action:PayloadAction<any>){
             state.myNotes = action.payload;
         },
-        FetchMyNotes() {}
+        updateMyTypeNotes(state, action:PayloadAction<any>){
+            state.myTypeNotes = action.payload;
+        },
+        FetchMyNotes() {},
+        FetchMyNotesByType(state, action:PayloadAction<{ note_type:string }>){}
     },
 })
 
@@ -53,13 +59,15 @@ export const NoteActions = {
     update:NoteSlice.actions.update,
     UpdateNote:NoteSlice.actions.UpdateNote,
     updateMyNotes:NoteSlice.actions.updateMyNotes,
+    updateMyTypeNotes:NoteSlice.actions.updateMyTypeNotes,
     FetchMyNotes:NoteSlice.actions.FetchMyNotes,
+    FetchMyNotesByType:NoteSlice.actions.FetchMyNotesByType,
 }
 
 export const SelectSavingNote = (state: RootState) => state.notes.saving_notes
 export const SelectMyNote = (state: RootState) => state.notes.my_note
 export const SelectMyNotes = (state: RootState) => state.notes.myNotes
-
+export const SelectMyTypeNotes = (state: RootState) => state.notes.myTypeNotes
 
 
 // Reducer
