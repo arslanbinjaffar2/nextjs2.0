@@ -41,11 +41,9 @@ const Index = () => {
                   
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} width={'90%'}/>
                 <Pressable
-             
                     onPress={()=>{
                         AddToast({toast:{message:"Congratulations! Your notes has been sent through email",status:"success"}})
                     }}
-                
                 >
                 <DynamicIcon iconType={'mail'} iconProps={{ width:26,height:12 }}/>
                 </Pressable>
