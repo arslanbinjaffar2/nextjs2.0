@@ -1,3 +1,5 @@
+import { AgendaDetail } from "../qa/Detail";
+
 export interface PollDetail {
     topic: string;
     description: string;
@@ -26,6 +28,9 @@ export interface PollDetail {
     created_at: string;
     updated_at: string;
     deleted_at: string;
+    question: string;
+    question_time: any;
+    program: AgendaDetail
     allow_attendee: string;
     is_participants_multiple_times: number;
     entries_per_participant: number;

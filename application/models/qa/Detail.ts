@@ -46,6 +46,7 @@ export interface AgendaDetail {
 }
 
 export interface Info {
+  [x: string]: any;
   topic: string;
   description: string;
   date: string;
