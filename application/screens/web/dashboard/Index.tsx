@@ -109,13 +109,6 @@ const Index = ({ navigation }: indexProps) => {
           {event?.agenda_settings?.show_program_dashboard && modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
             <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
               <SlideView section="program" programs={programs} my={0} dashboard={true} />
-              <Center py="3" px="2" w="100%" alignItems="flex-end">
-                <Button onPress={() => {
-                  push(`/${event.url}/agendas`)
-                }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}}  _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                  {event.labels?.GENERAL_SHOW_ALL}
-                </Button>
-              </Center>
             </Container>
           ) : <></>}
           {/*  */}
