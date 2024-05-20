@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import moment from 'moment';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Icocalendar from 'application/assets/icons/small/Icocalendar'
+import { getColorScheme } from 'application/styles/colors';
 
 type AppProps = {
 	programs: Program[],
@@ -30,7 +31,7 @@ const LazySlider = ({ programs, onChange }: any) => {
 	const sliderRef = React.useRef<Slider>(null);
 	const router = useRouter();
 	const { select_day } = UseProgramService();
-
+    const {event}=UseEventService()
 	const [currentIndex, setCurrentIndex] = React.useState<number>(() => {
 		let indexFromQuery = router.asPath.split('currentIndex=')[1];
 		let currentIndex = 0;
@@ -64,9 +65,10 @@ const LazySlider = ({ programs, onChange }: any) => {
 			},
 		]
 	};
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 	return (
 		<>
-			<Box mt={'2'} mb={1} bg={'primary.darkbox'} w={'100%'} p={4}>
+			<Box mt={'2'} mb={1}   bg={colors.primary} w={'100%'} p={4}>
 				<HStack w={['100%']}>
 					<View w={[width - 120, width - 120, 'calc(100% - 70px)']}>
 						<Slider
@@ -80,8 +82,8 @@ const LazySlider = ({ programs, onChange }: any) => {
 								}}>
 									<Box justifyContent={'center'} display={'flex'} alignItems={'center'} w={'60px'} h={'60px'} px={2} bg={currentIndex === index ? "secondary.500" : "primary.box"} rounded="md">
 										<VStack space="1">
-											<Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? "primary.text" : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
-											<Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? "primary.text" : "primary.text"} fontWeight={500}>{moment(item[0]?.date).format('D')}</Text>
+											<Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? colors.text : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
+											<Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? colors.text : "primary.text"} fontWeight={500}>{moment(item[0]?.date).format('D')}</Text>
 										</VStack>
 
 									</Box>
