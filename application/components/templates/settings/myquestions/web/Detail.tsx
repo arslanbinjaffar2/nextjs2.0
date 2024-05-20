@@ -17,6 +17,7 @@ import { useWindowDimensions } from 'react-native';
 import IcoInfo from 'application/assets/icons/small/IcoInfo';
 import Icoquestion from 'application/assets/icons/small/Icoquestion';
 import UseEnvService from 'application/store/services/UseEnvService';
+import IcoSend from 'application/assets/icons/small/IcoSend'
 
 type ScreenParams = { id: string }
 const Detail = () => {
@@ -156,7 +157,7 @@ const Detail = () => {
                 <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
                   <IconButton
                     variant="transparent"
-                    icon={<Icon size="lg" as={Feather} name="send" color="primary.text" />}
+                    icon={<IcoSend width={25} height={25} />}
                     onPress={() => {
                       handleMessageSend()
                     }}
