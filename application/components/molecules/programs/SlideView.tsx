@@ -135,6 +135,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 	const [currentIndex, setCurrentIndex] = React.useState<number>();
 	const router = useRouter();
 	const { select_day } = UseProgramService();
+	const [selectedMonth,setSelectedMonth] = React.useState<string>('');
 
 
 	React.useEffect(() => {
@@ -157,7 +158,11 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				pathname: router.pathname,
 				query: queryParams,
 			});
+			console.log('monthsL: ', programs)
+			// setSelectedMonth('');
 
+		}else{
+			// setSelectedMonth('');
 		}
 	}, [currentIndex]);
 
@@ -166,6 +171,12 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 			setDates(programs[currentIndex]);
 		}
 	}, [programs])
+
+	React.useEffect(() => {
+		if(dates && dates.length > 0){
+			setSelectedMonth(moment(dates[0]?.date).format('MMMM YYYY'));
+		}
+	}, [dates])
 
 
 	const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard,handleShowAllButton,limit }: any) => {
@@ -246,8 +257,8 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
 								{section === 'my-program' ? modules?.find((module) => (module.alias == 'myprograms'))?.name:null}
 								</Heading>
-							{/* {!router.asPath.includes('/dashboard') && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">May 2024</Text>
-							</HStack>} */}
+							{selectedMonth && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">{selectedMonth}</Text>
+							</HStack>}
 							<LazySlider onChange={handleChange} programs={programs} />
 							{programs?.length > 0 && <RenderPrograms handleShowAllButton={handleShowAllButton} limit={limit} programs={programs} dates={dashboard == true ? dates?.slice(0, limit) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
 							{programs?.length <= 0 &&
