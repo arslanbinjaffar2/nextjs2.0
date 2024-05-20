@@ -95,12 +95,12 @@ function* OnSaveRating({
     type: typeof ProgramActions.SaveRating
     payload: { program_id: number, rate:number,comment:string}
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: 'save-program-ratings' }))
+    yield put(LoadingActions.addProcess({ process: 'program-ratings' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveRatingApi, payload, state)
     yield put(ProgramActions.UpdateRating({ rating: response.data.data.rating!}))
     yield put(ToastActions.AddToast({toast:{status:"success", message:state?.event?.event?.labels?.NATIVE_APP_FEEDBACK_SUCCESS_MSG}}))
-    yield put(LoadingActions.removeProcess({ process: 'save-program-ratings' }))
+    yield put(LoadingActions.removeProcess({ process: 'program-ratings' }))
 }
 
 function* OnGetUpcomingPrograms({

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea, Spinner, Center } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseProgramService from 'application/store/services/UseProgramService';
 import DynamicIcon from 'application/utils/DynamicIcon';
@@ -46,15 +46,25 @@ const SessionRating = ({program_id}:AppProps) => {
   },[rating])
 
   function save(){
-    if(currentRating?.rate !==0 && !in_array('program-rating',processing) && detail?.program?.id){
+    if(currentRating?.rate !==0 && !in_array('program-ratings',processing) && detail?.program?.id){
       SaveRating({program_id:program_id ?? 0,rate:currentRating?.rate,comment:currentRating?.comment});
     }
   }
+  const tab1 = React.useRef<HTMLDivElement>(null);
   return (
     <>
         {detail.program !== undefined && 
         <>
-          <Box p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
+          <Box ref={tab1} p="0" w="100%" bg={'primary.box'} mb={5} rounded={8}>
+            {in_array('program-ratings',processing) ? (
+              <>
+                 <Center h={tab1.current?.clientHeight} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+                    <Spinner size="sm"  />
+                 </Center>
+                 
+              </>
+            ):(
+              <>
               <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
                   <DynamicIcon iconType={'my_notes'} iconProps={{ width: 15, height: 18 }} />
                   <Text fontSize="lg">{event?.labels?.PROGRAM_RATING}</Text>
@@ -78,6 +88,8 @@ const SessionRating = ({program_id}:AppProps) => {
                     <Pressable  onPress={() => save()}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
                 </HStack>
               </Box>
+              </>
+            )}
           </Box>
         </>
         }
