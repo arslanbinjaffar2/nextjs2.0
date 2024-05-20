@@ -29,27 +29,24 @@ export interface ToastProps {
       <View
         bg={'primary.toastbg'}
         w={['250px','396px']}
-        h={'77px'}
-        p={'5'}
+        minH={'77px'}
+        p={4}
         borderRadius={"lg"}
         flexDirection={'row'}
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View w={['204px','350px']} style={{ flexDirection: 'row', alignItems: 'center' }}>
           <DynamicIcon
             iconType={toast.status === "error" ? 'cancelcircle' : 'checkcircle'}
             iconProps={{ width: 24, height: 24 }}
           />
-          <View style={{ marginLeft: 10 }}>
-            {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
-              {toast.status}
-            </Text> */}
-            <Text style={{ fontSize: 14, color: 'white' }}>{toast.message}</Text>
+          <View w={'calc(100% - 35px)'} style={{ marginLeft: 10 }}>
+            <Text style={{ fontSize: 14, color: 'primary.text' }}>{toast.message}</Text>
           </View>
         </View>
         <Pressable onPress={()=>onClose({id:index})} ml={['3','']}>
-          <DynamicIcon iconType={'close'} iconProps={{ width: 14, height: 14, color: 'white' }} />
+          <DynamicIcon iconType={'close'} iconProps={{ width: 14, height: 14 }} />
         </Pressable>
       </View>
       
