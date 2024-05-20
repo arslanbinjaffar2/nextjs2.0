@@ -56,7 +56,8 @@ const DetailBlock = ({ children }: AppProps) => {
              {event?.agenda_settings?.show_tracks == 1 && <>
                     {detail?.program?.program_tracks!?.length > 0 && (
                         <>
-                            <Text mb="3" fontSize="md">Track:
+                            <Text mb="3" fontSize="md"><Text>Track:</Text>
+                            
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
                                         <Box color={colorText(track.color ? track.color : event.settings?.primary_color)} rounded={'full'} mx={1} my={1} px={3} bg={track.color ? track.color : event.settings?.primary_color} key={key}>{`${track?.name}`}</Box>
                                     
