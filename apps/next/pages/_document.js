@@ -164,6 +164,7 @@ body {
   color: inherit !important;
   content: attr(placeholder);
   opacity:0.7;
+}
 #break_Word{
   
 }
