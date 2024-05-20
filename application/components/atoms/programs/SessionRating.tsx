@@ -5,17 +5,24 @@ import UseProgramService from 'application/store/services/UseProgramService';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from "in_array";
-import UseEventService from '../../../store/services/UseEventService'
+import UseEventService from 'application/store/services/UseEventService';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 type AppProps = {
   program_id: any,
 }
 
+type Rating = {
+  rate: number,
+  comment: string
+}
+
 const SessionRating = ({program_id}:AppProps) => {
   const { detail,rating,SaveRating,FetchRating } = UseProgramService();
   const { processing } = UseLoadingService();
-  const [rate, setRate] = React.useState(0);
+  const [currentRating, setCurrentRating] = React.useState<Rating>({rate:0,comment:''});
   const { event  } = UseEventService();
+
   useEffect(()=>{
     if(detail.program !== undefined){
       FetchRating({program_id:program_id ?? 0});
@@ -32,24 +39,15 @@ const SessionRating = ({program_id}:AppProps) => {
 
   useEffect(()=>{
     if(rating !== null){
-      setRate(rating.rate);
-    }
-  }
-  ,[rating])
-
-
-  useEffect(()=>{
-    if(rating !== null){
-      setRate(rating.rate ?? 0);
+      setCurrentRating({rate:rating?.rate ?? 0,comment:rating?.comment ?? ''});
     }else{
-      setRate(0);
+      setCurrentRating({rate:0,comment:''});
     }
   },[rating])
 
-  function save(value:number){
-    setRate(value);
-    if(value!==0 && !in_array('program-rating',processing) && detail?.program?.id){
-      SaveRating({program_id:program_id ?? 0,rate:value,comment:''});
+  function save(){
+    if(currentRating?.rate !==0 && !in_array('program-rating',processing) && detail?.program?.id){
+      SaveRating({program_id:program_id ?? 0,rate:currentRating?.rate,comment:currentRating?.comment});
     }
   }
   return (
@@ -63,14 +61,22 @@ const SessionRating = ({program_id}:AppProps) => {
               </HStack>
               <Box py="3" px="4" w="100%">
              <HStack mb={3} space="1" alignItems="center">
-                <Pressable onPress={() => save(1)}><Icon size={'xl'} as={AntDesign} name={rate >= 1 ? "star" :"staro"} color={rate >= 1 ? "secondary.500" :"primary.text"}  /></Pressable>
-                <Pressable onPress={() => save(2)}><Icon size={'xl'} as={AntDesign} name={rate >= 2 ? "star" :"staro"}  color={rate >= 2 ? "secondary.500" :"primary.text"}  /></Pressable>
-                <Pressable onPress={() => save(3)}><Icon size={'xl'} as={AntDesign} name={rate >= 3 ? "star" :"staro"}  color={rate >= 3 ? "secondary.500" :"primary.text"}  /></Pressable>
-                <Pressable onPress={() => save(4)}><Icon size={'xl'} as={AntDesign} name={rate >= 4 ? "star" :"staro"}  color={rate >= 4 ? "secondary.500" :"primary.text"}  /></Pressable>
-                <Pressable onPress={() => save(5)}><Icon size={'xl'} as={AntDesign} name={rate >= 5 ? "star" :"staro"}  color={rate >= 5 ? "secondary.500" :"primary.text"}  /></Pressable>
+                <Pressable onPress={() => setCurrentRating({...currentRating,rate:1 })}><Icon size={'xl'} as={AntDesign} name={currentRating?.rate >= 1 ? "star" :"staro"} color={currentRating?.rate >= 1 ? "secondary.500" :"primary.text"}  /></Pressable>
+                <Pressable onPress={() => setCurrentRating({...currentRating,rate:2 })}><Icon size={'xl'} as={AntDesign} name={currentRating?.rate >= 2 ? "star" :"staro"}  color={currentRating?.rate >= 2 ? "secondary.500" :"primary.text"}  /></Pressable>
+                <Pressable onPress={() => setCurrentRating({...currentRating,rate:3 })}><Icon size={'xl'} as={AntDesign} name={currentRating?.rate >= 3 ? "star" :"staro"}  color={currentRating?.rate >= 3 ? "secondary.500" :"primary.text"}  /></Pressable>
+                <Pressable onPress={() => setCurrentRating({...currentRating,rate:4 })}><Icon size={'xl'} as={AntDesign} name={currentRating?.rate >= 4 ? "star" :"staro"}  color={currentRating?.rate >= 4 ? "secondary.500" :"primary.text"}  /></Pressable>
+                <Pressable onPress={() => setCurrentRating({...currentRating,rate:5 })}><Icon size={'xl'} as={AntDesign} name={currentRating?.rate >= 5 ? "star" :"staro"}  color={currentRating?.rate >= 5 ? "secondary.500" :"primary.text"}  /></Pressable>
               </HStack>
-              <Text fontSize="md" color={'primary.text'}>Please give us your feedback here…</Text>
-              
+              <TextArea p="0" h="60px"
+                focusOutlineColor="transparent"
+                _focus={{ bg: 'transparent' }}
+                value={currentRating?.comment ?? ''}
+                onChangeText={(text)=>{ setCurrentRating ({...currentRating,comment:text}) }}
+                borderWidth="0" fontSize="md" placeholder={event?.labels?.NATIVE_APP_GIVE_FEEDBACK} autoCompleteType={undefined}   />
+                
+                <HStack justifyContent={'flex-end'} alignItems={'flex-end'} space={2}>
+                    <Pressable  onPress={() => save()}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
+                </HStack>
               </Box>
           </Box>
         </>
