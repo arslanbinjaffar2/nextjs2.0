@@ -41,10 +41,8 @@ const DetailBox = ({ detail }: AppProps) => {
     function toggleFav(){
         if(isFav){
             setIsFav(false)
-            AddToast({toast:{message:"un-favourited",status:"success"}})
         }else{
             setIsFav(true)
-            AddToast({toast:{message:"favourited",status:"success"}})
         }
         MakeFavourite({ sponsor_id: detail?.detail?.id ? detail?.detail?.id : 0, screen: 'sponsor-detail' });
     }

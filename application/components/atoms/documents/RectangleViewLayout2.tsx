@@ -117,58 +117,18 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                     >
                                         <DynamicIcon iconType={'email_icon'} iconProps={{ width: 15, height: 18 }} />
                                     </Pressable>
-                                    {/* <Modal
-                                        isOpen={isEmailBoxOpen}
-                                        onClose={()=>{
-                                        setIsEmailBoxOpen(false);
-                                        }}
-                                    >
-                                        
-                                        <Modal.Content p={0}>
-                                            <Modal.Body position={'relative'} zIndex={1} p={4}>
-                                                <VStack  space="5">
-                                                    <Input placeholder="Email"  
-                                                        onChangeText={(text) => setEmailData({ ...emailData, email: text })}
-                                                        value={emailData.email}
-                                                    />
-                                                    <Input placeholder="Subject" 
-                                                        onChangeText={(text) => setEmailData({ ...emailData, subject: text })}
-                                                        value={emailData.subject}
-                                                     />
-                                                    <TextArea placeholder="Your Comments" autoCompleteType={undefined} 
-                                                        onChangeText={(text) => setEmailData({ ...emailData, message: text })}
-                                                        value={emailData.message}
-                                                    />
-                                                    <Pressable
-                                                       p="2"
-                                                       w="100%"
-                                                       _hover={{ bg: 'primary.500' }}
-                                                        onPress={()=>{
-                                                            sendEmail();
-                                                        }}
-                                                        disabled={sendingEmail}
-                                                    
-                                                    >
-                                                        <Text>Send</Text>
-                                                    </Pressable>
-                                                    {emailAlert != '' && <Text color="red.500">{emailAlert}</Text>}
-                                                    {sendingEmail && <Text>Sending...</Text>}
-                                                    
-                                                </VStack>
-                                                <Pressable onPress={() => setIsEmailBoxOpen(false)}><Icon as={FontAwesome} name="close" size={'lg'} color={'primary.text'} /></Pressable>
-                                            </Modal.Body>
-                                        </Modal.Content>
-                                    </Modal> */}
+                                    
                                     <Box mx={'3'}>
-                                        {event.document_settings?.show_documents_notes == 1 &&
+                                    {event.document_settings?.show_documents_notes == 1 && 
+
                                             <Pressable
-                                                onPress={async () => {
-                                                    setIsNotesOpen(true);
-                                                }}
-                                            >
-                                                <DynamicIcon iconType={'editnotes'} iconProps={{ width: 20, height: 20 }} />
-                                            </Pressable>
-                                        }
+                                                    onPress={async () => {
+                                                        setIsNotesOpen(true);
+                                                    }}
+                                                    >
+                                                    <DynamicIcon iconType={'editnotes'} iconProps={{ width: 20, height: 20 }} />
+                                                </Pressable>
+                                    }
                                     </Box>
 
                                     <Pressable

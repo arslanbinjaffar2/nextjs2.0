@@ -42,10 +42,8 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
         if(isFav){
           
             setIsFav(false)
-            AddToast({toast:{message:"un-favourited",status:"success"}})
         }else{
             setIsFav(true)
-            AddToast({toast:{message:"favourited",status:"success"}})
         }
         MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
     }
