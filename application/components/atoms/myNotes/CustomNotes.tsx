@@ -16,6 +16,7 @@ import UseToastService from 'application/store/services/UseToastService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseEventService from 'application/store/services/UseEventService';
+import imageplaceholder from 'application/assets/images/imageplaceholder.png';
 interface CustomNotesProps {
   type: 'sponsors' | 'exhibitors' | 'directory' | 'programs';
   note: MyNote;
@@ -76,7 +77,7 @@ const CustomNotes: React.FC<CustomNotesProps> = ({ type, note, onUpdate }) => {
                 rounded={'lg'}
               />:
               <Image
-                src={""}
+                src={imageplaceholder}
                 alt='image'
                 width={'100%'}
                 height={'100%'}
@@ -93,7 +94,7 @@ const CustomNotes: React.FC<CustomNotesProps> = ({ type, note, onUpdate }) => {
                 rounded={'lg'}
               />:
               <Image
-                src={""}
+                src={imageplaceholder}
                 alt='image'
                 width={'100%'}
                 height={'100%'}
