@@ -6,6 +6,7 @@ import { Survey } from 'application/models/survey/Survey';
 import UseEventService from 'application/store/services/UseEventService';
 import IcoBell from 'application/assets/icons/IcoBell';
 import { GENERAL_DATE_FORMAT, GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals'
+import { useWindowDimensions } from 'react-native';
 
 const RectangleView = ({ id, title, description, date, time, is_last_item, is_read }: { id: number, title: string, description: string, date: string, time: string, is_last_item: boolean, is_read: boolean }) => {
   const router = useRouter();
@@ -14,6 +15,7 @@ const RectangleView = ({ id, title, description, date, time, is_last_item, is_re
   const navigateToDetail = () => {
     router.push(`/${event.url}/alerts/detail/${id}`);
   };
+   const {width } = useWindowDimensions()
 
   return (
     <Pressable
@@ -27,9 +29,9 @@ const RectangleView = ({ id, title, description, date, time, is_last_item, is_re
             <IcoBell width={28} height={28} />
           </Center>
 
-          <VStack bg="red" width={'calc(95% - 60px)'} space="1">
+          <VStack width={[width - 120,'calc(95% - 60px)']} space="1">
             <Text fontSize="lg" fontWeight={500}>{title}</Text>
-            <Text fontSize="md" isTruncated numberOfLines={3}>{description}</Text>
+            <Text isTruncated  fontSize="md" numberOfLines={3}>{description}</Text>
             <Text fontSize="md">{date}</Text>
           </VStack>
           <Spacer />

@@ -30,11 +30,13 @@ const Index = React.memo(() => {
 
     const categoryIdQueryParam = searchParams.get('category_id')
 
-
     const createQueryString = React.useCallback(
         (name: string, value: string) => {
           const params = new URLSearchParams(searchParams.toString())
           params.set(name, value)
+          if(name == 'tab' && value == 'name'){
+            params.delete('category_id')
+          }
      
           return params.toString()
         },
@@ -82,10 +84,10 @@ const Index = React.memo(() => {
         <>
             <NextBreadcrumbs module={module} title={category?.name}/>
             <Container h="100%" pt="4" maxW="100%" w="100%">  
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                        <Text fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias == 'exhibitors'))?.name ?? ""}</Text>
+                    <HStack display={['block','flex']} mb="3" pt="2" w="100%" space="3" alignItems="center">
+                        <Text pb={[3,0]} fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias == 'exhibitors'))?.name ?? ""}</Text>
                         <Spacer />
-                        <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
+                        <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                             search(text);
                             setSearch(text);
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
@@ -138,7 +140,7 @@ const Index = React.memo(() => {
                         </HStack>
                         }
                         {mode === "list" &&
-                                    <Box w="100%" rounded="10" bg="primary.box" borderWidth={"0"} borderColor="primary.box">
+                                    <Box mb={3} w="100%" rounded="10" bg="primary.box" borderWidth={"0"} borderColor="primary.box">
                                 <ScrollView h={'53%'}>
                                     {exhibitors.length > 0 && exhibitors.map((exhibitor: Exhibitor, key: number) =>
                                         <RectangleView exhibitor={exhibitor} border={exhibitors.length === 0 ? 0 : exhibitors.length > 0 && key === exhibitors.length-1 ? 0 : 1} key={key} />

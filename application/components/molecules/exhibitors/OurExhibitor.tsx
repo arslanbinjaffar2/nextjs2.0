@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container } from 'native-base'
+import { Box, Container, View } from 'native-base'
 import IconWithLeftHeading from 'application/components/atoms/headings/IconWithLeftHeading'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
@@ -35,7 +35,10 @@ const OurExhibitor = () => {
     <Container nativeID='ebs-exhibitor-slider' w="100%" maxW="100%">
       {modules.filter((module: any, key: number) => module.alias === 'exhibitors').length > 0 && our_exhibitors?.length > 0 && (
         <>
-          <IconWithLeftHeading icon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 22, height: 24 }} />} title={event?.labels?.MOBILE_APP_OUR_EXHIBITORS?.toUpperCase()} />
+          <View mb={3} w={'100%'}>
+            <IconWithLeftHeading icon={<DynamicIcon iconType="exhibitors" iconProps={{ width: 22, height: 24 }} />} title={event?.labels?.MOBILE_APP_OUR_EXHIBITORS?.toUpperCase()} />
+          </View>
+          
          {our_exhibitors.length > 4 ? <div style={{width: '265px'}}>
            <Slider {...settings}>
            {our_exhibitors.length > 0 && our_exhibitors.map((exhibitor: Exhibitor, key: number) =>

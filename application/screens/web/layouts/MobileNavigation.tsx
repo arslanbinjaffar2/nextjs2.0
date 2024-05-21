@@ -32,14 +32,20 @@ const MobileNavigation = () => {
       slidesToShow: 4,
       slidesToScroll: 1,
       swipeToSlide: true,
-      onInit:  () => {
-        console.log('first')
-      },
       afterChange: (currentSlide: any) => {
      
         setrightArrow((module_lenght) - (currentSlide+4) )
         setleftArrow(currentSlide)
-    }
+    },
+    responsive: [
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      }
+    ]
     };
   const showOnDashboardExists = modules.some(module => module.show_on_dashboard === 1);
   return (
@@ -61,7 +67,7 @@ const MobileNavigation = () => {
 
 
         </Center>
-         <View w={[width - 100,"540px"]}>
+         <View mb={[3,0]} w={[width - 100,"540px"]}>
           <Slider
           ref={sliderRef}
            {...settings}>
@@ -90,7 +96,7 @@ const MobileNavigation = () => {
                     }}
                   >
                     <DynamicIcon iconType={module?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '')} iconProps={{ width: 34, height: 34 }} />
-                    <Text textAlign={'center'} pt={1} fontSize={'sm'}>{module.name} </Text>
+                    <Text  textAlign={'center'} pt={1} fontSize={'sm'}>{module.name} </Text>
                   </Pressable>
                
               </Box>

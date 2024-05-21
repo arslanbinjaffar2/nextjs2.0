@@ -41,7 +41,7 @@ const Master = ({ children, section }: Props) => {
 
   const { FetchNotifications } = UseNotificationService();
 
-  const { skip } = UseSubRegistrationService();
+  const { skip, page_scroll } = UseSubRegistrationService();
 
   const { push } = useRouter();
 
@@ -80,15 +80,15 @@ const Master = ({ children, section }: Props) => {
       FetchNotifications();
     }
   }, [modules, event, isLoggedIn])
-
+  const { height } = useWindowDimensions()
   return (
     <BackgroundLayout>
       {modules.length === 0 ? (
         <WebLoading />
       ) : (
         <>
-          <Flex w="100%" h="100%" direction="column">
-            <ScrollView nativeID="body-scroll"
+          <Flex w="100%" h={[height - 10,"100%"]} direction="column">
+            <ScrollView scrollEnabled={page_scroll} nativeID="body-scroll"
               onScroll={({ nativeEvent }) => {
                
                 if (ScrollCloseToBottom(nativeEvent) && !loading) {

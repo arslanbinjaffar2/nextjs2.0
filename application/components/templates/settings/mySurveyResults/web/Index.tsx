@@ -55,10 +55,10 @@ const Index = () => {
                         </HStack>
                         
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                                    {mySurveyResult.length > 0 ? mySurveyResult?.map((survey)=>(
-                                                <RectangleView key={survey.id} survey={survey} completed={true} settings={true} />
+                                    {mySurveyResult.length > 0 ? mySurveyResult?.map((survey,k)=>(
+                                                <RectangleView index={k}  key={survey.id} survey={survey} completed={true} settings={true} />
                                             )) : (
-                                        <Box padding={5}>
+                                        <Box padding={3}>
                                             <Text>{survey_labels?.NO_SURVEY_AVAILABL}</Text>
                                         </Box>
                                     )}
