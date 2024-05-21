@@ -85,7 +85,11 @@ const SessionRating = ({program_id}:AppProps) => {
                 borderWidth="0" fontSize="md" placeholder={event?.labels?.NATIVE_APP_GIVE_FEEDBACK} autoCompleteType={undefined}   />
                 
                 <HStack justifyContent={'flex-end'} alignItems={'flex-end'} space={2}>
+                  {in_array('save-program-ratings',processing) ? 
+                    <Spinner mb={1} size="sm"  />
+                  :
                     <Pressable  onPress={() => save()}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
+                  }
                 </HStack>
               </Box>
               </>
