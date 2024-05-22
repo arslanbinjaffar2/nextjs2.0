@@ -19,10 +19,11 @@ const Index = () => {
     const { modules, event } = UseEventService();
     const module = modules.find((module) => module.alias === 'my_notes');
     function getValueByNameModule(name: string) {
-        let ModuleName:any = modules.find((module: any) => module.alias === name);
+        let ModuleName:any = modules.find((module: any) => module.alias == name);
         ModuleName=ModuleName?.icon.replace('.png', '') 
         return ModuleName
     }
+  
     React.useEffect(() => {
         FetchMyNotes();
     }, []);
@@ -32,7 +33,7 @@ const Index = () => {
                 <SectionLoading />
             ) : (
                 <>
-                    <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
+                    <HStack display={"flex"} mb="3" pt="2" w="100%" justifyContent={'space-between'} alignItems="center">
                         <Text fontSize="2xl">
                             {module?.name}
                         </Text>
@@ -59,7 +60,7 @@ const Index = () => {
                                     <HStack borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                         <Box flexDirection={'row'} alignItems={'center'}>
 
-                                        <DynamicIcon iconType={getValueByNameModule('myprograms')} iconProps={{ width: 16, height: 16 }} />
+                                        <DynamicIcon iconType={getValueByNameModule('agendas')} iconProps={{ width: 16, height: 16 }} />
                                         <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Program ({myNotes.program_notes.length})</Text>
                                         </Box>
                                         <Spacer />
@@ -112,7 +113,7 @@ const Index = () => {
                                 }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                     <Box flexDirection={'row'} alignItems={'center'}>
-                                       <DynamicIcon iconType={getValueByNameModule('mydocuments')} iconProps={{ width: 16, height: 16 }} />
+                                       <DynamicIcon iconType={getValueByNameModule('ddirectory')} iconProps={{ width: 16, height: 16 }} />
                                         <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Document ({myNotes.directory_notes.length})</Text>
                                     </Box>
 
