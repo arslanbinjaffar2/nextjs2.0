@@ -11,13 +11,14 @@ import { useRouter } from 'next/router';
 const Details = () => {
   const router = useRouter();
   const { type } = router.query;
-  const Moduletype = type; // Adjust type as necessary
+  const Moduletype: any = type;
   const { event } = UseEventService();
   const { myTypeNotes, FetchMyNotesByType } = UseNoteService();
   const { loading } = UseLoadingService();
   const [initialLoader, setLoader] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [filteredNotes, setFilteredNotes] = useState([]);
+  const [updateTrigger, setUpdateTrigger] = useState(false);
 
   useEffect(() => {
     FetchMyNotesByType({ note_type: Moduletype });
@@ -73,6 +74,9 @@ const Details = () => {
     setSearchText(text);
   };
   
+  const handleUpdate = () => {
+    FetchMyNotesByType({ note_type: Moduletype });
+  };
 
   return (
     <>
@@ -96,9 +100,9 @@ const Details = () => {
           </HStack>
           <VStack bg={"primary.box"} rounded={'10px'} width={'100%'}>
             {filteredNotes && filteredNotes.length > 0 ? (
-              filteredNotes.map((note, key) => (
+              filteredNotes.map((note:any, key) => (
                 <React.Fragment key={note.id}>
-                  <CustomNotes type={Moduletype} note={note} onUpdate={filterNotes} />
+                  <CustomNotes type={Moduletype} note={note} onUpdate={handleUpdate} />
                   {filteredNotes.length - 1 > key && (
                     <View borderBottomColor={'primary.border'} borderBottomWidth={1} />
                   )}
