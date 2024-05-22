@@ -16,6 +16,7 @@ import moment from 'moment';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Icocalendar from 'application/assets/icons/small/Icocalendar'
 import { func } from 'application/styles';
+import { getColorScheme } from 'application/styles/colors';
 
 type AppProps = {
 	programs: Program[],
@@ -65,9 +66,10 @@ const LazySlider = ({ programs, onChange }: any) => {
 			},
 		]
 	};
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 	return (
 		<>
-			<Box mt={'2'} mb={1} bg={'primary.darkbox'} w={'100%'} p={4}>
+			<Box mt={'2'} mb={1}   bg={colors.primary} w={'100%'} p={4}>
 				<HStack w={['100%']}>
 					<View w={[width - 120, width - 120, 'calc(100% - 70px)']}>
 						<Slider

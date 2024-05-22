@@ -9,6 +9,7 @@ import UseProgramService from 'application/store/services/UseProgramService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import moment from 'moment'
+import { getColorScheme } from 'application/styles/colors';
 type AppProps = {
   program: Program,
   k: number,
@@ -21,10 +22,10 @@ type AppProps = {
 const WorkshopCollapsableView = ({ program, k, border, speaker, section,currentIndex }: AppProps) => {
   const { event } = UseEventService();
   const [open, setOpen] = React.useState(event?.agenda_settings?.agenda_collapse_workshop ?? false);
-
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   return (
     <>
-      <Box w={"100%"} pl={'5'} pr={3} py={1} bg="primary.darkbox" display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+      <Box w={"100%"} pl={'5'} pr={3} py={1} bg={colors.primary} display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
         <Text>{program.program_workshop}</Text>
         <Pressable
           onPress={() => {

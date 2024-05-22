@@ -7,7 +7,7 @@ import SpeakerListing from 'application/components/organisms/speakers/Listing';
 import QAListing from 'application/components/organisms/qa/Listing';
 import ChatClient from 'application/components/organisms/chat/ChatClient';
 import Master from 'application/screens/web/layouts/Master';
-import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack, Spacer, Box, Tooltip } from 'native-base'
+import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack, Spacer, Box, View } from 'native-base'
 import PollListingByDate from 'application/components/organisms/polls/PollListingByDate'
 import SurveyListing from 'application/components/organisms/survey/SurveyListing'
 import UsePollService from 'application/store/services/UsePollService';
@@ -37,6 +37,8 @@ import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import { Banner } from 'application/models/Banner'
 import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
+import Myexhibitors from 'application/screens/web/settings/myexhibitors'
+import Mysponsors from 'application/screens/web/settings/mysponsers'
 
 type indexProps = {
   navigation: unknown
@@ -140,12 +142,17 @@ const Index = ({ navigation }: indexProps) => {
           ) : <></>}
           {/*  */}
               <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
+              <View display={['block','none']}>
+                <Myexhibitors navigation={''}/>
+                <Mysponsors navigation={''}/>
+              </View>
           {/*  */}
               <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
           {/*  */}
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
               <BannerAds module_name={'dashboard'} module_type={'after_polls'}/>
           {/*  */}
+
               <BannerAds module_name={'dashboard'} module_type={'before_survey'}/>
           {/*  */}
           {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) &&  (pollSettings?.display_survey == 1) && <SurveyListing surveys={surveys} />}
