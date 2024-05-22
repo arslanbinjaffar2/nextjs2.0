@@ -46,7 +46,7 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
       await saveNote ({note: note,note_type:noteType, note_type_id:note_type_id},mystate); // Call the API function
       fetchNotes();
       setLoadingNote(false);
-      AddToast({toast:{message:event.labels.GENERAL_DOCUMENTS_NOTES  ,status:"success"}})
+      AddToast({toast:{message:event?.labels?.GENERAL_NOTE_SAVE_MESSAGE  ,status:"success"}})
     } catch (error) {
       console.log('error', error);
     }
@@ -59,7 +59,7 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
       await updateNote ({notes: note,id:myNote?.id, type:noteType},mystate); // Call the API function
       if(myNote !== null){
         setMyNote({...myNote, notes: note});
-      AddToast({toast:{message:event.labels.GENERAL_DOCUMENTS_NOTES ,status:"success"}})
+        AddToast({toast:{message:event?.labels?.GENERAL_NOTE_SAVE_MESSAGE ,status:"success"}})
       }
       setLoadingNote(false);
     } catch (error) {
