@@ -24,7 +24,7 @@ const Index = () => {
     }, []);
     return (
         <>
-            {loading ? (
+            {(loading && myNotes) ? (
                 <SectionLoading />
             ) : (
                 <>
