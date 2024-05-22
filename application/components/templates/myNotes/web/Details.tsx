@@ -11,13 +11,14 @@ import { useRouter } from 'next/router';
 const Details = () => {
   const router = useRouter();
   const { type } = router.query;
-  const Moduletype: any = type; // Adjust type as necessary
+  const Moduletype: any = type;
   const { event } = UseEventService();
   const { myTypeNotes, FetchMyNotesByType } = UseNoteService();
   const { loading } = UseLoadingService();
   const [initialLoader, setLoader] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [filteredNotes, setFilteredNotes] = useState([]);
+  const [updateTrigger, setUpdateTrigger] = useState(false);
 
   useEffect(() => {
     FetchMyNotesByType({ note_type: Moduletype });
@@ -34,15 +35,47 @@ const Details = () => {
     if (searchText === '') {
       setFilteredNotes(myTypeNotes.notes);
     } else {
-      const filtered = myTypeNotes.notes.filter((note: any) =>
-        note.notes.toLowerCase().includes(searchText.toLowerCase())
-      );
+      let filtered:any = [];
+      myTypeNotes.notes.forEach((note: any) => {
+        const noteTextIncluded = note.notes.toLowerCase().includes(searchText.toLowerCase());
+        switch (Moduletype) {
+          case 'sponsors':
+            if (note.sponsor_note && (noteTextIncluded || note.sponsor_note.name.toLowerCase().includes(searchText.toLowerCase()))) {
+              filtered.push(note);
+            }
+            break;
+          case 'exhibitors':
+            if (note.exhibitor_note && (noteTextIncluded || note.exhibitor_note.name.toLowerCase().includes(searchText.toLowerCase()))) {
+              filtered.push(note);
+            }
+            break;
+          case 'programs':
+            if (note.program_note && (noteTextIncluded || note.program_note.info.some((i: { name: string, value: string }) => i.name === 'topic' && i.value.toLowerCase().includes(searchText.toLowerCase())))) {
+              filtered.push(note);
+            }
+            break;
+          case 'directory':
+            if (note.directory_note && (noteTextIncluded || note.directory_note.info.some((i: { name: string, value: string }) => i.name === 'name' && i.value.toLowerCase().includes(searchText.toLowerCase())))) {
+              filtered.push(note);
+            }
+            break;
+          default:
+            if (noteTextIncluded) {
+              filtered.push(note);
+            }
+            break;
+        }
+      });
       setFilteredNotes(filtered);
     }
   };
-
+  
   const handleSearchChange = (text: string) => {
     setSearchText(text);
+  };
+  
+  const handleUpdate = () => {
+    FetchMyNotesByType({ note_type: Moduletype });
   };
 
   return (
@@ -69,7 +102,7 @@ const Details = () => {
             {filteredNotes && filteredNotes.length > 0 ? (
               filteredNotes.map((note:any, key) => (
                 <React.Fragment key={note.id}>
-                  <CustomNotes type={Moduletype} note={note} onUpdate={filterNotes} />
+                  <CustomNotes type={Moduletype} note={note} onUpdate={handleUpdate} />
                   {filteredNotes.length - 1 > key && (
                     <View borderBottomColor={'primary.border'} borderBottomWidth={1} />
                   )}

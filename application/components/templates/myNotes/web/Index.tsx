@@ -18,13 +18,17 @@ const Index = () => {
     const { AddToast } = UseToastService()
     const { modules, event } = UseEventService();
     const module = modules.find((module) => module.alias === 'my_notes');
-
+    function getValueByNameModule(name: string) {
+        let ModuleName:any = modules.find((module: any) => module.alias === name);
+        ModuleName=ModuleName?.icon.replace('.png', '') 
+        return ModuleName
+    }
     React.useEffect(() => {
         FetchMyNotes();
     }, []);
     return (
         <>
-            {loading ? (
+            {(loading && myNotes) ? (
                 <SectionLoading />
             ) : (
                 <>
@@ -53,7 +57,11 @@ const Index = () => {
                                     push(`/${event.url}/my_notes/detail/programs`)
                                 }}>
                                     <HStack borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
-                                        <Text textTransform={'capitalize'} fontSize="lg">Program ({myNotes.program_notes.length})</Text>
+                                        <Box flexDirection={'row'} alignItems={'center'}>
+
+                                        <DynamicIcon iconType={getValueByNameModule('myprograms')} iconProps={{ width: 16, height: 16 }} />
+                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Program ({myNotes.program_notes.length})</Text>
+                                        </Box>
                                         <Spacer />
                                         {myNotes.program_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
@@ -67,7 +75,11 @@ const Index = () => {
                                     push(`/${event.url}/my_notes/detail/exhibitors`)
                                 }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
-                                        <Text textTransform={'capitalize'} fontSize="lg">Exhibitor ({myNotes.exhibitor_notes.length})</Text>
+                                    <Box flexDirection={'row'} alignItems={'center'}>
+                                    <DynamicIcon iconType={getValueByNameModule('exhibitors')}  iconProps={{ width: 16, height: 16 }} />
+                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Exhibitor ({myNotes.exhibitor_notes.length})</Text>
+                                    </Box>
+
                                         <Spacer />
                                         {myNotes.exhibitor_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
@@ -80,7 +92,12 @@ const Index = () => {
                                     push(`/${event.url}/my_notes/detail/sponsors`)
                                 }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
-                                        <Text textTransform={'capitalize'} fontSize="lg">Sponsor ({myNotes.sponsor_notes.length})</Text>
+                                    <Box flexDirection={'row'} alignItems={'center'}>
+
+                                    <DynamicIcon iconType={getValueByNameModule('sponsors')}   iconProps={{ width: 16, height: 16 }} />
+                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Sponsor ({myNotes.sponsor_notes.length})</Text>
+                                    </Box>
+
                                         <Spacer />
                                         {myNotes.sponsor_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
@@ -94,7 +111,11 @@ const Index = () => {
                                     push(`/${event.url}/my_notes/detail/directory`)
                                 }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
-                                        <Text textTransform={'capitalize'} fontSize="lg">Document ({myNotes.directory_notes.length})</Text>
+                                    <Box flexDirection={'row'} alignItems={'center'}>
+                                       <DynamicIcon iconType={getValueByNameModule('mydocuments')} iconProps={{ width: 16, height: 16 }} />
+                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Document ({myNotes.directory_notes.length})</Text>
+                                    </Box>
+
                                         <Spacer />
                                         {myNotes.directory_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />

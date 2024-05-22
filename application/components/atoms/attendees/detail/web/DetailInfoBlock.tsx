@@ -14,19 +14,6 @@ type AppProps = {
 
 const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     const { event  } = UseEventService();
-    const [hasAboutData,setHasAboutData] = useState<boolean>(true);
-
-    React.useEffect(() => {
-      var _wrapper =document.getElementById('about-wrapper');
-      var _content =document.getElementById('about-content');
-        if(_content && _content.innerHTML.trim() === ''){
-            _wrapper?.setAttribute('style', 'display:none');
-            setHasAboutData(false);
-        }else{
-            setHasAboutData(true);
-        }
-
-    }, [detail])
 
     const hasFirstName = detail?.sort_field_setting.some((setting:any) => setting.name === 'first_name');
     const hasLastName = detail?.sort_field_setting.some((setting:any) => setting.name === 'last_name');
@@ -338,12 +325,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
             ) :  <Box overflow="hidden">
             <Text bg="primary.box" fontSize={'md'} p="4" rounded="10" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
         </Box>  }
-            {!hasAboutData && 
-                <Box w="100%" rounded="lg" overflow="hidden">
-                    <Text fontSize={'md'} p="4" rounded="10" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
-                </Box>  
-            }
-            
+
         </Box>
     )
 
