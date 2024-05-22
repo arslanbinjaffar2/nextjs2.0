@@ -25,22 +25,7 @@ function* OnSaveNote({
     yield put(NoteActions.GetMyNote({note_type:payload.note_type, note_type_id:payload.note_type_id}));
     yield put(NoteActions.SetSaving(false));
     const labels=state?.event?.event.labels;
-    const note_type=payload?.note_type
-    switch(note_type){
-        case "sponsors":
-            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_SPONSORS_NOTES  ,status:"success"}}))
-          break;
-          case "programs":
-            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_PROGRAM_NOTES ,status:"success"}}))
-            break;
-            case "documents":
-                yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_DOCUMENTS_NOTES   ,status:"success"}}))
-            break;
-            case "exhibitors":
-                yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_EXHIBITORS_NOTES ,status:"success"}}))
-              break;
-        default:
-      }
+    yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_NOTE_SAVE_MESSAGE ,status:"success"}}))
 }
 
 function* OnUpdateNote({
@@ -54,24 +39,7 @@ function* OnUpdateNote({
     const response: HttpResponse = yield call(updateNote, payload, state)
     yield put(NoteActions.SetSaving(false));
     const labels=state?.event?.event.labels;
-    const note_type=payload?.type
-
-    switch(note_type){
-        case "sponsors":
-            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_SPONSORS_NOTES ,status:"success"}}))
-          break;
-          case "programs":
-            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_PROGRAM_NOTES,status:"success"}}))
-            break;
-            case "documents":
-            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_DOCUMENTS_NOTES  ,status:"success"}}))
-            break;
-            case "exhibitors":
-            yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_EXHIBITORS_NOTES ,status:"success"}}))
-              break;
-        default:
-      }
-
+    yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_NOTE_SAVE_MESSAGE ,status:"success"}}))
 }
 
 function* OnGetMyNote({
