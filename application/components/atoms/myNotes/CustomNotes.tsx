@@ -17,6 +17,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseEventService from 'application/store/services/UseEventService';
 import imageplaceholder from 'application/assets/images/imageplaceholder.png';
+import FileIconByType from 'application/components/atoms/documents/FileIconByType';
 interface CustomNotesProps {
   type: 'sponsors' | 'exhibitors' | 'directory' | 'programs';
   note: MyNote;
@@ -60,7 +61,7 @@ const CustomNotes: React.FC<CustomNotesProps> = ({ type, note, onUpdate }) => {
       onUpdate();
     }, 700);
   }
-
+console.log(note?.directory_note)
   return (
     <>
       {loading ? (
@@ -93,17 +94,16 @@ const CustomNotes: React.FC<CustomNotesProps> = ({ type, note, onUpdate }) => {
                 height={'100%'}
                 rounded={'lg'}
               />:
-              <Image
-                src={imageplaceholder}
-                alt='image'
-                width={'100%'}
-                height={'100%'}
-                rounded={'lg'}
-              />
+              <Image src={imageplaceholder}
+              alt='image'
+              width={'100%'}
+              height={'100%'}
+              rounded={'lg'}
+              /> 
               }
             </Box>}
             {type == "directory" && <Box w={'20px'} h={'20px'} mr={'12px'}>
-              <Icon as={AntDesign} name="pdffile1" size="md" color="primary.text" />
+            <FileIconByType type={note?.directory_note?.path.split('.')[1]} />
             </Box>}
             <HStack flexDirection={'column'} w={[(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
             'calc(100%)':'calc(100% - 28px)',(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
