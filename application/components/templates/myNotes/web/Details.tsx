@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 const Details = () => {
   const router = useRouter();
   const { type } = router.query;
-  const Moduletype: any = type; // Adjust type as necessary
+  const Moduletype = type; // Adjust type as necessary
   const { event } = UseEventService();
   const { myTypeNotes, FetchMyNotesByType } = UseNoteService();
   const { loading } = UseLoadingService();
@@ -34,16 +34,45 @@ const Details = () => {
     if (searchText === '') {
       setFilteredNotes(myTypeNotes.notes);
     } else {
-      const filtered = myTypeNotes.notes.filter((note: any) =>
-        note.notes.toLowerCase().includes(searchText.toLowerCase())
-      );
+      let filtered:any = [];
+      myTypeNotes.notes.forEach((note: any) => {
+        const noteTextIncluded = note.notes.toLowerCase().includes(searchText.toLowerCase());
+        switch (Moduletype) {
+          case 'sponsors':
+            if (note.sponsor_note && (noteTextIncluded || note.sponsor_note.name.toLowerCase().includes(searchText.toLowerCase()))) {
+              filtered.push(note);
+            }
+            break;
+          case 'exhibitors':
+            if (note.exhibitor_note && (noteTextIncluded || note.exhibitor_note.name.toLowerCase().includes(searchText.toLowerCase()))) {
+              filtered.push(note);
+            }
+            break;
+          case 'programs':
+            if (note.program_note && (noteTextIncluded || note.program_note.info.some((i: { name: string, value: string }) => i.name === 'topic' && i.value.toLowerCase().includes(searchText.toLowerCase())))) {
+              filtered.push(note);
+            }
+            break;
+          case 'directory':
+            if (note.directory_note && (noteTextIncluded || note.directory_note.info.some((i: { name: string, value: string }) => i.name === 'name' && i.value.toLowerCase().includes(searchText.toLowerCase())))) {
+              filtered.push(note);
+            }
+            break;
+          default:
+            if (noteTextIncluded) {
+              filtered.push(note);
+            }
+            break;
+        }
+      });
       setFilteredNotes(filtered);
     }
   };
-
+  
   const handleSearchChange = (text: string) => {
     setSearchText(text);
   };
+  
 
   return (
     <>
@@ -67,7 +96,7 @@ const Details = () => {
           </HStack>
           <VStack bg={"primary.box"} rounded={'10px'} width={'100%'}>
             {filteredNotes && filteredNotes.length > 0 ? (
-              filteredNotes.map((note:any, key) => (
+              filteredNotes.map((note, key) => (
                 <React.Fragment key={note.id}>
                   <CustomNotes type={Moduletype} note={note} onUpdate={filterNotes} />
                   {filteredNotes.length - 1 > key && (
