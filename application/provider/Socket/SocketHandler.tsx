@@ -11,7 +11,6 @@ import UseSocketService from 'application/store/services/UseSocketService';
 import UseSocialWallService from 'application/store/services/UseSocialWallService';
 import moment from 'moment';
 import { useRouter as UseNextRouter } from 'next/router';
-import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 const SocketHandler = () => {
   
     const { _env } = UseEnvService()
@@ -33,8 +32,6 @@ const SocketHandler = () => {
     const nextRouter = UseNextRouter();
 
     const [detailId,setDetailId] = useState<number>(0);
-
-    const {AddSocketRequest} = UseMeetingReservationService();
 
     const options: any = React.useMemo(() => ({
         transports: ["websocket", "polling"]
@@ -123,10 +120,6 @@ const SocketHandler = () => {
         SocialWallPostDeleted({post_id:data.post_id});
       });
 
-      socketConnect.on(`event-buizz:meeting_request_alert_${event?.id}_${response?.data?.user?.id}`, function (data:any):any {
-        AddSocketRequest({request:data})
-      });
-      
       return () =>{
         socketConnect.disconnect();
         SetSocket(null);
