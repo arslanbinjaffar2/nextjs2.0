@@ -30,11 +30,13 @@ const Index = React.memo(() => {
 
     const categoryIdQueryParam = searchParams.get('category_id')
 
-
     const createQueryString = React.useCallback(
         (name: string, value: string) => {
           const params = new URLSearchParams(searchParams.toString())
           params.set(name, value)
+          if(name == 'tab' && value == 'name'){
+            params.delete('category_id')
+          }
      
           return params.toString()
         },
