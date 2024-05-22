@@ -18,7 +18,11 @@ const Index = () => {
     const { AddToast } = UseToastService()
     const { modules, event } = UseEventService();
     const module = modules.find((module) => module.alias === 'my_notes');
-
+    function getValueByNameModule(name: string) {
+        let ModuleName:any = modules.find((module: any) => module.alias === name);
+        ModuleName=ModuleName?.icon.replace('.png', '') 
+        return ModuleName
+    }
     React.useEffect(() => {
         FetchMyNotes();
     }, []);
@@ -54,7 +58,8 @@ const Index = () => {
                                 }}>
                                     <HStack borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                         <Box flexDirection={'row'} alignItems={'center'}>
-                                        <DynamicIcon iconType={'myprograms'} iconProps={{ width: 16, height: 16 }} />
+
+                                        <DynamicIcon iconType={getValueByNameModule('myprograms')} iconProps={{ width: 16, height: 16 }} />
                                         <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Program ({myNotes.program_notes.length})</Text>
                                         </Box>
                                         <Spacer />
@@ -71,7 +76,7 @@ const Index = () => {
                                 }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                     <Box flexDirection={'row'} alignItems={'center'}>
-                                        <DynamicIcon iconType={'exhibitors'} iconProps={{ width: 16, height: 16 }} />
+                                    <DynamicIcon iconType={getValueByNameModule('exhibitors')}  iconProps={{ width: 16, height: 16 }} />
                                         <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Exhibitor ({myNotes.exhibitor_notes.length})</Text>
                                     </Box>
 
@@ -89,7 +94,7 @@ const Index = () => {
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                     <Box flexDirection={'row'} alignItems={'center'}>
 
-                                        <DynamicIcon iconType={'fav_sponsors'} iconProps={{ width: 16, height: 16 }} />
+                                    <DynamicIcon iconType={getValueByNameModule('sponsors')}   iconProps={{ width: 16, height: 16 }} />
                                         <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Sponsor ({myNotes.sponsor_notes.length})</Text>
                                     </Box>
 
@@ -107,7 +112,7 @@ const Index = () => {
                                 }}>
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                     <Box flexDirection={'row'} alignItems={'center'}>
-                                        <DynamicIcon iconType={'mydocuments'} iconProps={{ width: 16, height: 16 }} />
+                                       <DynamicIcon iconType={getValueByNameModule('mydocuments')} iconProps={{ width: 16, height: 16 }} />
                                         <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Document ({myNotes.directory_notes.length})</Text>
                                     </Box>
 
