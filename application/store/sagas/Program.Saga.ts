@@ -11,6 +11,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
+import { ToastActions } from 'application/store/slices/Toast.Slice';
 
 function* OnGetMyPrograms({
     payload,
@@ -94,11 +95,12 @@ function* OnSaveRating({
     type: typeof ProgramActions.SaveRating
     payload: { program_id: number, rate:number,comment:string}
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: 'program-ratings' }))
+    yield put(LoadingActions.addProcess({ process: 'save-program-ratings' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveRatingApi, payload, state)
     yield put(ProgramActions.UpdateRating({ rating: response.data.data.rating!}))
-    yield put(LoadingActions.removeProcess({ process: 'program-ratings' }))
+    yield put(ToastActions.AddToast({toast:{status:"success", message:state?.event?.event?.labels?.NATIVE_APP_FEEDBACK_SUCCESS_MSG}}))
+    yield put(LoadingActions.removeProcess({ process: 'save-program-ratings' }))
 }
 
 function* OnGetUpcomingPrograms({
