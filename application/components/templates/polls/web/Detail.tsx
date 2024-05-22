@@ -118,7 +118,7 @@ const Detail = () => {
       setForceUpdate(forceUpdate + 1);
     }, [steps]);
 
-    const stepIndicatorWidth = detail !== null ? 100/(detail?.questions?.length) : 10;
+    const stepIndicatorWidth = detail !== null ? 100/(detail.questions.length) : 10;
 
     const setNextStep = () => {
         setActiveQuestionError(null);
@@ -173,7 +173,7 @@ const Detail = () => {
           }
           
         }
-        if(steps === (detail?.questions?.length! - 1)){
+        if(steps === (detail?.questions.length! - 1)){
           onSubmit()
         }else{
           setsteps(steps + 1);
@@ -184,7 +184,7 @@ const Detail = () => {
       
       setSubmittingPoll(true)
 
-        const submitedData:SubmittedQuestion[] | undefined = detail?.questions?.map((q)=>{
+        const submitedData:SubmittedQuestion[] | undefined = detail?.questions.map((q)=>{
             let answeredQuestion:any = {
               id:q.id,
               type:q.question_type,
@@ -242,8 +242,8 @@ const Detail = () => {
   const [canSubmitMultipleTimes,setCanSubmitMultipleTimes]=useState<boolean>(false);
 
   useEffect(()=>{
-    if(detail?.questions?.length! > 0){
-      const mutipleCloudQuestions = detail?.questions?.filter((question) => question?.question_type === 'world_cloud' && question?.is_participants_multiple_times === 1);
+    if(detail?.questions.length! > 0){
+      const mutipleCloudQuestions = detail?.questions.filter((question) => question.question_type === 'world_cloud' && question.is_participants_multiple_times === 1);
       setCanSubmitMultipleTimes(mutipleCloudQuestions && mutipleCloudQuestions?.length > 0 ? true : false);
     }
   },[detail])
@@ -270,13 +270,13 @@ const Detail = () => {
              <NextBreadcrumbs module={module} title={detail?.topic}/>
             <Container mb="3" maxW="100%" w="100%">
               <Text mb={1} textBreakStrategy='simple' w={'100%'} textAlign={'center'} fontSize="2xl">{detail?.topic}</Text>
-              {detail?.questions?.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="0" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
-                { detail?.questions?.map((item, key)=>(
+              {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="0" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
+                { detail?.questions.map((item, key)=>(
                     <Box key={key} bg={steps >= key ? 'secondary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />
                 ))}
               </HStack>}
               {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
-                {detail?.questions?.length! > 0 &&  detail?.questions[steps] !== undefined && (
+                {detail?.questions.length! > 0 &&  detail?.questions[steps] !== undefined && (
                   <>
                     {detail?.questions[steps].question_type === 'matrix' && <MatrixAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate}/>}
                     {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
@@ -289,7 +289,7 @@ const Detail = () => {
                     {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
                   </>
                 )}
-                {detail?.questions?.length! <= 0 &&
+                {detail?.questions.length! <= 0 &&
                   <Box padding={5}>
                       <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
                   </Box>
@@ -312,10 +312,10 @@ const Detail = () => {
                       {poll_labels?.POLL_SURVEY_PREVIOUS}
                     </Button>}
                     <Spacer />
-                    {steps < (detail?.questions?.length! -1)  && 
+                    {steps < (detail?.questions.length! -1)  && 
                     <Button
                       bg="transparent"
-                      isDisabled={steps >= (detail?.questions?.length! -1) ? true : false}
+                      isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
                       p="2"
                       fontSize="lg"
                       rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
@@ -327,7 +327,7 @@ const Detail = () => {
                       {poll_labels?.POLL_SURVEY_NEXT}
                     </Button>}
                   </HStack>
-                  {steps === (detail?.questions?.length! - 1) && <Box w="100%" mb="6">
+                  {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
                      
                           <SwipeBtn
                           loading={submittingPoll}

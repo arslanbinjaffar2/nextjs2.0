@@ -11,13 +11,12 @@ import UseSocketService from 'application/store/services/UseSocketService';
 import UseSocialWallService from 'application/store/services/UseSocialWallService';
 import moment from 'moment';
 import { useRouter as UseNextRouter } from 'next/router';
-import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 const SocketHandler = () => {
   
     const { _env } = UseEnvService()
 
     const { event } = UseEventService()
-
+    
     const { response } = UseAuthService();
 
     const { checkPollVotingPermission } = UsePollService();
@@ -33,8 +32,6 @@ const SocketHandler = () => {
     const nextRouter = UseNextRouter();
 
     const [detailId,setDetailId] = useState<number>(0);
-
-    const {AddSocketRequest} = UseMeetingReservationService();
 
     const options: any = React.useMemo(() => ({
         transports: ["websocket", "polling"]
@@ -84,7 +81,7 @@ const SocketHandler = () => {
       });
       
       socketConnect.on(`event-buizz:news_and_updates_alert_${event?.id}_${response?.attendee_detail?.id}`, function (data:any):any {
-          console.log(data, 'data');
+          // console.log(data, 'data');
           AddNotification({
               notification:{
                 type:'alert',
@@ -92,6 +89,25 @@ const SocketHandler = () => {
                 ...data,
               }
           })
+      });
+
+      socketConnect.on(`event-buizz:qa_admin_block_answer_${event?.id}_${response?.attendee_detail?.id}`, function (data:any):any {
+        console.log(data, 'data answer');
+        if(nextRouter.asPath.includes('settings/myquestions/detail') && data?.question?.id == detailId){
+        }else {
+          let description = event?.labels?.GENERAL_PLEASE_CLICK.replace('{message_detail}', event?.labels?.GENERAL_MESSAGE_DETAIL);
+          AddNotification({
+            notification:{
+              type:'qa_answer',
+              title: event?.labels?.GENERAL_CHAT_NEW_MESSAGE_FROM,
+              text: description,
+              btnText: event?.labels?.GENERAL_MESSAGE_DETAIL,
+              btnLeftText: event?.labels?.GENERAL_OK,
+              data: data
+            }
+          })
+        }
+     
       });
 
       socketConnect.on(`event-buizz:social_wall_post_updated_${event?.id}`, function (data:any):any {
@@ -104,10 +120,6 @@ const SocketHandler = () => {
         SocialWallPostDeleted({post_id:data.post_id});
       });
 
-      socketConnect.on(`event-buizz:meeting_request_alert_${event?.id}_${response?.data?.user?.id}`, function (data:any):any {
-        AddSocketRequest({request:data})
-      });
-      
       return () =>{
         socketConnect.disconnect();
         SetSocket(null);

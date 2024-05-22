@@ -64,6 +64,7 @@ const MapplicElement = ({json, ...props}) => {
 	if (error) return <div ref={element} className="mapplic-placeholder"><i>{error}</i></div>;
 	return (
 		<div className="position-relative border">
+			<SidebarMapplic json={json} />
 				<div
 				{...props}
 				ref={element}
@@ -88,7 +89,6 @@ const MapplicElement = ({json, ...props}) => {
 					{ settings.sidebar && <Directory element={element} /> }
 				</Deeplinking>
 			</div>
-			<SidebarMapplic json={json} />
 		</div>
 	)
 }

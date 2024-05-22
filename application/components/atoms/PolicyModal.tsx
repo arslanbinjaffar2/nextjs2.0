@@ -4,9 +4,16 @@ import IcoNewsUpdate from "application/assets/icons/IcoNewsUpdate";
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 const PolicyModal = ({ isOpen, onClose, cancelRef, title, body}:any) => {
+  const _item = React.useRef<HTMLDivElement>()
+    React.useEffect(() => {
+      setTimeout(() => {
+      _item?.current?.classList.add('add-blur-radius')
+      }, 300);
+
+    }, [isOpen])
     
     return <AlertDialog  leastDestructiveRef={cancelRef} size={'lg'} isOpen={isOpen} onClose={onClose}>
-          <AlertDialog.Content  bg={'primary.boxsolid'}>
+          <AlertDialog.Content ref={_item}  bg={'primary.box'}>
             <AlertDialog.Header borderColor={'primary.bordercolor'} bg={'transparent'} fontWeight={600}>
               <HStack  space="0" alignItems="center">
                <Center w="40px">

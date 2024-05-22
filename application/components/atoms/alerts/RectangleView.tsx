@@ -10,6 +10,22 @@ import { GENERAL_DATE_FORMAT, GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'applic
 const RectangleView = ({ id, title, description, date, time, is_last_item, is_read }: { id: number, title: string, description: string, date: string, time: string, is_last_item: boolean, is_read: boolean }) => {
   const router = useRouter();
   const { event } = UseEventService();
+  const formatDateTime = (alertTime: string, alertDate: string) => {
+    const combinedDateTime = moment(`${alertDate} ${alertTime}`, "DD-MM-YYYY HH:mm:ss");
+    const now = moment();
+    const duration = moment.duration(now.diff(combinedDateTime));
+
+    if (duration.asHours() < 1) {
+      // Less than an hour
+      return `${Math.round(duration.asMinutes())} minutes ago`;
+    } else if (duration.asHours() >= 1 && duration.asHours() < 24) {
+      // Between 1 hour and 24 hours
+      return combinedDateTime.format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS);
+    } else {
+      // More than 24 hours
+      return combinedDateTime.format(GENERAL_DATE_FORMAT);
+    }
+  };
 
   const navigateToDetail = () => {
     router.push(`/${event.url}/alerts/detail/${id}`);
@@ -30,7 +46,7 @@ const RectangleView = ({ id, title, description, date, time, is_last_item, is_re
           <VStack bg="red" width={'calc(95% - 60px)'} space="1">
             <Text fontSize="lg" fontWeight={500}>{title}</Text>
             <Text fontSize="md" isTruncated numberOfLines={3}>{description}</Text>
-            <Text fontSize="md">{date}</Text>
+            <Text fontSize="md">{formatDateTime(time, date)}</Text>
           </VStack>
           <Spacer />
         </HStack>

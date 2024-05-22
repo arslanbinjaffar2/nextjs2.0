@@ -1,61 +1,53 @@
 import { useState } from 'react'
 import useMapplicStore from './MapplicStore'
 import { motion, AnimatePresence } from 'framer-motion'
-import AntDesign from '@expo/vector-icons/AntDesign';
+import { X, ArrowRightCircle , Phone, Clock } from 'react-feather'
 import { RouteButton } from './Routes'
 import { replaceVars } from './utils'
 import classNames from 'classnames'
-import { HStack, Icon, Link, View, Text, Spacer, IconButton } from 'native-base';
-import { useRouter } from 'solito/router';
 
 export const Popup = ({location, type}) => {
 	const closeLocation = useMapplicStore(state => state.closeLocation);
 	const settings = useMapplicStore(state => state.data.settings);
-	const { push } = useRouter();
 
 	const [details, setDetails] = useState(false);
 
 	return (
 		<>
-			<HStack pt={1} pr={2} w={'100%'} justifyContent={'flex-end'} space="3" alignItems="center">
-				<IconButton
-				variant="unstyled"
-				size={'xm'}
-				icon={<Icon size="md" as={AntDesign} name="close" color="#888" />}
-				onPress={closeLocation}
-				
-			/>
-			</HStack>
-			
+			<button className="mapplic-popup-close" onClick={closeLocation}><X size={12}/></button>
 			{ location.image && (
-				<View pb={3} position={'relative'} zIndex={8} display={'flex'} alignItems={'center'} justifyContent={'center'} w={'100%'}>
-					<img style={{maxWidth: '120px'}} src={location.image} alt={location?.title} />
-				</View>
+				<div className="mapplic-popup-image">
+					<img src={location.image} alt={location?.title} />
+				</div>
 			)}
-			<View px={4} width={'100%'}>
-				<HStack mb={2} space="3" alignItems="center">
-					{ location.title && <Text fontSize={'16px'} fontWeight={500}>{location.title}</Text> }
-					<Spacer />
-					{ location.about && <Text fontSize="md"><div dangerouslySetInnerHTML={{__html: replaceVars(location, 'about')}} /></Text>
-					 }
-					
-				</HStack>
+			<div className="mapplic-popup-content">
 				
+				<div className="mapplic-popup-title">
+					{ location.title && <h4>{location.title}</h4> }
+					{ location.about && <h5 dangerouslySetInnerHTML={{__html: replaceVars(location, 'about')}}></h5> }
+				</div>
+
 				{ location?.desc && <div className="mapplic-popup-body" dangerouslySetInnerHTML={{__html: replaceVars(location)}}></div> }
 
 				<Details location={location} field={details} />
 
 				{ (location?.link || location?.hours || location?.phone || settings.wayfinding) && (
-					<>
-					{ location.link && <HStack mt={2} justifyContent={'center'} alignItems={'center'} w={'100%'} px={3} py={2} borderColor={'#888'} borderTopWidth={1}>
-						<Link px={6} py={1} rounded={'full'} shadow={2}  fontSize={'lg'} bg={'primary.500'} color={'primary.text'} onPress={() => push(location.link)}><Text fontSize="md">Detail</Text>
-						 <Icon ml={2} mt={1} color={'primary.text'} as={AntDesign} name="rightcircleo"  />
-						</Link>
-						
-					</HStack>}
-					</>
+					<div className="mapplic-popup-footer pt-3 border-top">
+						{/* <div className="mapplic-popup-actions">
+							{ settings.wayfinding && <RouteButton id={location.id} /> }
+							<DetailButton location={location} field="phone" details={details} setDetails={setDetails}><Phone size={16} /></DetailButton>
+							<DetailButton location={location} field="hours" details={details} setDetails={setDetails}><Clock size={16} /></DetailButton>
+						</div> */}
+
+						{ location.link &&
+							<a href={location.link} target="_blank" className="mapplic-button mapplic-button-primary" rel="noreferrer">
+								Detail
+								<ArrowRightCircle size={16}/>
+							</a>
+						}
+					</div>
 				)}
-			</View>
+			</div>
 		</>
 	)
 }

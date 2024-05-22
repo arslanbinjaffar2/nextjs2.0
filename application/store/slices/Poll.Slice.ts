@@ -55,12 +55,8 @@ export const PollSlice = createSlice({
         },
         FetchPollDetail(state, action: PayloadAction<{ id: number }>) { },
         updateDetail(state, action: PayloadAction<{ detail: PollDetail, poll_labels:PollLabels }>) {
-            if(action.payload.detail){
-                state.detail = action.payload.detail;
-            }
-            if(action.payload.poll_labels){
-                state.poll_labels = action.payload.poll_labels;
-            }
+            state.detail = action.payload.detail;
+            state.poll_labels = action.payload.poll_labels;
         },
         SubmitPoll(state, action: PayloadAction<PollSubmitData>){
             state.submitSuccess = false

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Master from 'application/screens/web/layouts/Master';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import IndexTemplate from 'application/components/templates/myNotes/web/Index';
+import { Text } from 'native-base';
 
 type indexProps = {
     navigation: unknown
@@ -15,7 +15,7 @@ const Index = ({ navigation }: indexProps) => {
     return (
         <>
             <NextBreadcrumbs module={module} />
-            <IndexTemplate/> 
+            <Text p={5} mb="3" bg="primary.box" rounded="lg" w="100%">{event?.labels?.GENERAL_NO_RECORD}</Text>
         </>
     );
 };

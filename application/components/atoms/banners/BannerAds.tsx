@@ -65,7 +65,7 @@ const BannerAds = ({
 
 
   useEffect(() => {
-    if(module_name !== 'dashboard'){
+    if(banners === undefined || banners.length === 0){
       FetchBanners();
     }
   }, []);

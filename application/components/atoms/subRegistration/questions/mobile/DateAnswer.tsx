@@ -40,7 +40,7 @@ const DateAnswer = ({ question, formData, updateFormData }: PropTypes) => {
       <Button onPress={()=>{setShow(true)}}>Select Date</Button>
       </Box>
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-        <Icodocument width="18px" height="18px" />
+        <Icodocument width="15px" height="18px" />
         <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
       </HStack>
       <Box py="3" px="4" w="100%">

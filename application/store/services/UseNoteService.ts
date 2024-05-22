@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectSavingNote, NoteActions, SelectMyNote, SelectMyNotes, SelectMyTypeNotes  } from 'application/store/slices/Notes.Slice'
+import { SelectSavingNote, NoteActions, SelectMyNote  } from 'application/store/slices/Notes.Slice'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 import { MyNote } from 'application/models/notes/Notes'
@@ -11,11 +11,6 @@ export type NoteServiceOperators = {
     SaveNote: (payload:any) => void,
     GetNote: (payload:any) => void,
     UpdateNote: (payload:any) => void,
-    FetchMyNotesByType: (payload:any) => void,
-    FetchMyNotes: () => void,
-    emailMyNotes: () => void,
-    myNotes: any | undefined
-    myTypeNotes: any | undefined
 }
 
 /**
@@ -29,8 +24,6 @@ export const UseNoteService = (): Readonly<NoteServiceOperators> => {
     return {
         my_note:useAppSelector(SelectMyNote),
         saving_notes: useAppSelector(SelectSavingNote),
-        myNotes: useAppSelector(SelectMyNotes),
-        myTypeNotes: useAppSelector(SelectMyTypeNotes),
         SaveNote: useCallback(
             (payload:any) => {
                 dispatch(NoteActions.SaveNote(payload))
@@ -46,24 +39,6 @@ export const UseNoteService = (): Readonly<NoteServiceOperators> => {
         GetNote: useCallback(
             (payload:any) => {
                 dispatch(NoteActions.GetMyNote(payload))
-            },
-            [dispatch],
-        ),
-        FetchMyNotes: useCallback(
-            () => {
-                dispatch(NoteActions.FetchMyNotes())
-            },
-            [dispatch],
-        ),
-        emailMyNotes: useCallback(
-            () => {
-                dispatch(NoteActions.emailMyNotes())
-            },
-            [dispatch],
-        ),
-        FetchMyNotesByType: useCallback(
-            (payload: { note_type:string }) => {
-                dispatch(NoteActions.FetchMyNotesByType(payload))
             },
             [dispatch],
         ),
