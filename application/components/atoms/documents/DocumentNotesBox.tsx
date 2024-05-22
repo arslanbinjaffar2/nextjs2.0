@@ -6,6 +6,7 @@ import { getMyNoteApi, saveNote, updateNote } from 'application/store/api/Notes.
 import { MyNote } from 'application/models/notes/Notes';
 import { store } from 'application/store/Index';
 import UseEventService from 'application/store/services/UseEventService';
+import UseToastService from 'application/store/services/UseToastService';
 
 
 
@@ -23,6 +24,8 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
   const [loadingNote, setLoadingNote] = useState<boolean>(false);
 
   const {event} = UseEventService();
+ 
+  const {AddToast}=UseToastService()
 
   async function fetchNotes() {
     const mystate=store.getState()
@@ -43,6 +46,7 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
       await saveNote ({note: note,note_type:noteType, note_type_id:note_type_id},mystate); // Call the API function
       fetchNotes();
       setLoadingNote(false);
+      AddToast({toast:{message:event.labels.GENERAL_DOCUMENTS_NOTES  ,status:"success"}})
     } catch (error) {
       console.log('error', error);
     }
@@ -55,6 +59,7 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
       await updateNote ({notes: note,id:myNote?.id, type:noteType},mystate); // Call the API function
       if(myNote !== null){
         setMyNote({...myNote, notes: note});
+      AddToast({toast:{message:event.labels.GENERAL_DOCUMENTS_NOTES ,status:"success"}})
       }
       setLoadingNote(false);
     } catch (error) {
@@ -94,7 +99,7 @@ const DocumentNotesBox = ({note_type_id,showModal}:AppProps) => {
 
   return (
     <>
-        <Box p="0" w="100%" bg={'primary.box'} mb={0} rounded={8}>
+        <Box p="0" w="100%" bg={'primary.boxsolid'} mb={0} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
                 <DynamicIcon iconType={'notes'} iconProps={{ width: 15, height: 18 }} />
                 <Text fontSize="lg">{event?.labels?.GENERAL_NOTES}</Text>

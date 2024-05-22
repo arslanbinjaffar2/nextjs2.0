@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getQaProgramDetailApi, getQaProgramListingApi, getQaTabListingsApi, submitQaApi, submitQaLikeApi } from 'application/store/api/Qa.Api'
+import { getQaProgramDetailApi, getQaProgramListingApi, getQaTabListingsApi, submitQaApi, submitQaLikeApi, getQaMyQuestionListingApi, getQaMyQuestionAnswersListingApi, submitSendMessageAnswerApi } from 'application/store/api/Qa.Api'
 
 import { QaActions } from 'application/store/slices/Qa.Slice'
 
@@ -89,8 +89,41 @@ function* SubmitQaLike({
     yield put(LoadingActions.removeProcess({process:`qa-like-${payload.question_id}`}))
 }
 
+function* OnFetchMyQuestions({
+}: {
+    type: typeof QaActions.FetchMyQuestions
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:'qa-listing'}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getQaMyQuestionListingApi, {}, state)
+    yield put(QaActions.updateMyQuestions(response.data.data))
+    yield put(LoadingActions.removeProcess({process:'qa-listing'}));
+}
 
+function* FetchMyQuestionsAnswers({
+    payload
+}: {
+    type: typeof QaActions.FetchMyQuestionsAnswers
+    payload: any
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:'qa-listing'}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getQaMyQuestionAnswersListingApi, payload, state)
+    yield put(QaActions.updateMyQuestionAnswers(response.data.data))
+    yield put(LoadingActions.removeProcess({process:'qa-listing'}));
+}
 
+function* SendMessage({
+    payload
+}: {
+    type: typeof QaActions.SendMessage
+    payload: any
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:`qa-like-${payload.question_id}`}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(submitSendMessageAnswerApi, payload, state)
+    yield put(LoadingActions.removeProcess({process:`qa-like-${payload.question_id}`}))
+}
 
 
 // Watcher Saga
@@ -100,6 +133,9 @@ export function* QaWatcherSaga(): SagaIterator {
     yield takeEvery(QaActions.OnFetchTabDetails.type, OnFetchTabDetails)
     yield takeEvery(QaActions.SubmitQa.type, SubmitQa)
     yield takeEvery(QaActions.SubmitQaLike.type, SubmitQaLike)
+    yield takeEvery(QaActions.FetchMyQuestions.type, OnFetchMyQuestions)
+    yield takeEvery(QaActions.FetchMyQuestionsAnswers.type, FetchMyQuestionsAnswers)
+    yield takeEvery(QaActions.SendMessage.type, SendMessage)
 }
 
 export default QaWatcherSaga

@@ -42,17 +42,15 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
     function toggleFav(){
         if(isFav){
             setIsFav(false)
-            AddToast({toast:{message:"un-favourited",status:"success"}})
         }else{
             setIsFav(true)
-            AddToast({toast:{message:"favourited",status:"success"}})
         }
         MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
     }
    const [isOpen,setIsOpen]=useState(false)
     return (
         <>
-            <Box w={w ? w : '49%'}>
+            <Box w={['100%',w ? w : '49%']}>
                 <Pressable
                 onPress={async () => {
                     if(sponsor?.url && sponsor?.url !== '' && sponsor.url !== 'http://' && sponsor.url !== 'https://'){

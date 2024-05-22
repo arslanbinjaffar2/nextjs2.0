@@ -41,7 +41,7 @@ const Master = ({ children, section }: Props) => {
 
   const { FetchNotifications } = UseNotificationService();
 
-  const { skip } = UseSubRegistrationService();
+  const { skip, page_scroll } = UseSubRegistrationService();
 
   const { push } = useRouter();
 
@@ -59,7 +59,13 @@ const Master = ({ children, section }: Props) => {
 
   React.useEffect(() => {
     if (response.redirect === "login" || access_token_exists === false) {
-      push(`/${event.url}/auth/login`)
+      localStorage.setItem('requested_url', nextRouter.asPath);
+      push(`/${event.url}/auth/login`);
+    }else{
+        const requested_url = localStorage.getItem('requested_url');
+        if (requested_url) {localStorage.removeItem('requested_url');
+          push(requested_url);
+        }
     }
   }, [response])
   
@@ -80,15 +86,15 @@ const Master = ({ children, section }: Props) => {
       FetchNotifications();
     }
   }, [modules, event, isLoggedIn])
-
+  const { height } = useWindowDimensions()
   return (
     <BackgroundLayout>
       {modules.length === 0 ? (
         <WebLoading />
       ) : (
         <>
-          <Flex w="100%" h="100%" direction="column">
-            <ScrollView nativeID="body-scroll"
+          <Flex w="100%" h={[height - 10,"100%"]} direction="column">
+            <ScrollView scrollEnabled={page_scroll} nativeID="body-scroll"
               onScroll={({ nativeEvent }) => {
                
                 if (ScrollCloseToBottom(nativeEvent) && !loading) {

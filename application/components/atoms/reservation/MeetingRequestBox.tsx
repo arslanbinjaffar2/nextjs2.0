@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Center, HStack, IconButton, Spacer, Text, VStack } from 'native-base';
+import { Avatar, Box, Center, HStack, IconButton, Spacer, Text, View, VStack } from 'native-base';
 import Icocalendar from 'application/assets/icons/small/Icocalendar'
 import Icoclock from 'application/assets/icons/small/Icoclock'
 import Icopin from 'application/assets/icons/small/Icopin'
@@ -114,6 +114,8 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 			rejectMeeting()
 		}else if(confirmAction === 'cancelMeeting'){
 			cancelMeeting()
+		}else if(confirmAction === 'sendReminder'){
+			sendMeetingReminder()
 		}
 		handleClose();
 	}
@@ -140,9 +142,9 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 	}
 
   return (
-    <Box w="100%" borderTopWidth={border === 0 ? 0 : 1} borderColor="primary.bordercolor" p="4">
-        <HStack  space="3" alignItems="center">
-            <HStack  space="3" alignItems="center">
+    <Box w="100%" borderTopWidth={border === 0 ? 0 : 1} borderColor="primary.bordercolor" p={["3","4"]}>
+        <HStack  space="3" alignItems={"center"} >
+            <HStack  space="2" alignItems={['flex-start',"center"]} w={'100%'}>
 				<Avatar 
 					
 						source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
@@ -151,24 +153,24 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 					{getAttendeeAvatarName()}
 				</Avatar>
 							
-				<Center>
+				<View flexDirection={['column','row']} w={['100%','calc(100% - 56px)']} alignItems={['flex-start','center']}>
 					<VStack  space="1">
-						<Text fontSize="lg" fontWeight={500}>{attendeeToShow?.first_name} {shouldShow(attendeeToShow.field_settings?.last_name) ? attendeeToShow?.last_name : ''}</Text>
+						<Text fontSize="lg" fontWeight={500}>{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}</Text>
 						<HStack  space="3" alignItems="center">
-							<HStack  space="2" alignItems="center">
-								<Icocalendar width={16} height={18} /><Text fontSize="16px">{moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
+							<HStack  space="2" alignItems="center" >
+								<Icocalendar width={16} height={18} /><Text fontSize={["sm","md"]}>{moment(meeting_request?.slot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
 							</HStack>
 							<HStack  space="2" alignItems="center">
-								<Icoclock width={16} height={18} /><Text fontSize="16px">{meeting_request?.slot?.start_time} - {meeting_request?.slot?.end_time} ({meeting_request?.slot?.duration})</Text>
+								<Icoclock width={16} height={18} /><Text fontSize={["sm","md"]}>{meeting_request?.slot?.start_time} - {meeting_request?.slot?.end_time} ({meeting_request?.slot?.duration})</Text>
 							</HStack>
 							
 						</HStack>
-							<HStack  space="2" alignItems="center">
+							<HStack  space="2" alignItems="center" flexWrap={'wrap'}>
 								<Icopin width={16} height={18} />
-								<Text fontSize="16px">
+								<Text fontSize={["sm","md"]}>
 									{meeting_request?.slot?.meeting_space?.name}
 								</Text>
-								<Text fontSize="16px" color={meeting_request?.status === 'requested'?"#0D6EFD":meeting_request?.status === 'accepted'?"#198754":
+								<Text w={['100%','']} isTruncated fontSize={["sm","md"]} color={meeting_request?.status === 'requested'?"#0D6EFD":meeting_request?.status === 'accepted'?"#198754":
 									meeting_request?.status === 'rejected'?"#DC3545":meeting_request?.status === 'cancelled'?"#DC3545":""
 								}>
 									
@@ -176,11 +178,8 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 								</Text>
 							</HStack>
 					</VStack>
-				</Center>
-							
-			</HStack>			
-            <Spacer />
-			<HStack  space="1" alignItems="center">
+					<Spacer />
+			<HStack  space={["3","1"]} alignItems="center" my={['8px','']}>
 				{meeting_request?.status === 'requested' && loggedInAttendeeId === meeting_request?.participant_attendee_id && (
 					<>
 						{/* Accept Icon */}
@@ -228,7 +227,8 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							<IconButton isDisabled={sendingReminder === meeting_request?.id ? true :false} p={1} variant="unstyled"
 								icon={<Icosendemail color={colors.text} width={19} height={19} />}
 								onPress={()=>{
-									sendMeetingReminder()
+									setConfirmAction('sendReminder')
+									setShowConfirmation(true)
 								}}
 							/>
 					</>
@@ -244,6 +244,10 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 					</>
 				)}
 			</HStack>
+				</View>
+							
+			</HStack>			
+            
         </HStack>
         {showConfirmation && <ReservationModal meeting_request={meeting_request} onClose={handleClose} onAccept={onConfirm} action={confirmAction} loggedInAttendeeId={loggedInAttendeeId} isOpen={showConfirmation} />}
     </Box>

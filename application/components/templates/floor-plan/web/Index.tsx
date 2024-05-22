@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Container, Divider, HStack, Icon, Image, Input, Pressable, Radio, Spacer, Text, VStack } from 'native-base';
+import { Box, Button, Container, Divider, HStack, Icon, Image, Input, Pressable, Radio, Spacer, Text, View, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseFloorPlanService from 'application/store/services/UseFloorPlanService';
@@ -86,7 +86,7 @@ const Index = () => {
   useEffect(() => {
     filterFloorPlans();
   },[search]);
-
+ console.log(selectedCategories)
   return (
     <>
       {
@@ -119,27 +119,53 @@ const Index = () => {
                 </HStack>
                 
               </HStack>
-              {toggle && <Box mb={4} w="100%" bg="primary.box" overflow="hidden" rounded="10px">
-                <Text bg={'primary.darkbox'} px={4} py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
+ 
+              {toggle && <Box mb={4} w="100%" bg="primary.box" overflow="hidden"  rounded="10px">
+              <Text px={4} bg={'primary.darkbox'} py={1} fontSize="lg">{labels?.FLOOR_PLAN_ADVANCED_FILTERS}</Text>
+
                 <Box p={4} w={'100%'}>
                   <Radio.Group  name="MyRadioGroup" value={selectedfilter} onChange={nextValue => {setSelectedfilter(nextValue);}}>
-                    <HStack fontSize={'lg'}  space="3" alignItems="center">
-                      <Radio _text={{fontSize: 'lg'}} value="sponsors">{labels?.FLOOR_PLAN_SPONSORS_LABEL} ({sponsorCount})</Radio>
-                      <Radio _text={{fontSize: 'lg'}}  value="exhibitors">{labels?.FLOOR_PLAN_EXHIBITORS_LABEL} ({exhibitorCount})</Radio>
+                    <HStack    alignItems="center">
+                    <Box flexDirection={'row'}  alignItems="center" >
+                      <Radio  value="sponsors"
+                      width={'18px'}
+                      height={'18px'}
+                      >{labels?.FLOOR_PLAN_SPONSORS_LABEL}</Radio>
+                      <Text fontSize={'lg'}>
+                      ({sponsorCount})
+                      </Text>
+                    </Box>
+                      <Box flexDirection={'row'}  alignItems="center" ml={'2'}>
+                      <Radio
+                       width={'18px'}
+                       height={'18px'}
+                      value="exhibitors">{labels?.FLOOR_PLAN_EXHIBITORS_LABEL}</Radio>
+                      <Text fontSize={'lg'} >
+                      ({exhibitorCount})
+                      </Text>
+                      </Box>
                     </HStack>
                     
                   </Radio.Group>
                 </Box>
-                <HStack flexWrap={'wrap'}  p={4} borderTopColor={'primary.bordercolor'} borderTopWidth={1} space="3" alignItems="center">
+                <HStack flexWrap={'wrap'}  p={4} borderTopColor={'primary.bordercolor'} borderTopWidth={1}  alignItems="center"
+               >
                   {filteredCategories.map((category:FloorPlanCategory) => (
                     <Pressable
                       p="0"
                       borderWidth="0"
-                      onPress={()=>{selectCategory(category)}}
-                    >
-                      <HStack px={6} py={2} rounded={'full'} bg={isSelected(category?.id) ? 'secondary.500' : 'primary.box'} space="3" alignItems="center" mb={3}>
-                        <Text  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
-                      </HStack>
+                      onPress={()=>{
+                        selectCategory(category)
+                      }}
+                      bg={isSelected(category?.id) ? 'secondary.500' : 'primary.box'}
+                      px={4} py={1} rounded={'full'}   alignItems="center" 
+                      mb={'8px'}
+                      mr={'6px'}>
+                        <HStack  space="2" alignItems="center" justifyContent={'center'}>
+                          {isSelected(category?.id) && <Icon color={'primary.text'} as={AntDesign} name="check"  />}
+                          <Text  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
+                        </HStack>
+                        
                       
                     </Pressable>
                     
@@ -149,7 +175,7 @@ const Index = () => {
                 
                 
               </Box>}
-              <Box w="100%" bg="primary.box" overflow="hidden" rounded="10px">
+              <Box w="100%" bg="primary.box" overflow="hidden" rounded={'10px'}>
                
                 <VStack mb="0" w="100%" space="0">
                   {filteredFloorPlans.map((plan: FloorPlan,i) => (
@@ -168,7 +194,7 @@ const Index = () => {
                     
                     
                   ))}
-                  {filteredFloorPlans.length < 1 && <Text p={4} fontSize="lg">{event?.labels?.GENERAL_NO_RECORD}</Text>}
+                  {filteredFloorPlans.length < 1 && <Text p={3} fontSize="md">{event?.labels?.GENERAL_NO_RECORD}</Text>}
                 </VStack>
               </Box>
             </Container>

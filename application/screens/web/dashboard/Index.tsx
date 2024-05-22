@@ -36,6 +36,7 @@ import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import { Banner } from 'application/models/Banner'
 import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
+import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
 
 type indexProps = {
   navigation: unknown
@@ -72,7 +73,7 @@ const Index = ({ navigation }: indexProps) => {
     FetchBanners();
     FetchAlerts();
     if (modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0) {
-      FetchPrograms({ query: '', page: 1, screen: 'dashboard', id: 0, track_id: 0 });
+      // FetchPrograms({ query: '', page: 1, screen: 'dashboard', id: 0, track_id: 0 });
     }
     if (modules.filter((module: any, key: number) => module.alias === 'speakers').length > 0) {
       FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: 1, category_id: 0, screen: 'dashboard-my-speakers', program_id: 0 });
@@ -81,7 +82,7 @@ const Index = ({ navigation }: indexProps) => {
 
   return (
     <>
-      {(in_array('programs', processing) || in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
+      {(in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
         <WebLoading />
       ) : (
         <>
@@ -104,11 +105,8 @@ const Index = ({ navigation }: indexProps) => {
             </HStack>  
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
           {/*  */}
-          {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
-            <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-              <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{modules?.find((module) => (module.alias == 'agendas'))?.name}</Heading>
-              <SlideView section="program" programs={programs} my={0} dashboard={true} />
-            </Container>
+          {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 ? (
+            <IndexTemplatePrograms dashboard={true} />
           ) : <></>}
           {/*  */}
               <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
@@ -118,7 +116,7 @@ const Index = ({ navigation }: indexProps) => {
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
 
             <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
-               <HStack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
+               <HStack mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
               <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
               {my_attendees?.length > 6 &&
                 <Button onPress={() => {
@@ -189,7 +187,7 @@ const Index = ({ navigation }: indexProps) => {
                           <Button onPress={() => {
                             push(`/${event.url}/alerts`)
                           }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                            {event.labels?.GENERAL_SHOW_ALL ?? ''}
+                            {event.labels?.GENERAL_SEE_ALL ?? ''}
                           </Button>
                         </Center>
                         }

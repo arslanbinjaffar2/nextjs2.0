@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, Image, Divider, ZStack, Pressable } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, Image, Divider, ZStack, Pressable, View } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseProgramService from 'application/store/services/UseProgramService';
@@ -7,6 +7,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import moment from 'moment'
 import { useRouter } from 'solito/router';
+import { colorText } from 'application/styles/colors';
 type AppProps = {
     children:
     | JSX.Element
@@ -25,6 +26,7 @@ const DetailBlock = ({ children }: AppProps) => {
     
     const { push } = useRouter()
 
+    console.log(event.settings?.primary_color)
     return <Container mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
         {detail?.program?.image && <Image
             alt=""
@@ -54,12 +56,20 @@ const DetailBlock = ({ children }: AppProps) => {
              {event?.agenda_settings?.show_tracks == 1 && <>
                     {detail?.program?.program_tracks!?.length > 0 && (
                         <>
-                            <Text mb="3" fontSize="md">Track:
+                           <View flexDirection={'row'} mb={'2'}>                     
+                            <Text mb="3" fontSize="md">
+                                Track:
+                                </Text>
+                                <Box flexDirection={'row'} flexWrap={'wrap'} width={'100%'}>
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
-                                        <Box rounded={'full'} mx={1} my={1} px={3} bg={track.color} key={key}>{`${track?.name}`}</Box>
+                                    <Text  color={colorText(track.color ? track.color : event.settings?.primary_color)} rounded={'full'} mx={1} my={1} px={3} bg={track.color ? track.color : event.settings?.primary_color} key={key}>
+                                            {`${track?.name}`}
+                                            </Text>
                                     
                                 ))}
-                            </Text>
+                                </Box>
+                           </View>
+
                             <Divider mb="4" bg="primary.text" />
                         </>
                     )}

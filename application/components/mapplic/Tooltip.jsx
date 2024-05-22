@@ -25,7 +25,6 @@ export const Tooltip = ({cond = true, location, hover = false, offset = 0, layer
 			className={classNames('mapplic-tooltip mapplic-popup', {'mapplic-tooltip-hover' : hover})}
 			style={{
 				maxWidth: '320px',
-				maxHeight: '240px',
 				top: `calc(${location.coord[1] * 100}% + ${offset - 16}px)`,
 				left: (location.coord[0] * 100) + '%'
 			}}
