@@ -6,7 +6,6 @@ import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
 
 const ListBox = (info: Info) => {
-console.log("🚀 ~ ListBox ~ info:", info)
 
     const { push } = useRouter()
 
