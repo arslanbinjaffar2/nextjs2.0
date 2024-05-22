@@ -15,7 +15,7 @@ export interface BannerState {
 
 const initialState: BannerState = {
     banners: [],
-    banner_setting: null
+    banner_setting: null,
 }
 
 // Slice
@@ -23,11 +23,12 @@ export const BannerSlice = createSlice({
     name: 'banners',
     initialState,
     reducers: {
-        FetchBanners() {},
+        FetchBanners(state) {
+        },
         update(state, action: PayloadAction<{ banners: Banner[], banner_setting:BannerSetting }>) {
             state.banners = action.payload.banners;
             state.banner_setting = action.payload.banner_setting;
-        }
+        },
 
     },
 })

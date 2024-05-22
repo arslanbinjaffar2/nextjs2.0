@@ -6,6 +6,8 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
 import { images } from 'application/styles';
+import Icosettings from '../../../assets/icons/Icosettings';
+import LeftBarProfileMobile from './LeftBarProfileMobile';
 
 const HeaderMobile = ({ width }: any) => {
   const { _env } = UseEnvService();
@@ -13,7 +15,8 @@ const HeaderMobile = ({ width }: any) => {
   const { event } = UseEventService();
 const [open, setOpen] = React.useState(false)
   const router = useRouter();
-
+const [openProfileBar,setOpenProfileBar]=React.useState(false)
+console.log(open,"open mneu")
   
   return (
     <>
@@ -46,6 +49,12 @@ const [open, setOpen] = React.useState(false)
           <Center alignItems="flex-end">
             <HStack space="0">
               {/* <Notification /> */}
+          <Box>
+          <Pressable onPress={() => { 
+            setOpenProfileBar(true)
+           }}>
+            <Icosettings width={28} height={28} /></Pressable>
+            </Box>
             </HStack>
           </Center>
         </HStack>
@@ -58,7 +67,6 @@ const [open, setOpen] = React.useState(false)
               <Heading textAlign={'center'} fontWeight={600} fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
         </Box>}
-            
       </Container>
       
       <Drawer isOpen={open} placement='left'>
@@ -78,10 +86,32 @@ const [open, setOpen] = React.useState(false)
             </Center>
             
           
-          <LeftBarMobile />
+          <LeftBarMobile setOpenMenu={setOpen}/>
         </Container>
         
-      </Drawer>         
+      </Drawer>   
+      <Drawer isOpen={openProfileBar} placement='left'>
+        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
+            <Center w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
+              <Pressable
+                alignItems={'flex-end'}
+                p="0"
+                borderWidth="0"
+                onPress={()=>{
+                  setOpenProfileBar(false)
+                }}
+              
+              >
+                <Icon size={'3xl'} as={Ionicons} name="close-outline" color={'primary.text'}  />
+              </Pressable>
+            </Center>
+            
+          
+          <LeftBarProfileMobile setProfileBar={setOpenProfileBar}/>
+
+        </Container>
+        
+      </Drawer>       
     </>
   );
 }

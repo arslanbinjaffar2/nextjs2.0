@@ -56,7 +56,7 @@ const Index = React.memo(() => {
                                 </Box>
                                 <Box p="0" w="100%">
                                     <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                        <Icodocument width="15px" height="18px" />
+                                        <Icodocument width="18px" height="18px" />
                                         <Text fontSize="lg">Documents</Text>
                                     </HStack>
                                     <Box w="100%" py="4">

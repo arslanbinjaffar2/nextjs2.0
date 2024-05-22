@@ -1,8 +1,9 @@
 import React, { ReactElement, FC, useRef, useEffect } from 'react';
-import { Box, Button, Center, Checkbox, Divider, HStack, Icon, Input, Radio, Text, TextArea, VStack } from 'native-base';
+import { Box, Button, Center, Checkbox, Divider, HStack, Icon, IconButton, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import "react-datetime/css/react-datetime.css";
 import Datetime from "react-datetime";
+import Icocross from 'application/assets/icons/Icocross';
 
 type Props = {
   value: any;
@@ -15,6 +16,8 @@ type Props = {
   locale?: any;
   initialValue?: any;
   readOnly?:boolean
+  showClearBtn?: boolean;
+  setClearDate?: any;
 }
 
 const MyDTPicker: FC<any> = (props: Props): any => {
@@ -54,9 +57,26 @@ const MyDTPicker: FC<any> = (props: Props): any => {
         <label className={`label-input ${props.timeOnly ? 'ebs-time-icon' : ''}`}>
           <Input
           h={50}
-          opacity={props.disabled ? '0.5' : 1} rightElement={<Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />} isReadOnly={true} {...props} placeholder={props.placeholder} />
+          opacity={props.disabled ? '0.5' : 1} rightElement={
+          <>
+            <Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />
+          </>
+          } isReadOnly={true} {...props} placeholder={props.placeholder} />
           <span>{props.required && <em className="req">*</em>}</span>
         </label>
+        {props?.showClearBtn && props?.value && (
+              <IconButton
+                position={'absolute'}
+                right={'40px'}
+                top={'19px'}
+                p={0}
+                variant="unstyled"
+                icon={<Icocross  width={12} height={12} />}
+                onPress={props.setClearDate}
+                
+              />
+             
+            )}
       </Box>
     );
   }
@@ -64,7 +84,7 @@ const MyDTPicker: FC<any> = (props: Props): any => {
   return <Datetime
   
   locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue}
-  ref={textInput} renderView={(mode:any, renderDefault:any) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={renderInput} />;
+  ref={textInput} renderView={(mode:any, renderDefault:any) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={(inputProps: any) => renderInput({ ...inputProps, showClearBtn: props?.showClearBtn,setClearDate: props.setClearDate })} />;
 };
 
 type DateTimeProps = {
@@ -73,18 +93,20 @@ type DateTimeProps = {
   showtime?: any;
   showdate?: any;
   onChange?: any;
+  setClearDate?: any;
   required?: any;
   toDate?: any;
   fromDate?: any;
   locale?: any;
   initialValue?: any;
-  readOnly?:boolean
+  readOnly?:boolean;
+  showClearBtn?: boolean;
 }
 
 const DateTimePicker: FC<DateTimeProps> = (props): ReactElement => {
   return (
     <div style={{width: '100%'}} >
-      <MyDTPicker locale={props?.locale !== undefined ? props?.locale : 'en'} readOnly={props.readOnly} initialValue={props.initialValue} onChange={props.onChange} value={props.value} showtime={props.showtime !== undefined ? props.showtime : false} showdate={props.showdate !== undefined ? props.showdate : true} placeholder={props.label} />
+      <MyDTPicker locale={props?.locale !== undefined ? props?.locale : 'en'} readOnly={props.readOnly} initialValue={props.initialValue} onChange={props.onChange} value={props.value} showtime={props.showtime !== undefined ? props.showtime : false} showdate={props.showdate !== undefined ? props.showdate : true} placeholder={props.label} showClearBtn={props.showClearBtn} setClearDate={props.setClearDate} />
     </div>
   )
 };
