@@ -5,7 +5,7 @@ import Icocalendar from 'application/assets/icons/small/Icocalendar';
 import Icoclock from 'application/assets/icons/small/Icoclock';
 import Icopin from 'application/assets/icons/small/Icopin';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { Pressable } from 'react-native';
+import { Pressable, useWindowDimensions } from 'react-native';
 import moment from 'moment';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { MyNote } from 'application/models/notes/Notes';
@@ -32,7 +32,7 @@ const CustomNotes: React.FC<CustomNotesProps> = ({ type, note, onUpdate }) => {
   const { AddToast } = UseToastService()
   const { loading } = UseLoadingService();
   const { event } = UseEventService();
-
+  const {width}=useWindowDimensions()
   function getValueByNameProgram(name: string) {
     if (note.program_note) {
       const item = note.program_note.info.find((obj: any) => obj.name === name);
@@ -105,11 +105,12 @@ const CustomNotes: React.FC<CustomNotesProps> = ({ type, note, onUpdate }) => {
             {type == "directory" && <Box w={'20px'} h={'20px'} mr={'12px'}>
               <Icon as={AntDesign} name="pdffile1" size="md" color="primary.text" />
             </Box>}
-            <HStack flexDirection={'column'} w={(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
-            'calc(100%)':'calc(100% - 28px)'}>
-              {type == "programs" && <View flexDirection={'row'} justifyContent={'space-between'} alignItems={'start'} >
+            <HStack flexDirection={'column'} w={[(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
+            'calc(100%)':'calc(100% - 28px)',(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
+            'calc(100%)':'calc(100% - 28px)']}>
+              {type == "programs" && <View flexDirection={'row'} justifyContent={'space-between'} alignItems={'start'} flexWrap={['wrap','nowrap']} >
                 <Text fontSize="md">{getValueByNameProgram('topic')}</Text>
-                <Box flexDirection={'row'} style={{ gap: 12 }} alignItems={'center'}>
+                <Box flexDirection={'row'} style={{ gap: 12 }} alignItems={'center'} flexWrap={['wrap','nowrap']} w={['100%','']}> 
                   <View flexDirection={'row'} style={{ gap: 6 }} alignItems={'center'}>
                     <Icocalendar width={16} height={18} />
                     <Text fontSize="xs">{getValueByNameProgram('date')}</Text>
