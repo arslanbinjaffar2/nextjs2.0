@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Program, ProgramRating } from 'application/models/program/Program'
+import { FavProgram, Program, ProgramRating } from 'application/models/program/Program'
 
 import { Track } from 'application/models/program/Track'
 
@@ -29,6 +29,7 @@ export interface ProgramState {
     agendas_attached_via_group:number[],
     rating: ProgramRating|null,
     select_day: number,
+    fav_programs: FavProgram[],
 }
 
 const initialState: ProgramState = {
@@ -48,6 +49,7 @@ const initialState: ProgramState = {
     agendas_attached_via_group:[],
     rating: null,
     select_day: 0,
+    fav_programs: [],
 }
 
 // Slices
@@ -68,15 +70,15 @@ export const ProgramSlice = createSlice({
         },
         update(state, action: PayloadAction<{ programs: Program[], query: string, page: number, track: Track , agendas_attached_via_group:number[],total_pages:number,event_status:string}>) {
             const existed: any = current(state.programs);
-            console.log(action.payload.programs.reduce((ack, item:any)=>{
-                let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
-                if(existingDate > -1){
-                    ack[existingDate] = [ ...ack[existingDate], ...item];
-                }else{
-                    ack.push(item);
-                }
-                return ack;
-            }, [...existed]));
+            // console.log(action.payload.programs.reduce((ack, item:any)=>{
+            //     let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
+            //     if(existingDate > -1){
+            //         ack[existingDate] = [ ...ack[existingDate], ...item];
+            //     }else{
+            //         ack.push(item);
+            //     }
+            //     return ack;
+            // }, [...existed]));
 
             state.programs = action.payload.page === 1 ? action.payload.programs : action.payload.programs.reduce((ack, item:any)=>{
                 let existingDate = ack.findIndex((date:any)=>(date[0].date === item[0].date));
@@ -87,6 +89,22 @@ export const ProgramSlice = createSlice({
                 }
                 return ack;
             }, [...existed]);
+            
+            // update the fav programs state
+            console.log('programs: ',action.payload.programs);
+            let fav_programs: FavProgram[] = [];
+            action.payload.programs.forEach((group: any) => {
+                group.forEach((program: any) => {
+                    if (program.program_attendees_attached.length > 0) {
+                        fav_programs.push({ id: program.id, is_fav: true });
+                    } else {
+                        fav_programs.push({ id: program.id, is_fav: false });
+                    }
+                });
+            });
+            console.log('fav_programs: ',fav_programs);
+            state.fav_programs = fav_programs;
+            
             state.track = action.payload.track;
             state.agendas_attached_via_group = action.payload.agendas_attached_via_group;
             state.total_pages = action.payload.total_pages;
@@ -155,42 +173,14 @@ export const ProgramSlice = createSlice({
             state.parent_track = {};
         },
         ToggleFavourite(state, action: PayloadAction<{ program_id: number }>) {
-            const updatedPrograms: any = [...state.programs];
-            let updatedProgram: Program | null = null;
-            let groupIndex: number | null = null;
-            let programIndex: number | null = null;
-
-            for (let i = 0; i < updatedPrograms.length; i++) {
-                const group: Program[] = updatedPrograms[i] as Program[];
-                const foundProgramIndex: number = group.findIndex(program => program.id === action.payload.program_id);
-                if (foundProgramIndex !== -1) {
-                    groupIndex = i;
-                    programIndex = foundProgramIndex;
-                    updatedProgram = { ...group[foundProgramIndex] }; // Create a copy of the found program object
-                    break; // Break out of the loop once the program is found
-                }
+            // toggle the favourite status of the program
+            // find by program id in fav_programs and toggle the is_fav status
+            let fav_programs = state.fav_programs;
+            let index = fav_programs.findIndex((fav: FavProgram) => fav.id === action.payload.program_id);
+            if (index > -1) {
+                fav_programs[index].is_fav = !fav_programs[index].is_fav;
             }
-
-            if (updatedProgram && updatedProgram.program_attendees_attached.length > 0) {
-                updatedProgram = { ...updatedProgram, program_attendees_attached: [] }; // Create a new object with the updated property
-            } else {
-                updatedProgram = {
-                    ...updatedProgram!,
-                    program_attendees_attached: [{ id: 0, attendee_id: 0, agenda_id: action.payload.program_id , added_by: 0, linked_from: '', link_id: 0, created_at: '', updated_at: '', deleted_at: ''}]
-                }; // Create a new object with the updated property
-            }
-
-            if (updatedProgram && groupIndex !== null && programIndex !== null) {
-                // Create a new copy of the group containing the updated program
-                const updatedGroup: Program[] = [...updatedPrograms[groupIndex]];
-                updatedGroup[programIndex] = updatedProgram; // Assign updated program to the found index in the group
-
-                // Create a new copy of the updatedPrograms array with the updated group
-                updatedPrograms[groupIndex] = updatedGroup;
-
-                // Update updatedPrograms with the new array
-                state.programs = updatedPrograms;
-            }
+            state.fav_programs = fav_programs;
         },
         FetchRating(state, action: PayloadAction<{ program_id: number }>) {
         },
@@ -260,6 +250,8 @@ export const SelectRating = (state: RootState) => state.programs.rating
 export const SelectUpcomingPrograms = (state: RootState) => state.programs.upcoming_programs
 
 export const SelectDay = (state: RootState) => state.programs.select_day
+
+export const SelectFavPrograms = (state: RootState) => state.programs.fav_programs
 
 // Reducer
 export default ProgramSlice.reducer

@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 
-import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail, SelectFavouriteProgramError, SelectParentTrackDetail, SelectAgendasAttachedViaGroup, SelectTotalPages, SelectRating, SelectUpcomingPrograms, SelectDay } from 'application/store/slices/Program.Slice'
+import { ProgramActions, SelectMyPrograms, SelectQuery, SelectPage, SelectID, SelectTrack, SelectTracks, SelectTrackDetail, SelectProgramDetail, SelectFavouriteProgramError, SelectParentTrackDetail, SelectAgendasAttachedViaGroup, SelectTotalPages, SelectRating, SelectUpcomingPrograms, SelectDay, SelectFavPrograms } from 'application/store/slices/Program.Slice'
 
-import { Program, ProgramRating } from 'application/models/program/Program'
+import { FavProgram, Program, ProgramRating } from 'application/models/program/Program'
 
 import { Track } from 'application/models/program/Track'
 
@@ -25,7 +25,8 @@ export type ProgramServiceOperators = {
     favouriteProgramError:string
     agendas_attached_via_group:number[]
     rating: ProgramRating|null
-    select_day: number
+    select_day: number,
+    fav_programs: FavProgram[];
     FetchPrograms: (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => void
     MakeFavourite: (payload: { program_id: number, screen: string }) => void
     FetchTracks: (payload: { query: string, page: number, screen: string, track_id: number }) => void
@@ -61,6 +62,7 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
         agendas_attached_via_group: useAppSelector(SelectAgendasAttachedViaGroup),
         rating: useAppSelector(SelectRating),
         select_day: useAppSelector(SelectDay),
+        fav_programs:useAppSelector(SelectFavPrograms),
         FetchPrograms: useCallback(
             (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => {
                 dispatch(ProgramActions.FetchPrograms(payload))
