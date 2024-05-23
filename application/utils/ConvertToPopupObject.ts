@@ -17,7 +17,7 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             title:notification?.title+ " Q&A",
             text:notification?.text,
             data:notification?.data,
-            btnLeftText:notification?.btnLeftText,
+            btnLeftText:'OK',
             btnRightText:notification?.btnText,
             url:'/settings/myquestions/detail/'+notification?.data?.question?.id,
         }

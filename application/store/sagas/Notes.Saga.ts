@@ -11,6 +11,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
+
 import { ToastActions } from '../slices/Toast.Slice'
 
 function* OnSaveNote({
@@ -24,8 +25,6 @@ function* OnSaveNote({
     const response: HttpResponse = yield call(saveNote, payload, state)
     yield put(NoteActions.GetMyNote({note_type:payload.note_type, note_type_id:payload.note_type_id}));
     yield put(NoteActions.SetSaving(false));
-    const labels=state?.event?.event.labels;
-    yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_NOTE_SAVE_MESSAGE ,status:"success"}}))
 }
 
 function* OnUpdateNote({
@@ -40,6 +39,7 @@ function* OnUpdateNote({
     yield put(NoteActions.SetSaving(false));
     const labels=state?.event?.event.labels;
     yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_NOTE_SAVE_MESSAGE ,status:"success"}}))
+    yield put(LoadingActions.removeProcess({ process: 'update-note' }))
 }
 
 function* OnGetMyNote({
