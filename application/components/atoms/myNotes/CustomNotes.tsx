@@ -107,55 +107,57 @@ console.log(note?.directory_note)
             </Box>}
             <HStack flexDirection={'column'}
             mt={[`${(type == "sponsors" || type == "exhibitors") && '10px'}`,'']}
-            w={[`${(type == "sponsors" || type == "exhibitors" || type == "directory") && 'calc(100%)'}`,(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
-            'calc(100%)':'calc(100% - 28px)',(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
+            w={['calc(100% - 16px)',(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
             'calc(100%)':'calc(100% - 28px)']}>
               {type == "programs" && <View flexDirection={'row'} justifyContent={'space-between'} alignItems={'start'} flexWrap={['wrap','nowrap']} >
-                <Text fontSize="md">{getValueByNameProgram('topic')}</Text>
+                <Text fontSize="md"  fontWeight={'medium'}>{getValueByNameProgram('topic')}</Text>
                 <Box flexDirection={'row'} style={{ gap: 12 }} alignItems={'center'} flexWrap={['wrap','nowrap']} w={['100%','']} mt={['10px','']}> 
                   <View flexDirection={'row'} style={{ gap: 6 }} alignItems={'center'}>
                     <Icocalendar width={16} height={18} />
-                    <Text fontSize="xs">{getValueByNameProgram('date')}</Text>
+                    <Text fontSize="xs"  fontWeight={'medium'}>{getValueByNameProgram('date')}</Text>
                   </View>
                   <View flexDirection={'row'} style={{ gap: 6 }} alignItems={'center'}>
                     <Icoclock width={16} height={18} />
-                    <Text fontSize="xs">{getValueByNameProgram('start_time')} - {getValueByNameProgram('end_time')}</Text>
+                    <Text fontSize="xs"  fontWeight={'medium'}>{getValueByNameProgram('start_time')} - {getValueByNameProgram('end_time')}</Text>
                   </View>
                   {getValueByNameProgram('location') &&
                     <View flexDirection={'row'} style={{ gap: 6 }} alignItems={'center'}>
                       <Icopin width={16} height={18} />
-                      <Text fontSize="xs">{getValueByNameProgram('location')}</Text>
+                      <Text fontSize="xs"  fontWeight={'medium'}>{getValueByNameProgram('location')}</Text>
                     </View>
                   }
                 </Box>
               </View>}
               {type == "sponsors" && <View flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} >
-                <Text fontSize={'md'}>{note?.sponsor_note?.name}</Text>
+                <Text fontSize={'md'}  fontWeight={'medium'}>{note?.sponsor_note?.name}</Text>
                {note?.sponsor_note?.booth && <Box flexDirection={'row'} alignItems={'center'} >
                   <DynamicIcon iconType={'help_desk'} iconProps={{ width: 13, height: 12 }} />
-                  <Text ml={'6px'} fontSize={'xs'}>{note?.sponsor_note?.booth}</Text>
+                  <Text ml={'6px'} fontSize={'xs'}  fontWeight={'medium'}>{note?.sponsor_note?.booth}</Text>
                 </Box>}
               </View>}
               {type == "exhibitors" && <View flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} >
-                <Text fontSize={'md'}>{note?.exhibitor_note?.name}</Text>
+                <Text fontSize={'md'}  fontWeight={'medium'}>{note?.exhibitor_note?.name}</Text>
               {note?.exhibitor_note?.booth && <Box flexDirection={'row'} alignItems={'center'} >
                   <DynamicIcon iconType={'help_desk'} iconProps={{ width: 13, height: 12 }} />
-                  <Text ml={'6px'} fontSize={'sm'}>{note?.exhibitor_note?.booth}</Text>
+                  <Text ml={'6px'} fontSize={'xs'}  fontWeight={'medium'}>{note?.exhibitor_note?.booth}</Text>
                 </Box>}
               </View>}
               {type == "directory" &&
-              <>
+              <View flexDirection={'row'} alignItems={'center'} width={'100%'}>
               <Box w={'20px'} h={'20px'} mr={'12px'} flexDirection={['column','row']} mt={['4px','']} display={['flex','none']}>
               <FileIconByType type={note?.directory_note?.path.split('.')[1]} />
               </Box>
-               <View flexDirection={['column','row']} justifyContent={'space-between'} alignItems={'center'} w={'100%'} mt={['10px','']}>
-                <Text fontSize={'md'}>{getValueByNameDocument('name')}</Text>
-                <Text fontSize={'xs'} ml={['','6px']} >{note?.directory_note?.file_size} KBs | {moment(note?.directory_note?.start_date).format(GENERAL_DATE_FORMAT)}</Text>
+               <View flexDirection={['column','row']} justifyContent={'space-between'} alignItems={['start','center']} w={'calc(100% - 16px)'} mt={['10px','']}>
+                <Text fontSize={'md'} fontWeight={'medium'}>{getValueByNameDocument('name')}
+                </Text>
+                <Text fontSize={'xs'}  fontWeight={'medium'} ml={['','6px']} >{note?.directory_note?.file_size} KBs | {moment(note?.directory_note?.start_date).format(GENERAL_DATE_FORMAT)}</Text>
               </View>
-              </>
+              </View>
               }
               <View flexDirection={'row'}  justifyContent={'space-between'} mt={['4px','8px']}>
-                <Text w={'95%'} fontSize="sm">{note?.notes}</Text>
+                <Text w={'95%'} fontSize="sm" fontWeight={'normal'}>{note?.notes}
+                
+                </Text>
                 <Box w={'5%'}>
 
                   <Pressable onPress={() => {
