@@ -18,6 +18,7 @@ import UseSocketService from 'application/store/services/UseSocketService';
 import { TextInput } from 'react-native';
 import IcoSend from 'application/assets/icons/small/IcoSend'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { colorText } from 'application/styles/colors'
 import { 
     BtnBold,
     BtnBulletList,
@@ -222,14 +223,7 @@ const Detail = () => {
             <Container overflow="hidden" mb="4" maxW="100%" w="100%">
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" >
                 <Box w="100%"  py="3">
-                    <HStack width={"100%"} pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
-                        <Box position="absolute" left="0" top="0" w="15px">
-                            <ZStack>
-                            {qaDetials?.program_detail && qaDetials?.program_detail?.tracks?.length > 0 && qaDetials?.program_detail?.tracks.map((track: any, i: number) =>
-                            <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w="15px" mt={`${i * 10}px`} h={`${55 - (i * 10)}px`} borderRightRadius="10" shadow={2} />
-                        )}
-                            </ZStack>
-                        </Box>
+                    <HStack width={"100%"} px="4" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
                         <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
                             <VStack space="1" width={'100%'}>
                             <Text fontSize="md" lineHeight="22px" textBreakStrategy='simple' >
@@ -237,6 +231,13 @@ const Detail = () => {
                             </Text>
                             </VStack>
                         </HStack>
+                    </HStack>
+                     <HStack px={4} alignItems="flex-start" justifyContent={'flex-start'} display={'flex'} flexWrap={'wrap'}>
+                        {qaDetials?.program_detail && qaDetials?.program_detail?.tracks?.length > 0 && qaDetials?.program_detail?.tracks.map((category: any, i: number) =>
+                            <Box borderColor={'primary.box'} borderWidth={1} rounded={'full'} bg={category.color} px={4} py={1} my={1} mr={2}  key={i}>
+                             <Text color={colorText(category.color)} lineHeight={'sm'} fontSize="sm">{`${category.name}`}</Text>
+                            </Box>
+                        )}
                     </HStack>
                 </Box>
                 <Box w="100%">
@@ -298,7 +299,6 @@ const Detail = () => {
                         <Text w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER ?? "Line Number"}</Text>
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
-                    {qaSettings?.paragraph_number == 1 && 
                     <Box w="100%" px="3">
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
@@ -329,7 +329,6 @@ const Detail = () => {
                             </Box>
                         </Text>
                     </Box>
-                    }
                     <HStack px="3" py="2" space="3" alignItems="center">
                     {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">{qaDetials.labels.QA_SEND_ANONYMOUSLY ?? "Send Anonymously"}</Checkbox>}
                     <Spacer />
