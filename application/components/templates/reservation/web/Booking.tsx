@@ -64,17 +64,110 @@ const PressableElement = ({slot,onPress}: any) => {
 	)
 	
 }
+type SendRequestModalProps={
+	selectedSlot: MeetingSlot | null,
+	onClose: () => void,
+	attendee: MeetingAttendee | null,
+	slotBooked: (slotId:number) => void,
+	attendeeId: number,
+}
+
+const SendRequestModal = ({selectedSlot,onClose,attendee,slotBooked,attendeeId}: any) => {
+	const [bookingSlot,setBookingSlot] = useState<boolean>(false);
+	const {labels} = UseMeetingReservationService();
+	const [message, setMessage] = useState<string>('');
+	const { AddNotification } = UseNotificationService();
+	const {event}= UseEventService();
+	
+
+	const _element = React.useRef<HTMLDivElement>() 
+	React.useEffect(() => {
+		setTimeout(() => {
+			_element.current?.classList.add('add-blur-radius')
+		}, 300);
+	}, [selectedSlot])
+
+	function shouldShow(field_setting:any){
+		if (field_setting?.status === 0){
+			return false;
+		}
+
+		if (field_setting?.is_private === 1){
+			return false;
+		}
+
+		return true;
+	}
+
+
+	async function bookSlot(slot:MeetingSlot){
+		const mystate=store.getState()
+		setBookingSlot(true);
+		try {
+			const response = await bookMeetingSlotApi({slot_id:slot.id,participant_attendee_id:attendeeId,message:message},mystate);
+			console.log('response data:',response.data);
+			if(response?.data?.success == true){
+				slotBooked(slot.id)
+				onClose(null);
+				setBookingSlot(false);
+				setMessage('');
+				AddNotification({notification:{
+					type:'reservation',
+					title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
+					text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}`,
+				}});
+			}
+		} catch (error) {
+			  console.log('error', error);
+		}
+}
+
+	return (
+		<Modal size={'lg'} isOpen={true} onClose={()=>{}} ref={_element}>
+						<Modal.Content  bg={'primary.boxsolid'}>
+							<Modal.Header py={3} bg="primary.boxsolid" borderBottomWidth={1} borderColor={'primary.bordercolor'}>
+								<Text color={'primary.text'} fontSize="lg" fontWeight={600}>{labels?.RESERVATION_BOOK_MEEETING_ALERT_TITLE}</Text>
+							</Modal.Header>
+							<Modal.Body bg="primary.boxsolid" px={0}>
+								<Text color={'primary.text'} mb={2} px={4} fontSize="md">{labels?.RESERVATION_BOOK_MEEETING_ALERT_MSG} “{attendee?.first_name} {shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}”</Text>
+								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start" bg="primary.darkbox">
+									<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {selectedSlot?.meeting_space?.name}</Text>
+									<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(selectedSlot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
+									<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_TIME} : {selectedSlot?.start_time} - {selectedSlot?.end_time} ({selectedSlot?.duration})</Text>
+								</VStack>
+								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
+									<Text color={'primary.text'}  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
+									<TextArea
+										value={message}
+										onChangeText={(text)=>setMessage(text)}
+									 autoCompleteType={false} borderColor={'primary.bordercolor'} w="100%" h={120} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+									
+								</VStack>
+								
+							</Modal.Body>
+							<Modal.Footer bg="primary.boxsolid" borderColor={'primary.bordercolor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
+								<Button.Group variant={'unstyled'} space={0}>
+									<Container borderRightWidth={1} borderRightColor={'primary.bordercolor'} w="50%">
+										<Button py={4} bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => onClose(null)} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
+									</Container>
+									<Container borderRightWidth={0}  w="50%">
+										<Button py={4} isLoading={bookingSlot ? true:false} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}
+										onPress={()=>{ bookSlot(selectedSlot) }} 
+										><Icocheck width={19} height={19} /></Button>
+									</Container>
+								</Button.Group>
+							</Modal.Footer>
+						</Modal.Content>
+					</Modal>
+	)
+}
 
 const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const [selectedSlot, setSelectedSlot] = useState<MeetingSlot | null>(null);
 	const [activeSlot, setActiveSlot] = useState<Number | null>(null);
 	const [attendee, setAttendee] = useState<MeetingAttendee | null >(null);
-	const [bookingSlot,setBookingSlot] = useState<boolean>(false);
-	const { AddNotification } = UseNotificationService();
 	const {labels} = UseMeetingReservationService();
 	const {event}= UseEventService();
-
-	const [message, setMessage] = useState<string>('');
 
 	const [attendeeId] = useParam('id');
 
@@ -95,50 +188,6 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		console.log('attendeeId:',attendeeId);
 	}
 	, [attendeeId]);
-
-	React.useEffect(() => {
-		setMessage('');
-	}, [activeSlot]);
-	const _element = React.useRef<HTMLDivElement>() 
-	React.useEffect(() => {
-		setTimeout(() => {
-			_element.current?.classList.add('add-blur-radius')
-		}, 300);
-	}, [selectedSlot])
-
-	async function bookSlot(slot:MeetingSlot){
-			const mystate=store.getState()
-			setBookingSlot(true);
-			try {
-				const response = await bookMeetingSlotApi({slot_id:slot.id,participant_attendee_id:attendeeId,message:message},mystate);
-				console.log('response data:',response.data);
-				if(response?.data?.success == true){
-					slotBooked(slot.id)
-					setSelectedSlot(null);
-					setBookingSlot(false);
-					setMessage('');
-					AddNotification({notification:{
-						type:'reservation',
-						title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
-						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}`,
-					}});
-				}
-			} catch (error) {
-			  	console.log('error', error);
-			}
-	}
-
-	function shouldShow(field_setting:any){
-		if (field_setting?.status === 0){
-			return false;
-		}
-
-		if (field_setting?.is_private === 1){
-			return false;
-		}
-
-		return true;
-	}
 
 	return(
 		 <ScrollView mt={'5'} >
@@ -192,44 +241,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		)}
 		
 		{/* Confirmation popup  */}
-		{selectedSlot && (
-					<Modal size={'lg'} isOpen={true} onClose={()=>{}} ref={_element}>
-						<Modal.Content  bg={'primary.boxsolid'}>
-							<Modal.Header py={3} bg="primary.boxsolid" borderBottomWidth={1} borderColor={'primary.bordercolor'}>
-								<Text color={'primary.text'} fontSize="lg" fontWeight={600}>{labels?.RESERVATION_BOOK_MEEETING_ALERT_TITLE}</Text>
-							</Modal.Header>
-							<Modal.Body bg="primary.boxsolid" px={0}>
-								<Text color={'primary.text'} mb={2} px={4} fontSize="md">{labels?.RESERVATION_BOOK_MEEETING_ALERT_MSG} “{attendee?.first_name} {shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}”</Text>
-								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start" bg="primary.darkbox">
-									<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_SPACE} : {selectedSlot?.meeting_space?.name}</Text>
-									<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_DATE} : {moment(selectedSlot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
-									<Text color={'primary.text'}  fontSize="sm">{labels?.RESERVATION_MEETING_TIME} : {selectedSlot?.start_time} - {selectedSlot?.end_time} ({selectedSlot?.duration})</Text>
-								</VStack>
-								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
-									<Text color={'primary.text'}  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
-									<TextArea
-										value={message}
-										onChangeText={(text)=>setMessage(text)}
-									 autoCompleteType={false} borderColor={'primary.bordercolor'} w="100%" h={120} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
-									
-								</VStack>
-								
-							</Modal.Body>
-							<Modal.Footer bg="primary.boxsolid" borderColor={'primary.bordercolor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
-								<Button.Group variant={'unstyled'} space={0}>
-									<Container borderRightWidth={1} borderRightColor={'primary.bordercolor'} w="50%">
-										<Button py={4} bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setSelectedSlot(null)} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
-									</Container>
-									<Container borderRightWidth={0}  w="50%">
-										<Button py={4} isLoading={bookingSlot ? true:false} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}
-										onPress={()=>{ bookSlot(selectedSlot) }} 
-										><Icocheck width={19} height={19} /></Button>
-									</Container>
-								</Button.Group>
-							</Modal.Footer>
-						</Modal.Content>
-					</Modal>
-				)}
+		{selectedSlot && <SendRequestModal attendee={attendee} attendeeId={attendeeId} slotBooked={slotBooked} selectedSlot={selectedSlot} onClose={()=>{setSelectedSlot(null)}} />}
 		</ScrollView>
 	)
 }
