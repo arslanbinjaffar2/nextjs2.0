@@ -10,7 +10,5 @@ export interface Certificate {
     name: string;
     top_skills: string;
     send_date: number;
-    certificate: string;
-
-    find(param: (certificate: { module_name: string; module_type: string }) => boolean): any
+    certificate: any;
 }

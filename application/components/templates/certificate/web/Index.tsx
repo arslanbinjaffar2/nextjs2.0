@@ -83,7 +83,7 @@ const Index = React.memo(() => {
                                 <Icon as={AntDesign} name="download" size="md" color="primary.text" onPress={() => {
                                     getCertificatePdf(cert?.certificate_id , cert?.attendee_id);
                                 }} />
-                                <Pressable
+                                {/* <Pressable
                                   onPress={async () => {
                                       const url: any = `${detail?.detail?.facebook}`;
                                       const supported = await Linking.canOpenURL(url);
@@ -91,7 +91,7 @@ const Index = React.memo(() => {
                                           await Linking.openURL(url);
                                       }
                                   }}>
-                                </Pressable>
+                                </Pressable> */}
                             </HStack>
                           ))
                         ) : (
