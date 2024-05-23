@@ -68,7 +68,7 @@ console.log(note?.directory_note)
         <SectionLoading />
       ) : (
         <>
-          <VStack flexDirection={'row'} w={'100%'} p={'16px'} >
+          <VStack flexDirection={[`${(type == "sponsors" || type == "exhibitors") ?'column':'row'}`,'row']} w={'100%'} p={'16px'} >
             {type == "sponsors" && <Box w={'114px'} h={'46px'} mr={'16px'}>
                 {note?.sponsor_note?.logo? <Image
                src={`${_env.eventcenter_base_url}/assets/sponsors/large/${note?.sponsor_note?.logo}`}
@@ -102,15 +102,17 @@ console.log(note?.directory_note)
               /> 
               }
             </Box>}
-            {type == "directory" && <Box w={'20px'} h={'20px'} mr={'12px'}>
+            {type == "directory" && <Box w={'20px'} h={'20px'} mr={'12px'} flexDirection={['column','row']} display={['none','flex']}>
             <FileIconByType type={note?.directory_note?.path.split('.')[1]} />
             </Box>}
-            <HStack flexDirection={'column'} w={[(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
+            <HStack flexDirection={'column'}
+            mt={[`${(type == "sponsors" || type == "exhibitors") && '10px'}`,'']}
+            w={[`${(type == "sponsors" || type == "exhibitors" || type == "directory") && 'calc(100%)'}`,(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
             'calc(100%)':'calc(100% - 28px)',(type == "sponsors" || type == "exhibitors") ? 'calc(100% - 130px)' : type=="programs"?
             'calc(100%)':'calc(100% - 28px)']}>
               {type == "programs" && <View flexDirection={'row'} justifyContent={'space-between'} alignItems={'start'} flexWrap={['wrap','nowrap']} >
                 <Text fontSize="md">{getValueByNameProgram('topic')}</Text>
-                <Box flexDirection={'row'} style={{ gap: 12 }} alignItems={'center'} flexWrap={['wrap','nowrap']} w={['100%','']}> 
+                <Box flexDirection={'row'} style={{ gap: 12 }} alignItems={'center'} flexWrap={['wrap','nowrap']} w={['100%','']} mt={['10px','']}> 
                   <View flexDirection={'row'} style={{ gap: 6 }} alignItems={'center'}>
                     <Icocalendar width={16} height={18} />
                     <Text fontSize="xs">{getValueByNameProgram('date')}</Text>
@@ -141,11 +143,18 @@ console.log(note?.directory_note)
                   <Text ml={'6px'} fontSize={'sm'}>{note?.exhibitor_note?.booth}</Text>
                 </Box>}
               </View>}
-              {type == "directory" && <View flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w={'100%'}>
+              {type == "directory" &&
+              <>
+              <Box w={'20px'} h={'20px'} mr={'12px'} flexDirection={['column','row']} mt={['4px','']} display={['flex','none']}>
+              <FileIconByType type={note?.directory_note?.path.split('.')[1]} />
+              </Box>
+               <View flexDirection={['column','row']} justifyContent={'space-between'} alignItems={'center'} w={'100%'} mt={['10px','']}>
                 <Text fontSize={'md'}>{getValueByNameDocument('name')}</Text>
-                <Text fontSize={'xs'} ml={'6px'} >{note?.directory_note?.file_size} Kbs | {moment(note?.directory_note?.start_date).format(GENERAL_DATE_FORMAT)}</Text>
-              </View>}
-              <View flexDirection={'row'} justifyContent={'space-between'} mt={'8px'}>
+                <Text fontSize={'xs'} ml={['','6px']} >{note?.directory_note?.file_size} KBs | {moment(note?.directory_note?.start_date).format(GENERAL_DATE_FORMAT)}</Text>
+              </View>
+              </>
+              }
+              <View flexDirection={'row'}  justifyContent={'space-between'} mt={['4px','8px']}>
                 <Text w={'95%'} fontSize="sm">{note?.notes}</Text>
                 <Box w={'5%'}>
 
@@ -165,16 +174,16 @@ console.log(note?.directory_note)
               setIsOpen(false)
             }}
           >
-            <Modal.Header height={'42px'} px={'16px'} py={'8px'} flexDirection={'row'} maxWidth={'520px'} width={'100%'} roundedTop={'10px'} alignItems={'center'}>
+            <Modal.Header height={'42px'} px={'16px'} py={'8px'} flexDirection={'row'} maxWidth={'520px'} width={['80%','90%']} roundedTop={'10px'} alignItems={'center'} mx={'auto'}>
               <DynamicIcon iconType={'my_notes'} iconProps={{ width: 20, height: 20 }} />
               <Text ml={2}>{event?.labels?.GENERAL_NOTES}</Text>
             </Modal.Header>
-            <Modal.Content p={0} maxWidth={'520px'} width={'100%'} roundedBottom={'10px'} roundedTop={0}>
+            <Modal.Content p={0} maxWidth={'520px'} width={['80%','90%']} roundedBottom={'10px'} roundedTop={0} mx={'auto'}>
               <Modal.Body position={'relative'} zIndex={1} p={4} >
                 <View flexDirection={'column'}>
                   <TextArea
                     p="0"
-                    h="60px"
+                    h="150px"
                     focusOutlineColor="transparent"
                     _focus={{ bg: 'transparent' }}
                     value={noteValue}
