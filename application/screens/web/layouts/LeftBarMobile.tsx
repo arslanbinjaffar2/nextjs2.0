@@ -13,8 +13,8 @@ import UseInfoService from 'application/store/services/UseInfoService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import {  func } from 'application/styles';
 
-const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
-  console.log(setOpenMenu,"kjsdkljaskldjfsad")
+const LeftBarMobile = () => {
+
   const router = useRouter()
 
   const { width, height } = useWindowDimensions();
@@ -31,18 +31,13 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
 
   const [dahboardHover, setdahboardHover] = React.useState(false)
   const [logoutHover, setlogoutHover] = React.useState(false)
-  const [dashhover, setdashhover] = React.useState(false)
+
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
       <Box borderBottomWidth={1} mb="3" w="100%" borderBottomColor={'primary.bordercolor'} pb="3" px="3">
       <Pressable
-         onHoverIn={() => setdashhover(true)}
-         onHoverOut={() => setdashhover(false)}
             onPress={() => {
               router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
-              setTimeout(()=>{
-                setOpenMenu(false)
-              },800)
             }}>
         <Flex alignItems="center" flexDirection={'row'}>
           <Avatar w="50px" h="50px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
@@ -53,23 +48,22 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.jobs}</Text>
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.company_name}</Text>
           </VStack>
-        <Pressable
-            w="100%"
-            p="1"
-            borderRadius="8"
-            width={30}
-            h={30}
-            onPress={() => {
-              router.push(`/${event.url}/settings/editprofile`)
-              setTimeout(()=>{
-                setOpenMenu(false)
-              },800)
-            }}>
-              <DynamicIcon  iconType={'edit_profile'} iconProps={{ width:18,height:18,  color: dashhover  ? func.colorType(event?.settings?.primary_color) : undefined}}/>
-            </Pressable>
+          <Pressable
+              w="100%"
+              p="1"
+              borderRadius="8"
+              width={30}
+              h={30}
+              onPress={() => {
+                router.push(`/${event.url}/settings/editprofile`)
+                setTimeout(()=>{
+                  setOpenMenu(false)
+                },800)
+              }}>
+                <DynamicIcon  iconType={'edit_profile'} iconProps={{ width:18,height:18,  color: dashhover  ? func.colorType(event?.settings?.primary_color) : undefined}}/>
+              </Pressable>
         </Flex>
         </Pressable>
-       
       </Box>
       <ScrollView w={'100%'} h={height - 150}>
         <VStack px={3} space={1}  w="100%" maxW="100%" >
@@ -84,9 +78,6 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
             borderRadius="4"
             onPress={() => {
               router.push(`/${event.url}/dashboard`)
-              setTimeout(()=>{
-                setOpenMenu(false)
-              },800)
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
@@ -105,12 +96,8 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
               _hover={{ bg: 'primary.500' }}
               borderRadius="4"
               onPress={() => {
-                setTimeout(()=>{
-                  setOpenMenu(false)
-                },800)
                 if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
                   // setLoading(true);
-                  
                   router.push(`/${event.url}/${row?.alias}/event-info/0`)
                 } else if (in_array(row?.alias, ['information_pages'])) {
                   // setLoading(true); 
@@ -126,7 +113,6 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
                 } else {
                   router.push(`/${event.url}/${row?.alias}`)
                 }
-                
               }}>
               <HStack space="4" alignItems="center">
                 <Center w="30px">
@@ -146,9 +132,6 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
             borderRadius="4"
             onPress={() => {
               logout();
-              setTimeout(()=>{
-                setOpenMenu(false)
-              },800)
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">

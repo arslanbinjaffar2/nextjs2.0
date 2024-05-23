@@ -251,29 +251,12 @@ const Detail = () => {
                                                         <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
                                                             <Text fontSize="md">{event?.labels?.POLLS_LIVE_POLLS}</Text>
                                                         </VStack>
-                                                        <Spacer />
-                                                        <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                                     </HStack>
                                                 </Box>
                                         </Pressable>
                                     </>
                                 )}
-                                {/* {event?.agenda_settings?.enable_notes === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && (
-                                    <>
-                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <DynamicIcon iconType="my_notes" iconProps={{ width: 17, height: 17 }} />
-                                            <Text fontSize="md">Notes</Text>
-                                        </HStack>
-                                        <Box w="100%" py="4">
-                                            <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
-                                                <VStack w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                                    <Text fontSize="md">Take notes</Text>
-                                                </VStack>
-                                            </HStack>
-                                        </Box>
-                                    </>
-                                )} */}
-                                {/* <PollRectangleView /> */}
+
                                 {showRequestToSpeak && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
@@ -333,7 +316,7 @@ const Detail = () => {
                                             <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
                                             {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
-                                                    <RectangleGroupView group={group} k={k} border={k} navigation={true} />
+                                                    <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
                                                 </React.Fragment>
                                             )}
                                         </React.Fragment>

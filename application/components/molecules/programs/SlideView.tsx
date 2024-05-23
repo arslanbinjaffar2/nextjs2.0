@@ -66,7 +66,7 @@ const LazySlider = ({ programs, onChange }: any) => {
 	};
 	return (
 		<>
-			<Box mt={'2'} mb={1} bg={'primary.darkbox'} w={'100%'} p={4}>
+			<Box mt={'4'} mb={1} bg={'primary.darkbox'} w={'100%'} p={4}>
 				<HStack w={['100%']}>
 					<View w={[width - 120, width - 120, 'calc(100% - 70px)']}>
 						<Slider

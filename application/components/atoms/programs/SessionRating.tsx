@@ -7,6 +7,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import UseToastService from 'application/store/services/UseToastService';
 
 type AppProps = {
   program_id: any,

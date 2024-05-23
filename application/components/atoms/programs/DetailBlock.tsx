@@ -8,6 +8,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import moment from 'moment'
 import { useRouter } from 'solito/router';
 import { colorText } from 'application/styles/colors';
+
 type AppProps = {
     children:
     | JSX.Element
@@ -26,7 +27,6 @@ const DetailBlock = ({ children }: AppProps) => {
     
     const { push } = useRouter()
 
-    console.log(event.settings?.primary_color)
     return <Container mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
         {detail?.program?.image && <Image
             alt=""
@@ -63,8 +63,8 @@ const DetailBlock = ({ children }: AppProps) => {
                                 <Box flexDirection={'row'} flexWrap={'wrap'} width={'100%'}>
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
                                     <Text  color={colorText(track.color ? track.color : event.settings?.primary_color)} rounded={'full'} mx={1} my={1} px={3} bg={track.color ? track.color : event.settings?.primary_color} key={key}>
-                                            {`${track?.name}`}
-                                            </Text>
+                                        {`${track?.name}`}
+                                    </Text>
                                     
                                 ))}
                                 </Box>
