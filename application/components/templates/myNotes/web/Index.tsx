@@ -23,6 +23,11 @@ const Index = () => {
         ModuleName=ModuleName?.icon.replace('.png', '') 
         return ModuleName
     }
+
+    function getModuleName(name: string) {
+        let module:any = modules.find((module: any) => module.alias == name);
+        return module?.name 
+    }
   
     React.useEffect(() => {
         FetchMyNotes();
@@ -61,7 +66,7 @@ const Index = () => {
                                         <Box flexDirection={'row'} alignItems={'center'}>
 
                                         <DynamicIcon iconType={getValueByNameModule('agendas')} iconProps={{ width: 16, height: 16 }} />
-                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Program ({myNotes.program_notes.length})</Text>
+                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('agendas')} ({myNotes.program_notes.length})</Text>
                                         </Box>
                                         <Spacer />
                                         {myNotes.program_notes.length > 0 &&
@@ -78,7 +83,7 @@ const Index = () => {
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                     <Box flexDirection={'row'} alignItems={'center'}>
                                     <DynamicIcon iconType={getValueByNameModule('exhibitors')}  iconProps={{ width: 16, height: 16 }} />
-                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Exhibitor ({myNotes.exhibitor_notes.length})</Text>
+                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('exhibitors')} ({myNotes.exhibitor_notes.length})</Text>
                                     </Box>
 
                                         <Spacer />
@@ -96,7 +101,7 @@ const Index = () => {
                                     <Box flexDirection={'row'} alignItems={'center'}>
 
                                     <DynamicIcon iconType={getValueByNameModule('sponsors')}   iconProps={{ width: 16, height: 16 }} />
-                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Sponsor ({myNotes.sponsor_notes.length})</Text>
+                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('sponsors')} ({myNotes.sponsor_notes.length})</Text>
                                     </Box>
 
                                         <Spacer />
@@ -114,7 +119,7 @@ const Index = () => {
                                     <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
                                     <Box flexDirection={'row'} alignItems={'center'}>
                                        <DynamicIcon iconType={getValueByNameModule('ddirectory')} iconProps={{ width: 16, height: 16 }} />
-                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>Document ({myNotes.directory_notes.length})</Text>
+                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('ddirectory')} ({myNotes.directory_notes.length})</Text>
                                     </Box>
 
                                         <Spacer />
