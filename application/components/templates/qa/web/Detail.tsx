@@ -164,9 +164,9 @@ const Detail = () => {
             return;
         }
 
-
-        const sp = qaDetials?.speakers?.find((sp)=>(sp.id == speaker));
-        const pg = qaDetials?.paragraph?.find((sp)=>(sp.id == paragraph));
+        const sp = qaDetials?.speakers && qaDetials?.speakers?.find((sp)=>(sp.id == speaker)) || null;
+        const pg = qaDetials?.paragraph && qaDetials?.paragraph?.find((sp)=>(sp.id == paragraph)) || null;
+        
 
 
         const postData =  {
@@ -210,7 +210,6 @@ const Detail = () => {
   
       }
       const module = modules.find((module) => module.alias === 'qa');
-      console.log(qaDetials.labels)
   return (
     <>
     {
