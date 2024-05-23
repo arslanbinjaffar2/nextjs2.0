@@ -25,6 +25,11 @@ export interface Program {
     info: any;
 }
 
+export interface FavProgram {
+    id: number;
+    is_fav: boolean;
+}
+
 interface Attendee {
     id: number;
     email: string;
