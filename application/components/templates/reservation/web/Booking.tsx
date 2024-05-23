@@ -239,9 +239,9 @@ type BookingSectionProps = {
 	selectedMeetingSpace: string	
 }
 const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
-
+		const {event} = UseEventService();
 		const [year, setYear] = useState(new Date().getFullYear());
-		const [month, setMonth] = useState(moment().month());
+		const [month, setMonth] = useState(moment(event?.start_date).month());
 		const [activeDay, setActiveDay] = useState<AvailableDate | null>(null);
 		const {available_slots,available_dates} = UseMeetingReservationService();
 		const [filteredSlots, setFilteredSlots] = useState<MeetingSlot[]>([]);
