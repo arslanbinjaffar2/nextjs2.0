@@ -156,7 +156,7 @@ const LeftBar = () => {
             <Center w="30px">
               <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : undefined} width="24" height="24" />
             </Center>
-            {width > 1200 && <Text  color={dahboardHover || router.asPath.includes('/dashboard') ? 'primary.hovercolor' : 'primary.text'} fontSize={'20px'} fontWeight={400}>Dashboard</Text>}
+            {width > 1200 && <Text  color={dahboardHover || router.asPath.includes('/dashboard') ? 'primary.hovercolor' : 'primary.text'} fontSize={'20px'} fontWeight={400}>{event?.labels?.GENERAL_DASHBOARD ?? 'Dashboard'}</Text>}
           </HStack>
         </Pressable>
         {modules.map((row: any, key: any) =>
