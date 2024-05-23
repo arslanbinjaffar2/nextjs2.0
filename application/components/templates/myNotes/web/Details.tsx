@@ -104,7 +104,7 @@ const Details = () => {
                 <React.Fragment key={note.id}>
                   <CustomNotes type={Moduletype} note={note} onUpdate={handleUpdate} />
                   {filteredNotes.length - 1 > key && (
-                    <View borderBottomColor={'primary.border'} borderBottomWidth={1} />
+                    <View borderBottomColor={'primary.bordercolor'} borderBottomWidth={1} />
                   )}
                 </React.Fragment>
               ))
