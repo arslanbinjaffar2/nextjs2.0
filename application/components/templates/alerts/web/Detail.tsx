@@ -25,21 +25,20 @@ const Detail = () => {
   }, [_id]);
 
   React.useEffect(() => {
-    setTimeout(() => {
+
       if(detail && detail?.id === Number(_id)){
         let alreadyRead = detail?.is_read === true;
         if(!alreadyRead){
           MarkAlertAsRead({ alertId: Number(_id) });
         }
       }
-    }, 300);
+
   }, [_id, detail]);
   const module = modules.find((module) => module.alias === 'alerts');
   return (
     <>
       {
         (loading || !detail ) ? <SectionLoading /> :
-        
           <>
             <NextBreadcrumbs module={module} title={detail?.alert_detail?.title} />
             <Container mb="3" pt="2" maxW="100%" w="100%">
