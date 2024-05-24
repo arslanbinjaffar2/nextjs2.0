@@ -39,12 +39,14 @@ const Index = ({dashboard}:IndexProps) => {
     const [enabledTabs] = useState(() => {
        // agenda_tab = Display both time and tracks
         let display_both_time_and_tracks = event?.agenda_settings?.agenda_tab == 1;
+        let listing_by_time = event?.agenda_settings?.agenda_list == 0;
+        let listing_by_track = event?.agenda_settings?.agenda_list == 1;
         let program_module_enabled = modules.find((module) => module.alias === 'agendas') ? true : false;
         let my_program_module_enabled = modules.find((module) => module.alias === 'myprograms') ? true : false;
         
         let enabledTabs = [];
         if(dashboard){
-            if(program_module_enabled && event?.agenda_settings?.show_program_dashboard == 1){
+            if(program_module_enabled && (listing_by_time || display_both_time_and_tracks) && event?.agenda_settings?.show_program_dashboard == 1){
                 enabledTabs.push('program');
             }
             if(my_program_module_enabled && event?.agenda_settings?.show_my_program_dashboard == 1){
@@ -53,13 +55,13 @@ const Index = ({dashboard}:IndexProps) => {
             return enabledTabs;
         }
 
-        if(program_module_enabled){
+        if(program_module_enabled && (listing_by_time || display_both_time_and_tracks)){
             enabledTabs.push('program');
         }
         if(my_program_module_enabled){
             enabledTabs.push('my-program');
         }
-        if((program_module_enabled || program_module_enabled) && display_both_time_and_tracks){
+        if((program_module_enabled || program_module_enabled) && ( listing_by_track || display_both_time_and_tracks)){
             enabledTabs.push('track');
         }
 
@@ -71,7 +73,6 @@ const Index = ({dashboard}:IndexProps) => {
         // agenda_list = 0 means Listings by time
         // agenda_list = 1 means Listings by track 
         
-        let display_both_time_and_tracks = event?.agenda_settings?.agenda_tab == 1;
         let listing_by_time = event?.agenda_settings?.agenda_list == 0;
         let listing_by_track = event?.agenda_settings?.agenda_list == 1;
         
@@ -86,7 +87,16 @@ const Index = ({dashboard}:IndexProps) => {
 
         }
 
-        return in_array('track', enabledTabs) && display_both_time_and_tracks && listing_by_track ? 'track' : 'program';
+        if(in_array('track', enabledTabs) && listing_by_track){
+            return 'track';
+        }else if(in_array('program', enabledTabs) && listing_by_time){
+            return 'program';
+        }else if(in_array('my-program', enabledTabs)){
+            return 'my-program';
+        }else{
+            return '';
+        }
+
     });
 
     const tabLabels: { [key: string]: string } = {

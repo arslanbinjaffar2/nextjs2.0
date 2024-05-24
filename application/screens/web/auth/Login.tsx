@@ -55,7 +55,8 @@ const Login = ({ props }: any) => {
 
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
-            <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={['30px','50px','30px']} w="100%" rounded="10">
+            <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={['30px','50px','30px']} w={"100%"}
+            rounded="10">
                 <Image
                   alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
                         : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
@@ -155,14 +156,14 @@ const Login = ({ props }: any) => {
                                     </Button>
                                 </VStack>
                             ) : (
-                                <VStack space="10px">
+                                <VStack w={'100%'} space="10px">
                                     <Text w={'100%'} fontSize='lg' lineHeight='sm' textAlign={'center'} >{event?.name}</Text>
                                     
-                                    <FormControl  isRequired isInvalid={'email' in errors || error !== ''}>
+                                    <FormControl width={'100%'} isRequired isInvalid={'email' in errors || error !== ''}>
                                         <Controller
                                             control={control}
                                             render={({ field: { onChange, onBlur, value } }) => (
-                                                <Center><Input onKeyPress={handleKeyPress} onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={['300px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button isLoading={processing} ref={nativeButton} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow color={func.colorType(event?.settings?.primary_color)} /></Button>} /></Center>
+                                                <Center><Input onKeyPress={handleKeyPress} onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={'100%'} maxW={['300px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button isLoading={processing} ref={nativeButton} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow color={func.colorType(event?.settings?.primary_color)} /></Button>} /></Center>
                                             )}
                                             name="email"
                                             rules={{

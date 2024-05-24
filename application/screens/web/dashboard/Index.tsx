@@ -36,9 +36,9 @@ import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import { Banner } from 'application/models/Banner'
 import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
+import Myexhibitors from 'application/screens/web/settings/myexhibitors/Index'
+import Mysponsors from 'application/screens/web/settings/mysponsers/Index'
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
-import Myexhibitors from 'application/screens/web/settings/myexhibitors'
-import Mysponsors from 'application/screens/web/settings/mysponsers'
 
 type indexProps = {
   navigation: unknown

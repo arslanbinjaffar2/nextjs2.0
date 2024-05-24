@@ -165,9 +165,9 @@ const Detail = () => {
             return;
         }
 
-
-        const sp = qaDetials?.speakers?.find((sp)=>(sp.id == speaker));
-        const pg = qaDetials?.paragraph?.find((sp)=>(sp.id == paragraph));
+        const sp = qaDetials?.speakers && qaDetials?.speakers?.find((sp)=>(sp.id == speaker)) || null;
+        const pg = qaDetials?.paragraph && qaDetials?.paragraph?.find((sp)=>(sp.id == paragraph)) || null;
+        
 
 
         const postData =  {
@@ -211,7 +211,6 @@ const Detail = () => {
   
       }
       const module = modules.find((module) => module.alias === 'qa');
-      console.log(qaDetials.labels)
   return (
     <>
     {
@@ -299,8 +298,7 @@ const Detail = () => {
                         <Text pl={'5'} w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER ?? "Line Number"}</Text>
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
-                    {qaSettings?.paragraph_number == 1 && 
-                    <Box w="100%" px="4" >
+                    <Box w="100%" px="3">
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
                                 <EditorProvider>
@@ -330,7 +328,6 @@ const Detail = () => {
                             </Box>
                         </Text>
                     </Box>
-                    }
                     <HStack px="3" py="2" space="3" alignItems="center">
                     {qaSettings?.anonymous == 1 && <Checkbox my="0" isChecked={anonymously} onChange={(isSelected)=>setAnonymously(isSelected)}  value="checkbox">{qaDetials.labels.QA_SEND_ANONYMOUSLY ?? "Send Anonymously"}</Checkbox>}
                     <Spacer />

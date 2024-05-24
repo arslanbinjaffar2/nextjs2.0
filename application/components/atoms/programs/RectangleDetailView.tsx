@@ -10,6 +10,8 @@ import { useRouter } from 'solito/router';
 import { Platform } from 'react-native';
 import moment from 'moment'
 import in_array from 'in_array';
+import FavProgramToggle from 'application/components/atoms/programs/FavProgramToggle';
+
 type AppProps = {
   program: Program,
   k: number,
@@ -98,10 +100,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
                       {program?.videos?.length ? (
                         <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
                       ) : ''}
-                       {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && program?.is_attatched_with_subregistration !== 1 && <Pressable
-                        onPress={() => toggleFav()}>
-                        <Icon size="xl" as={AntDesign} name={isFav ? "heart" : "hearto"} color={isFav ? 'secondary.500' : 'primary.text'} />
-                      </Pressable>}
+                       {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && program?.is_attatched_with_subregistration !== 1 && <FavProgramToggle program_id={program.id} key={program.id} />}
                       
                     </HStack>}
                   </HStack>
