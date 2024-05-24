@@ -38,7 +38,7 @@ const Detail = () => {
   return (
     <>
       {
-        loading || !detail ? <SectionLoading /> :
+        (loading || !detail ) ? <SectionLoading /> :
           <>
             <NextBreadcrumbs module={module} title={detail?.alert_detail?.title} />
             <Container mb="3" pt="2" maxW="100%" w="100%">
