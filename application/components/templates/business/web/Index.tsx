@@ -119,14 +119,14 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
           </Pressable>
         </View>
       </HStack>
-      {(loading || (filteredAttendees?.length ?? 0) <= 0) ? <SectionLoading /> : <>
+      {loading ? <SectionLoading /> : <>
         <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {filteredAttendees && filteredAttendees?.map((attendee: Attendee, k: number) =>
             <React.Fragment key={`${k}`}>
               <RectangleAttendeeView attendee={attendee} border={filteredAttendees.length > 0 && filteredAttendees[filteredAttendees.length - 1]?.id !== attendee?.id ? 1 : 0} speaker={0} />
             </React.Fragment>
           )}
-          {filteredAttendees && filteredAttendees.length <= 0 &&
+          {!filteredAttendees &&
             <Box p={3} rounded="lg" w="100%">
               <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
             </Box>
