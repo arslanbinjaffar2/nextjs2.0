@@ -27,18 +27,17 @@ async function getCertificatePdf(certificate_id:any,attendee_id:any) {
     const mystate=store.getState()
     try {
         const response = await getCertificatePdfApi({certificate_id,attendee_id},mystate);
-
-        downloadFile(response.data.data.file,response.data.data.filename);
+        downloadFile(response.data);
     } catch (error) {
         console.log('error', error);
     }
 }
-const downloadFile = (fileData:any, filename:any) => {
+const downloadFile = (fileData:any) => {
     const blob = new Blob([fileData], { type: 'application/octet-stream' });
     const url = window.URL.createObjectURL(blob);
     const anchorElement = document.createElement('a');
     anchorElement.href = url;
-    anchorElement.download = filename;
+    anchorElement.download = "attendee_certificate.pdf";
     anchorElement.style.display = 'none';
     document.body.appendChild(anchorElement);
     anchorElement.click();
