@@ -56,12 +56,17 @@ const DetailBlock = ({ children }: AppProps) => {
              {event?.agenda_settings?.show_tracks == 1 && <>
                     {detail?.program?.program_tracks!?.length > 0 && (
                         <>
-                            <Text mb="3" fontSize="md">Track:
+                           <View flexDirection={'row'} mb={'3'} alignItems={'center'}>                     
+                            <Text  fontSize="md">
+                                Track:
+                                </Text>
+                                <Box flexDirection={'row'} flexWrap={'wrap'} width={'100%'} alignItems={'center'}>
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
                                         <Box color={colorText(track.color ? track.color : event.settings?.primary_color)} rounded={'full'} mx={1} my={1} px={3} bg={track.color ? track.color : event.settings?.primary_color} key={key}>{`${track?.name}`}</Box>
                                     
                                 ))}
-                            </Text>
+                                </Box>
+                            </View>
                             <Divider mb="4" bg="primary.text" />
                         </>
                     )}

@@ -70,7 +70,7 @@ const SessionRating = ({program_id}:AppProps) => {
                   <Icon size={'xl'} as={AntDesign} name={"star" } width="15" height="18"/>
                   <Text fontSize="lg">{event?.labels?.PROGRAM_RATING}</Text>
               </HStack>
-              <Box py="3" px="4" w="100%">
+            <Box py="3" px="4" w="100%" flexDirection={'column'}>
              <HStack mb={3} space="1" alignItems="center">
                 <Pressable onPress={() => setCurrentRating({...currentRating,rate:1 })}><Icon size={'xl'} as={AntDesign} name={currentRating?.rate >= 1 ? "star" :"staro"} color={currentRating?.rate >= 1 ? "secondary.500" :"primary.text"}  /></Pressable>
                 <Pressable onPress={() => setCurrentRating({...currentRating,rate:2 })}><Icon size={'xl'} as={AntDesign} name={currentRating?.rate >= 2 ? "star" :"staro"}  color={currentRating?.rate >= 2 ? "secondary.500" :"primary.text"}  /></Pressable>

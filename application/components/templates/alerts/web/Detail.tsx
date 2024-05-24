@@ -25,14 +25,14 @@ const Detail = () => {
   }, [_id]);
 
   React.useEffect(() => {
-    setTimeout(() => {
+
       if(detail && detail?.id === Number(_id)){
         let alreadyRead = detail?.is_read === true;
         if(!alreadyRead){
           MarkAlertAsRead({ alertId: Number(_id) });
         }
       }
-    }, 300);
+
   }, [_id, detail]);
   const module = modules.find((module) => module.alias === 'alerts');
   return (
