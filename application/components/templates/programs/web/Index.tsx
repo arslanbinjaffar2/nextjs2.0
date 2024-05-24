@@ -186,7 +186,6 @@ const Index = ({dashboard}:IndexProps) => {
             )}
 
             
-            
             {Object.keys(track).length > 0 && (
                 <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
                     <Text flex="1"  fontSize="sm">
