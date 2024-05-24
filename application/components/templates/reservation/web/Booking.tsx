@@ -241,45 +241,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		)}
 		
 		{/* Confirmation popup  */}
-		{selectedSlot && (
-					<Modal size={'lg'} isOpen={true} onClose={()=>{}} ref={_element}>
-						<Modal.Content  bg={'primary.boxsolid'}>
-							<Modal.Header py={3} bg="primary.boxsolid" borderBottomWidth={1} borderColor={'transparent'}>
-								<Text color={'primary.text'} fontSize="24px" fontWeight={600}>{labels?.RESERVATION_BOOK_MEEETING_ALERT_TITLE}</Text>
-							</Modal.Header>
-							<Modal.Body pt={0} bg="primary.boxsolid" px={0}>
-								<Text color={'primary.text'} mb={2} px={4} fontSize="md">{labels?.RESERVATION_BOOK_MEEETING_ALERT_MSG} “{attendee?.first_name} {shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}”</Text>
-								<VStack mb={2} px={4} w={'100%'} py={0} space="1" alignItems="flex-start">
-									<Text color={'primary.text'}  fontSize="sm"><Text fontWeight={600}>{labels?.RESERVATION_MEETING_SPACE}</Text>
-									 : {selectedSlot?.meeting_space?.name}</Text>
-									<Text color={'primary.text'}  fontSize="sm"><Text fontWeight={600}>{labels?.RESERVATION_MEETING_DATE}</Text> : {moment(selectedSlot?.date,'DD-MM-YYYY').format(GENERAL_DATE_FORMAT)}</Text>
-									<Text color={'primary.text'}  fontSize="sm"><Text fontWeight={600}>{labels?.RESERVATION_MEETING_TIME}</Text> : {selectedSlot?.start_time} - {selectedSlot?.end_time} ({selectedSlot?.duration})</Text>
-								</VStack>
-								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
-									<Text color={'primary.text'}  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
-									<TextArea
-										value={message}
-										onChangeText={(text)=>setMessage(text)}
-									 autoCompleteType={false} borderColor={'transparent'} w="100%" h={90} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
-									
-								</VStack>
-								
-							</Modal.Body>
-							<Modal.Footer bg="primary.boxsolid" borderColor={'primary.popupbordercolor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
-								<Button.Group variant={'unstyled'} space={0}>
-									<Container borderRightWidth={1} borderRightColor={'primary.popupbordercolor'} w="50%">
-										<Button py={4} bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={() => setSelectedSlot(null)} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
-									</Container>
-									<Container borderRightWidth={0}  w="50%">
-										<Button py={4} isLoading={bookingSlot ? true:false} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}
-										onPress={()=>{ bookSlot(selectedSlot) }} 
-										><Icocheck width={19} height={19} /></Button>
-									</Container>
-								</Button.Group>
-							</Modal.Footer>
-						</Modal.Content>
-					</Modal>
-				)}
+		{selectedSlot && <SendRequestModal attendee={attendee} attendeeId={attendeeId} slotBooked={slotBooked} selectedSlot={selectedSlot} onClose={()=>{setSelectedSlot(null)}} />}
 		</ScrollView>
 	)
 }
