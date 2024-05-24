@@ -307,24 +307,24 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     )}
                     {category_name && (
                         <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
-                            <Text flex="1" textTransform="uppercase" fontSize="sm">
+                            <Text flex="1"  fontSize="sm">
                             {parent_id !== 0 ? (
                                 <>
                                 <Pressable
                                     onPress={async () => {
                                         back()
                                     }}>
-                                    <Text textTransform="uppercase" fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
+                                    <Text  fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
                                 </Pressable>
                                 {categories.find(category => category.id === Number((searchParams.get('category_id')))) && 
                                 <>
-                                    <Icon color={'primary.text'} as={AntDesign} name="right"  />
-                                    <Text textTransform="uppercase" fontSize="sm">{categories.find(category => category.id === Number((searchParams.get('category_id'))))?.name}</Text>
+                                    <Icon color={'primary.text'} as={AntDesign} name="right" fontSize={'14px'}/>
+                                    <Text  fontSize="sm">{categories.find(category => category.id === Number((searchParams.get('category_id'))))?.name}</Text>
                                 </>
                                 }
                                 </>
                             ) : (
-                                <Text textTransform="uppercase" fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
+                                <Text  fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
                             )}
                             </Text>
                             <Pressable
