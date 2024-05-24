@@ -26,7 +26,6 @@ const DetailBlock = ({ children }: AppProps) => {
     
     const { push } = useRouter()
 
-    console.log(event.settings?.primary_color)
     return <Container mb="3" mt="5" maxW="100%" w="100%" bg="primary.box" rounded="10">
         {detail?.program?.image && <Image
             alt=""
@@ -57,12 +56,13 @@ const DetailBlock = ({ children }: AppProps) => {
                     {detail?.program?.program_tracks!?.length > 0 && (
                         <>
                            <View flexDirection={'row'} mb={'3'} alignItems={'center'}>                     
-                            <Text  fontSize="md">
+                            <Text  fontSize="md" alignSelf={'start'} mt={'4px'}>
                                 Track:
                                 </Text>
                                 <Box flexDirection={'row'} flexWrap={'wrap'} width={'100%'} alignItems={'center'}>
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
-                                    <Text  color={colorText(track.color ? track.color : event.settings?.primary_color)} rounded={'full'} mx={1} my={1} px={3} bg={track.color ? track.color : event.settings?.primary_color} key={key}>
+                                    <Text  color={colorText(track.color ? track.color : event.settings?.primary_color)} rounded={'full'} mx={1} my={1} px={3} 
+                                    bg={track.color ? track.color : event.settings?.primary_color} key={key}>
                                             {`${track?.name}`}
                                             </Text>
                                     
