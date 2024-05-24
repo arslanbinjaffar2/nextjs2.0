@@ -23,6 +23,7 @@ import { Category } from 'application/models/event/Category';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 type ScreenParams = { slug: any }
 
@@ -196,8 +197,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     return (
         <>
             <NextBreadcrumbs module={module} />
-            <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text fontSize="2xl">
+            <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
+                <Text fontSize="2xl" width={'40%'}>
                 {speaker === 0 ? (screen === 'attendees' ? 
                     (modules?.find(attendee => attendee.alias === 'attendees')?.name ?? '')
                     :  
@@ -208,13 +209,17 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
                 }
                 </Text>
-                <Spacer />
-                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} 
+                <View flexDirection={'row'} alignItems={'center'} w={['100%','60%']} justifyContent={'space-between'}>
+                <Input rounded="10" w={['100%','80%']} bg="primary.box" borderWidth={0} 
                 borderColor={'transparent'}
                 value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                <Pressable rounded="10" bg="primary.box"  p={'8px'} >
+                <DynamicIcon iconType={'attendee_Match'}  iconProps={{width:20,height:22,color:"primary.text"}}  />
+                </Pressable>
+                </View>
             </HStack>
             {screen === 'attendees' && (
                 <>
