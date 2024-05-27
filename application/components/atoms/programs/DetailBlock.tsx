@@ -59,7 +59,7 @@ const DetailBlock = ({ children }: AppProps) => {
                             <Text  fontSize="md" alignSelf={'start'} mt={'4px'}>
                                 Track:
                                 </Text>
-                                <Box flexDirection={'row'} flexWrap={'wrap'} width={'100%'} alignItems={'center'}>
+                                <Box flexDirection={'row'} flexWrap={'wrap'} width={'calc(100% - 30px)'} alignItems={'center'}>
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
                                     <Text  color={colorText(track.color ? track.color : event.settings?.primary_color)} rounded={'full'} mx={1} my={1} px={3} 
                                     bg={track.color ? track.color : event.settings?.primary_color} key={key}>
@@ -67,7 +67,9 @@ const DetailBlock = ({ children }: AppProps) => {
                                             </Text>
                                     
                                 ))}
+                                
                                 </Box>
+                                
                            </View>
 
                             <Divider mb="4" bg="primary.text" />
