@@ -40,7 +40,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
 
     const [event_url] = useParam('event')
 
-    const { FetchEvent, event } = UseEventService()
+    const { FetchEvent, event, SetEventUrl } = UseEventService()
 
     const { updateEnv, _env } = UseEnvService()
 
@@ -48,6 +48,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
 
     useEffect(() => {
         if (event_url !== undefined && _env.api_base_url) {
+            SetEventUrl(event_url)
             FetchEvent(event_url)
         }
     }, [FetchEvent, event_url, _env.api_base_url])

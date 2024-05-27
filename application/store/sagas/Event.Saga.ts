@@ -62,7 +62,7 @@ function* OnGetModules({
     const env = yield select(state => state);
     const response: HttpResponse = yield call(getModulesApi, env)
     if (response?.status === 401) {
-        yield put(AuthActions.clearToken());
+        yield put(AuthActions.clearToken(env?.event?.event.url));
     } else {
         yield put(EventActions.updateModules(response.data.data.modules))
         yield put(LoadingActions.set(false))
@@ -79,7 +79,7 @@ function* OnGetSettingModules({
     const env = yield select(state => state);
     const response: HttpResponse = yield call(getSettingModulesApi, env)
     if (response?.status === 401) {
-        yield put(AuthActions.clearToken());
+        yield put(AuthActions.clearToken(env?.event?.event.url));
     } else {
         yield put(EventActions.updateSettingsModules(response.data.data.modules))
         yield put(LoadingActions.set(false))

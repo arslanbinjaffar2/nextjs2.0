@@ -34,9 +34,9 @@ const AfterLoginLayout = ({ children }: indexProps) => {
 
   const { isLoggedIn } = UseAuthService();
 
-  const { event, modules, loadModules, loadSettingsModules } = UseEventService();
+  const { event, modules, loadModules, loadSettingsModules,event_url } = UseEventService();
 
-  const access_token_exists =  Boolean(localStorage.getItem(`access_token`));
+  const access_token_exists =  Boolean(localStorage.getItem(`access_token_${event_url}`));
   
   React.useEffect(() => {
     if (isLoggedIn === false || access_token_exists === false) {
