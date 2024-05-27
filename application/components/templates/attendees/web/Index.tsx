@@ -317,7 +317,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     onPress={async () => {
                                         back()
                                     }}>
-                                    <Text textTransform="uppercase" fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
+                                    <Text textTransform="uppercase" fontSize="sm">{category_name}</Text>
                                 </Pressable>
                                 {categories.find(category => category.id === Number((searchParams.get('category_id')))) && 
                                 <>
@@ -386,10 +386,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
-                                            {map?.letter}
-                                            </Text>
-                                    )}
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                             )}
                                     {map?.records?.map((group: Group, k: number) =>
                                         <React.Fragment key={`${k}`}>
                                             <RectangleGroupView group={group} k={k} border={map?.records.length === 1 ? 0 : map?.records.length > 1 && k ===  map?.records.length -1 ? 0 : 1 } updateTab={updateTab} />
