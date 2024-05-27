@@ -12,6 +12,7 @@ import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
 
@@ -88,9 +89,10 @@ const Index = () => {
                   </Box>
                    </Pressable>
                   )}
-                {groups?.length <= 0 && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
-                  <Text>{event.labels?.GENERAL_NO_RECORD}</Text>
-                </Box>}
+                {groups?.length <= 0 && 
+                <NoRecordFound bg={"primary.box"}/>
+                
+                }
               </Box>
                 <BannerAds module_name={'help_desk'} module_type={'listing'} />
             </Container>

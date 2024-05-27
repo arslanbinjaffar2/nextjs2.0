@@ -16,6 +16,7 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleView from 'application/components/atoms/attendees/RectangleView';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import NoRecordFound from '../../../atoms/NoRecordFound';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -138,7 +139,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                           <RectangleView attendee={attendee} border={searchMatchAttendees.length - 1 == k ? 0 : 1 } speaker={0} disableMarkFavroute/>
                       )}
                     </Box>}              
-                    {!searchingAttendees && !searchMatchAttendees && <Box overflow="hidden" mb={3} bg="primary.box" w="100%" rounded="lg" padding={5}><Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text></Box>}
+                    {!searchingAttendees && !searchMatchAttendees && <NoRecordFound mb={3} bg="primary.box"/>}
                     {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
                       <Button
                           size="lg"

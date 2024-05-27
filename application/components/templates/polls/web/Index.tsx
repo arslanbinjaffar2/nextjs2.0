@@ -15,6 +15,7 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
+import NoRecordFound from '../../../atoms/NoRecordFound';
 
 const Index = () => {
 
@@ -129,13 +130,12 @@ const Index = () => {
                                             ))}
                                         </React.Fragment>
                                     )) : 
-                                        <Box padding={5}>
-                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                        </Box>
+                                      
+                                        <NoRecordFound/>
                                     ): (
-                                        <Box padding={5}>
-                                            <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
-                                        </Box>
+                                       
+                                        <NoRecordFound label={poll_labels?.NO_POLL_AVAILABLE}/>
+
                                     )}
                                   {Object.keys(polls).length > 0 &&  <Divider h="20px" bg="transparent" />}
                                 </Box>
@@ -152,13 +152,9 @@ const Index = () => {
                                             ))}
                                         </React.Fragment>
                                     )) : 
-                                        <Box padding={5}>
-                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                        </Box>
+                                    <NoRecordFound/>
                                     ): (
-                                        <Box padding={5}>
-                                            <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
-                                        </Box>
+                                        <NoRecordFound label={poll_labels?.NO_POLL_AVAILABLE}/>
                                     )}
                                 {Object.keys(completed_polls).length > 0 &&  <Divider h="20px" bg="transparent" />}
                                 </Box>
