@@ -29,7 +29,7 @@ const Index = () => {
   const [enableFilter, setEnableFilter] = useState<boolean>(false);
 
   const { keywords, FetchNetworkInterests, searchMatchAttendees, searchingAttendees, FetchSearchMatchAttendees } = UseNetworkInterestService();
-  
+
   useEffect(() => {
     FetchNetworkInterests();
   }, [])
@@ -74,8 +74,31 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
   const { event, modules } = UseEventService();
   const { loading } = UseLoadingService();
 
-  const [mySearchkeywords, setMySearchKeywords] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [mySearchkeywords, setMySearchKeywords] = useState([]);
+
+  const processKeywords = (keywords:any) => {
+    return keywords?.reduce((ack:any, item:any) => {
+      const children = item?.children?.reduce((ack2:any, item2:any) => {
+        if (item2?.keywords?.length > 0) {
+          return [item2.id, ...ack2];
+        } else {
+          return ack2;
+        }
+      }, []);
+      if (item?.keywords?.length > 0) {
+        return [item?.id, ...children, ...ack];
+      } else {
+        return [...ack, ...children];
+      }
+    }, []);
+  };
+
+  useEffect(() => {
+    const newSearchKeywords = processKeywords(keywords);
+    setMySearchKeywords(newSearchKeywords);
+  }, [keywords]);
 
   const filteredAttendees = searchMatchAttendees?.filter((attendee) =>
     attendee?.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -83,27 +106,11 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
   );
 
   useEffect(() => {
-    const extractChildIDs = (keywords: Keyword[]): number[] => {
-      let ids: number[] = [];
-      keywords.forEach(keyword => {
-        if (keyword.children && keyword.children.length > 0) {
-          ids = ids.concat(keyword.children.map(child => child.id));
-          ids = ids.concat(extractChildIDs(keyword.children));
-        }
-      });
-      return ids;
-    };
-
-    const keywordIDs = extractChildIDs(keywords);
-    setMySearchKeywords(keywordIDs);
-  }, [keywords]);
-
-  useEffect(() => {
     if (mySearchkeywords.length > 0) {
       FetchSearchMatchAttendees(mySearchkeywords);
     }
   }, [mySearchkeywords]);
-  
+
   return (
     <>
       <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
@@ -137,7 +144,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
 
   );
 }
-      
+
 
 
 
