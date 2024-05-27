@@ -64,6 +64,7 @@ const DetailBlock = ({ children }: AppProps) => {
                                     <Text  color={colorText(track.color ? track.color : event.settings?.primary_color)} rounded={'full'} mx={1} my={1} px={3} 
                                     bg={track.color ? track.color : event.settings?.primary_color} key={key}>
                                             {`${track?.name}`}
+                                            
                                             </Text>
                                     
                                 ))}
