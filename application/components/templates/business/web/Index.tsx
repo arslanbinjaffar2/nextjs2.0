@@ -303,7 +303,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
   mb="3"
   bg={filteredkeywords?.length === 0 && searchTerm.length > 0 ? "transparent" : "primary.box"}
   pt="4"
-  px="5"
+  px={filteredkeywords?.length === 0 && searchTerm.length > 0 ?"":"5"}
   pb="1"
   rounded="10px"
 >
