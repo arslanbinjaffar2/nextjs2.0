@@ -82,7 +82,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                 bg={'#A5A5A5'}
               >{attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0, 1) + attendee?.last_name?.substring(0, 1) : attendee?.first_name?.substring(0, 1)}</Avatar>
             )}
-            <VStack w={'calc(100% - 300px)'} space="0">
+            <VStack w={['calc(100% - 175px)','calc(100% - 300px)']} space="0">
               {(attendee?.first_name || attendee?.last_name) ? (
                 <>
                   <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
@@ -114,16 +114,26 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   {getPrivateFields(attendee)}
                 </Text>
               }
-
+               <Button
+                  display={['','none']}
+                    mt={2}
+                    py={2}
+                    maxWidth={'120px'}
+                    colorScheme="primary"
+                    onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
+                    <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    
+                  </Button>
             </VStack>
             <Spacer />
             <HStack space="4" alignItems="center">
                 {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== attendee?.id && (
                   <Button
-                  py={2}
+                  display={['none','']}
+                    py={2}
                     colorScheme="primary"
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text textAlign="center" isTruncated width="85px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
                   
