@@ -209,17 +209,13 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
                 }
                 </Text>
-                <View flexDirection={'row'} alignItems={'center'} w={['100%','60%']} justifyContent={'space-between'}>
-                <Input rounded="10" w={['100%','80%']} bg="primary.box" borderWidth={0} 
+                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} 
                 borderColor={'transparent'}
                 value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-                <Pressable rounded="10" bg="primary.box"  p={'8px'} >
-                <DynamicIcon iconType={'attendee_Match'}  iconProps={{width:20,height:22,color:"primary.text"}}  />
-                </Pressable>
-                </View>
+              
             </HStack>
             {screen === 'attendees' && (
                 <>
