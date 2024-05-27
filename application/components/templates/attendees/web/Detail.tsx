@@ -285,10 +285,7 @@ const Detail = ({ speaker }: Props) => {
                                         {in_array('documents', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
-                                            <Box  bg="primary.box" w={'100%'} rounded="lg">
-																							<ListingLayout2 />
-																						</Box>
-																						
+                                            <ListingLayout2 module={modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}/>
                                         )}
                                     </Container>}
                                       </>
