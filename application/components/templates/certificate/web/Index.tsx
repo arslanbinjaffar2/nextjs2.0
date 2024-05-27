@@ -11,16 +11,16 @@ import {
 } from 'native-base'
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import WebLoading from 'application/components/atoms/WebLoading';
-import Search from 'application/components/atoms/documents/Search';
 import UseEventService from 'application/store/services/UseEventService';
 import in_array from "in_array";
-import BannerAds from 'application/components/atoms/banners/BannerAds';
 import { Certificate } from 'application/models/certificate/Certificate';
 import UseCertificateService from 'application/store/services/UseCertificateService';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Linking, Platform } from 'react-native'
 import { store } from 'application/store/Index'
 import { getCertificatePdfApi } from 'application/store/api/Certificate.Api'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs'
+import FindPath from 'application/utils/FindPath'
 async function getCertificatePdf(certificate_id:any,attendee_id:any) {
     const mystate=store.getState()
     try {
@@ -71,6 +71,7 @@ const Index = React.memo(() => {
             <WebLoading />
           ) : (
             <>
+                <NextBreadcrumbs module={module} />
                 <Container mb={4} pt="2" maxW="100%" w="100%">
                     <HStack display={['block', 'flex']} mb="3" pt="2" w="100%" space="0" alignItems="center">
                         <Text fontSize="2xl">{module?.name ?? 'Certificate'}</Text>
