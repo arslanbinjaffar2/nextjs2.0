@@ -1,44 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
     Box,
     Center,
     Container,
     HStack,
-    Icon, Pressable,
+    Icon, Input, Pressable,
     Spacer,
     Text,
     VStack
 } from 'native-base'
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import WebLoading from 'application/components/atoms/WebLoading';
-import Search from 'application/components/atoms/documents/Search';
 import UseEventService from 'application/store/services/UseEventService';
 import in_array from "in_array";
-import BannerAds from 'application/components/atoms/banners/BannerAds';
 import { Certificate } from 'application/models/certificate/Certificate';
 import UseCertificateService from 'application/store/services/UseCertificateService';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Linking, Platform } from 'react-native'
-import { getContactSponsorApi } from 'application/store/api/Sponsor.api'
 import { store } from 'application/store/Index'
 import { getCertificatePdfApi } from 'application/store/api/Certificate.Api'
-import IcoFacebook from 'application/assets/icons/small/IcoFacebook'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs'
+import FindPath from 'application/utils/FindPath'
 async function getCertificatePdf(certificate_id:any,attendee_id:any) {
     const mystate=store.getState()
     try {
         const response = await getCertificatePdfApi({certificate_id,attendee_id},mystate);
-
-        downloadFile(response.data.data.file,response.data.data.filename);
+        downloadFile(response.data);
     } catch (error) {
         console.log('error', error);
     }
 }
-const downloadFile = (fileData:any, filename:any) => {
+const downloadFile = (fileData:any) => {
     const blob = new Blob([fileData], { type: 'application/octet-stream' });
     const url = window.URL.createObjectURL(blob);
     const anchorElement = document.createElement('a');
     anchorElement.href = url;
-    anchorElement.download = filename;
+    anchorElement.download = "attendee_certificate.pdf";
     anchorElement.style.display = 'none';
     document.body.appendChild(anchorElement);
     anchorElement.click();
@@ -50,29 +47,50 @@ const Index = React.memo(() => {
     const [selectedBreadcrumb, setSelectedBreadcrumb] = React.useState<Certificate | null>(null);
     const { processing } = UseLoadingService();
     const { event, modules } = UseEventService();
-    const [searchQuery, setSearch] = React.useState('');
     const { certificate, data } = UseCertificateService();
     const [filteredCertificate, setFilteredCertificate] = React.useState<Certificate[]>([]);
-
-    console.log(certificate, 'in certificate');
-
+    const [searchQuery, setSearchQuery] = useState('');
     const module = modules?.find((module) => module.alias === 'certificate');
-
+    useEffect(() => {
+        setFilteredCertificate(certificate);
+    }, [certificate]);
+    useEffect(() => {
+        if (searchQuery) {
+            const lowercasedFilter = searchQuery.toLowerCase();
+            const filteredData = certificate.filter((item: Certificate) => {
+                return item.certificate?.name && item.certificate?.name.toLowerCase().includes(lowercasedFilter);
+            });
+            setFilteredCertificate(filteredData);
+        } else {
+            setFilteredCertificate(certificate);
+        }
+    }, [searchQuery, certificate]);
     return (
       <>
           {in_array('certificate', processing) ? (
             <WebLoading />
           ) : (
             <>
+                <NextBreadcrumbs module={module} />
                 <Container mb={4} pt="2" maxW="100%" w="100%">
                     <HStack display={['block', 'flex']} mb="3" pt="2" w="100%" space="0" alignItems="center">
                         <Text fontSize="2xl">{module?.name ?? 'Certificate'}</Text>
                         <Spacer />
-                        <Search />
+                        <Input
+                          rounded="10"
+                          w="60%"
+                          maxW={290}
+                          bg="primary.box"
+                          borderWidth={0}
+                          placeholder={event.labels.GENERAL_SEARCH}
+                          value={searchQuery}
+                          onChangeText={(text) => setSearchQuery(text)}
+                          leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />}
+                        />
                     </HStack>
                     <Box bg={'primary.box'} rounded={10} overflow="hidden" w="100%" p="0">
-                        {certificate.length > 0 ? (
-                          certificate.map((cert,i) => (
+                        {filteredCertificate.length > 0 ? (
+                          filteredCertificate.map((cert, i) => (
                             <HStack key={cert.certificate_no} borderTopWidth={i === 0 ? 0 : 1} borderTopColor="primary.bordercolor" w="100%" px="4" py="4" space="3" alignItems="center">
                                 <Icon size="xl" as={AntDesign} name="pdffile1" color="primary.text" />
                                 <VStack space="0" w={'calc(100% - 100px)'}>
@@ -83,15 +101,6 @@ const Index = React.memo(() => {
                                 <Icon as={AntDesign} name="download" size="md" color="primary.text" onPress={() => {
                                     getCertificatePdf(cert?.certificate_id , cert?.attendee_id);
                                 }} />
-                                {/* <Pressable
-                                  onPress={async () => {
-                                      const url: any = `${detail?.detail?.facebook}`;
-                                      const supported = await Linking.canOpenURL(url);
-                                      if (supported) {
-                                          await Linking.openURL(url);
-                                      }
-                                  }}>
-                                </Pressable> */}
                             </HStack>
                           ))
                         ) : (
