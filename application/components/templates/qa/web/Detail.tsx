@@ -583,9 +583,7 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'archive' && enabledTabs.includes('archive') && qaDetials?.archived_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                <NoRecordFound bg="primary.box"/>
                                 }
                                 {tab === 'my_question' && enabledTabs.includes('my_question') &&
                                   qaDetials?.my_questions?.map((question,i)=>(

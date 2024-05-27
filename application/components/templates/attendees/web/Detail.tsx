@@ -30,6 +30,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import { Platform } from 'react-native';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { id: string }
 
@@ -229,7 +230,7 @@ const Detail = ({ speaker }: Props) => {
                                                 {
                                                     groups?.length <= 0 && (
                                                         <>
-                                                         <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                          <NoRecordFound bg={"primary.box"}/>
                                                         </>
                                                     )
                                                 }
@@ -247,7 +248,7 @@ const Detail = ({ speaker }: Props) => {
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> 
                                                         : (
                                                             <>
-                                                                <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                            <NoRecordFound bg={"primary.box"}/>
                                                             </>
                                                         )
                                         )}
@@ -274,7 +275,7 @@ const Detail = ({ speaker }: Props) => {
                                         {detail?.detail?.categories.length <=0 && 
                                         (
                                             <>
-                                                <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                <NoRecordFound bg={"primary.box"}/>
                                             </>
                                             )
                                         }
@@ -298,9 +299,8 @@ const Detail = ({ speaker }: Props) => {
                                     )}
                                 </Container>
                             ) : <>
-                                   <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
-                                        <Text>{event.labels.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                  <NoRecordFound bg="primary.box"/>
+                               
                                 </>
                         }
                             

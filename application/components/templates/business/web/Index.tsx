@@ -16,7 +16,7 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import RectangleView from 'application/components/atoms/attendees/RectangleView';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import NoRecordFound from '../../../atoms/NoRecordFound';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -224,7 +224,7 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                             </Flex>
                         </React.Fragment>
                     )):(
-                      <Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
+                      <NoRecordFound/>
                     )
                   }
                     </Box>

@@ -5,6 +5,7 @@ import { View, Input, Icon, HStack, Button, Box, Pressable, Text, Badge, Spacer 
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseFloorPlanService from 'application/store/services/UseFloorPlanService';
 import UseEventService from 'application/store/services/UseEventService';
+import NoRecordFound from '../atoms/NoRecordFound';
 const SidebarMapplic = (json) => {
 	const openLocation = useMapplicStore(state => state.openLocation);
 	const closeLocation = useMapplicStore(state => state.closeLocation);
@@ -125,7 +126,9 @@ const SidebarMapplic = (json) => {
           }
 				</>	
 				)}
-				{filteredGroups.length < 1 && <Text p={3}>{event?.labels?.GENERAL_NO_RECORD}</Text>}
+				{filteredGroups.length < 1 && 
+        <NoRecordFound/>
+        }
 			</Box>
 	</View>
   )

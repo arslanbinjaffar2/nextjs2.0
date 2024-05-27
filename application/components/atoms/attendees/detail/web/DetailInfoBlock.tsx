@@ -6,6 +6,7 @@ import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
 import IcoInfo from 'application/assets/icons/small/IcoInfo';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 type AppProps = {
     detail: Detail,
     info: React.ReactNode,
@@ -322,9 +323,9 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                         }
                     </VStack>
                 </Box>
-            ) :  <Box overflow="hidden">
-            <Text bg="primary.box" fontSize={'md'} p="4" rounded="10" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
-        </Box>  }
+            ) :  
+        <NoRecordFound bg="primary.box"/>
+        }
         </Box>
     )
 

@@ -10,6 +10,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import { Box, HStack, ScrollView, Text } from 'native-base';
 import BoxView from 'application/components/atoms/exhibitors/BoxView';
 import { Exhibitor } from 'application/models/exhibitor/Exhibitor';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 
 type indexProps = {
@@ -47,9 +48,9 @@ const Index = ({ navigation }: indexProps) => {
           </ScrollView>
         </Box>
         {!loading && my_exhibitors.length <= 0 && (
-          <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-          </Box>
+          <NoRecordFound
+          mb="3" bg="primary.box"
+          />
         )}
       </>
     )

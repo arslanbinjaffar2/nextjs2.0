@@ -10,6 +10,7 @@ import { Post } from 'application/models/socialWall/SocialWall';
 import { Pressable } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService'
+import NoRecordFound from '../NoRecordFound';
 
 type AppProps = {
   attendee_id: number,
@@ -83,7 +84,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
                         })}
                 </Box>
                 { posts.length ===  0 ? (
-                  <Text bg={'primary.box'} rounded={8} p={3}>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                  <NoRecordFound bg={'primary.box'} />
                 ): null}
               </>
             )}

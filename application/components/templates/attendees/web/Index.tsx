@@ -23,6 +23,7 @@ import { Category } from 'application/models/event/Category';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { slug: any }
 
@@ -372,9 +373,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                         </React.Fragment>
                              )}
                             {attendees.length <= 0 &&
-                              <Box p={3} rounded="lg" w="100%">
-                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
-                              </Box>
+                            <NoRecordFound/>
+                          
                             }
                         </Container>}
                         {(tab === 'group' || tab === 'sub-group') && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
@@ -393,9 +393,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </React.Fragment>
                             )}
                             {groups.length <= 0 &&
-                              <Box p={3} rounded="lg" w="100%">
-                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
-                              </Box>
+                            <NoRecordFound />
+
                             }
                         </Container>}
                         {(tab === 'category' || tab === 'sub-category') && event?.speaker_settings?.category_group == 1 && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
@@ -405,9 +404,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p={3} rounded="lg" w="100%">
-                                    <Text fontSize="16px">{event.labels.GENERAL_NO_RECORD}</Text>
-                                </Box>
+                            <NoRecordFound />
+                               
                             }
                         </Container>}
                     </>
