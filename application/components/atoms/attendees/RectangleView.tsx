@@ -11,6 +11,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
 import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
+import { useSearchParams, usePathname } from 'next/navigation'
+
 
 type boxItemProps = {
   attendee: Attendee
@@ -29,6 +31,10 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   const { response } = UseAuthService()
 
   const { push } = useRouter()
+
+  const searchParams = useSearchParams()
+
+    const tabQueryParam = searchParams.get('tab')
 
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
@@ -117,8 +123,8 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 
             </VStack>
             <Spacer />
-            <HStack space="4" alignItems="center">
-                {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== attendee?.id && (
+              <HStack space="4" alignItems="center">
+                 {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== attendee?.id && (
                   <Button
                   py={2}
                     colorScheme="primary"
@@ -128,14 +134,14 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   </Button>
                   
                 )}
-              {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
-                <Pressable
-                  onPress={() => toggleFav()}>
-                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
-                </Pressable>
-              )}
-              <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
-            </HStack>
+                {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && tabQueryParam !== 'category-attendee' && (
+                  <Pressable
+                    onPress={() => toggleFav()}>
+                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
+                  </Pressable>
+                )}
+                <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
+              </HStack>
           </HStack>
         </HStack>
       </Pressable>
