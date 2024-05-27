@@ -26,6 +26,7 @@ import UseNotificationService from 'application/store/services/UseNotificationSe
 import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { useDebouncedCallback } from "use-debounce";
 
 type ScreenParams = { id: string }
 
@@ -75,6 +76,9 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const {event}= UseEventService();
 
 	const [message, setMessage] = useState<string>('');
+	  const debounced = useDebouncedCallback((value:any) => {
+			setMessage(value);
+		}, 500);
 
 	const [attendeeId] = useParam('id');
 
@@ -209,8 +213,8 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
 									<Text color={'primary.text'}  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
 									<TextArea
-										value={message}
-										onChange={(event)=>setMessage(event.nativeEvent.text)}
+										defaultValue={message}
+										onChange={(event)=>debounced(event.nativeEvent.text)}
 									 autoCompleteType={false} _focus={{ bg:"primary.darkbox" }} borderColor={'transparent'} w="100%" h={90} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>

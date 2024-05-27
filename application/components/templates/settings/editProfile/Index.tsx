@@ -39,6 +39,7 @@ import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
 import UseToastService from 'application/store/services/UseToastService';
 import PolicyModal from 'application/components/atoms/PolicyModal';
 import attendees from 'application/assets/icons/attendees'
+import { useDebouncedCallback } from "use-debounce";
 import { 
     BtnBold,
     BtnBulletList,
@@ -229,14 +230,20 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         });
     };
 
-    const updateAttendeeFeild = (name: string, value: any) => {
+    const updateAttendeeFeild = useDebouncedCallback((name: string, value: any) => {
+        setAttendeeData({
+            ...attendeeData,
+            [name]: value,
+        });
+    },1000);
+    const updateAttendeeFeildDate = (name: string, value: any) => {
         setAttendeeData({
             ...attendeeData,
             [name]: value,
         });
     };
 
-    const updateAttendeeInfoFeild = (name: string, value: any) => {
+    const updateAttendeeInfoFeild = useDebouncedCallback((name: string, value: any) => {
         setAttendeeData({
             ...attendeeData,
             info: {
@@ -244,7 +251,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 [name]: value,
             },
         });
-    };
+    },1000);
 
     const updateDate = (obj: any) => {
         setAttendeeData({
@@ -384,7 +391,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('initial', answer);
                                     }}
-                                    value={attendeeData?.info?.initial}
+                                    defaultValue={attendeeData?.info?.initial}
                                 />
                             </Center>
                         </HStack>
@@ -422,7 +429,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('first_name', answer);
                                     }}
-                                    value={attendeeData?.first_name}
+                                    defaultValue={attendeeData?.first_name}
                                 />
                             </Center>
                         </HStack>
@@ -441,7 +448,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('last_name', answer);
                                     }}
-                                    value={attendeeData?.last_name}
+                                    defaultValue={attendeeData?.last_name}
                                 />
                             </Center>
                         </HStack>
@@ -455,7 +462,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Text  w={'100%'} color={'primary.text'} fontSize="md">
                                     <Box opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'} pointerEvents={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? 'auto' : 'none'} w={'100%'} bg="primary.darkbox" rounded={8}>
                                         <EditorProvider>
-                                            <Editor  style={{width: '100%'}} value={attendeeData?.info?.about} onChange={(e) => {
+                                            <Editor  style={{width: '100%'}} defaultValue={attendeeData?.info?.about} onChange={(e) => {
                                                 updateAttendeeInfoFeild('about', e.target.value); }}  >
                                                      <Toolbar>
                                                         <BtnUndo />
@@ -497,7 +504,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('age', answer);
                                     }}
-                                    value={attendeeData?.info?.age}
+                                    defaultValue={attendeeData?.info?.age}
                                 />
                             </Center>
                         </HStack>
@@ -516,7 +523,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('FIRST_NAME_PASSPORT', answer);
                                     }}
-                                    value={attendeeData?.FIRST_NAME_PASSPORT}
+                                    defaultValue={attendeeData?.FIRST_NAME_PASSPORT}
                                 />
                             </Center>
                         </HStack>
@@ -535,7 +542,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('LAST_NAME_PASSPORT', answer);
                                     }}
-                                    value={attendeeData?.LAST_NAME_PASSPORT}
+                                    defaultValue={attendeeData?.LAST_NAME_PASSPORT}
                                 />
                             </Center>
                         </HStack>
@@ -554,7 +561,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('place_of_birth', answer);
                                     }}
-                                    value={attendeeData?.info?.place_of_birth}
+                                    defaultValue={attendeeData?.info?.place_of_birth}
                                 />
                             </Center>
                         </HStack>
@@ -573,7 +580,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('passport_no', answer);
                                     }}
-                                    value={attendeeData?.info?.passport_no}
+                                    defaultValue={attendeeData?.info?.passport_no}
                                 />
                             </Center>
                         </HStack>
@@ -592,7 +599,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('company_name', answer);
                                     }}
-                                    value={attendeeData?.info?.company_name}
+                                    defaultValue={attendeeData?.info?.company_name}
                                 />
                             </Center>
                         </HStack>
@@ -611,7 +618,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('title', answer);
                                     }}
-                                    value={attendeeData?.info?.title}
+                                    defaultValue={attendeeData?.info?.title}
                                 />
                             </Center>
                         </HStack>
@@ -630,7 +637,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('organization', answer);
                                     }}
-                                    value={attendeeData?.info?.organization}
+                                    defaultValue={attendeeData?.info?.organization}
                                 />
                             </Center>
                         </HStack>
@@ -649,7 +656,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('department', answer);
                                     }}
-                                    value={attendeeData?.info?.department}
+                                    defaultValue={attendeeData?.info?.department}
                                 />
                             </Center>
                         </HStack>
@@ -668,7 +675,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('industry', answer);
                                     }}
-                                    value={attendeeData?.info?.industry}
+                                    defaultValue={attendeeData?.info?.industry}
                                 />
                             </Center>
                         </HStack>
@@ -687,7 +694,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('jobs', answer);
                                     }}
-                                    value={attendeeData?.info?.jobs}
+                                    defaultValue={attendeeData?.info?.jobs}
                                 />
                             </Center>
                         </HStack>
@@ -706,7 +713,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('interests', answer);
                                     }}
-                                    value={attendeeData?.info?.interests}
+                                    defaultValue={attendeeData?.info?.interests}
                                 />
                             </Center>
                         </HStack>
@@ -725,7 +732,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('network_group', answer);
                                     }}
-                                    value={attendeeData?.info?.network_group}
+                                    defaultValue={attendeeData?.info?.network_group}
                                 />
                             </Center>
                         </HStack>
@@ -746,7 +753,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('delegate_number', answer);
                                     }}
-                                    value={attendeeData?.info?.delegate_number}
+                                    defaultValue={attendeeData?.info?.delegate_number}
                                 />
                             </Center>
                         </HStack>
@@ -765,7 +772,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('table_number', answer);
                                     }}
-                                    value={attendeeData?.info?.table_number}
+                                    defaultValue={attendeeData?.info?.table_number}
                                 />
                             </Center>
                         </HStack>
@@ -784,7 +791,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_street', answer);
                                     }}
-                                    value={attendeeData?.info?.private_street}
+                                    defaultValue={attendeeData?.info?.private_street}
                                 />
                             </Center>
                         </HStack>
@@ -803,7 +810,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_house_number', answer);
                                     }}
-                                    value={attendeeData?.info?.private_house_number}
+                                    defaultValue={attendeeData?.info?.private_house_number}
                                 />
                             </Center>
                         </HStack>
@@ -822,7 +829,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_post_code', answer);
                                     }}
-                                    value={attendeeData?.info?.private_post_code}
+                                    defaultValue={attendeeData?.info?.private_post_code}
                                 />
                             </Center>
                         </HStack>
@@ -841,7 +848,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_city', answer);
                                     }}
-                                    value={attendeeData?.info?.private_city}
+                                    defaultValue={attendeeData?.info?.private_city}
                                 />
                             </Center>
                         </HStack>
@@ -883,7 +890,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('email', answer);
                                     }}
-                                    value={attendeeData?.email}
+                                    defaultValue={attendeeData?.email}
                                 />
                             </Center>
                         </HStack>
@@ -977,7 +984,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
-                                        updateAttendeeFeild("EMPLOYMENT_DATE", moment(item).format("YYYY-MM-DD"));
+                                        updateAttendeeFeildDate("EMPLOYMENT_DATE", moment(item).format("YYYY-MM-DD"));
                                     }}
                                     value={attendeeData?.EMPLOYMENT_DATE !== '' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.EMPLOYMENT_DATE).format(GENERAL_DATE_FORMAT) : ''}
                                     showdate={GENERAL_DATE_FORMAT}
@@ -1087,7 +1094,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             onChangeText={(answer) => {
                                                 updateAttendeeFeild('phone', answer);
                                             }}
-                                            value={attendeeData?.phone}
+                                            defaultValue={attendeeData?.phone}
                                         />
                                     </Center>
                                 </HStack>
@@ -1266,7 +1273,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('website', answer);
                                 }}
-                                value={attendeeData?.info?.website}
+                                defaultValue={attendeeData?.info?.website}
                             />
                         </Center>
                     </HStack>}
@@ -1284,7 +1291,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('facebook', answer);
                                 }}
-                                value={attendeeData?.info?.facebook}
+                                defaultValue={attendeeData?.info?.facebook}
                             />
                         </Center>
                     </HStack>}
@@ -1302,7 +1309,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('twitter', answer);
                                 }}
-                                value={attendeeData?.info?.twitter}
+                                defaultValue={attendeeData?.info?.twitter}
                             />
                         </Center>
                     </HStack>}
@@ -1320,7 +1327,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('linkedin', answer);
                                 }}
-                                value={attendeeData?.info?.linkedin}
+                                defaultValue={attendeeData?.info?.linkedin}
                             />
                         </Center>
                     </HStack>}
