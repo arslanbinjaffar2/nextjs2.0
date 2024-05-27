@@ -12,12 +12,14 @@ export interface EventState {
     event: Event,
     modules: Array<Module>
     setting_modules: SettingModule[]
+    event_url: string
 }
 
 const initialState: EventState = {
     event: {},
     modules: [],
-    setting_modules: []
+    setting_modules: [],
+    event_url: ''
 }
 
 // Slice
@@ -43,6 +45,9 @@ export const EventSlice = createSlice({
         updateSettingsModules(state, action: PayloadAction<Array<SettingModule>>) {
             state.setting_modules = action.payload
         },
+        SetEventUrl(state, action: PayloadAction<string>) {
+            state.event_url = action.payload
+        }
     },
 })
 
@@ -55,6 +60,7 @@ export const EventActions = {
     updateModules: EventSlice.actions.updateModules,
     loadSettingsModules: EventSlice.actions.loadSettingsModules,
     updateSettingsModules: EventSlice.actions.updateSettingsModules,
+    SetEventUrl: EventSlice.actions.SetEventUrl
 }
 
 // Selectors
@@ -63,6 +69,8 @@ export const SelectEvent = (state: RootState) => state.event.event
 export const Modules = (state: RootState) => state.event.modules
 
 export const SettingModules = (state: RootState) => state.event.setting_modules
+
+export const SelectEventUrl = (state: RootState) => state.event.event_url
 
 // Reducer
 export default EventSlice.reducer
