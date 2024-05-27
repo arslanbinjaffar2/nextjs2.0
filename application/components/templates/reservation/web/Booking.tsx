@@ -76,7 +76,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const {event}= UseEventService();
 
 	const [message, setMessage] = useState<string>('');
-	  const debounced = useDebouncedCallback((value) => {
+	  const debounced = useDebouncedCallback((value:any) => {
 			setMessage(value);
 		}, 500);
 
