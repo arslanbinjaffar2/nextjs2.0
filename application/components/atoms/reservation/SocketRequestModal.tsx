@@ -87,36 +87,35 @@ const SocketRequestModal = () => {
 			}}>
 					<Modal.Content ref={_element}  bg={'primary.boxsolid'}>
 						
-						<Modal.Header px={6} pt={6} pb={0} bg="primary.boxsolid" borderWidth={0} borderColor={'transparent'}>
-							<Text color={'primary.text'} fontSize="lg" fontWeight={600}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_TITLE}</Text>
+						<Modal.Header px={5} pt={6} pb={0} bg="primary.boxsolid" borderWidth={0} borderColor={'transparent'}>
+							<Text color={'primary.text'} fontSize="24px" fontWeight={500}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_TITLE}</Text>
 						</Modal.Header>
 						<Modal.Body pb={0} bg="primary.boxsolid" px={0}>
-							<Text color={'primary.text'} mb={3} px={6} fontSize="lg" fontWeight={500}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_MSG} "{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}"</Text>
-							<VStack  px={6} w={'100%'} py={3} space="1" alignItems="flex-start" bg="primary.darkbox">
-								<HStack space={2} alignItems={'center'}>
+							<Text color={'primary.text'} mb={3} px={5} fontSize="lg" fontWeight={500}>{event?.labels?.RESERVATION_NEW_MEETING_REQUEST_MSG} "{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}"</Text>
+							<VStack pb={3} px={5} w={'100%'}  space="1" alignItems="flex-start">
 								{/* <Text  fontSize="sm">Person : </Text> */}
-								 <HStack  space="1" alignItems="center">
-									<Avatar key={attendeeToShow?.image} size={'22px'}
-										source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }} 
-									>
-									{getShortName()}
-								</Avatar>
-								<Text color={'primary.text'} fontSize="sm">{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}</Text>
-								
+								 <HStack  space="3" alignItems="center">
+									<Avatar key={attendeeToShow?.image} size={'64px'}
+											source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }} 
+										>
+										{getShortName()}
+									</Avatar>
+									<VStack  space="0">
+										<Text color={'primary.text'} fontSize="md">{attendeeToShow?.first_name} {shouldShow(attendeeToShow?.field_settings?.last_name) ? attendeeToShow?.last_name : ''}</Text>
+										<Text color={'primary.text'} fontSize="sm"><Text fontWeight={600}>{event?.labels?.RESERVATION_MEETING_SPACE}</Text> : {socketRequest?.meeting_space}</Text>
+										<Text color={'primary.text'} fontSize="sm"><Text fontWeight={600}>{event?.labels?.RESERVATION_MEETING_DATE}</Text> : {socketRequest?.date}</Text>
+										<Text color={'primary.text'} fontSize="sm"><Text fontWeight={600}>{event?.labels?.RESERVATION_MEETING_TIME}</Text> : {socketRequest?.time} ({socketRequest?.duration})</Text>
+									</VStack>
 								</HStack>
-								</HStack>
-								<Text color={'primary.text'}  fontSize="sm">{event?.labels?.RESERVATION_MEETING_SPACE} : {socketRequest?.meeting_space}</Text>
-								<Text color={'primary.text'}  fontSize="sm">{event?.labels?.RESERVATION_MEETING_DATE} : {socketRequest?.date}</Text>
-								<Text color={'primary.text'}  fontSize="sm">{event?.labels?.RESERVATION_MEETING_TIME} : {socketRequest?.time} ({socketRequest?.duration})</Text>
 							</VStack>
 						</Modal.Body>
-						<Modal.Footer bg="primary.box" borderColor={'primary.bdColor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
+						<Modal.Footer mt={2} bg="primary.box" borderColor={'primary.popupbordercolor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0}>
 							<Button.Group variant={'unstyled'} space={0}>
-								<Container borderRightWidth={1} borderRightColor={'primary.bdColor'} w="50%">
-									<Button bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={handleReject} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
+								<Container borderRightWidth={1} borderRightColor={'primary.popupbordercolor'} w="50%">
+									<Button  py={4} bg={'none'} w="100%" rounded={0} variant="unstyled" onPress={handleReject} textTransform={'uppercase'}><Icocross  width={19} height={19} /></Button>
 								</Container>
 								<Container borderRightWidth={0}  w="50%">
-									<Button onPress={handleAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}><Icocheck width={19} height={19} /></Button>
+									<Button  py={4} onPress={handleAccept} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}><Icocheck width={19} height={19} /></Button>
 								</Container>
 							</Button.Group>
 						</Modal.Footer>
