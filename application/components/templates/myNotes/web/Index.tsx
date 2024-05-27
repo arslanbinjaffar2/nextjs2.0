@@ -57,18 +57,16 @@ const Index = () => {
 
                     </HStack>
                     <Container pt="2" maxW="100%" w="100%" >
-                        <Box mb="3" bg={`${myNotes ? "primary.box" : ""}`} p="0" w="100%" overflow="hidden" rounded={"lg"}>
+                        <Box mb="3" bg={`${myNotes ? "primary.box" : ""}`} p="0" w="100%" overflow="hidden" rounded={"lg"} >
                             {myNotes && myNotes.program_notes &&
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/programs`)
                                 }}>
-                                    <HStack borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
-                                        <Box flexDirection={'row'} alignItems={'center'}>
-
+                                    <HStack borderTopColor="primary.bordercolor" px={["3","4"]}  py="5" space="4" alignItems="center" justifyContent={'space-between'}>
+                                        <Box flexDirection={'row'} alignItems={'center'} >
                                         <DynamicIcon iconType={getValueByNameModule('agendas')} iconProps={{ width: 16, height: 16 }} />
                                         <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('agendas')} ({myNotes.program_notes.length})</Text>
                                         </Box>
-                                        <Spacer />
                                         {myNotes.program_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                         }
@@ -80,13 +78,12 @@ const Index = () => {
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/exhibitors`)
                                 }}>
-                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
+                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px={["3","4"]} py="5" space="4" alignItems="center" justifyContent={'space-between'}>
                                     <Box flexDirection={'row'} alignItems={'center'}>
                                     <DynamicIcon iconType={getValueByNameModule('exhibitors')}  iconProps={{ width: 16, height: 16 }} />
                                         <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('exhibitors')} ({myNotes.exhibitor_notes.length})</Text>
                                     </Box>
 
-                                        <Spacer />
                                         {myNotes.exhibitor_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                         }
@@ -97,14 +94,15 @@ const Index = () => {
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/sponsors`)
                                 }}>
-                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
+                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px={["3","4"]}  py="5" space="4" alignItems="center"
+                                    justifyContent={'space-between'}
+                                    >
                                     <Box flexDirection={'row'} alignItems={'center'}>
 
                                     <DynamicIcon iconType={getValueByNameModule('sponsors')}   iconProps={{ width: 16, height: 16 }} />
                                         <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('sponsors')} ({myNotes.sponsor_notes.length})</Text>
                                     </Box>
 
-                                        <Spacer />
                                         {myNotes.sponsor_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                         }
@@ -116,13 +114,14 @@ const Index = () => {
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/directory`)
                                 }}>
-                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px="4" py="5" space="4" alignItems="center">
+                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px={["3","4"]}  py="5" space="4" alignItems="center" justifyContent={
+                                        'space-between'
+                                    }>
                                     <Box flexDirection={'row'} alignItems={'center'}>
                                        <DynamicIcon iconType={getValueByNameModule('ddirectory')} iconProps={{ width: 16, height: 16 }} />
                                         <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('ddirectory')} ({myNotes.directory_notes.length})</Text>
                                     </Box>
 
-                                        <Spacer />
                                         {myNotes.directory_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                         }
