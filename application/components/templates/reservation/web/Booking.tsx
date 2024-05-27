@@ -210,8 +210,8 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 									<Text color={'primary.text'}  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
 									<TextArea
 										value={message}
-										onChangeText={(text)=>setMessage(text)}
-									 autoCompleteType={false} borderColor={'transparent'} w="100%" h={90} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+										onChange={(event)=>setMessage(event.nativeEvent.text)}
+									 autoCompleteType={false} _focus={{ bg:"primary.darkbox" }} borderColor={'transparent'} w="100%" h={90} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>
 								
@@ -240,9 +240,9 @@ type BookingSectionProps = {
 	selectedMeetingSpace: string	
 }
 const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
-
+		const {event} = UseEventService();
 		const [year, setYear] = useState(new Date().getFullYear());
-		const [month, setMonth] = useState(moment().month());
+		const [month, setMonth] = useState(moment(event?.start_date).month());
 		const [activeDay, setActiveDay] = useState<AvailableDate | null>(null);
 		const {available_slots,available_dates} = UseMeetingReservationService();
 		const [filteredSlots, setFilteredSlots] = useState<MeetingSlot[]>([]);
