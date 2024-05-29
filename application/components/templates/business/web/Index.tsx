@@ -100,10 +100,10 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
     setMySearchKeywords(newSearchKeywords);
   }, [keywords]);
 
-  const filteredAttendees = searchMatchAttendees?.filter((attendee) =>
+  const filteredAttendees = (searchMatchAttendees?.filter((attendee) =>
     attendee?.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     attendee?.last_name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )) || [];
 
   useEffect(() => {
     if (mySearchkeywords.length > 0) {
