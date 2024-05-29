@@ -13,6 +13,7 @@ import ThemeColors from 'application/utils/ThemeColors';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import Icodocument from 'application/assets/icons/small/Icodocument';
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -93,10 +94,11 @@ const Detail = (props: any) => {
                             </HStack>}
                             {page.pdf && (
                                 <Box mb="3" w="100%"  py="4" borderBottomRadius="10">
-                                    <HStack mb="3" bg="primary.darkbox" py="1" px="4" space="2" alignItems="center">
-                                        <DynamicIcon iconType="documents" iconProps={{ width: 23, height: 23 }} />
+                                    <HStack mb="3" bg="primary.darkbox" py="1" px="4" alignItems="center" >
+                                        {/* <DynamicIcon iconType="documents" iconProps={{ width: 23, height: 23 }} /> */}
+                                        <Icodocument width="18px" height="18px" />
                                         {/* <Icon color={'primary.text'} as={AntDesign} name="file1" size="md" /> */}
-                                        <Text fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
+                                        <Text fontSize="lg" ml={'2'}>{event?.labels?.GENERAL_DOCUMENTS}</Text>
                                     </HStack>
                                     <Pressable px="4" w="100%"
                                         onPress={async () => {
