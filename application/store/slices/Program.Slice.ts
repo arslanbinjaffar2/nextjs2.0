@@ -164,7 +164,7 @@ export const ProgramSlice = createSlice({
             state.detail = action.payload.detail;
         },
         SetFavouriteProgramError(state, action : PayloadAction<string>){
-            state.favouriteProgramError = action.payload;
+            // state.favouriteProgramError = action.payload;
         },
         ResetTracks(state) {
             state.track_id = 0;
