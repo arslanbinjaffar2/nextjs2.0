@@ -135,7 +135,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
               <RectangleAttendeeView attendee={attendee} border={filteredAttendees.length > 0 && filteredAttendees[filteredAttendees.length - 1]?.id !== attendee?.id ? 1 : 0} speaker={0} />
             </React.Fragment>
           )}
-          {!filteredAttendees &&
+          {filteredAttendees?.length === 0  &&
             <Box p={3} rounded="lg" w="100%">
               <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
             </Box>
