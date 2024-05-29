@@ -1140,6 +1140,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                                 file: "",
                                                                 blob_image:undefined
                                                             });
+                                                            if (inputFileRef.current) {
+                                                                inputFileRef.current.value = '';
+                                                            }
                                                         }}
                                                       
                                                     style={{
@@ -1228,11 +1231,17 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     <Pressable
                                                   
                                                   onPress={()=>{
-                                                    setAttendeeData({
-                                                        ...attendeeData,
-                                                        attendee_cv:"",
-                                                        });
+                                                    setAttendeeData((prev: any) => {
+                                                        return {
+                                                            ...prev,
+                                                            attendee_cv: ""
+                                                        }
+                                                    });
+                                                        if (inputresumeFileRef.current) {
+                                                            inputresumeFileRef.current.value = '';
+                                                        }
                                                   }}
+                                                  
                                                   style={{
                                                     display: typeof attendeeData.attendee_cv === 'object' || (typeof attendeeData.attendee_cv === 'string' && attendeeData.attendee_cv !== "") ? "flex" : "none"
                                                   }}
