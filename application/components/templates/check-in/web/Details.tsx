@@ -9,6 +9,7 @@ import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
 import in_array from "in_array";
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import WebLoading from 'application/components/atoms/WebLoading';
+import NoRecordFound from 'application/components/atoms/NoRecordFound'
 
 const CheckInDetails = () => {
     const { event, modules } = UseEventService();
@@ -77,9 +78,7 @@ const CheckInDetails = () => {
                 })}
 
                 {!orderDetail || orderDetail.items.length == 0 ? (
-                  <Box p={3} mb="3" rounded="lg" w="100%">
-                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                  </Box>
+                  <NoRecordFound  mb="3"/>
                 ):null}
             
           </HStack>

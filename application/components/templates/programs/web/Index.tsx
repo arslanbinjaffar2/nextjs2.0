@@ -19,6 +19,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseEnvService from 'application/store/services/UseEnvService';
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import { func } from 'application/styles';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 
 type IndexProps = {
@@ -238,7 +239,7 @@ const Index = ({dashboard}:IndexProps) => {
                         {tracks?.map((track: any, key: any) =>
                             <TrackRectangleDetailView key={key} track={track} border={tracks.length != (key + 1)} updateTab={updateTab} />
                         )}
-                        {tracks?.length <= 0 && <Text textAlign="center" fontSize="lg" p="5">{event?.labels?.GENERAL_NO_RECORD}</Text>}
+                        {tracks?.length <= 0 && <NoRecordFound/>}
                     </Container>}
                          <BannerAds module_name={'agendas'} module_type={'listing'} />
                 </>

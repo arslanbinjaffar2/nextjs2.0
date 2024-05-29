@@ -39,6 +39,7 @@ import {
     
 } from 'react-simple-wysiwyg';
 import { getColorScheme } from 'application/styles/colors';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { id: string }
 
@@ -434,9 +435,7 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'popular' && enabledTabs.includes('popular') && qaDetials?.popular_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                 <NoRecordFound bg="primary.box"/>
                                 }
                                 {tab === 'recent' && enabledTabs.includes('recent') &&
                                   qaDetials?.recent_questions?.map((question,i)=>(
@@ -510,9 +509,8 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'recent' && enabledTabs.includes('recent') && qaDetials?.recent_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                    
+                                     <NoRecordFound bg="primary.box"/>
                                 }
                                 {tab === 'archive' && enabledTabs.includes('archive') &&
                                   qaDetials?.archived_questions?.map((question,i)=>(
@@ -586,9 +584,7 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'archive' && enabledTabs.includes('archive') && qaDetials?.archived_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                <NoRecordFound bg="primary.box"/>
                                 }
                                 {tab === 'my_question' && enabledTabs.includes('my_question') &&
                                   qaDetials?.my_questions?.map((question,i)=>(
@@ -660,9 +656,8 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'my_question' && enabledTabs.includes('my_question') && qaDetials?.my_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                 <NoRecordFound bg="primary.box"/>
+                                  
                                 }
                             </VStack>
                         </>
