@@ -91,7 +91,7 @@ const Index = ({ navigation }: indexProps) => {
          </Box>
          {event?.dashboard_modules && event?.dashboard_modules?.length > 0 && event?.dashboard_modules.map((module: any, key: number) => {
             
-            if(module.alias == 'agendas'){
+            if(module.alias == 'agendas' || module.alias == 'myagendas'){
               return (
                 <>
                 <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
@@ -108,7 +108,7 @@ const Index = ({ navigation }: indexProps) => {
                   </Box>*/}
                 </HStack>  
                 <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
-                {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 ? (
+                {modules.filter((module: any, key: number) => module.alias === 'agendas' || module.alias === "myagendas").length > 0 ? (
                   <IndexTemplatePrograms dashboard={true} />
                 ) : null}
                 <BannerAds module_name={'dashboard'} module_type={'after_program'}/>

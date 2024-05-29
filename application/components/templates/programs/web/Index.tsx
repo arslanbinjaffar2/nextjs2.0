@@ -41,13 +41,16 @@ const Index = ({dashboard}:IndexProps) => {
         let display_both_time_and_tracks = event?.agenda_settings?.agenda_tab == 1;
         let program_module_enabled = modules.find((module) => module.alias === 'agendas') ? true : false;
         let my_program_module_enabled = modules.find((module) => module.alias === 'myprograms') ? true : false;
+
+        let program_dashboard_module_enabled = event?.dashboard_modules && event?.dashboard_modules.find((module) => module.alias === 'agendas') ? true : false;
+        let my_program_dashboard_module_enabled = event?.dashboard_modules && event?.dashboard_modules.find((module) => module.alias === 'myagendas') ? true : false;
         
         let enabledTabs = [];
         if(dashboard){
-            if(program_module_enabled && event?.agenda_settings?.show_program_dashboard == 1){
+            if(program_module_enabled && program_dashboard_module_enabled){
                 enabledTabs.push('program');
             }
-            if(my_program_module_enabled && event?.agenda_settings?.show_my_program_dashboard == 1){
+            if(my_program_module_enabled && my_program_dashboard_module_enabled){
                 enabledTabs.push('my-program');
             }
             return enabledTabs;
