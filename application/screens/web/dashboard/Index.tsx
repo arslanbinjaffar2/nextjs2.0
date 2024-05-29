@@ -89,12 +89,14 @@ const Index = ({ navigation }: indexProps) => {
         <WebLoading />
       ) : (
         <>
-         <Box w={'100%'} mb={3}>
-           <MobileNavigation />
-         </Box>
+         
          {event?.dashboard_modules && event?.dashboard_modules?.length > 0 && event?.dashboard_modules.map((module: any, key: number) => {
-            
-            if(module.alias == 'agendas'){
+            if(module.alias == 'shortcuts'){
+                <Box w={'100%'} mb={3}>
+                  <MobileNavigation />
+                </Box>
+
+            }else if(module.alias == 'combine_agendas_my_agendas'){
               return (
                 <>
                 <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
@@ -111,7 +113,7 @@ const Index = ({ navigation }: indexProps) => {
                   </Box>*/}
                 </HStack>  
                 <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
-                {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 ? (
+                {modules.filter((module: any, key: number) => module.alias === 'agendas' || module.alias === "myagendas").length > 0 ? (
                   <IndexTemplatePrograms dashboard={true} />
                 ) : null}
                 <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
