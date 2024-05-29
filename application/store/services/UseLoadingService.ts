@@ -12,6 +12,8 @@ export type LoadingServiceOperators = {
     scroll: number,
     setScrollCounter: (counter: number) => void,
     setLoading: (counter: boolean) => void
+    setAddProcess:(process:string)=>void
+    setRemoveProcess:(process:string)=>void
 }
 
 /**
@@ -38,6 +40,18 @@ export const UseLoadingService = (): Readonly<LoadingServiceOperators> => {
             },
             [dispatch],
         ),
+        setAddProcess:useCallback(
+            (process:string)=>{
+           dispatch(LoadingActions.addProcess({process}))
+            },
+            [dispatch]
+        ),
+        setRemoveProcess:useCallback(
+            (process:string)=>{
+           dispatch(LoadingActions.removeProcess({process}))
+            },
+            [dispatch]
+        )
     }
 }
 
