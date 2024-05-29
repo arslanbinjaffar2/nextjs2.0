@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import UseRequestToSpeakService from 'application/store/services/UseRequestToSpeakService';
-import WebLoading from 'application/components/atoms/WebLoading';
+import UseRequestToSpeakService from 'application/store/services/useRequestToSpeakService';
 
 
 const Index = () => {

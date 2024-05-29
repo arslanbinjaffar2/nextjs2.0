@@ -16,7 +16,6 @@ export const UseRequestToSpeakService = (): Readonly<RequestToSpeakServiceOperat
         programs: useAppSelector(SelectActivePrograms),
         FetchActivePrograms: useCallback(
             () => {
-                console.log("🚀 ~ UseRequestToSpeakService ~ FetchActivePrograms:", 'd')
                 dispatch(RequestToSpeakActions.FetchActivePrograms())
             },
             [dispatch],
