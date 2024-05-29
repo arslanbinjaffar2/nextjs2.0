@@ -46,9 +46,11 @@ function* OnFetchSearchMatchAttendees({
     type: typeof NetworkInterestActions.FetchSearchMatchAttendees
     payload:any
 }): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: 'keywords' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getSearchMatchAttendeesApi, payload, state)
     yield put(NetworkInterestActions.updateSearchMatchAttendees({ attendees: response.data.data! }))
+    yield put(LoadingActions.removeProcess({ process: 'keywords' }))
 }
 
 
