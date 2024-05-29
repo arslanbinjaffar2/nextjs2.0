@@ -350,8 +350,8 @@ const Detail = () => {
                         )}
                     </Container>
                     {width < 810 && <Container maxW="100%" w="100%" >
-                        { event?.agenda_settings?.enable_notes == 1 && !in_array('program-detail', processing) && <ProgramNotesBox />}
-                        { event?.agenda_settings?.session_ratings == 1 && !in_array('program-detail',processing) &&  <SessionRating program_id={_id} />}
+                        { event?.agenda_tab_settings?.some(tab=> tab?.tab_name === "notes" && tab?.status === 1) && !in_array('program-detail', processing) && <ProgramNotesBox />}
+                        { event?.agenda_tab_settings?.some(tab => tab?.tab_name === "rating" && tab?.status === 1) && !in_array('program-detail',processing) &&  <SessionRating program_id={_id} />}
                     </Container>}
                     {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />

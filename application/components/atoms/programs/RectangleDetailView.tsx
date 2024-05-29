@@ -24,19 +24,13 @@ type AppProps = {
 
 const RectangleDetailView = ({ program, k, border, speaker, section, workshop,currentIndex }: AppProps) => {
 
-  const { MakeFavourite, SetFavouriteProgramError, favouriteProgramError, agendas_attached_via_group } = UseProgramService();
+  const { MakeFavourite,agendas_attached_via_group } = UseProgramService();
 
   const { event } = UseEventService();
 
   const [isFav,setFav] = useState(false);
 
   const { push } = useRouter()
-
-  if(favouriteProgramError !== ''){
-    let message = favouriteProgramError;
-    SetFavouriteProgramError('');
-    // alert(message);
-  } 
   
   useEffect(()=>{
     setFav(program?.program_attendees_attached?.length > 0);
