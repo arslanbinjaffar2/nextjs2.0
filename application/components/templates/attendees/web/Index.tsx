@@ -392,7 +392,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                       {breadcrumbs.length > 0 && (
                         <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
                             <Text flex="1" textTransform="uppercase" fontSize="sm">
-                                {breadcrumbs.map((breadcrumb, index) => (
+                                {breadcrumbs.map((breadcrumb:any, index) => (
                                     <React.Fragment key={breadcrumb.id}>
                                         <Pressable onPress={() => handleBreadcrumbClick(breadcrumb)}>
                                             <Text textTransform="uppercase" fontSize="sm">
