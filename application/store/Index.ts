@@ -13,6 +13,7 @@ import ExhibitorSlice from 'application/store/slices/Exhibitor.Slice'
 import DocumentSlice from 'application/store/slices/Document.Slice'
 import AttendeeSlice from 'application/store/slices/Attendee.Slice'
 import ProgramSlice from 'application/store/slices/Program.Slice'
+import RequestToSpeakSlice from 'application/store/slices/RequestToSpeak.Slice'
 import InfoSlice from 'application/store/slices/Info.Slice'
 import PollSlice from './slices/Poll.Slice'
 import SurveySlice from './slices/Survey.Slice'
@@ -72,7 +73,8 @@ const makeStore = () => {
             socket:SocketSlice,
             hd:HdSlice,
             meetingReservation:MeetingReservationSlice,
-            toast:ToastSlice
+            toast:ToastSlice,
+            requestToSpeak: RequestToSpeakSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
