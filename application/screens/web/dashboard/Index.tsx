@@ -86,12 +86,14 @@ const Index = ({ navigation }: indexProps) => {
         <WebLoading />
       ) : (
         <>
-         <Box w={'100%'} mb={3}>
-           <MobileNavigation />
-         </Box>
+         
          {event?.dashboard_modules && event?.dashboard_modules?.length > 0 && event?.dashboard_modules.map((module: any, key: number) => {
-            
-            if(module.alias == 'agendas' || module.alias == 'myagendas'){
+            if(module.alias == 'shortcuts'){
+                <Box w={'100%'} mb={3}>
+                  <MobileNavigation />
+                </Box>
+
+            }else if(module.alias == 'combine_agendas_my_agendas'){
               return (
                 <>
                 <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
