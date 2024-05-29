@@ -17,7 +17,7 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import in_array from "in_array";
 const Index = () => {
-  const { processing, scroll } = UseLoadingService();
+  const { processing, loading } = UseLoadingService();
 
   const { _env } = UseEnvService();
 
@@ -38,7 +38,7 @@ const Index = () => {
   return (
     <>
       <NextBreadcrumbs module={module} />
-      {in_array('keywords',processing) ? <SectionLoading /> :
+      {loading ? <SectionLoading /> :
         <>
           {enableFilter ?
             <>
@@ -223,9 +223,9 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
 
         </HStack>
           {searchingAttendees && <SectionLoading />}
-          {searchMatchAttendees && <Box bg="primary.box" maxW="100%" w="100%" mb={2} p={2} rounded={8}>
+          {searchMatchAttendees && <Box bg="primary.box" maxW="100%" w="100%" mb={2} rounded={8}>
             {searchMatchAttendees.map((attendee: any, k: number) =>
-              <RectangleAttendeeView attendee={attendee} border={searchMatchAttendees.length - 1 == k ? 0 : 1} speaker={0} disableMarkFavroute />
+              <RectangleAttendeeView attendee={attendee} border={searchMatchAttendees.length - 1 == k ? 0 : 1} speaker={0} />
             )}
           </Box>}
           {!searchingAttendees && !searchMatchAttendees && <Box overflow="hidden" mb={3} bg="primary.box" w="100%" rounded="lg" padding={3}><Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text></Box>}
