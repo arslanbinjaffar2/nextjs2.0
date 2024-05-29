@@ -1137,9 +1137,15 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                             setAttendeeData({
                                                                 ...attendeeData,
                                                                 image: "",
-                                                                file: ""
+                                                                file: "",
+                                                                blob_image:undefined
                                                             });
                                                         }}
+                                                      
+                                                    style={{
+                                                        display: (attendeeData && attendeeData.image || attendeeData.file) ? "flex" : "none"
+                                                    }}
+                                                          
                                                     >
                                                         <Icon as={AntDesign} name="close" ml={"6px"} size="xl" color="primary.text" />
                                                     </Pressable>
@@ -1227,7 +1233,10 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                         attendee_cv:"",
                                                         });
                                                   }}
-                                              
+                                                  style={{
+                                                    display: typeof attendeeData.attendee_cv === 'object' || (typeof attendeeData.attendee_cv === 'string' && attendeeData.attendee_cv !== "") ? "flex" : "none"
+                                                  }}
+                                                  
                                               >
                                                           <Icon as={AntDesign} name="close" ml={"6px"} size="xl" color="primary.text"  />
                                               </Pressable>
