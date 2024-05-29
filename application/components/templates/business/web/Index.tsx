@@ -116,7 +116,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
       <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
         <Text fontSize="2xl">{modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
         <View flexDirection={'row'} alignItems={'center'} w={['100%', '60%']} justifyContent={'space-between'}>
-          <Input rounded="10" w={['100%', '85%']} bg="primary.box" borderWidth={0}
+        <Input rounded="10" w={['88%', '90%']} bg="primary.box" borderWidth={0}
             borderColor={'transparent'}
             value={searchTerm} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
               setSearchTerm(text);
