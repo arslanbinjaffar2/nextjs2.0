@@ -100,10 +100,10 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
     setMySearchKeywords(newSearchKeywords);
   }, [keywords]);
 
-  const filteredAttendees = searchMatchAttendees?.filter((attendee) =>
+  const filteredAttendees = (searchMatchAttendees?.filter((attendee) =>
     attendee?.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     attendee?.last_name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )) || [];
 
   useEffect(() => {
     if (mySearchkeywords.length > 0) {
@@ -115,8 +115,10 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
     <>
       <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
         <Text fontSize="2xl">{modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
-        <View flexDirection={'row'} alignItems={'center'} w={['100%', '60%']} justifyContent={'space-between'}>
-          <Input rounded="10" w={['100%', '85%']} bg="primary.box" borderWidth={0}
+        <View flexDirection={'row'} alignItems={'center'} w={['100%', '60%']} justifyContent={'space-between'}
+        style={{ gap:8 }}
+        >
+        <Input rounded="10" w={['88%', '90%']} bg="primary.box" borderWidth={0}
             borderColor={'transparent'}
             value={searchTerm} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
               setSearchTerm(text);
@@ -133,7 +135,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
               <RectangleAttendeeView attendee={attendee} border={filteredAttendees.length > 0 && filteredAttendees[filteredAttendees.length - 1]?.id !== attendee?.id ? 1 : 0} speaker={0} />
             </React.Fragment>
           )}
-          {!filteredAttendees &&
+          {filteredAttendees?.length === 0  &&
             <Box p={3} rounded="lg" w="100%">
               <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
             </Box>
