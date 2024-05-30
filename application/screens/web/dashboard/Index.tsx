@@ -129,7 +129,7 @@ const Index = ({ navigation }: indexProps) => {
 
                     <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
                       <HStack mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
-                      <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
+                      <IconWithLeftHeading icon={<DynamicIcon iconType={modules.find((module: Module) => module.alias === 'speakers')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
                       {my_attendees?.length > 6 &&
                         <Button onPress={() => {
                           push(`/${event.url}/speakers`)
