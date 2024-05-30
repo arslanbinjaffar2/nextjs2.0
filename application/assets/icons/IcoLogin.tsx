@@ -1,14 +1,14 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Svg, { G, Path } from 'react-native-svg';
+import Svg, {SvgProps, G, Path } from 'react-native-svg';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
 
-const IcoLogin = () => {
+const IcoLogin = (props: SvgProps) => {
   
   const { event } = UseEventService()
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);  
-  const fill = colors.text ? colors.text : "#fff";
+  const fill = props.color ? props.color : colors.text;
 
   return (
     <Svg

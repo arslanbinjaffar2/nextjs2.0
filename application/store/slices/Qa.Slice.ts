@@ -22,8 +22,11 @@ export interface QaState {
         archived_questions:Question[],
         my_questions:Question[],
         clientIp:string,
-        all_languages:number[]
+        all_languages:number[],
+        labels: any[]
     },
+    my_questions:Question[],
+    questionAnswers: any[],
 }
 
 const initialState: QaState = {
@@ -39,8 +42,11 @@ const initialState: QaState = {
         archived_questions:[],
         my_questions:[],
         clientIp:'',
-        all_languages:[]
-    }
+        all_languages:[],
+        labels:[]
+    },
+    my_questions:[],
+    questionAnswers: [],
 }
 
 // Slice
@@ -55,7 +61,7 @@ export const QaSlice = createSlice({
             state.programSettings = action.payload.program_settings;
         },
         OnFetchProgramDetail(state, action: PayloadAction<{ id: number }>) {},
-        updateDetail(state, action: PayloadAction<{ program_detail:AgendaDetail, speakers:Speaker[], paragraph:Paragraph[], qa_settings:QaSettings, program_settings:ProgramSettings, client_ip:string, all_languages:number[] }>) {
+        updateDetail(state, action: PayloadAction<{ program_detail:AgendaDetail, speakers:Speaker[], paragraph:Paragraph[], qa_settings:QaSettings, program_settings:ProgramSettings, client_ip:string, all_languages:number[], labels: any[] }>) {
             state.qaDetails.program_detail = action.payload.program_detail;
             state.qaDetails.speakers = action.payload.speakers;
             state.qaDetails.paragraph = action.payload.paragraph;
@@ -63,6 +69,7 @@ export const QaSlice = createSlice({
             state.programSettings = action.payload.program_settings;
             state.qaDetails.clientIp = action.payload.client_ip;
             state.qaDetails.all_languages = action.payload.all_languages;
+            state.qaDetails.labels = action.payload.labels;
         },
         OnFetchTabDetails(state, action: PayloadAction<{ id: number }>) {},
         updateTabDetail(state, action: PayloadAction<{ popular_questions:Question[], recent_questions:Question[], archived_questions:Question[], my_questions:Question[] }>) {
@@ -70,6 +77,12 @@ export const QaSlice = createSlice({
             state.qaDetails.recent_questions = action.payload.recent_questions;
             state.qaDetails.archived_questions = action.payload.archived_questions;
             state.qaDetails.my_questions = action.payload.my_questions;
+        },
+        updateMyQuestions(state, action: PayloadAction<any>) {
+            state.my_questions = action.payload;
+        },
+        updateMyQuestionAnswers(state, action: PayloadAction<any>) {
+            state.questionAnswers = action.payload;
         },
         SubmitQa(state, action: PayloadAction<any>) {},
         SubmitQaLike(state, action: PayloadAction<{question_id:number, agenda_id:number}>) {},
@@ -130,7 +143,9 @@ export const QaSlice = createSlice({
 
             state.qaDetails.my_questions = myQA;
         },
-        
+        FetchMyQuestions() {},
+        FetchMyQuestionsAnswers(state, action: PayloadAction<{ id: number }>) {},
+        SendMessage(state, action: PayloadAction<{question_id:number, message:string}>) {},   
     },
 })
 
@@ -146,6 +161,11 @@ export const QaActions = {
     SubmitQaLike:QaSlice.actions.SubmitQaLike,
     QaRecentPopularSocketUpdate:QaSlice.actions.QaRecentPopularSocketUpdate,
     QaSort:QaSlice.actions.QaSort,
+    FetchMyQuestions:QaSlice.actions.FetchMyQuestions,
+    FetchMyQuestionsAnswers:QaSlice.actions.FetchMyQuestionsAnswers,
+    updateMyQuestions:QaSlice.actions.updateMyQuestions,
+    updateMyQuestionAnswers:QaSlice.actions.updateMyQuestionAnswers,
+    SendMessage:QaSlice.actions.SendMessage,
 }
 
 export const SelectPrograms = (state: RootState) => state.qa.programs
@@ -156,7 +176,9 @@ export const SelectQaSettings = (state: RootState) => state.qa.qaSettings
 
 export const SelectQaDetails = (state: RootState) => state.qa.qaDetails
 
+export const SelectMyQuestions = (state: RootState) => state.qa.my_questions
 
+export const SelectMyQuestionAnswers = (state: RootState) => state.qa.questionAnswers
 
 
 // Reducer

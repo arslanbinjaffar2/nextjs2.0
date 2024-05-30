@@ -14,6 +14,7 @@ import UseEnvService from 'application/store/services/UseEnvService'
 import { Banner } from 'application/models/Banner'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import ButtonElement from 'application/components/atoms/ButtonElement'
 
 const Index = () => {
 
@@ -25,7 +26,7 @@ const Index = () => {
 
     const [query, setQuery] = React.useState('');
     
-    const { FetchSurveys, surveys, completed_surveys, survey_labels } = UseSurveyService();
+    const { FetchSurveys, surveys, completed_surveys, survey_labels, survey_settings } = UseSurveyService();
 
     const { event, modules  } = UseEventService();
     const { _env } = UseEnvService()
@@ -39,9 +40,9 @@ const Index = () => {
 
     useEffect(() => {
         
-        // if(surveys.length == 1 && completed_surveys.length == 0){
-        //     push(`/${event.url}/survey/detail/${surveys[0]?.id}`);
-        // }
+        if(surveys.length == 1 && completed_surveys.length == 0){
+            push(`/${event.url}/survey/detail/${surveys[0]?.id}`);
+        }
 
         if(surveys && surveys.length > 0) {
 
@@ -85,13 +86,13 @@ const Index = () => {
                     <NextBreadcrumbs module={module} />
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text textTransform="capitalize" fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'survey'))?.name ?? 'Surveys'}</Text>
+                            <Text fontSize="2xl">{modules?.find((polls)=>(polls.alias == 'survey'))?.name ?? 'Surveys'}</Text>
                             <Spacer />
                             <Input rounded="10" w={["100%","60%" ]}bg="primary.box" borderWidth={0}onChangeText={(text) => {setQuery(text)}} value={query} placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                         </HStack>
-                        <HStack mb="3" space={1} justifyContent="center" w="100%">
-                            <Button onPress={() => setTab('pending')} borderWidth="0px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>NOT ATTENDED</Button>
-                            <Button onPress={() => setTab('completed')} borderWidth="0px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>COMPLETED</Button>
+                         <HStack mb="3" rounded={'lg'} overflow={'hidden'} space={1} justifyContent="center" w="100%">
+                            <ButtonElement onPress={() => setTab('pending')} bg={tab == 'pending' ? 'primary.boxbutton' : 'primary.box'}>{survey_labels?.NATIVE_APP_SURVEY_NOT_ATTENDED}</ButtonElement>
+                            <ButtonElement isDisabled={survey_settings?.user_settings == 1 ? false:true} onPress={() => setTab('completed')} bg={tab == 'completed' ? 'primary.boxbutton' : 'primary.box'}>{survey_labels?.NATIVE_APP_SURVEY_COMPLETED}</ButtonElement>
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
@@ -107,7 +108,7 @@ const Index = () => {
                                     )
                                 
                                 }
-                                    <Divider h="20px" bg="transparent" />
+                                 {surveys.length > 0  &&   <Divider h="20px" bg="transparent" />}
                                 </Box>
                             ) }
                         {tab === 'completed' && (
@@ -122,7 +123,7 @@ const Index = () => {
                                             <Text>{survey_labels?.NO_SURVEY_AVAILABL}</Text>
                                         </Box>
                                     )}
-                                    <Divider h="20px" bg="transparent" />
+                                  {completed_surveys.length > 0  &&  <Divider h="20px" bg="transparent" />}
                                 </Box>
                             )
                         }

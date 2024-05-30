@@ -51,18 +51,17 @@ const Index = () => {
                 ):(
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text textTransform="uppercase" fontSize="2xl">{setting_modules?.find((surveys)=>(surveys.alias == 'mySurveyResults'))?.name ?? 'My surveys results'}</Text>
+                            <Text  fontSize="2xl">{setting_modules?.find((surveys)=>(surveys.alias == 'mySurveyResults'))?.name ?? 'My surveys results'}</Text>
                         </HStack>
                         
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                                    {mySurveyResult.length > 0 ? mySurveyResult?.map((survey)=>(
-                                                <RectangleView key={survey.id} survey={survey} completed={true} settings={true} />
+                                    {mySurveyResult.length > 0 ? mySurveyResult?.map((survey,k)=>(
+                                                <RectangleView index={k}  key={survey.id} survey={survey} completed={true} settings={true} />
                                             )) : (
-                                        <Box padding={5}>
+                                        <Box padding={3}>
                                             <Text>{survey_labels?.NO_SURVEY_AVAILABL}</Text>
                                         </Box>
                                     )}
-                                    <Divider h="20px" bg="transparent" />
                                 </Box>
                             
                        

@@ -65,7 +65,7 @@ const BannerAds = ({
 
 
   useEffect(() => {
-    if(banners === undefined || banners.length === 0){
+    if(module_name !== 'dashboard'){
       FetchBanners();
     }
   }, []);
@@ -142,17 +142,17 @@ const BannerAds = ({
     <>
       {filteredBanners.map((banner:Banner,index)=>
         <Container mb="4"  w="100%" maxW="100%">
-        <Box width={"100%"} height={"5%"}>
-        <Box maxW="100%" maxH="100%" display={index === currentBanner ? 'block' : 'none'}>
-         <TouchableOpacity onPress={() => handleBannerClick(banner)}>
-           <View w={'100%'} h={'100%'}>
-             <Box width="full" >
-               <RectangleView url={`${_env.eventcenter_base_url}/assets/banners/${banner.image}`} />
-             </Box>
-           </View>
-         </TouchableOpacity>
-        </Box>
-        </Box>
+          <Box width={"100%"} height={"5%"}>
+          <Box maxW="100%" maxH="100%" display={index === currentBanner ? 'block' : 'none'}>
+          <TouchableOpacity onPress={() => handleBannerClick(banner)}>
+            <View w={'100%'} h={'100%'}>
+              <Box width="full" >
+                <RectangleView url={`${_env.eventcenter_base_url}/assets/banners/${banner.image}`} />
+              </Box>
+            </View>
+          </TouchableOpacity>
+          </Box>
+          </Box>
         </Container>
       )}
     </>

@@ -21,6 +21,7 @@ export interface PollState {
     myPollResult: Polls,
     myPollResultDetail: MyPollResultDetailPoll | null,
     myPollResultScore: number,
+    myPollTotalScore: number,
 
 }
 
@@ -35,6 +36,7 @@ const initialState: PollState = {
     myPollResult: {},
     myPollResultDetail:null,
     myPollResultScore:0,
+    myPollTotalScore:0,
 }
 
 // Slice
@@ -53,8 +55,12 @@ export const PollSlice = createSlice({
         },
         FetchPollDetail(state, action: PayloadAction<{ id: number }>) { },
         updateDetail(state, action: PayloadAction<{ detail: PollDetail, poll_labels:PollLabels }>) {
-            state.detail = action.payload.detail;
-            state.poll_labels = action.payload.poll_labels;
+            if(action.payload.detail){
+                state.detail = action.payload.detail;
+            }
+            if(action.payload.poll_labels){
+                state.poll_labels = action.payload.poll_labels;
+            }
         },
         SubmitPoll(state, action: PayloadAction<PollSubmitData>){
             state.submitSuccess = false
@@ -72,6 +78,7 @@ export const PollSlice = createSlice({
         updateMyPollResultDetail(state, action: PayloadAction<{ detail: MyPollResultDetail, poll_labels:PollLabels, poll_settings:PollSetting, }>) {
             state.myPollResultDetail = action.payload.detail.poll;
             state.myPollResultScore = action.payload.detail.total_score.reduce((ack, s)=>(s.score == 1 ? (ack +1) : ack),0);
+            state.myPollTotalScore = action.payload.detail.total_points;
             state.poll_settings = action.payload.poll_settings;
             state.poll_labels = action.payload.poll_labels;
         },
@@ -113,6 +120,8 @@ export const SelectMyPollResultDetail = (state: RootState) => state.polls.myPoll
 export const SelectPollSettings = (state: RootState) => state.polls.poll_settings
 
 export const SelectMyPollResultScore = (state: RootState) => state.polls.myPollResultScore
+
+export const SelectMyPollTotalScore = (state: RootState) => state.polls.myPollTotalScore
 
 
 

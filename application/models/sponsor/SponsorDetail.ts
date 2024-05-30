@@ -2,10 +2,6 @@ export interface SponsorDetail {
   detail?: Sponsor;
   documents?: any[];
 }
-export interface SponsorContact {
-  contact?: Sponsor;
-}
-
 interface Sponsor {
   id?: number;
   event_id?: number;
@@ -98,11 +94,11 @@ interface Info {
   facebook?: string;
   twitter?: string;
   linkedin?: string;
+  department?: string;
   phone?: string;
   linkedin_protocol?: string;
   twitter_protocol?: string;
   facebook_protocol?: string;
-  department?: string;
 }
 
 interface AttendeeSponsors {

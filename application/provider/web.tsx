@@ -14,6 +14,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { usePathname } from 'next/navigation';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { color } from 'native-base/lib/typescript/theme/styled-system';
+import moment from 'moment';
+import 'moment/min/locales';
 
 function hex2rgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -62,9 +64,27 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
 
     useEffect(() => {
       if(Object.keys(event).length > 0){
+            if(event?.event_language_code){
+                let eventLocale= event?.event_language_code;
+
+                if (eventLocale == 'no') { // Norwegian
+                    eventLocale='nb';
+                }
+
+                if (eventLocale == 'se') { // Swedish
+                    eventLocale='sv';
+                }
+
+                if (eventLocale == 'be') { // Flemish
+                    eventLocale='nl';
+                }
+
+                moment.locale(eventLocale);
+            }
            const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
            const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
            const type = colourIsLight(rgb[0],rgb[1],rgb[2]) ? '#1e1e1e' : '#EAEAEA'
+           const _border = hex2rgb(colors.text);
            const theme = extendTheme({
             colors: {
                 primary: {
@@ -84,10 +104,12 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     boxsolidtext: `${colors.darkboxtext}`,
                     hovercolor: `${type}`,
                     darkbox: `rgba(0,0,0,0.2)`,
-                    primarycolor : `rgba(${[...rgb]},0.2)`,
+                    toastbg:`rgba(0,0,0,0.7)`,
+                    primarycolor : `rgba(${[...rgb]},1)`,
                     boxTransparent: `rgba(${colors.box},0.5)`,
                     text: `${colors.text}`,
                     bordercolor: `${colors.text}`,
+                    popupbordercolor: `rgba(${[..._border]},0.4)`,
                     secondary: event?.settings?.secondary_color,
                     bdColor: 'rgba(148,160,183,0.64)',
                     bdBox: `rgba(${colors.darkbox},1)`,
@@ -225,7 +247,9 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     name="description"
                     content={event.name}
                     />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
                     {event?.settings?.fav_icon !== "" && <link rel="icon" type="image/x-icon"  href={`${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.fav_icon}`} />}
+                    
                 </Head>
                 <NativeBaseProvider config={config} theme={nativebaseTheme}>{children}</NativeBaseProvider>
             </>

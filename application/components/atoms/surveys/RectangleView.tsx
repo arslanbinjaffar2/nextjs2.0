@@ -5,7 +5,7 @@ import { Survey } from 'application/models/survey/Survey';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 
-const RectangleView = ({survey, completed, settings}:{survey:Survey, completed:boolean, settings?:boolean}) => {
+const RectangleView = ({survey, completed, settings, index}:{survey:Survey, completed:boolean, settings?:boolean, index?: number}) => {
   const { event } = UseEventService();
   const { push } = useRouter()
 
@@ -13,7 +13,6 @@ const RectangleView = ({survey, completed, settings}:{survey:Survey, completed:b
     <Pressable
       p="0"
       w="100%"
-      _hover={{ bg: 'primary.500' }}
       onPress={() => { 
         if(!completed){
           push(`/${event.url}/survey/detail/${survey.id}`)
@@ -25,9 +24,9 @@ const RectangleView = ({survey, completed, settings}:{survey:Survey, completed:b
           push(`/${event.url}/survey/result/${survey.id}`)
         }
        }}>
-      <Box w="100%" borderBottomWidth='1' borderColor="primary.bordercolor" py="3">
+      <Box w="100%" borderTopWidth={index === 0 ? 0 : '1'} borderColor="primary.bordercolor" py="4">
         <HStack px="3" w="100%" space="0" alignItems="center" justifyContent="space-between">
-          <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="1">
+          <VStack w="100%" maxW="calc(100% - 40px)" space="1">
             <Text fontSize="md">{survey.info.name}</Text>
           </VStack>
           <Spacer />

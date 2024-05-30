@@ -8,12 +8,15 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import UseEventService from 'application/store/services/UseEventService';
 import { colorText } from 'application/styles/colors'
+import UseToastService from 'application/store/services/UseToastService';
 
 type AppProps = {
     detail: SponsorDetail|null,
 }
 
 const DetailBox = ({ detail }: AppProps) => {
+    
+    const {AddToast}=UseToastService()
 
     const { _env } = UseEnvService()
 
@@ -46,7 +49,7 @@ const DetailBox = ({ detail }: AppProps) => {
 
     return (
         <>
-            {detail && <Box w="100%" bg="primary.primarycolor" p="0" roundedTop="10">
+            {detail && <Box w="100%"  p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
                     <Image  roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
                 ) : (
@@ -98,7 +101,7 @@ const DetailBox = ({ detail }: AppProps) => {
                             </HStack>
                         )}
                     </HStack>
-                    {detail?.detail?.description && <Box mb="4" w="100%">
+                    {detail?.detail?.description && event?.sponsor_tab_settings?.about === 1 && <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
                         <Text><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div></Text>
                     </Box>}

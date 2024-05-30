@@ -10,6 +10,7 @@ export interface Detail {
     document_id?: string;
     group_count?:number;
     has_documents?:number;
+    has_active_polls?:boolean;
 }
 
 interface TabSetting {

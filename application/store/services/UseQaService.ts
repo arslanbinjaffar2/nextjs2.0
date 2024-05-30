@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectPrograms, QaActions, SelectProgramSettings, SelectQaSettings, SelectQaDetails,  } from 'application/store/slices/Qa.Slice'
+import { SelectPrograms, QaActions, SelectProgramSettings, SelectQaSettings, SelectQaDetails,  SelectMyQuestions, SelectMyQuestionAnswers} from 'application/store/slices/Qa.Slice'
 
 import { Program, ProgramSettings, QaSettings } from 'application/models/qa/Qa'
 
@@ -20,15 +20,21 @@ export type QaServiceOperators = {
         archived_questions:Question[],
         my_questions:Question[],
         clientIp:string,
-        all_languages:number[]
+        all_languages:number[],
+        labels: any
     },
+    my_questions: any,
+    questionAnswers: any,
     FetchPrograms: () => void,
+    FetchMyQuestions: () => void,
+    FetchMyQuestionsAnswers: (payload:{id:number}) => void,
     FetchProgramDetail: (payload:{id:number}) => void,
     FetchTabDetails: (payload:{id:number}) => void,
     SubmitQa: (payload:any) => void,
     SubmitQaLike: (payload:{question_id:number, agenda_id:number}) => void,
     QaRecentPopularSocketUpdate: (payload:any) => void,
     QaSort: (payload:any) => void,
+    SendMessage: (payload:{question_id:number, message:string}) => void,
 }
 
 /**
@@ -45,6 +51,8 @@ export const UseQaService = (): Readonly<QaServiceOperators> => {
         programSettings: useAppSelector(SelectProgramSettings),
         qaSettings: useAppSelector(SelectQaSettings),
         qaDetials: useAppSelector(SelectQaDetails),
+        my_questions: useAppSelector(SelectMyQuestions),
+        questionAnswers: useAppSelector(SelectMyQuestionAnswers),
         FetchPrograms: useCallback(
             () => {
                 dispatch(QaActions.OnFetchPrograms())
@@ -84,6 +92,24 @@ export const UseQaService = (): Readonly<QaServiceOperators> => {
         QaSort: useCallback(
             (payload:any) => {
                 dispatch(QaActions.QaSort(payload))
+            },
+            [dispatch],
+        ),
+        FetchMyQuestions: useCallback(
+            () => {
+                dispatch(QaActions.FetchMyQuestions())
+            },
+            [dispatch],
+        ),
+        FetchMyQuestionsAnswers: useCallback(
+            (payload: { id: number }) => {
+                dispatch(QaActions.FetchMyQuestionsAnswers(payload))
+            },
+            [dispatch],
+        ),
+        SendMessage: useCallback(
+            (payload: {question_id:number, message:string}) => {
+                dispatch(QaActions.SendMessage(payload))
             },
             [dispatch],
         ),

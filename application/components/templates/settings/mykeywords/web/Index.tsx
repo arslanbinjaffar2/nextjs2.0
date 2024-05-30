@@ -107,7 +107,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
   return (
     <Container pt="2" maxW="100%" w="100%">
                     <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="uppercase" fontSize="2xl">Network interest</Text>
+                    <Text fontSize="2xl">{event?.labels?.EVENTSITE_TAB_NETWORK_INTEREST}</Text>
                     </HStack>
                     <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
                     <Center mb="3" px="1">
@@ -116,7 +116,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         py="1"
                         rounded="20px"
                         bg={((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.500" : "primary.box"}
-                        borderWidth="1"
+                        borderWidth="0"
                         _text={{ fontSize: 'lg' }}
                         borderColor="primary.bdBox"
                         colorScheme="primary"
@@ -134,7 +134,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                             py="1"
                             rounded="20px"
                             bg={filters?.indexOf(keyword?.id) !== -1 ? "primary.500" :"primary.box" }
-                            borderWidth="1"
+                            borderWidth="0"
                             borderColor="primary.bdBox"
                             _text={{ fontSize: 'lg' }}
                             colorScheme="primary"
@@ -180,14 +180,14 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         isLoading={UpdatingMyKeywords}
                         isDisabled={UpdatingMyKeywords}
                         shadow="1"
-                        textTransform="uppercase"
+                        textTransform="capitalize"
                         _text={{ fontWeight: 600, fontSize: '2xl' }}
                         colorScheme="primary"
                         onPress={() => {
                             SaveMykerwords(mykeywords);
                         }}
                     >
-                        Done
+                      {event?.labels?.GENERAL_DONE}
                     </Button>
                     </Box>
                 </Container>

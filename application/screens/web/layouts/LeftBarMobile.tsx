@@ -11,9 +11,10 @@ import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseInfoService from 'application/store/services/UseInfoService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import {  func } from 'application/styles';
 
-const LeftBarMobile = () => {
-
+const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
+  console.log(setOpenMenu,"kjsdkljaskldjfsad")
   const router = useRouter()
 
   const { width, height } = useWindowDimensions();
@@ -28,12 +29,20 @@ const LeftBarMobile = () => {
 
   const { setLoading } = UseLoadingService();
 
+  const [dahboardHover, setdahboardHover] = React.useState(false)
+  const [logoutHover, setlogoutHover] = React.useState(false)
+  const [dashhover, setdashhover] = React.useState(false)
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
       <Box borderBottomWidth={1} mb="3" w="100%" borderBottomColor={'primary.bordercolor'} pb="3" px="3">
       <Pressable
+         onHoverIn={() => setdashhover(true)}
+         onHoverOut={() => setdashhover(false)}
             onPress={() => {
               router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
+              setTimeout(()=>{
+                setOpenMenu(false)
+              },800)
             }}>
         <Flex alignItems="center" flexDirection={'row'}>
           <Avatar w="50px" h="50px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
@@ -44,26 +53,46 @@ const LeftBarMobile = () => {
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.jobs}</Text>
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.company_name}</Text>
           </VStack>
+        <Pressable
+            w="100%"
+            p="1"
+            borderRadius="8"
+            width={30}
+            h={30}
+            onPress={() => {
+              router.push(`/${event.url}/settings/editprofile`)
+              setTimeout(()=>{
+                setOpenMenu(false)
+              },800)
+            }}>
+              <DynamicIcon  iconType={'edit_profile'} iconProps={{ width:18,height:18,  color: dashhover  ? func.colorType(event?.settings?.primary_color) : undefined}}/>
+            </Pressable>
         </Flex>
         </Pressable>
+       
       </Box>
       <ScrollView w={'100%'} h={height - 150}>
-        <VStack space={1} px={'0'} w="100%" maxW="100%" >
+        <VStack px={3} space={1}  w="100%" maxW="100%" >
           <Pressable
             w="100%"
             px="4"
             py="2"
             bg={`${ router.asPath.includes('/dashboard') && 'primary.500'}`}
             _hover={{ bg: 'primary.500' }}
+            onHoverIn={() => setdahboardHover(true)}
+            onHoverOut={() => setdahboardHover(false)}
             borderRadius="4"
             onPress={() => {
               router.push(`/${event.url}/dashboard`)
+              setTimeout(()=>{
+                setOpenMenu(false)
+              },800)
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <IcoDashboard width="24" height="24" />
+                <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : undefined} width="24" height="24" />
               </Center>
-              <Text fontSize={'lg'} color="primary.text">Dashboard</Text>
+              <Text fontSize={'lg'} color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"}>Dashboard</Text>
             </HStack>
           </Pressable>
           {modules.map((row: any, key: any) =>
@@ -76,8 +105,12 @@ const LeftBarMobile = () => {
               _hover={{ bg: 'primary.500' }}
               borderRadius="4"
               onPress={() => {
+                setTimeout(()=>{
+                  setOpenMenu(false)
+                },800)
                 if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
                   // setLoading(true);
+                  
                   router.push(`/${event.url}/${row?.alias}/event-info/0`)
                 } else if (in_array(row?.alias, ['information_pages'])) {
                   // setLoading(true); 
@@ -93,12 +126,13 @@ const LeftBarMobile = () => {
                 } else {
                   router.push(`/${event.url}/${row?.alias}`)
                 }
+                
               }}>
               <HStack space="4" alignItems="center">
                 <Center w="30px">
-                  <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} />
+                  <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 25, height: 25, color: checkActiveRoute(row, router.asPath, info, page) ? func.colorType(event?.settings?.primary_color) : undefined }} />
                 </Center>
-                <Text fontSize={'lg'} color="primary.text">{row?.name}</Text>
+                <Text fontSize={'lg'} color={checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>{row?.name}</Text>
               </HStack>
             </Pressable>
           )}
@@ -107,13 +141,18 @@ const LeftBarMobile = () => {
             px="4"
             py="2"
             _hover={{ bg: 'primary.500' }}
+            onHoverIn={() => setlogoutHover(true)}
+            onHoverOut={() => setlogoutHover(false)}
             borderRadius="4"
             onPress={() => {
               logout();
+              setTimeout(()=>{
+                setOpenMenu(false)
+              },800)
             }}>
             <HStack space="4" alignItems="center">
               <Center w="30px">
-                <IcoLogin />
+                <IcoLogin color={logoutHover ? func.colorType(event?.settings?.primary_color) : undefined} />
               </Center>
               <Text fontSize={'lg'} color="primary.text">Logout</Text>
             </HStack>

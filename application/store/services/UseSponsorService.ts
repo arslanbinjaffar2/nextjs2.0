@@ -23,7 +23,7 @@ import { SponsorSetting } from 'application/models/sponsor/SponsorSetting'
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 import { SponsorDetail } from 'application/models/sponsor/SponsorDetail'
-import { SponsorContact } from 'application/models/sponsor/SponsorDetail'
+import { SponsorContact } from 'application/models/sponsor/SponsorContact'
 
 export type SponsorServiceOperators = {
     sponsors: Sponsor[]
@@ -33,7 +33,6 @@ export type SponsorServiceOperators = {
     categories: SponsorCategory[]
     settings: SponsorSetting
     detail: SponsorDetail | null
-    contact: SponsorContact | null
     category_id: number
     query: string
     FetchSponsors: (payload: { category_id: number, query: string, screen: string }) => void
@@ -62,7 +61,6 @@ export const UseSponsorService = (): Readonly<SponsorServiceOperators> => {
         category_id: useAppSelector(SelectSponsorCategoryID),
         query: useAppSelector(SelectSponsorQuery),
         detail: useAppSelector(SelectSponsorDetail),
-        contact: useAppSelector(SelectSponsorContact),
         FetchSponsors: useCallback(
             (payload: { category_id: number, query: string, screen: string }) => {
                 dispatch(SponsorActions.FetchSponsors(payload))
@@ -95,6 +93,7 @@ export const UseSponsorService = (): Readonly<SponsorServiceOperators> => {
         ),
         FetchSponsorContact: useCallback(
           (payload: { id: number }) => {
+              console.log(payload.id,'okk');
               dispatch(SponsorActions.FetchSponsorContact(payload))
           },
           [dispatch],

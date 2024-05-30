@@ -89,23 +89,23 @@ const Index = React.memo(() => {
         <>
             <NextBreadcrumbs module={module} title={title} />
             <Container h="100%" alignItems={'flex-start'} pt="4" maxW="100%" w="100%">  
-                <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text textTransform="capitalize" fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
+                <HStack display={['block','flex']} mb="3" pt="2" w="100%" space="3" alignItems="center">
+                    <Text pb={['3','0']} fontSize="2xl">{modules?.find((sponsors)=>(sponsors.alias == 'sponsors'))?.name ?? ""}</Text>
                     <Spacer />
-                    <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels.GENERAL_SEARCH} onChangeText={(text: string) => {
+                    <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels.GENERAL_SEARCH} onChangeText={(text: string) => {
                         search(text);
                         setSearch(text);
                     }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                 </HStack>
-                {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && (
+                {(event?.sponsor_settings?.sponsorTab == 1) && (
                     <HStack mb="3" space={1} justifyContent="center" w="100%">
-                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && <Button onPress={() => {
+                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                         setTab('name')
                         FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
                         push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'name'))
                     }} 
                     borderWidth="0px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_NAME}</Button>}
-                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button onPress={() => {
+                    {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                         setTab('category')
                         FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
                         push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'category'))
@@ -146,7 +146,7 @@ const Index = React.memo(() => {
                         </HStack>
                         )}
                         {mode === "list" &&
-                                    <Box w="100%" rounded="10" bg="primary.box" borderWidth={0} borderColor="primary.box">
+                                    <Box mb={3} w="100%" rounded="10" bg="primary.box" borderWidth={0} borderColor="primary.box">
                                 <ScrollView h={'53%'}>
                                     {sponsors.length > 0 && sponsors.map((sponsor: Sponsor, key: number) =>
                                         <RectangleView border={sponsors.length === 0 ? 0 : sponsors.length > 0 && key === sponsors.length-1 ? 0 : 1} sponsor={sponsor}  key={key} />

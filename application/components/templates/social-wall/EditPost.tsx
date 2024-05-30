@@ -304,7 +304,7 @@ const EditPost = () => {
                         w="100%"
                         rounded="0"
                         py="3"
-                        _text={{ fontWeight: 600 }}
+                        _text={{ fontWeight: 600, color: 'primary.hovercolor' }}
                         colorScheme="primary"
                         onPress={() => {
                            updatePost();

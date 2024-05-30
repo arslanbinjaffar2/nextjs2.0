@@ -1,41 +1,22 @@
 import * as React from 'react';
 import { Badge, Box, Button, Center, Container, Heading, HStack, Image, Menu, Pressable, Spacer, Text, VStack, Icon, Drawer, Divider } from 'native-base';
 import LeftBarMobile from 'application/screens/web/layouts/LeftBarMobile';
-import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
-import Notification from 'application/components/atoms/header/Notification';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Event } from 'application/models/Event'
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
 import { images } from 'application/styles';
-import UseNotificationService from 'application/store/services/UseNotificationService';
-import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
+import Icosettings from '../../../assets/icons/Icosettings';
+import LeftBarProfileMobile from './LeftBarProfileMobile';
 
 const HeaderMobile = ({ width }: any) => {
   const { _env } = UseEnvService();
 
   const { event } = UseEventService();
 const [open, setOpen] = React.useState(false)
-  const { popupCount, setCurrentPopup, currentPopup, clearCurrentPopup } = UseNotificationService();
-
-
   const router = useRouter();
-  
-
-
-
-
-
-  React.useEffect(() => {
-    if(popupCount > 0 && currentPopup == null){
-      setCurrentPopup();
-    }
-  }, [popupCount])
-  
-  React.useEffect(() => {
-    setOpen(false)
-  }, [router])
+const [openProfileBar,setOpenProfileBar]=React.useState(false)
+console.log(open,"open mneu")
   
   return (
     <>
@@ -67,7 +48,13 @@ const [open, setOpen] = React.useState(false)
           <Spacer />
           <Center alignItems="flex-end">
             <HStack space="0">
-              <Notification />
+              {/* <Notification /> */}
+          <Box>
+          <Pressable onPress={() => { 
+            setOpenProfileBar(true)
+           }}>
+            <Icosettings width={28} height={28} /></Pressable>
+            </Box>
             </HStack>
           </Center>
         </HStack>
@@ -80,7 +67,6 @@ const [open, setOpen] = React.useState(false)
               <Heading textAlign={'center'} fontWeight={600} fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
         </Box>}
-            
       </Container>
       
       <Drawer isOpen={open} placement='left'>
@@ -100,11 +86,32 @@ const [open, setOpen] = React.useState(false)
             </Center>
             
           
-          <LeftBarMobile />
+          <LeftBarMobile setOpenMenu={setOpen}/>
         </Container>
         
-      </Drawer>
+      </Drawer>   
+      <Drawer isOpen={openProfileBar} placement='left'>
+        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
+            <Center w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
+              <Pressable
+                alignItems={'flex-end'}
+                p="0"
+                borderWidth="0"
+                onPress={()=>{
+                  setOpenProfileBar(false)
+                }}
+              
+              >
+                <Icon size={'3xl'} as={Ionicons} name="close-outline" color={'primary.text'}  />
+              </Pressable>
+            </Center>
+            
+          
+          <LeftBarProfileMobile setProfileBar={setOpenProfileBar}/>
 
+        </Container>
+        
+      </Drawer>       
     </>
   );
 }

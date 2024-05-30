@@ -26,7 +26,7 @@ const Index = () => {
        <NextBreadcrumbs module={module} />
             <Container pt="2" maxW="100%" w="100%">
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text textTransform="capitalize" fontSize="2xl">{modules?.find((map)=>(map.alias == 'maps'))?.name ?? ""}</Text>
+                <Text fontSize="2xl">{modules?.find((map)=>(map.alias == 'maps'))?.name ?? ""}</Text>
                 </HStack>
                 {map && map?.url && map?.url !== '' && <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
                     <iframe 

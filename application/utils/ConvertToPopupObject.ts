@@ -11,6 +11,17 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             url:'/alerts',
         }
     }
+    if(type == 'qa_answer'){
+        return  {
+            type:'qa_answer',
+            title:notification?.title+ " Q&A",
+            text:notification?.text,
+            data:notification?.data,
+            btnLeftText:'OK',
+            btnRightText:notification?.btnText,
+            url:'/settings/myquestions/detail/'+notification?.data?.question?.id,
+        }
+    }
     if(type == 'poll'){
         return  {
             type:'poll',
@@ -37,7 +48,15 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             title:notification?.title,
             text:notification?.text,
             btnLeftText:'OK',
-            btnRightText:'Detail',
+        }
+    }
+    if(type == 'reservation'){
+        return  {
+            type:'reservation',
+            title:notification?.title,
+            text:notification?.text,
+            btnLeftText:'OK',
+            btnRightText:'',
         }
     }
 }

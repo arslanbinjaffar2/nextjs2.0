@@ -14,19 +14,6 @@ type AppProps = {
 
 const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     const { event  } = UseEventService();
-    const [hasAboutData,setHasAboutData] = useState<boolean>(true);
-    
-    React.useEffect(() => {
-      var _wrapper =document.getElementById('about-wrapper');
-      var _content =document.getElementById('about-content');
-        if(_content && _content.innerHTML.trim() === ''){
-            _wrapper?.setAttribute('style', 'display:none');
-            setHasAboutData(false);
-        }else{
-            setHasAboutData(true);
-        }
-
-    }, [detail])
 
     const hasFirstName = detail?.sort_field_setting.some((setting:any) => setting.name === 'first_name');
     const hasLastName = detail?.sort_field_setting.some((setting:any) => setting.name === 'last_name');
@@ -260,7 +247,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                     {setting.name === 'pa_country' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.private_country_display_name! && (
                                         <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
-                                                <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{event?.labels?.ATTENDEE_PRIVATE_COUNTRY}:</Heading>
+                                                <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.private_country}:</Heading>
                                             </Box>
                                             <Box pl="1" w="calc(100% - 200px)">
                                                 <Text fontSize="sm">{detail?.detail?.info?.private_country_display_name}</Text>
@@ -335,8 +322,8 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                         }
                     </VStack>
                 </Box>
-            ) :  <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
-            <Text>{event.labels.GENERAL_NO_RECORD}</Text>
+            ) :  <Box overflow="hidden">
+            <Text bg="primary.box" fontSize={'md'} p="4" rounded="10" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
         </Box>  }
         </Box>
     )

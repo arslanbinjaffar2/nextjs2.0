@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack, View, Spacer } from 'native-base';
+import { Center, Heading, HStack, Icon, IconButton, Text, FlatList, Box, Pressable, VStack, View, Spacer, Button } from 'native-base';
 import Slider from "react-slick";
 import RectangleDetailView from 'application/components/atoms/programs/RectangleDetailView';
 import WorkshopCollapsableView from 'application/components/atoms/programs/WorkshopCollapsableView';
@@ -10,8 +10,11 @@ import { Platform, useWindowDimensions } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
+import UseProgramService from 'application/store/services/UseProgramService';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
+import Icocalendar from 'application/assets/icons/small/Icocalendar'
 
 type AppProps = {
 	programs: Program[],
@@ -24,20 +27,28 @@ type AppProps = {
 const LazySlider = ({ programs, onChange }: any) => {
 
 	const { width } = useWindowDimensions();
-	const [currentIndex, setCurrentIndex] = React.useState<number>(0);
 	const sliderRef = React.useRef<Slider>(null);
 	const router = useRouter();
-	React.useEffect(() => {
+	const { select_day } = UseProgramService();
+
+	const [currentIndex, setCurrentIndex] = React.useState<number>(() => {
 		let indexFromQuery = router.asPath.split('currentIndex=')[1];
-		const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
-		setCurrentIndex(currentIndex);
-	}, [])
+		let currentIndex = 0;
+		if(indexFromQuery){
+			currentIndex = parseInt(indexFromQuery);
+		}else if(select_day) {
+			currentIndex=select_day;
+		}
+		return currentIndex;
+	});
+
 	const settings = {
 		dots: false,
 		arrows: false,
 		infinite: false,
 		speed: 500,
 		swipe: true,
+		initialSlide: currentIndex,
 		slidesToShow: 7,
 		slidesToScroll: 3,
 		swipeToSlide: true,
@@ -55,7 +66,7 @@ const LazySlider = ({ programs, onChange }: any) => {
 	};
 	return (
 		<>
-			<Box mt={'4'} mb={1} bg={'primary.darkbox'} w={'100%'} p={4}>
+			<Box mt={'2'} mb={1} bg={'primary.darkbox'} w={'100%'} p={4}>
 				<HStack w={['100%']}>
 					<View w={[width - 120, width - 120, 'calc(100% - 70px)']}>
 						<Slider
@@ -122,11 +133,18 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 	const [dates, setDates] = React.useState<any>([]);
 	const [currentIndex, setCurrentIndex] = React.useState<number>();
 	const router = useRouter();
+	const { select_day } = UseProgramService();
+	const [selectedMonth,setSelectedMonth] = React.useState<string>('');
 
 
 	React.useEffect(() => {
 		let indexFromQuery = router.asPath.split('currentIndex=')[1];
-		const currentIndex = indexFromQuery ? parseInt(indexFromQuery) : 0;
+		let currentIndex = 0;
+		if(indexFromQuery){
+			currentIndex = parseInt(indexFromQuery);
+		}else if(select_day) {
+			currentIndex=select_day;
+		}
 		setDates(programs[currentIndex]);
 		setCurrentIndex(currentIndex);
 	}, [])
@@ -139,7 +157,11 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				pathname: router.pathname,
 				query: queryParams,
 			});
+			console.log('monthsL: ', programs)
+			// setSelectedMonth('');
 
+		}else{
+			// setSelectedMonth('');
 		}
 	}, [currentIndex]);
 
@@ -150,8 +172,33 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 		}
 	}, [programs])
 
+	React.useEffect(() => {
+		if(dates && dates.length > 0){
+			setSelectedMonth(moment(dates[0]?.date).format('MMMM YYYY'));
+		}
+	}, [dates])
 
-	const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard }: any) => {
+
+	const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard,handleShowAllButton,limit }: any) => {
+		const [skipShowAllCalculation,setSkipShowAllCalculation]=React.useState<boolean>(false);
+		
+		React.useEffect(()=>{
+			if(!skipShowAllCalculation && dashboard == true){
+				dates?.map((program: Program, key: number) => {
+					if (program?.workshop_programs?.length > limit) {
+						handleShowAllButton(true);
+						setSkipShowAllCalculation(true);
+						return false;
+					}
+					else {
+						handleShowAllButton(false);
+					}
+				});
+
+			}else{
+				setSkipShowAllCalculation(false);
+			}
+		},[dates])
 
 		return (
 			<>
@@ -159,15 +206,15 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				{dates?.length > 0 && currentIndex !== undefined && <>
 
 					{dates?.map((program: Program, key: number) => {
-						if (program.workshop_programs?.length > 0) {
+						if (program?.workshop_programs?.length > 0) {
 							let newProgram = { ...program };
 							if (dashboard == true) {
-								newProgram.workshop_programs = dates.length <= 5 ? program.workshop_programs.slice(0, (5 - (dates.length - 1))) : (dates.length > 5 ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
+								newProgram.workshop_programs = dates.length <= limit ? program.workshop_programs.slice(0, (limit - (dates.length - 1))) : (dates.length > limit ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
 							}
-							return <WorkshopCollapsableView section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+							return <WorkshopCollapsableView currentIndex={currentIndex} section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
 						}
 						else {
-							return <RectangleDetailView workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+							return <RectangleDetailView currentIndex={currentIndex} workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
 						}
 					}
 					)}
@@ -185,21 +232,49 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 		setCurrentIndex(value);
 		setDates(programs[value]);
 	}
+	const { push } = useRouter();
+	const limit = 5;
+	const [showAllButton,setShowallButton]=React.useState<boolean>(false);
+	function handleShowAllButton(workshopsMoreThanLimit:boolean){
+		if(dashboard != true){
+			setShowallButton(false);
+			return;
+		}
+
+		if(workshopsMoreThanLimit || (dates?.length > limit)){
+			setShowallButton(true);
+		}else{
+			setShowallButton(false);
+		}
+	}
 	return (
 		<>
 			{in_array(section, ['program', 'my-program', 'track-program']) && (
 				<>
 					{Platform.OS === 'web' ? (
 						<>
-							{programs.length > 0 && <LazySlider onChange={handleChange} programs={programs} />}
-							{programs.length > 0 && <RenderPrograms programs={programs} dates={dashboard == true ? dates.slice(0, 5) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
-							{programs.length <= 0 &&
+							<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
+								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
+								{section === 'my-program' ? modules?.find((module) => (module.alias == 'myprograms'))?.name:null}
+								</Heading>
+							{selectedMonth && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">{selectedMonth}</Text>
+							</HStack>}
+							<LazySlider onChange={handleChange} programs={programs} />
+							{programs?.length > 0 && <RenderPrograms handleShowAllButton={handleShowAllButton} limit={limit} programs={programs} dates={dashboard == true ? dates?.slice(0, limit) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
+							{programs?.length <= 0 &&
 								<Box overflow="hidden" w="100%" rounded="lg">
 									<Box padding={5}>
-										<Text>{event?.labels?.EVENT_NORECORD_FOUND}</Text>
+										<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
 									</Box>
 								</Box>
 							}
+							{showAllButton && <Center py="3" px="2" w="100%" alignItems="flex-end">
+								<Button onPress={() => {
+								push(`/${event.url}/agendas?currentIndex=${currentIndex}`)
+								}} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+								{event.labels?.GENERAL_SEE_ALL}
+								</Button>
+							</Center>}
 
 						</>
 					) : (

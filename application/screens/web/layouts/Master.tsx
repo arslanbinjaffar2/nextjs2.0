@@ -17,6 +17,8 @@ import UseSubRegistrationService from 'application/store/services/UseSubRegistra
 import UseNotificationService from 'application/store/services/UseNotificationService';
 import { useRouter as UseNextRouter } from 'next/router';
 import SocketHandler from 'application/provider/Socket/SocketHandler';
+import ToastContainer from 'application/components/atoms/toast';
+import ThingsToIncludeOnAllLayouts from 'application/components/atoms/common/ThingsToIncludeOnAllLayouts';
 
 type Props = {
   children:
@@ -39,7 +41,7 @@ const Master = ({ children, section }: Props) => {
 
   const { FetchNotifications } = UseNotificationService();
 
-  const { skip } = UseSubRegistrationService();
+  const { skip, page_scroll } = UseSubRegistrationService();
 
   const { push } = useRouter();
 
@@ -78,15 +80,15 @@ const Master = ({ children, section }: Props) => {
       FetchNotifications();
     }
   }, [modules, event, isLoggedIn])
-
+  const { height } = useWindowDimensions()
   return (
     <BackgroundLayout>
       {modules.length === 0 ? (
         <WebLoading />
       ) : (
         <>
-          <Flex w="100%" h="100%" direction="column">
-            <ScrollView nativeID="body-scroll"
+          <Flex w="100%" h={[height - 10,"100%"]} direction="column">
+            <ScrollView scrollEnabled={page_scroll} nativeID="body-scroll"
               onScroll={({ nativeEvent }) => {
                
                 if (ScrollCloseToBottom(nativeEvent) && !loading) {
@@ -138,10 +140,13 @@ const Master = ({ children, section }: Props) => {
                     </Center>}
                   </HStack>
                 </Container>
+                <ThingsToIncludeOnAllLayouts />
               </Flex>
             </ScrollView>
           </Flex>
           <SocketHandler/>
+          <ToastContainer/>
+
         </>
       )}
 

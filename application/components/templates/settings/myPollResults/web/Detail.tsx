@@ -48,7 +48,7 @@ const Detail = () => {
 
   const { push, back } = useRouter()
 
-  const { FetchMyPollResultDetail, myPollResultDetail, myPollResultScore } = UsePollService();
+  const { FetchMyPollResultDetail, myPollResultDetail, myPollResultScore,myPollTotalScore } = UsePollService();
 
   const [id] = useParam('id');
 
@@ -69,17 +69,18 @@ const Detail = () => {
                 <Pressable onPress={()=> back()}>
                   <HStack space="3" alignItems="center">
                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                        <Text fontSize="2xl">BACK</Text>
+                        <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
                   </HStack>
                 </Pressable>
                 <Spacer />
-                <Text isTruncated  fontSize="xl">{`${myPollResultScore}/${myPollResultDetail?.question.length} Points(s)`}</Text>
+                <Text isTruncated  fontSize="xl">{`${myPollResultScore}/${myPollTotalScore} Points(s)`}</Text>
               </HStack>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
                 <Text textAlign={'center'} w={'100%'} fontSize="2xl">{myPollResultDetail?.program?.info?.topic}</Text>
               </HStack>
               <Box w="100%" >
-                {myPollResultDetail && myPollResultDetail?.question.length > 0 && myPollResultDetail.question.map((question, i) => (
+                {myPollResultDetail && myPollResultDetail?.question.length > 0 && myPollResultDetail.question.filter((question) => question.is_anonymous === 0
+                  && question.results && question.results.length > 0).map((question, i) => (
                         <>
                         {(question.question_type == 'open' 
                         || question.question_type == 'number'

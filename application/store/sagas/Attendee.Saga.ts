@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getAttendeeApi, makeFavouriteApi, getGroupsApi, getAttendeeDetailApi, getCategoryApi, getHotelApi, getInvoiceApi } from 'application/store/api/Attendee.Api';
+import { getAttendeeApi, makeFavouriteApi, getGroupsApi, getAttendeeDetailApi, getCategoryApi, getHotelApi, getInvoiceApi, getContactAttendeeApi } from 'application/store/api/Attendee.Api';
 
 import { AttendeeActions } from 'application/store/slices/Attendee.Slice'
 
@@ -23,7 +23,7 @@ function* OnGetAttendees({
     yield put(LoadingActions.addProcess({ process: in_array(payload.screen, ['dashboard-my-speakers']) ? payload.screen : 'attendee-listing' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAttendeeApi, payload, state)
-    yield put(AttendeeActions.Update({ attendee: response.data.data!, group_id: payload.group_id, query: payload.query, page: payload.page, group_name: response?.data?.meta?.group_name, screen: payload.screen, total: response.data.meta?.total! }))
+    yield put(AttendeeActions.Update({ attendee: response.data.data!, group_id: payload.group_id, query: payload.query, page: payload.page, group_name: response?.data?.meta?.group_name, screen: payload.screen, total: response.data.meta?.total!, last_page: response.data.meta?.last_page!}))
     yield put(LoadingActions.removeProcess({ process: in_array(payload.screen, ['dashboard-my-speakers']) ? payload.screen : 'attendee-listing' }))
 }
 
@@ -37,6 +37,18 @@ function* OnGetAttendeeDetail({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAttendeeDetailApi, payload, state)
     yield put(AttendeeActions.UpdateDetail({ detail: response.data.data! }))
+    yield put(LoadingActions.removeProcess({ process: 'attendee-detail' }))
+}
+
+function* OnGetAttendeeContact({
+    payload,
+}: {
+    type: typeof AttendeeActions.FetchAttendeeContact
+    payload: { id: number, speaker: number }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: 'attendee-detail' }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getAttendeeDetailApi, payload, state)
     yield put(LoadingActions.removeProcess({ process: 'attendee-detail' }))
 }
 
@@ -107,6 +119,7 @@ function* OnGetMyRegistration({
 export function* AttendeeWatcherSaga(): SagaIterator {
     yield takeEvery(AttendeeActions.FetchAttendees.type, OnGetAttendees)
     yield takeEvery(AttendeeActions.FetchAttendeeDetail.type, OnGetAttendeeDetail)
+    yield takeEvery(AttendeeActions.FetchAttendeeContact.type, OnGetAttendeeContact)
     yield takeEvery(AttendeeActions.MakeFavourite.type, OnMakeFavourite)
     yield takeEvery(AttendeeActions.FetchGroups.type, OnGetGroups)
     yield takeEvery(AttendeeActions.FetchCategories.type, OnGetCategories)

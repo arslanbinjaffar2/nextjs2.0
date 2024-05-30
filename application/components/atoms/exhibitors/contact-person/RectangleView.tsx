@@ -3,9 +3,9 @@ import { HStack, Icon, Spacer, Text, VStack, Image, Pressable, Avatar } from 'na
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import { ExhibitorsAttendee } from 'application/models/exhibitor/ExhibitorDetail'
 import UseEnvService from 'application/store/services/UseEnvService';
-import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
 import { useRouter } from 'solito/router';
 import UseEventService from 'application/store/services/UseEventService';
+import UseExhibitorService from 'application/store/services/UseExhibitorService'
 
 type AppProps = {
     attendee: ExhibitorsAttendee,
@@ -20,13 +20,15 @@ const RectangleView = ({ k, attendee, total }: AppProps) => {
     const { _env } = UseEnvService()
     
     const { event } = UseEventService()
-    console.log(total)
 
+    const { detail } = UseExhibitorService()
+    
     const showLastName = attendee?.sort_settings?.last_name?.status ? 1 : 0;
+
     return (
         <Pressable w={'100%'} onPress={() => {push(`/${event.url}/attendees/detail/${attendee.id}`)}}>
         <HStack w={'100%'} key={`item-${k}`} py="3" px="3" space="3" alignItems="center" borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor">
-            {attendee.image ? (
+            {attendee.image && detail?.detail?.exhibitors_attendee && detail?.detail?.exhibitors_attendee[0].sort_settings.profile_picture.is_private == 0 ? (
                 <Image source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee.image}` }} alt="" w="50px" h="50px" rounded={30} />
             ) : (
                  <Avatar

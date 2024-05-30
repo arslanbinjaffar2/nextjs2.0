@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Svg, { SvgProps, G, Path, Rect } from 'react-native-svg';
+import Svg, { SvgProps, G, Path, Rect,Line,Circle } from 'react-native-svg';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
 
@@ -7,75 +7,134 @@ const mydocuments = (props: SvgProps) => {
   const { event } = UseEventService()
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   return (
-  <Svg
-    width={props.width}
-    height={props.height}
-    viewBox="0 0 59.917 63.986"
-  >
-    <G
-      id="Group_696"
-      data-name="Group 696"
-      transform="translate(-1013.615 -104.191)"
+    <Svg
+      width={props.width}
+      height={props.height}
+      viewBox="0 0 23.94 23.412"
+      {...props}
     >
-      <Path
-        id="Path_1719"
-        data-name="Path 1719"
-        d="M30.648,473.755H7.782a6.274,6.274,0,0,1-6.267-6.27V423.954a6.271,6.271,0,0,1,6.267-6.267H38.664a6.273,6.273,0,0,1,6.267,6.267v26.752H42.207V423.954a3.546,3.546,0,0,0-3.542-3.542H7.782a3.546,3.546,0,0,0-3.542,3.542v43.531a3.548,3.548,0,0,0,3.542,3.545H30.648Z"
-        transform="translate(1012.1 -313.496)"
-        fill={colors.text ? colors.text : '#fff'}
-      />
-      <Path
-        id="Path_1720"
-        data-name="Path 1720"
-        d="M33.271,426.407H5.2a1.362,1.362,0,0,1,0-2.725H33.271a1.362,1.362,0,0,1,0,2.725"
-        transform="translate(1016.098 -303.156)"
-        fill={colors.text ? colors.text : '#fff'}
-      />
-      <Path
-        id="Path_1721"
-        data-name="Path 1721"
-        d="M33.271,430.528H5.2a1.362,1.362,0,0,1,0-2.725H33.271a1.362,1.362,0,0,1,0,2.725"
-        transform="translate(1016.098 -296.049)"
-        fill={colors.text ? colors.text : '#fff'}
-      />
-      <Path
-        id="Path_1722"
-        data-name="Path 1722"
-        d="M21.972,434.65H5.2a1.362,1.362,0,0,1,0-2.725H21.972a1.362,1.362,0,0,1,0,2.725"
-        transform="translate(1016.098 -288.939)"
-        fill={colors.text ? colors.text : '#fff'}
-      />
-      <Path
-        id="Path_1730"
-        data-name="Path 1730"
-        d="M31.446,457.787l-2.7-.39,4.305-29.858a3.553,3.553,0,0,0-2.948-4.082l-13.746-2.234.439-2.687,13.738,2.232a6.272,6.272,0,0,1,5.218,7.158Z"
-        transform="translate(1037.703 -312.03)"
-        fill={colors.text ? colors.text : '#fff'}
-      />
-      <Rect
-        id="Rectangle_142"
-        data-name="Rectangle 142"
-        width={2.723}
-        height={21.045}
-        transform="translate(1028.023 160.283) rotate(-73.257)"
-        fill={colors.text ? colors.text : '#fff'}
-      />
-      <Path
-        id="Path_1725"
-        data-name="Path 1725"
-        d="M22.748,449.354a2.321,2.321,0,0,1-1.678-.714l-6.327-6.564a5.915,5.915,0,0,1,.6-8.354,5.71,5.71,0,0,1,7.422.169,5.71,5.71,0,0,1,7.414-.2l.272.245a5.912,5.912,0,0,1,.174,8.362l-6.158,6.346a2.477,2.477,0,0,1-1.719.708m-3.807-14.2a2.961,2.961,0,0,0-1.856.654,3.2,3.2,0,0,0-.292,4.477l5.978,6.193,5.891-6.071a3.166,3.166,0,0,0,.883-2.267,3.5,3.5,0,0,0-1.084-2.332l.858-1.057-.858,1.057a2.98,2.98,0,0,0-4.06.294l-1.61,1.706-1.619-1.665a3.031,3.031,0,0,0-2.232-.989"
-        transform="translate(1032.414 -288.082)"
-        fill={colors.text ? colors.text : '#fff'}
-      />
-      <Path
-        id="Path_1724"
-        data-name="Path 1724"
-        d="M26.727,460.891A15.578,15.578,0,1,1,42.3,445.313a15.6,15.6,0,0,1-15.577,15.578m0-28.43A12.853,12.853,0,1,0,39.58,445.313a12.867,12.867,0,0,0-12.853-12.853"
-        transform="translate(1028.718 -292.715)"
-        fill={colors.text ? colors.text : '#fff'}
-      />
-    </G>
-  </Svg>
+      <G
+        id="Group_902"
+        data-name="Group 902"
+        transform="translate(-17.512 -5.405)"
+      >
+        <G
+          id="Rectangle_50"
+          data-name="Rectangle 50"
+          transform="translate(17.755 5.647)"
+        >
+          <Path
+            id="Path_89"
+            data-name="Path 89"
+            d="M-55.939,476.092A2.061,2.061,0,0,1-58,474.031v-15.97A2.061,2.061,0,0,1-55.939,456h11.334a2.061,2.061,0,0,1,2.061,2.061"
+            transform="translate(58 -456)"
+            fill="none"
+          />
+          <Path
+            id="Path_90"
+            data-name="Path 90"
+            d="M-47.308,476.077H-55.7a1.8,1.8,0,0,1-1.8-1.8V458.3a1.8,1.8,0,0,1,1.8-1.8h11.334a1.8,1.8,0,0,1,1.8,1.8v9.818"
+            transform="translate(57.758 -456.242)"
+            fill="none"
+            stroke={props.color ? props.color : colors.text}
+            strokeWidth={1}
+          />
+        </G>
+        <G
+          id="Group_19"
+          data-name="Group 19"
+          transform="translate(20.588 11.829)"
+        >
+          <Line
+            id="Line_22"
+            data-name="Line 22"
+            x2={10.304}
+            transform="translate(0 0)"
+            fill="none"
+            stroke={props.color ? props.color : colors.text}
+            strokeLinecap="round"
+            strokeWidth={1}
+          />
+          <Line
+            id="Line_23"
+            data-name="Line 23"
+            x2={10.304}
+            transform="translate(0 4.121)"
+            fill="none"
+            stroke={props.color ? props.color : colors.text}
+            strokeLinecap="round"
+            strokeWidth={1}
+          />
+          <Line
+            id="Line_24"
+            data-name="Line 24"
+            x2={6.157}
+            transform="translate(0 8.243)"
+            fill="none"
+            stroke={props.color ? props.color : colors.text}
+            strokeLinecap="round"
+            strokeWidth={1}
+          />
+        </G>
+        <G
+          id="Rectangle_50-2"
+          data-name="Rectangle 50"
+          transform="translate(23.873 6.677)"
+        >
+          <Path
+            id="Path_41"
+            data-name="Path 41"
+            d="M-87,444h11.334a2.061,2.061,0,0,1,2.061,2.061v15.97a2.061,2.061,0,0,1-2.061,2.061"
+            transform="translate(91.186 -442.97)"
+            fill="none"
+          />
+          <Path
+            id="Path_42"
+            data-name="Path 42"
+            d="M-33.062,468.372l5.042.82a1.8,1.8,0,0,1,1.5,2.063h0l-1.5,10.4"
+            transform="translate(41.884 -468.372)"
+            fill="none"
+            stroke={props.color ? props.color : colors.text}
+            strokeWidth={1}
+          />
+          <Path
+            id="Path_42-2"
+            data-name="Path 42"
+            d="M-43.844,505.2-49,503.874"
+            transform="translate(49.003 -485.081)"
+            fill="none"
+            stroke={props.color ? props.color : colors.text}
+            strokeWidth={1}
+          />
+        </G>
+        <G
+          id="Group_55"
+          data-name="Group 55"
+          transform="translate(27.405 17.383)"
+        >
+          <Path
+            id="Icon_awesome-heart"
+            data-name="Icon awesome-heart"
+            d="M5.382,2.6a1.592,1.592,0,0,0-2.173.158L2.98,3,2.75,2.763A1.592,1.592,0,0,0,.578,2.6a1.672,1.672,0,0,0-.115,2.42L2.715,7.351a.365.365,0,0,0,.527,0L5.5,5.025A1.671,1.671,0,0,0,5.382,2.6Z"
+            transform="translate(2.643 0.94)"
+            fill="none"
+            stroke={props.color ? props.color : colors.text}
+            strokeWidth={1}
+          />
+          <G
+            id="Ellipse_7"
+            data-name="Ellipse 7"
+            transform="translate(0)"
+            fill="none"
+            stroke={props.color ? props.color : colors.text}
+            strokeWidth={1}
+          >
+            <Circle cx={5.717} cy={5.717} r={5.717} stroke="none" />
+            <Circle cx={5.717} cy={5.717} r={5.217} fill="none" />
+          </G>
+        </G>
+      </G>
+    </Svg>
 )};
 
 export default mydocuments;

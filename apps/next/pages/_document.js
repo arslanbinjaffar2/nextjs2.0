@@ -18,6 +18,7 @@ import AvenirNextCondensed from "application/assets/fonts/AvenirNextCondensed.tt
 import AvenirNextCondensedMedium from "application/assets/fonts/AvenirNextCondensed-Medium.ttf";
 import AvenirNextCondensedDemiBold from "application/assets/fonts/AvenirNextCondensed-DemiBold.ttf";
 import AvenirNextCondensedBold from "application/assets/fonts/AvenirNextCondensedBold.ttf";
+
 import * as React from "react";
 import { AppRegistry } from "react-native";
 
@@ -34,6 +35,7 @@ class Document extends NativebaseDocument {
             charSet="UTF-8"
             href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
           />
+
           <link
             rel="stylesheet"
             type="text/css"
@@ -53,6 +55,7 @@ export const style = `
   scrollbar-width: thin;
   scrollbar-color: #9ca3af transparent
 }
+
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px
@@ -156,11 +159,23 @@ export const style = `
 body {
   display: flex;
 }
+#break_Word{
+  
+}
+.rdtPicker {
+  margin-top:10px !important;
+}
 .rdtDays, .ebs-date-wrapper,.rdtCount,.styles_react-code-input__CRulA > input {
   font-family: 'Avenir', sans-serif !important;
 }
 .rdtTime .rdtSwitch,.rdtTimeToggle {
   display: none !important;
+}
+.rsw-ce {
+  min-height: 90px;
+}
+.rsw-toolbar {
+  flex-wrap: wrap;
 }
 .ebs-iframe-content-no-margin {
   display: flex;
@@ -213,6 +228,7 @@ body {
   border-radius: 6px !important;
   border-color: transparent !important;
   color: #fff !important;
+  flex: 1 !important;
 }
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
@@ -220,8 +236,8 @@ body {
 #ebs-exhibitor-slider .slick-slide,#ebs-sponsors-slider .slick-slide {
  width: 264px !important; 
 }
-#ebs-alert-dialog {
-  backdrop-filter: blur(8px)
+.add-blur-radius {
+  backdrop-filter: blur(8px);
 } 
 #ebs-button-close {
   z-index: 99 !important;
@@ -287,6 +303,27 @@ svg#active #svg-elem-3 {
   from {transform: scale(0);}
   to {transform: scale(1);}
 }
+.rsw-toolbar,.rsw-editor {
+  border: none !important;
+}
+div[data-testID="TitleContainer"]+ div {
+  border-radius: 10px !important;
+  
+}
+div[data-testID="IconContainer"] {
+  border:0px solid transparent !important;
+}
+div[data-testID="="Button"]{
+  border:0px solid transparent !important;
+  outline:0px solid transparent !important;
+}
+.css-view-1dbjc4n{
+  border:transparent !important;
+}
+.add-blur {
+  backdrop-filter: blur(8px);
+}
+
 `;
 
 export async function getInitialProps({ renderPage }) {

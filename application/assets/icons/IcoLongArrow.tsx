@@ -1,21 +1,24 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Svg, { G, Path } from 'react-native-svg';
+import Svg, {SvgProps, G, Path } from 'react-native-svg';
 import { getColorScheme } from 'application/styles/colors';
 import UseEventService from 'application/store/services/UseEventService';
 
-const IcoLongArrow = () => {
+const IcoLongArrow = (props: SvgProps) => {
 
   const { event } = UseEventService()
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 
-  const fill = colors.text ? colors.text : '#ffffff';
+  const fill = props.color ? props.color : colors.text ? colors.text : '#ffffff';
+
+
 
   return (
     <Svg
       width={21.918}
       height={14.238}
       viewBox="0 0 21.918 14.238"
+      {...props}
     >
       <G
         data-name="Group 104"

@@ -28,6 +28,7 @@ import { useRouter } from 'solito/router';
 import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import ButtonElement from 'application/components/atoms/ButtonElement'
 import { Platform } from 'react-native';
 
 type ScreenParams = { id: string }
@@ -55,6 +56,13 @@ const Detail = ({ speaker }: Props) => {
     const { response } = UseAuthService();
 
     const { loading, scroll, processing } = UseLoadingService();
+
+    const tab1 = React.useRef<HTMLDivElement>();
+    const tab2 = React.useRef<HTMLDivElement>();
+    const tab3 = React.useRef<HTMLDivElement>();
+    const tab4 = React.useRef<HTMLDivElement>();
+    const tab5 = React.useRef<HTMLDivElement>();
+    const tab6 = React.useRef<HTMLDivElement>();
 
     const [_id] = useParam('id');
     const { _env } = UseEnvService()
@@ -152,14 +160,7 @@ const Detail = ({ speaker }: Props) => {
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>
                     {!speaker &&
-                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            {/* <Pressable onPress={()=> back() }>
-                                <HStack space="3" alignItems="center">
-                                    <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                                    <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
-                                </HStack>
-                            </Pressable> */}
-                        <Spacer />
+                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
                         <Search tab={tab} />
                     </HStack>
                     }
@@ -176,27 +177,31 @@ const Detail = ({ speaker }: Props) => {
                                                             (() => {
                                                                 if (row?.tab_name === 'program' && row?.status == 1 && event?.speaker_settings?.program === 1) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('program')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{speaker ? (modules?.find((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}</Button>
+                                                                        <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('program')} bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} >{speaker ? (modules?.find   ((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}
+                                                                        </ButtonElement>
                                                                     )
                                                                 } else if (row?.tab_name === 'category' && row?.status == 1 && event?.speaker_settings?.category_group === 1) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('category')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.SPEAKER_CATEGORY}</Button>
+                                                                        <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('category')} bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.SPEAKER_CATEGORY}</ButtonElement>
                                                                     )
                                                                 } else if (row?.tab_name === 'documents' && row?.status == 1 && event?.speaker_settings?.show_document === 1) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('documents')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}</Button>
+                                                                        <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('documents')} bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'}>
+                                                                            {modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'Documents'}</ButtonElement>
                                                                     )
                                                                 } else if (row?.tab_name === 'about' && row?.status == 1) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('about')} borderWidth="0px" py={0} borderColor="primary.darkbox" rounded={0} h="42px" bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.ATTENDEE_TAB_ABOUT}</Button>
+                                                                        <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('about')} bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.ATTENDEE_TAB_ABOUT}</ButtonElement>
                                                                     )
                                                                 } else if (row?.tab_name === 'groups' && row?.status == 1 && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group)))) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('groups')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{event?.labels?.ATTENDEE_TAB_GROUP}</Button>
+                                                                        <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('groups')} bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'}>
+                                                                            {event?.labels?.ATTENDEE_TAB_GROUP}</ButtonElement>
                                                                     )
                                                                 } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id)) {
                                                                     return (
-                                                                        <Button flex={1} minWidth={'calc(50% - 2px)'} fontSize={['sm','md']} onPress={() => setTab('sub_registration')} borderRadius="0" borderWidth="0px" py={0} borderColor="primary.darkbox"  rounded={0}h="42px" bg={tab === 'sub_registration' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600', fontSize: 'inherit' }}>{modules?.find((module)=>(module.alias == 'subregistration'))?.name ?? 'SUB REGISTRATIONS'}</Button>
+                                                                        <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('sub_registration')} bg={tab === 'sub_registration' ? 'primary.boxbutton' : 'primary.box'}>
+                                                                            {modules?.find((module)=>(module.alias == 'subregistration'))?.name ?? 'Sub registrations'}</ButtonElement>
                                                                     )
                                                                 }
                                                             })()
@@ -223,7 +228,7 @@ const Detail = ({ speaker }: Props) => {
                                                 {
                                                     groups?.length <= 0 && (
                                                         <>
-                                                         <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
+                                                         <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
                                                         </>
                                                     )
                                                 }
@@ -241,7 +246,7 @@ const Detail = ({ speaker }: Props) => {
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> 
                                                         : (
                                                             <>
-                                                                <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
+                                                                <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
                                                             </>
                                                         )
                                         )}
@@ -268,7 +273,7 @@ const Detail = ({ speaker }: Props) => {
                                         {detail?.detail?.categories.length <=0 && 
                                         (
                                             <>
-                                                <Text bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">{event.labels.GENERAL_NO_RECORD}</Text>
+                                                <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
                                             </>
                                             )
                                         }
@@ -279,7 +284,10 @@ const Detail = ({ speaker }: Props) => {
                                         {in_array('documents', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
-                                            <ListingLayout2 />
+                                            <Box  bg="primary.box" w={'100%'} rounded="lg">
+																							<ListingLayout2 />
+																						</Box>
+																						
                                         )}
                                     </Container>}
                                       </>

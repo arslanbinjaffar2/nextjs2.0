@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Button, Container, HStack, Pressable, Spacer, Text, VStack, Icon, Input, Image, Box } from 'native-base'
+import { Button, Container, HStack, Pressable, Spacer, Text, VStack, Icon, Input, Image, Box, View, Flex } from 'native-base'
 import RectangleAttendeeView from 'application/components/atoms/attendees/RectangleView';
 import RectangleGroupView from 'application/components/atoms/attendees/groups/RectangleView';
 import UseAuthService from 'application/store/services/UseAuthService';
@@ -22,6 +22,8 @@ import RectangleCategoryView from 'application/components/atoms/attendees/catego
 import { Category } from 'application/models/event/Category';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import ButtonElement from 'application/components/atoms/ButtonElement'
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 type ScreenParams = { slug: any }
 
@@ -43,6 +45,11 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
     const tabQueryParam = searchParams.get('tab')
 
+    const tab1 = React.useRef<HTMLDivElement>();
+    const tab2 = React.useRef<HTMLDivElement>();
+    const tab3 = React.useRef<HTMLDivElement>();
+    const tab4 = React.useRef<HTMLDivElement>();
+    const tab5 = React.useRef<HTMLDivElement>();
 
     const createQueryString = React.useCallback(
         (name: string, value: string) => {
@@ -67,7 +74,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
     const alphabet = alpha.map((x) => String.fromCharCode(x));
 
-    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory } = UseAttendeeService();
+    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory, last_page } = UseAttendeeService();
 
     const [searchQuery, setSearch] = React.useState('')
     const [parentCategories, setParentCategories] = useState<Category[]>([]);
@@ -94,7 +101,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
     useEffect(() => {
         if (mounted.current) {
-            if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) { console.log('call 1')
+            if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee']) && page < last_page ) {
                 FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }
@@ -250,38 +257,41 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     return (
         <>
             <NextBreadcrumbs module={module} />
-            <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text fontSize="2xl">
-                    {speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee)=>(attendee.alias == 'attendees'))?.name :  modules?.find((attendee)=>(attendee.alias == 'my-attendee-list'))?.name) : modules?.find((speaker)=>(speaker.alias == 'speakers'))?.name}
+            <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
+                <Text fontSize="2xl" width={'40%'}>
+                {speaker === 0 ? (screen === 'attendees' ? 
+                    (modules?.find(attendee => attendee.alias === 'attendees')?.name ?? '')
+                    :  
+                    (modules?.find(attendee => attendee.alias === 'my-attendee-list')?.name ?? '')
+                ) 
+                : 
+                (modules?.find(speaker => speaker.alias === 'speakers')?.name ?? '')
+
+                }
                 </Text>
-                <Spacer />
-                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
+                <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} 
+                borderColor={'transparent'}
+                value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                     search(text, tab!);
                     setSearch(text);
                 }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+              
             </HStack>
             {screen === 'attendees' && (
                 <>
-                    {speaker === 0 && <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  
-                            <Button 
+                    {speaker === 0 && <HStack mb="3" space={1} overflow={'hidden'} rounded={8} flexWrap={'wrap'} justifyContent="center" w="100%">
+                        {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  (event?.attendee_settings?.tab == 1 || modules?.some(module => module.alias === 'my-attendee-list')) && 
+                            <ButtonElement
                                 onPress={() => {
                                     setTab('attendee');
                                     setBreadcrumbs([]);
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'attendee'))
                                 }} 
-                                borderWidth="0px" 
-                                py={0} 
-                                borderColor="primary.darkbox" 
-                                borderRightRadius="0" 
-                                borderLeftRadius={8} 
-                                h="42px" 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
-                                w={((event?.attendee_settings?.default_display == 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%')} 
-                                _text={{ fontWeight: '600' }}
+                               
                             >
                                 {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
-                            </Button>}
+                            </ButtonElement>}
                             {
                                 modules?.some(module => module.alias === 'my-attendee-list') && (
                                     <Button
@@ -306,68 +316,46 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 )
                             }
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
-                                <Button 
+                                <ButtonElement
                                     onPress={() => {
                                         setTab('group')
                                         setBreadcrumbs([]);
                                         push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'group'))
                                     }} 
-                                    borderWidth="0px" 
-                                    py={0} 
-                                    borderColor="primary.darkbox" 
-                                    borderLeftRadius="0" 
-                                    borderRightRadius={8} 
-                                    h="42px" 
+                                  
                                     bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} 
-                                    w={(event?.attendee_settings?.default_display !== 'name' && event?.attendee_settings?.tab == 0) ? '50%' : '33%'} 
-                                    _text={{ fontWeight: '600' }}
-                                >
+                                    >       
                                     {event?.labels?.ATTENDEE_LIST_BY_GROUP}
-                                </Button>
+                                </ButtonElement>
                         }
                     </HStack>}
-                    {speaker ===  1 && <HStack mb="3" space={1} justifyContent="center" w="100%">
+                    {speaker ===  1 && <HStack overflow={'hidden'} rounded={8} flexWrap={'wrap'}  mb="3" space={1} justifyContent="center" w="100%">
                         
                         {(( event?.speaker_settings?.tab == 1)) &&  
-                            <Button 
+                            <ButtonElement
                                 onPress={() => {
                                     setTab('attendee') 
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'attendee'))
                                     UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
                                     setBreadcrumbs([]);
                                 }} 
-                                borderWidth="0px" 
-                                py={0} 
-                                borderColor="primary.darkbox" 
-                                borderRightRadius={0} 
-                                borderLeftRadius={8} 
-                                h="42px" 
+                                
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
-                                w={'50%'} 
-                                _text={{ fontWeight: '600' }}
                             >
                                 {event?.labels?.SPEAKER_NAME}
-                            </Button>
+                            </ButtonElement>
                         }
                         {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
-                            <Button 
+                            <ButtonElement 
                                 onPress={() => {
                                     setTab('category')
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
                                     setBreadcrumbs([]);
                                 }} 
-                                borderRightRadius={8} 
-                                borderLeftRadius={0} 
-                                borderWidth="0px" 
-                                py={0} 
-                                borderColor="primary.darkbox" 
-                                h="42px" 
                                 bg={tab === 'category' || tab === 'sub-category' || tab === 'category-attendee' ? 'primary.boxbutton' : 'primary.box'} 
-                                w={'50%'} 
-                                _text={{ fontWeight: '600' }}
                             >
-                                {event?.labels?.SPEAKER_CATEGORY}
-                            </Button>
+                               {event?.labels?.SPEAKER_CATEGORY}
+                            </ButtonElement>
                         }
                     </HStack>}
                     {group_id > 0 && (
@@ -380,12 +368,12 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 }}>
                                     <HStack alignItems={'center'} space={3}>
                                         <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-                                        <Text fontSize="2xl">BACK</Text>
+                                        <Text>{event?.labels?.GENERAL_BACK}</Text>
                                     </HStack>
                             </Pressable>
                         </HStack>
                         {group_name && (
-                            <Text mb={1} textTransform="uppercase" textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
+                            <Text flex="1" mb={1}  textAlign={'center'} textBreakStrategy='simple' w={'100%'} fontSize="xl">{group_name}</Text>
                         )}
                         </>
                     )}
@@ -416,15 +404,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     )}
                 </>
             )}
-            {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
-              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="112px" space="1">
+            {/* {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
+              <VStack w="20px" position="absolute" right={["-16px","-20px"]} top="163px" space="1">
                   {alphabet.map((item, k) =>
                     <React.Fragment key={k}>
                         <Text textAlign="center" color="primary.text" opacity="0.5" fontSize="md">{item}</Text>
                     </React.Fragment>
                   )}
               </VStack>
-            )}
+            )} */}
             <>
                 {(in_array('attendee-listing', processing) || in_array('category-listing', processing) || in_array('groups', processing)) && page === 1 ? (
                     <SectionLoading />
@@ -434,7 +422,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {speaker === 0 && GroupAlphabatically(attendees, 'first_name').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
+                                            {map?.letter}
+                                            </Text>
                                     )}
                                     {map?.records?.map((attendee: Attendee, k: number) =>
                                         <React.Fragment key={`${k}`}>
@@ -458,8 +448,10 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
-                             )}
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
+                                            {map?.letter}
+                                            </Text>
+                                    )}
                                     {map?.records?.map((group: Group, k: number) =>
                                         <React.Fragment key={`${k}`}>
                                             <RectangleGroupView group={group} k={k} border={map?.records.length === 1 ? 0 : map?.records.length > 1 && k ===  map?.records.length -1 ? 0 : 1 } updateTab={updateTab} />

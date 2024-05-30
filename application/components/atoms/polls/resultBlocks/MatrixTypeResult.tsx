@@ -2,12 +2,19 @@ import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, ScrollView, Text, TextArea, VStack } from 'native-base';
 import Icodocument from 'application/assets/icons/PollCommentIcon';
 import { Question } from 'application/models/poll/ResultDetail';
-import { Platform } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
+import UsePollService from 'application/store/services/UsePollService';
+import UseEventService from 'application/store/services/UseEventService';
+
 type PropTypes = {
   question: Question,
   questionNumber:number
 }
 const MatrixTypeResult = ({ question, questionNumber }: PropTypes) => {
+  const { poll_labels } = UsePollService();
+  const { event } = UseEventService();
+    const {width} = useWindowDimensions();
+  const [matrix, setmatrix] = React.useState(false)
   
 
   return (
@@ -24,9 +31,9 @@ const MatrixTypeResult = ({ question, questionNumber }: PropTypes) => {
         </Box>
         <Box mb="3" w="100%">
           <HStack px="3" py="1" bg="primary.darkbox" w="100%" alignItems="center">
-                <Text fontWeight="600" maxW="80%" fontSize="lg">Your Answer</Text>
+                <Text fontWeight="600" maxW="80%" fontSize="lg">{poll_labels?.POLL_YOUR_ANSWER}</Text>
             </HStack>
-          <ScrollView w={['320px','100%']} pb="5" showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
+          <ScrollView onScroll={(e) => {if (e.nativeEvent.contentOffset.x > 40) {setmatrix(true)} else {setmatrix(false)}}} w={[width - 60,'100%']} scrollEventThrottle={400} maxW={'100%'} pb="5" showsHorizontalScrollIndicator={true} overflowX={'auto'} showsVerticalScrollIndicator={true}>
             <Box position="relative" w="100%" rounded="lg">
             <HStack space="1" alignItems="center" pb="3">
               <Center zIndex={9} position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1" height="20px"></Center>
@@ -40,7 +47,7 @@ const MatrixTypeResult = ({ question, questionNumber }: PropTypes) => {
               {question?.answer.map((answer, k) =>
               <Radio.Group isReadOnly w="100%" key={answer.id} display={'flex'} name={`group-${k}`} aria-label={answer?.info?.answer}  defaultValue={question?.results?.find((r)=>(r.answer_id == answer.id))?.answer ?? ''}    >
                 <HStack w="100%" key={k} space="1" alignItems="center">
-                  <Center  zIndex={9} alignItems="flex-start" position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1">
+                  <Center zIndex={10} alignItems="flex-start" position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1">
                     <Text pl={3} fontSize="lg">
                       {answer?.info?.answer}
                     </Text>
@@ -64,8 +71,8 @@ const MatrixTypeResult = ({ question, questionNumber }: PropTypes) => {
         {Number(question.enable_comments) === 1 && question.results[0]?.comments !== '' &&
               <>
               <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-              <Icodocument width="15px" height="18px" />
-              <Text fontSize="lg">Comments</Text>
+              <Icodocument width="18px" height="18px" />
+              <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
               </HStack>
               <Box py="3" px="4" w="100%">
                   <TextArea

@@ -8,7 +8,7 @@ const ChatClient = () => {
     <Box mb="3" w="100%" borderWidth="1" borderColor="primary.darkbox" bg="primary.box" p="0" rounded="10">
       <Center alignItems="flex-end" pb="1">
         <Select
-          placeholder="Please Select"
+          placeholder="Please select"
           w="200px"
           h="35px"
           bg="primary.darkbox"

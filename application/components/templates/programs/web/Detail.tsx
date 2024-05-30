@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
-import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack, Image } from 'native-base';
+import { Box, Button, Container, HStack, Icon, Pressable, Spacer, Text, VStack, Image, Center } from 'native-base';
 
 import DetailBlock from 'application/components/atoms/programs/DetailBlock';
 
 import SpeakerRectangleView from 'application/components/atoms/speakers/RectangleView'
 
 import PollRectangleView from 'application/components/atoms/polls/RectangleView'
+
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 
 import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand'
 
@@ -57,8 +59,14 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBox';
+import { useWindowDimensions } from 'react-native';
+import SessionRating from 'application/components/atoms/programs/SessionRating';
+import ButtonElement from 'application/components/atoms/ButtonElement'
 
-type ScreenParams = { id: string }
+
+
+type ScreenParams = { id: string, currentIndex: string}
 
 const { useParam } = createParam<ScreenParams>()
 
@@ -66,7 +74,7 @@ const Detail = () => {
 
     const { scroll, processing } = UseLoadingService();
 
-    const [tab, setTab] = useState<string>('about');
+    const [tab, setTab] = useState<string>('');
 
     const mounted = React.useRef(false);
 
@@ -80,7 +88,7 @@ const Detail = () => {
 
     const { push, back } = useRouter()
 
-    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name } = UseAttendeeService();
+    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, last_page } = UseAttendeeService();
 
     const { FetchDocuments } = UseDocumentService();
 
@@ -88,10 +96,20 @@ const Detail = () => {
 
     const [showSpeakers, setshowSpeakers] = React.useState<Boolean>(false);
     const [showPolls, setshowPolls] = React.useState<Boolean>(false);
+    const [showRequestToSpeak, setshowRequestToSpeak] = React.useState<Boolean>(false);
+    const [showAskAQuestion, setshowAskAQuestion] = React.useState<Boolean>(false);
+
+    const [tabs, setTabs] = React.useState<any>([]);
+
+    const [currentIndex] = useParam('currentIndex');
+
+    const { width } = useWindowDimensions();
+
+    const RenderHtml = require('react-native-render-html').default;
 
     React.useEffect(() => {
         if (mounted.current) {
-            if (in_array(tab, ['attendee'])) {
+            if (in_array(tab, ['attendee']) && page < last_page ) {
                 FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: 0, speaker: 0, category_id: category_id, screen: 'program-attendees', program_id: Number(_id) });
             }
         }
@@ -116,55 +134,88 @@ const Detail = () => {
     }, [_id]);
 
     React.useEffect(() => {
+        const showSpeaker=modules?.find((module)=>(module.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && detail?.program?.program_speakers!?.length > 0;
+        const resShowSpeaker = showSpeaker == undefined ? false : showSpeaker;
+        setshowSpeakers(resShowSpeaker);
+
+        const showPolls=modules?.find((module)=>(module.alias == 'polls')) && detail?.has_active_polls && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0;
+        
+        const resShowPoll = showPolls == undefined ? false : showPolls;
+        setshowPolls(resShowPoll);
+
+        const showRequestToSpeak=modules?.find((polls)=>(polls.alias == 'myturnlist')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) ;
+        const resShowRequestToSpeak = showRequestToSpeak == undefined ? false : showRequestToSpeak;
+        setshowRequestToSpeak(resShowRequestToSpeak);
+
+        const showAskAQuestion=modules?.find((polls)=>(polls.alias == 'qa')) && event?.agenda_settings?.qa === 1;
+        const resShowAskAQuestion = showAskAQuestion == undefined ? false : showAskAQuestion;
+        setshowAskAQuestion(resShowAskAQuestion);
+
+        let tabs=[];
+        if(resShowSpeaker || resShowPoll || resShowRequestToSpeak || resShowAskAQuestion){
+            tabs.push(['about', event?.labels?.GENERAL_ABOUT]);
+        }
+        if(event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0){
+            tabs.push(['group', event?.labels?.ATTENDEE_TAB_GROUP]);
+        }
+        if(modules?.find((polls) => (polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 ){
+            const attendees_label = modules?.find((module) => (module.alias == 'attendees'))?.name
+            tabs.push(['attendee', attendees_label]);
+        }
+        if(modules?.find((polls)=>(polls.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 ){
+            const documents_label = modules?.find((module) => (module.alias == 'ddirectory'))?.name
+            tabs.push(['documents', documents_label]);
+        }
+        setTabs(tabs);
+        if(tabs.length > 0){
+            setTab(tabs[0][0]);
+        }
+    }, [detail]);
+
+    React.useEffect(() => {
+        if(tabs.length > 0){
+            setTab(tabs[0][0]);
+        }
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
     const module = modules.find((module) => module.alias === 'agendas');
-
-    React.useEffect(() => {
-        const showSpeaker=modules?.find((polls)=>(polls.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && detail?.program?.program_speakers!?.length > 0;
-        setshowSpeakers(showSpeaker == undefined ? false : showSpeaker);
-
-        const showPolls=modules?.find((polls)=>(polls.alias == 'polls')) && detail?.polls_count! > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0;
-        setshowPolls(showPolls == undefined ? false : showPolls);
-        
-    }, [detail]);
-
+    const htmlContent = detail?.program?.description || '';
     return (
         <>
             {in_array('program-detail', processing) ? (
                 <WebLoading />
             ) : (
                 <>
-                    <NextBreadcrumbs module={module} title={detail?.program?.topic}/>
+                    <NextBreadcrumbs queryParameters={{ 'currentIndex':currentIndex ?? '' }} module={module} title={detail?.program?.topic}/>
                     <DetailBlock>
-                        <Text>
+                        {/* <Text>
                             <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
-                        </Text>
+                        </Text> */}
+                        <Text>            
+                       <RenderHtml
+                contentWidth={width}
+                source={{ html: htmlContent }}
+                
+                />
+                </Text>
                     </DetailBlock>
                     <Container mb="3" maxW="100%" w="100%">
-                        <HStack style={{rowGap: 2, columnGap: 1}}  mb="3" space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
-                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) =>  in_array( tab?.tab_name, ['polls', 'speakers'] ) && tab?.status === 1).length > 0 && (showSpeakers || showPolls) &&<Button rounded={0} minW={'calc(50% - 2px)'} flex={1} onPress={() => setTab('about')} borderWidth="0px" py={0} borderColor="primary.darkbox" h="42px" bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ABOUT</Button>}
-                            {event?.agenda_settings?.program_groups === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'groups' && tab?.status === 1)?.length > 0 && detail?.group_count! > 0 && (
-                                <Button flex={1} rounded={0} minW={'calc(50% - 2px)'} onPress={() => setTab('group')} borderWidth="0px" py={0} borderColor="primary.boxbutton" h="42px" bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>GROUPS</Button>
-                            )}
-                            {modules?.find((polls) => (polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 && (
-                                <Button flex={1} rounded={0} minW={'calc(50% - 2px)'} onPress={() => setTab('attendee')} borderWidth="0px" py={0} borderColor="primary.boxbutton" h="42px" bg={tab === 'attendee' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>ATTENDEES</Button>
-                            )}
-                            {modules?.find((polls)=>(polls.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 && (
-                                <Button flex={1} rounded={0} minW={'calc(50% - 2px)'} onPress={() => setTab('documents')} borderWidth="0px" py={0} borderColor="primary.boxbutton" h="42px" bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'} _text={{ fontWeight: '600' }}>DOCUMENTS</Button>
-                            )}
+                        <HStack mb="3" style={{rowGap: 2, columnGap: 1}} space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
+                            {tabs.map((mtab: any, key: number) => (
+                                <ButtonElement key={mtab[0]} minW={'calc(50% - 2px)'} onPress={() => setTab(mtab[0])}  bg={tab === mtab[0] ? 'primary.boxbutton' : 'primary.box'}>{mtab[1]}</ButtonElement>
+                            ))}
                         </HStack>
                         {group_id > 0 && (
                             <HStack mb="3" pt="2" w="100%" space="3">
                                 {group_name && (
-                                    <Text flex="1" textTransform="uppercase" fontSize="xs">{group_name}</Text>
+                                    <Text flex="1" fontSize="xs">{group_name}</Text>
                                 )}
                                 <Pressable
                                     onPress={async () => {
                                         FetchGroups({ query: query, page: 1, group_id: 0, attendee_id: 0, program_id: Number(_id) });
                                     }}>
-                                    <Text textTransform="uppercase" fontSize="xs">Go back</Text>
+                                    <Text fontSize="xs">{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
                                 </Pressable>
                             </HStack>
                         )}
@@ -184,12 +235,11 @@ const Detail = () => {
                                 )}
                                 {showPolls && (
                                     <>
-                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <DynamicIcon iconType={modules?.find((documents) => (documents.alias == 'polls'))?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') ?? 'polls'} iconProps={{ width: 17, height: 17 }} />
-                                            <Text fontSize="md">{modules?.find((documents) => (documents.alias == 'polls'))?.name ?? 'Polls'}</Text>
-                                        </HStack>}
-                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
-                                            <Pressable onPress={() => {
+                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                            <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
+                                            <Text fontSize="md">{event?.labels?.POLLS}</Text>
+                                        </HStack>
+                                        <Pressable onPress={() => {
                                                 if (detail?.authority_recieved) {
 
                                                 } else {
@@ -199,22 +249,13 @@ const Detail = () => {
                                                 <Box w="100%" py="4">
                                                     <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
                                                         <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                                            <Text fontSize="md">{event?.labels?.PROGRAM_LIVE_POLLS}</Text>
+                                                            <Text fontSize="md">{event?.labels?.POLLS_LIVE_POLLS}</Text>
                                                         </VStack>
+                                                        <Spacer />
+                                                        <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                                     </HStack>
                                                 </Box>
-                                            </Pressable>
-                                        )
-                                            // : (
-                                            //     <Box w="100%" py="4">
-                                            //         <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
-                                            //             <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                            //                 <Text fontSize="md">No poll found</Text>
-                                            //             </VStack>
-                                            //         </HStack>
-                                            //     </Box>
-                                            // )
-                                        }
+                                        </Pressable>
                                     </>
                                 )}
                                 {/* {event?.agenda_settings?.enable_notes === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && (
@@ -233,15 +274,39 @@ const Detail = () => {
                                     </>
                                 )} */}
                                 {/* <PollRectangleView /> */}
-                                {/* {modules?.find((polls)=>(polls.alias == 'myturnlist')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && modules.filter((module: any, key: number) => module.alias === 'myturnlist').length > 0 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) && (
+                                {showRequestToSpeak && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <IcoRaiseHand width="14" height="17" />
-                                            <Text fontSize="md">Request to speak</Text>
+                                            <Text fontSize="md">{modules?.find((module)=>(module.alias == 'myturnlist'))?.name}</Text>
                                         </HStack>
                                         <RequestToSpeakRectangleView program={detail?.program} />
                                     </>
-                                )} */}
+                                )}
+
+                                {showAskAQuestion &&
+                                <>
+                                <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                    <DynamicIcon iconType="myquestions" iconProps={{ width: 12, height: 18 }} />
+                                    <Text fontSize="md">{event?.labels?.QA_ASK_A_QUESTION}</Text>
+                                </HStack>
+                                <Center>
+                                    <Box w="90%">
+                                        <Pressable onPress={() => {
+                                            push(`/${event.url}/qa/detail/${detail?.program?.id}`)
+                                        }}>
+                                            <Box w="100%" py="4">
+                                                <HStack p="4" bg="primary.darkbox" space="0" alignItems="center" justifyContent="space-between">
+                                                    <Text opacity={0.4} fontSize="lg">{event?.labels?.QA_TYPE_YOUR_QUESTION }</Text>
+                                                    <Center p="0">
+                                                        <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
+                                                    </Center>
+                                                </HStack>
+                                            </Box>
+                                        </Pressable>
+                                    </Box>
+                                </Center>
+                                </>}
                             </Box>
                         )}
                         {(in_array('attendee-listing', processing) || in_array('groups', processing) || in_array('documents', processing)) && page === 1 ? (
@@ -268,22 +333,28 @@ const Detail = () => {
                                             <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
                                             {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
-                                                    <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
+                                                    <RectangleGroupView group={group} k={k} border={k} navigation={true} />
                                                 </React.Fragment>
                                             )}
                                         </React.Fragment>
                                     )}
                                 </Container>}
                                 {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
-                                    <ListingLayout2 />
+                                    <Box  bg="primary.box" w={'100%'} rounded="lg">
+                                        <ListingLayout2 module={module?.name}/>
+                                    </Box>
                                 </Container>}
                             </>
                         )}
                     </Container>
-                        <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
+                    {width < 810 && <Container maxW="100%" w="100%" >
+                        { event?.agenda_settings?.enable_notes == 1 && !in_array('program-detail', processing) && <ProgramNotesBox />}
+                        { event?.agenda_settings?.session_ratings == 1 && !in_array('program-detail',processing) &&  <SessionRating program_id={_id} />}
+                    </Container>}
                     {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />
                     )}
+                    <BannerAds module_name={'agendas'} module_type={'detail'} module_id={detail?.program?.id} />
                 </>
             )}
         </>

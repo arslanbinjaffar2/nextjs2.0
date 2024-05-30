@@ -5,13 +5,17 @@ import WrongAnswer from 'application/assets/icons/WrongAnswer';
 import Icodocument from 'application/assets/icons/PollCommentIcon';
 import { Question } from 'application/models/poll/ResultDetail';
 import { Platform } from 'react-native';
+import UsePollService from 'application/store/services/UsePollService';
+import UseEventService from 'application/store/services/UseEventService';
 
 type PropTypes = {
   question: Question
   questionNumber:number
 }
 const SingleOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
-  
+  const { poll_labels } = UsePollService();
+  const { event } = UseEventService();
+
   return (
     <>
         {question.results && question.results.length > 0 && <Center maxW="100%" w="100%" mb="3" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
@@ -54,7 +58,7 @@ const SingleOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
         </Box>
         <Box mb="3" w="100%">
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" alignItems="center">
-                <Text fontWeight="600" maxW="80%" fontSize="lg">Your answer </Text>
+                <Text fontWeight="600" maxW="80%" fontSize="lg">{poll_labels?.POLL_YOUR_ANSWER}</Text>
             </HStack>
             <VStack>
                     {question.answer.filter((a)=>(a.id == question?.results[0]?.answer_id)).map((answer, i)=>(
@@ -72,7 +76,7 @@ const SingleOptionTypeResult = ({ question, questionNumber  }: PropTypes) => {
             <>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
             <Icodocument  />
-            <Text fontSize="lg">Comments</Text>
+            <Text fontSize="lg">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
             </HStack>
             <Box py="3" px="4" w="100%">
                 <Text fontSize="md">{question.results[0]?.comments}</Text>

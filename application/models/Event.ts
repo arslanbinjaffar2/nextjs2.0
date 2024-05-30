@@ -80,6 +80,10 @@ export interface Event {
     keyword_settings?: KeywordSettings
     document_settings?: DocumentSettings
     calling_code?: any
+    sponsor_tab_settings?: any
+    exhibitor_tab_settings?: any
+    event_language_code?: string
+    attendee_tab_settings?: any
 }
 interface Setting {
     poll_setting?: string;

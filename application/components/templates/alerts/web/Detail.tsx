@@ -19,7 +19,7 @@ const Detail = () => {
   const { FetchAlertDetails, detail, MarkAlertAsRead } = UseAlertService();
   const { loading } = UseLoadingService();
   const { modules } = UseEventService();
-
+  const {event} = UseEventService();
   React.useEffect(() => {
     FetchAlertDetails({ alertId: Number(_id) });
   }, [_id]);
@@ -43,7 +43,7 @@ const Detail = () => {
             <NextBreadcrumbs module={module} title={detail?.alert_detail?.title} />
             <Container mb="3" pt="2" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" justifyContent="center">
-                <Text textTransform="uppercase" fontSize="3xl">Details</Text>
+                <Text  fontSize="3xl">{event?.labels?.GENERAL_DETAIL}</Text>
               </HStack>
               <Spacer />
               <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">

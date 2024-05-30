@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Box, HStack, Icon, Image, Pressable, Spacer, Text, VStack } from 'native-base'
+import { Avatar, Box, Button, Center, HStack, Icon, Image, Pressable, Spacer, Text, Tooltip, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'application/assets/icons/Icoribbon'
 import { Attendee } from 'application/models/attendee/Attendee'
@@ -11,6 +11,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
 import { useSearchParams, usePathname } from 'next/navigation'
 
+import UseAuthService from 'application/store/services/UseAuthService';
+import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
 
 type boxItemProps = {
   attendee: Attendee
@@ -23,9 +25,10 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 
   const { MakeFavourite } = UseAttendeeService();
 
-  const { event } = UseEventService();
+  const { event,modules } = UseEventService();
 
   const { _env } = UseEnvService()
+  const { response } = UseAuthService()
 
   const { push } = useRouter()
 
@@ -36,6 +39,13 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
   const [isFav, setIsFav] = React.useState<boolean>(false);
+  const [isReservationModuleOn] = React.useState<boolean>(
+    modules.filter((module: any) => module?.alias === 'reservation').length > 0 ? true : false
+  );
+
+  const [isAppointmentTabEnabled] = React.useState<boolean>(
+    event?.attendee_tab_settings?.filter((tab: any) => tab?.tab_name === 'appointment' && Number(tab?.status) === 1).length > 0 ? true : false
+  );
 
   React.useMemo(() => {
     setIsFav(attendee?.favourite == 1 ? true : false)
@@ -78,8 +88,8 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                 bg={'#A5A5A5'}
               >{attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0, 1) + attendee?.last_name?.substring(0, 1) : attendee?.first_name?.substring(0, 1)}</Avatar>
             )}
-            <VStack w={'calc(100% - 165px)'} space="0">
-              {(attendee?.first_name || attendee?.last_name) && (
+            <VStack w={['calc(100% - 175px)','calc(100% - 300px)']} space="0">
+              {(attendee?.first_name || attendee?.last_name) ? (
                 <>
                   <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
                   {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
@@ -104,26 +114,44 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     </Text>
                   )}
                 </>
-              )}
+              ) : null}
               {event?.attendee_settings?.display_private_address === 1 &&
                 <Text pt="1" lineHeight="22px" fontSize="md">
                   {getPrivateFields(attendee)}
                 </Text>
               }
-
+               <Button
+                  display={['','none']}
+                    mt={2}
+                    py={2}
+                    maxWidth={'120px'}
+                    colorScheme="primary"
+                    onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
+                    <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    
+                  </Button>
             </VStack>
             <Spacer />
-            {tabQueryParam !== 'category-attendee' &&  
-              <HStack space="4" alignItems="center">
-                {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
-                  <Pressable
-                    onPress={() => toggleFav()}>
-                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
-                  </Pressable>
+            <HStack space="4" alignItems="center">
+                {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== attendee?.id && (
+                  <Button
+                  display={['none','']}
+                    py={2}
+                    colorScheme="primary"
+                    onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
+                    <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    
+                  </Button>
+                  
                 )}
-                <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
-              </HStack>
-            }
+              {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
+                <Pressable
+                  onPress={() => toggleFav()}>
+                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+                </Pressable>
+              )}
+              <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
+            </HStack>
           </HStack>
         </HStack>
       </Pressable>

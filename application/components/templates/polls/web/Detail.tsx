@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image } from 'native-base'
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, Pressable, Image, Spinner } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
@@ -27,7 +27,8 @@ import { useRouter } from 'solito/router'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
-
+import { getColorScheme } from 'application/styles/colors';
+import SwipeBtn from '../../../atoms/swipeBtn';
 
 type ScreenParams = { id: string }
 
@@ -60,7 +61,7 @@ const Detail = () => {
   const [formData, setFormData] = useState<FormData>({});
 
   const [activeQuestionError, setActiveQuestionError] = useState<string | null>(null);
-
+  const [goBack,setGoBack]=React.useState(0)
   const updateFormData = (question_id:number, type:string, answer:any, index?:number) => {
     setActiveQuestionError(null);
     let newFormData = formData;
@@ -117,7 +118,7 @@ const Detail = () => {
       setForceUpdate(forceUpdate + 1);
     }, [steps]);
 
-    const stepIndicatorWidth = detail !== null ? 100/(detail.questions.length) : 10;
+    const stepIndicatorWidth = detail !== null ? 100/(detail?.questions?.length) : 10;
 
     const setNextStep = () => {
         setActiveQuestionError(null);
@@ -172,7 +173,7 @@ const Detail = () => {
           }
           
         }
-        if(steps === (detail?.questions.length! - 1)){
+        if(steps === (detail?.questions?.length! - 1)){
           onSubmit()
         }else{
           setsteps(steps + 1);
@@ -183,7 +184,7 @@ const Detail = () => {
       
       setSubmittingPoll(true)
 
-        const submitedData:SubmittedQuestion[] | undefined = detail?.questions.map((q)=>{
+        const submitedData:SubmittedQuestion[] | undefined = detail?.questions?.map((q)=>{
             let answeredQuestion:any = {
               id:q.id,
               type:q.question_type,
@@ -237,11 +238,28 @@ const Detail = () => {
     }
   
   const module = modules.find((module) => module.alias === 'polls');
-  
-  const filterQuestion: Question = detail?.questions.find((question) => question.question_type === 'world_cloud') ?? {} as Question;
 
-  const [showCloudQuestion,setShowCloudQuestion]=React.useState(false)
+  const [canSubmitMultipleTimes,setCanSubmitMultipleTimes]=useState<boolean>(false);
+
+  useEffect(()=>{
+    if(detail?.questions?.length! > 0){
+      const mutipleCloudQuestions = detail?.questions?.filter((question) => question?.question_type === 'world_cloud' && question?.is_participants_multiple_times === 1);
+      setCanSubmitMultipleTimes(mutipleCloudQuestions && mutipleCloudQuestions?.length > 0 ? true : false);
+    }
+  },[detail])
+
+  function resetForSubmitAgain(){
+    setFormData({})
+    if (id) {
+      FetchPollDetail({ id: Number(id) });
+    }
+    setcompleted(false)
+    setSubmittingPoll(false)
+    setsteps(0)
+  }
   
+
+
   return (
     <>
       {loading ? (
@@ -252,13 +270,13 @@ const Detail = () => {
              <NextBreadcrumbs module={module} title={detail?.topic}/>
             <Container mb="3" maxW="100%" w="100%">
               <Text mb={1} textBreakStrategy='simple' w={'100%'} textAlign={'center'} fontSize="2xl">{detail?.topic}</Text>
-              {detail?.questions.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="0" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
-                { detail?.questions.map((item, key)=>(
+              {detail?.questions?.length! > 0 && <HStack bg="primary.box" overflow="hidden" borderWidth="0" borderColor="primary.bdBox" mb="4" space="0" w="100%" rounded="2xl">
+                { detail?.questions?.map((item, key)=>(
                     <Box key={key} bg={steps >= key ? 'secondary.500' : 'transparent'} h="22px" w={`${stepIndicatorWidth}%`} />
                 ))}
               </HStack>}
               {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
-                {detail?.questions.length! > 0 &&  detail?.questions[steps] !== undefined && (
+                {detail?.questions?.length! > 0 &&  detail?.questions[steps] !== undefined && (
                   <>
                     {detail?.questions[steps].question_type === 'matrix' && <MatrixAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate}/>}
                     {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} />}
@@ -271,7 +289,7 @@ const Detail = () => {
                     {detail?.questions[steps].question_type === 'world_cloud' && <WordCloudAnswer question={detail?.questions[steps]} key={detail?.questions[steps].id} formData={formData} updateFormData={updateFormData} error={activeQuestionError}labels={event?.labels} forceRender={forceUpdate} />}
                   </>
                 )}
-                {detail?.questions.length! <= 0 &&
+                {detail?.questions?.length! <= 0 &&
                   <Box padding={5}>
                       <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
                   </Box>
@@ -283,7 +301,6 @@ const Detail = () => {
                       isDisabled={steps <= 0 ? true : false}
                       bg="transparent"
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
                       colorScheme="primary"
@@ -292,15 +309,14 @@ const Detail = () => {
                         setsteps(steps - 1);
                       }}
                     >
-                      previous
+                      {poll_labels?.POLL_SURVEY_PREVIOUS}
                     </Button>}
                     <Spacer />
-                    {steps < (detail?.questions.length! -1)  && 
+                    {steps < (detail?.questions?.length! -1)  && 
                     <Button
                       bg="transparent"
-                      isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
+                      isDisabled={steps >= (detail?.questions?.length! -1) ? true : false}
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
                       colorScheme="primary"
@@ -308,36 +324,20 @@ const Detail = () => {
                         setNextStep();
                       }}
                     >
-                      next
+                      {poll_labels?.POLL_SURVEY_NEXT}
                     </Button>}
                   </HStack>
-                  {steps === (detail?.questions.length! - 1) && <Box w="100%" mb="6">
-                    <Box m="auto" w="230px" bg="primary.darkbox" p="0" rounded="sm" overflow="hidden">
-                      <Button
-                      id='test'
-                        w="100%"
-                        py="3"
-                        px="1"
-                        leftIcon={<IcoLongArrow />}
-                        colorScheme="primary"
-                        isLoading={submittingPoll}
-                        onPress={() => {
-                         setNextStep();
-                        }}
-                      >
-                      {poll_labels?.POLL_SURVEY_AUTHORITY_SUBMIT}
-                      </Button>
-                    </Box>
+                  {steps === (detail?.questions?.length! - 1) && <Box w="100%" mb="6">
+                     
+                          <SwipeBtn
+                          loading={submittingPoll}
+                          onComplete={() => 
+                          setNextStep()
+                        }
+                          />
                   </Box>}
                 </Box>
               </Box>}
-            {(completed === true  && showCloudQuestion)&&
-                <>
-              {Object.keys(filterQuestion).length>0 && 
-               <WordCloudAnswer question={filterQuestion} key={filterQuestion?.id} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels}  />
-              }
-              </>
-            }
               {completed === true && (
                  <>
                 <Box borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="5" py="8" rounded="10px">
@@ -346,21 +346,26 @@ const Detail = () => {
                    <IcoTick />
                   </Box>
                   <Text fontSize="lg">{poll_labels?.POLL_ANSWER_SUBMITTED_SUCCESFULLY}</Text>
-                  {showCloudQuestion && <Button
-                      id='test'
-                      w="100px"
-                      py="3"
-                      px="1"
-                      isLoading={submittingPoll}
-                      colorScheme="primary"
-                      onPress={()=>{
-                        onSubmit()
-                        setShowCloudQuestion(true)
-                      }}
-                      
-                    >
-                      {poll_labels?.WORD_CLOUD_SUBMIT_AGAIN}
-                    </Button>}
+                  {canSubmitMultipleTimes ? (
+                    <Button
+                    id='test'
+                    minW="100px"
+                    py="3"
+                    px="3"
+                    isLoading={false}
+                    colorScheme="primary"
+                    onPress={()=>{
+                      resetForSubmitAgain()
+                    }}
+                    
+                  >
+                    {poll_labels?.WORD_CLOUD_SUBMIT_AGAIN}
+                  </Button>
+                  ):(
+                    <>
+                    <CountdownTimer />
+                    </>
+                  )}
                 </VStack>
               </Box>
               </>
@@ -376,5 +381,41 @@ const Detail = () => {
     </>
   );
 };
+
+const CountdownTimer = React.memo(() => {
+  const [timeLeft, setTimeLeft] = useState<number>(15);
+  const { push, back } = useRouter();
+  const {event} = UseEventService();
+  const { poll_labels } = UsePollService();
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      onEnd(); // Trigger the function when countdown ends
+    }
+  }, [timeLeft]);
+
+  const onEnd = () => {
+    push(`/${event.url}`);
+  }
+
+  return (
+    <>
+      {timeLeft > 0 ? (
+        <Text fontSize="md">{poll_labels?.POLL_SURVEY_REDIRECT_MSG} {timeLeft}</Text>
+      ) : (
+        <WebLoading />
+      )}
+    </>
+  );
+});
 
 export default Detail;

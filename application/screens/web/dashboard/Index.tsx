@@ -36,6 +36,8 @@ import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import { Banner } from 'application/models/Banner'
 import { Module } from 'application/models/Module';
+import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
+import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
 
 type indexProps = {
   navigation: unknown
@@ -45,7 +47,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const [tab, setTab] = useState('qa');
 
-  const { polls, pollSettings, FetchPolls } = UsePollService();
+  const { polls, pollSettings, FetchPolls ,poll_labels} = UsePollService();
 
   const { surveys, FetchSurveys } = UseSurveyService();
 
@@ -72,7 +74,7 @@ const Index = ({ navigation }: indexProps) => {
     FetchBanners();
     FetchAlerts();
     if (modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0) {
-      FetchPrograms({ query: '', page: 1, screen: 'dashboard', id: 0, track_id: 0 });
+      // FetchPrograms({ query: '', page: 1, screen: 'dashboard', id: 0, track_id: 0 });
     }
     if (modules.filter((module: any, key: number) => module.alias === 'speakers').length > 0) {
       FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: 1, category_id: 0, screen: 'dashboard-my-speakers', program_id: 0 });
@@ -81,7 +83,7 @@ const Index = ({ navigation }: indexProps) => {
 
   return (
     <>
-      {(in_array('programs', processing) || in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
+      {(in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
         <WebLoading />
       ) : (
         <>
@@ -89,36 +91,23 @@ const Index = ({ navigation }: indexProps) => {
            <MobileNavigation />
          </Box>
          
-            {/* <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
-                  <Box minH={150} h={'100%'} flex={1}>
-                  <UpcomingBlock
-                      px="3"
-                      py="4"
-                      h='150px'
-                      title="UPCOMING SESSION" desc='Talk on w http://localhost:3000/checking-clone-3479/dashboard?currentIndex=0' location="Room 242" date="11-03-2022" time="11-00 to 13-00" />
+            <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
+                  <Box h={'100%'} flex={1}>
+                    <UpcomingPrograms />
                   </Box>
-                  <Box minH={150}  flex={1}>
+                  
+                  {/* <Box minH={150}  flex={1}>
                     <UpcomingBlock 
                       px="3"
                       py="4"
                       h='150px'
                     title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
-                </Box>
-            </HStack>  */}
+                </Box>*/}
+            </HStack>  
               <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
           {/*  */}
-          {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 && programs?.length > 0 ? (
-            <Container my={4}  rounded="10" bg="primary.box" w="100%" maxW="100%">
-              <Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>PROGRAM</Heading>
-              <SlideView section="program" programs={programs} my={0} dashboard={true} />
-              <Center py="3" px="2" w="100%" alignItems="flex-end">
-                <Button onPress={() => {
-                  push(`/${event.url}/agendas`)
-                }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                  {event.labels?.GENERAL_LOAD_MORE ?? 'Show all'}
-                </Button>
-              </Center>
-            </Container>
+          {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 ? (
+            <IndexTemplatePrograms dashboard={true} />
           ) : <></>}
           {/*  */}
               <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
@@ -151,7 +140,7 @@ const Index = ({ navigation }: indexProps) => {
           {/*  */}
               <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
 
-{/*  */}
+          {/*  */}
               <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
           {/*  */}
           {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
@@ -186,27 +175,25 @@ const Index = ({ navigation }: indexProps) => {
                 <>
                   {alert_setting && (alert_setting as any).display_in_dashboard === 1 && alerts.length > 0 &&
                   <Container mt={0} pt="0" maxW="100%" w="100%">
-                    <HStack  pt="0" w="100%" space="3" alignItems="center">
-                      <Text textTransform="uppercase" fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
-                      <Spacer />
-                    </HStack>
                     
-                    
-                      <Box overflow="hidden" bg="primary.box" mb={4} pb={5}  w="100%" rounded="lg">
+                      <Box overflow="hidden" bg="primary.box" mb={4} pb={alerts.length > 3 ? 0 : 5}  w="100%" rounded="lg">
+                      <HStack  pt="0" w="100%" space="3" alignItems="center">
+                        <Text w={'100%'} pt={2} textAlign={'center'} fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
+                      </HStack>
                         {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
                           <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
                         ))}
+                        {alerts.length > 3 &&
+                        <Center py="3" px="2" w="100%" alignItems="flex-end">
+                          <Button onPress={() => {
+                            push(`/${event.url}/alerts`)
+                          }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                            {event.labels?.GENERAL_SEE_ALL ?? ''}
+                          </Button>
+                        </Center>
+                        }
                       </Box>
                       
-                    {alerts.length > 3 &&
-                    <Center py="3" px="2" w="100%" alignItems="flex-end">
-                      <Button onPress={() => {
-                        push(`/${event.url}/alerts`)
-                      }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                        {event.labels?.GENERAL_LOAD_MORE ?? 'Show all'}
-                      </Button>
-                    </Center>
-                    }
                   </Container>
                   }
                 </>

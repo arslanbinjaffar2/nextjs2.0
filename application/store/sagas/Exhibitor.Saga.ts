@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getExhibitorApi, makeFavouriteApi, getExhibitorDetailApi, getMyExhibitorApi, getOurExhibitorApi } from 'application/store/api/Exhibitor.api';
+import { getExhibitorApi, makeFavouriteApi, getExhibitorDetailApi, getMyExhibitorApi, getOurExhibitorApi,getContactExhibitorApi } from 'application/store/api/Exhibitor.api';
 
 import { ExhibitorActions } from 'application/store/slices/Exhibitor.Slice'
 
@@ -86,10 +86,23 @@ function* OnGetExhibitorDetail({
     payload: { id: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'exhibitor-detail' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getExhibitorDetailApi, payload, state)
     yield put(ExhibitorActions.updateExhibitorDetail(response.data.data!))
     yield put(DocumentActions.update(response.data.data.documents!))
+    yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'exhibitor-detail' }))
+}
+function* OnGetExhibitorContact({
+    payload,
+}: {
+    type: typeof ExhibitorActions.FetchExhibitorContact
+    payload: { id: number }
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getContactExhibitorApi, payload, state)
     yield put(LoadingActions.set(false));
 }
 
@@ -97,6 +110,7 @@ function* OnGetExhibitorDetail({
 export function* ExhibitorWatcherSaga(): SagaIterator {
     yield takeEvery(ExhibitorActions.FetchExhibitors.type, OnGetExhibitors)
     yield takeEvery(ExhibitorActions.FetchExhibitorDetail.type, OnGetExhibitorDetail)
+    yield takeEvery(ExhibitorActions.FetchExhibitorContact.type, OnGetExhibitorContact)
     yield takeEvery(ExhibitorActions.MakeFavourite.type, OnMakeFavourite)
     yield takeEvery(ExhibitorActions.FetchMyExhibitors.type, OnGetMyExhibitors)
     yield takeEvery(ExhibitorActions.FetchOurExhibitors.type, OnGetOurExhibitors)

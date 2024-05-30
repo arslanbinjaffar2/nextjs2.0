@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 
-import { SelectSurveys, SelectCompletedSurveys, SurveyActions, SelectSurveyLabelDetail, SelectSurveySubmitSuccess, SelectSurveyDetail, SelectMySurveyResult, SelectMySurveyResultDetail, SelectMySurveyResultScore } from 'application/store/slices/Survey.Slice'
+import { SelectSurveys, SelectCompletedSurveys, SurveyActions, SelectSurveyLabelDetail, SelectSurveySubmitSuccess, SelectSurveyDetail, SelectMySurveyResult, SelectMySurveyResultDetail, SelectMySurveyResultScore, SelectSurveySettings, SelectMySurveyTotalScore } from 'application/store/slices/Survey.Slice'
 
-import { SurveyLabels, SurveySubmitData, Surveys } from 'application/models/survey/Survey'
+import { SurveyLabels, SurveySetting, SurveySubmitData, Surveys } from 'application/models/survey/Survey'
 import { SurveyDetail } from 'application/models/survey/Detail'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
@@ -12,11 +12,13 @@ export type SurveyServiceOperators = {
     surveys: Surveys,
     completed_surveys: Surveys,
     detail:SurveyDetail | null,
+    survey_settings:SurveySetting | null,
     survey_labels:SurveyLabels,
     submitSuccess:boolean,
     mySurveyResult: Surveys,
     mySurveyResultDetail:MySurveyResultSurvey | null,
     mySurveyResultScore:number,
+    mySurveyTotalScore:number,
     FetchSurveys: () => void,
     FetchSurveyDetail: (payload:{id:number}) => void,
     SubmitSurvey: (payload:SurveySubmitData) => void,
@@ -39,10 +41,12 @@ export const UseSurveyService = (): Readonly<SurveyServiceOperators> => {
         completed_surveys: useAppSelector(SelectCompletedSurveys),
         detail: useAppSelector(SelectSurveyDetail),
         survey_labels: useAppSelector(SelectSurveyLabelDetail),
+        survey_settings: useAppSelector(SelectSurveySettings),
         submitSuccess: useAppSelector(SelectSurveySubmitSuccess),
         mySurveyResult: useAppSelector(SelectMySurveyResult),
         mySurveyResultDetail: useAppSelector(SelectMySurveyResultDetail),
         mySurveyResultScore: useAppSelector(SelectMySurveyResultScore),
+        mySurveyTotalScore: useAppSelector(SelectMySurveyTotalScore),
         FetchSurveys: useCallback(
             () => {
                 dispatch(SurveyActions.FetchSurveys())

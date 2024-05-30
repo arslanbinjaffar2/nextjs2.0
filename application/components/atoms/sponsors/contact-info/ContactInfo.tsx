@@ -14,9 +14,39 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseSponsorService from 'application/store/services/UseSponsorService';
 import UseEventService from 'application/store/services/UseEventService'
 import IcouserFilled from 'application/assets/icons/small/IcouserFilled';
+import { getContactSponsorApi } from 'application/store/api/Sponsor.api'
+import { store } from 'application/store/Index'
+async function getSponsorContact(id:any) {
+  const mystate=store.getState()
+  try {
+    const response = await getContactSponsorApi({id},mystate); // Call the API function
+    console.log(response.data.data,'fgfdgfd')
+    downloadFile(response.data.data.filedata,response.data.data.filename);
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+const downloadFile = (fileData:any, filename:any) => {
+  // Create a Blob object from the file data
+  const blob = new Blob([fileData], { type: 'application/octet-stream' });
+
+  const url = window.URL.createObjectURL(blob);
+
+  const anchorElement = document.createElement('a');
+  anchorElement.href = url;
+
+  anchorElement.download = filename;
+
+  anchorElement.style.display = 'none';
+  document.body.appendChild(anchorElement);
+  anchorElement.click();
+  document.body.removeChild(anchorElement);
+  window.URL.revokeObjectURL(url);
+};
+
 
 const ContactInfo = () => {
-  const { detail } = UseSponsorService();
+  const { detail,FetchSponsorContact,settings } = UseSponsorService();
   const { event  } = UseEventService();
   return (
     <>
@@ -32,19 +62,19 @@ const ContactInfo = () => {
                 <IcouserFilled width="18px" height="18px" />
                 <Text fontSize="lg">{event?.labels?.GENERAL_CONTACT_INFO}</Text>
                 <Spacer />
-                <IconButton
-                    variant="unstyled"
-                    p={0}
-                    icon={<IcoVCF />}
-                    onPress={()=>{
-                    console.log('hello')
-                    }}
-
-                />
-
-
+              {settings.sponsorContact && settings?.sponsorContact  ? (
+              <IconButton
+                variant="unstyled"
+                p={0}
+                icon={<IcoVCF />}
+                onPress={() => {
+                  getSponsorContact(detail?.detail?.id ?? 0);
+                }}>
+              </IconButton>
+              ) : ''}
             </HStack>
-            {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack p="3" w="100%" space="3">
+            <Box py={3}>
+            {(detail?.detail?.email !== '' || detail?.detail?.phone_number !== '') && <VStack pt={0} p="3" w="100%" space="0">
                 {detail?.detail?.email && detail?.detail?.email !== '' && <HStack space="1" alignItems="center">
                     <Box>
                     	<IcoEnvelope />
@@ -53,7 +83,7 @@ const ContactInfo = () => {
                         <Text fontSize="14px">{detail?.detail?.email}</Text>
                     </Box>
                 </HStack>}
-                {detail?.detail?.phone_number && detail?.detail?.phone_number !== '' && <HStack space="0" alignItems="center">
+                {detail?.detail?.phone_number && detail?.detail?.phone_number !== '' && <HStack mt={detail?.detail?.email && detail?.detail?.email !== '' ? 2 : 0} space="0" alignItems="center">
                     <Box>
                     <IcoPhone />
                     </Box>
@@ -62,7 +92,7 @@ const ContactInfo = () => {
                     </Box>
                 </HStack>}
             </VStack>}
-                  <HStack space={3} p={3} py={2} w={'100%'} justifyContent={'flex-start'} alignItems={'center'} mt={'1'}>
+                  <HStack space={3} px={3} w={'100%'} justifyContent={'flex-start'} alignItems={'center'}>
                         {detail?.detail?.facebook && detail?.detail?.facebook !== '' && detail?.detail?.facebook !== 'http://' &&  detail?.detail?.facebook !== 'https://' && (
                             <Pressable
                                 onPress={async () => {
@@ -113,6 +143,7 @@ const ContactInfo = () => {
                         )}
 
                     </HStack>
+                    </Box>
 
         </Box>}
     </>

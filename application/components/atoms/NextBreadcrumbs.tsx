@@ -20,9 +20,11 @@ interface NextBreadcrumbsProps {
   additionalBreadcrubms?: Document[] | undefined;
   onBreadcrumbPress?: (breadcrumb: Document) => void;
   onAdditionalMainBreadcrumbPress?: () => void | undefined;
+  // i want queryParameters  like i should pass key value for multiple
+  queryParameters?: { [key: string]: string };
 }
 
-const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additionalBreadcrubms, onBreadcrumbPress, onAdditionalMainBreadcrumbPress }) => {
+const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additionalBreadcrubms, onBreadcrumbPress, onAdditionalMainBreadcrumbPress,queryParameters }) => {
   
   const { push } = useRouter();
   const { event } = UseEventService();
@@ -45,6 +47,10 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
 
   const handlePress = (alias: string) => {
     let url = `/${event.url}/${alias}`;
+    // add query parameters to the url
+    if(queryParameters && Object.keys(queryParameters).length > 0){
+      url = `${url}?${Object.keys((queryParameters)).map(key => `${key}=${queryParameters[key]}`).join('&')}`; 
+    }
   
     if (alias === 'information_pages') {
       alias = alias.replace(/_/g, '-');
@@ -75,7 +81,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
                 handlePress(breadcrumb.alias);
               }}>
               <HStack space="2" alignItems="center">
-                <IcoDashboard width="18" height="18" color={'primary.text'} />
+                <IcoDashboard width="18" height="18" />
                 <Text color={'primary.text'}>{breadcrumb.label}</Text>
               </HStack>
             </Pressable>

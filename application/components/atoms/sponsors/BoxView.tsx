@@ -8,6 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
+import UseToastService from 'application/store/services/UseToastService';
 import { Linking } from 'react-native';
 import { colorText } from 'application/styles/colors';
 
@@ -21,7 +22,7 @@ type AppProps = {
 const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 
     const { _env } = UseEnvService()
-
+    const {AddToast}=UseToastService()
     const { settings, MakeFavourite } = UseSponsorService();
 
     const { push } = useRouter()
@@ -37,7 +38,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
             setIsFav(false)
         }
     }, [sponsor.attendee_sponsors])
-
+    
     function toggleFav(){
         if(isFav){
             setIsFav(false)
@@ -49,7 +50,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
    const [isOpen,setIsOpen]=useState(false)
     return (
         <>
-            <Box w={w ? w : '49%'}>
+            <Box w={['100%',w ? w : '49%']}>
                 <Pressable
                 onPress={async () => {
                     if(sponsor?.url && sponsor?.url !== '' && sponsor.url !== 'http://' && sponsor.url !== 'https://'){

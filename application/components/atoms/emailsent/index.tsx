@@ -1,16 +1,17 @@
 import { sendDocumentEmailApi } from 'application/store/api/DocumentApi';
 import { store } from 'application/store/Index';
-import { Center, HStack, TextArea,Input, Text, Container, Button, FormControl } from 'native-base';
+import { Center, HStack, TextArea, Input, Text, Container, Button, FormControl, Pressable, Icon } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import UseEventService from 'application/store/services/UseEventService';
-
+import { useRouter } from 'next/router';
+import AntDesign from '@expo/vector-icons/AntDesign'
 const EmailSend = ({id}:{id:any}) => {
     const [emailData, setEmailData] = React.useState({ email: '',  subject: '', comments: '' });
     const [errors, setErrors] = React.useState({ email: '',  subject: '', comments: '' });
     const [loading,setLoading]=useState(false)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const { event } = UseEventService();
-
+    const { push } = useRouter();
     const validateForm = () => {
         if (emailData.email.trim() === "") {
             return setErrors({...errors, email: event?.labels?.REGISTRATION_FORM_FIELD_REQUIRED});
@@ -40,13 +41,21 @@ const EmailSend = ({id}:{id:any}) => {
     }
 
   return (
-    <> 
+    <>
+      <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
+        <Pressable onPress={()=> push(`/${event.url}/ddirectory`)}>
+          <HStack space="3" alignItems="center">
+            <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
+            <Text fontSize="2xl">{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
+          </HStack>
+        </Pressable>
+      </HStack>
     <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%" p={2}>
                         <HStack alignItems={["flex-start","center"]} px="6" pb={3} pt={3} flexDirection={['column', 'row']}  w="100%">
                             <FormControl isRequired isInvalid={emailData.email.trim().length < 3 && emailData.email.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
-                                <FormControl.Label  fontWeight="500" fontSize="16px" textTransform={'capitalize'}  
+                                <FormControl.Label  fontWeight="500" fontSize="16px"
                                 >
-                                     <Text  isTruncated fontWeight="500" fontSize="16px" textTransform={'capitalize'}>
+                                     <Text  isTruncated fontWeight="500" fontSize="16px">
                                     {event?.labels?.GENERAL_EMAIL}
                                      </Text>
                                 </FormControl.Label>
@@ -65,7 +74,7 @@ const EmailSend = ({id}:{id:any}) => {
                         </HStack>
                         <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                             <FormControl.Label isRequired isInvalid={emailData.subject.trim().length < 3 && emailData.subject.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
-                                <Text  isTruncated fontWeight="500" fontSize="16px" textTransform={'capitalize'}>{event?.labels?.GENERAL_SUBJECT}</Text>
+                                <Text  isTruncated fontWeight="500" fontSize="16px">{event?.labels?.GENERAL_SUBJECT}</Text>
                             </FormControl.Label>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
@@ -82,7 +91,7 @@ const EmailSend = ({id}:{id:any}) => {
                         </HStack>
                         <HStack mb="3" alignItems={["flex-start","center"]} px="6" flexDirection={['column', 'row']}  w="100%">
                             <FormControl.Label isInvalid={emailData.comments.trim().length < 3 && emailData.comments.trim().length > 0} alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
-                                <Text isTruncated fontWeight="500" fontSize="16px" textTransform={'capitalize'}>{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
+                                <Text isTruncated fontWeight="500" fontSize="16px">{event?.labels?.GENERAL_YOUR_COMMENT}</Text>
                             </FormControl.Label>
                             <Center borderWidth={'0'} justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <TextArea

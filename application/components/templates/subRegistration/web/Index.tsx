@@ -27,6 +27,7 @@ import UseSubRegistrationService from 'application/store/services/UseSubRegistra
 import { error } from 'application/store/slices/Auth.Slice';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import { func } from 'application/styles';
 
 
 type ScreenParams = { id: string }
@@ -277,10 +278,10 @@ const Detail = () => {
             <Container ref={refElement} mb="3" maxW="100%" w="100%">
             
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text isTruncated  fontSize="2xl">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
+                <Text fontSize="2xl">{afterLogin.labels.SUB_REGISTRATION_MODULE_LABEL}</Text>
               </HStack>
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                <Text isTruncated pr="6" fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
+                <Text fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
               </HStack>
               {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
                 {afterLogin?.questions?.question.length! > 0 &&  afterLogin?.questions?.question.map((item, index)=>(
@@ -302,9 +303,9 @@ const Detail = () => {
                       <Button
                       bg="transparent"
                       p="2"
-                      textTransform={'uppercase'}
                       fontSize="lg"
                       colorScheme="primary"
+                      _hover={{_text: {color: 'primary.hovercolor'}}}
                       onPress={() => {
                         setSkip();
                       }}
@@ -317,7 +318,7 @@ const Detail = () => {
                         w="48px"
                         py="3"
                         px="1"
-                        leftIcon={<IcoLongArrow />}
+                        leftIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)}  />}
                         colorScheme="primary"
                         isLoading={submitting}
                         onPress={() => {

@@ -17,9 +17,10 @@ type AppProps = {
   workshop: boolean,
   speaker?:number,
   section?:string,
+  currentIndex?:number
 }
 
-const RectangleDetailView = ({ program, k, border, speaker, section, workshop }: AppProps) => {
+const RectangleDetailView = ({ program, k, border, speaker, section, workshop,currentIndex }: AppProps) => {
 
   const { MakeFavourite, SetFavouriteProgramError, favouriteProgramError, agendas_attached_via_group } = UseProgramService();
 
@@ -53,7 +54,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
       {workshop && <Divider w={'5px'} bg={'primary.500'}  position={'absolute'} right={0} height={'calc(100% + 1px)'} top={0} />}
       <Pressable
               onPress={() => {
-                push(`/${event.url}/agendas/detail/${program.id}`)
+                push(`/${event.url}/agendas/detail/${program.id}?currentIndex=${currentIndex}`)
               }}>
 
                 <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
@@ -90,8 +91,8 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop }:
                       ): null}
                       {program?.videos?.length ? (
                         <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
-                      ) : null}
-                       {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && <Pressable
+                      ) : ''}
+                       {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && program?.is_attatched_with_subregistration !== 1 && <Pressable
                         onPress={() => toggleFav()}>
                         <Icon size="xl" as={AntDesign} name={isFav ? "heart" : "hearto"} color={isFav ? 'secondary.500' : 'primary.text'} />
                       </Pressable>}

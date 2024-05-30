@@ -13,6 +13,16 @@ const Index = ({ navigation }: indexProps) => {
     const { event } = UseEventService()
     const { modules } = UseEventService();
     const module = modules.find((module) => module.alias === 'upcomingEvents');
+    // const { showToast,Toast } = useToast();
+
+    // const handleSuccess = () => {
+    //   showToast(Status.Success, 'Action completed successfully!');
+    // };
+  
+    // const handleError = () => {
+    //   showToast(Status.Error, 'An error occurred!');
+    // };
+    
     return (
         <>
             <NextBreadcrumbs module={module} />

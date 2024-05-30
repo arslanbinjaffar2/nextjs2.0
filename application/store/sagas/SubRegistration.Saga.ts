@@ -11,6 +11,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
+import { ToastActions } from '../slices/Toast.Slice'
 
 function* OnFetchSubRegistrationAfterLogin({
 }: {
@@ -42,6 +43,8 @@ function* OnSaveSubRegistration({
 }): SagaIterator {
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveSubRegistrationApi, payload, state)
+    const SubRegistrationLabel=state?.event?.event.labels?.EVENTSITES_SUBREGISTRATION_UPDATE_MESSAGE
+    yield put(ToastActions.AddToast({toast:{status:"success", message:SubRegistrationLabel,duration:10000}}))
     yield put(SubRegistrationActions.SubmitSuccess())
     yield put(SubRegistrationActions.setSkip())
 }
