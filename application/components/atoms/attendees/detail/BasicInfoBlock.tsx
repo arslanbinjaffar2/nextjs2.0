@@ -143,7 +143,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 </VStack>
                             </Center>
                         )}
-                        {setting.name === 'table_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.table_number! && (
+                        {detail?.sort_field_setting && detail.sort_field_setting.find((setting:any) => setting.name === 'table_number' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.table_number!) && (
                             <Center borderLeftWidth={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number  ? 1 : 0} borderColor="primary.bordercolor" alignItems="flex-start" pl={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number ? ['3','8'] : 0} w="33.33%">
                             <VStack space="0">
                                     <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.table_number}</Text>
