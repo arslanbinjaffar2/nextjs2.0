@@ -17,7 +17,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     const { event  } = UseEventService();
 
     // Define the fields to remove
-    const fieldsToRemove = ['first_name', 'last_name', 'delegate_number', 'table_number', 'initial', 'email', 'phone', 'resume'];
+    const fieldsToRemove = ['first_name', 'last_name', 'delegate_number', 'table_number', 'initial', 'email', 'phone', 'resume', 'facebook', 'linkedin', 'twitter', 'website'];
 
     // Filter out the specified fields from sort_field_setting
     const filteredSortFieldSetting = detail?.sort_field_setting.filter((setting: any) => !fieldsToRemove.includes(setting.name));
