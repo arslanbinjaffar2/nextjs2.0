@@ -155,41 +155,50 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                     </HStack>
                 </Box>
                 
-                <HStack w="100%" bg="primary.secondary" p="2" pl={5} mt={3}  borderTopWidth="1" borderColor="primary.darkbox">
-									<HStack space="0">
-											{allowedFields?.resume && (showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || speaker == 1 || detail?.speaker_setting.resume == 1) && <Center w="20%" borderRightWidth={showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) ? '1' : '0'} borderColor={'primary.box'} alignItems="flex-start"><Pressable
-															onPress={async () => {
-																	const url: any = `${_env.eventcenter_base_url}/assets/attendees/cv/${detail?.detail?.attendee_cv}`;
-																	const supported = await Linking.canOpenURL(url);
-																	if (supported) {
-																			await Linking.openURL(url);
-																	}
-													}}>
-															<Icoresume width="22" height="25" color={func.colorType(event?.settings?.secondary_color)}/>
-													</Pressable>
-											</Center>}
-											{showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && <Center w="20%"  borderColor="primary.bordercolor" alignItems="center">
-													<Pressable
-																	onPress={async () => {
-																			push(`/${event.url}/attendees/hotel/${detail?.detail?.id}`)
-													}}>
-															<Icohotelbed width="24" height="18" color={func.colorType(event?.settings?.secondary_color)}/>
-													</Pressable>
-											</Center>}
-											</HStack>
-											<Spacer />
-
-												{isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== detail?.detail?.id && (
-													<Button
-															py={2}
-															maxWidth={'120px'}
-															colorScheme="primary"
-															onPress={() => { push(`/${event.url}/reservation/${detail?.detail?.id}`) }}>
-															<Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
-															
-														</Button>
-												)}
+                {(allowedFields?.resume && (showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || speaker == 1 || detail?.speaker_setting.resume == 1)) ||
+(showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1)) ||
+(isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== detail?.detail?.id) ? (
+    <HStack w="100%" bg="primary.secondary" p="2" pl={5} mt={3} borderTopWidth="1" borderColor="primary.darkbox">
+        <HStack space="0">
+            {allowedFields?.resume && (showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || speaker == 1 || detail?.speaker_setting.resume == 1) && (
+                <Center w="20%" borderRightWidth={showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) ? '1' : '0'} borderColor={'primary.box'} alignItems="flex-start">
+                    <Pressable
+                        onPress={async () => {
+                            const url: any = `${_env.eventcenter_base_url}/assets/attendees/cv/${detail?.detail?.attendee_cv}`;
+                            const supported = await Linking.canOpenURL(url);
+                            if (supported) {
+                                await Linking.openURL(url);
+                            }
+                        }}>
+                        <Icoresume width="22" height="25" />
+                    </Pressable>
+                </Center>
+            )}
+            {showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && (
+                <Center w="20%" borderColor="primary.bordercolor" alignItems="center">
+                    <Pressable
+                        onPress={async () => {
+                            push(`/${event.url}/attendees/hotel/${detail?.detail?.id}`)
+                        }}>
+                        <Icohotelbed width="24" height="18" />
+                    </Pressable>
+                </Center>
+            )}
                 </HStack>
+                <Spacer />
+                        {console.log('enab:', isAppointmentTabEnabled)}
+                        {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== detail?.detail?.id && (
+                            <Button
+                                py={2}
+                                maxWidth={'120px'}
+                                colorScheme="primary"
+                                onPress={() => { push(`/${event.url}/reservation/${detail?.detail?.id}`) }}>
+                                <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                            </Button>
+                        )}
+                    </HStack>
+                ) : null}
+
                 
                 
             </Container>
