@@ -47,8 +47,9 @@ const ContactInfo = ({ detail }: AppProps) => {
     return !!field;
   };
 
-  const hasContactInfo = ['facebook', 'twitter', 'linkedin', 'website', 'email', 'phone']
-    .some(fieldName => isFieldVisible(fieldName) && detail?.detail?.info?.[fieldName]);
+  const hasContactInfo = ['facebook', 'twitter', 'linkedin', 'website', 'phone']
+    .some(fieldName => isFieldVisible(fieldName) && detail?.detail?.info?.[fieldName]) || 
+    (isFieldVisible('email') && detail?.detail?.email);
 
   const visibleSocialIcons = detail.sort_field_setting
     .filter((field: any) => {
