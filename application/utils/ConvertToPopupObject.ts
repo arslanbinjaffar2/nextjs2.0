@@ -59,6 +59,15 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             btnRightText:'',
         }
     }
+    if(type == 'program-fav-error'){
+        return  {
+            type:'program-fav-error',
+            title:notification?.title,
+            text:notification?.text,
+            btnLeftText:'OK',
+            btnRightText:'',
+        }
+    }
 }
 
 export default ConvertToPopupObject
