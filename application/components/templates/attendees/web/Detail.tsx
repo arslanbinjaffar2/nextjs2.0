@@ -175,16 +175,16 @@ const Detail = ({ speaker }: Props) => {
                                                     <React.Fragment key={key}>
                                                         {
                                                             (() => {
-                                                                if (row?.tab_name === 'program' && row?.status == 1 && event?.speaker_settings?.program === 1) {
+                                                                if (row?.tab_name === 'program' && row?.status == 1) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('program')} bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} >{speaker ? (modules?.find   ((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}
                                                                         </ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'category' && row?.status == 1 && event?.speaker_settings?.category_group === 1) {
+                                                                } else if (row?.tab_name === 'category' && row?.status == 1) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('category')} bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.SPEAKER_CATEGORY}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'documents' && row?.status == 1 && event?.speaker_settings?.show_document === 1) {
+                                                                } else if (row?.tab_name === 'documents' && row?.status == 1) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('documents')} bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'}>
                                                                             {modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'Documents'}</ButtonElement>
@@ -193,7 +193,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('about')} bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.ATTENDEE_TAB_ABOUT}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group)))) {
+                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 && ((Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group)))) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('groups')} bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'}>
                                                                             {event?.labels?.ATTENDEE_TAB_GROUP}</ButtonElement>
@@ -276,7 +276,6 @@ const Detail = ({ speaker }: Props) => {
                                             )
                                         }
                                     </Container>}
-                                    {event?.speaker_settings?.show_document === 1 && (
                                       <>
                                     {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
                                         {in_array('documents', processing) && page === 1 ? (
@@ -288,7 +287,6 @@ const Detail = ({ speaker }: Props) => {
                                         )}
                                     </Container>}
                                       </>
-                                      )}
                                     {(in_array('programs', processing) || in_array('groups', processing)) && page > 1 && (
                                         <LoadMore />
                                     )}
