@@ -162,7 +162,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             search.cancel();
         };
     }, []);
-
+    const categoryIdQuery = Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0));
     const search = React.useMemo(() => {
         return debounce(function (query: string, tab:string) {
             if (tab === "group") {
@@ -174,8 +174,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             }else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {console.log('call 5')
                 FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
-        }, 1000);
-    }, []);
+        }, 500);
+    }, [categoryIdQuery]);
 
     React.useEffect(() => {
         setSearch(query);
