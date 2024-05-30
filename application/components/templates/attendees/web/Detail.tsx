@@ -85,17 +85,17 @@ const Detail = ({ speaker }: Props) => {
             // Iterate through the sorted enabled tabs and set the default tab based on conditions
             for (let i = 0; i < enabledTabs.length; i++) {
                 const row = enabledTabs[i];
-                if (row.tab_name === 'program' && event?.speaker_settings?.program === 1) {
+                if (row.tab_name === 'program') {
                     defaultTab = 'program';
                     break;
-                } else if (row.tab_name === 'category' && event?.speaker_settings?.category_group === 1) {
+                } else if (row.tab_name === 'category') {
                     defaultTab = 'category';
                     break;
-                } else if (row.tab_name === 'documents' && event?.speaker_settings?.show_document === 1) {
+                } else if (row.tab_name === 'documents') {
                     defaultTab = 'documents';
                     break;
                 }
-                else if (row.tab_name === 'about' && event?.speaker_settings?.show_document === 1) {
+                else if (row.tab_name === 'about') {
                     defaultTab = 'about';
                     break;
                 } else if (
@@ -117,10 +117,10 @@ const Detail = ({ speaker }: Props) => {
                     break;
                 }
             }
-    
             // Set the active tab based on the defaultTab or the first enabled tab
             setTab(defaultTab);
         }
+           
     }, [detail]);
     
     
@@ -213,7 +213,7 @@ const Detail = ({ speaker }: Props) => {
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<Text textAlign={'left'}><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div></Text>} />}
                                     {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
                                     {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) && <SubRegistration detail={detail} />}
-                                    {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) &&
+                                    {tab === 'groups' && ((Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) &&
                                             <Container mb="3" rounded="10" bg={`${groups?.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
                                         {in_array('groups', processing) && page === 1 ? (
                                             <SectionLoading />
@@ -236,7 +236,6 @@ const Detail = ({ speaker }: Props) => {
                                         )}
 
                                     </Container>}
-                                    {event?.speaker_settings?.program === 1 && (
                                       <>
                                         {tab === 'program' && <Container mb="3" rounded="10" bg={`${programs.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
                                         {in_array('programs', processing) && page === 1 ? (
@@ -252,7 +251,6 @@ const Detail = ({ speaker }: Props) => {
                                         )}
                                     </Container>}
                                     </>
-                                    )}
                                         {tab === 'category' && <Container mb="3" rounded="10" bg={`${detail?.detail?.categories.length > 0 ? "primary.box" :""}`} w="100%" maxW="100%">
                                         {detail?.detail?.categories.slice().sort((a, b) => a.sort_order - b.sort_order).map((map: any, k: number) =>
                                             <React.Fragment key={`item-box-group-${k}`}>
