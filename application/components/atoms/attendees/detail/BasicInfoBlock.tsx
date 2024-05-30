@@ -175,7 +175,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 </Center>
                             )}
                             {showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1) && (
-                                <Center w="20%" borderColor="primary.bordersecondary" alignItems="center">
+                                <Center w="20%" borderColor="primary.bordersecondary" alignItems={(allowedFields?.resume !== undefined && allowedFields?.resume && detail?.detail?.attendee_cv) ? 'center' : "flex-start"}>
                                     <Pressable
                                         onPress={async () => {
                                             push(`/${event.url}/attendees/hotel/${detail?.detail?.id}`)

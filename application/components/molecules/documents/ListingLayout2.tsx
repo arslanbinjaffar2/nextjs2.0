@@ -42,13 +42,12 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
         <View w="100%">
             {!disableTitle && documents.length > 0 && <HStack pt={3} px="4" w="100%" space="3" alignItems="center"  flexWrap={'wrap'}>
                 {!disableTitle && <Pressable
+                maxW={'100%'}
                     onPress={async () => {
                         FilterDocuments({ document_id: 0, query: '' });
                         setBreadCrumbs([]);
                     }}>
-                    <Box>
-                        <Text fontSize="md">{module ?? 'Documents'}</Text>
-                    </Box>
+                        <Text  fontSize="md">{module ?? 'Documents'}</Text>
                 </Pressable>}
                 {breadcrumbs.length > 0 && breadcrumbs.map((breadcrumb: Document, key: number) =>
                     <React.Fragment key={key}>
