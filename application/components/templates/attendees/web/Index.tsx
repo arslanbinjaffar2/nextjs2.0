@@ -77,7 +77,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory, last_page } = UseAttendeeService();
 
     const [searchQuery, setSearch] = React.useState('')
-    const [parentCategories, setParentCategories] = useState<Category[]>([]);
 
     const [slug] = useParam('slug');
 
@@ -88,16 +87,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         }
         
     }, [searchParams]);
-
-    useEffect(() => {
-        if(categories.length > 0){
-            const filteredCategories = categories.filter(category => category.parent_id === 0);
-            if(filteredCategories.length > 0){
-                setParentCategories(filteredCategories);
-            }       
-        }
-    }, [categories]);
-    
 
     useEffect(() => {
         if (mounted.current) {
@@ -120,6 +109,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             } else if (in_array(tab, ['sub-group'])) {
                 FetchGroups({ query: query, group_id: (Number((searchParams.get('group_id') !== null ? searchParams.get('group_id') : 0))), page: 1, attendee_id: 0, program_id: 0 });
             }else{
+                console.log('RIBA')
                 UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
                 setTab('attendee');
             }
@@ -170,7 +160,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             search.cancel();
         };
     }, []);
-
+    const categoryIdQuery = Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0));
     const search = React.useMemo(() => {
         return debounce(function (query: string, tab:string) {
             if (tab === "group") {
@@ -182,8 +172,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             }else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {console.log('call 5')
                 FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
-        }, 1000);
-    }, []);
+        }, 500);
+    }, [categoryIdQuery]);
 
     React.useEffect(() => {
         setSearch(query);
@@ -194,7 +184,16 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('my-attendee');
         }
     }, [screen]);
-    const [breadcrumbs, setBreadcrumbs] = useState([]);
+    const [breadcrumbs, setBreadcrumbs] = useState<Category[]>(() => {
+        const savedBreadcrumbs = localStorage.getItem('breadcrumbs');
+        return savedBreadcrumbs ? JSON.parse(savedBreadcrumbs) : [];
+      });
+
+      useEffect(() => {
+        localStorage.setItem('breadcrumbs', JSON.stringify(breadcrumbs));
+      }, [breadcrumbs]);
+
+
     const updateBreadcrumbs = (category: Category) => {
         setBreadcrumbs((prev:any) => {
             const index = prev.findIndex((item: Category) => item.id === category.id);
@@ -208,26 +207,11 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         });
     };
 
-    const goBack = () => {
-        setBreadcrumbs((prev) => {
-            if (prev.length <= 1) {
-                setTab('category');
-                push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'));
-                return [];
-            } else {
-                const newBreadcrumbs = prev.slice(0, -1);
-                const parentCategory = newBreadcrumbs[newBreadcrumbs.length - 1];
-                if (parentCategory) {
-                    handleNavigation(parentCategory);
-                }
-                return newBreadcrumbs;
-            }
-        });
-    };
-
     const handleBreadcrumbClick = (category:Category) => {
         const index = breadcrumbs.findIndex((item: Category) => item.id === category.id);
+        
         if (index !== -1) {
+            console.log("🚀 ~ handleBreadcrumbClick ~ index:", breadcrumbs.slice(0, index + 1))
             setBreadcrumbs(breadcrumbs.slice(0, index + 1));
             handleNavigation(category);
         }
@@ -247,9 +231,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     const handleNavigation = (category: Category) => {
         if (category.parent_id > 0) {
             UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
-            push(`/${event.url}/speakers?`+ createQueryStringCat([{name:'tab', value:'category-attendee'}, {name:'category_id', value:`${category.id}`}]));
+            push(`/${event.url}/speakers?`+ createQueryStringCat([{name:'tab', value:'sub-category'}, {name:'category_id', value:`${category.id}`}]));
         } else {
-            push(pathname + '?' + createQueryStringCat([{name:'tab', value:'sub-category'}, {name:'category_id', value:`${category.id}`}]))
+            push(pathname + '?' + createQueryStringCat([{name:'tab', value:'category'}, {name:'category_id', value:`${category.id}`}]))
         }
     };
 
@@ -345,7 +329,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 {event?.labels?.SPEAKER_NAME}
                             </ButtonElement>
                         }
-                        {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
+                        {(event?.speaker_settings?.tab == 1) &&
                             <ButtonElement 
                                 onPress={() => {
                                     setTab('category')
@@ -377,7 +361,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                         )}
                         </>
                     )}
-                      {breadcrumbs.length > 0 && (
+
+                    {console.log((tab === 'category' || tab === 'sub-category' || tab === 'category-attendee'))}
+                      {(tab === 'category' || tab === 'sub-category' || tab === 'category-attendee') && breadcrumbs.length > 0 && (
                         <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
                             <Text flex="1" textTransform="uppercase" fontSize="sm">
                                 {breadcrumbs.map((breadcrumb:any, index) => (
@@ -387,19 +373,14 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                                 {breadcrumb.name}
                                             </Text>
                                         </Pressable>
+                                        &nbsp;&nbsp;
                                         {index < breadcrumbs.length - 1 && (
                                             <Icon color={'primary.text'} as={AntDesign} name="right" />
                                         )}
+                                        &nbsp;&nbsp;
                                     </React.Fragment>
                                 ))}
                             </Text>
-                            {breadcrumbs.length > 0 && (
-                                <Pressable onPress={goBack}>
-                                    <Text textTransform="uppercase" fontSize="sm">
-                                        <Icon color={'primary.text'} as={AntDesign} name="left" /> Go back
-                                    </Text>
-                                </Pressable>
-                            )}
                         </HStack>
                     )}
                 </>
@@ -448,8 +429,10 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
-                             )}
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
+                                            {map?.letter}
+                                            </Text>
+                                    )}
                                     {map?.records?.map((group: Group, k: number) =>
                                         <React.Fragment key={`${k}`}>
                                             <RectangleGroupView group={group} k={k} border={map?.records.length === 1 ? 0 : map?.records.length > 1 && k ===  map?.records.length -1 ? 0 : 1 } updateTab={updateTab} />
@@ -463,7 +446,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                               </Box>
                             }
                         </Container>}
-                        {(tab === 'category' || tab === 'sub-category') && event?.speaker_settings?.category_group == 1 && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     <RectangleCategoryView category={category} updateBreadcrumbs={updateBreadcrumbs} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />

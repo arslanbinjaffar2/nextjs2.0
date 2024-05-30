@@ -86,7 +86,7 @@ const Detail = React.memo(() => {
                             {event?.exhibitor_tab_settings?.documents == 1 && documents.length > 0  && <Box p="0" w="100%">
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                     <Icodocument width="18px" height="18px" />
-                                    <Text fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
+                                    <Text fontSize="lg">{modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? event?.labels?.GENERAL_DOCUMENTS}</Text>
                                 </HStack>
                                 <Box w={'100%'}>
                                     {in_array('documents', processing) ? (

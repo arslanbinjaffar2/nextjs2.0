@@ -13,7 +13,6 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
 import { useSearchParams, usePathname } from 'next/navigation'
 
-
 type boxItemProps = {
   attendee: Attendee
   border: number
