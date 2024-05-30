@@ -77,7 +77,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory, last_page } = UseAttendeeService();
 
     const [searchQuery, setSearch] = React.useState('')
-    const [parentCategories, setParentCategories] = useState<Category[]>([]);
 
     const [slug] = useParam('slug');
 
@@ -88,16 +87,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         }
         
     }, [searchParams]);
-
-    useEffect(() => {
-        if(categories.length > 0){
-            const filteredCategories = categories.filter(category => category.parent_id === 0);
-            if(filteredCategories.length > 0){
-                setParentCategories(filteredCategories);
-            }       
-        }
-    }, [categories]);
-    
 
     useEffect(() => {
         if (mounted.current) {
@@ -120,6 +109,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             } else if (in_array(tab, ['sub-group'])) {
                 FetchGroups({ query: query, group_id: (Number((searchParams.get('group_id') !== null ? searchParams.get('group_id') : 0))), page: 1, attendee_id: 0, program_id: 0 });
             }else{
+                console.log('RIBA')
                 UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
                 setTab('attendee');
             }
@@ -132,6 +122,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     }, []);
 
     useEffect(() => {
+        console.log("🚀 ~ useEffect ~ slug:", slug)
         if (slug !== undefined && slug.length === 1) { // Group attendees by slug
             setTab('group-attendee'); console.log('call 3')
             FetchAttendees({ query: query, group_id: slug[0], page: 1, my_attendee_id: 0, speaker: speaker, category_id: 0, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
@@ -147,6 +138,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), screen: 'speakers', program_id: 0 });
         }
          else if ((slug === undefined || slug.length === 0) && tab === 'category') {
+            console.log("🚀 ~ Index ~ tab:", tab)
             setTab('category');
             FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
         } else if ((slug === undefined || slug.length === 0) && tab === 'sub-category') {
@@ -345,7 +337,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 {event?.labels?.SPEAKER_NAME}
                             </ButtonElement>
                         }
-                        {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
+                        {(event?.speaker_settings?.tab == 1) &&
                             <ButtonElement 
                                 onPress={() => {
                                     setTab('category')
@@ -447,8 +439,10 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
-                             )}
+                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
+                                            {map?.letter}
+                                            </Text>
+                                    )}
                                     {map?.records?.map((group: Group, k: number) =>
                                         <React.Fragment key={`${k}`}>
                                             <RectangleGroupView group={group} k={k} border={map?.records.length === 1 ? 0 : map?.records.length > 1 && k ===  map?.records.length -1 ? 0 : 1 } updateTab={updateTab} />
@@ -461,7 +455,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
                             }
                         </Container>}
-                        {(tab === 'category' || tab === 'sub-category') && event?.speaker_settings?.category_group == 1 && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
                                     <RectangleCategoryView category={category} updateBreadcrumbs={updateBreadcrumbs} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />
