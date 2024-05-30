@@ -259,7 +259,6 @@ const Detail = ({ speaker }: Props) => {
                                         {tab === 'category' && <Container mb="3" rounded="10" bg={`${detail?.detail?.categories.length > 0 ? "primary.box" :""}`} w="100%" maxW="100%">
                                         {detail?.detail?.categories.slice().sort((a, b) => a.sort_order - b.sort_order).map((map: any, k: number) =>
                                             <React.Fragment key={`item-box-group-${k}`}>
-                                                {event?.speaker_settings?.category_group === 1 && (
                                                 <>
                                                 {map?.name && (
                                                     <Text w="100%" pl="18px" bg="primary.darkbox">{map?.name}</Text>
@@ -270,7 +269,6 @@ const Detail = ({ speaker }: Props) => {
                                                     </React.Fragment>
                                                 )}
                                                 </>
-                                                )}
                                             </React.Fragment>
                                         )}
                                         {detail?.detail?.categories.length <=0 && 
