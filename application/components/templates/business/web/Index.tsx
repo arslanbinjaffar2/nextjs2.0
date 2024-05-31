@@ -204,30 +204,51 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                     <Box w="100%" mb="3">
                     <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={0} borderColor="primary.darkbox" placeholder={event.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </Box>
-                    <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
-                    {filteredkeywords?.length > 0 ? filteredkeywords?.map((keyword:Keyword)=>(
-                        <React.Fragment key={keyword?.id}>
-                            <Text mb="2" fontSize="lg">{keyword?.name}</Text>
-                            <Flex mx="-2" mb="1" direction="row" flexWrap="wrap">
-                                {keyword?.children?.map((childWord:Keyword)=>(
-                                    <CheckboxWrapp key={childWord.id}  addMyKeyword={() => addMyKeyword(childWord.id)} checked={mykeywords?.indexOf(childWord?.id) !== -1 ? true : false} title={childWord?.name} />
-                                ))}
-                            </Flex>
-                        </React.Fragment>
-                    )) : (searchTerm.length < 1) ? interestkeywords?.map((keyword:Keyword)=>(
-                        <React.Fragment key={keyword?.id}>
-                            <Text mb="2" fontSize="lg">{keyword?.name}</Text>
-                            <Flex mx="-2" mb="1" direction="row" flexWrap="wrap">
-                                {keyword?.children?.map((childWord:Keyword)=>(
-                                    <CheckboxWrapp key={childWord.id} addMyKeyword={() => addMyKeyword(childWord.id)} checked={mykeywords?.indexOf(childWord?.id) !== -1 ? true : false} title={childWord?.name} />
-                                ))}
-                            </Flex>
-                        </React.Fragment>
-                    )):(
-                      <NoRecordFound/>
-                    )
-                  }
-                    </Box>
+                    <Box minH={(filteredkeywords?.length > 0 || searchTerm.length < 1)? "250px" :""} w="100%" mb="3" bg={(filteredkeywords?.length > 0 || searchTerm.length < 1)? "primary.box" :""} 
+                    pt={(filteredkeywords?.length > 0 || searchTerm.length < 1)? "" :"4"} px={(filteredkeywords?.length > 0 || searchTerm.length < 1)? "5" :""} pb="1" rounded="10px">
+    {filteredkeywords?.length > 0 ? (
+        filteredkeywords.map((keyword: Keyword) => (
+            <React.Fragment key={keyword?.id}>
+                <Text mb="2" fontSize="lg">{keyword?.name}</Text>
+                <Flex mx="-2" mb="1" direction="row" flexWrap="wrap">
+                    {keyword?.children?.map((childWord: Keyword) => (
+                        <CheckboxWrapp
+                            key={childWord.id}
+                            addMyKeyword={() => addMyKeyword(childWord.id)}
+                            checked={mykeywords?.indexOf(childWord?.id) !== -1}
+                            title={childWord?.name}
+                        />
+                    ))}
+                </Flex>
+            </React.Fragment>
+        ))
+    ) : searchTerm.length < 1 ? (
+        interestkeywords?.length > 0 ? (
+            interestkeywords.map((keyword: Keyword) => (
+                <React.Fragment key={keyword?.id}>
+                    <Text mb="2" fontSize="lg">{keyword?.name}</Text>
+                    <Flex mx="-2" mb="1" direction="row" flexWrap="wrap">
+                        {keyword?.children?.map((childWord: Keyword) => (
+                            <CheckboxWrapp
+                                key={childWord.id}
+                                addMyKeyword={() => addMyKeyword(childWord.id)}
+                                checked={mykeywords?.indexOf(childWord?.id) !== -1}
+                                title={childWord?.name}
+                            />
+                        ))}
+                    </Flex>
+                </React.Fragment>
+            ))
+        ) : (
+            <NoRecordFound bg="primary.box" />
+        )
+    ) : (
+        searchTerm.length > 1 && (
+            <NoRecordFound bg="primary.box" />
+        )
+    )}
+</Box>
+
                     <Box w="100%" mb="3" alignItems="center">
                     <Button
                         size="lg"
