@@ -31,8 +31,17 @@ export interface AttendeeState {
     total: number,
     program_id: number,
     hotels:any,
-    registration: any
-    last_page:number
+    registration: any,
+    last_page:number,
+    categoryBreadcrumbs: Category[],
+}
+
+const getInitialBreadcrumbs = () => {
+    if (typeof window !== 'undefined') {
+        const savedBreadcrumbs = localStorage.getItem('breadcrumbs')
+        return savedBreadcrumbs ? JSON.parse(savedBreadcrumbs) : []
+    }
+    return []
 }
 
 const initialState: AttendeeState = {
@@ -65,7 +74,8 @@ const initialState: AttendeeState = {
     program_id: 0,
     hotels:null,
     registration: null,
-    last_page:1
+    last_page:1,
+    categoryBreadcrumbs: getInitialBreadcrumbs()
 }
 
 // Slice
@@ -161,6 +171,21 @@ export const AttendeeSlice = createSlice({
         updateMyRegistration(state, action: PayloadAction<any>){
             state.registration = action.payload
         },
+        setBreadcrumbs(state, action: PayloadAction<Category[]>) {
+            state.categoryBreadcrumbs = action.payload
+            localStorage.setItem('breadcrumbs', JSON.stringify(state.categoryBreadcrumbs))
+        },
+        updateBreadcrumb(state, action: PayloadAction<Category>) {
+            const index = state.categoryBreadcrumbs.findIndex((item) => item.id === action.payload.id)
+            if (index !== -1) {
+                state.categoryBreadcrumbs = state.categoryBreadcrumbs.slice(0, index + 1)
+            } else if (action.payload.parent_id === 0) {
+                state.categoryBreadcrumbs = [action.payload]
+            } else {
+                state.categoryBreadcrumbs = [...state.categoryBreadcrumbs, action.payload]
+            }
+            localStorage.setItem('breadcrumbs', JSON.stringify(state.categoryBreadcrumbs))
+        },
     },
 });
 
@@ -182,6 +207,8 @@ export const AttendeeActions = {
     FetchMyRegistration: AttendeeSlice.actions.FetchMyRegistration,
     updateHotels: AttendeeSlice.actions.updateHotels,
     updateRegistration: AttendeeSlice.actions.updateMyRegistration,
+    setBreadcrumbs: AttendeeSlice.actions.setBreadcrumbs,
+    updateBreadcrumb: AttendeeSlice.actions.updateBreadcrumb,
 }
 
 export const SelectAttendees = (state: RootState) => state.attendees.attendees
@@ -215,6 +242,8 @@ export const SelectHotels = (state: RootState) => state.attendees.hotels
 export const SelectMyRegistration = (state: RootState) => state.attendees.registration
 
 export const SelectLastPage = (state: RootState) => state.attendees.last_page
+
+export const SelectCategoryBreadcrumbs = (state: RootState) => state.attendees.categoryBreadcrumbs
 
 // Reducer
 export default AttendeeSlice.reducer
