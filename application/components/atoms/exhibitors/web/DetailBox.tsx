@@ -48,8 +48,8 @@ const DetailBox = ({ detail }: AppProps) => {
         MakeFavourite({ exhibitor_id: detail?.detail?.id ? detail?.detail?.id : 0, screen: 'exhibitor-detail' });
     }
     return (
-        <Box w="100%" bg="primary.box" p="0" roundedTop="10">
-            <Box w="100%" bg="primary.primarycolor" p="0" roundedTop="10">
+        <Box w="100%"  p="0" roundedTop="10">
+            <Box w="100%"  p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
                     <Image mb="5" roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
                 ) : (

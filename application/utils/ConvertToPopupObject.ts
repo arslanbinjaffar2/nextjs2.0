@@ -17,7 +17,7 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             title:notification?.title+ " Q&A",
             text:notification?.text,
             data:notification?.data,
-            btnLeftText:notification?.btnLeftText,
+            btnLeftText:'OK',
             btnRightText:notification?.btnText,
             url:'/settings/myquestions/detail/'+notification?.data?.question?.id,
         }
@@ -53,6 +53,15 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
     if(type == 'reservation'){
         return  {
             type:'reservation',
+            title:notification?.title,
+            text:notification?.text,
+            btnLeftText:'OK',
+            btnRightText:'',
+        }
+    }
+    if(type == 'program-fav-error'){
+        return  {
+            type:'program-fav-error',
             title:notification?.title,
             text:notification?.text,
             btnLeftText:'OK',

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea, Spinner } from 'native-base';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseNoteService from 'application/store/services/UseNoteService';
 import UseEventService from 'application/store/services/UseEventService';
 import DynamicIcon from 'application/utils/DynamicIcon';
+import UseLoadingService from 'application/store/services/UseLoadingService';
+import in_array from "in_array";
 type AppProps = {
     note_type: string,
     note_type_id: any,
@@ -12,6 +14,7 @@ type AppProps = {
 const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
   const { my_note,saving_notes, SaveNote,GetNote,UpdateNote } = UseNoteService();
   const [note, setNote] = React.useState('')
+  const { processing } = UseLoadingService();
   const [isNewNote, setIsNewNote] = React.useState(true)
   const {event} = UseEventService();
 
@@ -47,7 +50,7 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
 
   return (
     <>
-        <Box p="0" w="100%" bg={'primary.box'} mb={children ? 0 : 5} rounded={8}>
+        <Box p="0" height={'168px'} w="100%" bg={'primary.box'} mb={children ? 0 : 5} rounded={8}>
             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center" roundedTop={8}>
                 <DynamicIcon iconType={'notes'} iconProps={{ width: 15, height: 18 }} />
                 <Text fontSize="lg">{event?.labels?.GENERAL_NOTES}</Text>
@@ -55,7 +58,7 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
             <Box py="3" px="4" w="100%">
             <TextArea
                 p="0"
-                h="60px"
+                h="88px"
                 focusOutlineColor="transparent"
                 _focus={{ bg: 'transparent' }}
                 value={note}
@@ -63,7 +66,11 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
                 borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_TAKE_NOTES} autoCompleteType={undefined} />
                 <HStack justifyContent={'flex-end'} alignItems={'flex-end'} space={2}>
                     {children}
-                    <Pressable onPress={() => save()}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
+                    { in_array('save-note',processing) ?
+                    <Spinner mb={1} size="sm"  />
+                    :
+                  <Pressable onPress={() => save()}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
+                  }
                 </HStack>
             </Box>
         </Box>

@@ -13,9 +13,10 @@ type boxItemProps = {
     updateTab?: (tab: string) => void
     navigation?: boolean
     displayMyGroupSetting?: number
+    isProgramDetailPage?: boolean
 }
 
-const RectangleView = ({ group, border, k, updateTab, navigation, displayMyGroupSetting }: boxItemProps) => {
+const RectangleView = ({ group, border, k, updateTab, navigation, displayMyGroupSetting, isProgramDetailPage }: boxItemProps) => {
 
     const { event } = UseEventService();
 
@@ -55,6 +56,11 @@ const RectangleView = ({ group, border, k, updateTab, navigation, displayMyGroup
             if(displayMyGroupSetting === 1){
                 console.log("Press disabled cause Display My Group setting is On:", displayMyGroupSetting)
             }else{
+                if(isProgramDetailPage){
+                    push(`/${event.url}/attendees/${group?.id!}`)
+                    return;
+                }
+
                 if (navigation) {
                     push(`/${event.url}/attendees` + '?' + createQueryStringGroup('tab', 'group'))
                 } else {
@@ -68,7 +74,7 @@ const RectangleView = ({ group, border, k, updateTab, navigation, displayMyGroup
                 }
             }
         }}>
-            <Box w="100%" borderTopWidth={border === 0 ? 0 : 1} borderColor="primary.bordercolor" py="4">
+            <Box w="100%" borderBottomWidth={border === 0 ? 0 : 1} borderColor="primary.bordercolor" py="4">
                 <HStack px="4" alignItems="flex-start" space={0} justifyContent="flex-start">
                     <HStack w="100%" space="5" alignItems="center" justifyContent="space-between">
                         <Avatar

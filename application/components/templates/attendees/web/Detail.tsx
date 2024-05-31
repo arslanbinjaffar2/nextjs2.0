@@ -73,7 +73,6 @@ const Detail = ({ speaker }: Props) => {
          
         }
     }, [_id]);
-    console.log("🚀 ~ Detail ~ detail?.detail?.categories.length:", detail?.detail?.categories.length)
     React.useEffect(() => {
         if (detail?.attendee_tabs_settings) {
             // Filter and sort enabled tabs based on sort order
@@ -86,17 +85,17 @@ const Detail = ({ speaker }: Props) => {
             // Iterate through the sorted enabled tabs and set the default tab based on conditions
             for (let i = 0; i < enabledTabs.length; i++) {
                 const row = enabledTabs[i];
-                if (row.tab_name === 'program' && event?.speaker_settings?.program === 1) {
+                if (row.tab_name === 'program') {
                     defaultTab = 'program';
                     break;
-                } else if (row.tab_name === 'category' && event?.speaker_settings?.category_group === 1) {
+                } else if (row.tab_name === 'category') {
                     defaultTab = 'category';
                     break;
-                } else if (row.tab_name === 'documents' && event?.speaker_settings?.show_document === 1) {
+                } else if (row.tab_name === 'documents') {
                     defaultTab = 'documents';
                     break;
                 }
-                else if (row.tab_name === 'about' && event?.speaker_settings?.show_document === 1) {
+                else if (row.tab_name === 'about') {
                     defaultTab = 'about';
                     break;
                 } else if (
@@ -118,10 +117,10 @@ const Detail = ({ speaker }: Props) => {
                     break;
                 }
             }
-    
             // Set the active tab based on the defaultTab or the first enabled tab
             setTab(defaultTab);
         }
+           
     }, [detail]);
     
     
@@ -176,25 +175,25 @@ const Detail = ({ speaker }: Props) => {
                                                     <React.Fragment key={key}>
                                                         {
                                                             (() => {
-                                                                if (row?.tab_name === 'program' && row?.status == 1 && event?.speaker_settings?.program === 1) {
+                                                                if (row?.tab_name === 'program' && row?.status == 1) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('program')} bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} >{speaker ? (modules?.find   ((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}
                                                                         </ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'category' && row?.status == 1 && event?.speaker_settings?.category_group === 1) {
+                                                                } else if (row?.tab_name === 'category' && row?.status == 1) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('category')} bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.SPEAKER_CATEGORY}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'documents' && row?.status == 1 && event?.speaker_settings?.show_document === 1) {
+                                                                } else if (row?.tab_name === 'documents' && row?.status == 1) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('documents')} bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'}>
-                                                                            {modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}</ButtonElement>
+                                                                            {modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'Documents'}</ButtonElement>
                                                                     )
                                                                 } else if (row?.tab_name === 'about' && row?.status == 1) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('about')} bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.ATTENDEE_TAB_ABOUT}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group)))) {
+                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 || ((!detail?.is_speaker && detail?.setting?.attendee_group))) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('groups')} bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'}>
                                                                             {event?.labels?.ATTENDEE_TAB_GROUP}</ButtonElement>
@@ -202,7 +201,7 @@ const Detail = ({ speaker }: Props) => {
                                                                 } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id)) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('sub_registration')} bg={tab === 'sub_registration' ? 'primary.boxbutton' : 'primary.box'}>
-                                                                            {modules?.find((module)=>(module.alias == 'subregistration'))?.name ?? 'SUB REGISTRATIONS'}</ButtonElement>
+                                                                            {modules?.find((module)=>(module.alias == 'subregistration'))?.name ?? 'Sub registrations'}</ButtonElement>
                                                                     )
                                                                 }
                                                             })()
@@ -214,7 +213,7 @@ const Detail = ({ speaker }: Props) => {
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<Text textAlign={'left'}><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div></Text>} />}
                                     {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
                                     {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) && <SubRegistration detail={detail} />}
-                                    {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) &&
+                                    {tab === 'groups' &&
                                             <Container mb="3" rounded="10" bg={`${groups?.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
                                         {in_array('groups', processing) && page === 1 ? (
                                             <SectionLoading />
@@ -237,7 +236,6 @@ const Detail = ({ speaker }: Props) => {
                                         )}
 
                                     </Container>}
-                                    {event?.speaker_settings?.program === 1 && (
                                       <>
                                         {tab === 'program' && <Container mb="3" rounded="10" bg={`${programs.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
                                         {in_array('programs', processing) && page === 1 ? (
@@ -253,11 +251,9 @@ const Detail = ({ speaker }: Props) => {
                                         )}
                                     </Container>}
                                     </>
-                                    )}
                                         {tab === 'category' && <Container mb="3" rounded="10" bg={`${detail?.detail?.categories.length > 0 ? "primary.box" :""}`} w="100%" maxW="100%">
                                         {detail?.detail?.categories.slice().sort((a, b) => a.sort_order - b.sort_order).map((map: any, k: number) =>
                                             <React.Fragment key={`item-box-group-${k}`}>
-                                                {event?.speaker_settings?.category_group === 1 && (
                                                 <>
                                                 {map?.name && (
                                                     <Text w="100%" pl="18px" bg="primary.darkbox">{map?.name}</Text>
@@ -268,7 +264,6 @@ const Detail = ({ speaker }: Props) => {
                                                     </React.Fragment>
                                                 )}
                                                 </>
-                                                )}
                                             </React.Fragment>
                                         )}
                                         {detail?.detail?.categories.length <=0 && 
@@ -279,20 +274,17 @@ const Detail = ({ speaker }: Props) => {
                                             )
                                         }
                                     </Container>}
-                                    {event?.speaker_settings?.show_document === 1 && (
                                       <>
                                     {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
                                         {in_array('documents', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
                                             <Box  bg="primary.box" w={'100%'} rounded="lg">
-																							<ListingLayout2 />
-																						</Box>
-																						
+                                                <ListingLayout2 module={modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}/>
+                                            </Box>
                                         )}
                                     </Container>}
                                       </>
-                                      )}
                                     {(in_array('programs', processing) || in_array('groups', processing)) && page > 1 && (
                                         <LoadMore />
                                     )}

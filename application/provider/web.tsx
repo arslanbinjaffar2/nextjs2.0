@@ -83,7 +83,10 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
             }
            const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
            const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
-           const type = colourIsLight(rgb[0],rgb[1],rgb[2]) ? '#1e1e1e' : '#EAEAEA'
+           const rgb2 = hex2rgb(event?.settings?.secondary_color ?? '#343d50');
+           const type = colourIsLight(rgb[0],rgb[1],rgb[2]) ? '#1e1e1e' : '#EAEAEA';
+           const type2 = colourIsLight(rgb2[0],rgb2[1],rgb2[2]) ? '#1e1e1e' : '#EAEAEA';
+           const _border = hex2rgb(colors.text);
            const theme = extendTheme({
             colors: {
                 primary: {
@@ -100,14 +103,16 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     box: `rgba(${colors.darkbox},0.3)`,
                     boxbutton: `rgba(${colors.darkbox},0.6)`,
                     boxsolid: `rgba(${[...colors.background]},1)`,
+                    bordersecondary: `${type2}`,
                     boxsolidtext: `${colors.darkboxtext}`,
                     hovercolor: `${type}`,
                     darkbox: `rgba(0,0,0,0.2)`,
                     toastbg:`rgba(0,0,0,0.7)`,
-                    primarycolor : `rgba(${[...rgb]},0.2)`,
+                    primarycolor : `rgba(${[...rgb]},1)`,
                     boxTransparent: `rgba(${colors.box},0.5)`,
                     text: `${colors.text}`,
                     bordercolor: `${colors.text}`,
+                    popupbordercolor: `rgba(${[..._border]},0.4)`,
                     secondary: event?.settings?.secondary_color,
                     bdColor: 'rgba(148,160,183,0.64)',
                     bdBox: `rgba(${colors.darkbox},1)`,
