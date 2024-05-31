@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Center, HStack, Pressable, Text, Tooltip, VStack } from 'native-base';
+import { Center, HStack, Pressable, Text, VStack } from 'native-base';
 
 import { useWindowDimensions } from 'react-native';
 
