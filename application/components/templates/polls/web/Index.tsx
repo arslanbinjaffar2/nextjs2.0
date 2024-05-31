@@ -98,7 +98,6 @@ const Index = () => {
 
     },[query, completed_polls, polls]);
     const module = modules.find((module) => module.alias === 'polls');
-
     return (
         <>
             {
@@ -130,14 +129,13 @@ const Index = () => {
                                             ))}
                                         </React.Fragment>
                                     )) : 
-                                      
                                         <NoRecordFound/>
                                     ): (
                                        
                                         <NoRecordFound label={poll_labels?.NO_POLL_AVAILABLE}/>
 
                                     )}
-                                  {Object.keys(polls).length > 0 &&  <Divider h="20px" bg="transparent" />}
+                                  {/* {Object.keys(polls).length > 0 &&  <Divider h="20px" bg="transparent" />} */}
                                 </Box>
                             ) }
                         {tab === 'completed' && (
@@ -156,7 +154,7 @@ const Index = () => {
                                     ): (
                                         <NoRecordFound label={poll_labels?.NO_POLL_AVAILABLE}/>
                                     )}
-                                {Object.keys(completed_polls).length > 0 &&  <Divider h="20px" bg="transparent" />}
+                                {/* {Object.keys(completed_polls).length > 0 &&  <Divider h="20px" bg="transparent" />} */}
                                 </Box>
                             )
                         }

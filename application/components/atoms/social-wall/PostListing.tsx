@@ -78,7 +78,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
             (
               <>
                 
-                <Box w="100%" key='post-lising'>
+                <Box w="100%" key='post-lising' mb={3}>
                     {posts.map((post:Post, i: number)=>{
                         return <SquareBox index={i} key={post.id} post={post} />
                         })}
