@@ -3,7 +3,7 @@ import Icoribbon from 'application/assets/icons/Icoribbon';
 import Icoresume from 'application/assets/icons/Icoresume';
 import Icohotelbed from 'application/assets/icons/Icohotelbed';
 import IcoClipboard from 'application/assets/icons/small/IcoClipboard';
-import { Box, Center, Container, HStack, Spacer, Text, VStack, Avatar, Image, Pressable, IconButton, Tooltip, Button } from 'native-base';
+import { Box, Center, Container, HStack, Spacer, Text, VStack, Avatar, Image, Pressable, IconButton, Tooltip, Button, Spinner } from 'native-base';
 import { Detail } from 'application/models/attendee/Detail';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
@@ -11,7 +11,9 @@ import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { useRouter } from 'solito/router';
 import UseAuthService from 'application/store/services/UseAuthService';
-import Icobookmeeting from 'application/assets/icons/Icobookmeeting'
+import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
+import UseLoadingService from 'application/store/services/UseLoadingService';
+import in_array from 'in_array';
 
 
 type AppProps = {
@@ -25,7 +27,8 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     const { _env } = UseEnvService()
     const { response } = UseAuthService();
     const { MakeFavourite } = UseAttendeeService();
-    const router = useRouter()
+    const router = useRouter();
+		const { processing }=UseLoadingService();
 
     const { event,modules } = UseEventService();
 
@@ -49,6 +52,9 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     }, [detail?.is_favourite])
 
     function toggleFav () {
+			if(in_array( `attendee-fav-${detail?.detail?.id}`,processing)){
+            return;
+      	}
         setIsFav(!isFav);
         MakeFavourite({ attendee_id: Number(detail?.detail?.id), screen: 'detail' })
     }
@@ -105,12 +111,17 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </VStack>
                         <Spacer />
                         <Box flexDirection="row" alignItems="center" justifyContent="space-between">
-                                
-                            
                             {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
-                                <Pressable onPress={() => { toggleFav() }}>
-                                <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
-                                </Pressable>
+																<Box w={'20px'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+																	{in_array(`attendee-fav-${detail?.detail?.id}`,processing) ? (
+																			<Spinner width={20} height={28} color={isFav ? 'secondary.500' : 'primary.text'} size="sm"  />
+																	):(
+																	<Pressable
+																		onPress={() => toggleFav()}>
+																		<Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+																	</Pressable>
+																	)}
+																</Box>
                             )}
 
                             {speaker === 0 &&
