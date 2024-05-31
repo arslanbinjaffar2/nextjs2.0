@@ -288,11 +288,11 @@ const Detail = () => {
                                 {showAskAQuestion &&
                                 <>
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                    <DynamicIcon iconType="myquestions" iconProps={{ width: 12, height: 18 }} />
+                                    <DynamicIcon iconType="qa" iconProps={{ width: 20, height: 20 }} />
                                     <Text fontSize="md">{event?.labels?.QA_ASK_A_QUESTION}</Text>
                                 </HStack>
                                 <Center>
-                                    <Box w="90%">
+                                    <Box w="100%" px={'16px'}>
                                         <Pressable onPress={() => {
                                             push(`/${event.url}/qa/detail/${detail?.program?.id}`)
                                         }}>
