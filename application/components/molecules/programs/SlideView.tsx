@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import moment from 'moment';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Icocalendar from 'application/assets/icons/small/Icocalendar'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type AppProps = {
 	programs: Program[],
@@ -253,6 +254,8 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				<>
 					{Platform.OS === 'web' ? (
 						<>
+						{programs?.length > 0 && <>
+
 							<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
 								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
 								{section === 'my-program' ? modules?.find((module) => (module.alias == 'myprograms'))?.name:null}
@@ -260,14 +263,8 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 							{selectedMonth && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">{selectedMonth}</Text>
 							</HStack>}
 							<LazySlider onChange={handleChange} programs={programs} />
-							{programs?.length > 0 && <RenderPrograms handleShowAllButton={handleShowAllButton} limit={limit} programs={programs} dates={dashboard == true ? dates?.slice(0, limit) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
-							{programs?.length <= 0 &&
-								<Box overflow="hidden" w="100%" rounded="lg">
-									<Box padding={5}>
-										<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-									</Box>
-								</Box>
-							}
+							<RenderPrograms handleShowAllButton={handleShowAllButton} limit={limit} programs={programs} dates={dashboard == true ? dates?.slice(0, limit) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />
+							
 							{showAllButton && <Center py="3" px="2" w="100%" alignItems="flex-end">
 								<Button onPress={() => {
 								push(`/${event.url}/agendas?currentIndex=${currentIndex}`)
@@ -275,7 +272,11 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 								{event.labels?.GENERAL_SEE_ALL}
 								</Button>
 							</Center>}
+						</>}
 
+							{programs?.length <= 0 &&
+								<NoRecordFound />
+							}
 						</>
 					) : (
 						<FlatList

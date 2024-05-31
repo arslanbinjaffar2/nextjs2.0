@@ -18,6 +18,7 @@ import IcoInfo from 'application/assets/icons/small/IcoInfo';
 import Icoquestion from 'application/assets/icons/small/Icoquestion';
 import UseEnvService from 'application/store/services/UseEnvService';
 import IcoSend from 'application/assets/icons/small/IcoSend'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { id: string }
 const Detail = () => {
@@ -141,7 +142,8 @@ const Detail = () => {
                 <Box alignItems={'center'} justifyContent={'center'}  rounded="lg" w="100%">
                   <HStack bg={'primary.darkbox'} px={4} py={3} rounded={10}  space="3" alignItems="center">
                     <IcoInfo width={18} height={18}  />
-                   <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
+                    <NoRecordFound
+                    />
                   </HStack>
                   
                 </Box>
