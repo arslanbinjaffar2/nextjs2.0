@@ -9,6 +9,8 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
+import { useSearchParams, usePathname } from 'next/navigation'
+
 import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
 
@@ -29,6 +31,10 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   const { response } = UseAuthService()
 
   const { push } = useRouter()
+
+  const searchParams = useSearchParams()
+
+    const tabQueryParam = searchParams.get('tab')
 
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
