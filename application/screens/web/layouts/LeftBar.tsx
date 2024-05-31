@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack, Badge, Tooltip } from 'native-base';
+import { Avatar, Box, Center, Flex, HStack, Pressable, Text, VStack, Badge } from 'native-base';
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
 import IcoLogin from 'application/assets/icons/IcoLogin';
 import { useWindowDimensions } from 'react-native';
@@ -67,12 +67,10 @@ const PressableElement = ({row}: any) => {
       </Center>
 
       {width > 1200 && 
-      <Tooltip   label={row.name}  
-     
-      >
+  
       <Text fontSize={'20px'} fontWeight={400} color={isHovered || checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>
         {row?.name.substring(0,22)}...</Text>
-      </Tooltip>
+ 
       }
       {row?.alias === 'alerts' && unread > 0 &&
         <Badge // bg="red.400"
@@ -132,15 +130,12 @@ const LeftBar = () => {
               <Avatar w="62px" h="62px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
                 {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
               </Avatar>
-              <Tooltip px={5} rounded={'10'} label="Reject" openDelay={100} bg="primary.box" _text={{
-									color: 'primary.text'
-								}}>
+              
 
               {width > 1200 && <VStack w={'calc(100% - 100px)'} pl="3" space="0">
                 <Text  color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"} fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
                 <Text color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"}  p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
               </VStack>}
-              </Tooltip>
 
             <Pressable
             w="100%"
