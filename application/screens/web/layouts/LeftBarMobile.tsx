@@ -14,7 +14,6 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import {  func } from 'application/styles';
 
 const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
-  console.log(setOpenMenu,"kjsdkljaskldjfsad")
   const router = useRouter()
 
   const { width, height } = useWindowDimensions();
