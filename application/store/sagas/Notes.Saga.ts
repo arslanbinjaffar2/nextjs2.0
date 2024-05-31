@@ -11,6 +11,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
+import { ToastActions } from '../slices/Toast.Slice'
 
 function* OnSaveNote({
     payload
@@ -18,11 +19,12 @@ function* OnSaveNote({
     type: typeof NoteActions.SaveNote
     payload: any
 }): SagaIterator {
-    
+    yield put(LoadingActions.addProcess({ process: 'save-note' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveNote, payload, state)
     yield put(NoteActions.GetMyNote({note_type:payload.note_type, note_type_id:payload.note_type_id}));
     yield put(NoteActions.SetSaving(false));
+    yield put(LoadingActions.removeProcess({ process: 'save-note' }))
 }
 
 function* OnUpdateNote({
@@ -31,11 +33,13 @@ function* OnUpdateNote({
     type: typeof NoteActions.UpdateNote
     payload: any
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: 'update-note' }))
+    yield put(LoadingActions.addProcess({ process: 'save-note' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(updateNote, payload, state)
     yield put(NoteActions.SetSaving(false));
-    yield put(LoadingActions.removeProcess({ process: 'update-note' }))
+    const labels=state?.event?.event.labels;
+    yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_NOTE_SAVE_MESSAGE ,status:"success"}}))
+    yield put(LoadingActions.removeProcess({ process: 'save-note' }))
 }
 
 function* OnGetMyNote({
@@ -44,11 +48,11 @@ function* OnGetMyNote({
     type: typeof NoteActions.GetMyNote
     payload: any
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: 'get-my-notes' }))
+    yield put(LoadingActions.addProcess({ process: 'on-get-my-notes' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getMyNoteApi, payload, state)
     yield put(NoteActions.update(response.data.data));
-    yield put(LoadingActions.removeProcess({ process: 'get-my-notes' }))
+    yield put(LoadingActions.removeProcess({ process: 'on-get-my-notes' }))
 }
 
 function* FetchMyNotes({
@@ -68,11 +72,11 @@ function* FetchMyNotesByType({
     type: typeof NoteActions.FetchMyNotesByType
     payload: any
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: 'get-my-notes' }))
+    yield put(LoadingActions.addProcess({ process: 'get-my-notes-by-type' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getMyNotesByTypeApi, payload, state)
     yield put(NoteActions.updateMyTypeNotes(response.data.data));
-    yield put(LoadingActions.removeProcess({ process: 'get-my-notes' }))
+    yield put(LoadingActions.removeProcess({  process: 'get-my-notes-by-type'  }))
 }
 
 function* emailMyNotes({
