@@ -38,6 +38,7 @@ import { Banner } from 'application/models/Banner'
 import { Module } from 'application/models/Module';
 import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
+import { CustomHtml } from 'application/models/CustomHtml'
 
 type indexProps = {
   navigation: unknown
@@ -51,7 +52,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const { surveys, FetchSurveys } = UseSurveyService();
 
-  const { event, modules } = UseEventService();
+  const { event, modules,custom_html } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
   const { FetchAlerts, alerts, markAlertRead, alert_setting} = UseAlertService();
@@ -66,7 +67,6 @@ const Index = ({ navigation }: indexProps) => {
 
   const { push } = useRouter()
    const { width } = useWindowDimensions();
- 
 
   React.useEffect(() => {
     FetchPolls();
@@ -201,6 +201,19 @@ const Index = ({ navigation }: indexProps) => {
             }
           </>
           <BannerAds module_name={'dashboard'} module_type={'after_news_update'}/>
+          <ScrollView w={[width - 30, '100%']} pb={2} overflowX={'auto'}>
+            <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
+              {custom_html.slice(0, 6).map((customHtmlItem: CustomHtml, k: number) => (
+                <VStack key={k} mx={2} alignItems="flex-start">
+                  <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">
+                    <div dangerouslySetInnerHTML={{ __html: customHtmlItem?.custom_html_1 ?? '' }} />
+                    <div dangerouslySetInnerHTML={{ __html: customHtmlItem?.custom_html_2 ?? '' }} />
+                    <div dangerouslySetInnerHTML={{ __html: customHtmlItem?.custom_html_3 ?? '' }} />
+                  </Text>
+                </VStack>
+              ))}
+            </HStack>
+          </ScrollView>
         </>
 
       )}

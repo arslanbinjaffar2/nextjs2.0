@@ -65,6 +65,7 @@ function* OnGetModules({
         yield put(AuthActions.clearToken());
     } else {
         yield put(EventActions.updateModules(response.data.data.modules))
+        yield put(EventActions.customHtml(response.data.data.custom_html))
         yield put(LoadingActions.set(false))
     }
 }

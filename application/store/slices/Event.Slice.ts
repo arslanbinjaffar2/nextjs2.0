@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Event } from 'application/models/Event'
 
 import { Module, SettingModule } from 'application/models/Module'
+import { CustomHtml } from 'application/models/CustomHtml'
 
 import type { RootState } from 'application/store/Index'
 
@@ -11,12 +12,14 @@ import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 export interface EventState {
     event: Event,
     modules: Array<Module>
+    custom_html: Array<CustomHtml>
     setting_modules: SettingModule[]
 }
 
 const initialState: EventState = {
     event: {},
     modules: [],
+    custom_html: [],
     setting_modules: []
 }
 
@@ -43,6 +46,9 @@ export const EventSlice = createSlice({
         updateSettingsModules(state, action: PayloadAction<Array<SettingModule>>) {
             state.setting_modules = action.payload
         },
+        customHtml(state, action: PayloadAction<Array<CustomHtml>>) {
+            state.custom_html = action.payload
+        },
     },
 })
 
@@ -55,12 +61,14 @@ export const EventActions = {
     updateModules: EventSlice.actions.updateModules,
     loadSettingsModules: EventSlice.actions.loadSettingsModules,
     updateSettingsModules: EventSlice.actions.updateSettingsModules,
+    customHtml: EventSlice.actions.customHtml,
 }
 
 // Selectors
 export const SelectEvent = (state: RootState) => state.event.event
  console.log(SelectEvent)
 export const Modules = (state: RootState) => state.event.modules
+export const CustomHtmls = (state: RootState) => state.event.custom_html
 
 export const SettingModules = (state: RootState) => state.event.setting_modules
 
