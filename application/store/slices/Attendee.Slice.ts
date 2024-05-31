@@ -99,6 +99,9 @@ export const AttendeeSlice = createSlice({
                 state.groups = []
             }
         },
+        ResetGroups(state) {
+            state.groups = [];
+        },
         Update(state, action: PayloadAction<{ attendee: Attendee[], group_id: number, query: string, page: number, group_name: string, screen: string, total: number, last_page:number }>) {
             const existed: any = current(state.attendees);
             if (action.payload.screen === "dashboard-my-speakers") {
@@ -168,6 +171,7 @@ export const AttendeeSlice = createSlice({
 export const AttendeeActions = {
     FetchAttendees: AttendeeSlice.actions.FetchAttendees,
     FetchGroups: AttendeeSlice.actions.FetchGroups,
+    ResetGroups: AttendeeSlice.actions.ResetGroups,
     Update: AttendeeSlice.actions.Update,
     UpdateGroups: AttendeeSlice.actions.UpdateGroups,
     MakeFavourite: AttendeeSlice.actions.MakeFavourite,

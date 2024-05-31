@@ -12,6 +12,7 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
 import { ToastActions } from 'application/store/slices/Toast.Slice';
+import { NotificationActions } from 'application/store/slices/Notification.Slice'
 
 function* OnGetMyPrograms({
     payload,
@@ -45,22 +46,16 @@ function* OnMakeFavourite({
     type: typeof ProgramActions.MakeFavourite
     payload: { program_id: number, screen: string }
 }): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: `program-fav-${payload.program_id}` }))
     const state = yield select(state => state);
     const response: HttpResponse =  yield call(makeFavouriteApi, payload, state);
     if(response?.data?.data.status == 0){
-       yield put(ProgramActions.SetFavouriteProgramError(response?.data?.data?.error));
+        yield put(NotificationActions.addNotification({notification:{status:"error", title:'Error', text:response?.data?.data?.error,type:'program-fav-error'}}))
     }
     else{
-        if (payload.screen === "my-program") {
-            yield put(ProgramActions.ToggleFavourite({ program_id: payload.program_id }))
-        }
-        else if (payload.screen === "program") {
-            yield put(ProgramActions.ToggleFavourite({ program_id: payload.program_id }))
-        }
-        else if (payload.screen === "speaker-program") {
-            yield put(ProgramActions.ToggleFavourite({ program_id: payload.program_id }))
-        }
+        yield put(ProgramActions.ToggleFavourite({ program_id: payload.program_id }))
     }
+    yield put(LoadingActions.removeProcess({ process: `program-fav-${payload.program_id}` }))
 }
 
 function* OnGetTracks({

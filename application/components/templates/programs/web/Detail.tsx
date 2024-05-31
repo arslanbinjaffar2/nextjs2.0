@@ -88,7 +88,7 @@ const Detail = () => {
 
     const { push, back } = useRouter()
 
-    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, last_page } = UseAttendeeService();
+    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, last_page,ResetGroups } = UseAttendeeService();
 
     const { FetchDocuments } = UseDocumentService();
 
@@ -110,7 +110,7 @@ const Detail = () => {
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['attendee']) && page < last_page ) {
-                FetchAttendees({ query: query, group_id: group_id, page: page + 1, my_attendee_id: 0, speaker: 0, category_id: category_id, screen: 'program-attendees', program_id: Number(_id) });
+                FetchAttendees({ query: query, group_id: 0, page: page + 1, my_attendee_id: 0, speaker: 0, category_id: category_id, screen: 'program-attendees', program_id: Number(_id) });
             }
         }
     }, [scroll]);
@@ -134,6 +134,7 @@ const Detail = () => {
     }, [_id]);
 
     React.useEffect(() => {
+        ResetGroups();
         const showSpeaker=modules?.find((module)=>(module.alias == 'speakers')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'speaker' && tab?.status === 1)?.length > 0 && detail?.program?.program_speakers!?.length > 0;
         const resShowSpeaker = showSpeaker == undefined ? false : showSpeaker;
         setshowSpeakers(resShowSpeaker);
@@ -206,7 +207,7 @@ const Detail = () => {
                                 <ButtonElement key={mtab[0]} minW={'calc(50% - 2px)'} onPress={() => setTab(mtab[0])}  bg={tab === mtab[0] ? 'primary.boxbutton' : 'primary.box'}>{mtab[1]}</ButtonElement>
                             ))}
                         </HStack>
-                        {group_id > 0 && (
+                        {/* {group_id > 0 && (
                             <HStack mb="3" pt="2" w="100%" space="3">
                                 {group_name && (
                                     <Text flex="1" fontSize="xs">{group_name}</Text>
@@ -218,7 +219,7 @@ const Detail = () => {
                                     <Text fontSize="xs">{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>
                                 </Pressable>
                             </HStack>
-                        )}
+                        )} */}
 
                         {in_array(tab, ['about']) && (
                             <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10">
@@ -333,7 +334,7 @@ const Detail = () => {
                                             <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
                                             {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
-                                                    <RectangleGroupView group={group} k={k} border={k} navigation={true} />
+                                                    <RectangleGroupView group={group} k={k} border={k} navigation={true} isProgramDetailPage={true} />
                                                 </React.Fragment>
                                             )}
                                         </React.Fragment>
@@ -348,8 +349,8 @@ const Detail = () => {
                         )}
                     </Container>
                     {width < 810 && <Container maxW="100%" w="100%" >
-                        { event?.agenda_settings?.enable_notes == 1 && !in_array('program-detail', processing) && <ProgramNotesBox />}
-                        { event?.agenda_settings?.session_ratings == 1 && !in_array('program-detail',processing) &&  <SessionRating program_id={_id} />}
+                        { event?.agenda_tab_settings?.some(tab=> tab?.tab_name === "notes" && tab?.status === 1) && !in_array('program-detail', processing) && <ProgramNotesBox />}
+                        { event?.agenda_tab_settings?.some(tab => tab?.tab_name === "rating" && tab?.status === 1) && !in_array('program-detail',processing) &&  <SessionRating program_id={_id} />}
                     </Container>}
                     {(in_array('attendee-listing', processing) || in_array('groups', processing)) && page > 1 && (
                         <LoadMore />
