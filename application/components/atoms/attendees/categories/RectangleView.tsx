@@ -16,9 +16,10 @@ type AppProps = {
     border: boolean
     screen: string
     updateTab?: (tab: string) => void
+    updateBreadcrumbs?: (category: Category) => void
 }
 
-const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => {
+const RectangleView = ({ k, category, border, screen, updateTab, updateBreadcrumbs }: AppProps) => {
 
     const { UpdateCategory, FetchCategories, query, categories } = UseAttendeeService();
 
@@ -50,12 +51,13 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
             <Pressable
                 onPress={() => {
                     if (category.parent_id > 0) {
-                        if (updateTab) updateTab('category-attendee');
+                        if (updateTab){
+                            updateTab('category-attendee');
+                        }
                         UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
-                        push(pathname + '?' + createQueryString([{name:'tab', value:'category-attendee'}, {name:'category_id', value:`${category.id}`}]))
-                        if (screen === "detail") {
+                        if (screen === "detail" || screen === 'listing') {
                             if (Platform.OS === "web") {
-                                push(`/${event.url}/speakers`);
+                                push(`/${event.url}/speakers?`+ createQueryString([{name:'tab', value:'category-attendee'}, {name:'category_id', value:`${category.id}`}]));
                             } else {
                                 navigation.replace('app', {
                                     screen: 'speakers'
@@ -66,6 +68,9 @@ const RectangleView = ({ k, category, border, updateTab, screen }: AppProps) => 
                         // FetchCategories({ parent_id: category.id, query: query, page: 1, cat_type: 'speakers' })
                         // UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
                         push(pathname + '?' + createQueryString([{name:'tab', value:'sub-category'}, {name:'category_id', value:`${category.id}`}]))
+                    }
+                    if(updateBreadcrumbs){
+                        updateBreadcrumbs(category);
                     }
                 }}>
                 <HStack pl="30px" alignItems="center" minH="55px" space={0}>
