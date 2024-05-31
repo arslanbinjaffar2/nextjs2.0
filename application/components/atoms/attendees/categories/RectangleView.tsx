@@ -55,7 +55,7 @@ const RectangleView = ({ k, category, border, screen, updateTab, updateBreadcrum
                             updateTab('category-attendee');
                         }
                         UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
-                        // if (screen === "detail" || screen === 'listing') {
+                        if (screen === "detail" || screen === "listing") {
                             if (Platform.OS === "web") {
                                 push(`/${event.url}/speakers?`+ createQueryString([{name:'tab', value:'category-attendee'}, {name:'category_id', value:`${category.id}`}]));
                             } else {
@@ -63,7 +63,7 @@ const RectangleView = ({ k, category, border, screen, updateTab, updateBreadcrum
                                     screen: 'speakers'
                                 })
                             }
-                        // }
+                        }
                     } else {
                         // FetchCategories({ parent_id: category.id, query: query, page: 1, cat_type: 'speakers' })
                         // UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
