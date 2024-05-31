@@ -98,7 +98,6 @@ const Index = () => {
 
     },[query, completed_polls, polls]);
     const module = modules.find((module) => module.alias === 'polls');
-console.log(tab)
     return (
         <>
             {
