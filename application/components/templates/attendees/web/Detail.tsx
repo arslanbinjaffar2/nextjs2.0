@@ -151,6 +151,7 @@ const Detail = ({ speaker }: Props) => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
+      
     const programModule = modules.find((module) => module.alias === (speaker ? "speakers" : "attendees"));
     const title = (detail.detail as any)?.first_name+' '+ (detail?.sort_field_setting.find((s:any)=>(s.name === 'last_name'))?.is_private == 0 ? (detail.detail as any)?.last_name : '');
     return (
@@ -210,7 +211,6 @@ const Detail = ({ speaker }: Props) => {
                                                 )}
                                             </HStack>          
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<Text textAlign={'left'}><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div></Text>} />}
-                                    {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
                                     {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) && <SubRegistration detail={detail} />}
                                     {tab === 'groups' &&
                                             <Container mb="3" rounded="10" bg={`${groups?.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
@@ -259,7 +259,7 @@ const Detail = ({ speaker }: Props) => {
                                                 )}
                                                 {map?.children?.map((category: Category, index: number) =>
                                                     <React.Fragment key={`${index}`}>
-                                                        <RectangleCategoryView category={category} k={k} border={map?.children.length != (index + 1)} navigation={true} screen="detail" />
+                                                        <RectangleCategoryView category={category} parentCategory={map} k={k} border={map?.children.length != (index + 1)} navigation={true} screen="detail" />
                                                     </React.Fragment>
                                                 )}
                                                 </>

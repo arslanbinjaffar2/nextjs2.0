@@ -81,7 +81,12 @@ const ContactInfo = ({ detail }: AppProps) => {
   }
   , [detail]);
 
-  if (!hasContactInfo) return null;
+  const findStatusForContactInfo = () => {
+    const contactInfoTab = detail?.attendee_tabs_settings?.find(tab => tab.tab_name === 'contact_info');
+      return contactInfoTab ? contactInfoTab.status : 0;
+  };
+
+  if (!hasContactInfo || !findStatusForContactInfo()) return null;
 
   return (
     <Box p="0" w="100%" bg="primary.box" mb={5} rounded={8}>
