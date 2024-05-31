@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Pressable, ZStack, Popover, Button } from 'native-base'
+import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Pressable, ZStack, Popover, Button, Spinner } from 'native-base'
 import { Sponsor, Category } from 'application/models/sponsor/Sponsor'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
@@ -11,6 +11,9 @@ import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.
 import UseToastService from 'application/store/services/UseToastService';
 import { Linking } from 'react-native';
 import { colorText } from 'application/styles/colors';
+import UseLoadingService from 'application/store/services/UseLoadingService';
+import in_array from 'in_array';
+
 
 type AppProps = {
     sponsor: Sponsor,
@@ -24,6 +27,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
     const { _env } = UseEnvService()
     const {AddToast}=UseToastService()
     const { settings, MakeFavourite } = UseSponsorService();
+		const { processing }=UseLoadingService();
 
     const { push } = useRouter()
 
@@ -40,12 +44,11 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
     }, [sponsor.attendee_sponsors])
     
     function toggleFav(){
-        if(isFav){
-            setIsFav(false)
-        }else{
-            setIsFav(true)
+       if(in_array( `sponsor-fav-${sponsor.id}`,processing)){
+            return;
         }
-        MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
+        setIsFav(!isFav);
+         MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
     }
    const [isOpen,setIsOpen]=useState(false)
     return (
@@ -67,20 +70,27 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
                     <Box mb="3" w="100%" bg="primary.box" justifyContent={'flex-end'} p="0" borderWidth="0" borderColor="primary.box" rounded="10">
                         <Text mx={'auto'} isTruncated maxWidth={'75%'} minHeight={'27px'} fontSize="lg" fontWeight={500} textAlign={'center'} my={2}>{event?.sponsor_settings?.sponsorName ? sponsor?.name : ''}</Text>
                         {settings?.mark_favorite === 1 && (
-                            <IconButton
-                                bg="transparent"
-                                p="1"
-                                rounded={'full'}
-                               _hover={{ bg: 'transparent', _icon: { color: !isFav ? "secondary.500" : "primary.text",name: !isFav ? 'heart' : 'heart-outline' } }}
-                                icon={<Icon size="md" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? "secondary.500" : "primary.text"} />}
-                                onPress={() => {
-                                    toggleFav();
-                                }}
-                                position={'absolute'}
+													<Box  position={'absolute'}
                                 zIndex={'999999'}
                                 right={'4px'}
-                                top={'7px'}
-                            />
+                                top={'7px'}>
+																	 {in_array(`sponsor-fav-${sponsor.id}`,processing) ? (
+																				<Spinner width={28} height={28} color={isFav ? 'secondary.500' : 'primary.text'} size="sm"  />
+																		):(
+																				 <IconButton
+																						bg="transparent"
+																						p="1"
+																						rounded={'full'}
+																					_hover={{ bg: 'transparent', _icon: { color: !isFav ? "secondary.500" : "primary.text",name: !isFav ? 'heart' : 'heart-outline' } }}
+																						icon={<Icon size="md" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? "secondary.500" : "primary.text"} />}
+																						onPress={() => {
+																								toggleFav();
+																						}}
+																					
+																				/>
+																		)}
+                           
+													</Box>
                         )}
                         <Center mb={3} px="1" alignItems="center" w="100%">
                             {sponsor.logo ? (

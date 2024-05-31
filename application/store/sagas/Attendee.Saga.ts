@@ -58,9 +58,11 @@ function* OnMakeFavourite({
     type: typeof AttendeeActions.MakeFavourite
     payload: { attendee_id: number, screen: string }
 }): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: `attendee-fav-${payload.attendee_id}` }))
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     yield put(AttendeeActions.UpdateFavourite({ attendee_id: payload.attendee_id, screen: payload.screen}))
+    yield put(LoadingActions.removeProcess({ process: `attendee-fav-${payload.attendee_id}` }))
 }
 
 function* OnGetGroups({

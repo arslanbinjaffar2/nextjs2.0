@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box, HStack, Icon, Spacer, Text, VStack, ZStack, Button, IconButton, Pressable, Popover } from 'native-base'
+import React, { useEffect, useState } from 'react'
+import { Box, HStack, Icon, Spacer, Text, VStack, ZStack, Button, IconButton, Pressable, Popover, Spinner } from 'native-base'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Exhibitor, Category } from 'application/models/exhibitor/Exhibitor'
@@ -8,6 +8,8 @@ import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { colorText } from 'application/styles/colors';
+import UseLoadingService from 'application/store/services/UseLoadingService';
+import in_array from 'in_array';
 
 type AppProps = {
     exhibitor: Exhibitor,
@@ -21,6 +23,27 @@ const RectangleView = ({ border, exhibitor }: AppProps) => {
     const { push } = useRouter()
 
     const { event } = UseEventService()
+
+		const [isFav,setIsFav] = useState(false)
+
+		const {processing}=UseLoadingService();
+		useEffect(() => {
+        if (exhibitor.attendee_exhibitors.length > 0) {
+            setIsFav(true)
+        }else{
+            setIsFav(false)
+        }
+    }, [exhibitor.attendee_exhibitors])
+    
+    function toggleFav(){
+       if(in_array( `exhibitor-fav-${exhibitor.id}`,processing)){
+            return;
+        }
+        setIsFav(!isFav);
+         MakeFavourite({ exhibitor_id: exhibitor.id, screen: 'listing' });
+    }
+
+
 
     return (
         <Box w="100%" borderBottomWidth={border} borderColor="primary.bordercolor" py="3">
@@ -106,17 +129,25 @@ const RectangleView = ({ border, exhibitor }: AppProps) => {
                                 </Button>
                             )}
                             {settings?.mark_favorite === 1 && (
-                                <IconButton
-                                    bg="transparent"
-                                    p="1"
-																		rounded={'full'}
-                                   _hover={{ bg: 'transparent', _icon: { color: exhibitor.attendee_exhibitors.length > 0 ? "primary.text" : "secondary.500",name:  exhibitor.attendee_exhibitors.length > 0  ? 'heart-outline' : 'heart' } }}
-                                    icon={<Icon size="xl" as={Ionicons} name={exhibitor.attendee_exhibitors.length > 0 ? 'heart' : 'heart-outline'} color={exhibitor.attendee_exhibitors.length > 0 ? "secondary.500" :"primary.text" }/>}
-                                    onPress={() => {
-                                        MakeFavourite({ exhibitor_id: exhibitor.id, screen: 'listing' });
-                                    }}
-                                />
-                            )}
+																<Box w={36} height={36} alignItems={'center'} justifyContent={'center'} display={'flex'}>
+																	{in_array(`exhibitor-fav-${exhibitor.id}`, processing) ? (
+																		<Spinner width={28} height={28} color={isFav ? 'secondary.500' : 'primary.text'} size="sm" />
+																	) : (
+																		<IconButton
+																			bg="transparent"
+																			p="1"
+																			rounded={'full'}
+																			_hover={{ bg: 'transparent', _icon: { color: !isFav ? "secondary.500" : "primary.text", name: !isFav ? 'heart' : 'heart-outline' } }}
+																			icon={<Icon size="xl" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? "secondary.500" : "primary.text"} />}
+																			onPress={() => {
+																				toggleFav();
+																			}}
+
+																		/>
+																	)}
+
+																</Box>
+															)}
                         </HStack>
                     </HStack>
                 </HStack>

@@ -72,11 +72,13 @@ function* OnMakeFavourite({
     type: typeof ExhibitorActions.MakeFavourite
     payload: { exhibitor_id: number, screen: string }
 }): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: `exhibitor-fav-${payload.exhibitor_id}` }))
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     if(payload.screen === "my-exhibitors") {
         yield put(ExhibitorActions.FetchMyExhibitors({ }))
     }
+    yield put(LoadingActions.removeProcess({ process: `exhibitor-fav-${payload.exhibitor_id}` }))
 }
 
 function* OnGetExhibitorDetail({
