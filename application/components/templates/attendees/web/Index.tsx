@@ -168,9 +168,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             } else if (tab === "category") {
                 FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
             } else if (tab === "sub-category") {
-                FetchCategories({ parent_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), query: query, page: 1, cat_type: 'speakers' })
-            }else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {console.log('call 5')
-                FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
+                FetchCategories({ parent_id: categoryIdQuery, query: query, page: 1, cat_type: 'speakers' })
+            }else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee', 'category-attendee'])) {console.log('call 5')
+                FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: categoryIdQuery, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
         }, 500);
     }, [categoryIdQuery]);

@@ -20,8 +20,6 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
 
     // Filter out the specified fields from sort_field_setting
     const filteredSortFieldSetting = detail?.sort_field_setting.filter((setting: any) => !fieldsToRemove.includes(setting.name));
-    console.log("🚀 ~ DetailInfoBlock ~ filteredSortFieldSetting:", filteredSortFieldSetting)
-
     // Check if the filtered array has at least one item
     const shouldShowNoRecord = filteredSortFieldSetting.length === 0;
         
