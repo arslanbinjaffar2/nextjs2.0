@@ -7,6 +7,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import LoadImage from 'application/components/atoms/LoadImage';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
     const { loading } = UseLoadingService();
@@ -50,9 +51,11 @@ const Index = () => {
                         />
                     </Box>
                 }
-                {!map && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
-                    <Text>{event.labels?.GENERAL_NO_RECORD}</Text>
-                </Box>}
+                {!map && 
+                <NoRecordFound
+                bg="primary.box"
+                />
+                }
             </Container>
             </>
         }

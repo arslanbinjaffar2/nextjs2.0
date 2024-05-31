@@ -13,6 +13,7 @@ import { Alert } from 'application/models/alert/Alert';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
 
@@ -48,9 +49,8 @@ const Index = () => {
                                     ))}
                             </Box>
                         ) : (
-                          <Box rounded={'lg'} bg={'primary.box'} w={'100%'} p="4">
-                              <Text fontSize="md">{event.labels.GENERAL_NO_RECORD}</Text>
-                          </Box>
+                          
+                          <NoRecordFound bg={'primary.box'}/>
                         )}
                     </Container>
                     </>

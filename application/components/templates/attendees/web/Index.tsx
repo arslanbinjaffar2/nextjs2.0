@@ -24,6 +24,7 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import DynamicIcon from 'application/utils/DynamicIcon';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { slug: any }
 
@@ -131,10 +132,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         } else if ((slug === undefined || slug.length === 0) && tab === 'attendee') {
             setTab('attendee'); console.log('call 4')
             FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
-        }
-        else if ((slug === undefined || slug.length === 0) && tab === 'category-attendee') {
-            setTab('category-attendee'); console.log('call 4')
-            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), screen: 'speakers', program_id: 0 });
         }
          else if ((slug === undefined || slug.length === 0) && tab === 'category') {
             setTab('category');
@@ -420,9 +417,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                         </React.Fragment>
                              )}
                             {attendees.length <= 0 &&
-                              <Box p={3} rounded="lg" w="100%">
-                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
-                              </Box>
+                            <NoRecordFound/>
+                          
                             }
                         </Container>}
                         {(tab === 'group' || tab === 'sub-group') && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
@@ -441,9 +437,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </React.Fragment>
                             )}
                             {groups.length <= 0 &&
-                              <Box p={3} rounded="lg" w="100%">
-                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
-                              </Box>
+                            <NoRecordFound />
+
                             }
                         </Container>}
                         {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
@@ -453,9 +448,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p={3} rounded="lg" w="100%">
-                                    <Text fontSize="16px">{event.labels.GENERAL_NO_RECORD}</Text>
-                                </Box>
+                            <NoRecordFound />
+                               
                             }
                         </Container>}
                     </>
