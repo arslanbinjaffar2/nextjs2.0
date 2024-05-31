@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { EventActions, SelectEvent, Modules, SettingModules } from 'application/store/slices/Event.Slice'
+import { EventActions, SelectEvent, Modules, SettingModules, SelectEventUrl } from 'application/store/slices/Event.Slice'
 
 import { Event } from 'application/models/Event'
 
@@ -12,10 +12,12 @@ export type EventServiceOperators = {
     event: Event
     modules: Array<Module>
     setting_modules: SettingModule[]
+    event_url: string
     FetchEvent: (slug: string) => void
     FetchEventByCode: (code: string) => void
     loadModules: () => void
     loadSettingsModules: () => void
+    SetEventUrl: (event_url: string) => void
 }
 
 /**
@@ -30,6 +32,7 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
         event: useAppSelector(SelectEvent),
         modules: useAppSelector(Modules),
         setting_modules: useAppSelector(SettingModules),
+        event_url: useAppSelector(SelectEventUrl),
         FetchEvent: useCallback(
             (slug: string) => {
                 dispatch(EventActions.FetchEvent(slug))
@@ -51,6 +54,12 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
         loadSettingsModules: useCallback(
             () => {
                 dispatch(EventActions.loadSettingsModules())
+            },
+            [dispatch],
+        ),
+        SetEventUrl: useCallback(
+            (event_url: string) => {
+                dispatch(EventActions.SetEventUrl(event_url))
             },
             [dispatch],
         )

@@ -84,6 +84,8 @@ export interface Event {
     calling_code?: any
     event_language_code?: string
     attendee_tab_settings?: any
+    dashboard_modules?: DashboardModule[]
+    agenda_tab_settings?: AgendaTabSetting[]
 }
 interface Setting {
     poll_setting?: string;
@@ -620,4 +622,19 @@ export interface KeywordSettings{
 
 export interface DocumentSettings{
   show_documents_notes: number;
+}
+
+export interface DashboardModule{
+  id: number;
+  sort_order: number;
+  event_id: number;
+  status: number;
+  alias: string;
+  name: string;
+}
+export interface AgendaTabSetting{
+  tab_name: string;
+  module: string;
+  sort_order: number;
+  status: number;
 }

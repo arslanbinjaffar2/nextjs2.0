@@ -13,6 +13,7 @@ import { Pressable } from 'react-native';
 import Icocross from 'application/assets/icons/Icocross';
 import ButtonElement from 'application/components/atoms/ButtonElement';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
 const [tab, setTab] = React.useState('all');
@@ -69,13 +70,12 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
   }
 
 	const module = modules.find((module) => module.alias === 'reservation');
-
   return (
       <>
       <NextBreadcrumbs module={module} />
       <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center" >
         <Text fontSize="2xl" textAlign={['center','start']} w={['100%','']} >
-            {modules.find((module: any, key: number) => module.alias === 'reservation')?.name}
+            {module?.name}
         </Text>
         <Spacer />
         <View position={'relative'} width={['100%','calc(100% - 200px)']} mt={['3','']}>
@@ -130,7 +130,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
         <WebLoading />
       ):(
         <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-        {filteredRequests.length === 0 && <Text textAlign="center" fontSize="lg" fontWeight={500} p="5">{event?.labels?.GENERAL_NO_RECORD}</Text>}
+        {filteredRequests.length === 0 && <NoRecordFound/>}
         {filteredRequests.map((request:MeetingRequest,k:number) =>
           <React.Fragment key={k}>
             <MeetingRequestBox meeting_request={request} border={k}/>

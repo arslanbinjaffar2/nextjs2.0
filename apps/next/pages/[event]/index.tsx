@@ -5,10 +5,10 @@ import React from 'react'
 
 const Index = () => {
   const { response,  } = UseAuthService();
-  const { event } = UseEventService();
+  const { event,event_url } = UseEventService();
   const { push } = useRouter();
 
-    const access_token_exists = Boolean(localStorage.getItem(`access_token`));
+    const access_token_exists = Boolean(localStorage.getItem(`access_token_${event_url}`));
     React.useEffect(() => {
         if (access_token_exists === false) {
           push(`/${event.url}/auth/login`)

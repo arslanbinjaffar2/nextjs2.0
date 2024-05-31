@@ -13,6 +13,7 @@ import RectangleAttendeeView from 'application/components/atoms/attendees/Rectan
 import { Platform } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
+import NoRecordFound from '../../../atoms/NoRecordFound';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -158,7 +159,9 @@ const ManageKeywords = ({keywords,  searchMatchAttendees, searchingAttendees, Fe
                                   </React.Fragment>
                           </React.Fragment>
                       )}
-                      {!searchingAttendees && !searchMatchAttendees && <Text textTransform="uppercase" fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>} 
+                      {!searchingAttendees && !searchMatchAttendees && 
+                      <NoRecordFound/>
+                      } 
                     </Box>
                     {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
                       <Button

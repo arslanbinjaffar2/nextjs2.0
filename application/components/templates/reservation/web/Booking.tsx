@@ -27,6 +27,7 @@ import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useDebouncedCallback } from "use-debounce";
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { id: string }
 
@@ -190,9 +191,10 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		)}
 
 		{slots.length == 0 && (
-			<Box p={2} bg="primary.box" rounded="lg" w="100%">
-			<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-		</Box>
+			<NoRecordFound
+			bg="primary.box"
+			/>
+		
 		)}
 		
 		{/* Confirmation popup  */}
@@ -244,9 +246,9 @@ type BookingSectionProps = {
 	selectedMeetingSpace: string	
 }
 const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
-
+		const {event} = UseEventService();
 		const [year, setYear] = useState(new Date().getFullYear());
-		const [month, setMonth] = useState(moment().month());
+		const [month, setMonth] = useState(moment(event?.start_date).month());
 		const [activeDay, setActiveDay] = useState<AvailableDate | null>(null);
 		const {available_slots,available_dates} = UseMeetingReservationService();
 		const [filteredSlots, setFilteredSlots] = useState<MeetingSlot[]>([]);

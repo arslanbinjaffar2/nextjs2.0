@@ -39,6 +39,7 @@ import {
     
 } from 'react-simple-wysiwyg';
 import { getColorScheme } from 'application/styles/colors';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { id: string }
 
@@ -248,7 +249,7 @@ const Detail = () => {
                     </Box>}
                     {qaDetials?.speakers?.length > 0 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
                     <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER ?? "Select Speaker"}</Text>
-                    <Center  alignItems={'flex-start'} justifyContent={'flex-start'} p="0"   w={'72%'}>
+                    <Center  alignItems={'flex-start'} justifyContent={'flex-start'} p="0"   w={'70%'}>
                       <View w={'100%'} >
                         <Select
                         placeholder={qaDetials.labels.QA_SELECT_SPEAKER}
@@ -270,8 +271,8 @@ const Detail = () => {
                     </Center>
                     
                     </HStack>}
-                    {qaDetials?.paragraph?.length > 0 && <HStack  pr="3"   w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3"  alignItems="center">
-                    <Text pl={'5'} w="30%"  fontSize="lg">{qaDetials.labels.QA_SELECT_PARAGRAPH ?? "Select Paragraph"}</Text>
+                    {qaDetials?.paragraph?.length > 0 && <HStack  px="3"   w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3"  alignItems="center">
+                    <Text  w="30%"  fontSize="lg">{qaDetials.labels.QA_SELECT_PARAGRAPH ?? "Select Paragraph"}</Text>
                     <Center  w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                     <View w={'100%'}  >
                     <Select
@@ -280,6 +281,7 @@ const Detail = () => {
                         minW={'100%'}
                         rounded="4"
                         h="42px"
+                        flex={1}
                         borderWidth="1"
                         selectedValue={paragraph ?? ''}
                         onValueChange={(item)=>setParagraph(item)}
@@ -294,8 +296,8 @@ const Detail = () => {
                     
                     
                     </HStack>}
-                    {qaSettings?.line_number == 1 && <HStack pr={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
-                        <Text pl={'5'} w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER ?? "Line Number"}</Text>
+                    {qaSettings?.line_number == 1 && <HStack px={3}  w="100%" borderBottomWidth={1}  borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
+                        <Text  w="30%" fontSize="lg">{qaDetials.labels.QA_LINE_NUMBER ?? "Line Number"}</Text>
                         <Input width={'70%'} placeholder="1" value={lineNumber} onChangeText={(value)=>setLineNumber(value)}/>
                     </HStack>}
                     <Box w="100%" px="3">
@@ -391,7 +393,7 @@ const Detail = () => {
                                     </View>
                                     
                                  
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
+                                    <Text position="absolute" right="0" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                              
                                     <Box w={'100%'}>
@@ -434,9 +436,7 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'popular' && enabledTabs.includes('popular') && qaDetials?.popular_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                 <NoRecordFound bg="primary.box"/>
                                 }
                                 {tab === 'recent' && enabledTabs.includes('recent') &&
                                   qaDetials?.recent_questions?.map((question,i)=>(
@@ -465,7 +465,7 @@ const Detail = () => {
                                     </HStack>
                                     </View>
                       
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
+                                    <Text position="absolute" right="0" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                             
                                     <Box w={'100%'}>
@@ -510,9 +510,8 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'recent' && enabledTabs.includes('recent') && qaDetials?.recent_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                    
+                                     <NoRecordFound bg="primary.box"/>
                                 }
                                 {tab === 'archive' && enabledTabs.includes('archive') &&
                                   qaDetials?.archived_questions?.map((question,i)=>(
@@ -541,7 +540,7 @@ const Detail = () => {
                                     </View>
                                     
                                 
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
+                                    <Text position="absolute" right="0" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                   
                                     <Box w={'100%'}>
@@ -586,9 +585,7 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'archive' && enabledTabs.includes('archive') && qaDetials?.archived_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                <NoRecordFound bg="primary.box"/>
                                 }
                                 {tab === 'my_question' && enabledTabs.includes('my_question') &&
                                   qaDetials?.my_questions?.map((question,i)=>(
@@ -617,7 +614,7 @@ const Detail = () => {
                                     </View>
                                     
                                 
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
+                                    <Text position="absolute" right="0" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                    
                                     <Box w={'100%'}>
@@ -660,9 +657,8 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'my_question' && enabledTabs.includes('my_question') && qaDetials?.my_questions.length <= 0 &&
-                                    <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                 <NoRecordFound bg="primary.box"/>
+                                  
                                 }
                             </VStack>
                         </>

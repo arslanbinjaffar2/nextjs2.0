@@ -17,6 +17,7 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Icocalendar from 'application/assets/icons/small/Icocalendar'
 import { func } from 'application/styles';
 import { getColorScheme } from 'application/styles/colors';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type AppProps = {
 	programs: Program[],
@@ -211,7 +212,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 						if (program?.workshop_programs?.length > 0) {
 							let newProgram = { ...program };
 							if (dashboard == true) {
-								newProgram.workshop_programs = dates.length <= limit ? program.workshop_programs.slice(0, (limit - (dates.length - 1))) : (dates.length > limit ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
+								newProgram.workshop_programs = dates.length <= limit ? program.workshop_programs.slice(0, (limit)) : (dates.length > limit ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
 							}
 							return <WorkshopCollapsableView currentIndex={currentIndex} section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
 						}
@@ -264,11 +265,8 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 							<LazySlider onChange={handleChange} programs={programs} />
 							{programs?.length > 0 && <RenderPrograms handleShowAllButton={handleShowAllButton} limit={limit} programs={programs} dates={dashboard == true ? dates?.slice(0, limit) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
 							{programs?.length <= 0 &&
-								<Box overflow="hidden" w="100%" rounded="lg">
-									<Box p={3}  rounded="lg" w="100%">
-                                  		<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                              		</Box>
-								</Box>
+							
+								<NoRecordFound />
 							}
 							{showAllButton && <Center py="3" px="2" w="100%" alignItems="flex-end">
 								<Button onPress={() => {

@@ -12,6 +12,7 @@ import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
   const { loading, scroll, processing } = UseLoadingService();
@@ -91,9 +92,10 @@ const Index = () => {
                   </Box>
                   ))}
                   {filteredGalleryImages.length === 0 && (
-                    <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" padding={5}>
-                      <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                    </Box>
+                    <NoRecordFound
+                    bg="primary.box"
+                    />
+                  
                   )}
                 </Stack>
                 </VStack>

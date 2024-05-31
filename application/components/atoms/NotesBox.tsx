@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea, Toast } from 'native-base';
+import { Box, Container, HStack, Icon, Spacer, Text, VStack, Divider, Button, ScrollView, Pressable, Heading, TextArea, Spinner } from 'native-base';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import UseNoteService from 'application/store/services/UseNoteService';
 import UseEventService from 'application/store/services/UseEventService';
 import DynamicIcon from 'application/utils/DynamicIcon';
+import UseLoadingService from 'application/store/services/UseLoadingService';
+import in_array from "in_array";
 type AppProps = {
     note_type: string,
     note_type_id: any,
@@ -12,6 +14,7 @@ type AppProps = {
 const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
   const { my_note,saving_notes, SaveNote,GetNote,UpdateNote } = UseNoteService();
   const [note, setNote] = React.useState('')
+  const { processing } = UseLoadingService();
   const [isNewNote, setIsNewNote] = React.useState(true)
   const {event} = UseEventService();
 
@@ -63,11 +66,11 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
                 borderWidth="0" fontSize="md" placeholder={event?.labels?.GENERAL_TAKE_NOTES} autoCompleteType={undefined} />
                 <HStack justifyContent={'flex-end'} alignItems={'flex-end'} space={2}>
                     {children}
-                    <Pressable onPress={() => save()}>
-                  <DynamicIcon iconType={'save'} iconProps={{ width: 20, height: 20 }} />
-                      
-                      {/* <Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /> */}
-                      </Pressable>
+                    { in_array('save-note',processing) ?
+                    <Spinner mb={1} size="sm"  />
+                    :
+                  <Pressable onPress={() => save()}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
+                  }
                 </HStack>
             </Box>
         </Box>

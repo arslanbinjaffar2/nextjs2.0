@@ -6,6 +6,7 @@ import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
 import IcoInfo from 'application/assets/icons/small/IcoInfo';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 type AppProps = {
     detail: Detail,
     info: React.ReactNode,
@@ -15,21 +16,14 @@ type AppProps = {
 const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     const { event  } = UseEventService();
 
-    const hasFirstName = detail?.sort_field_setting.some((setting:any) => setting.name === 'first_name');
-    const hasLastName = detail?.sort_field_setting.some((setting:any) => setting.name === 'last_name');
-    const hasDeligateNumber = detail?.sort_field_setting.some((setting:any) => setting.name === 'deligate_number');
-    const hasTableNumber = detail?.sort_field_setting.some((setting:any) => setting.name === 'table_number');
-    const hasInitial = detail?.sort_field_setting.some((setting:any) => setting.name === 'initial');
-    const shouldShowNoRecord = detail?.sort_field_setting.length === 0 ||
-        (detail?.sort_field_setting.length === 2 && hasFirstName && hasLastName) ||
-        (detail?.sort_field_setting.length === 3 && hasFirstName && hasLastName && hasDeligateNumber) ||
-        (detail?.sort_field_setting.length === 4 && hasFirstName && hasLastName && hasDeligateNumber && hasTableNumber) ||
-        (detail?.sort_field_setting.length === 5 && hasFirstName && hasLastName && hasDeligateNumber && hasTableNumber && hasInitial) ||
-        (hasFirstName && detail?.sort_field_setting.length === 1) ||
-        (hasDeligateNumber && detail?.sort_field_setting.length === 1) ||
-        (hasTableNumber && detail?.sort_field_setting.length === 1) ||
-        (hasInitial && detail?.sort_field_setting.length === 1) ||
-        (hasLastName && detail?.sort_field_setting.length === 1);
+    // Define the fields to remove
+    const fieldsToRemove = ['first_name', 'last_name', 'delegate_number', 'table_number', 'initial', 'email', 'phone', 'resume', 'facebook', 'linkedin', 'twitter', 'website'];
+
+    // Filter out the specified fields from sort_field_setting
+    const filteredSortFieldSetting = detail?.sort_field_setting.filter((setting: any) => !fieldsToRemove.includes(setting.name));
+
+    // Check if the filtered array has at least one item
+    const shouldShowNoRecord = filteredSortFieldSetting.length === 0;
         
     return (
         <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.box" : ""}`} w="100%"  p="0" rounded="10">
@@ -322,10 +316,9 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                         }
                     </VStack>
                 </Box>
-            ) :  <Box overflow="hidden">
-            <Text bg="primary.box" fontSize={'md'} p="4" rounded="10" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
-        </Box>  }
-
+            ) :  
+        <NoRecordFound bg="primary.box"/>
+        }
         </Box>
     )
 

@@ -91,18 +91,22 @@ export const ProgramSlice = createSlice({
             }, [...existed]);
             
             // update the fav programs state
-            console.log('programs: ',action.payload.programs);
             let fav_programs: FavProgram[] = [];
-            action.payload.programs.forEach((group: any) => {
+            action.payload?.programs.forEach((group: any) => {
                 group.forEach((program: any) => {
-                    if (program.program_attendees_attached.length > 0) {
-                        fav_programs.push({ id: program.id, is_fav: true });
+                    const addFavProgram = (id: number, attendees: any[]) => {
+                        fav_programs.push({ id, is_fav: attendees.length > 0 });
+                    };
+            
+                    if (program?.workshop_programs?.length > 0) {
+                        program?.workshop_programs?.forEach((workshopProgram: any) => {
+                            addFavProgram(workshopProgram.id, workshopProgram?.program_attendees_attached);
+                        });
                     } else {
-                        fav_programs.push({ id: program.id, is_fav: false });
+                        addFavProgram(program?.id, program?.program_attendees_attached);
                     }
                 });
             });
-            console.log('fav_programs: ',fav_programs);
             state.fav_programs = fav_programs;
             
             state.track = action.payload.track;
@@ -164,7 +168,7 @@ export const ProgramSlice = createSlice({
             state.detail = action.payload.detail;
         },
         SetFavouriteProgramError(state, action : PayloadAction<string>){
-            state.favouriteProgramError = action.payload;
+            // state.favouriteProgramError = action.payload;
         },
         ResetTracks(state) {
             state.track_id = 0;
