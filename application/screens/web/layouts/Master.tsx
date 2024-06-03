@@ -64,7 +64,9 @@ const Master = ({ children, section }: Props) => {
     }else{
         const requested_url = localStorage.getItem(`requested_url_${event_url}`);
         if (requested_url) {localStorage.removeItem(`requested_url_${event_url}`);
-          push(requested_url);
+         if(requested_url.split('/').pop() !== 'editprofile'){
+           push(requested_url);
+         }
         }
     }
   }, [response])
