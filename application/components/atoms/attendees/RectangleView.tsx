@@ -57,6 +57,13 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
     MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
   }
 
+  const attendeeCanBookMeetingWithSpeaker = React.useMemo(() => {
+    if (attendee?.event_attendee?.speaker === '1') {
+      return event?.speaker_settings?.attendee_can_book_meeting_with_speaker === 1;
+    } else {
+      return true;
+    }
+  }, [attendee?.event_attendee?.speaker, event?.speaker_settings?.attendee_can_book_meeting_with_speaker]);
 
   return (
     <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.bordercolor" py="3">
@@ -134,7 +141,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
             </VStack>
             <Spacer />
             <HStack space="4" alignItems="center">
-                {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== attendee?.id && (
+                {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && (
                   <Button
                   display={['none','']}
                     py={2}
