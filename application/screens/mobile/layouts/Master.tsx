@@ -22,7 +22,7 @@ const Master = ({ children, navigation }: Props) => {
 
   const { response, loadToken, isLoggedIn, getUser } = UseAuthService();
 
-  const { FetchEventByCode, event, modules } = UseEventService();
+  const { FetchEventByCode, event, modules,event_url } = UseEventService();
 
   const [process, setProcess] = React.useState(false);
 
@@ -69,7 +69,7 @@ const Master = ({ children, navigation }: Props) => {
 
   React.useEffect(() => {
     if (event.id) {
-      AsyncStorageClass.getItem('access_token').then((token: string) => {
+      AsyncStorageClass.getItem(`access_token_${event_url}`).then((token: string) => {
         loadToken(Boolean(token));
         setProcess(true);
       });

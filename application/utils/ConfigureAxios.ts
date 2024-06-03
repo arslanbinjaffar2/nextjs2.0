@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { Platform } from 'react-native';
 import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+import {store} from 'application/store/Index';
+import type { RootState } from 'application/store/Index'
 
 
 export default function makeApi(baseURL: string, multiPartFormData = false) {
@@ -17,10 +19,12 @@ export default function makeApi(baseURL: string, multiPartFormData = false) {
 
     api.interceptors.request.use(
         async (config: any) => {
-            if (Platform.OS === 'web' && localStorage.getItem('access_token')) {
-                config.headers = { ...config.headers, Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+            const state: RootState = store.getState();
+            const event_url = state.event.event_url;
+            if (Platform.OS === 'web' && localStorage.getItem(`access_token_${event_url}`)) {
+                config.headers = { ...config.headers, Authorization: `Bearer ${localStorage.getItem(`access_token_${event_url}`)}` }
             } else if (Platform.OS === "android" || Platform.OS === "ios") {
-                const token = await AsyncStorageClass.getItem('access_token');
+                const token = await AsyncStorageClass.getItem(`access_token_${event_url}`);
                 if (token) {
                     config.headers = { ...config.headers, Authorization: `Bearer ${token}` }
                 }
