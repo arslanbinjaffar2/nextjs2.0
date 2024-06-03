@@ -370,15 +370,15 @@ const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
 									w={'30px'}
 									h={'30px'}
 									colorScheme="unstyled"
-									_hover={{ bg:"secondary" }}
-									bg={activeDay && Number(day) == activeDay.day ? "secondary.500" : "transparent"}
+									_hover={{ bg:"secondary.500" }}
+									bg={activeDay && Number(day) == activeDay.day ? "secondary.500" : "primary.darkbox"}
 									onPress={()=>{
 										addActiveDay(Number(day));
 									}}
 								
 								>
 									{day}
-								</Button> : <Text opacity={0.5} fontSize="md">{day}</Text>)
+								</Button> : <Text opacity={0.8} fontSize="md">{day}</Text>)
                 )}
 								
 					</Center>
@@ -435,9 +435,8 @@ return (
 				</Flex>
 				
     </Center>
-    <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w={["100%","35%"]} borderTopColor={'primary.darkbox'} borderTopWidth={'2'}>
-			{
-				activeDay ?( 
+    <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w={["100%","35%"]} borderTopColor={'primary.darkbox'} borderTopWidth={'0'}>
+			{activeDay ?( 
 				<Center py={["2","3"]} px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
 					<Text my={2} fontSize="sm">
 						<>

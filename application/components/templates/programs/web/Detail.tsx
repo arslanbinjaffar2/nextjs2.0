@@ -151,7 +151,7 @@ const Detail = () => {
         const resShowRequestToSpeak = showRequestToSpeak == undefined ? false : showRequestToSpeak;
         setshowRequestToSpeak(resShowRequestToSpeak);
 
-        const showAskAQuestion=modules?.find((polls)=>(polls.alias == 'qa')) && event?.agenda_settings?.qa === 1;
+        const showAskAQuestion=modules?.find((polls)=>(polls.alias == 'qa')) && (event?.agenda_settings?.qa === 1  || detail?.program?.qa === 1);
         const resShowAskAQuestion = showAskAQuestion == undefined ? false : showAskAQuestion;
         setshowAskAQuestion(resShowAskAQuestion);
 

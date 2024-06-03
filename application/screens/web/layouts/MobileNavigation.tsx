@@ -21,8 +21,9 @@ const MobileNavigation = () => {
   const router = useRouter()
   const {width} = useWindowDimensions();
   const module_lenght = modules.filter((item: any) => item.show_on_dashboard === 1).length 
-  const [leftArrow, setleftArrow] = React.useState<number>(0)
-  const [rightArrow, setrightArrow] = React.useState<number>(module_lenght > 4 ? module_lenght : 0)
+  const [leftArrow, setleftArrow] = React.useState<number>(0);
+  const _dimension = width > 480 ? 4 : 2;
+  const [rightArrow, setrightArrow] = React.useState<number>(module_lenght > _dimension ? module_lenght : 0)
   const sliderRef = React.useRef<Slider>(null);
   
    const settings = {
@@ -35,7 +36,7 @@ const MobileNavigation = () => {
       swipeToSlide: true,
       afterChange: (currentSlide: any) => {
      
-        setrightArrow((module_lenght) - (currentSlide+4) )
+        setrightArrow((module_lenght) - (currentSlide+_dimension) )
         setleftArrow(currentSlide)
     },
     responsive: [
@@ -43,7 +44,7 @@ const MobileNavigation = () => {
         breakpoint: 480,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2
+          slidesToScroll: 1
         }
       }
     ]
@@ -52,7 +53,7 @@ const MobileNavigation = () => {
   return (
     <React.Fragment>
     {module_lenght > 0 && <SafeAreaView edges={['left']}>
-      <HStack nativeID='ebs-navigation-slider' pt={4} space="0" alignItems="center">
+      <HStack nativeID='ebs-navigation-slider' mt={4} space="0" alignItems="center">
         <Center  size="8">
           {leftArrow > 0 && <IconButton
             variant="unstyled"
