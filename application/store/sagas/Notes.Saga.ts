@@ -13,7 +13,6 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 import { select } from 'redux-saga/effects';
 import { ToastActions } from '../slices/Toast.Slice'
 
-import { ToastActions } from '../slices/Toast.Slice'
 
 function* OnSaveNote({
     payload
