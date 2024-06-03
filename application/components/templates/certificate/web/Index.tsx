@@ -58,7 +58,10 @@ const Index = React.memo(() => {
         if (searchQuery) {
             const lowercasedFilter = searchQuery.toLowerCase();
             const filteredData = certificate.filter((item: Certificate) => {
-                return item.certificate?.name && item.certificate?.name.toLowerCase().includes(lowercasedFilter);
+                return (
+                  (item.certificate_no && item.certificate_no.toString().includes(lowercasedFilter)) ||
+                  (item.certificate?.name && item.certificate.name.toLowerCase().includes(lowercasedFilter))
+                );
             });
             setFilteredCertificate(filteredData);
         } else {
@@ -98,9 +101,12 @@ const Index = React.memo(() => {
                                     <Text fontSize="md" textBreakStrategy='simple'>ID: {cert.certificate_no}</Text>
                                 </VStack>
                                 <Spacer />
+                                {cert?.certificate?.deleted_at == '' ? (
                                 <Icon as={AntDesign} name="download" size="md" color="primary.text" onPress={() => {
                                     getCertificatePdf(cert?.certificate_id , cert?.attendee_id);
                                 }} />
+                                ) : ( ''
+                                )}
                             </HStack>
                           ))
                         ) : (
