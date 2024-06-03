@@ -92,9 +92,11 @@ const Index = ({ navigation }: indexProps) => {
          
          {event?.dashboard_modules && event?.dashboard_modules?.length > 0 && event?.dashboard_modules.map((module: any, key: number) => {
             if(module.alias == 'shortcuts'){
-                <Box w={'100%'} mb={3}>
-                  <MobileNavigation />
-                </Box>
+                return (
+                  <Box w={'100%'} mb={3}>
+                    <MobileNavigation />
+                  </Box>
+                )
 
             }else if(module.alias == 'combine_agendas_my_agendas'){
               return (
@@ -157,7 +159,7 @@ const Index = ({ navigation }: indexProps) => {
               return (
                 <>
                 <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
-                {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
+                {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) &&  <PollListingByDate polls={polls} />}
                 <BannerAds module_name={'dashboard'} module_type={'after_polls'}/>
                 </>
               )
@@ -166,7 +168,7 @@ const Index = ({ navigation }: indexProps) => {
               return (
                 <>
                 <BannerAds module_name={'dashboard'} module_type={'before_survey'}/>
-                {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) &&  (pollSettings?.display_survey == 1) && <SurveyListing surveys={surveys} />}
+                {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) && <SurveyListing surveys={surveys} />}
                 <BannerAds module_name={'dashboard'} module_type={'after_survey'}/>
                 </>
               )
