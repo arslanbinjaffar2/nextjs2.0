@@ -210,14 +210,13 @@ const Detail = () => {
                         {/* <Text>
                             <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
                         </Text> */}
-                        <Text>            
-                            <RenderHtml
-                                contentWidth={width}
-                                source={{ html: htmlContent }}
-                                tagsStyles={tagsStyles}
-                                
-                                />
-                        </Text>
+                        {htmlContent &&<Text>            
+                        <RenderHtml
+                        contentWidth={width}
+                        source={{ html: htmlContent }}
+                        
+                        />
+                        </Text>}
                     </DetailBlock>
                     <Container ref={_elementWidth} mb="3" maxW="100%" w="100%">
                         <HStack mb="3" style={{rowGap: 2, columnGap: 1}} space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
