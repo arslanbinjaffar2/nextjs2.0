@@ -13,7 +13,7 @@ type Props = {
 
 const AuthLayout = ({ children }: Props) => {
 
-    const { event } = UseEventService();
+    const { event,event_url } = UseEventService();
 
     const { loadToken, isLoggedIn, getUser } = UseAuthService();
 
@@ -30,7 +30,7 @@ const AuthLayout = ({ children }: Props) => {
     }, [isLoggedIn])
 
     React.useEffect(() => {
-        loadToken(Boolean(localStorage.getItem('access_token')));
+        loadToken(Boolean(localStorage.getItem(`access_token_${event_url}`)));
     }, [])
 
     return (
