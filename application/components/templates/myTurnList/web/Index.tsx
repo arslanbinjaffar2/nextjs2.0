@@ -118,8 +118,6 @@ const Index = () => {
     const router = AA();
     const { event, modules } = UseEventService();
 
-    const [tab, setTab] = React.useState<'pending'| 'completed'>('pending')
-
     const [query, setQuery] = React.useState('');
     
     const { programs, FetchPrograms, track_id, page, total_pages} = UseProgramService();
@@ -193,7 +191,7 @@ const Index = () => {
         {programs.length > 0 && <LazySlider onChange={handleChange} programs={programs} />}
           {programs.length > 0 && dates?.length > 0 && dates?.map((program: any, k: any) =>
             <Box w="100%" key={k} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" py="3">
-              <Pressable onPress={() => { push(`/${event.url}/qa/detail/${program.id}`) }}>
+              <Pressable onPress={() => { push(`/${event.url}/myturnlist/show/${program.id}`) }}>
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
               {Platform.OS === 'web' && event?.agenda_settings?.show_tracks == 1 && <Box  width={['35px','35px']} h={'55px'} ml="-30px">
                     <ZStack top={'50%'} mt={`-${program.program_tracks.slice(0,3).length === 3 ?  10 : program.program_tracks.slice(0,3).length === 2 ? 20 : 30 }px`}  reversed>
@@ -212,7 +210,7 @@ const Index = () => {
                   <VStack maxW={['calc(100% - 148px)','calc(100% - 175px)']} space="1">
                     <Pressable
                       onPress={() => {
-                        push(`/${event.url}/qa/detail/${program.id}`)
+                        push(`/${event.url}/myturnlist/show/${program.id}`)
                       }}
                     >
                     <Text fontSize="md" lineHeight="22px">
