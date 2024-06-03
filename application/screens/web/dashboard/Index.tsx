@@ -38,6 +38,7 @@ import { Banner } from 'application/models/Banner'
 import { Module } from 'application/models/Module';
 import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
+import { CustomHtml } from 'application/models/CustomHtml'
 
 type indexProps = {
   navigation: unknown
@@ -51,7 +52,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const { surveys, FetchSurveys } = UseSurveyService();
 
-  const { event, modules } = UseEventService();
+  const { event, modules,custom_html } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
   const { FetchAlerts, alerts, markAlertRead, alert_setting} = UseAlertService();
@@ -66,7 +67,6 @@ const Index = ({ navigation }: indexProps) => {
 
   const { push } = useRouter()
    const { width } = useWindowDimensions();
- 
 
   React.useEffect(() => {
     FetchPolls();
