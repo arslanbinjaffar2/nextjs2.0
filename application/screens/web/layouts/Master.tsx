@@ -59,7 +59,13 @@ const Master = ({ children, section }: Props) => {
 
   React.useEffect(() => {
     if (response.redirect === "login" || access_token_exists === false) {
-      push(`/${event.url}/auth/login`)
+      localStorage.setItem('requested_url', nextRouter.asPath);
+      push(`/${event.url}/auth/login`);
+    }else{
+        const requested_url = localStorage.getItem('requested_url');
+        if (requested_url) {localStorage.removeItem('requested_url');
+          push(requested_url);
+        }
     }
   }, [response])
   
