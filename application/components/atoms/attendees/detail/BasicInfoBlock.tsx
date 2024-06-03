@@ -57,6 +57,14 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     function handleRegistrationPress() {
         router.push(`/${event.url}/attendees/my-registration/${response?.data?.user?.id}`)
     }
+
+    const attendeeCanBookMeetingWithSpeaker = React.useMemo(() => {
+        if (detail?.detail?.current_event_attendee?.speaker === '1') {
+          return event?.speaker_settings?.attendee_can_book_meeting_with_speaker === 1;
+        } else {
+          return true;
+        }
+      }, [detail?.detail?.current_event_attendee?.speaker, event?.speaker_settings?.attendee_can_book_meeting_with_speaker]);
  
     return (
         <Box mb={3} bg="primary.box" p="0" w={'100%'} rounded="10">
@@ -157,7 +165,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
 
                 {(allowedFields?.resume !== undefined && allowedFields?.resume && (showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || speaker == 1 || detail?.speaker_setting.resume == 1)) ||
                     (showPrivate == 1 && (detail?.show_hotel_management == 1 || detail?.show_hotels == 1)) ||
-                    (isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== detail?.detail?.id) ? (
+                    (isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== detail?.detail?.id) ? (
                     <HStack w="100%" bg="primary.secondary" p="2" pl={5} mt={3} borderTopWidth="1" borderColor="primary.darkbox">
                         <HStack width={'calc(100% - 120px)'} space="5">
                             {allowedFields?.resume !== undefined && allowedFields?.resume && (showPrivate == 1 || isPrivate?.resume == 0) && detail?.detail?.attendee_cv && (speaker == 0 || speaker == 1 || detail?.speaker_setting.resume == 1) && (
@@ -187,7 +195,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </HStack>
                         <Spacer />
                         {console.log('enab:', isAppointmentTabEnabled)}
-                        {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== detail?.detail?.id && (
+                        {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== detail?.detail?.id && (
                             <Button
                                 py={2}
                                 maxWidth={'120px'}
