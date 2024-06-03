@@ -250,14 +250,14 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 	}
 	return (
 		<>
-			{in_array(section, ['program']) && (
+			{in_array(section, ['program', 'my-program', 'track-program']) && (
 				<>
 					{Platform.OS === 'web' ? (
 						<>
 							{screen && screen !== 'qa' &&
 								<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
 								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
-								{section === 'my-program' ? modules?.find((module) => (module.alias == 'qa'))?.name:null}
+								{section === 'my-program' ? modules?.find((module) => (module.alias == 'my-program'))?.name:null}
 								</Heading>
 							}
 							{selectedMonth && <HStack space={2} alignItems={'center'} px={4} marginTop={screen && screen === 'qa' ? 2 : 0}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">{selectedMonth}</Text>
