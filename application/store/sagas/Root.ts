@@ -28,6 +28,8 @@ import {FloorPlanWatcherSaga} from 'application/store/sagas/FloorPlan.Saga'
 
 import {BannerWatcherSaga} from 'application/store/sagas/Banner.Saga'
 
+import {RequestToSpeakWatcherSaga} from 'application/store/sagas/RequestToSpeak.Saga'
+
 import {EditProfileWatcherSaga} from 'application/store/sagas/EditProfile.Saga'
 
 import {QaWatcherSaga} from 'application/store/sagas/Qa.Saga'
@@ -79,7 +81,8 @@ export function* RootSaga() {
                 fork(GalleryWatcherSaga),
                 fork(HdWatcherSaga),
                 fork(SocialWallWatcherSaga),
-                fork(MeetingReservationWatcherSaga)
+                fork(MeetingReservationWatcherSaga),
+                fork(RequestToSpeakWatcherSaga)
             ])
 }
 

@@ -18,7 +18,6 @@ function* OnFetchActivePrograms({
 }): SagaIterator {
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getActiveProgramsApi, {}, state)
-    console.log("🚀 ~ response:", response)
 
 }
 
