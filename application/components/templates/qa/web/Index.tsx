@@ -16,6 +16,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import { Platform } from 'react-native';
 import IntersectionObserverComponent from 'application/components/atoms/IntersectionObserverComponent';
+import SlideView from 'application/components/molecules/programs/SlideView';
 
 const LazySlider = ({ programs, onChange }: any) => {
 
@@ -162,13 +163,13 @@ const Index = () => {
 
     function loadMore() {
       if (mounted.current) {
-        FetchPrograms({ query: query, page: page + 1, screen: "program", id: 0, track_id: track_id });
+        FetchPrograms({ query: query, page: page + 1, screen: "qa", id: 0, track_id: track_id });
       }
     }
 
     useEffect(() => {
         // FetchPrograms();
-        FetchPrograms({ page: 1, query: '', screen: 'program', id: 0, track_id: track_id });
+        FetchPrograms({ page: 1, query: '', screen: 'qa', id: 0, track_id: track_id });
     }, []);
 
     const module = modules.find((module) => module.alias === 'qa');
@@ -191,7 +192,7 @@ const Index = () => {
         </HStack>
         {programs.length > 0 && dates?.length > 0 ?
         <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
-        {programs.length > 0 && <LazySlider onChange={handleChange} programs={programs} />}
+        {programs.length > 0 && <SlideView section={'program'} screen={'qa'} programs={programs} />}
           {programs.length > 0 && dates?.length > 0 && dates?.map((program: any, k: any) =>
             <Box w="100%" key={k} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" py="3">
               <Pressable onPress={() => { push(`/${event.url}/qa/detail/${program.id}`) }}>
