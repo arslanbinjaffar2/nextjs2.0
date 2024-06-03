@@ -11,7 +11,7 @@ import UseEnvService from 'application/store/services/UseEnvService'
 import { useRouter } from 'solito/router'
 import in_array from 'in_array'
 import IcoLogin from 'application/assets/icons/IcoLogin'
-import UseAuthService from 'application/store/services/UseAuthService'
+import UseAuthService from 'application/store/services/UseAuthService';
 
 
 const MobileNavigation = () => {
@@ -50,7 +50,7 @@ const MobileNavigation = () => {
   return (
     <React.Fragment>
     {module_lenght > 0 && <SafeAreaView edges={['left']}>
-      <HStack nativeID='ebs-navigation-slider' pt={4} space="0" alignItems="center">
+      <HStack bg={'primary.box'} nativeID='ebs-navigation-slider' p={3} rounded={10} space="0" alignItems="center">
         <Center  size="8">
           {leftArrow > 0 && <IconButton
             variant="unstyled"
@@ -66,7 +66,7 @@ const MobileNavigation = () => {
           
           
         </Center>
-         <View mb={[3,0]} w={[width - 100,"540px"]}>
+         <View mb={[0,0]} w={[width - 130,"510px"]}>
           <Slider
           ref={sliderRef}
            {...settings}>
