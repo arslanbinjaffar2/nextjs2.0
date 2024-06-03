@@ -124,7 +124,7 @@ const Index = ({ navigation }: indexProps) => {
                 <>
                  <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
                   {/*  */}
-                  {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
+                  {my_attendees?.length > 0 ? (
 
                     <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
                       <HStack mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
@@ -180,7 +180,7 @@ const Index = ({ navigation }: indexProps) => {
                       <WebLoading />
                     ):(
                       <>
-                        {alert_setting && (alert_setting as any).display_in_dashboard === 1 && alerts.length > 0 &&
+                        {alerts.length > 0 &&
                         <Container mt={0} pt="0" maxW="100%" w="100%">
                           
                             <Box overflow="hidden" bg="primary.box" mb={4} pb={alerts.length > 3 ? 0 : 5}  w="100%" rounded="lg">
