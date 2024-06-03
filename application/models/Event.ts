@@ -372,6 +372,7 @@ interface SpeakerSettings {
   birth_date: number;
   spoken_languages: number;
   employment_date: number;
+  attendee_can_book_meeting_with_speaker: number;
 }
 
 export interface SponsorSettings {
