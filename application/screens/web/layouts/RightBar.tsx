@@ -60,8 +60,13 @@ const RightBar = () => {
       
       {/*<UpcomingBlock title="NOTIFICATIONS" desc="Talk on world health is rescheduled - see more…" date="11-03-2022" time="11-00" location={''} /> */}
       <Divider mb="1" bg="transparent" />
-      {event?.exhibitor_settings?.show_on_native_app_dashboard == 1 ? <OurExhibitor />: null}
-      {event?.sponsor_settings?.show_on_native_app_dashboard == 1 ? <OurSponsor />: null}
+      {event?.dashboard_modules && event?.dashboard_modules?.length > 0 && event?.dashboard_modules.map((module: any, key: number) => {
+        if(module.alias == 'sponsors'){
+          return <OurSponsor />
+        }else if(module.alias == 'exhibitors'){
+          return <OurExhibitor />
+        }
+      })}
     </>
   );
 }
