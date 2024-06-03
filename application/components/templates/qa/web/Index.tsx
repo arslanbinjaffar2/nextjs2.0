@@ -193,7 +193,7 @@ const Index = () => {
         {programs.length > 0 && dates?.length > 0 ?
         <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
         {programs.length > 0 && <SlideView section={'program'} screen={'qa'} programs={programs} />}
-          {programs.length > 0 && dates?.length > 0 && dates?.map((program: any, k: any) =>
+          {/* {programs.length > 0 && dates?.length > 0 && dates?.map((program: any, k: any) =>
             <Box w="100%" key={k} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" py="3">
               <Pressable onPress={() => { push(`/${event.url}/qa/detail/${program.id}`) }}>
               <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
@@ -240,7 +240,7 @@ const Index = () => {
                 </HStack>
               </HStack>
               </Pressable>
-            </Box>)}
+            </Box>)} */}
         </Box>
         : <SectionLoading />}
         {page < total_pages && total_pages > 1 &&
