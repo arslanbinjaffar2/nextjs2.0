@@ -187,7 +187,7 @@ const Index = () => {
   
   const [tab, setTab] = React.useState<'event'| 'program' | 'group' | 'ticket' | ''>('');
   const [filteredHistory, setFilteredHistory] = React.useState<GroupedHistory[]>([]);
-  const [selectedDate, setSelectedDate] = React.useState('');
+  const [selectedDate, setSelectedDate] = React.useState( moment(event?.start_date,'YYYY-MM-DD').format(GENERAL_DATE_FORMAT));
 
   function setDefaultTab(){
     if (tab !==''){
@@ -211,7 +211,7 @@ const Index = () => {
   , [checkInOut]);
 
   React.useEffect(() => {
-    setSelectedDate('');
+    // setSelectedDate(moment(event?.start_date,'YYYY-MM-DD').format(GENERAL_DATE_FORMAT));
     filterHistory();
   }
   , [tab]);
