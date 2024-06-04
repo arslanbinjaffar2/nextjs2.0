@@ -187,7 +187,7 @@ const Index = () => {
           
         <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-          <Text  fontSize="2xl">Ask a question</Text>
+          <Text  fontSize="2xl">{modules?.find((module)=>(module.alias == 'qa'))?.name ?? 'As a question'}</Text>
         </HStack>
         {programs.length > 0 && dates?.length > 0 ?
         <Box w="100%" rounded="10" bg="primary.box" borderWidth="0" borderColor="primary.bdBox">
