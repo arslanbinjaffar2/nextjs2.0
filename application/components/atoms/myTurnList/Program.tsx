@@ -1,44 +1,48 @@
 import React, { useEffect } from 'react'
-import { Pressable ,HStack,ZStack,View, IconButton,Text,Box,VStack,Center} from 'native-base'
+import { Pressable, HStack, ZStack, View, IconButton, Text, Box, VStack, Center } from 'native-base'
+import { Platform } from 'react-native';
 import UseEventService from 'application/store/services/UseEventService';
-import UseProgramService from 'application/store/services/UseProgramService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import moment from 'moment';
-const ProgramContainer = ({id}:{id:any}) => {
-    const { event } = UseEventService();  
-    const { programs} = UseProgramService();
-    const program=programs.find((program:any)=>program.id);
-  return(
+import { Program } from 'application/models/program/Program';
+import { GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals';
+
+
+const ProgramContainer = ({ details }: { details: Program }) => {
+  const { event } = UseEventService();
+
+  return (
     <>
-               <Box w="100%"  py="3" bg={'primary.box'} rounded={'10px'} mb={'14px'}>
-              <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
-                <Box  width={['35px','35px']} h={'55px'} ml="-30px">
-                    <ZStack top={'50%'} mt={`-20px`}  reversed height={"100%"}>  
-                        <Box  bg={'#F5B761'} borderWidth="1" borderColor="primary.darkbox" w={'15px'} top={`-10px`}   height={"100%"} borderRightRadius="10" shadow={2} />
-                    </ZStack>
-                  </Box>
-                <HStack pt="0" w="100%" space="5" alignItems="center" >
-                <VStack w={["45px","60px"]} space="0">
-                      {/* {(event.agenda_settings?.agenda_display_time == 1 && program?.hide_time == 0)  &&<>
-                      <Text lineHeight="22px">{moment(`${program.info.date} ${program.start_time}`).format('HH:mm')}</Text>
-                      <Text lineHeight="22px">{moment(`${program.info.date} ${program.end_time}`).format('HH:mm')}</Text>
-                      </>} */}
-                          <Text lineHeight="22px">08:50 </Text>
-                      <Text lineHeight="22px">09:45</Text>
-                    </VStack>
-                  <VStack maxW={['calc(100% - 148px)','calc(100% - 100px)']} space="1" >
-                 
-                    <Text fontSize="md" lineHeight="22px">
-                      {/* {program?.info?.topic} */}
-                      The Impact of Globalization on Modern Economies 2024 and the new World order created
-                    </Text>
+      <Box w="100%" py="3" bg={'primary.box'} rounded={'10px'} mb={'14px'}>
+        <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
+          <Box width={['35px', '35px']} h={'55px'} ml="-30px">
+            {Platform.OS === 'web' && details.program_tracks && event?.agenda_settings?.show_tracks == 1 && <Box width={['35px', '35px']} h={'55px'} ml="-30px">
+              <ZStack top={'50%'} mt={`-${details.program_tracks.slice(0, 3).length === 3 ? 10 : details.program_tracks.slice(0, 3).length === 2 ? 20 : 30}px`} reversed>
+                {details?.program_tracks?.length > 0 && details.program_tracks.slice(0, 3).map((track: any, i: number) =>
+                  <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w={'15px'} top={`-${i * 10}px`} height={`${i === 0 && details?.program_tracks?.length === 1 ? '55px' : '35px'}`} borderRightRadius="10" shadow={2} />
+                )}
+              </ZStack>
+            </Box>}
+          </Box>
+          <HStack pt="0" w="100%" space="5" alignItems="center" >
+            <VStack w={["45px", "60px"]} space="0">
+              {(event.agenda_settings?.agenda_display_time == 1 && details?.hide_time == 0) && <>
+                <Text lineHeight="22px">{moment(`${details.info.date} ${details.info.start_time}`, 'DD-MM-YYYY HH:mm:ss').format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                <Text lineHeight="22px">{moment(`${details.info.date} ${details.info.end_time}`, 'DD-MM-YYYY HH:mm:ss').format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+              </>}
+            </VStack>
+            <VStack maxW={['calc(100% - 148px)', 'calc(100% - 100px)']} space="1" >
 
-                  </VStack>
+              <Text fontSize="md" lineHeight="22px">
+                {details?.info?.topic}
+              </Text>
 
-               
-                </HStack>
-              </HStack>
-            </Box>
+            </VStack>
+
+
+          </HStack>
+        </HStack>
+      </Box>
 
     </>
   )
