@@ -254,7 +254,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 				<>
 					{Platform.OS === 'web' ? (
 						<>
-							{screen && screen !== 'qa' &&
+							{(!screen || screen !== 'qa') &&
 								<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
 								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
 								{section === 'my-program' ? modules?.find((module) => (module.alias == 'myprograms'))?.name:null}
