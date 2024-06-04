@@ -194,7 +194,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('about')} bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.ATTENDEE_TAB_ABOUT}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 || ((!detail?.is_speaker && detail?.setting?.attendee_group))) {
+                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 && (speaker ? detail?.speaker_setting?.show_group : detail?.setting?.attendee_group)) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('groups')} bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'}>
                                                                             {event?.labels?.ATTENDEE_TAB_GROUP}</ButtonElement>
@@ -221,7 +221,7 @@ const Detail = ({ speaker }: Props) => {
                                             <>
                                                 {groups?.map((group: Group, k: number) =>
                                                     <React.Fragment key={`${k}`}>
-                                                        <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} displayMyGroupSetting={detail?.setting?.attendee_my_group}/>
+                                                        <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true}/>
                                                     </React.Fragment>
                                                 )}
                                                         
