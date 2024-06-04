@@ -219,19 +219,19 @@ const Index = ({ navigation }: indexProps) => {
 
          }
 
-        <ScrollView w={[width - 30, '100%']} pb={2} overflowX={'auto'}>
-          <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
-            {custom_html.slice(0, 6).map((customHtmlItem: CustomHtml, k: number) => (
-              <VStack key={k} mx={2} alignItems="flex-start">
-                <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">
-                  <div dangerouslySetInnerHTML={{ __html: customHtmlItem?.custom_html_1 ?? '' }} />
-                  <div dangerouslySetInnerHTML={{ __html: customHtmlItem?.custom_html_2 ?? '' }} />
-                  <div dangerouslySetInnerHTML={{ __html: customHtmlItem?.custom_html_3 ?? '' }} />
-                </Text>
+          <HStack w={'100%'} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+            {custom_html.map((customHtmlItem, index) => (
+              <VStack key={index} mx={0} width={'100%'} space={3}>
+                {Object.entries(customHtmlItem).map(([key, value], k) => (
+                  value.status === 1 && (
+                    <Box key={k} w={'100%'} bg="primary.box" rounded="10px" p="3">
+                      <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: value.content }} />
+                    </Box>
+                  )
+                ))}
               </VStack>
             ))}
           </HStack>
-        </ScrollView>
 
              
 
