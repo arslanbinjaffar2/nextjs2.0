@@ -21,7 +21,8 @@ type AppProps = {
 	section: string,
 	my?: number,
 	speaker?: number
-	dashboard?: boolean
+	dashboard?: boolean,
+	screen?: string
 }
 
 const LazySlider = ({ programs, onChange }: any) => {
@@ -124,7 +125,7 @@ const LazySlider = ({ programs, onChange }: any) => {
 		</>
 	)
 }
-const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
+const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppProps) => {
 
 	const { setScrollCounter, scroll, processing } = UseLoadingService();
 
@@ -211,10 +212,10 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 							if (dashboard == true) {
 								newProgram.workshop_programs = dates.length <= limit ? program.workshop_programs.slice(0, (limit)) : (dates.length > limit ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
 							}
-							return <WorkshopCollapsableView currentIndex={currentIndex} section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+							return <WorkshopCollapsableView currentIndex={currentIndex} screen={screen} section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
 						}
 						else {
-							return <RectangleDetailView currentIndex={currentIndex} workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+							return <RectangleDetailView currentIndex={currentIndex} screen={screen} workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
 						}
 					}
 					)}
@@ -253,11 +254,13 @@ const SlideView = ({ programs, section, my, speaker, dashboard }: AppProps) => {
 				<>
 					{Platform.OS === 'web' ? (
 						<>
-							<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
+							{(!screen || screen !== 'qa') &&
+								<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
 								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
 								{section === 'my-program' ? modules?.find((module) => (module.alias == 'myprograms'))?.name:null}
 								</Heading>
-							{selectedMonth && <HStack space={2} alignItems={'center'} px={4}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">{selectedMonth}</Text>
+							}
+							{selectedMonth && <HStack space={2} alignItems={'center'} px={4} marginTop={screen && screen === 'qa' ? 2 : 0}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">{selectedMonth}</Text>
 							</HStack>}
 							<LazySlider onChange={handleChange} programs={programs} />
 							{programs?.length > 0 && <RenderPrograms handleShowAllButton={handleShowAllButton} limit={limit} programs={programs} dates={dashboard == true ? dates?.slice(0, limit) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
