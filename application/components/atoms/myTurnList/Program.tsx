@@ -16,7 +16,7 @@ const ProgramContainer = ({ details }: { details: Program }) => {
       <Box w="100%" py="3" bg={'primary.box'} rounded={'10px'} mb={'14px'}>
         <HStack pl="30px" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
           <Box width={['35px', '35px']} h={'55px'} ml="-30px">
-            {Platform.OS === 'web' && details.program_tracks && event?.agenda_settings?.show_tracks == 1 && <Box width={['35px', '35px']} h={'55px'} ml="-30px">
+            {Platform.OS === 'web' && details?.program_tracks && event?.agenda_settings?.show_tracks == 1 && <Box width={['35px', '35px']} h={'55px'} ml="-30px">
               <ZStack top={'50%'} mt={`-${details.program_tracks.slice(0, 3).length === 3 ? 10 : details.program_tracks.slice(0, 3).length === 2 ? 20 : 30}px`} reversed>
                 {details?.program_tracks?.length > 0 && details.program_tracks.slice(0, 3).map((track: any, i: number) =>
                   <Box key={i} bg={track.color ? track.color : '#fff'} borderWidth="1" borderColor="primary.darkbox" w={'15px'} top={`-${i * 10}px`} height={`${i === 0 && details?.program_tracks?.length === 1 ? '55px' : '35px'}`} borderRightRadius="10" shadow={2} />

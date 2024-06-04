@@ -8,36 +8,34 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import useRequestToSpeakService from 'application/store/services/useRequestToSpeakService';
-import { Attendee } from 'application/models/attendee/Attendee';
 import AttendeeList from 'application/components/atoms/myTurnList/AttendeeList';
 import SpeakerContainer from 'application/components/atoms/myTurnList/SpeakerContainer';
 import ActiveAttendee from 'application/components/atoms/myTurnList/ActiveAttendee';
 import Program from 'application/components/atoms/myTurnList/Program'
-import { useRouter } from 'next/router';
+import UseAttendeeService from 'application/store/services/UseAttendeeService';
 type ScreenParams = { id: string, currentIndex: string }
 
 const { useParam } = createParam<ScreenParams>()
 
 const ShowTurnList = () => {
-    const router = useRouter();
-    const { id } = router.query;
-
     const { modules } = UseEventService();
     const { processing } = UseLoadingService();
 
     const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee } = useRequestToSpeakService();
+    const { FetchAttendeeDetail, detail } = UseAttendeeService();
+    console.log(detail?.detail, 'asa')
     const [_programId] = useParam('id');
     const { response } = UseAuthService();
-    const loggedInUser = response.data.user;
 
     React.useEffect(() => {
         FetchProgramTurnList({ program_id: Number(_programId) })
+        FetchAttendeeDetail({ id: Number(response.data.user.id), speaker: 0 })
     }, []);
 
     const module = modules.find((module) => module.alias === 'myturnlist');
     return (
         <>
-            <NextBreadcrumbs module={module} title='The Impact of Globalization on Modern Economies 2024 and the new World order created' />
+            <NextBreadcrumbs module={module} title={agendaDetail?.info?.topic} />
             <Container pt="2" maxW="100%" w="100%">
                 <Program details={agendaDetail} />
 
@@ -45,13 +43,12 @@ const ShowTurnList = () => {
                     <SpeakerContainer />
                 }
 
-                <ActiveAttendee />
+                {detail?.detail && <ActiveAttendee activeAttendee={detail.detail} />}
 
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text fontSize="md">Total Speakers: {attendeesToCome?.length}</Text>
+                    <Text fontSize="md">Total Speakers: {attendeesToCome?.length ?? 0}</Text>
                 </HStack>
                 <View bg={'primary.box'} rounded={'10px'} width={'100%'}>
-
                     {in_array('program-turn-list', processing) ? <SectionLoading /> : <>
                         {attendeesToCome?.length > 0 &&
                             attendeesToCome.map((item: any, key: number) => (
