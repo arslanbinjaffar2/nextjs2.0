@@ -158,7 +158,6 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 				pathname: router.pathname,
 				query: queryParams,
 			});
-			console.log('monthsL: ', programs)
 			// setSelectedMonth('');
 
 		}else{
@@ -166,8 +165,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 		}
 	}, [currentIndex]);
 
-	React.useEffect(() => {
-		console.log(programs, 'programs')
+	React.useEffect(() => {		
 		if (currentIndex !== undefined) {
 			setDates(programs[currentIndex]);
 		}
@@ -180,49 +178,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 	}, [dates])
 
 
-	const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard,handleShowAllButton,limit }: any) => {
-		const [skipShowAllCalculation,setSkipShowAllCalculation]=React.useState<boolean>(false);
-		
-		React.useEffect(()=>{
-			if(!skipShowAllCalculation && dashboard == true){
-				dates?.map((program: Program, key: number) => {
-					if (program?.workshop_programs?.length > limit) {
-						handleShowAllButton(true);
-						setSkipShowAllCalculation(true);
-						return false;
-					}
-					else {
-						handleShowAllButton(false);
-					}
-				});
 
-			}else{
-				setSkipShowAllCalculation(false);
-			}
-		},[dates])
-
-		return (
-			<>
-				
-				{dates?.length > 0 && currentIndex !== undefined && <>
-
-					{dates?.map((program: Program, key: number) => {
-						if (program?.workshop_programs?.length > 0) {
-							let newProgram = { ...program };
-							if (dashboard == true) {
-								newProgram.workshop_programs = dates.length <= limit ? program.workshop_programs.slice(0, (limit)) : (dates.length > limit ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
-							}
-							return <WorkshopCollapsableView currentIndex={currentIndex} screen={screen} section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
-						}
-						else {
-							return <RectangleDetailView currentIndex={currentIndex} screen={screen} workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
-						}
-					}
-					)}
-				</>}
-			</>
-		)
-	}
 
 	const totalPrograms = (programs: any) => {
 		let total = 0;
@@ -263,7 +219,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 							{selectedMonth && <HStack space={2} alignItems={'center'} px={4} marginTop={screen && screen === 'qa' ? 2 : 0}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">{selectedMonth}</Text>
 							</HStack>}
 							<LazySlider onChange={handleChange} programs={programs} />
-							{programs?.length > 0 && <RenderPrograms handleShowAllButton={handleShowAllButton} limit={limit} programs={programs} dates={dashboard == true ? dates?.slice(0, limit) : dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />}
+							{programs?.length > 0 && <RenderPrograms handleShowAllButton={handleShowAllButton} limit={limit} programs={programs} dates={dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} screen={screen} section={section} speaker={speaker} />}
 							{programs?.length <= 0 &&
 								<Box overflow="hidden" w="100%" rounded="lg">
 									<Box padding={5}>
@@ -311,5 +267,49 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 		</>
 	);
 };
+
+const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard,handleShowAllButton,limit,screen,section,speaker }: any) => {
+	const [skipShowAllCalculation,setSkipShowAllCalculation]=React.useState<boolean>(false);
+	
+	React.useEffect(()=>{
+		if(!skipShowAllCalculation && dashboard == true){
+			dates?.map((program: Program, key: number) => {
+				if (program?.workshop_programs?.length > limit) {
+					handleShowAllButton(true);
+					setSkipShowAllCalculation(true);
+					return false;
+				}
+				else {
+					handleShowAllButton(false);
+				}
+			});
+
+		}else{
+			setSkipShowAllCalculation(false);
+		}
+	},[dates])
+
+	return (
+		<>
+			
+			{dates?.length > 0 && currentIndex !== undefined && <>
+
+				{dates?.map((program: Program, key: number) => {
+					if (program?.workshop_programs?.length > 0) {
+						let newProgram = { ...program };
+						if (dashboard == true) {
+							newProgram.workshop_programs = dates.length <= limit ? program.workshop_programs.slice(0, (limit)) : (dates.length > limit ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
+						}
+						return <WorkshopCollapsableView currentIndex={currentIndex} screen={screen} section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+					}
+					else {
+						return <RectangleDetailView currentIndex={currentIndex} screen={screen} workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+					}
+				}
+				)}
+			</>}
+		</>
+	)
+}
 
 export default SlideView;
