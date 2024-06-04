@@ -74,7 +74,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
     const alphabet = alpha.map((x) => String.fromCharCode(x));
 
-    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory, last_page } = UseAttendeeService();
+    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory, last_page, categoryBreadcrumbs, setBreadcrumbs, updateBreadcrumb } = UseAttendeeService();
 
     const [searchQuery, setSearch] = React.useState('')
 
@@ -114,7 +114,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                 setTab('attendee');
             }
         }
-    }, [tab, category_id]);
+    }, [tab]);
 
     useEffect(() => {
         mounted.current = true;
@@ -131,6 +131,10 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         } else if ((slug === undefined || slug.length === 0) && tab === 'attendee') {
             setTab('attendee'); console.log('call 4')
             FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
+        }
+        else if ((slug === undefined || slug.length === 0) && tab === 'category-attendee') {
+            setTab('category-attendee'); console.log('call category-attendee')
+            FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
         }
          else if ((slug === undefined || slug.length === 0) && tab === 'category') {
             setTab('category');
@@ -180,35 +184,15 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('my-attendee');
         }
     }, [screen]);
-    const [breadcrumbs, setBreadcrumbs] = useState<Category[]>(() => {
-        const savedBreadcrumbs = localStorage.getItem('breadcrumbs');
-        return savedBreadcrumbs ? JSON.parse(savedBreadcrumbs) : [];
-      });
-
-      useEffect(() => {
-        localStorage.setItem('breadcrumbs', JSON.stringify(breadcrumbs));
-      }, [breadcrumbs]);
-
 
     const updateBreadcrumbs = (category: Category) => {
-        setBreadcrumbs((prev:any) => {
-            const index = prev.findIndex((item: Category) => item.id === category.id);
-            if (index !== -1) {
-                return prev.slice(0, index + 1);
-            } else if (category.parent_id === 0) {
-                return [category];
-            } else {
-                return [...prev, category];
-            }
-        });
+        updateBreadcrumb(category);
     };
 
     const handleBreadcrumbClick = (category:Category) => {
-        const index = breadcrumbs.findIndex((item: Category) => item.id === category.id);
-        
+        const index = categoryBreadcrumbs.findIndex((item: Category) => item.id === category.id);
         if (index !== -1) {
-            console.log("🚀 ~ handleBreadcrumbClick ~ index:", breadcrumbs.slice(0, index + 1))
-            setBreadcrumbs(breadcrumbs.slice(0, index + 1));
+            setBreadcrumbs(categoryBreadcrumbs.slice(0, index + 1));
             handleNavigation(category);
         }
     };
@@ -227,9 +211,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     const handleNavigation = (category: Category) => {
         if (category.parent_id > 0) {
             UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
-            push(`/${event.url}/speakers?`+ createQueryStringCat([{name:'tab', value:'sub-category'}, {name:'category_id', value:`${category.id}`}]));
+            // push(`/${event.url}/speakers?`+ createQueryStringCat([{name:'tab', value:'sub-category'}, {name:'category_id', value:`${category.id}`}]));
         } else {
-            push(pathname + '?' + createQueryStringCat([{name:'tab', value:'category'}, {name:'category_id', value:`${category.id}`}]))
+            push(pathname + '?' + createQueryStringCat([{name:'tab', value:'sub-category'}, {name:'category_id', value:`${category.id}`}]))
         }
     };
 
@@ -359,10 +343,10 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                     )}
 
                     {console.log((tab === 'category' || tab === 'sub-category' || tab === 'category-attendee'))}
-                      {(tab === 'category' || tab === 'sub-category' || tab === 'category-attendee') && breadcrumbs.length > 0 && (
+                      {(tab === 'category' || tab === 'sub-category' || tab === 'category-attendee') && categoryBreadcrumbs.length > 0 && (
                         <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
-                            <Text flex="1" fontSize="sm">
-                                {breadcrumbs.map((breadcrumb:any, index) => (
+                            <Text flex="1" textTransform="uppercase" fontSize="sm">
+                                {categoryBreadcrumbs.map((breadcrumb:any, index) => (
                                     <React.Fragment key={breadcrumb.id}>
                                         <Pressable onPress={() => handleBreadcrumbClick(breadcrumb)}>
                                             <Text fontSize="sm">
@@ -370,7 +354,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                             </Text>
                                         </Pressable>
                                         &nbsp;&nbsp;
-                                        {index < breadcrumbs.length - 1 && (
+                                        {index < categoryBreadcrumbs.length - 1 && (
                                             <Icon color={'primary.text'} as={AntDesign} name="right" />
                                         )}
                                         &nbsp;&nbsp;
