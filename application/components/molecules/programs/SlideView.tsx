@@ -215,10 +215,10 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 							if (dashboard == true) {
 								newProgram.workshop_programs = dates.length <= limit ? program.workshop_programs.slice(0, (limit)) : (dates.length > limit ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
 							}
-							return <WorkshopCollapsableView currentIndex={currentIndex} section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+							return <WorkshopCollapsableView currentIndex={currentIndex} screen={screen} section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
 						}
 						else {
-							return <RectangleDetailView currentIndex={currentIndex} workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
+							return <RectangleDetailView currentIndex={currentIndex} screen={screen} workshop={false} section={section} speaker={speaker} program={program} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
 						}
 					}
 					)}
@@ -258,7 +258,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 					{Platform.OS === 'web' ? (
 						<>
 						{programs?.length > 0 && <>
-							{screen && screen !== 'qa' &&
+							{(!screen || screen !== 'qa') &&
 								<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
 								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
 								{section === 'my-program' ? modules?.find((module) => (module.alias == 'myprograms'))?.name:null}

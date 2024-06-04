@@ -19,10 +19,11 @@ type AppProps = {
   workshop: boolean,
   speaker?:number,
   section?:string,
-  currentIndex?:number
+  currentIndex?:number,
+  screen?: string
 }
 
-const RectangleDetailView = ({ program, k, border, speaker, section, workshop,currentIndex }: AppProps) => {
+const RectangleDetailView = ({ program, k, border, speaker, section, workshop,currentIndex, screen }: AppProps) => {
 
   const { MakeFavourite,agendas_attached_via_group } = UseProgramService();
 
@@ -56,7 +57,11 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
       {workshop && <Divider w={'5px'} bg={'primary.500'}  position={'absolute'} right={0} height={'calc(100% + 1px)'} top={0} />}
       <Pressable
               onPress={() => {
-                push(`/${event.url}/agendas/detail/${program.id}?currentIndex=${currentIndex}`)
+                if(screen && screen === 'qa'){
+                  push(`/${event.url}/qa/detail/${program.id}`)
+                }else{
+                  push(`/${event.url}/agendas/detail/${program.id}?currentIndex=${currentIndex}`)
+                }
               }}>
 
                 <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
