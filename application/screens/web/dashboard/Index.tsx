@@ -40,6 +40,7 @@ import UpcomingPrograms from 'application/components/atoms/programs/UpcomingProg
 import Myexhibitors from 'application/screens/web/settings/myexhibitors/Index'
 import Mysponsors from 'application/screens/web/settings/mysponsers/Index'
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
+import { CustomHtml } from 'application/models/CustomHtml'
 
 type indexProps = {
   navigation: unknown
@@ -53,7 +54,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const { surveys, FetchSurveys } = UseSurveyService();
 
-  const { event, modules } = UseEventService();
+  const { event, modules,custom_html } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
   const { FetchAlerts, alerts, markAlertRead, alert_setting} = UseAlertService();
@@ -68,7 +69,6 @@ const Index = ({ navigation }: indexProps) => {
 
   const { push } = useRouter()
    const { width } = useWindowDimensions();
- 
 
   React.useEffect(() => {
     FetchPolls();
@@ -92,9 +92,11 @@ const Index = ({ navigation }: indexProps) => {
          
          {event?.dashboard_modules && event?.dashboard_modules?.length > 0 && event?.dashboard_modules.map((module: any, key: number) => {
             if(module.alias == 'shortcuts'){
-                <Box w={'100%'} mb={3}>
-                  <MobileNavigation />
-                </Box>
+                return (
+                  <Box w={'100%'} mb={3}>
+                    <MobileNavigation />
+                  </Box>
+                )
 
             }else if(module.alias == 'combine_agendas_my_agendas'){
               return (
@@ -125,7 +127,7 @@ const Index = ({ navigation }: indexProps) => {
                 <>
                  <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
                   {/*  */}
-                  {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
+                  {my_attendees?.length > 0 ? (
 
                     <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
                       <HStack mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
@@ -157,7 +159,7 @@ const Index = ({ navigation }: indexProps) => {
               return (
                 <>
                 <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
-                {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
+                {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) &&  <PollListingByDate polls={polls} />}
                 <BannerAds module_name={'dashboard'} module_type={'after_polls'}/>
                 </>
               )
@@ -166,7 +168,7 @@ const Index = ({ navigation }: indexProps) => {
               return (
                 <>
                 <BannerAds module_name={'dashboard'} module_type={'before_survey'}/>
-                {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) &&  (pollSettings?.display_survey == 1) && <SurveyListing surveys={surveys} />}
+                {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) && <SurveyListing surveys={surveys} />}
                 <BannerAds module_name={'dashboard'} module_type={'after_survey'}/>
                 </>
               )
@@ -181,7 +183,7 @@ const Index = ({ navigation }: indexProps) => {
                       <WebLoading />
                     ):(
                       <>
-                        {alert_setting && (alert_setting as any).display_in_dashboard === 1 && alerts.length > 0 &&
+                        {alerts.length > 0 &&
                         <Container mt={0} pt="0" maxW="100%" w="100%">
                           
                             <Box overflow="hidden" bg="primary.box" mb={4} pb={alerts.length > 3 ? 0 : 5}  w="100%" rounded="lg">
@@ -211,14 +213,47 @@ const Index = ({ navigation }: indexProps) => {
                 <BannerAds module_name={'dashboard'} module_type={'after_news_update'}/>
                 </>
               )
+            }else if(module.alias == 'custom_html_1' && custom_html[0].custom_html_1?.status == 1){
+              return (
+                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+                  <Text width={'100%'} mt={2}>
+                      <VStack  mx={0} width={'100%'} space={3}>
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                          <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: custom_html[0].custom_html_1?.content ?? '' }} />
+                        </Box>
+                      </VStack>
+                  </Text>
+                </HStack>
+              )
+            }else if(module.alias == 'custom_html_2' && custom_html[0].custom_html_1?.status){
+              return (
+                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+                  <Text width={'100%'} mt={2}>
+                      <VStack  mx={0} width={'100%'} space={3}>
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                          <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: custom_html[0].custom_html_2?.content ?? '' }} />
+                        </Box>
+                      </VStack>
+                  </Text>
+                </HStack>
+              )
+            }else if(module.alias == 'custom_html_3' && custom_html[0].custom_html_1?.status == 1){
+              return (
+                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+                  <Text width={'100%'} mt={2}>
+                      <VStack mx={0} width={'100%'} space={3}>
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                          <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html:custom_html[0].custom_html_3?.content ?? '' }} />
+                        </Box>
+                      </VStack>
+                  </Text>
+                </HStack>
+              )
             }
 
           }) // end loop dashboard_modules
 
          }
-
-             
-
           
          
           {/* <HStack mb="3" space={1} justifyContent="center" w="100%">

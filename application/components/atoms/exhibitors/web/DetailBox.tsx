@@ -5,7 +5,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useWindowDimensions } from 'react-native';
+import { Dimensions, useWindowDimensions } from 'react-native';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import UseEventService from 'application/store/services/UseEventService';
 import { colorText } from 'application/styles/colors'
@@ -24,6 +24,7 @@ const DetailBox = ({ detail }: AppProps) => {
 
     const { event } = UseEventService()
 
+    const windowWidth = Dimensions.get('window').width;
     
     const [isFav,setIsFav] = useState(false)
 
@@ -51,7 +52,7 @@ const DetailBox = ({ detail }: AppProps) => {
         <Box w="100%"  p="0" roundedTop="10">
             <Box w="100%"  p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
-                    <Image mb="5" roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
+                    <Image resizeMode='contain'  mb="5" roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
                 ) : (
                     <Image mb="5" roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="" w="100%" h="160px" />
                 )}

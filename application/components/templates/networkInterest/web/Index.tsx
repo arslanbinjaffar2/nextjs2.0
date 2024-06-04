@@ -116,96 +116,138 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
   }
 
   return (
-    <Container pt="2" maxW="100%" w="100%">
-                    <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text fontSize="2xl">{modules?.find((module)=>(module.alias == 'business'))?.name ?? 'Network Interest'}</Text>
-                    </HStack>
-                    <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
-                    <Center mb="3" px="1">
-                        <Button
-                        px="6"
-                        py="1"
-                        rounded="20px"
-                        bg={((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.500" : "primary.box"}
-                        borderWidth="0"
-                        _text={{ fontSize: 'lg', color: ((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.hovercolor" : "primary.text" }}
-                        _hover={{_text: {color: 'primary.hovercolor'}}}
-                        borderColor="primary.bdBox"
-                        colorScheme="primary"
-                        onPress={() => {
-                            setFilter(0)
-                        }}
-                        >
-                        All
-                        </Button>
-                    </Center>
-                    {interestkeywords?.map((keyword)=>(
-                        <Center key={keyword.id} mb="3" px="1">
-                            <Button
-                            px="6"
-                            py="1"
-                            rounded="20px"
-                            bg={filters?.indexOf(keyword?.id) !== -1 ? "primary.500" :"primary.box" }
-                            borderWidth="0"
-                            borderColor="primary.bdBox"
-                            _text={{ fontSize: 'lg',color: filters?.indexOf(keyword?.id) !== -1 ? "primary.hovercolor" :"primary.text"  }}
-                            _hover={{_text: {color: 'primary.hovercolor'}}}
-                            colorScheme="primary"
-                            onPress={() => {
-                                setFilter(keyword?.id)
-                            }}
-                            >
-                            {keyword?.name}
-                            </Button>
-                        </Center>
-                    ))}
-                    </HStack>
-                    <Box w="100%" mb="3">
-                    <Input  value={searchTerm} onChangeText={(value)=>{ setSearchTerm(value); setSearch(value) }} rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event?.labels?.GENERAL_SEARCH} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-                    </Box>
-                    <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
-                    {filteredkeywords?.length > 0 ? filteredkeywords?.map((keyword:Keyword)=>(
-                        <React.Fragment key={keyword?.id}>
-                            <Text mb="2" fontSize="lg">{keyword?.name}</Text>
-                            <Flex mx="-2" mb="1" direction="row" flexWrap="wrap">
-                                {keyword?.children?.map((childWord:Keyword)=>(
-                                    <CheckboxWrapp key={childWord.id}  addMyKeyword={() => addMyKeyword(childWord.id)} checked={mykeywords?.indexOf(childWord?.id) !== -1 ? true : false} title={childWord?.name} />
-                                ))}
-                            </Flex>
-                        </React.Fragment>
-                    )) : interestkeywords?.map((keyword:Keyword)=>(
-                        <React.Fragment key={keyword?.id}>
-                            <Text mb="2" fontSize="lg">{keyword?.name}</Text>
-                            <Flex mx="-2" mb="1" direction="row" flexWrap="wrap">
-                                {keyword?.children?.map((childWord:Keyword)=>(
-                                    <CheckboxWrapp key={childWord.id} addMyKeyword={() => addMyKeyword(childWord.id)} checked={mykeywords?.indexOf(childWord?.id) !== -1 ? true : false} title={childWord?.name} />
-                                ))}
-                            </Flex>
-                        </React.Fragment>
-                    ))}
-                    </Box>
-                    <Box w="100%" mb="3" alignItems="center">
-                    <Button
-                        size="lg"
-                        minH="58px"
-                        w="100%"
-                        maxW="400px"
-                        isLoading={UpdatingMyKeywords}
-                        isDisabled={UpdatingMyKeywords}
-                        shadow="1"
-                        _text={{ fontWeight: 600, fontSize: '2xl', color: func.colorType(event?.settings?.primary_color) }}
-                        colorScheme="primary"
-                        onPress={() => {
-                            SaveMykerwords(mykeywords);
-                        }}
-                    >
-                      {event?.labels?.GENERAL_DONE}
-                    </Button>
-                    </Box>
-                </Container>
+    <Container pt="2"  mb="3" maxW="100%" w="100%">
+      <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+        <Text fontSize="2xl">{modules?.find((module)=>(module.alias == 'business'))?.name ?? 'Network Interest'}</Text>
+      </HStack>
+      <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
+        <Center mb="3" px="1">
+          <Button
+            px="6"
+            py="1"
+            rounded="20px"
+            bg={((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.500" : "primary.box"}
+            borderWidth="0"
+            _text={{ fontSize: 'lg', color: ((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.hovercolor" : "primary.text" }}
+            _hover={{_text: {color: 'primary.hovercolor'}}}
+            borderColor="primary.bdBox"
+            colorScheme="primary"
+            onPress={() => {
+              setFilter(0)
+            }}
+          >
+            All
+          </Button>
+        </Center>
+        {interestkeywords?.map((keyword)=>(
+          <Center key={keyword.id} mb="3" px="1">
+            <Button
+              px="6"
+              py="1"
+              rounded="20px"
+              bg={filters?.indexOf(keyword?.id) !== -1 ? "primary.500" :"primary.box" }
+              borderWidth="0"
+              borderColor="primary.bdBox"
+              _text={{ fontSize: 'lg',color: filters?.indexOf(keyword?.id) !== -1 ? "primary.hovercolor" :"primary.text"  }}
+              _hover={{_text: {color: 'primary.hovercolor'}}}
+              colorScheme="primary"
+              onPress={() => {
+                setFilter(keyword?.id)
+              }}
+            >
+              {keyword?.name}
+            </Button>
+          </Center>
+        ))}
+      </HStack>
+      <Box w="100%" mb="3">
+        <Input value={searchTerm} onChangeText={(value) => {
+          setSearchTerm(value);
+          setSearch(value);
+        }}
+               rounded="10" w="100%" bg="primary.box" borderWidth={1} borderColor="primary.darkbox" placeholder={event?.labels?.GENERAL_SEARCH}
+               leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />}
+        />
+      </Box>
+      {filteredkeywords?.length > 0 ? (
+        <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
+          {filteredkeywords.map((keyword: Keyword) => (
+            <React.Fragment key={keyword?.id}>
+              <Text mb="2" fontSize="lg">{keyword?.name}</Text>
+              <Flex mx="-2" mb="1" direction="row" flexWrap="wrap">
+                {keyword?.children?.map((childWord: Keyword) => (
+                  <CheckboxWrapp
+                    key={childWord.id}
+                    addMyKeyword={() => addMyKeyword(childWord.id)}
+                    checked={mykeywords?.indexOf(childWord?.id) !== -1}
+                    title={childWord?.name}
+                  />
+                ))}
+              </Flex>
+            </React.Fragment>
+          ))}
+          <Box w="100%" mb="3" alignItems="center">
+            <Button
+              size="lg"
+              minH="58px"
+              w="100%"
+              maxW="400px"
+              isLoading={UpdatingMyKeywords}
+              isDisabled={UpdatingMyKeywords}
+              shadow="1"
+              _text={{ fontWeight: 600, fontSize: '2xl', color: func.colorType(event?.settings?.primary_color) }}
+              colorScheme="primary"
+              onPress={() => {
+                SaveMykerwords(mykeywords);
+              }}
+            >
+              {event?.labels?.GENERAL_DONE}
+            </Button>
+          </Box>
+        </Box>
+      ) : searchTerm ? (
+        <Text fontSize="md" p="4"  rounded="10" w="100%" bg="primary.box">{event.labels.GENERAL_NO_RECORD}</Text>
+      ) : (
+        <Box minH="250px" w="100%" mb="3" bg="primary.box" pt="4" px="5" pb="1" rounded="10px">
+          {interestkeywords.map((keyword: Keyword) => (
+            <React.Fragment key={keyword?.id}>
+              <Text mb="2" fontSize="lg">{keyword?.name}</Text>
+              <Flex mx="-2" mb="1" direction="row" flexWrap="wrap">
+                {keyword?.children?.map((childWord: Keyword) => (
+                  <CheckboxWrapp
+                    key={childWord.id}
+                    addMyKeyword={() => addMyKeyword(childWord.id)}
+                    checked={mykeywords?.indexOf(childWord?.id) !== -1}
+                    title={childWord?.name}
+                  />
+                ))}
+              </Flex>
+            </React.Fragment>
+          ))}
+          <Box w="100%" mb="3" alignItems="center">
+            <Button
+              size="lg"
+              minH="58px"
+              w="100%"
+              maxW="400px"
+              isLoading={UpdatingMyKeywords}
+              isDisabled={UpdatingMyKeywords}
+              shadow="1"
+              _text={{ fontWeight: 600, fontSize: '2xl', color: func.colorType(event?.settings?.primary_color) }}
+              colorScheme="primary"
+              onPress={() => {
+                SaveMykerwords(mykeywords);
+              }}
+            >
+              {event?.labels?.GENERAL_DONE}
+            </Button>
+          </Box>
+        </Box>
+      )}
+
+    </Container>
   )
 }
-
 
 type checkboxProps = {
     title: string,

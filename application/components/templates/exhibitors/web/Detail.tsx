@@ -65,7 +65,7 @@ const Detail = React.memo(() => {
             ) : (
                 <>
                  <NextBreadcrumbs module={module} title={detail?.detail?.name} />
-                    <Container maxW="100%" h={'93%'} w="100%">
+                    <Container maxW="100%"  w="100%">
                         <Container mb="4" mt="2" maxW="100%" w="100%" bg="primary.box" roundedTop="10">
                             <DetailBox detail={detail} />
                             {event?.exhibitor_tab_settings?.contact_persons == 1 && detail?.detail?.exhibitors_attendee!?.length > 0 && (

@@ -373,6 +373,7 @@ interface SpeakerSettings {
   birth_date: number;
   spoken_languages: number;
   employment_date: number;
+  attendee_can_book_meeting_with_speaker: number;
 }
 
 export interface SponsorSettings {
@@ -623,7 +624,12 @@ export interface KeywordSettings{
 export interface DocumentSettings{
   show_documents_notes: number;
 }
-
+export interface AgendaTabSetting{
+  tab_name: string;
+  module: string;
+  sort_order: number;
+  status: number;
+}
 export interface DashboardModule{
   id: number;
   sort_order: number;
@@ -631,10 +637,4 @@ export interface DashboardModule{
   status: number;
   alias: string;
   name: string;
-}
-export interface AgendaTabSetting{
-  tab_name: string;
-  module: string;
-  sort_order: number;
-  status: number;
 }

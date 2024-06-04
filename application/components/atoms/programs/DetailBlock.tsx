@@ -73,7 +73,7 @@ const DetailBlock = ({ children }: AppProps) => {
                                 
                            </View>
 
-                            <Divider mb="4" bg="primary.text" />
+                            {detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'description' && tab?.status === 1)?.length > 0 && children !==  '' && <Divider mb="4" bg="primary.text" />}
                         </>
                     )}
                 </>}
