@@ -92,7 +92,7 @@ const Index = React.memo(() => {
                           leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />}
                         />
                     </HStack>
-                    <Box bg={'primary.box'} rounded={10} overflow="hidden" w={width<=376?"calc(100% - 52px)":"100%"} p="0">
+                    <Box bg={'primary.box'} rounded={10} overflow="hidden" w={width<=356?"calc(100% - 22px)":"100%"} p="0">
                         {filteredCertificate.length > 0 ? (
                           filteredCertificate.map((cert, i) => (
                             <HStack key={cert.certificate_no} borderTopWidth={i === 0 ? 0 : 1} borderTopColor="primary.bordercolor" w="100%" px="4" py="4" space="3" alignItems="center">
