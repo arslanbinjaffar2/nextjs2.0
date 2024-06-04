@@ -16,7 +16,7 @@ import in_array from "in_array";
 import { Certificate } from 'application/models/certificate/Certificate';
 import UseCertificateService from 'application/store/services/UseCertificateService';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { Linking, Platform } from 'react-native'
+import { Linking, Platform, useWindowDimensions } from 'react-native'
 import { store } from 'application/store/Index'
 import { getCertificatePdfApi } from 'application/store/api/Certificate.Api'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs'
@@ -48,6 +48,7 @@ const Index = React.memo(() => {
     const { processing } = UseLoadingService();
     const { event, modules } = UseEventService();
     const { certificate, data } = UseCertificateService();
+    const {width}=useWindowDimensions();
     const [filteredCertificate, setFilteredCertificate] = React.useState<Certificate[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const module = modules?.find((module) => module.alias === 'certificate');
@@ -91,7 +92,7 @@ const Index = React.memo(() => {
                           leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />}
                         />
                     </HStack>
-                    <Box bg={'primary.box'} rounded={10} overflow="hidden" w="100%" p="0">
+                    <Box bg={'primary.box'} rounded={10} overflow="hidden" w={width<=356?"calc(100% - 22px)":"100%"} p="0">
                         {filteredCertificate.length > 0 ? (
                           filteredCertificate.map((cert, i) => (
                             <HStack key={cert.certificate_no} borderTopWidth={i === 0 ? 0 : 1} borderTopColor="primary.bordercolor" w="100%" px="4" py="4" space="3" alignItems="center">
