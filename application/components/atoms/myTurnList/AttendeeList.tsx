@@ -17,12 +17,12 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
   const { push } = useRouter()
 
   return (
-    <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.bordercolor" py="3">
+
       <Pressable
         onPress={() => { }}>
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
           <HStack w="100%" space="5" alignItems="center" justifyContent="space-between">
-            {attendee?.image && attendee.field_settings.profile_picture.is_private == 0 ? (
+            {attendee?.image && attendee?.field_settings?.profile_picture.is_private == 0 ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar
@@ -67,7 +67,6 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
           </HStack>
         </HStack>
       </Pressable>
-    </Box>
   )
 }
 
