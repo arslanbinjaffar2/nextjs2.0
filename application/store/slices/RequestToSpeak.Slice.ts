@@ -14,7 +14,9 @@ export interface RequestToSpeakState {
     attendeesToCome: any,
     agendaSettings: any,
     currentUserStatus: string,
-    activeSpeakerlistSession: any
+    activeSpeakerlistSession: any,
+    fieldSettings: any,
+    currentUser: any
 }
 
 const initialState: RequestToSpeakState = {
@@ -29,7 +31,9 @@ const initialState: RequestToSpeakState = {
     attendeesToCome: null,
     agendaSettings: null,
     currentUserStatus: '',
-    activeSpeakerlistSession: null
+    activeSpeakerlistSession: null,
+    fieldSettings: null,
+    currentUser: null
 }
 
 // Slice
@@ -39,7 +43,7 @@ export const RequestToSpeakSlice = createSlice({
     reducers: {
         FetchActivePrograms() {},
         FetchProgramTurnList(state, action: PayloadAction<{ program_id: number }>) {},
-        updateTurnList(state, action: PayloadAction<{ current_attendee: any, remaining_seconds: number, timer_start_text: string, agenda_detail: any, refresh_time: number, speech_time_status: string, settings: any, attendees_to_come: any, agenda_settings: any, current_user_status: string, active_speakerlist_session: any }>) {
+        updateTurnList(state, action: PayloadAction<{ current_attendee: any, remaining_seconds: number, timer_start_text: string, agenda_detail: any, refresh_time: number, speech_time_status: string, settings: any, attendees_to_come: any, agenda_settings: any, current_user_status: string, active_speakerlist_session: any, field_settings: any, current_user: any }>) {
             state.currentAttendee = action.payload.current_attendee;
             state.remainingSeconds = action.payload.remaining_seconds;
             state.timerStartText = action.payload.timer_start_text;
@@ -51,6 +55,8 @@ export const RequestToSpeakSlice = createSlice({
             state.agendaSettings = action.payload.agenda_settings;
             state.currentUserStatus = action.payload.current_user_status;
             state.activeSpeakerlistSession = action.payload.active_speakerlist_session;
+            state.fieldSettings = action.payload.field_settings;
+            state.currentUser = action.payload.current_user;
         },
     },
 })
@@ -74,6 +80,8 @@ export const SelectAttendeesToCome = (state: RootState) => state.requestToSpeak.
 export const SelectAgendaSettings = (state: RootState) => state.requestToSpeak.agendaSettings
 export const SelectCurrentUserStatus = (state: RootState) => state.requestToSpeak.currentUserStatus
 export const SelectActiveSpeakerlistSession = (state: RootState) => state.requestToSpeak.activeSpeakerlistSession
+export const SelectFieldSettings = (state: RootState) => state.requestToSpeak.fieldSettings
+export const SelectCurrentUser = (state: RootState) => state.requestToSpeak.currentUser
 
 // Reducer
 export default RequestToSpeakSlice.reducer

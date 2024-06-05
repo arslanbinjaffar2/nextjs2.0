@@ -19,50 +19,46 @@ const { useParam } = createParam<ScreenParams>()
 
 const ShowTurnList = () => {
     const { modules } = UseEventService();
-    const { processing } = UseLoadingService();
+    const { processing, loading } = UseLoadingService();
 
-    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee } = useRequestToSpeakService();
-    const { FetchAttendeeDetail, detail } = UseAttendeeService();
-    console.log(detail?.detail, 'asa')
+    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser } = useRequestToSpeakService();
     const [_programId] = useParam('id');
-    const { response } = UseAuthService();
 
     React.useEffect(() => {
         FetchProgramTurnList({ program_id: Number(_programId) })
-        FetchAttendeeDetail({ id: Number(response.data.user.id), speaker: 0 })
     }, []);
 
     const module = modules.find((module) => module.alias === 'myturnlist');
     return (
         <>
-            <NextBreadcrumbs module={module} title={agendaDetail?.info?.topic} />
-            <Container pt="2" maxW="100%" w="100%">
-                <Program details={agendaDetail} />
+            {(loading || in_array('program-turn-list', processing)) ? <SectionLoading /> : (
+                <>
+                    <NextBreadcrumbs module={module} title={agendaDetail?.info?.topic} />
+                    <Container pt="2" maxW="100%" w="100%">
+                        <Program details={agendaDetail} />
 
-                {currentAttendee &&
-                    <SpeakerContainer />
-                }
-
-                {detail?.detail && <ActiveAttendee activeAttendee={detail.detail} />}
-
-                <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    <Text fontSize="md">Total Speakers: {attendeesToCome?.length ?? 0}</Text>
-                </HStack>
-                <View bg={'primary.box'} rounded={'10px'} width={'100%'}>
-                    {in_array('program-turn-list', processing) ? <SectionLoading /> : <>
-                        {attendeesToCome?.length > 0 &&
-                            attendeesToCome.map((item: any, key: number) => (
-                                <Box w="100%" borderBottomWidth={attendeesToCome?.length - 1 == key ? 0 : 1} borderColor="primary.bordercolor" py="3">
-                                    <AttendeeList attendee={item.attendee} border={attendeesToCome.length > 0 && attendeesToCome[attendeesToCome.length - 1]?.id !== item?.attendee?.id ? 1 : 0} />
-                                </Box>
-                            ))
+                        {currentAttendee && currentAttendee.status === 'inspeech' &&
+                            <SpeakerContainer currentAttendee={currentAttendee} />
                         }
-                    </>}
-                </View>
 
-            </Container>
+                        {currentUser && <ActiveAttendee activeAttendee={currentUser} />}
+
+                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                            <Text fontSize="md">Total Speakers: {attendeesToCome?.length ?? 0}</Text>
+                        </HStack>
+                        <View bg={'primary.box'} rounded={'10px'} width={'100%'}>
+                            {attendeesToCome?.length > 0 &&
+                                attendeesToCome.map((item: any, key: number) => (
+                                    <Box w="100%" borderBottomWidth={attendeesToCome?.length - 1 == key ? 0 : 1} borderColor="primary.bordercolor" py="3">
+                                        <AttendeeList attendee={item.attendee} border={attendeesToCome.length > 0 && attendeesToCome[attendeesToCome.length - 1]?.id !== item?.attendee?.id ? 1 : 0} />
+                                    </Box>
+                                ))
+                            }
+                        </View>
+                    </Container>
+                </>
+            )}
         </>
-    );
-};
-
+    )
+}
 export default ShowTurnList;

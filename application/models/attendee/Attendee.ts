@@ -43,6 +43,7 @@ interface Eventattendee {
 }
 
 interface Info {
+    [x: string]: any;
     initial?: string;
     linkedin_protocol?: string;
     twitter_protocol?: string;

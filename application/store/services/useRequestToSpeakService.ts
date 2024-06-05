@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { RequestToSpeakActions, SelectActivePrograms, SelectCurrentAttendee, SelectRemainingSeconds, SelectTimerStartText, SelectAgendaDetail, SelectRefreshTime, SelectSpeechTimeStatus, SelectSettings, SelectAttendeesToCome, SelectAgendaSettings, SelectCurrentUserStatus, SelectActiveSpeakerlistSession } from 'application/store/slices/RequestToSpeak.Slice'
+import { RequestToSpeakActions, SelectActivePrograms, SelectCurrentAttendee, SelectRemainingSeconds, SelectTimerStartText, SelectAgendaDetail, SelectRefreshTime, SelectSpeechTimeStatus, SelectSettings, SelectAttendeesToCome, SelectAgendaSettings, SelectCurrentUserStatus, SelectActiveSpeakerlistSession, SelectFieldSettings, SelectCurrentUser } from 'application/store/slices/RequestToSpeak.Slice'
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
 export type RequestToSpeakServiceOperators = {
@@ -16,6 +16,8 @@ export type RequestToSpeakServiceOperators = {
     agendaSettings: any,
     currentUserStatus: string,
     activeSpeakerlistSession: any,
+    field_settings: any,
+    currentUser: any,
     FetchActivePrograms: () => void,
     FetchProgramTurnList: (payload: {program_id: number}) => void,
 }
@@ -37,6 +39,8 @@ export const UseRequestToSpeakService = (): Readonly<RequestToSpeakServiceOperat
         agendaSettings: useAppSelector(SelectAgendaSettings),
         currentUserStatus: useAppSelector(SelectCurrentUserStatus),
         activeSpeakerlistSession: useAppSelector(SelectActiveSpeakerlistSession),
+        field_settings: useAppSelector(SelectFieldSettings),
+        currentUser: useAppSelector(SelectCurrentUser),
         FetchActivePrograms: useCallback(
             () => {
                 dispatch(RequestToSpeakActions.FetchActivePrograms())
