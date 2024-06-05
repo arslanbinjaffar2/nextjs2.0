@@ -46,7 +46,7 @@ console.log(open,"open mneu")
             </Pressable>
           </Center>
           <Spacer />
-          <Center alignItems="flex-end">
+          <Center width={28} height={28} alignItems="flex-end">
             <HStack space="0">
               {/* <Notification /> */}
           <Box>
@@ -70,7 +70,7 @@ console.log(open,"open mneu")
       </Container>
       
       <Drawer isOpen={open} placement='left'>
-        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
+        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'primary.boxsolid'}>
             <Center w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
               <Pressable
                 alignItems={'flex-end'}
@@ -91,8 +91,8 @@ console.log(open,"open mneu")
         
       </Drawer>   
       <Drawer isOpen={openProfileBar} placement='left'>
-        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
-            <Center w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
+        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'primary.boxsolid'}>
+            <Center  w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
               <Pressable
                 alignItems={'flex-end'}
                 p="0"
