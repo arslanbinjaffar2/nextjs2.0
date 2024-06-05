@@ -41,7 +41,7 @@ const ShowTurnList = () => {
                             <SpeakerContainer currentAttendee={currentAttendee} />
                         }
 
-                        {currentUser && <ActiveAttendee activeAttendee={currentUser} />}
+                        {currentUser && <ActiveAttendee activeAttendee={currentUser} program_id={Number(_programId)} />}
 
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                             <Text fontSize="md">Total Speakers: {attendeesToCome?.length ?? 0}</Text>

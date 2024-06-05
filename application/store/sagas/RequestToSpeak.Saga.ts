@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getActiveProgramsApi, getTurnListApi } from 'application/store/api/RequestToSpeak.Api'
+import { getActiveProgramsApi, getTurnListApi, requestToSpeechApi } from 'application/store/api/RequestToSpeak.Api'
 
 import { RequestToSpeakActions } from 'application/store/slices/RequestToSpeak.Slice'
 
@@ -50,10 +50,23 @@ function* OnFetchProgramTurnList({
     yield put(LoadingActions.set(false))
 }
 
+function* OnRequestToSpeech({
+    payload
+}: {
+    type: typeof RequestToSpeakActions.RequestToSpeech
+    payload: { program_id: number }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: 'request-to-speech' }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(requestToSpeechApi, payload, state)
+    yield put(LoadingActions.removeProcess({ process: 'request-to-speech' }))
+}
+
 // Watcher Saga
 export function* RequestToSpeakWatcherSaga(): SagaIterator {
     yield takeEvery(RequestToSpeakActions.FetchActivePrograms.type, OnFetchActivePrograms)
     yield takeEvery(RequestToSpeakActions.FetchProgramTurnList.type, OnFetchProgramTurnList)
+    yield takeEvery(RequestToSpeakActions.RequestToSpeech.type, OnRequestToSpeech)
 }
 
 export default RequestToSpeakWatcherSaga

@@ -43,6 +43,7 @@ export const RequestToSpeakSlice = createSlice({
     reducers: {
         FetchActivePrograms() {},
         FetchProgramTurnList(state, action: PayloadAction<{ program_id: number }>) {},
+        RequestToSpeech(state, action: PayloadAction<{ program_id: number }>) {},
         updateTurnList(state, action: PayloadAction<{ current_attendee: any, remaining_seconds: number, timer_start_text: string, agenda_detail: any, refresh_time: number, speech_time_status: string, settings: any, attendees_to_come: any, agenda_settings: any, current_user_status: string, active_speakerlist_session: any, field_settings: any, current_user: any }>) {
             state.currentAttendee = action.payload.current_attendee;
             state.remainingSeconds = action.payload.remaining_seconds;
@@ -66,6 +67,7 @@ export const RequestToSpeakActions = {
     FetchActivePrograms: RequestToSpeakSlice.actions.FetchActivePrograms,
     FetchProgramTurnList: RequestToSpeakSlice.actions.FetchProgramTurnList,
     updateTurnList: RequestToSpeakSlice.actions.updateTurnList,
+    RequestToSpeech: RequestToSpeakSlice.actions.RequestToSpeech,
 }
 
 export const SelectActivePrograms = (state: RootState) => state.requestToSpeak.programs

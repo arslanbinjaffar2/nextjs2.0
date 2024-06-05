@@ -11,3 +11,8 @@ export const getActiveProgramsApi = (payload: any, state: any): Promise<HttpResp
 export const getTurnListApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/myturnlist/agenda-turn-list/${payload.program_id}`, payload);
 }
+
+export const requestToSpeechApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/myturnlist/request-to-speak`, payload);
+}
+

@@ -8,9 +8,10 @@ import useRequestToSpeakService from 'application/store/services/useRequestToSpe
 
 interface ActiveAttendeeProps {
     activeAttendee: Attendee
+    program_id: number
 }
 
-const ActiveAttendee = ({ activeAttendee }: ActiveAttendeeProps) => {
+const ActiveAttendee = ({ activeAttendee, program_id }: ActiveAttendeeProps) => {
     const { _env } = UseEnvService()
     const [sendRequest, setSendRequest] = useState(false)
     if (!activeAttendee) {
@@ -20,7 +21,7 @@ const ActiveAttendee = ({ activeAttendee }: ActiveAttendeeProps) => {
 
     const { image, first_name, last_name = {} } = activeAttendee;
 
-    const { field_settings, settings } = useRequestToSpeakService();
+    const { field_settings, settings, RequestToSpeech } = useRequestToSpeakService();
 
     const { response } = UseAuthService()
 
@@ -85,6 +86,7 @@ const ActiveAttendee = ({ activeAttendee }: ActiveAttendeeProps) => {
                             mr={'4'}
                             onPress={() => {
                                 setSendRequest(true)
+                                RequestToSpeech({ program_id: program_id })
                             }}
 
                         >
