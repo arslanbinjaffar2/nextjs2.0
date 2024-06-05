@@ -107,6 +107,9 @@ const Detail = () => {
 
     const RenderHtml = require('react-native-render-html').default;
 
+    const [iframeWidth, setiframeWidth] = React.useState(250);
+    const _elementWidth = React.useRef<HTMLDivElement>(null); 
+
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['attendee']) && page < last_page ) {
@@ -172,6 +175,21 @@ const Detail = () => {
             setTab(tabs[0][0]);
         }
     }, [detail]);
+    useEffect(() => {
+        if (_elementWidth.current) {
+            setiframeWidth(_elementWidth.current?.clientWidth - 32)
+        }
+    }, [])
+    
+    
+    const tagsStyles = {
+        img: {
+        width: '100%', // Adjust width as needed
+        height: 'auto', // Adjust height as needed
+        maxWidth: iframeWidth, // Adjust maxWidth as needed
+        },
+    };
+
 
     React.useEffect(() => {
         if(tabs.length > 0){
@@ -197,11 +215,12 @@ const Detail = () => {
                         <RenderHtml
                         contentWidth={width}
                         source={{ html: htmlContent }}
+                        tagsStyles={tagsStyles} 
                         
                         />
                         </Text>}
                     </DetailBlock>
-                    <Container mb="3" maxW="100%" w="100%">
+                    <Container ref={_elementWidth} mb="3" maxW="100%" w="100%">
                         <HStack mb="3" style={{rowGap: 2, columnGap: 1}} space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
                             {tabs.map((mtab: any, key: number) => (
                                 <ButtonElement key={mtab[0]} minW={'calc(50% - 2px)'} onPress={() => setTab(mtab[0])}  bg={tab === mtab[0] ? 'primary.boxbutton' : 'primary.box'}>{mtab[1]}</ButtonElement>
