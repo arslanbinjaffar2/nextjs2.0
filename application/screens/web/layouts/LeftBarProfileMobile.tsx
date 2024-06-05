@@ -74,7 +74,7 @@ const LeftBarProfileMobile = ({setProfileBar}:any) => {
   const { event, setting_modules } = UseEventService();
   return (
     <Center overflow="auto" position="sticky" top="2rem" alignItems="flex-start" w='100%'>
-        <ScrollView w={'100%'} h={height - 150}>
+        <ScrollView w={'100%'} h={height - 40}>
 
         <VStack space={1} px={3} w="100%" maxW="100%" >
 

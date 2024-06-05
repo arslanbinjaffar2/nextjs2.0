@@ -171,10 +171,20 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 		}
 	}, [programs])
 
+	const [showAllButton,setShowallButton]=React.useState<boolean>(false);
+
 	React.useEffect(() => {
+		let resShowAll = false;
 		if(dates && dates.length > 0){
 			setSelectedMonth(moment(dates[0]?.date).format('MMMM YYYY'));
+			dashboard && dates?.map((program: Program, key: number) => {
+				if (program?.workshop_programs?.length > limit) {
+					resShowAll = true;
+					return;
+				}
+			});
 		}
+		setShowallButton(resShowAll);
 	}, [dates])
 
 
@@ -191,19 +201,8 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 	}
 	const { push } = useRouter();
 	const limit = 5;
-	const [showAllButton,setShowallButton]=React.useState<boolean>(false);
-	function handleShowAllButton(workshopsMoreThanLimit:boolean){
-		if(dashboard != true){
-			setShowallButton(false);
-			return;
-		}
+	
 
-		if(workshopsMoreThanLimit || (dates?.length > limit)){
-			setShowallButton(true);
-		}else{
-			setShowallButton(false);
-		}
-	}
 	return (
 		<>
 			{in_array(section, ['program', 'my-program', 'track-program']) && (
@@ -219,7 +218,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 							{selectedMonth && <HStack space={2} alignItems={'center'} px={4} marginTop={screen && screen === 'qa' ? 2 : 0}><Icocalendar width={20} height={20} /><Text fontWeight={500} fontSize="lg">{selectedMonth}</Text>
 							</HStack>}
 							<LazySlider onChange={handleChange} programs={programs} />
-							{programs?.length > 0 && <RenderPrograms handleShowAllButton={handleShowAllButton} limit={limit} programs={programs} dates={dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} screen={screen} section={section} speaker={speaker} />}
+							{programs?.length > 0 && <RenderPrograms limit={limit} programs={programs} dates={dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} screen={screen} section={section} speaker={speaker} />}
 							{programs?.length <= 0 &&
 								<Box overflow="hidden" w="100%" rounded="lg">
 									<Box padding={5}>
@@ -230,7 +229,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 							{showAllButton && <Center py="3" px="2" w="100%" alignItems="flex-end">
 								<Button onPress={() => {
 								push(`/${event.url}/agendas?currentIndex=${currentIndex}`)
-								}} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+								}} p="1" _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} _icon={{color: 'primary.text'}} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
 								{event.labels?.GENERAL_SEE_ALL}
 								</Button>
 							</Center>}
@@ -268,26 +267,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 	);
 };
 
-const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard,handleShowAllButton,limit,screen,section,speaker }: any) => {
-	const [skipShowAllCalculation,setSkipShowAllCalculation]=React.useState<boolean>(false);
-	
-	React.useEffect(()=>{
-		if(!skipShowAllCalculation && dashboard == true){
-			dates?.map((program: Program, key: number) => {
-				if (program?.workshop_programs?.length > limit) {
-					handleShowAllButton(true);
-					setSkipShowAllCalculation(true);
-					return false;
-				}
-				else {
-					handleShowAllButton(false);
-				}
-			});
-
-		}else{
-			setSkipShowAllCalculation(false);
-		}
-	},[dates])
+const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashboard,limit,screen,section,speaker }: any) => {
 
 	return (
 		<>

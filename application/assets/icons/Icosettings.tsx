@@ -13,7 +13,7 @@ const Icosettings = (props: SvgProps) => {
     viewBox="0 0 32.178 32.184"
   >
     <Defs>
-      <ClipPath id="clip-path">
+      <ClipPath>
         <Rect
           id="Rectangle_165"
           data-name="Rectangle 165"
@@ -28,7 +28,6 @@ const Icosettings = (props: SvgProps) => {
         id="Group_905"
         data-name="Group 905"
         transform="translate(0 0)"
-        clipPath="url(#clip-path)"
       >
         <Path
           id="Path_305"
