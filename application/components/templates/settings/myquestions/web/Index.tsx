@@ -80,7 +80,7 @@ const Index = () => {
                                                     <HStack space="3" alignItems="center">
                                                         <HStack space="3" alignItems="center">
                                                             <Icocalendar width={12} height={12} />
-                                                            <Text fontWeight={500} fontSize="12px">{moment(question.answer_time).format(GENERAL_DATETIME_FORMAT)}</Text>
+                                                            <Text fontWeight={500} fontSize="12px">{moment(question.created_at).format(GENERAL_DATETIME_FORMAT)}</Text>
                                                         </HStack>
                                                     </HStack>
                                                 </HStack>
