@@ -128,6 +128,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   {getPrivateFields(attendee)}
                 </Text>
               }
+              {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && (
                <Button
                   display={['','none']}
                     mt={2}
@@ -138,6 +139,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
+              )}
             </VStack>
             <Spacer />
             <HStack space="4" alignItems="center">

@@ -84,9 +84,9 @@ export interface Event {
     calling_code?: any
     event_language_code?: string
     attendee_tab_settings?: any
-    dashboard_modules?: DashboardModule[]
-    agenda_tab_settings?: AgendaTabSetting[]
     timezone?: any
+    agenda_tab_settings?: AgendaTabSetting[]
+    dashboard_modules?: DashboardModule[]
 }
 interface Setting {
     poll_setting?: string;
