@@ -177,7 +177,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 		let resShowAll = false;
 		if(dates && dates.length > 0){
 			setSelectedMonth(moment(dates[0]?.date).format('MMMM YYYY'));
-			dates?.map((program: Program, key: number) => {
+			dashboard && dates?.map((program: Program, key: number) => {
 				if (program?.workshop_programs?.length > limit) {
 					resShowAll = true;
 					return;
