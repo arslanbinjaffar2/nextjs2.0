@@ -113,9 +113,7 @@ const Index = ({ navigation }: indexProps) => {
                   </Box>*/}
                 </HStack>  
                 <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
-                {modules.filter((module: any, key: number) => module.alias === 'agendas' || module.alias === "myagendas").length > 0 ? (
-                  <IndexTemplatePrograms dashboard={true} />
-                ) : null}
+                <IndexTemplatePrograms dashboard={true} />
                 <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
                 </>
               )
