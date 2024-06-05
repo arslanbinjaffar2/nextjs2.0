@@ -181,6 +181,7 @@ const Detail = () => {
         }
     }, [])
     
+    
     const tagsStyles = {
         img: {
         width: '100%', // Adjust width as needed
@@ -214,7 +215,7 @@ const Detail = () => {
                             <RenderHtml
                                 contentWidth={width}
                                 source={{ html: htmlContent }}
-                                tagsStyles={tagsStyles}
+                                tagsStyles={tagsStyles} 
                                 
                                 />
                         </Text>
