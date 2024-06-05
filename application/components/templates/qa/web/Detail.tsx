@@ -350,7 +350,7 @@ const Detail = () => {
                     <Text opacity={0.58} fontSize="md">{questionsCount} {qaDetials.labels.QA_QUESTIONS}</Text>
                     </HStack>
                  
-                    <HStack mb="4" space={'10'} justifyContent="flex-start" px={3} w="100%">
+                    <HStack mb="4" space={['5','10']} justifyContent="flex-start" px={3} w="100%">
                         {enabledTabs?.map((item:any, index:number)=>(
                             <Pressable onPress={() => { setTab(item) }} key={index} bg={'transparent'}  borderWidth="0px" p={0} borderColor="primary.darkbox" >
                                 <Text pb={1} borderBottomWidth={item === tab ? 2 : 0} borderBottomColor={'primary.text'}

@@ -37,7 +37,7 @@ const Listing = (props: any) => {
             <Box mb="3" bg={`${checkInfo.length > 0 ? "primary.box" : ""}`} p="0" w="100%" rounded={props.rounded} overflow="hidden">
                 {(filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
                     <RectangleView index={key} key={key} {...row} cms={props.cms} />
-                ) : <Box padding={5} bg={"primary.500"}>
+                ) : <Box padding={5} >
                 <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
                 </Box>)}
             </Box>

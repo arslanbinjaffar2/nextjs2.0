@@ -110,7 +110,7 @@ const SessionRating = ({ program_id }: AppProps) => {
                       <Spinner mb={1} size="sm" />
                       :
                       <Pressable onPress={() => save()}>
-                  <DynamicIcon iconType={'save'} iconProps={{ width: 20, height: 20 }} />
+                        <DynamicIcon iconType={'save'} iconProps={{ width: 20, height: 20 }} />
                         </Pressable>
                     }
                   </HStack>

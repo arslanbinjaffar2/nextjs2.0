@@ -1116,7 +1116,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image : `${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
                                                     : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
                                             </Center>
-                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
+                                            <Button w={150} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
                                                 if (inputFileRef.current) {
                                                     inputFileRef.current.click();
                                                 }

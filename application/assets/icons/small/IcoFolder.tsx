@@ -20,7 +20,7 @@ const IcoFolder = (props: SvgProps) => {
           data-name="Path 142"
           d="M20.1,49.836H11.148l-1.783-2.12a.27.27,0,0,0-.216-.1h-7.2A1.965,1.965,0,0,0,0,49.586V62.554a1.965,1.965,0,0,0,1.945,1.965H20.1a1.965,1.965,0,0,0,1.945-1.965V51.8A1.965,1.965,0,0,0,20.1,49.836Z"
           transform="translate(0 -47.619)"
-          fill={colors.text ? colors.text : '#e3e3e3'}
+          fill={props.color ? props.color : colors.text}
         />
       </G>
     </G>

@@ -117,19 +117,19 @@ const Index = ({ navigation }: indexProps) => {
           {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
 
             <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
-               <HStack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
+               <HStack pr={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
               <IconWithLeftHeading icon={<DynamicIcon iconType={modules.find((module: Module) => module.alias === 'speakers')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
               {my_attendees?.length > 6 &&
                 <Button onPress={() => {
                   push(`/${event.url}/speakers`)
-                }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                }} p="1" px={0} _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
                     {event.labels?.GENERAL_SEE_ALL ?? 'See all'}
                   </Button>
               }
               </HStack>
               <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
                 <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
-                  {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
+                  {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={[width/3 - 30,'78']}>
                     <RoundedView attendee={attendee} />
                     <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
                   </VStack>)}
