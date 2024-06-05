@@ -43,6 +43,8 @@ export interface Program {
     qa?: number;
     enable_checkin?: number;
     hide_time?: number;
+    videos?: string;
+    is_attatched_with_subregistration: number;
 }
 
 interface PollQuestion {

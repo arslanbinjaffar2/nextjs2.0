@@ -44,7 +44,7 @@ const DetailBlock = ({ children }: AppProps) => {
                    {detail?.program?.videos?.length ? (
                    <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
                       ) : ''}
-                      {event?.agenda_settings?.admin_fav_attendee == 1 && detail?.program?.is_attatched_with_subregistration !== 1 && <FavProgramToggle program_id={detail?.program.id} key={detail?.program.id} />}
+                      {event?.agenda_settings?.admin_fav_attendee == 1 && detail?.program?.is_attatched_with_subregistration !== 1 && <FavProgramToggle program_id={detail?.program?.id} key={detail?.program?.id} />}
             </HStack>
             <HStack w="100%" mb="3" space="10" alignItems="center">
                 {detail?.program?.start_time && detail?.program?.end_time  && event.agenda_settings?.agenda_display_time == 1 && detail?.program?.hide_time == 0 && (
