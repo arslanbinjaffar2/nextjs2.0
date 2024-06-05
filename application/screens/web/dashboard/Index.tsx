@@ -128,7 +128,7 @@ const Index = ({ navigation }: indexProps) => {
                   {my_attendees?.length > 0 ? (
 
                     <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
-                      <HStack mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
+                      <HStack pr={3} mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
                       <IconWithLeftHeading icon={<DynamicIcon iconType={modules.find((module: Module) => module.alias === 'speakers')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
                       {my_attendees?.length > 6 &&
                         <Button onPress={() => {
@@ -140,7 +140,7 @@ const Index = ({ navigation }: indexProps) => {
                       </HStack>
                       <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
                         <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
-                          {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
+                          {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={[width/3 - 30,'78']}>
                             <RoundedView attendee={attendee} />
                             <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
                           </VStack>)}

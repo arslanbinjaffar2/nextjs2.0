@@ -39,10 +39,10 @@ const Listing = (props: any) => {
                 {(filteredInfo.length > 0 ? filteredInfo.map((row: any, key: number) =>
                     <RectangleView index={key} key={key} {...row} cms={props.cms} />
                 ) : 
-            <NoRecordFound bg={"primary.box"}/>
+                <NoRecordFound bg={"primary.box"}/>
             )}
             </Box>
-                <BannerAds module_name={'information_pages'} module_type={'listing'} />
+            <BannerAds module_name={'information_pages'} module_type={'listing'} />
         </>
     )
 

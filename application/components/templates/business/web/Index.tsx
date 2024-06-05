@@ -127,7 +127,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
               setSearchTerm(text);
             }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
           <Pressable rounded="10" bg="primary.box" p={'8px'} onPress={() => setEnableFilter(true)}>
-            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22, color:colors.text }} />
+            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22 }} />
           </Pressable>
         </View>
       </HStack>
@@ -259,7 +259,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
           <Text fontSize="2xl">{modules?.find((network) => (network.alias == 'business'))?.name ?? ""}</Text>
           <Pressable rounded="10" bg="primary.500" p={'8px'} onPress={() => setEnableFilter(false)}>
-            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22,color:colors.text}} />
+            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22}} />
           </Pressable>
         </HStack>
         <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
