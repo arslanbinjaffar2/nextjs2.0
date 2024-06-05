@@ -87,70 +87,138 @@ const Index = ({ navigation }: indexProps) => {
         <WebLoading />
       ) : (
         <>
-         <Box w={'100%'} mb={3}>
-           <MobileNavigation />
-         </Box>
          
-            <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
-                  <Box h={'100%'} flex={1}>
-                    <UpcomingPrograms />
+         {event?.dashboard_modules && event?.dashboard_modules?.length > 0 && event?.dashboard_modules.map((module: any, key: number) => {
+            if(module.alias == 'shortcuts'){
+                return (
+                  <Box w={'100%'} mb={3}>
+                    <MobileNavigation />
                   </Box>
-                  
-                  {/* <Box minH={150}  flex={1}>
-                    <UpcomingBlock 
-                      px="3"
-                      py="4"
-                      h='150px'
-                    title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
-                </Box>*/}
-            </HStack>  
-              <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
-          {/*  */}
-          {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 ? (
-            <IndexTemplatePrograms dashboard={true} />
-          ) : <></>}
-          {/*  */}
-              <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
+                )
 
-              <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
-          {/*  */}
-          {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
+            }else if(module.alias == 'combine_agendas_my_agendas'){
+              return (
+                <>
+                <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
+                    <Box h={'100%'} flex={1}>
+                      <UpcomingPrograms />
+                    </Box>
+                    
+                    {/* <Box minH={150}  flex={1}>
+                      <UpcomingBlock 
+                        px="3"
+                        py="4"
+                        h='150px'
+                      title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
+                  </Box>*/}
+                </HStack>  
+                <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
+                <IndexTemplatePrograms dashboard={true} />
+                <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
+                </>
+              )
 
-            <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
-               <HStack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
-              <IconWithLeftHeading icon={<DynamicIcon iconType={modules.find((module: Module) => module.alias === 'speakers')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
-              {my_attendees?.length > 6 &&
-                <Button onPress={() => {
-                  push(`/${event.url}/speakers`)
-                }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                    {event.labels?.GENERAL_SEE_ALL ?? 'See all'}
-                  </Button>
-              }
-              </HStack>
-              <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
-                <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
-                  {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
-                    <RoundedView attendee={attendee} />
-                    <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
-                  </VStack>)}
-                </HStack>
-              </ScrollView>
-            </Container>
-          ) : <></>}
-          {/*  */}
-              <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
+            }else if(module.alias == 'speakers'){
+              return (
+                <>
+                 <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
+                  {/*  */}
+                  {my_attendees?.length > 0 ? (
 
-          {/*  */}
-              <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
-          {/*  */}
-          {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
-              <BannerAds module_name={'dashboard'} module_type={'after_polls'}/>
-          {/*  */}
-              <BannerAds module_name={'dashboard'} module_type={'before_survey'}/>
-          {/*  */}
-          {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) &&  (pollSettings?.display_survey == 1) && <SurveyListing surveys={surveys} />}
-              <BannerAds module_name={'dashboard'} module_type={'after_survey'}/>
-          {/*  */}
+                    <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
+                      <HStack mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
+                      <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
+                      {my_attendees?.length > 6 &&
+                        <Button onPress={() => {
+                          push(`/${event.url}/speakers`)
+                        }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                            {event.labels?.GENERAL_SEE_ALL ?? 'See all'}
+                          </Button>
+                      }
+                      </HStack>
+                      <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
+                        <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
+                          {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
+                            <RoundedView attendee={attendee} />
+                            <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
+                          </VStack>)}
+                        </HStack>
+                      </ScrollView>
+                    </Container>
+                  ) : <></>}
+                  {/*  */}
+                <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
+                </>
+              )
+
+            }else if(module.alias == 'polls'){
+              return (
+                <>
+                <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
+                {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) &&  <PollListingByDate polls={polls} />}
+                <BannerAds module_name={'dashboard'} module_type={'after_polls'}/>
+                </>
+              )
+
+            }else if(module.alias == 'surveys'){
+              return (
+                <>
+                <BannerAds module_name={'dashboard'} module_type={'before_survey'}/>
+                {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) && <SurveyListing surveys={surveys} />}
+                <BannerAds module_name={'dashboard'} module_type={'after_survey'}/>
+                </>
+              )
+              
+            }else if(module.alias == 'alerts'){
+              return (
+                <>
+                <BannerAds module_name={'dashboard'} module_type={'before_news_update'}/>
+                <>
+                  {
+                    loading ? (
+                      <WebLoading />
+                    ):(
+                      <>
+                        {alerts.length > 0 &&
+                        <Container mt={0} pt="0" maxW="100%" w="100%">
+                          
+                            <Box overflow="hidden" bg="primary.box" mb={4} pb={alerts.length > 3 ? 0 : 5}  w="100%" rounded="lg">
+                            <HStack  pt="0" w="100%" space="3" alignItems="center">
+                              <Text w={'100%'} pt={2} textAlign={'center'} fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
+                            </HStack>
+                              {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
+                                <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
+                              ))}
+                              {alerts.length > 3 &&
+                              <Center py="3" px="2" w="100%" alignItems="flex-end">
+                                <Button onPress={() => {
+                                  push(`/${event.url}/alerts`)
+                                }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                                  {event.labels?.GENERAL_SEE_ALL ?? ''}
+                                </Button>
+                              </Center>
+                              }
+                            </Box>
+                            
+                        </Container>
+                        }
+                      </>
+                    )
+                  }
+                </>
+                <BannerAds module_name={'dashboard'} module_type={'after_news_update'}/>
+                </>
+              )
+            }
+
+          }) // end loop dashboard_modules
+
+         }
+
+             
+
+          
+         
           {/* <HStack mb="3" space={1} justifyContent="center" w="100%">
             <Button onPress={() => setTab('qa')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab === 'qa' ? 'primary.darkbox' : 'primary.box'} w={event?.speaker_settings?.display_speaker_dashboard == 1 ? "50%" : "100%"} _text={{ fontWeight: '600' }}>Q & A</Button>
             {event?.speaker_settings?.display_speaker_dashboard == 1 && <Button onPress={() => setTab('speakerlist')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'speakerlist' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>SPEAKERS LIST</Button>}
@@ -166,41 +234,7 @@ const Index = ({ navigation }: indexProps) => {
           </>
 
           <ChatClient /> */}
-          <BannerAds module_name={'dashboard'} module_type={'before_news_update'}/>
-          <>
-            {
-              loading ? (
-                <WebLoading />
-              ):(
-                <>
-                  {alert_setting && (alert_setting as any).display_in_dashboard === 1 && alerts.length > 0 &&
-                  <Container mt={0} pt="0" maxW="100%" w="100%">
-                    
-                      <Box overflow="hidden" bg="primary.box" mb={4} pb={alerts.length > 3 ? 0 : 5}  w="100%" rounded="lg">
-                      <HStack  pt="0" w="100%" space="3" alignItems="center">
-                        <Text w={'100%'} pt={2} textAlign={'center'} fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
-                      </HStack>
-                        {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
-                          <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
-                        ))}
-                        {alerts.length > 3 &&
-                        <Center py="3" px="2" w="100%" alignItems="flex-end">
-                          <Button onPress={() => {
-                            push(`/${event.url}/alerts`)
-                          }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                            {event.labels?.GENERAL_SEE_ALL ?? ''}
-                          </Button>
-                        </Center>
-                        }
-                      </Box>
-                      
-                  </Container>
-                  }
-                </>
-              )
-            }
-          </>
-          <BannerAds module_name={'dashboard'} module_type={'after_news_update'}/>
+          
         </>
 
       )}
