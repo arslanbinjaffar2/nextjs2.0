@@ -17,6 +17,7 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import in_array from "in_array";
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import { colors } from 'application/styles';
 
 const Index = () => {
   const { processing, loading } = UseLoadingService();
@@ -126,7 +127,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
               setSearchTerm(text);
             }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
           <Pressable rounded="10" bg="primary.box" p={'8px'} onPress={() => setEnableFilter(true)}>
-            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22, color: "primary.text" }} />
+            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22 }} />
           </Pressable>
         </View>
       </HStack>

@@ -69,7 +69,7 @@ const NotesBox = ({note_type,note_type_id,children}:AppProps) => {
                     { in_array('save-note',processing) ?
                     <Spinner mb={1} size="sm"  />
                     :
-                  <Pressable onPress={() => save()}><Icon as={FontAwesome} name="save" size={'lg'} color={'primary.text'} /></Pressable>
+                  <Pressable onPress={() => save()}><DynamicIcon iconType={'save'} iconProps={{ width: 20, height: 20 }} /></Pressable>
                   }
                 </HStack>
             </Box>

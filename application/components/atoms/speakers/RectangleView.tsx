@@ -30,7 +30,7 @@ const RectangleView = ({ k, attendee, total }: boxItemProps) => {
             push(`/${event.url}/speakers/detail/${attendee.id}`)
         }}>
             <HStack key={k} borderBottomWidth={total !== (k + 1) ? '1px' : '0'} borderColor="primary.bordercolor" px="3" py="3" w="100%" space="0" alignItems="center">
-                <Center alignItems="flex-start" w="70%" p="0">
+                <Center alignItems="flex-start" w={['calc(100% - 75px)']} p="0">
                     <HStack space="3" alignItems="center">
                         {detail?.program?.program_speakers && detail?.program?.program_speakers[0].sort_settings.profile_picture.is_private == 0 || attendee.id == response?.data?.user?.id ? (
                         <Avatar
@@ -43,12 +43,12 @@ const RectangleView = ({ k, attendee, total }: boxItemProps) => {
                         ) : (
                             <Image source={UserPlaceholderImage} alt="" w="50px" h="50px" rounded={30} />
                           )}
-                        <VStack space="0">
+                        <VStack w={['calc(100% - 10px)']}  space="0">
                             {(attendee?.first_name || attendee?.last_name) && (
                                 <>
                                     <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.sort_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
                                     {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
-                                        <Text textBreakStrategy='balanced' fontSize="lg">
+                                        <Text fontSize="lg">
                                         {attendee?.info?.title && (
                                             <>
                                             {`${attendee?.info?.title}`}
