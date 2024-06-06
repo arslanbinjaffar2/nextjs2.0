@@ -9,14 +9,13 @@ import useRequestToSpeakService from 'application/store/services/useRequestToSpe
 interface ActiveAttendeeProps {
     activeAttendee: Attendee
     program_id: number
+    requestStatus: string
+    alreadyInSpeech: boolean
 }
 
-const ActiveAttendee = ({ activeAttendee, program_id }: ActiveAttendeeProps) => {
+const ActiveAttendee = ({ activeAttendee, program_id, requestStatus, alreadyInSpeech }: ActiveAttendeeProps) => {
     const { _env } = UseEnvService()
-    const [sendRequest, setSendRequest] = useState(false)
-    if (!activeAttendee) {
-        return null;
-    }
+    const [sendRequest, setSendRequest] = useState(requestStatus === 'accepted')
     if (!activeAttendee) return null;
 
     const { image, first_name, last_name = {} } = activeAttendee;
@@ -30,10 +29,10 @@ const ActiveAttendee = ({ activeAttendee, program_id }: ActiveAttendeeProps) => 
     const isFieldVisible = (fieldName: string) => {
         const field = field_settings.find((field: any) => field.fields_name === fieldName);
         if (!loggedInUser) {
-          return field && !field.is_private;
+            return field && !field.is_private;
         }
         return !!field;
-      };
+    };
 
     const getInitials = (firstName: any, lastName: any) => {
         if (firstName && lastName) {
@@ -44,21 +43,21 @@ const ActiveAttendee = ({ activeAttendee, program_id }: ActiveAttendeeProps) => 
 
     const getValueFromAttendeeInfo = (field: string) => {
         if (activeAttendee?.info !== undefined) {
-          return activeAttendee?.info.find((item: any) => item.name === field)?.value || null;
+            return activeAttendee?.info.find((item: any) => item.name === field)?.value || null;
         }
         return null;
     }
 
     const renderDetails = () => {
         let details = '';
-        if (getValueFromAttendeeInfo('company_name') && isFieldVisible('company_name')) { 
-          details += getValueFromAttendeeInfo('company_name');
+        if (getValueFromAttendeeInfo('company_name') && isFieldVisible('company_name')) {
+            details += getValueFromAttendeeInfo('company_name');
         }
         if (getValueFromAttendeeInfo('title') && isFieldVisible('title')) {
-          details += (details ? ' - ' : '') + getValueFromAttendeeInfo('title');
+            details += (details ? ' - ' : '') + getValueFromAttendeeInfo('title');
         }
         return details;
-      };
+    };
     return (
         <>
             <View height={"105px"} bg={'primary.box'} rounded={'10px'} pl={'10px'} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
@@ -82,20 +81,25 @@ const ActiveAttendee = ({ activeAttendee, program_id }: ActiveAttendeeProps) => 
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>
-                        <Pressable
-                            mr={'4'}
-                            onPress={() => {
-                                setSendRequest(true)
-                                RequestToSpeech({ program_id: program_id })
-                            }}
+                        {!alreadyInSpeech && (
+                            <>
+                                <Pressable
+                                    mr={'4'}
+                                    onPress={() => {
+                                        setSendRequest(!sendRequest)
+                                        RequestToSpeech({ agenda_id: program_id, action: requestStatus === 'accepted' ? 'cancel' : 'request' })
+                                    }}
 
-                        >
-                            {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
-                                : <Button maxWidth={'120px'} width={'100%'}>
-                                    <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>Cancel request</Text>
-                                </Button>
-                            }
-                        </Pressable>
+                                >
+                                    {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                        : <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
+                                            <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>Cancel request</Text>
+                                        </Box>
+                                    }
+                                </Pressable>
+                            </>
+                        )}
+
                         {(isFieldVisible('delegate_number') && getValueFromAttendeeInfo('delegate_number')) && (
                             <Text fontWeight={'medium'} fontSize={'lg'}># {getValueFromAttendeeInfo('delegate_number')}</Text>
                         )}

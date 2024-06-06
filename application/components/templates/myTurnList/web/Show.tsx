@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Box, Container, HStack, Spacer, Text, View } from 'native-base';
+import { Box, Container, HStack, Text, View } from 'native-base';
 import in_array from "in_array";
 import { createParam } from 'solito';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
-import UseAuthService from 'application/store/services/UseAuthService';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import useRequestToSpeakService from 'application/store/services/useRequestToSpeakService';
@@ -12,7 +11,9 @@ import AttendeeList from 'application/components/atoms/myTurnList/AttendeeList';
 import SpeakerContainer from 'application/components/atoms/myTurnList/SpeakerContainer';
 import ActiveAttendee from 'application/components/atoms/myTurnList/ActiveAttendee';
 import Program from 'application/components/atoms/myTurnList/Program'
-import UseAttendeeService from 'application/store/services/UseAttendeeService';
+import UseSocketService from 'application/store/services/UseSocketService';
+
+
 type ScreenParams = { id: string, currentIndex: string }
 
 const { useParam } = createParam<ScreenParams>()
@@ -24,9 +25,33 @@ const ShowTurnList = () => {
     const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser } = useRequestToSpeakService();
     const [_programId] = useParam('id');
 
+    const checkActiveUserAlreadyRequested = () => {
+        if (currentUser && currentUser.id) {
+            const isRequested = attendeesToCome.find((item: any) => item.attendee.id === currentUser.id)?.status;
+            return isRequested;
+        }
+    }
+
+    const { socket } = UseSocketService();
+
+    const alreadyInSpeech = currentAttendee && currentAttendee.status === 'inspeech' && currentUser.id === currentAttendee.attendee_id;
+
     React.useEffect(() => {
         FetchProgramTurnList({ program_id: Number(_programId) })
     }, []);
+
+    React.useEffect(() => {
+        if (socket !== null) {
+            socket?.on(`event-buizz:qa_admin_block_listing`, function (data: any): any {
+
+            });
+        }
+        return () => {
+            if (socket !== null) {
+                socket?.off(`event-buizz:qa_admin_block_listing`);
+            }
+        }
+    }, [socket]);
 
     const module = modules.find((module) => module.alias === 'myturnlist');
     return (
@@ -41,7 +66,13 @@ const ShowTurnList = () => {
                             <SpeakerContainer currentAttendee={currentAttendee} />
                         }
 
-                        {currentUser && <ActiveAttendee activeAttendee={currentUser} program_id={Number(_programId)} />}
+                        {currentUser &&
+                            <ActiveAttendee
+                                activeAttendee={currentUser}
+                                program_id={Number(_programId)}
+                                requestStatus={checkActiveUserAlreadyRequested()}
+                                alreadyInSpeech={alreadyInSpeech}
+                            />}
 
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                             <Text fontSize="md">Total Speakers: {attendeesToCome?.length ?? 0}</Text>
