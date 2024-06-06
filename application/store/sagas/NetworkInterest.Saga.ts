@@ -35,9 +35,11 @@ function* OnSaveMykeywords({
     type: typeof NetworkInterestActions.SaveMykeywords
     payload:any
 }): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: 'search-match-attendees' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveNetworkInterestApi, payload, state)
     yield put(NetworkInterestActions.saveMyKeywordSuccess());
+    yield put(LoadingActions.removeProcess({ process: 'search-match-attendees' }))
 }
 
 function* OnFetchSearchMatchAttendees({
@@ -46,11 +48,11 @@ function* OnFetchSearchMatchAttendees({
     type: typeof NetworkInterestActions.FetchSearchMatchAttendees
     payload:any
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: 'keywords' }))
+    yield put(LoadingActions.addProcess({ process: 'search-match-attendees' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getSearchMatchAttendeesApi, payload, state)
     yield put(NetworkInterestActions.updateSearchMatchAttendees({ attendees: response.data.data! }))
-    yield put(LoadingActions.removeProcess({ process: 'keywords' }))
+    yield put(LoadingActions.removeProcess({ process: 'search-match-attendees' }))
 }
 
 
