@@ -12,6 +12,7 @@ import SpeakerContainer from 'application/components/atoms/myTurnList/SpeakerCon
 import ActiveAttendee from 'application/components/atoms/myTurnList/ActiveAttendee';
 import Program from 'application/components/atoms/myTurnList/Program'
 import UseSocketService from 'application/store/services/UseSocketService';
+import UseAuthService from 'application/store/services/UseAuthService';
 
 
 type ScreenParams = { id: string, currentIndex: string }
@@ -20,15 +21,24 @@ const { useParam } = createParam<ScreenParams>()
 
 const ShowTurnList = () => {
     const { modules, event } = UseEventService();
+    const { response } = UseAuthService();
+
     const { processing, loading } = UseLoadingService();
     const [socketUpdate, setSocketUpdate] = React.useState(false);
 
     const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser, currentUserStatus } = useRequestToSpeakService();
     const [_programId] = useParam('id');
-    console.log(currentUserStatus, 'currentUser')
 
     const { socket } = UseSocketService();
 
+    const gdprSettings = event?.gdpr_settings;
+
+    const checkGdpr = () => {
+        if (gdprSettings?.enable_gdpr === '1' && gdprSettings?.attendee_invisible === '1') {
+            return response.attendee_detail?.event_attendee?.gdpr === '0';
+        }
+        return false;
+    }
     const alreadyInSpeech = currentAttendee && currentAttendee.status === 'inspeech' && currentUser.id === currentAttendee.attendee_id;
 
     React.useEffect(() => {
@@ -74,13 +84,21 @@ const ShowTurnList = () => {
                             <SpeakerContainer currentAttendee={currentAttendee} />
                         }
 
-                        {currentUser &&
+                        {checkGdpr() === true &&
+                            <Box p={3} bg="primary.box" rounded="lg" w="100%">
+                                <Text>{event?.labels?.GENERAL_GDPR_ACCEPT_TEXT}</Text>
+                            </Box>
+
+                        }
+
+                        {currentUser && checkGdpr() === false &&
                             <ActiveAttendee
                                 activeAttendee={currentUser}
                                 program_id={Number(_programId)}
                                 currentUserStatus={currentUserStatus}
                                 alreadyInSpeech={alreadyInSpeech}
-                            />}
+                            />
+                        }
 
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
                             <Text fontSize="md">Total Speakers: {attendeesToCome?.length ?? 0}</Text>

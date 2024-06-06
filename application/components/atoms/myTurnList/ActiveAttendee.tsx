@@ -85,20 +85,37 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
                     <Box flexDirection={'row'} alignItems={'center'}>
                         {!alreadyInSpeech && currentUserStatus.status !== 'accepted' && (
                             <>
-                                <Pressable
-                                    mr={'4'}
-                                    onPress={() => {
-                                        setSendRequest(!sendRequest)
-                                        RequestToSpeech({ agenda_id: program_id, action: currentUserStatus.status === 'pending' ? 'cancel' : 'request' })
-                                    }}
-
-                                >
-                                    {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
-                                        : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                            <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>Cancel request</Text>
-                                        </Box> : null
-                                    }
-                                </Pressable>
+                                {settings.use_group_to_control_request_to_speak ? (
+                                    activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ? 
+                                        <Pressable
+                                            mr={'4'}
+                                            onPress={() => {
+                                                setSendRequest(!sendRequest)
+                                                RequestToSpeech({ agenda_id: program_id, action: currentUserStatus.status === 'pending' ? 'cancel' : 'request' })
+                                            }}
+                                        >
+                                            {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                                : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
+                                                    <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>Cancel request</Text>
+                                                </Box> : null
+                                            }
+                                        </Pressable>
+                                     : null
+                                ) : (
+                                    <Pressable
+                                        mr={'4'}
+                                        onPress={() => {
+                                            setSendRequest(!sendRequest)
+                                            RequestToSpeech({ agenda_id: program_id, action: currentUserStatus.status === 'pending' ? 'cancel' : 'request' })
+                                        }}
+                                    >
+                                        {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                            : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
+                                                <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>Cancel request</Text>
+                                            </Box> : null
+                                        }
+                                    </Pressable>
+                                )}
                             </>
                         )}
 

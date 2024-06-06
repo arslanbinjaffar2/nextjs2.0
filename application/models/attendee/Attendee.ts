@@ -20,6 +20,7 @@ export interface Attendee {
     field_settings?: any;
     private_country_display_name?: string;
     sort_settings?: any;
+    attendee_program_groups?: any;
 }
 
 interface Eventattendee {
