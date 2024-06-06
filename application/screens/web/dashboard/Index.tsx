@@ -38,6 +38,8 @@ import { Banner } from 'application/models/Banner'
 import { Module } from 'application/models/Module';
 import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
+import OurExhibitor from 'application/components/molecules/exhibitors/OurExhibitor';
+import OurSponsor from 'application/components/molecules/sponsors/OurSponsor';
 
 type indexProps = {
   navigation: unknown
@@ -201,9 +203,18 @@ const Index = ({ navigation }: indexProps) => {
             }
           </>
           <BannerAds module_name={'dashboard'} module_type={'after_news_update'}/>
+          {/* Things to show only on mobile view */}
+          {/* <Box justifyContent="center" mt={1} display={['','none']} width={'100%'} flexDirection={'column'}>
+            {event?.exhibitor_settings?.show_on_native_app_dashboard == 1 ? <OurExhibitor />: null}
+            {event?.sponsor_settings?.show_on_native_app_dashboard == 1 ? <OurSponsor />: null}
+          </Box> */}
         </>
 
       )}
+      <Box alignItems="center" mt={1} display={['','none']} width={'100%'} flexDirection={'column'}>
+            {event?.exhibitor_settings?.show_on_native_app_dashboard == 1 ? <OurExhibitor expand={true} />: null}
+            {event?.sponsor_settings?.show_on_native_app_dashboard == 1 ? <OurSponsor expand={true} />: null}
+          </Box>
     </>
   );
 
