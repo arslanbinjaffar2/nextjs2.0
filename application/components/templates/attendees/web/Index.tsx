@@ -350,7 +350,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 {categoryBreadcrumbs.map((breadcrumb:any, index) => (
                                     <React.Fragment key={breadcrumb.id}>
                                         <Pressable onPress={() => handleBreadcrumbClick(breadcrumb)}>
-                                            <Text textTransform="uppercase" fontSize="sm">
+                                            <Text fontSize="sm">
                                                 {breadcrumb.name}
                                             </Text>
                                         </Pressable>

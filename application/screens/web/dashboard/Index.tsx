@@ -113,9 +113,7 @@ const Index = ({ navigation }: indexProps) => {
                   </Box>*/}
                 </HStack>  
                 <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
-                {modules.filter((module: any, key: number) => module.alias === 'agendas' || module.alias === "myagendas").length > 0 ? (
-                  <IndexTemplatePrograms dashboard={true} />
-                ) : null}
+                <IndexTemplatePrograms dashboard={true} />
                 <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
                 </>
               )
@@ -211,11 +209,61 @@ const Index = ({ navigation }: indexProps) => {
                 <BannerAds module_name={'dashboard'} module_type={'after_news_update'}/>
                 </>
               )
+            }else if(module.alias == 'custom_html_1' && custom_html[0].custom_html_1?.status == 1 && custom_html[0].custom_html_1?.content){
+              return (
+                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+                  <Text width={'100%'} mt={2}>
+                      <VStack  mx={0} width={'100%'} space={3}>
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                          <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: custom_html[0].custom_html_1?.content ?? '' }} />
+                        </Box>
+                      </VStack>
+                  </Text>
+                </HStack>
+              )
+            }else if(module.alias == 'custom_html_2' && custom_html[0].custom_html_2?.status && custom_html[0].custom_html_2?.content){
+              return (
+                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+                  <Text width={'100%'} mt={2}>
+                      <VStack  mx={0} width={'100%'} space={3}>
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                          <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: custom_html[0].custom_html_2?.content ?? '' }} />
+                        </Box>
+                      </VStack>
+                  </Text>
+                </HStack>
+              )
+            }else if(module.alias == 'custom_html_3' && custom_html[0].custom_html_3?.status == 1 && custom_html[0].custom_html_3?.content){
+              return (
+                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+                  <Text width={'100%'} mt={2}>
+                      <VStack mx={0} width={'100%'} space={3}>
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                          <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html:custom_html[0].custom_html_3?.content ?? '' }} />
+                        </Box>
+                      </VStack>
+                  </Text>
+                </HStack>
+              )
             }
 
           }) // end loop dashboard_modules
 
          }
+
+          <HStack w={'100%'} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+            {custom_html.map((customHtmlItem, index) => (
+              <VStack key={index} mx={0} width={'100%'} space={3}>
+                {Object.entries(customHtmlItem).map(([key, value], k) => (
+                  value.status === 1 && (
+                    <Box key={k} w={'100%'} bg="primary.box" rounded="10px" p="3">
+                      <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: value.content }} />
+                    </Box>
+                  )
+                ))}
+              </VStack>
+            ))}
+          </HStack>
 
              
 

@@ -116,7 +116,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
   return (
     <>
       <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
-        <Text fontSize="2xl">{modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
+        <Text fontSize="2xl">{event?.labels?.GENERAL_NETWORK_INTEREST_MATCHED_ATTENDEES ?? modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
         <View flexDirection={'row'} alignItems={'center'} w={['100%', '60%']} justifyContent={'space-between'}
         style={{ gap:8 }}
         >
@@ -223,7 +223,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
       {showAttendees ? (
         <Container pt="2" maxW="100%" w="100%" >
          <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
-        <Text fontSize="2xl">{modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
+        <Text fontSize="2xl">{event?.labels?.GENERAL_NETWORK_INTEREST_MATCHED_ATTENDEES ?? modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
 
         </HStack>
           {searchingAttendees && <SectionLoading />}
