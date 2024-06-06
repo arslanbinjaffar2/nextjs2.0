@@ -49,7 +49,7 @@ const Detail = ({ speaker }: Props) => {
 
     const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
 
-    const { FetchPrograms, programs, page, id, query } = UseProgramService();
+    const { FetchPrograms, programs, page, id, query,total_pages } = UseProgramService();
 
     const { FetchDocuments } = UseDocumentService();
 
@@ -139,7 +139,9 @@ const Detail = ({ speaker }: Props) => {
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
-                FetchPrograms({ query: '', page: page + 1, screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
+                if(page < total_pages && total_pages>1){
+                    FetchPrograms({ query: '', page: page + 1, screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
+                }
             } else if (tab === "groups") {
                 FetchGroups({ query: '', group_id: 0, page: page + 1, attendee_id: Number(_id), program_id: 0 });
             }
@@ -300,6 +302,9 @@ const Detail = ({ speaker }: Props) => {
                             <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
                         </>
                     )}
+                    <Box display={['','none']} w={'100%'}>
+                    {((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website) || (detail?.setting?.contact_vcf && detail?.setting?.contact_vcf)) ? <ContactInfo detail={detail} /> : null}
+                    </Box>
                 </>
             )}
         </>
