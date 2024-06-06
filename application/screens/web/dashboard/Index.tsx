@@ -39,6 +39,7 @@ import { Module } from 'application/models/Module';
 import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
 import { CustomHtml } from 'application/models/CustomHtml'
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type indexProps = {
   navigation: unknown
@@ -84,7 +85,7 @@ const Index = ({ navigation }: indexProps) => {
   return (
     <>
       {(in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
-        <WebLoading />
+        <SectionLoading />
       ) : (
         <>
          

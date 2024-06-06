@@ -13,6 +13,7 @@ import { Pressable } from 'react-native';
 import Icocross from 'application/assets/icons/Icocross';
 import ButtonElement from 'application/components/atoms/ButtonElement';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = () => {
 const [tab, setTab] = React.useState('all');
@@ -127,7 +128,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
         )}
       </HStack>
       {loadCount < 2 && in_array('my-meeting-requests',processing) ? (
-        <WebLoading />
+        <SectionLoading />
       ):(
         <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
         {filteredRequests.length === 0 && <Text textAlign="center" fontSize="lg" fontWeight={500} p="5">{event?.labels?.GENERAL_NO_RECORD}</Text>}

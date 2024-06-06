@@ -15,6 +15,7 @@ import { Banner } from 'application/models/Banner'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import ButtonElement from 'application/components/atoms/ButtonElement'
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = () => {
 
@@ -80,7 +81,7 @@ const Index = () => {
         <>
             {
                 loading ? (
-                    <WebLoading />
+                    <SectionLoading />
                 ):(
                     <>
                     <NextBreadcrumbs module={module} />

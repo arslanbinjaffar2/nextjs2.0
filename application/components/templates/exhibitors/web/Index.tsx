@@ -17,6 +17,7 @@ import { useSearchParams, usePathname } from 'next/navigation'
 import { useRouter } from 'solito/router'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = React.memo(() => {
 
@@ -108,7 +109,7 @@ const Index = React.memo(() => {
                     </HStack>
                     )}
                     {loading ? (  
-                        <WebLoading />
+                        <SectionLoading />
                     ) : ( 
                     <> 
                     {(tab === 'name' || tab === 'category-exhibitors') && <>

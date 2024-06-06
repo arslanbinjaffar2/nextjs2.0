@@ -10,6 +10,7 @@ import { Linking } from 'react-native';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const index = () => {
 
@@ -27,7 +28,7 @@ const index = () => {
     <>
       {
         loading ? (
-            <WebLoading />
+            <SectionLoading />
         ):(
           <>
           <NextBreadcrumbs module={module} />

@@ -10,6 +10,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useRouter } from 'solito/router';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import IcoSort from 'application/assets/icons/small/IcoSort';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 const Index = () => {
   const { loading } = UseLoadingService();
   const { push, back } = useRouter()
@@ -91,7 +92,7 @@ const Index = () => {
     <>
       {
         loading ? (
-          <WebLoading />
+          <SectionLoading />
         ) : (
           <>
             <NextBreadcrumbs module={module} />

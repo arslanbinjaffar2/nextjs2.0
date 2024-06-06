@@ -8,6 +8,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import { Keyword } from 'application/models/networkInterest/NetworkInterest';
 import in_array from "in_array";
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 const Index = () => {
@@ -26,7 +27,7 @@ const Index = () => {
 
   return (
     <>
-        {in_array('keywords', processing) && <WebLoading />}
+        {in_array('keywords', processing) && <SectionLoading />}
         {((!in_array('keywords', processing))  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
         {((!in_array('keywords', processing))  && keywords.length > 0 ) && <ManageKeywords keywords={keywords} SaveMykerwords={SaveMykeywords} UpdatingMyKeywords={UpdatingMyKeywords} />}
     </>

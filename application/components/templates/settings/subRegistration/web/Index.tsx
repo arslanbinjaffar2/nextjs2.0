@@ -27,6 +27,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
 import { getColorScheme } from 'application/styles/colors';
 import SwipeBtn from 'application/components/atoms/swipeBtn';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 type ScreenParams = { id: string }
@@ -64,7 +65,7 @@ const Detail = () => {
     <>
 
       {(firstLoad || loading || mySubReg == null) ? (
-        <WebLoading />
+        <SectionLoading />
       ) : (
         <>
           <NextBreadcrumbs module={programModule} title={setting_modules?.find((module: { alias: string; }) => (module.alias == 'subregistration'))?.name ?? 'Subregistration'} />

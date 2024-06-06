@@ -28,6 +28,7 @@ import { error } from 'application/store/slices/Auth.Slice';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { func } from 'application/styles';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 type ScreenParams = { id: string }
@@ -273,7 +274,7 @@ const Detail = () => {
   return (
     <>
       {loading ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
             <Container ref={refElement} mb="3" maxW="100%" w="100%">
             

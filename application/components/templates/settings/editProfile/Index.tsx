@@ -58,6 +58,7 @@ import {
     EditorProvider,
     Toolbar
 } from 'react-simple-wysiwyg';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 
@@ -77,7 +78,7 @@ const index = () => {
     return (
         <>
             {loading ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
                 <>
                     <EditProfileFrom
@@ -366,7 +367,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
  
 
     if (Object.keys(attendeeData).length === 0) {
-        return <WebLoading />;
+        return <SectionLoading />;
     }
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">

@@ -21,6 +21,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 type ScreenParams = { id: string }
@@ -66,7 +67,7 @@ const Detail = () => {
   return (
     <>
       {loading ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
             <Container mb="3" maxW="100%" w="100%">
               <NextBreadcrumbs module={module} title={myPollResultDetail?.program?.info?.topic}/>
