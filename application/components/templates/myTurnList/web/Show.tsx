@@ -22,17 +22,10 @@ const ShowTurnList = () => {
     const { modules, event } = UseEventService();
     const { processing, loading } = UseLoadingService();
     const [socketUpdate, setSocketUpdate] = React.useState(false);
-    console.log(socketUpdate, 'socketUpdate');
 
-    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser } = useRequestToSpeakService();
+    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser, currentUserStatus } = useRequestToSpeakService();
     const [_programId] = useParam('id');
-
-    const checkActiveUserAlreadyRequested = () => {
-        if (currentUser && currentUser.id) {
-            const isRequested = attendeesToCome.find((item: any) => item.attendee.id === currentUser.id)?.status;
-            return isRequested;
-        }
-    }
+    console.log(currentUserStatus, 'currentUser')
 
     const { socket } = UseSocketService();
 
@@ -45,9 +38,17 @@ const ShowTurnList = () => {
     React.useEffect(() => {
         if (socket !== null) {
             socket?.on(`event-buizz:web_app_attendee_to_come_speaker_list_${event.id}_${_programId}`, function (data: any): any {
-                console.log(data, 'web_app_attendee_to_come_speaker_list_');
+                // console.log(data, 'web_app_attendee_to_come_speaker_list_');
                 let action = data?.soket_current_action;
-                if (action === 'accepted' || action === 'pending' || action === 'none') {
+                if (action === 'accepted' || action === 'pending') {
+                    setSocketUpdate(prevState => !prevState);
+                }
+            });
+            socket?.on(`event-buizz:web_app_in_speach_speaker_list_${event.id}_${_programId}`, function (data: any): any {
+                // console.log(data, 'web_app_in_speach_speaker_list_');
+                let isStop = data?.is_stop;
+                let makeLive = data?.make_live;
+                if (isStop || makeLive) {
                     setSocketUpdate(prevState => !prevState);
                 }
             });
@@ -55,6 +56,7 @@ const ShowTurnList = () => {
         return () => {
             if (socket !== null) {
                 socket?.off(`event-buizz:web_app_attendee_to_come_speaker_list_${event.id}_${_programId}`);
+                socket?.off(`event-buizz:web_app_in_speach_speaker_list_${event.id}_${_programId}`);
             }
         }
     }, [socket]);
@@ -76,7 +78,7 @@ const ShowTurnList = () => {
                             <ActiveAttendee
                                 activeAttendee={currentUser}
                                 program_id={Number(_programId)}
-                                requestStatus={checkActiveUserAlreadyRequested()}
+                                currentUserStatus={currentUserStatus}
                                 alreadyInSpeech={alreadyInSpeech}
                             />}
 
@@ -84,13 +86,15 @@ const ShowTurnList = () => {
                             <Text fontSize="md">Total Speakers: {attendeesToCome?.length ?? 0}</Text>
                         </HStack>
                         <View bg={'primary.box'} rounded={'10px'} width={'100%'}>
-                            {attendeesToCome?.length > 0 &&
+                            {attendeesToCome?.length > 0 ?
                                 attendeesToCome.map((item: any, key: number) => (
                                     <Box w="100%" borderBottomWidth={attendeesToCome?.length - 1 == key ? 0 : 1} borderColor="primary.bordercolor" py="3">
                                         <AttendeeList attendee={item.attendee} border={attendeesToCome.length > 0 && attendeesToCome[attendeesToCome.length - 1]?.id !== item?.attendee?.id ? 1 : 0} />
                                     </Box>
                                 ))
-                            }
+                                : <Box p={3} bg="primary.box" rounded="lg" w="100%">
+                                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                </Box>}
                         </View>
                     </Container>
                 </>

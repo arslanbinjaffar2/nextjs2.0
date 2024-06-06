@@ -9,18 +9,20 @@ import useRequestToSpeakService from 'application/store/services/useRequestToSpe
 interface ActiveAttendeeProps {
     activeAttendee: Attendee
     program_id: number
-    requestStatus: string
+    currentUserStatus: any
     alreadyInSpeech: boolean
 }
 
-const ActiveAttendee = ({ activeAttendee, program_id, requestStatus, alreadyInSpeech }: ActiveAttendeeProps) => {
+const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, alreadyInSpeech }: ActiveAttendeeProps) => {
     const { _env } = UseEnvService()
-    const [sendRequest, setSendRequest] = useState(requestStatus === 'accepted')
+    const [sendRequest, setSendRequest] = useState(currentUserStatus.status === 'pending')
+    console.log(currentUserStatus, 'currentUserStatus')
     if (!activeAttendee) return null;
 
     const { image, first_name, last_name = {} } = activeAttendee;
 
     const { field_settings, settings, RequestToSpeech } = useRequestToSpeakService();
+    console.log(settings, 'settings')
 
     const { response } = UseAuthService()
 
@@ -81,20 +83,20 @@ const ActiveAttendee = ({ activeAttendee, program_id, requestStatus, alreadyInSp
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>
-                        {!alreadyInSpeech && (
+                        {!alreadyInSpeech && currentUserStatus.status !== 'accepted' && (
                             <>
                                 <Pressable
                                     mr={'4'}
                                     onPress={() => {
                                         setSendRequest(!sendRequest)
-                                        RequestToSpeech({ agenda_id: program_id, action: requestStatus === 'accepted' ? 'cancel' : 'request' })
+                                        RequestToSpeech({ agenda_id: program_id, action: currentUserStatus.status === 'pending' ? 'cancel' : 'request' })
                                     }}
 
                                 >
                                     {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
-                                        : <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
+                                        : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
                                             <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>Cancel request</Text>
-                                        </Box>
+                                        </Box> : null
                                     }
                                 </Pressable>
                             </>
