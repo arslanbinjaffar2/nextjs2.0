@@ -95,6 +95,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 				type:'reservation',
 				title:labels?.RESERVATION_EMAIL_SENT_TITLE,
 				text: labels?.RESERVATION_EMAIL_SENT_MSG,
+				btnLeftText:labels?.GENERAL_OK,
 			  }
 			})
 		  }
