@@ -77,8 +77,9 @@ const SocketHandler = () => {
           AddNotification({
               notification:{
                 type:'score',
-                title:'Alert',
+                title:event?.labels?.NATIVE_APP_ALERT,
                 text:data,
+                btnLeftText:event?.labels?.GENERAL_OK,
               }
           })
       });
@@ -89,6 +90,8 @@ const SocketHandler = () => {
               notification:{
                 type:'alert',
                 detail:data.description,
+                btnLeftText:event?.labels?.GENERAL_OK,
+                btnRightText:event?.labels?.GENERAL_DETAIL,
                 ...data,
               }
           })
@@ -104,7 +107,8 @@ const SocketHandler = () => {
               type:'qa_answer',
               title: event?.labels?.GENERAL_CHAT_NEW_MESSAGE_FROM,
               text: description,
-              btnText: event?.labels?.GENERAL_MESSAGE_DETAIL,
+              btnLeftText:event?.labels?.GENERAL_OK,
+              btnRightText:event?.labels?.GENERAL_MESSAGE_DETAIL,
               data: data
             }
           })

@@ -137,7 +137,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
               </HStack>
             </Pressable>
           )}
-          <Pressable
+          {/* <Pressable
             w="100%"
             px="4"
             py="2"
@@ -157,7 +157,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
               </Center>
               <Text fontSize={'lg'} color="primary.text">Logout</Text>
             </HStack>
-          </Pressable>
+          </Pressable> */}
         </VStack>
     </ScrollView>
     </Center>
