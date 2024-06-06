@@ -30,8 +30,7 @@ const Header = ({ width }: any) => {
             <VStack pb="0" space={0} w="100%">
               <Heading textTransform={'uppercase'} fontWeight={500} isTruncated fontSize="3xl">{event.name}</Heading>
               <Heading textTransform={'uppercase'} fontWeight={500} isTruncated pb="1" fontSize="xl">{event?.calendar_date}</Heading>
-              <Heading textTransform={'uppercase'} fontWeight={500} isTruncated pb="1" fontSize="xl">{event.detail?.location_name}</Heading>
-              <Heading fontWeight={600} isTruncated fontSize="lg">{event.detail?.location_address}</Heading>
+              <Heading textTransform={'uppercase'} fontWeight={600} isTruncated pb="1" fontSize="lg">{event.detail?.location_name} {" "} {event.detail?.location_address}</Heading>
             </VStack>
           </Center>
           <Spacer />
