@@ -125,7 +125,7 @@ const LeftBar = () => {
               </Avatar>
               {width > 1200 && <VStack w={'calc(100% - 100px)'} pl="3" space="0">
                 <Text  color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"} fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
-                <Text color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"}  p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
+                <Text color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"}  p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.title} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
               </VStack>}
             <Pressable
             w="100%"
