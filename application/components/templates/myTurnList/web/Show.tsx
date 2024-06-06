@@ -19,8 +19,10 @@ type ScreenParams = { id: string, currentIndex: string }
 const { useParam } = createParam<ScreenParams>()
 
 const ShowTurnList = () => {
-    const { modules } = UseEventService();
+    const { modules, event } = UseEventService();
     const { processing, loading } = UseLoadingService();
+    const [socketUpdate, setSocketUpdate] = React.useState(false);
+    console.log(socketUpdate, 'socketUpdate');
 
     const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser } = useRequestToSpeakService();
     const [_programId] = useParam('id');
@@ -38,17 +40,21 @@ const ShowTurnList = () => {
 
     React.useEffect(() => {
         FetchProgramTurnList({ program_id: Number(_programId) })
-    }, []);
+    }, [socketUpdate]);
 
     React.useEffect(() => {
         if (socket !== null) {
-            socket?.on(`event-buizz:qa_admin_block_listing`, function (data: any): any {
-
+            socket?.on(`event-buizz:web_app_attendee_to_come_speaker_list_${event.id}_${_programId}`, function (data: any): any {
+                console.log(data, 'web_app_attendee_to_come_speaker_list_');
+                let action = data?.soket_current_action;
+                if (action === 'accepted' || action === 'pending' || action === 'none') {
+                    setSocketUpdate(prevState => !prevState);
+                }
             });
         }
         return () => {
             if (socket !== null) {
-                socket?.off(`event-buizz:qa_admin_block_listing`);
+                socket?.off(`event-buizz:web_app_attendee_to_come_speaker_list_${event.id}_${_programId}`);
             }
         }
     }, [socket]);

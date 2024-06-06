@@ -19,8 +19,6 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
   const { push } = useRouter()
 
   const { field_settings, settings } = useRequestToSpeakService();
-  console.log(field_settings, 'field_settings')
-
   const { response } = UseAuthService()
 
   const loggedInUser = attendee?.id === response.data?.user?.id;
