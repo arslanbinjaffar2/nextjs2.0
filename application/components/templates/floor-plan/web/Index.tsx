@@ -7,6 +7,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import { FloorPlan,FloorPlanCategory } from 'application/models/floorPlans/FloorPlans';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 import { useRouter } from 'solito/router';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import IcoSort from 'application/assets/icons/small/IcoSort';
@@ -92,7 +93,7 @@ const Index = () => {
     <>
       {
         loading ? (
-          <WebLoading />
+           <SectionLoading />
         ) : (
           <>
             <NextBreadcrumbs module={module} />
