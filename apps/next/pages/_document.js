@@ -159,6 +159,9 @@ export const style = `
 body {
   display: flex;
 }
+#shareAccountDropDown{
+  z-index: 99 !important;
+}
 #break_Word{
   
 }
