@@ -9,10 +9,24 @@ import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from 'solito/src/router/use-router'
 import { UseEventService } from 'application/store/services'
+import { createParam } from 'solito';
 
+type ScreenParams = { id: string, cms: string | undefined }
+
+const { useParam } = createParam<ScreenParams>();
 const Index = () => {
   const {push}=useRouter()
-  const {event}= UseEventService()
+     const [id] = useParam('id');
+  const {event,updateEventDetail,event_detail}= UseEventService()
+  React.useEffect(() => {
+        if (id) {
+            updateEventDetail({ id: Number(id) });
+        }
+      
+    }, [id]);
+    React.useEffect(() => {
+        console.log(updateEventDetail, 'home_events');
+    }, [updateEventDetail]);
   return (
     <VStack width={'100%'}>
       <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 

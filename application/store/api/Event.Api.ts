@@ -5,6 +5,7 @@ import makeApi from "application/utils/ConfigureAxios";
 import { HttpResponse } from 'application/models/GeneralResponse';
 
 const EventBaseUrl = `/event`
+const baseUrl = `/event`
 
 export const getEventApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).get(`${EventBaseUrl}/${payload}`);
@@ -20,4 +21,10 @@ export const getModulesApi = (state: any): Promise<HttpResponse> => {
 
 export const getSettingModulesApi = (state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).get(`${EventBaseUrl}/${state?.event?.event.url}/event/app-settings-modules`);
+}
+export const fetchEventApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/fetch-events/listing`, payload);
+}
+export const getHomeEventDetailApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/fetch-events/detail/${payload.id}`, payload);
 }

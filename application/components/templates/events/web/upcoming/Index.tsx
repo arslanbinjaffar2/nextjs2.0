@@ -2,8 +2,22 @@ import { Box, CheckIcon, Container, HStack, Input, Select, Text, View, VStack } 
 import React from 'react'
 import Search from 'application/components/atoms/programs/Search'
 import UpcomingEvent from 'application/components/atoms/events/UpcomingEvent/UpcomingEvent'
+import { UseEventService } from 'application/store/services'
+import UseEnvService from 'application/store/services/UseEnvService'
+import { useRouter } from 'solito/router'
 
 const Index = () => {
+     const {push}=useRouter()
+    const { modules, event, FetchEvents, upcoming_events } = UseEventService();
+    const { _env } = UseEnvService()
+    React.useEffect(() => {
+        FetchEvents({ query: '', screen: 'upcomingEvents' });
+    }, []);
+
+    React.useEffect(() => {
+        console.log(upcoming_events, 'home_events');
+    }, [upcoming_events]);
+    console.log(upcoming_events,'kkkk');
   return (
     <VStack width={'100%'}>
     <Text fontSize={'2xl'} fontWeight={'medium'}>UPCOMING EVENTS</Text>
@@ -28,10 +42,10 @@ const Index = () => {
      </HStack>
      
     <View width={'100%'} bg={'primary.box'} rounded={'lg'} pt={'5'} pb={'14px'} >
-      {new Array(5).fill('').map((i,key,arr)=>{
+      {upcoming_events.length>0 && upcoming_events.map((upcoming_event,key,arr)=>{
         return(
           <Box borderBottomWidth={arr.length-1 === key ? 0 : 1} key={key} >
-          <UpcomingEvent/>
+          <UpcomingEvent {...upcoming_event}/>
           </Box>
         )
       })}

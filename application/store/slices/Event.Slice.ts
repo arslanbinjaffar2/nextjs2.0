@@ -4,6 +4,7 @@ import { Event } from 'application/models/Event'
 
 import { Module, SettingModule } from 'application/models/Module'
 import { CustomHtml } from 'application/models/CustomHtml'
+import { HomeMyEvent, UpcomingEvent } from 'application/models/FetchEvent'
 
 import type { RootState } from 'application/store/Index'
 
@@ -14,13 +15,21 @@ export interface EventState {
     modules: Array<Module>
     custom_html: Array<CustomHtml>
     setting_modules: SettingModule[]
+    screen: string,
+    home_events: HomeMyEvent[],
+    upcoming_events: UpcomingEvent[],
+    event_detail: HomeMyEvent | null,
 }
 
 const initialState: EventState = {
     event: {},
     modules: [],
     custom_html: [],
-    setting_modules: []
+    setting_modules: [],
+    screen: 'homeMyevents',
+    home_events:[],
+    upcoming_events:[],
+    event_detail: null,
 }
 
 // Slice
@@ -49,6 +58,16 @@ export const EventSlice = createSlice({
         customHtml(state, action: PayloadAction<Array<CustomHtml>>) {
             state.custom_html = action.payload
         },
+        FetchEvents(state, action: PayloadAction<{query: string, screen: string }>){
+            state.screen = action.payload.screen;
+        },
+        UpdateEvents(state, action: PayloadAction<HomeMyEvent[]>) {
+            state.home_events = action.payload;
+        },
+        UpdateUpcomingEvents(state, action: PayloadAction<UpcomingEvent[]>) {
+            state.upcoming_events = action.payload;
+        },
+        updateEventDetail(state, action: PayloadAction<{ id: number }>) { },
     },
 })
 
@@ -62,6 +81,10 @@ export const EventActions = {
     loadSettingsModules: EventSlice.actions.loadSettingsModules,
     updateSettingsModules: EventSlice.actions.updateSettingsModules,
     customHtml: EventSlice.actions.customHtml,
+    FetchEvents: EventSlice.actions.FetchEvents,
+    UpdateEvents: EventSlice.actions.UpdateEvents,
+    UpdateUpcomingEvents: EventSlice.actions.UpdateUpcomingEvents,
+    updateEventDetail: EventSlice.actions.updateEventDetail,
 }
 
 // Selectors
@@ -71,6 +94,9 @@ export const Modules = (state: RootState) => state.event.modules
 export const CustomHtmls = (state: RootState) => state.event.custom_html
 
 export const SettingModules = (state: RootState) => state.event.setting_modules
+export const SelectHomeEvents = (state: RootState) => state.event.home_events
+export const SelectUpcomingEvents = (state: RootState) => state.event.upcoming_events
+export const SelectHomeEventDetail = (state: RootState) => state.event.event_detail
 
 // Reducer
 export default EventSlice.reducer
