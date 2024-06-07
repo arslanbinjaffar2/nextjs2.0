@@ -5,13 +5,30 @@ import Master from 'application/screens/web/layouts/Master';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import Feather from '@expo/vector-icons/Feather';
-import { UseEventService } from 'application/store/services'
+import { UseEventService } from 'application/store/services';
+import { createParam } from 'solito';
+import UseChatService from 'application/store/services/UseChatService';
+import { ChatMessage, ParticipantInfo } from 'application/models/exhibitor/Chat';
+import UseAuthService from 'application/store/services/UseAuthService';
+
+type ScreenParams = { id: string }
+const { useParam } = createParam<ScreenParams>()
 
 type indexProps = {
   navigation: unknown
 }
 const Detail = ({ navigation }: indexProps) => {
-  const {event} = UseEventService()
+  const {event} = UseEventService();
+  const [_id] = useParam('id');
+  const {chat, FetchChat} = UseChatService();
+
+  const {response} = UseAuthService();
+  const [loggedInUserId] = React.useState(response?.data?.user?.id);
+
+  React.useEffect(() => {
+    FetchChat({ thread_id: Number(_id) });
+  }, []);
+
   return (
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
@@ -20,7 +37,9 @@ const Detail = ({ navigation }: indexProps) => {
             <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
           </HStack>
           <Spacer />
-          <Text isTruncated pr="6" fontSize="lg">Janet Fowler</Text>
+          <Text isTruncated pr="6" fontSize="lg">{chat?.participants_info?.map((participant:ParticipantInfo) => (
+                        <>{participant?.full_name}</>
+                      ))}</Text>
           <Spacer />
           <Avatar
             source={{
@@ -33,6 +52,42 @@ const Detail = ({ navigation }: indexProps) => {
         </HStack>
         <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
           <ScrollView w="100%" minH="450px" py="4" px="3">
+            {chat?.messages?.map((message:ChatMessage) => (
+              <> 
+              {message?.sender_id === loggedInUserId ? (
+                <HStack direction="row-reverse" mb="3" space="0" alignItems="flex-end">
+                  <Avatar
+                    source={{
+                      uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
+                    }}
+                  >
+                    SS
+                    <Avatar.Badge borderWidth="1" bg="green.500" />
+                  </Avatar>
+                  <VStack mr="3" maxW="320" px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="#3F89D0" space="1">
+                    <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
+                    <Text opacity="0.8" textAlign="right" fontSize="md">{message?.sent_date}</Text>
+                  </VStack>
+                </HStack> 
+              ):(
+                <HStack mb="3" space="0" alignItems="flex-end">
+                  <Avatar
+                    source={{
+                      uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
+                    }}
+                  >
+                    SS
+                    <Avatar.Badge borderWidth="1" bg="green.500" />
+                  </Avatar>
+                  <VStack ml="3" maxW="320" px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
+                    <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
+                    <Text opacity="0.8" fontSize="md">{message?.sent_date}</Text>
+                  </VStack>
+                </HStack>
+              )}
+              </>
+            ))}
+{/* 
             <HStack mb="3" space="0" alignItems="flex-end">
               <Avatar
                 source={{
@@ -47,6 +102,7 @@ const Detail = ({ navigation }: indexProps) => {
                 <Text opacity="0.8" fontSize="md">17:45</Text>
               </VStack>
             </HStack>
+            
             <HStack direction="row-reverse" mb="3" space="0" alignItems="flex-end">
               <Avatar
                 source={{
@@ -60,7 +116,8 @@ const Detail = ({ navigation }: indexProps) => {
                 <Text lineHeight="sm" pr="3" fontSize="lg">Nothing planned, and you?</Text>
                 <Text opacity="0.8" textAlign="right" fontSize="md">17:45</Text>
               </VStack>
-            </HStack>
+            </HStack> */}
+
           </ScrollView>
           <Center w="100%" maxW="100%">
             <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
