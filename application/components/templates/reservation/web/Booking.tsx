@@ -45,7 +45,7 @@ const PressableElement = ({slot,onPress}: any) => {
  const [hover, sethover] = React.useState(false)
 	return (
 		<Button onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} w={'100%'} size={'sm'} bg={'transparent'} mb={2} rounded={8} px={2} py={2} 
-		borderWidth={1} borderColor={'primary.box'} 
+		borderWidth={1} borderColor={'primary.darkbox'} 
 		
 						onPress={onPress}
 					>
@@ -125,6 +125,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						type:'reservation',
 						title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
 						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}`,
+						btnLeftText:labels?.GENERAL_OK,
 					}});
 				}
 			} catch (error) {

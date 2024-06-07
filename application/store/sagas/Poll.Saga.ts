@@ -99,7 +99,9 @@ function* OnCheckVotingPermission({
                 url:`/polls/detail/${payload?.data?.agenda_id}`,
                 agenda_id:payload?.data?.agenda_id,
                 date:moment().format('L'),
-                time:moment().format('HH:mm')
+                time:moment().format('HH:mm'),
+                btnLeftText:state?.event?.event?.labels?.GENERAL_OK,
+                btnRightText:state?.event?.event?.labels?.GENERAL_DETAIL,
             }
         }))
     }

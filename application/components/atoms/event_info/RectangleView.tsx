@@ -42,15 +42,15 @@ const RectangleView = (info: Info) => {
                     (() => {
                         if (info.type === 'folder') {
                             return (
-                                <IcoFolder  color="#E3E3E3"/>
+                                <IcoFolder color={undefined}  />
                             )
                         } else if (info.type === 'page') {
                             return (
-                                <IcoFileText  color="#E3E3E3" />
+                                <IcoFileText color={undefined}  />
                             )
                         } else if (info.type === 'link') {
                             return (
-                                <IcoLink color="#E3E3E3" />
+                                <IcoLink color={undefined}  />
                             )
                         }
                     })()

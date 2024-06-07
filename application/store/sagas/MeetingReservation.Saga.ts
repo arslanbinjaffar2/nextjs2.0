@@ -55,6 +55,7 @@ function* OnAcceptMeetingRequest({
             type:'reservation',
             title:state?.event?.event?.labels?.RESERVATION_ACCEPT_MEETING_SUCCESS_TITLE,
             text:state?.event?.event?.labels?.RESERVATION_ACCEPT_MEETING_SUCCESS_MSG,
+            btnLeftText:state?.event?.event?.labels?.GENERAL_OK,
           }
     }))
     yield put(LoadingActions.removeProcess({ process: `accept-meeting-request-${payload.meeting_request_id}` }))
@@ -74,6 +75,7 @@ function* OnRejectMeetingRequest({
         type:'reservation',
         title:state?.event?.event?.labels?.RESERVATION_REJECT_MEETING_SUCCESS_TITLE,
         text:state?.event?.event?.labels?.RESERVATION_REJECT_MEETING_SUCCESS_MSG,
+        btnLeftText:state?.event?.event?.labels?.GENERAL_OK,
       }
 }))
     yield put(LoadingActions.removeProcess({ process: `reject-meeting-request-${payload.meeting_request_id}` }))
@@ -93,6 +95,7 @@ function* OnCancelMeetingRequest({
         type:'reservation',
         title:state?.event?.event?.labels?.RESERVATION_CANCEL_MEETING_SUCCESS_TITLE,
         text:state?.event?.event?.labels?.RESERVATION_CANCEL_MEETING_SUCCESS_MSG,
+        btnLeftText:state?.event?.event?.labels?.GENERAL_OK,
       }
     })
 )
@@ -112,6 +115,7 @@ function* OnSendReminder({
         type:'reservation',
         title:state?.event?.event?.labels?.RESERVATION_EMAIL_SENT_TITLE,
         text:state?.event?.event?.labels?.RESERVATION_EMAIL_SENT_MSG,
+        btnLeftText:state?.event?.event?.labels?.GENERAL_OK,
       }
     }))
     yield put(LoadingActions.removeProcess({ process: `send-reminder-${payload.meeting_request_id}` }))
