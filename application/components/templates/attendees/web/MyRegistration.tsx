@@ -9,7 +9,7 @@ const MyRegistrationDetail = () => {
     const { FetchMyRegistration, registration } = UseAttendeeService();
     React.useEffect(() => {
         FetchMyRegistration();
-    }, [registration]);
+    }, []);
 
     return (
         <>
