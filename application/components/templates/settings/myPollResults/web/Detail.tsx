@@ -20,6 +20,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 type ScreenParams = { id: string }
@@ -62,7 +63,7 @@ const Detail = () => {
   return (
     <>
       {loading ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
             <Container mb="3" maxW="100%" w="100%">
               <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">

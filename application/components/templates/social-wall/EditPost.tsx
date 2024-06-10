@@ -19,6 +19,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 type ScreenParams = { id: string }
 import in_array from "in_array";
 import { set } from 'lodash';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const { useParam } = createParam<ScreenParams>()
 
@@ -316,10 +317,10 @@ const EditPost = () => {
             </HStack>
         </Box>
             {(in_array(`social_wall_fetching_post_detail${id}`, processing)) && (
-                 <WebLoading />
+                 <SectionLoading />
             )}
             {(in_array(`social_wall_update_post`, processing)) && (
-                 <WebLoading />
+                 <SectionLoading />
             )}
         
         </>

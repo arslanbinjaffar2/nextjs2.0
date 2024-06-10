@@ -181,7 +181,7 @@ const Index = () => {
     <>
     {
         in_array('qa-listing', processing) ? (
-            <WebLoading />
+            <SectionLoading />
         ):(
           <>
             <NextBreadcrumbs module={module} />

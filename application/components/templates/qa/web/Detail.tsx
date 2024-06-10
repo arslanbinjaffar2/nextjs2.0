@@ -40,6 +40,7 @@ import {
 } from 'react-simple-wysiwyg';
 import { getColorScheme } from 'application/styles/colors';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type ScreenParams = { id: string }
 
@@ -216,7 +217,7 @@ const Detail = () => {
     <>
     {
         in_array('qa-detail', processing) ? (
-            <WebLoading />
+            <SectionLoading />
         ):(
             <>
              <NextBreadcrumbs module={module} title={qaDetials?.program_detail?.info?.topic}/>
@@ -362,7 +363,7 @@ const Detail = () => {
                         ))}
                     </HStack>
                     <Box mb="10" px="3" w="100%" position="relative">
-                        {loading && <WebLoading />}
+                        {loading && <SectionLoading />}
                         {!loading && <>
                             
                             <VStack w="100%" space="3">

@@ -18,6 +18,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 const Index = React.memo(() => {
 
     const { push, back } = useRouter()
@@ -116,7 +117,7 @@ const Index = React.memo(() => {
                     )}
 
                 {loading ? (
-                    <WebLoading />
+                    <SectionLoading />
                 ) : (
                     <>
                         {(tab === 'name' || tab === 'category-sponsor') && <>
