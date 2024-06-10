@@ -19,7 +19,7 @@ export type EventServiceOperators = {
     setting_modules: SettingModule[]
     home_events: HomeMyEvent[]
     upcoming_events: UpcomingEvent[]
-    event_detail: HomeMyEventDetail[]
+    event_detail: any,
     FetchEvent: (slug: string) => void
     FetchEventByCode: (code: string) => void
     loadModules: () => void

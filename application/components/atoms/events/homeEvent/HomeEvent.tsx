@@ -26,7 +26,7 @@ const HomeEvent = () => {
                 <View key={key} display={'flex'} flexDirection={['column', 'row']} alignItems={'flex-start'} width={'100%'} py={'14px'} px={'16px'}>
                     <Pressable 
                         onPress={() => {
-                            push(`/${event.url}/homeMyevents/detail/${home_event?.id}`);
+                            push(`/${event.url}/home_events/detail/${home_event?.id}`);
                         }} 
                     >
                         {console.log(home_event?.id,'sds')}
@@ -40,7 +40,7 @@ const HomeEvent = () => {
                     <View display={'flex'} flexDirection={'column'} ml={['', '14px']} mt={['14px', '']} w={'100%'}>
                         <Pressable
                             onPress={() => {
-                                push(`/${event.url}/homeMyevents/detail/${home_event?.id}`);
+                                push(`/${event.url}/home_events/detail/${home_event?.id}`);
                             }} 
                         >
                             <Text textDecorationLine={'underline'} fontSize={'md'}>{home_event?.name}</Text>

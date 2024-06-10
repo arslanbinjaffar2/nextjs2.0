@@ -23,10 +23,10 @@ const Index = () => {
             updateEventDetail({ id: Number(id) });
         }
       
-    }, [id]);
+    }, []);
     React.useEffect(() => {
-        console.log(updateEventDetail, 'home_events');
-    }, [updateEventDetail]);
+        console.log(event_detail, 'home_events');
+    }, [event_detail]);
   return (
     <VStack width={'100%'}>
       <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 

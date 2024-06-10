@@ -114,7 +114,7 @@ function* getHomeEventDetail({
     yield put(LoadingActions.addProcess({ process: 'homeevent-detail' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getHomeEventDetailApi, payload, state)
-    yield put(EventActions.updateEventDetail(response.data.data!))
+    yield put(EventActions.updateEventDetail(response.data.data))
     yield put(EventActions.update(response.data.data))
     yield put(LoadingActions.removeProcess({ process: 'event-detail' }))
     yield put(LoadingActions.set(false));

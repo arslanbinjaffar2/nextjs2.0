@@ -67,7 +67,10 @@ export const EventSlice = createSlice({
         UpdateUpcomingEvents(state, action: PayloadAction<UpcomingEvent[]>) {
             state.upcoming_events = action.payload;
         },
-        updateEventDetail(state, action: PayloadAction<{ id: number }>) { },
+        updateEventDetail(state, action: PayloadAction<{ id: number }>) {
+            state.event_detail = action.payload;
+            console.log(state.event_detail)
+         },
     },
 })
 
@@ -89,7 +92,6 @@ export const EventActions = {
 
 // Selectors
 export const SelectEvent = (state: RootState) => state.event.event
- console.log(SelectEvent)
 export const Modules = (state: RootState) => state.event.modules
 export const CustomHtmls = (state: RootState) => state.event.custom_html
 
