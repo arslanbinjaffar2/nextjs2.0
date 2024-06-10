@@ -4,7 +4,6 @@ import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { Text } from 'native-base';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
-import MyDocuments from 'application/components/templates/mydocuments/Index';
 
 type indexProps = {
     navigation: unknown
@@ -16,7 +15,7 @@ const Index = ({ navigation }: indexProps) => {
     return (
         <>
             <NextBreadcrumbs module={module} />
-            <MyDocuments />
+            <NoRecordFound mb="3" bg="primary.box"/>
         </>
     );
 };
