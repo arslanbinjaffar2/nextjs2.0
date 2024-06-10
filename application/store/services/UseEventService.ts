@@ -26,6 +26,7 @@ export type EventServiceOperators = {
     loadSettingsModules: () => void
     FetchEvents: (payload: {query: string, screen: string }) => void
     updateEventDetail: (payload: { id: number }) => void
+     fetchEventDetail: (payload: { id: number }) => void
 }
 
 /**
@@ -77,6 +78,12 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
           updateEventDetail: useCallback(
             (payload: { id: number }) => {
                 dispatch(EventActions.updateEventDetail(payload))
+            },
+            [dispatch],
+        ),
+        fetchEventDetail: useCallback(
+            (payload: { id: number }) => {
+                dispatch(EventActions.fetchEventDetail(payload))
             },
             [dispatch],
         ),

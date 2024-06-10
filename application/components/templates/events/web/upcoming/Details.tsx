@@ -9,31 +9,44 @@ import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from 'solito/src/router/use-router'
 import { UseEventService } from 'application/store/services'
-
+import UseEnvService from 'application/store/services/UseEnvService'
+import { Link } from 'solito/link'
+type ScreenParams = { id: string; cms: string | undefined };
+import { createParam } from 'solito';
+const { useParam } = createParam<ScreenParams>();
 const Index = () => {
-  const {push}=useRouter()
-  const {event}= UseEventService()
+    const {push}=useRouter()
+  const { event, updateEventDetail, event_detail } = UseEventService();
+  const { _env } = UseEnvService()
+    const [id] = useParam('id');
+
+React.useEffect(() => {
+    if (id && (!event_detail || event_detail.id !== Number(id))) {
+        updateEventDetail({ id: Number(id) })
+    }
+}, [id])
   return (
     <>
     <VStack width={'100%'}>
       <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 
       <Pressable alignItems={'center'} flexDirection={'row'}
              onPress={()=>{
-              push(`/${event.url}/homeMyevents`)
+              push(`/${event.url}/upcoming_events`)
           }} 
       >
         <Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="arrowleft" />
         <Text fontSize={'2xl'} fontWeight={'medium'}>BACK</Text>
         </Pressable>
       
-      <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} width={'calc(100% - 86px)'}>UPCOMING EVENTS DETAILS</Text>
+      <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} width={'calc(100% - 86px)'}>{event_detail?.name}</Text>
       </Box>
       <VStack mt={'4'}>
-      <Image source={{
-          uri: "https://wallpaperaccess.com/full/317501.jpg"
-        }} alt="Alternate Text" size="xl" width={'100%'} height={157} 
-        roundedTop={'md'}
-        />
+      {
+        event_detail?.app_icon ? (
+          <Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_icon}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} />
+            ):
+            <Image source={{ uri: "https://wallpaperaccess.com/full/317501.jpg" }} alt="Event Image" size="xl"size="xl" width={'100%'} height={157} rounded={'sm'} /> 
+        }
         <HStack  px={6} py={4} bg={'primary.box'} roundedBottom={'md'} flexDirection={'column'}>
           <VStack flexDirection={['column','row']} justifyContent={'space-between'} alignItems={'flex-start'} 
 
@@ -41,8 +54,7 @@ const Index = () => {
           >   
           <Box width={['100%','calc(100% - 222px)']}>
         <Text fontSize={'xl'} fontWeight={'medium'} >
-          Innovative solutions for a sustainable 
-        future conference</Text>
+          {event_detail?.name}</Text>
           </Box>
           <View flexDirection={'row'} alignItems={'center'} mt={'3'} width={['100%','']}>
         <Button 
@@ -80,16 +92,16 @@ const Index = () => {
           <HStack  space="3" alignItems="center" width={'100%'} flexDirection={'row'} pt={'6px'}>        
         <Box alignItems={'center'} flexDirection={'row'}>
         <Icocalendar width={16} height={18} />
-            <Text ml={'6px'} fontSize={'xs'}>05-07-2024 - 12-26-2024</Text>
+            <Text ml={'6px'} fontSize={'xs'}>{event_detail?.start_date} - {event_detail?.end_date}</Text>
         </Box>
         <Box alignItems={'center'} flexDirection={'row'}>
             <Text fontSize={'xs'}>Event ID:</Text>
-            <Text fontSize={'xs'}> 5123</Text>
+            <Text fontSize={'xs'}>{event_detail?.id}</Text>
         </Box>
         </HStack>
         <Box alignItems={'center'} flexDirection={'row'} pt={'6px'}>
         <Icopin width={16} height={18} />
-            <Text ml={'6px'} fontSize={'xs'}>1234 Innovation Parkway Quantum Valley, Technopolis State of Future Horizons.</Text>
+            <Text ml={'6px'} fontSize={'xs'}>{event_detail?.location}</Text>
         </Box>
         <Text pt={'4'} fontSize={'sm'}>
         The “Innovative Solutions for a Sustainable Future Conference” is a premier global event that brings together leaders, innovators, policymakers, and scholars from around the world to address the critical challenges and opportunities in achieving sustainable development. This three-day conference will serve as a dynamic platform for sharing cutting-edge research, pioneering technologies, and actionable strategies aimed at fostering a sustainable future for all.

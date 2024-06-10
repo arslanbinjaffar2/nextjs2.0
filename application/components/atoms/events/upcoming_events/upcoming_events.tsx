@@ -30,7 +30,7 @@ const UpcomingEventComponent = (props:UpcomingEvent) => {
     <View display={'flex'} flexDirection={'column'} ml={['','14px']} mt={['14px','']} w={'100%'}>
         <Pressable
             onPress={()=>{
-                push(`/${event.url}/upcomingEvents/detail/0`)
+                push(`/${event.url}/upcoming_events/detail/${props?.id}`)
             }} 
         >
         <Text textDecorationLine={'underline'} fontSize={'md'}>{props.name}</Text>

@@ -107,7 +107,7 @@ function* OnFetchEvent({
 function* getHomeEventDetail({
     payload,
 }: {
-    type: typeof EventActions.updateEventDetail
+    type: typeof EventActions.FetchEvent
     payload: { id: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
@@ -115,8 +115,6 @@ function* getHomeEventDetail({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getHomeEventDetailApi, payload, state)
     yield put(EventActions.updateEventDetail(response.data.data))
-    yield put(EventActions.update(response.data.data))
-    yield put(LoadingActions.removeProcess({ process: 'event-detail' }))
     yield put(LoadingActions.set(false));
 }
 // Watcher Saga
@@ -127,6 +125,7 @@ export function* EventWatcherSaga(): SagaIterator {
     yield takeEvery(EventActions.loadSettingsModules.type, OnGetSettingModules)
     yield takeEvery(EventActions.FetchEvents.type, OnFetchEvent)
     yield takeEvery(EventActions.updateEventDetail.type, getHomeEventDetail)
+    yield takeEvery(EventActions.fetchEventDetail.type, getHomeEventDetail)
 }
 
 export default EventWatcherSaga

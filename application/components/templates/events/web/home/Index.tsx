@@ -12,7 +12,7 @@ const Index = () => {
      <Text fontSize="2xl">{modules?.find((programTitle) => (programTitle.alias == 'homeMyevents'))?.name ?? ''}</Text>
      <HStack   alignItems="center"  justifyContent={'space-between'} mt={'4'} mb={'3'} space={'3'} flexDirection={['column','row']} width={'100%'}>
       <Box  flex={'1'} mb={['14px','']} width={['100%','auto']}>
-    <Select   bg={'primary.box'}  width={'100%'} maxWidth={'100%'}
+    {/* <Select   bg={'primary.box'}  width={'100%'} maxWidth={'100%'}
 			_selectedItem={{
 					bg: "teal.600",
 					endIcon: <CheckIcon size="5" />
@@ -25,7 +25,7 @@ const Index = () => {
           <Select.Item label="Cross Platform Development" value="cross" />
           <Select.Item label="UI Designing" value="ui" />
           <Select.Item label="Backend Development" value="backend" />
-        		</Select>
+        		</Select> */}
             </Box>
      <Search  tab='events' />
      </HStack>

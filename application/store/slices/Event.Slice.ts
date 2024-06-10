@@ -71,6 +71,10 @@ export const EventSlice = createSlice({
             state.event_detail = action.payload;
             console.log(state.event_detail)
          },
+         fetchEventDetail(state, action: PayloadAction<{ id: number }>) {
+            state.event_detail = action.payload;
+            console.log(state.event_detail)
+         },
     },
 })
 
@@ -88,6 +92,7 @@ export const EventActions = {
     UpdateEvents: EventSlice.actions.UpdateEvents,
     UpdateUpcomingEvents: EventSlice.actions.UpdateUpcomingEvents,
     updateEventDetail: EventSlice.actions.updateEventDetail,
+    fetchEventDetail: EventSlice.actions.fetchEventDetail,
 }
 
 // Selectors
