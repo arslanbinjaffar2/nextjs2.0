@@ -41,6 +41,9 @@ import Myexhibitors from 'application/screens/web/settings/myexhibitors/Index'
 import Mysponsors from 'application/screens/web/settings/mysponsers/Index'
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
 import { CustomHtml } from 'application/models/CustomHtml'
+import OurExhibitor from 'application/components/molecules/exhibitors/OurExhibitor';
+import OurSponsor from 'application/components/molecules/sponsors/OurSponsor';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type indexProps = {
   navigation: unknown
@@ -86,7 +89,7 @@ const Index = ({ navigation }: indexProps) => {
   return (
     <>
       {(in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
-        <WebLoading />
+        <SectionLoading />
       ) : (
         <>
          
@@ -273,6 +276,10 @@ const Index = ({ navigation }: indexProps) => {
         </>
 
       )}
+      <Box alignItems="center" mt={1} display={['','none']} width={'100%'} flexDirection={'column'}>
+            {event?.exhibitor_settings?.show_on_native_app_dashboard == 1 ? <OurExhibitor expand={true} />: null}
+            {event?.sponsor_settings?.show_on_native_app_dashboard == 1 ? <OurSponsor expand={true} />: null}
+          </Box>
     </>
   );
 

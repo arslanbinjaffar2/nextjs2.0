@@ -8,6 +8,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import { Keyword } from 'application/models/networkInterest/NetworkInterest';
 import { useFocusEffect } from '@react-navigation/native'
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
@@ -26,7 +27,7 @@ const Index = () => {
 
   return (
     <>
-        {loading && <WebLoading />}
+        {loading && <SectionLoading />}
         {(!loading  && keywords.length <=0 ) && <Text size={'xl'}>No keyword found</Text>} 
         {(!loading  && keywords.length > 0 ) && <ManageKeywords keywords={keywords} SaveMykerwords={SaveMykeywords} UpdatingMyKeywords={UpdatingMyKeywords} />}
     </>

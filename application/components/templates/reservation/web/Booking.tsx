@@ -126,6 +126,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						type:'reservation',
 						title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
 						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}`,
+						btnLeftText:labels?.GENERAL_OK,
 					}});
 				}
 			} catch (error) {

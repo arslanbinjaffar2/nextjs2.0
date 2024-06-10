@@ -244,7 +244,7 @@ const Index = ({dashboard}:IndexProps) => {
                         )}
                         {tracks?.length <= 0 && <NoRecordFound/>}
                     </Container>}
-                         <BannerAds module_name={'agendas'} module_type={'listing'} />
+                         {!dashboard && <BannerAds module_name={'agendas'} module_type={'listing'} />}
                 </>
             )}
             {(in_array('programs', processing) || in_array('tracks', processing)) && page > 1 && (
