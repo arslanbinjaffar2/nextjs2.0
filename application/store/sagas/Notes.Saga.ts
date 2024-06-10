@@ -23,6 +23,8 @@ function* OnSaveNote({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveNote, payload, state)
     yield put(NoteActions.GetMyNote({note_type:payload.note_type, note_type_id:payload.note_type_id}));
+    const labels=state?.event?.event.labels;
+    yield put (ToastActions.AddToast({toast:{message:labels.GENERAL_NOTE_SAVE_MESSAGE ,status:"success"}}))
     yield put(NoteActions.SetSaving(false));
     yield put(LoadingActions.removeProcess({ process: 'save-note' }))
 }

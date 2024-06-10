@@ -84,18 +84,19 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
           }
         }}>
         <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-          <HStack w="100%" space="5" alignItems="center" justifyContent="space-between">
+          <HStack w="100%" space="0" alignItems="center" justifyContent="space-between">
             {attendee?.image && attendee.field_settings.profile_picture.is_private == 0 ? (
-              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
+              <Image mr={5} rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar
                 borderWidth={0}
+                mr={5}
                 borderColor="primary.darkbox"
                 textTransform="uppercase"
                 bg={'#A5A5A5'}
               >{attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0, 1) + attendee?.last_name?.substring(0, 1) : attendee?.first_name?.substring(0, 1)}</Avatar>
             )}
-            <VStack w={['calc(100% - 175px)','calc(100% - 300px)']} space="0">
+            <VStack w={['calc(100% - 100px)','calc(100% - 250px)']} space="0">
               {(attendee?.first_name || attendee?.last_name) ? (
                 <>
                   <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>

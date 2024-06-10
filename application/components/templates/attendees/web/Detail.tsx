@@ -49,7 +49,7 @@ const Detail = ({ speaker }: Props) => {
 
     const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
 
-    const { FetchPrograms, programs, page, id, query } = UseProgramService();
+    const { FetchPrograms, programs, page, id, query,total_pages } = UseProgramService();
 
     const { FetchDocuments } = UseDocumentService();
 
@@ -79,7 +79,7 @@ const Detail = ({ speaker }: Props) => {
             const enabledTabs = detail.attendee_tabs_settings
                 .filter((tab: any) => tab.status === 1)
                 .sort((a: any, b: any) => a.sort_order - b.sort_order);
-    
+            console.log(enabledTabs)
             let defaultTab: string = '';
     
             // Iterate through the sorted enabled tabs and set the default tab based on conditions
@@ -100,14 +100,11 @@ const Detail = ({ speaker }: Props) => {
                     break;
                 } else if (
                     row.tab_name === 'groups' &&
-                    ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) ||
-                        ((detail?.is_speaker && detail?.speaker_setting?.show_group) ||
-                            (!detail?.is_speaker && detail?.setting?.attendee_group)))
+                    (speaker ? detail?.speaker_setting?.show_group : (detail?.setting?.attendee_my_group ? response?.data?.user?.id == _id : detail?.setting?.attendee_group))
                 ) {
                     defaultTab = 'groups';
                     break;
                 } else if (
-                    speaker === 0 &&
                     row.tab_name === 'sub_registration' &&
                     detail?.sub_registration_module_status === 1 &&
                     detail?.sub_registration &&
@@ -139,7 +136,9 @@ const Detail = ({ speaker }: Props) => {
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
-                FetchPrograms({ query: '', page: page + 1, screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
+                if(page < total_pages && total_pages>1){
+                    FetchPrograms({ query: '', page: page + 1, screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
+                }
             } else if (tab === "groups") {
                 FetchGroups({ query: '', group_id: 0, page: page + 1, attendee_id: Number(_id), program_id: 0 });
             }
@@ -194,7 +193,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('about')} bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.ATTENDEE_TAB_ABOUT}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 || ((!detail?.is_speaker && detail?.setting?.attendee_group))) {
+                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 && (speaker ? detail?.speaker_setting?.show_group : (detail?.setting?.attendee_my_group ? response?.data?.user?.id == _id : detail?.setting?.attendee_group))) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('groups')} bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'}>
                                                                             {event?.labels?.ATTENDEE_TAB_GROUP}</ButtonElement>
@@ -221,7 +220,7 @@ const Detail = ({ speaker }: Props) => {
                                             <>
                                                 {groups?.map((group: Group, k: number) =>
                                                     <React.Fragment key={`${k}`}>
-                                                        <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} displayMyGroupSetting={detail?.setting?.attendee_my_group}/>
+                                                        <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true}/>
                                                     </React.Fragment>
                                                 )}
                                                         
@@ -300,6 +299,9 @@ const Detail = ({ speaker }: Props) => {
                             <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
                         </>
                     )}
+                    <Box display={['','none']} w={'100%'}>
+                    {((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website) || (detail?.setting?.contact_vcf && detail?.setting?.contact_vcf)) ? <ContactInfo detail={detail} /> : null}
+                    </Box>
                 </>
             )}
         </>

@@ -7,8 +7,13 @@ import UseEventService from 'application/store/services/UseEventService';
 import BoxView from 'application/components/atoms/sponsors/BoxView';
 import { Sponsor } from 'application/models/sponsor/Sponsor';
 import Slider from "react-slick";
+import { useWindowDimensions } from 'react-native';
 
-const OurSponsor = () => {
+type AppProps = {
+  expand?: boolean;
+};
+
+const OurSponsor = ({ expand = false }: AppProps) => {
     const { our_sponsors, categories, FetchOurSponsors, category_id, query } = UseSponsorService();
      const settings = {
       dots: false,
@@ -25,6 +30,8 @@ const OurSponsor = () => {
       afterChange: function(currentSlide: any) {}
     };
 
+    const {width} = useWindowDimensions();
+
 
     const { modules, event } = UseEventService();
 
@@ -33,17 +40,17 @@ const OurSponsor = () => {
     }, []);
 
     return (
-        <Container nativeID='ebs-sponsors-slider' w="100%" maxW="100%">
+        <Container nativeID={expand ? 'ebs-sponsors-slider-expand' : 'ebs-sponsors-slider'}  w={expand ? '100%' : 265} maxW="100%">
             {modules.filter((module: any, key: number) => module.alias === 'sponsors').length > 0 && our_sponsors?.length > 0 && (
                 <>
-                    <View mb={3} w={'100%'}>
+                    <View mb={3}  w={expand ? '100%' : 265}>
                         <IconWithLeftHeading icon={<DynamicIcon iconType="sponsors" iconProps={{ width: 22, height: 24 }} />} title={event?.labels?.MOBILE_APP_OUR_SPONSORS?.toUpperCase()} />
                     </View>
                     
-                    {our_sponsors.length > 4 ? <div style={{width: '265px'}}>
+                    {our_sponsors.length > 4 ? <div style={{width: expand ? width - 30 : '265px'}}>
                         <Slider {...settings}>
                             {our_sponsors.length > 0 && our_sponsors.map((sponsor: Sponsor, key: number) =>
-                            <Box key={key}  w={265} height={180} p="0" rounded="lg">
+                            <Box key={key}  w={expand ? '100%' : 265} height={180} p="0" rounded="lg">
                                 <BoxView sponsor={sponsor} k={key} screen="our-sponsors"  w='100%' />
                             </Box>
                             )}
@@ -51,7 +58,7 @@ const OurSponsor = () => {
                         </div> : (
                         <>
                         {our_sponsors.length > 0 && our_sponsors.map((sponsor: Sponsor, key: number) =>
-                            <Box key={key}  w={265} height={180} p="0" rounded="lg">
+                            <Box key={key}  w={expand ? '100%' : 265} height={180} p="0" rounded="lg">
                                 <BoxView sponsor={sponsor} k={key} screen="our-sponsors"  w='100%' />
                             </Box>
                             )}

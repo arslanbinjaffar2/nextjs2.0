@@ -39,7 +39,7 @@ console.log(open,"open mneu")
           <Center overflow="hidden" alignItems="flex-start">
             <Pressable onPress={() => { router.push(`/${event.url}/dashboard`) }}>
               <Image
-                  alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
+                  alt='logo'  source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
                         : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
                           ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.header_logo}`
                           : images.Logo }} w="180px" h="61px" alignSelf={'center'} />
