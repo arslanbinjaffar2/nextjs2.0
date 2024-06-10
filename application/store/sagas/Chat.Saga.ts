@@ -18,9 +18,11 @@ function* OnGetChats({
     payload: {  }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({process: 'chats'}));
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getChatsApi,payload, state)
     yield put(ChatActions.update(response.data.data.threads!))
+    yield put(LoadingActions.removeProcess({process: 'chats'}));
     yield put(LoadingActions.set(false));
 }
 
@@ -31,9 +33,11 @@ function* OnGetChat({
     payload: { thread_id: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({process: 'chat-detail'}));
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getChatDetailApi,payload, state)
     yield put(ChatActions.updateChat(response.data.data.chat!))
+    yield put(LoadingActions.removeProcess({process: 'chat-detail'}));
     yield put(LoadingActions.set(false));
 }
 

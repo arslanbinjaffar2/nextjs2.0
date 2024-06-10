@@ -6,9 +6,13 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseChatService from 'application/store/services/UseChatService';
-import { ParticipantInfo } from 'application/models/exhibitor/Chat';
+import { Chat, ParticipantInfo } from 'application/models/exhibitor/Chat';
 import { Pressable } from 'react-native';
 import { useRouter } from 'next/router';
+import moment from 'moment';
+import UseLoadingService from 'application/store/services/UseLoadingService';
+import in_array from 'in_array';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 type indexProps = {
@@ -16,13 +20,13 @@ type indexProps = {
 }
 
 const Index = ({ navigation }: indexProps)  => {
-  const [tab, setTab] = React.useState('chat')
   const { modules } = UseEventService();
   const module = modules.find((module) => module.alias === 'chat');
   const { FetchChats,chats } = UseChatService();
   const { event } = UseEventService();
   const { push } = useRouter();
-  
+  const { processing } = UseLoadingService();
+
   React.useEffect(() => {
     FetchChats({})
   }, [])
@@ -37,40 +41,35 @@ const Index = ({ navigation }: indexProps)  => {
           <Spacer />
           <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
-        <HStack mb="3" space={1} justifyContent="center" w="100%">
-          <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('chat')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab === 'chat' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>Chats</Button>
-          <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => setTab('group')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'group' ? 'primary.boxbutton' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>Attendee groups</Button>
-        </HStack>
         <>
-          {tab && <>
+          {
+            <>
             <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
-              {chats.map((chat) => (
-                <Pressable onPress={() => push(`/${event.url}/chat/${chat.id}`)}>
-                  <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
-                    <Avatar
-                    source={{
-                      uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                    }}
-                    >
-                    SS
-                    <Avatar.Badge borderWidth="1" bg="green.500" />
-                    </Avatar>
-                    <VStack space="0">
-                      <Heading fontSize="lg">
-                        {chat?.participants_info?.map((participant:ParticipantInfo) => (
-                          <>{participant?.full_name}</>
-                        ))}
-                      </Heading>
-                      <Text isTruncated fontSize="md" opacity="0.6">{chat?.messages[0]?.body}</Text>
+              {processing.includes('chats') ? <SectionLoading />:(
+                <>
+                {chats.map((chat, index) => (
+                  <Pressable onPress={() => push(`/${event.url}/chat/${chat.id}`)} key={index}>
+                    <HStack borderBottomWidth={index < chats.length - 1 ? '1' : '0'} borderColor="primary.bordercolor" w="100%" p="4" space="5">
+                      <AvatarComponent participants={chat.participants_info} />
+                      <VStack space="0">
+                        <Heading fontSize="lg">
+                          {chat?.participants_info?.map((participant: ParticipantInfo, index: number) => (
+                            <>{participant?.full_name}{index < chat.participants_info.length - 1 ? ', ' : ''}</>
+                          ))}
+                        </Heading>
+                        <Text isTruncated fontSize="md" opacity="0.6">{chat?.latest_message?.body}</Text>
+                      </VStack>
+                      <Spacer />
+                      <VStack alignItems="flex-end" space="2">
+                        <Text opacity="0.6" fontSize="md">{moment(chat?.latest_message?.sent_date).fromNow()}</Text>
+                        <Avatar.Badge position="static" borderWidth="0" bg="green.500" size={4} />
                     </VStack>
-                    <Spacer />
-                    <VStack alignItems="flex-end" space="2">
-                      <Text opacity="0.6" fontSize="md">now</Text>
-                      <Avatar.Badge position="static" borderWidth="0" bg="green.500" size={4} />
-                  </VStack>
-                </HStack>
-                </Pressable>
-              ))}
+                  </HStack>
+                  </Pressable>
+                ))}
+                </>
+              )}
+              
               {/* <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                 <Avatar
                   source={{
@@ -144,7 +143,7 @@ const Index = ({ navigation }: indexProps)  => {
                   <Avatar.Badge position="static" borderWidth="0" bg="primary.secondary" size={4} />
                 </VStack>
               </HStack> */}
-            </Box>
+            </Box> 
             <Box alignItems="center" w="100%">
               <Button
                 maxW="350px"
@@ -161,70 +160,22 @@ const Index = ({ navigation }: indexProps)  => {
           </>}
         </>
         <>
-          {!tab && <Box mb="3" w="100%" overflow="hidden" bg="primary.box" p="0" rounded="10">
-            <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
-              <Avatar
-                source={{
-                  uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                }}
-
-              >
-                EB
-              </Avatar>
-              <VStack space="0">
-                <Heading fontSize="lg">Event Buizz</Heading>
-                <Text isTruncated fontSize="md" opacity="0.6">Mike, Alex, Christian and 3 others</Text>
-              </VStack>
-              <Spacer />
-              <VStack alignItems="flex-end" space="2">
-                <Text opacity="0.6" fontSize="md">now</Text>
-              </VStack>
-
-            </HStack>
-            <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
-              <Avatar
-                source={{
-                  uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                }}
-
-              >
-                EB
-              </Avatar>
-              <VStack space="0">
-                <Heading fontSize="lg">Event Buizz</Heading>
-                <Text isTruncated fontSize="md" opacity="0.6">Mike, Alex, Christian and 3 others</Text>
-              </VStack>
-              <Spacer />
-              <VStack alignItems="flex-end" space="2">
-                <Text opacity="0.6" fontSize="md">now</Text>
-              </VStack>
-
-            </HStack>
-            <HStack borderBottomWidth="0" borderColor="primary.bordercolor" w="100%" p="4" space="5">
-              <Avatar
-                source={{
-                  uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                }}
-
-              >
-                HS
-              </Avatar>
-              <VStack space="0">
-                <Heading fontSize="lg">Jason Boyd</Heading>
-                <Text isTruncated fontSize="md" opacity="0.6">Sound goods.</Text>
-              </VStack>
-              <Spacer />
-              <VStack alignItems="flex-end" space="2">
-                <Text opacity="0.6" fontSize="md">16:00</Text>
-              </VStack>
-
-            </HStack>
-          </Box>}
-
         </>
       </Container>
     </>
   );
+};
+
+// component for avatars
+const AvatarComponent = ({ participants }: { participants: ParticipantInfo[] }) => {
+  return <Avatar
+          source={{
+            uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
+          }}
+          >
+          SS
+          <Avatar.Badge borderWidth="1" bg="green.500" />
+        </Avatar>
 };
 
 Index.propTypes = {
