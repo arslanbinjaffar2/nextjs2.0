@@ -36,6 +36,8 @@ import {
     EditorProvider,
     Toolbar
 } from 'react-simple-wysiwyg';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
@@ -320,9 +322,11 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'popular' && hdDetails?.popular_questions.length <= 0 &&
-                                    <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                
+                                    <NoRecordFound
+                                    mb="3" 
+                                    bg="primary.box"
+                                    />
                                 }
                                 {tab === 'recent' &&
                                   hdDetails?.recent_questions?.map((question,i)=>(
@@ -380,9 +384,10 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'recent' && hdDetails?.recent_questions.length <= 0 &&
-                                    <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                <NoRecordFound
+                                mb={3} bg="primary.box"
+                                />
+                                  
                                 }
                                 {tab === 'archive' &&
                                   hdDetails?.archived_questions?.map((question,i)=>(
@@ -441,9 +446,8 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'archive' && hdDetails?.archived_questions.length <= 0 &&
-                                    <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                <NoRecordFound bg="primary.box"/>
+                                   
                                 }
                             </VStack>
                         </>

@@ -11,6 +11,8 @@ import { Poll } from 'application/models/poll/Poll';
 import {useFocusEffect } from '@react-navigation/native'
 import in_array from 'in_array'
 import UseEventService from 'application/store/services/UseEventService';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+
 
 const Index = () => {
 
@@ -115,9 +117,8 @@ const Index = () => {
                                             ))}
                                         </React.Fragment>
                                     )) : 
-                                        <Box padding={5}>
-                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                        </Box>
+                                    <NoRecordFound/>
+                                        
                                     ): (
                                         <Box padding={5}>
                                             <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
@@ -138,13 +139,9 @@ const Index = () => {
                                             ))}
                                         </React.Fragment>
                                     )) : 
-                                        <Box padding={5}>
-                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                        </Box>
+                                    <NoRecordFound label={event?.labels?.GENERAL_NO_RECORD}/>
                                     ): (
-                                        <Box padding={5}>
-                                            <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
-                                        </Box>
+                                        <NoRecordFound label={poll_labels?.NO_POLL_AVAILABLE}/>
                                     )}
                                     <Divider h="100px" bg="transparent" />
                                 </Box>

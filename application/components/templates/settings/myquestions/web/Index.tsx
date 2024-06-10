@@ -12,6 +12,7 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Icocalendar from 'application/assets/icons/small/Icocalendar';
 import { GENERAL_DATETIME_FORMAT, GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import { Question } from 'application/models/poll/Detail';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
     const { push } = useRouter();
@@ -91,9 +92,8 @@ const Index = () => {
                                     </Pressable>
                                 ))
                             ) : (
-                                <Box p={3} rounded="lg" w="100%">
-                                    <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                </Box>
+                                <NoRecordFound/>
+                            
                             )}
                         </Box>
                     </Container>

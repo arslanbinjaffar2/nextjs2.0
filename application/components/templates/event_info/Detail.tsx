@@ -13,6 +13,7 @@ import ThemeColors from 'application/utils/ThemeColors';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import Icodocument from 'application/assets/icons/small/Icodocument';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { id: string, cms: string | undefined }
 
@@ -57,7 +58,7 @@ const Detail = (props: any) => {
                         <Box w="100%" rounded="10" bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"}>
                             {(page.image == '' && page.description == '' && page.pdf == '') &&(
                                 <>
-                                    <Text p={5} mb="3" bg="primary.box" rounded="lg" w="100%">{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                    <NoRecordFound mb="3" bg="primary.box"/>
                                 </>
                             )}
                             {page.image !== '' && page.image_position === 'top' && <HStack w="100%" ml={0} mb={5}>

@@ -7,6 +7,7 @@ import FindPath from 'application/utils/FindPath';
 import { Platform } from 'react-native';
 import RectangleViewLayout2 from 'application/components/atoms/documents/RectangleViewLayout2';
 import UseEventService from 'application/store/services/UseEventService';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 interface ListingLayout2Props {
     module?: string;
@@ -72,9 +73,9 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
                         }
                     )}
                     { filteredDocuments.length <= 0 &&
-                        <Box>
-                            <Text  p={4} rounded="10" fontSize="md">{event.labels.GENERAL_NO_RECORD}</Text>
-                        </Box>
+                      <NoRecordFound />
+                       
+                        
                     }
                 </Box>
             ) : (
