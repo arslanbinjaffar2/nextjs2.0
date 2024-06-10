@@ -30,7 +30,7 @@ React.useEffect(() => {
       <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 
       <Pressable alignItems={'center'} flexDirection={'row'}
              onPress={()=>{
-              push(`/${event.url}/homeMyevents`)
+              push(`/${event.url}/home_events`)
           }} 
       >
         <Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="arrowleft" />
@@ -44,7 +44,7 @@ React.useEffect(() => {
           event_detail?.app_icon ? (
             <Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_icon}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} />
               ):
-              <Image source={{ uri: "https://wallpaperaccess.com/full/317501.jpg" }} alt="Event Image" size="xl"size="xl" width={'100%'} height={157} rounded={'sm'} /> 
+              <Image source={{ uri: "https://dev.eventbuizz.com/_admin_assets/images/logo-unavailable-2.png" }} bg={'gray.300'} alt="Event Image" size="xl" width={'100%'} height={157} rounded={'sm'} /> 
           }
         <HStack  px={6} py={4} bg={'primary.box'} roundedBottom={'md'} flexDirection={'column'}>
           <VStack flexDirection={['column','row']} justifyContent={'space-between'} alignItems={'center'} 
