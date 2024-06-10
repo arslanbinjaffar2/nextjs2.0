@@ -210,7 +210,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 									<Text color={'primary.text'}  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
 									<TextArea
 										value={message}
-										onChange={(event)=>setMessage(event.nativeEvent.text)}
+										onChangeText={(text)=>debounced(text)}
 									 autoCompleteType={false} _focus={{ bg:"primary.darkbox" }} borderColor={'transparent'} w="100%" h={90} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>

@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
-import { Chat } from 'application/models/exhibitor/Chat'
+import { Chat } from 'application/models/chat/Chat'
 import { ChatActions, SelectChat, SelectChatLabels, SelectChats } from 'application/store/slices/Chat.Slice'
 
 export type ChatServiceOperators = {
@@ -10,6 +10,9 @@ export type ChatServiceOperators = {
     chat: Chat | null,
     FetchChats: (payload: {}) => void
     FetchChat: (payload: {thread_id:number}) => void
+    StartNewChat: (payload: {message:string,user_ids:number[],group_ids:number[]}) => void
+    SaveMessage: (payload: {message:string,thread_id:number}) => void
+    MarkAsRead: (payload: {message_id:number}) => void
 }
 
 /**
@@ -33,6 +36,24 @@ export const UseChatService = (): Readonly<ChatServiceOperators> => {
         FetchChat: useCallback(
             (payload: {thread_id:number}) => {
                 dispatch(ChatActions.FetchChat(payload))
+            },
+            [dispatch],
+        ),
+        StartNewChat: useCallback(
+            (payload: {message:string,user_ids:number[],group_ids:number[]}) => {
+                dispatch(ChatActions.StartNewChat(payload))
+            },
+            [dispatch],
+        ),
+        SaveMessage: useCallback(
+            (payload: {message:string,thread_id:number}) => {
+                dispatch(ChatActions.SaveMessage(payload))
+            },
+            [dispatch],
+        ),
+        MarkAsRead: useCallback(
+            (payload: {message_id:number}) => {
+                dispatch(ChatActions.MarkAsRead(payload))
             },
             [dispatch],
         )

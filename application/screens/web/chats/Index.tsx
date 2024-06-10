@@ -6,7 +6,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseChatService from 'application/store/services/UseChatService';
-import { Chat, ParticipantInfo } from 'application/models/exhibitor/Chat';
+import { Chat, ParticipantInfo } from 'application/models/chat/Chat';
 import { Pressable } from 'react-native';
 import { useRouter } from 'next/router';
 import moment from 'moment';
@@ -151,7 +151,7 @@ const Index = ({ navigation }: indexProps)  => {
                 _text={{ fontSize: 'xl', fontWeight: '600', color: 'primary.hovercolor' }}
                 colorScheme="primary"
                 onPress={() => {
-                  
+                  push(`/${event.url}/chat/new`);
                 }}
               >
                 New chat

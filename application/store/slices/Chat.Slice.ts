@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import type { RootState } from 'application/store/Index'
-import { Chat } from 'application/models/exhibitor/Chat'
+import { Chat } from 'application/models/chat/Chat'
 
 export interface ChatState {
     chats: Chat[],
@@ -31,6 +31,15 @@ export const ChatSlice = createSlice({
         },
         updateChat(state, action: PayloadAction<Chat>) {
             state.chat = action.payload;
+        },
+        StartNewChat(state, action: PayloadAction<{message:string,user_ids:number[],group_ids:number[]}>) {
+            
+        },
+        SaveMessage(state, action: PayloadAction<{message:string,thread_id:number}>) {
+            
+        },
+        MarkAsRead(state, action: PayloadAction<{message_id:number}>) {
+            
         }
     },
 })
@@ -40,7 +49,10 @@ export const ChatActions = {
    FetchChats: ChatSlice.actions.FetchChats,
    update: ChatSlice.actions.update,
    FetchChat: ChatSlice.actions.FetchChat,
-   updateChat: ChatSlice.actions.updateChat
+   updateChat: ChatSlice.actions.updateChat,
+   StartNewChat: ChatSlice.actions.StartNewChat,
+   SaveMessage: ChatSlice.actions.SaveMessage,
+   MarkAsRead: ChatSlice.actions.MarkAsRead
 }
 
 export const SelectChats = (state: RootState) => state.chats.chats

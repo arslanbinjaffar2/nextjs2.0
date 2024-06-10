@@ -36,4 +36,3 @@ export interface ParticipantInfo {
     full_name: string;
     image: string;
 }
-

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Image, Input, ScrollView, Spacer, Text, TextArea, VStack } from 'native-base';
+import { Avatar, Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Image, Input, ScrollView, Spacer, Spinner, Text, TextArea, VStack } from 'native-base';
 import Master from 'application/screens/web/layouts/Master';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -8,7 +8,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { UseEventService } from 'application/store/services';
 import { createParam } from 'solito';
 import UseChatService from 'application/store/services/UseChatService';
-import { ChatMessage, ParticipantInfo } from 'application/models/exhibitor/Chat';
+import { ChatMessage, ParticipantInfo } from 'application/models/chat/Chat';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
@@ -16,6 +16,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import moment from 'moment';
 import { GENERAL_DATE_FORMAT, GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals';
 import UseEnvService from 'application/store/services/UseEnvService';
+import { useDebouncedCallback } from "use-debounce";
 
 type ScreenParams = { id: string }
 const { useParam } = createParam<ScreenParams>()
@@ -187,38 +188,7 @@ const Detail = ({ navigation }: indexProps) => {
             </HStack> */}
 
           </ScrollView>
-          <Center w="100%" maxW="100%">
-            <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
-              <Icon size="md" as={Entypo} name="new-message" color="primary.text" />
-              <Text fontSize="lg">Write Message </Text>
-            </HStack>
-            <VStack p="1" w="100%" space="0">
-              <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder="Your message…" autoCompleteType={undefined} />
-              <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
-                <IconButton
-                  variant="transparent"
-                  icon={<Icon size="lg" as={Entypo} name="emoji-happy" color="primary.text" />}
-                  onPress={() => {
-                    console.log('hello')
-                  }}
-                />
-                <IconButton
-                  variant="transparent"
-                  icon={<Icon size="lg" as={Entypo} name="attachment" color="primary.text" />}
-                  onPress={() => {
-                    console.log('hello')
-                  }}
-                />
-                <IconButton
-                  variant="transparent"
-                  icon={<Icon size="lg" as={Feather} name="send" color="primary.text" />}
-                  onPress={() => {
-                    console.log('hello')
-                  }}
-                />
-              </HStack>
-            </VStack>
-          </Center>
+          <NewMessage thread_id={Number(_id)} />
         </VStack>
         <Image
           source={{
@@ -233,6 +203,68 @@ const Detail = ({ navigation }: indexProps) => {
       </>
   );
 };
+
+const NewMessage = ({thread_id}: {thread_id: number}) => {
+  const {SaveMessage} = UseChatService();
+  const [message, setMessage] = React.useState('');
+  const {processing} = UseLoadingService();
+  const debounced = useDebouncedCallback((value:any) => {
+    setMessage(value);
+  }, 500);
+
+  function send(){
+    if(message!==''){
+      SaveMessage({message:message,thread_id:thread_id});
+      setMessage('');
+    }
+  }
+
+
+  return (
+    <>
+    <Center w="100%" maxW="100%">
+      <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
+        <Icon size="md" as={Entypo} name="new-message" color="primary.text" />
+        <Text fontSize="lg">Write Message </Text>
+      </HStack>
+      <VStack p="1" w="100%" space="0">
+        <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder="Your message…" autoCompleteType={undefined} 
+        defaultValue={message}
+        onChangeText={(text)=>debounced(text)}
+        />
+        <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
+          {/* <IconButton
+            variant="transparent"
+            icon={<Icon size="lg" as={Entypo} name="emoji-happy" color="primary.text" />}
+            onPress={() => {
+              console.log('hello')
+            }}
+          />
+          <IconButton
+            variant="transparent"
+            icon={<Icon size="lg" as={Entypo} name="attachment" color="primary.text" />}
+            onPress={() => {
+              console.log('hello')
+            }}
+          /> */}
+          {processing.includes('new-chat') ? (
+            <Spinner size="lg" color="primary.text" />
+          ) : (
+            <IconButton
+            variant="transparent"
+            isDisabled={message == ''}
+            icon={<Icon size="lg" as={Feather} name="send" color="primary.text" />}
+            onPress={() => {
+              send()
+            }}
+          />
+          )}
+        </HStack>
+      </VStack>
+    </Center>
+    </>
+  )
+}
 
 Detail.propTypes = {
   navigation: PropTypes.object.isRequired,
