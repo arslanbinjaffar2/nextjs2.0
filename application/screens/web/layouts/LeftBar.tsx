@@ -53,7 +53,11 @@ const PressableElement = ({row}: any) => {
         // }
       } else if (row?.alias === 'my-registrations') {
         router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
-      } else {
+      } 
+      else if (row?.alias === 'upcomingEvents') {
+        router.push(`/${event.url}/upcoming_events`)
+      } 
+      else {
         router.push(`/${event.url}/${row?.alias}`)
       }
     }}>
