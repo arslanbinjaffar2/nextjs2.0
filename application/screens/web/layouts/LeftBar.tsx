@@ -16,7 +16,7 @@ import {  func } from 'application/styles';
 
 const PressableElement = ({row}: any) => {
   const router = useRouter()
-  const { event, modules } = UseEventService()
+  const { event, modules,event_detail } = UseEventService()
   const { width } = useWindowDimensions();
   const { unread, setUnreadCount } = UseAlertService();
   const { info, page } = UseInfoService();
@@ -59,6 +59,9 @@ const PressableElement = ({row}: any) => {
       }
       else if (row?.alias === 'homeMyevents') {
         router.push(`/${event.url}/home_events`)
+      }
+      else if (row?.alias === 'homeMyevents') {
+        router.push(`/${event.url}/home_events/detail/${event?.id}`)
       }
       else {
         router.push(`/${event.url}/${row?.alias}`)

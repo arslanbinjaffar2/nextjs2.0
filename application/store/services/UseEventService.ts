@@ -8,7 +8,7 @@ import { Module, SettingModule } from 'application/models/Module'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 import { CustomHtml } from 'application/models/CustomHtml'
-import { HomeMyEvent, UpcomingEvent } from 'application/models/FetchEvent'
+import { HomeMyEvent, HomeMyEventDetail, UpcomingEvent } from 'application/models/FetchEvent'
 import HomeEvent from 'application/components/atoms/events/homeEvent/HomeEvent'
 import homeMyevents from 'application/assets/icons/homeMyevents'
 
@@ -19,7 +19,7 @@ export type EventServiceOperators = {
     setting_modules: SettingModule[]
     home_events: HomeMyEvent[]
     upcoming_events: UpcomingEvent[]
-    event_detail: HomeMyEvent[]
+    event_detail: HomeMyEventDetail[]
     FetchEvent: (slug: string) => void
     FetchEventByCode: (code: string) => void
     loadModules: () => void
