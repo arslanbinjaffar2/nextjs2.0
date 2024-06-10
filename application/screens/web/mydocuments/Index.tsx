@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import MyDocuments from 'application/components/templates/mydocuments/Index';
 
 type indexProps = {
     navigation: unknown
@@ -14,7 +13,6 @@ const Index = ({ navigation }: indexProps) => {
     return (
         <>
             <NextBreadcrumbs module={module} />
-            <MyDocuments />
         </>
     );
 };
