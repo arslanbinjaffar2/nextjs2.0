@@ -20,7 +20,7 @@ export const ChatSlice = createSlice({
     name: 'chats',
     initialState,
     reducers: {
-        FetchChats(state, action: PayloadAction<{  }>) {
+        FetchChats(state, action: PayloadAction<{ search: string }>) {
         
         },
         update(state, action: PayloadAction<Chat[]>) {

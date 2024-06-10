@@ -8,7 +8,7 @@ export type ChatServiceOperators = {
     chats: Chat[],
     labels: any,
     chat: Chat | null,
-    FetchChats: (payload: {}) => void
+    FetchChats: (payload: {search:string}) => void
     FetchChat: (payload: {thread_id:number}) => void
     StartNewChat: (payload: {message:string,user_ids:number[],group_ids:number[]}) => void
     SaveMessage: (payload: {message:string,thread_id:number}) => void
@@ -28,7 +28,7 @@ export const UseChatService = (): Readonly<ChatServiceOperators> => {
         labels: useAppSelector(SelectChatLabels),
         chat: useAppSelector(SelectChat),
         FetchChats: useCallback(
-            (payload: {}) => {
+            (payload: {search:string}) => {
                 dispatch(ChatActions.FetchChats(payload))
             },
             [dispatch],

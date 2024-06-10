@@ -5,7 +5,7 @@ import { HttpResponse } from 'application/models/GeneralResponse';
 const baseUrl = `/event`
 
 export const getChatsApi = (payload: any, state: any): Promise<HttpResponse> => {
-    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/chat`);
+    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/chat?search=${payload.search}`);
 }
 
 export const getChatDetailApi = (payload: any, state: any): Promise<HttpResponse> => {

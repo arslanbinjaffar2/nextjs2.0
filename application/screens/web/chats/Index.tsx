@@ -13,6 +13,7 @@ import moment from 'moment';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from 'in_array';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { useDebouncedCallback } from "use-debounce";
 
 
 type indexProps = {
@@ -26,10 +27,19 @@ const Index = ({ navigation }: indexProps)  => {
   const { event } = UseEventService();
   const { push } = useRouter();
   const { processing } = UseLoadingService();
+  const [search, setSearch] = React.useState('');
+
+  const debounced = useDebouncedCallback((value:any) => {
+    setSearch(value);
+  }, 500);
 
   React.useEffect(() => {
-    FetchChats({})
+    FetchChats({search:search})
   }, [])
+
+  React.useEffect(() => {
+    FetchChats({search:search})
+  }, [search])
 
   return (
     <>
@@ -39,7 +49,7 @@ const Index = ({ navigation }: indexProps)  => {
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text fontSize="2xl">{module?.name ?? "Chat"}</Text>
           <Spacer />
-          <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder="Search" leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
+          <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_SEARCH} onChangeText={(text)=>debounced(text)} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
         <>
           {

@@ -15,7 +15,7 @@ function* OnGetChats({
     payload,
 }: {
     type: typeof ChatActions.FetchChats
-    payload: {  }
+    payload: { search: string }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     yield put(LoadingActions.addProcess({process: 'chats'}));
