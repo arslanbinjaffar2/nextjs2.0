@@ -36,7 +36,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
 
   function generateBreadcrumbs(module?: Module): NextBreadcrumb[] {
     const breadcrumbList: NextBreadcrumb[] = [];
-    breadcrumbList.push({ label: 'Dashboard', alias: 'dashboard', icon: 'dashboard' });
+    breadcrumbList.push({ label: event?.labels?.GENERAL_DASHBOARD ?? 'Dashboard' , alias: 'dashboard', icon: 'dashboard' });
     if (module && module !== undefined) {
       breadcrumbList.push({ label: module.name, alias: module.alias, icon: module.icon });
     }

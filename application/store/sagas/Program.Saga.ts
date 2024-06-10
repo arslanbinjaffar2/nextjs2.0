@@ -50,7 +50,7 @@ function* OnMakeFavourite({
     const state = yield select(state => state);
     const response: HttpResponse =  yield call(makeFavouriteApi, payload, state);
     if(response?.data?.data.status == 0){
-        yield put(NotificationActions.addNotification({notification:{status:"error", title:'Error', text:response?.data?.data?.error,type:'program-fav-error'}}))
+        yield put(NotificationActions.addNotification({notification:{status:"error", title:state?.event?.event?.labels?.NATIVE_APP_ERROR, text:response?.data?.data?.error,type:'program-fav-error',btnLeftText:state?.event?.event?.labels?.GENERAL_OK}}))
     }
     else{
         yield put(ProgramActions.ToggleFavourite({ program_id: payload.program_id }))

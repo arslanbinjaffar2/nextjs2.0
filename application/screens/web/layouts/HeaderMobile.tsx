@@ -63,7 +63,7 @@ console.log(open,"open mneu")
           
            <VStack pb="0" space={0} w="100%">
               <Heading textAlign={'center'} textTransform={'uppercase'} fontWeight={500} fontSize="3xl">{event.name}</Heading>
-              <Heading textAlign={'center'} textTransform={'uppercase'} fontWeight={500} pb="1" fontSize="xl">{event.detail?.location_name} {" "} {event?.calendar_date}</Heading>
+              <Heading textAlign={'center'} textTransform={'uppercase'} fontWeight={500} pb="1" fontSize="xl">{event.detail?.location_name}</Heading>
               <Heading textAlign={'center'} fontWeight={600} fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
         </Box>}
