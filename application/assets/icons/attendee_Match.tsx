@@ -20,8 +20,8 @@ return(
         <Rect
           id="Rectangle_4094"
           data-name="Rectangle 4094"
-          width={20}
-          height={21.92}
+          width={props.width}
+          height={props.height}
           fill={props.color ? props.color : colors.text}
         />
       </ClipPath>
