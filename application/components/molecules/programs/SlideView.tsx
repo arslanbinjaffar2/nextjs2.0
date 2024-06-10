@@ -210,6 +210,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 				<>
 					{Platform.OS === 'web' ? (
 						<>
+						{programs?.length > 0 && <>
 							{(!screen || screen !== 'qa') &&
 								<Heading px={4} pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
 								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
@@ -230,7 +231,11 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 								{event.labels?.GENERAL_SEE_ALL}
 								</Button>
 							</Center>}
+						</>}
 
+							{programs?.length <= 0 &&
+								<NoRecordFound />
+							}
 						</>
 					) : (
 						<FlatList
