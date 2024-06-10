@@ -8,6 +8,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import moment from 'moment'
 import { useRouter } from 'solito/router';
 import { colorText } from 'application/styles/colors';
+import FavProgramToggle from 'application/components/atoms/programs/FavProgramToggle';
 type AppProps = {
     children:
     | JSX.Element
@@ -39,6 +40,14 @@ const DetailBlock = ({ children }: AppProps) => {
         <Box w="100%" pt={4} px="4">
             <HStack w="100%" mb="3" space="3" alignItems="flex-start">
                 <Text maxW="100%" fontSize="xl">{detail?.program?.topic}</Text>
+                 <Spacer />
+                   {detail?.program?.videos?.length ? (
+                        <Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />
+                    ) : null}
+                    {event?.agenda_settings?.admin_fav_attendee == 1 && detail?.program?.is_attatched_with_subregistration !== 1 &&
+                        detail?.program?.id !== undefined && (
+                            <FavProgramToggle program_id={detail.program.id} key={detail.program.id} />
+                        )}
             </HStack>
             <HStack w="100%" mb="3" space="10" alignItems="center">
                 {detail?.program?.start_time && detail?.program?.end_time  && event.agenda_settings?.agenda_display_time == 1 && detail?.program?.hide_time == 0 && (
