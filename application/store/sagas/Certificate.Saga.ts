@@ -23,6 +23,7 @@ function* OnGetCertificate({
     const response: HttpResponse = yield call(getCertificateApi, {}, state)
     console.log('in saga')
     yield put(CertificateActions.update({certificate: response?.data?.data?.certificate_logs!}))
+    yield put(LoadingActions.removeProcess({process:'certificate-listing'}))
 
 }
 function* OnGetCertificatePdf({

@@ -21,6 +21,7 @@ import { store } from 'application/store/Index'
 import { getCertificatePdfApi } from 'application/store/api/Certificate.Api'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs'
 import FindPath from 'application/utils/FindPath'
+import SectionLoading from 'application/components/atoms/SectionLoading';
 async function getCertificatePdf(certificate_id:any,attendee_id:any) {
     const mystate=store.getState()
     try {
@@ -71,8 +72,8 @@ const Index = React.memo(() => {
     }, [searchQuery, certificate]);
     return (
       <>
-          {in_array('certificate', processing) ? (
-            <WebLoading />
+          {in_array('certificate-listing', processing) ? (
+            <SectionLoading />
           ) : (
             <>
                 <NextBreadcrumbs module={module} />
