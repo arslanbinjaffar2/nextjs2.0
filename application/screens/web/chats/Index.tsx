@@ -17,6 +17,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useDebouncedCallback } from "use-debounce";
 import { func } from 'application/styles';
 import UseEnvService from 'application/store/services/UseEnvService';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type indexProps = {
   navigation: unknown
@@ -79,6 +80,7 @@ const Index = ({ navigation }: indexProps)  => {
                   </HStack>
                   </Pressable>
                 ))}
+                {chats.length === 0 && <NoRecordFound />}
                 </>
               )}
             </Box> 
