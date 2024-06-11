@@ -56,15 +56,16 @@ React.useEffect(() => {
           {event_detail?.name}</Text>
           </Box>
         <Button 
+        isDisabled={event_detail?.id == event?.id}
         width={['100%','86px']}
         height={38} 
         onPress={()=>{
-            console.log('hello')
+            window.open(`/${event_detail?.url}`, '_blank')
         }} 
         >
             <Box display={'flex'} alignItems={'center'} flexDirection={'row'}>
                  <DynamicIcon iconType={'logout'} iconProps={{ width:14,height:14 }}/>
-            <Text ml={'6px'}>Login</Text>
+            <Text ml={'6px'}>{event?.labels?.EVENTSITE_LOGIN}</Text>
             </Box>
             
         </Button>
