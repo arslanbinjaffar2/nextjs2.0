@@ -28,7 +28,7 @@ const social = (props: SvgProps) => {
         />
       </ClipPath>
     </Defs>
-    <G id="Group_5662" data-name="Group 5662" clipPath="url(#clip-path)">
+    <G id="Group_5662" data-name="Group 5662" >
       <Path
         id="Path_2360"
         data-name="Path 2360"

@@ -41,7 +41,7 @@ const IcoInfo = (props: SvgProps) => {
         data-name="Group 5554"
         transform="translate(401.495 466.832)"
       >
-        <G id="Group_5553" data-name="Group 5553" clipPath="url(#clip-path)">
+        <G id="Group_5553" data-name="Group 5553" >
           <Path
             id="Path_2343"
             data-name="Path 2343"
