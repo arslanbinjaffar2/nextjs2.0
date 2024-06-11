@@ -10,7 +10,6 @@ import { GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals';
 
 const ProgramContainer = ({ details }: { details: Program }) => {
   const { event } = UseEventService();
-  console.log(details, 'details')
   return (
     <>
       <Box w="100%" py="3" bg={'primary.box'} rounded={'10px'} mb={'14px'}>
