@@ -15,7 +15,8 @@ import in_array from 'in_array';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useDebouncedCallback } from "use-debounce";
-
+import { func } from 'application/styles';
+import UseEnvService from 'application/store/services/UseEnvService';
 
 type indexProps = {
   navigation: unknown
@@ -80,79 +81,6 @@ const Index = ({ navigation }: indexProps)  => {
                 ))}
                 </>
               )}
-              
-              {/* <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
-                <Avatar
-                  source={{
-                    uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                  }}
-                >
-                  SS
-                  <Avatar.Badge borderWidth="1" bg="green.500" />
-                </Avatar>
-                <VStack space="0">
-                  <Heading fontSize="lg">Janet Fowler</Heading>
-                  <Text isTruncated fontSize="md" opacity="0.6">I’m going to San Francisco</Text>
-                </VStack>
-                <Spacer />
-                <VStack alignItems="flex-end" space="2">
-                  <Text opacity="0.6" fontSize="md">now</Text>
-                  <Avatar.Badge position="static" borderWidth="0" bg="green.500" size={4} />
-                </VStack>
-              </HStack> */}
-              {/* <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
-                <Avatar
-                  source={{
-                    uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                  }}
-                >
-                  HS
-                  <Avatar.Badge borderWidth="1" bg="red.500" />
-                </Avatar>
-                <VStack space="0">
-                  <Heading fontSize="lg">Jason Boyd</Heading>
-                  <Text isTruncated fontSize="md" opacity="0.6">Sound goods.</Text>
-                </VStack>
-                <Spacer />
-                <VStack alignItems="flex-end" space="2">
-                  <Text opacity="0.6" fontSize="md">16:00</Text>
-                </VStack>
-
-              </HStack> */}
-              {/* <HStack borderBottomWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
-                <Avatar
-                  source={{
-                    uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                  }}
-                >
-                  SS
-                </Avatar>
-                <VStack space="0">
-                  <Heading fontSize="lg">Nicholas Dunn</Heading>
-                  <Text isTruncated fontSize="md" opacity="0.6">See you there!</Text>
-                </VStack>
-                <Spacer />
-                <VStack alignItems="flex-end" space="2">
-                  <Text opacity="0.6" fontSize="md">18:00</Text>
-                </VStack>
-              </HStack> */}
-              <HStack borderTopWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
-                <Avatar
-                 
-                >
-                  <Icon size={'xl'} color={'primary.text'} as={MaterialIcons} name="groups"  />
-                  
-                </Avatar>
-                <VStack space="0">
-                  <Heading fontSize="lg">Janet Fowler</Heading>
-                  <Text isTruncated fontSize="md" opacity="0.6">I’m going to San Francisco</Text>
-                </VStack>
-                <Spacer />
-                <VStack alignItems="flex-end" space="2">
-                  <Text opacity="0.6" fontSize="md">21:00</Text>
-                  <Avatar.Badge position="static" borderWidth="0" bg="primary.secondary" size={4} />
-                </VStack>
-              </HStack>
             </Box> 
             <Box alignItems="center" w="100%">
               <Button
@@ -178,14 +106,41 @@ const Index = ({ navigation }: indexProps)  => {
 
 // component for avatars
 const AvatarComponent = ({ participants }: { participants: ParticipantInfo[] }) => {
-  return <Avatar
+
+  const { _env } = UseEnvService();
+  // Function to get the first letters of the first and last name
+  const getFirstLetters = (name: string) => {
+    const names = name.split(' ');
+    return (names[0].substring(0, 1) + names[1].substring(0, 1)).toUpperCase();
+  };
+
+    // get image of sender 
+    const getSenderImage = (image: string) => {
+      // source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
+      if(image){
+        return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
+      }
+      return '';
+    };
+
+  return (
+    <>
+    {participants?.length > 1 ? (
+      <Avatar>
+        <Icon size={'xl'} color={'primary.text'} as={MaterialIcons} name="groups"  />
+      </Avatar>
+    ):(
+      <Avatar
           source={{
-            uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
+            uri: getSenderImage(participants[0]?.image)
           }}
           >
-          SS
+          {getFirstLetters(participants[0]?.full_name)}
           <Avatar.Badge borderWidth="1" bg="green.500" />
         </Avatar>
+    )}
+    </>
+  )
 };
 
 Index.propTypes = {
