@@ -62,14 +62,19 @@ export const EventSlice = createSlice({
             state.screen = action.payload.screen;
         },
         UpdateEvents(state, action: PayloadAction<HomeMyEvent[]>) {
-            state.home_events = action.payload;
+            if(action.payload !== undefined){
+                state.home_events = action.payload;
+            }
         },
         UpdateUpcomingEvents(state, action: PayloadAction<UpcomingEvent[]>) {
-            state.upcoming_events = action.payload;
+            if(action.payload !== undefined){
+                state.upcoming_events = action.payload;
+            }
         },
         updateEventDetail(state, action: PayloadAction<{ detail: EventDetail }>) {
-            console.log('detail: ',action.payload.detail)
-            state.event_detail = action.payload.detail;
+            if(action.payload.detail !== undefined){
+                state.event_detail = action.payload.detail;
+            }
          },
         FetchEventDetail(state, action: PayloadAction<{ id: number }>) {
         },
