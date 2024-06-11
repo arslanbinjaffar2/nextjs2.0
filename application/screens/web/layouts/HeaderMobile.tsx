@@ -39,14 +39,14 @@ console.log(open,"open mneu")
           <Center overflow="hidden" alignItems="flex-start">
             <Pressable onPress={() => { router.push(`/${event.url}/dashboard`) }}>
               <Image
-                  alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
+                  alt='logo'  source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
                         : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
                           ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.header_logo}`
                           : images.Logo }} w="180px" h="61px" alignSelf={'center'} />
             </Pressable>
           </Center>
           <Spacer />
-          <Center alignItems="flex-end">
+          <Center width={28} height={28} alignItems="flex-end">
             <HStack space="0">
               {/* <Notification /> */}
           <Box>
@@ -63,14 +63,14 @@ console.log(open,"open mneu")
           
            <VStack pb="0" space={0} w="100%">
               <Heading textAlign={'center'} textTransform={'uppercase'} fontWeight={500} fontSize="3xl">{event.name}</Heading>
-              <Heading textAlign={'center'} textTransform={'uppercase'} fontWeight={500} pb="1" fontSize="xl">{event.detail?.location_name} {" "} {event?.calendar_date}</Heading>
+              <Heading textAlign={'center'} textTransform={'uppercase'} fontWeight={500} pb="1" fontSize="xl">{event.detail?.location_name}</Heading>
               <Heading textAlign={'center'} fontWeight={600} fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
         </Box>}
       </Container>
       
       <Drawer isOpen={open} placement='left'>
-        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
+        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'primary.boxsolid'}>
             <Center w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
               <Pressable
                 alignItems={'flex-end'}
@@ -91,8 +91,8 @@ console.log(open,"open mneu")
         
       </Drawer>   
       <Drawer isOpen={openProfileBar} placement='left'>
-        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'secondary.500'}>
-            <Center w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
+        <Container alignItems={'flex-start'} w="375px" h={'100%'} bg={'primary.boxsolid'}>
+            <Center  w="100%" justifyContent={'flex-end'}  alignItems={'flex-end'} p="1">
               <Pressable
                 alignItems={'flex-end'}
                 p="0"

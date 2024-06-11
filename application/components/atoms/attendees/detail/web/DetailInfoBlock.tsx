@@ -6,6 +6,7 @@ import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
 import IcoInfo from 'application/assets/icons/small/IcoInfo';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 type AppProps = {
     detail: Detail,
     info: React.ReactNode,
@@ -16,10 +17,11 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     const { event  } = UseEventService();
 
     // Define the fields to remove
-    const fieldsToRemove = ['first_name', 'last_name', 'delegate_number', 'table_number', 'initial', 'email', 'phone', 'resume', 'facebook', 'linkedin', 'twitter', 'website', 'company_name', 'department', 'title'];
+    const fieldsToRemove = ['first_name', 'last_name', 'delegate_number', 'table_number', 'initial', 'email', 'phone', 'resume', 'facebook', 'linkedin', 'twitter', 'website', 'company_name', 'department', 'title', 'profile_picture'];
 
     // Filter out the specified fields from sort_field_setting
     const filteredSortFieldSetting = detail?.sort_field_setting.filter((setting: any) => !fieldsToRemove.includes(setting.name));
+    
     // Check if the filtered array has at least one item
     const shouldShowNoRecord = filteredSortFieldSetting.length === 0;
         
@@ -314,9 +316,9 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                         }
                     </VStack>
                 </Box>
-            ) :  <Box overflow="hidden">
-            <Text bg="primary.box" fontSize={'md'} p="4" rounded="10" w="100%">{event.labels.GENERAL_NO_RECORD}</Text>
-        </Box>  }
+            ) :  
+        <NoRecordFound bg="primary.box"/>
+        }
         </Box>
     )
 

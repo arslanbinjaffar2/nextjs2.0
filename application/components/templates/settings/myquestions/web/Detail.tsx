@@ -18,6 +18,8 @@ import IcoInfo from 'application/assets/icons/small/IcoInfo';
 import Icoquestion from 'application/assets/icons/small/Icoquestion';
 import UseEnvService from 'application/store/services/UseEnvService';
 import IcoSend from 'application/assets/icons/small/IcoSend'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type ScreenParams = { id: string }
 const Detail = () => {
@@ -79,13 +81,13 @@ const Detail = () => {
   };
   const module = setting_modules?.find((module) => module.alias === 'myquestions');
   if (questionAnswers && Number(questionAnswers?.question_id) !== Number(id)) {
-    return <WebLoading />;
+    return <SectionLoading />;
   }
 
   return (
     <>
       {loading ? (
-        <WebLoading />
+        <SectionLoading />
       ) : (
         <Container pt="2" maxW="100%" w="100%">
           <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
@@ -141,7 +143,8 @@ const Detail = () => {
                 <Box alignItems={'center'} justifyContent={'center'}  rounded="lg" w="100%">
                   <HStack bg={'primary.darkbox'} px={4} py={3} rounded={10}  space="3" alignItems="center">
                     <IcoInfo width={18} height={18}  />
-                   <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
+                    <NoRecordFound
+                    />
                   </HStack>
                   
                 </Box>

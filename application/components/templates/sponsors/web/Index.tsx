@@ -17,6 +17,8 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useRouter } from 'solito/router'
 import { useSearchParams, usePathname } from 'next/navigation'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 const Index = React.memo(() => {
 
     const { push, back } = useRouter()
@@ -115,7 +117,7 @@ const Index = React.memo(() => {
                     )}
 
                 {loading ? (
-                    <WebLoading />
+                    <SectionLoading />
                 ) : (
                     <>
                         {(tab === 'name' || tab === 'category-sponsor') && <>
@@ -166,9 +168,8 @@ const Index = React.memo(() => {
                             </Box>
                         }
                         {sponsors.length <= 0 &&
-                            <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                            </Box>
+                        <NoRecordFound mb="3" bg="primary.box"/>
+                           
                         }
                     </>}
 
@@ -183,9 +184,8 @@ const Index = React.memo(() => {
                                 </HStack>
                             </ScrollView>
                           ) : (
-                            <Box p={3}>
-                                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                            </Box>
+                            <NoRecordFound/>
+                            
                           )}
                       </Box>
                     )}

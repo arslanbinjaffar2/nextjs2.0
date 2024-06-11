@@ -13,7 +13,7 @@ type Props = {
 
 const AuthLayout = ({ children }: Props) => {
 
-    const { event } = UseEventService();
+    const { event,loadSettingsModules } = UseEventService();
 
     const { loadToken, isLoggedIn, getUser } = UseAuthService();
 
@@ -25,6 +25,7 @@ const AuthLayout = ({ children }: Props) => {
 
     React.useEffect(() => {
         if (isLoggedIn) {
+            loadSettingsModules();
             push(`/${event.url}/subRegistration`)
         }
     }, [isLoggedIn])

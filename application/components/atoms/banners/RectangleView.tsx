@@ -10,7 +10,7 @@ const RectangleView = ({url}:{url:string}) => {
             alt=""
             resizeMode="cover"
             w="100%"
-            h={["100px","144px"]}
+            h={["82px","144px"]}
             rounded="10"
         />
     )

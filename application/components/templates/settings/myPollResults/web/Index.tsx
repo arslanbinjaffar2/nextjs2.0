@@ -11,6 +11,7 @@ import { Poll, Polls } from 'application/models/poll/Poll';
 import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = () => {
 
@@ -47,7 +48,7 @@ const Index = () => {
         <>
             {
                 loading ? (
-                    <WebLoading />
+                    <SectionLoading />
                 ):(
                     <Container pt="2" maxW="100%" w="100%">
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">

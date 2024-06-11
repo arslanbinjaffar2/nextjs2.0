@@ -31,6 +31,7 @@ import IcoTick from 'application/assets/icons/small/IcoTick';
 import { SwipeButton } from 'react-native-expo-swipe-button';
 import { getColorScheme } from 'application/styles/colors';
 import SwipeBtn from 'application/components/atoms/swipeBtn';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 type ScreenParams = { id: string }
@@ -258,7 +259,7 @@ const Detail = () => {
   return (
     <>
       {loading ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
               <>
              <NextBreadcrumbs module={module} title={detail?.info.name}/>
@@ -399,7 +400,7 @@ const CountdownTimer = React.memo(() => {
       {timeLeft > 0 ? (
         <Text fontSize="md">{survey_labels?.POLL_SURVEY_REDIRECT_MSG} {timeLeft}</Text>
       ) : (
-        <WebLoading />
+        <SectionLoading />
       )}
     </>
   );

@@ -26,6 +26,8 @@ import UseNotificationService from 'application/store/services/UseNotificationSe
 import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { useDebouncedCallback } from "use-debounce";
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { id: string }
 
@@ -44,7 +46,7 @@ const PressableElement = ({slot,onPress}: any) => {
  const [hover, sethover] = React.useState(false)
 	return (
 		<Button onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} w={'100%'} size={'sm'} bg={'transparent'} mb={2} rounded={8} px={2} py={2} 
-		borderWidth={1} borderColor={'primary.box'} 
+		borderWidth={1} borderColor={'primary.darkbox'} 
 		
 						onPress={onPress}
 					>
@@ -75,6 +77,9 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const {event}= UseEventService();
 
 	const [message, setMessage] = useState<string>('');
+	  const debounced = useDebouncedCallback((value:any) => {
+			setMessage(value);
+		}, 500);
 
 	const [attendeeId] = useParam('id');
 
@@ -121,6 +126,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						type:'reservation',
 						title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
 						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}`,
+						btnLeftText:labels?.GENERAL_OK,
 					}});
 				}
 			} catch (error) {
@@ -186,9 +192,10 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		)}
 
 		{slots.length == 0 && (
-			<Box p={2} bg="primary.box" rounded="lg" w="100%">
-			<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-		</Box>
+			<NoRecordFound
+			bg="primary.box"
+			/>
+		
 		)}
 		
 		{/* Confirmation popup  */}
@@ -209,9 +216,9 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
 									<Text color={'primary.text'}  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
 									<TextArea
-										value={message}
+										defaultValue={message}
 										onChangeText={(text)=>debounced(text)}
-									 autoCompleteType={false} _focus={{ bg:"primary.darkbox" }} borderColor={'transparent'} w="100%" h={90} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+									 autoCompleteType={false} borderColor={'transparent'} w="100%" h={90} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>
 								

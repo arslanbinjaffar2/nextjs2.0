@@ -62,7 +62,7 @@ const Detail = React.memo(() => {
     return (
         <>
             {loading ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
                 <>
                    <NextBreadcrumbs module={module} title={detail?.detail?.name} />

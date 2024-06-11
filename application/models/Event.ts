@@ -85,6 +85,7 @@ export interface Event {
     event_language_code?: string
     attendee_tab_settings?: any
     agenda_tab_settings?: AgendaTabSetting[]
+    dashboard_modules?: DashboardModule[]
 }
 interface Setting {
     poll_setting?: string;
@@ -124,6 +125,7 @@ interface Setting {
     app_text_mode?: string;
     app_background_image?: string;
     fav_icon?: string;
+    app_icon?: string;
 }
 interface AttendeeSetting {
     id?: number;
@@ -628,4 +630,12 @@ export interface AgendaTabSetting{
   module: string;
   sort_order: number;
   status: number;
+}
+export interface DashboardModule{
+  id: number;
+  sort_order: number;
+  event_id: number;
+  status: number;
+  alias: string;
+  name: string;
 }

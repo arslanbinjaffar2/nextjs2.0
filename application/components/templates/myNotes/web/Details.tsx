@@ -7,7 +7,7 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from 'next/router';
-
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 const Details = () => {
   const router = useRouter();
   const { type } = router.query;
@@ -109,9 +109,7 @@ const Details = () => {
                 </React.Fragment>
               ))
             ) : (
-              <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-              </Box>
+              <NoRecordFound bg={"primary.box"}/>
             )}
           </VStack>
         </>

@@ -14,7 +14,6 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import {  func } from 'application/styles';
 
 const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
-  console.log(setOpenMenu,"kjsdkljaskldjfsad")
   const router = useRouter()
 
   const { width, height } = useWindowDimensions();
@@ -50,7 +49,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
           </Avatar>
           <VStack w={'70%'} px="3" space="0">
             <Text fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
-            <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.jobs}</Text>
+            <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.title}</Text>
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.company_name}</Text>
           </VStack>
         <Pressable
@@ -92,7 +91,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
               <Center w="30px">
                 <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : undefined} width="24" height="24" />
               </Center>
-              <Text fontSize={'lg'} color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"}>Dashboard</Text>
+              <Text fontSize={'lg'} color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"}>{event?.labels?.GENERAL_DASHBOARD ?? 'Dashboard'}</Text>
             </HStack>
           </Pressable>
           {modules.map((row: any, key: any) =>
@@ -136,7 +135,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
               </HStack>
             </Pressable>
           )}
-          <Pressable
+          {/* <Pressable
             w="100%"
             px="4"
             py="2"
@@ -156,7 +155,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
               </Center>
               <Text fontSize={'lg'} color="primary.text">Logout</Text>
             </HStack>
-          </Pressable>
+          </Pressable> */}
         </VStack>
     </ScrollView>
     </Center>

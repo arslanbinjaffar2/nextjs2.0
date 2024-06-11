@@ -10,6 +10,7 @@ import BoxView from 'application/components/atoms/sponsors/BoxView';
 import { Sponsor } from 'application/models/sponsor/Sponsor';
 import UseEventService from 'application/store/services/UseEventService';
 import Search from 'application/components/atoms/programs/Search'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 
 
@@ -48,9 +49,8 @@ const Index = ({ navigation }: indexProps) => {
           </ScrollView>
         </Box>
         {!loading && my_sponsors.length <= 0 && (
-          <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-          </Box>
+          <NoRecordFound mb="3" bg="primary.box"/>
+       
         )}
       </>
     )

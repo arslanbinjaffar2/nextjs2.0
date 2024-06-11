@@ -10,6 +10,8 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useRouter } from 'solito/router';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import IcoSort from 'application/assets/icons/small/IcoSort';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 const Index = () => {
   const { loading } = UseLoadingService();
   const { push, back } = useRouter()
@@ -91,7 +93,7 @@ const Index = () => {
     <>
       {
         loading ? (
-          <WebLoading />
+          <SectionLoading />
         ) : (
           <>
             <NextBreadcrumbs module={module} />
@@ -194,7 +196,8 @@ const Index = () => {
                     
                     
                   ))}
-                  {filteredFloorPlans.length < 1 && <Text p={3} fontSize="md">{event?.labels?.GENERAL_NO_RECORD}</Text>}
+                  {filteredFloorPlans.length < 1 &&  <NoRecordFound/>
+                  }
                 </VStack>
               </Box>
             </Container>

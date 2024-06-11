@@ -7,7 +7,6 @@ const SVGComponent = (props:SvgProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   return (
   <Svg
-    id="Group_1087"
     data-name="Group 1087"
     width={props.width}
     height={props.height}
@@ -27,7 +26,7 @@ const SVGComponent = (props:SvgProps) => {
         />
       </ClipPath>
     </Defs>
-    <G id="Group_1086" data-name="Group 1086" clipPath="url(#clip-path)">
+    <G id="Group_1086" data-name="Group 1086">
       <Path
         id="Path_1876"
         data-name="Path 1876"

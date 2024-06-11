@@ -36,7 +36,7 @@ const UpcomingPrograms = () => {
                 push(`/${event?.url}/agendas/detail/${program.id}`)
               }}
             >
-              <Heading pb={1} fontSize={['md', 'md', 'xl']}>UPCOMING SESSION</Heading>
+              <Heading pb={1} fontSize={['md', 'md', 'xl']}>{event?.labels?.PROGRAM_UPCOMING_SESSION ?? 'UPCOMING SESSION'}</Heading>
               <Text lineHeight="sm" fontSize={['13px', 'md']}>{program.info?.topic}</Text>
               {program.info?.location && <HStack><Icon h="20px" lineHeight="5" pt="1" size="16px" color="primary.text" as={MaterialIcons} name="location-pin" /><Text fontSize="md">{program.info?.location}</Text></HStack>}
               <HStack space={['1', '3']}>

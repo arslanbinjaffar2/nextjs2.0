@@ -19,6 +19,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseEnvService from 'application/store/services/UseEnvService';
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import { func } from 'application/styles';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 
 type IndexProps = {
@@ -43,13 +44,16 @@ const Index = ({dashboard}:IndexProps) => {
         let listing_by_track = event?.agenda_settings?.agenda_list == 1;
         let program_module_enabled = modules.find((module) => module.alias === 'agendas') ? true : false;
         let my_program_module_enabled = modules.find((module) => module.alias === 'myprograms') ? true : false;
+
+        let program_dashboard_module_enabled = event?.dashboard_modules && event?.dashboard_modules.find((module) => module.alias === 'agendas') ? true : false;
+        let my_program_dashboard_module_enabled = event?.dashboard_modules && event?.dashboard_modules.find((module) => module.alias === 'myagendas') ? true : false;
         
         let enabledTabs = [];
         if(dashboard){
-            if(program_module_enabled && (listing_by_time || display_both_time_and_tracks) && event?.agenda_settings?.show_program_dashboard == 1){
+            if(program_module_enabled && program_dashboard_module_enabled){
                 enabledTabs.push('program');
             }
-            if(my_program_module_enabled && event?.agenda_settings?.show_my_program_dashboard == 1){
+            if(my_program_module_enabled && my_program_dashboard_module_enabled){
                 enabledTabs.push('my-program');
             }
             return enabledTabs;
@@ -163,9 +167,9 @@ const Index = ({dashboard}:IndexProps) => {
                 <>
                 <NextBreadcrumbs module={module} />
                 <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                    {width > 480 &&
+                    {width > 680 &&
                         <>
-                            <Text  fontSize="2xl">
+                            <Text maxW={'150px'} fontSize="2xl">
                                 {modules?.find((programTitle) => (programTitle.alias == 'agendas'))?.name ?? ''}
                             </Text>
                             <Spacer />
@@ -239,9 +243,9 @@ const Index = ({dashboard}:IndexProps) => {
                         {tracks?.map((track: any, key: any) =>
                             <TrackRectangleDetailView key={key} track={track} border={tracks.length != (key + 1)} updateTab={updateTab} />
                         )}
-                        {tracks?.length <= 0 && <Text textAlign="center" fontSize="lg" p="5">{event?.labels?.GENERAL_NO_RECORD}</Text>}
+                        {tracks?.length <= 0 && <NoRecordFound/>}
                     </Container>}
-                         <BannerAds module_name={'agendas'} module_type={'listing'} />
+                         {!dashboard && <BannerAds module_name={'agendas'} module_type={'listing'} />}
                 </>
             )}
             {(in_array('programs', processing) || in_array('tracks', processing)) && page > 1 && (

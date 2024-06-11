@@ -29,7 +29,7 @@ const Header = ({ width }: any) => {
           <Center w="100%" maxW={width! > 1200 ? '600px' : '40%'}>
             <VStack pb="0" space={0} w="100%">
               <Heading textTransform={'uppercase'} fontWeight={500} isTruncated fontSize="3xl">{event.name}</Heading>
-              <Heading textTransform={'uppercase'} fontWeight={500} isTruncated pb="1" fontSize="xl">{event.detail?.location_name} {" "} {event?.calendar_date}</Heading>
+              <Heading textTransform={'uppercase'} fontWeight={500} isTruncated pb="1" fontSize="xl">{event.detail?.location_name}</Heading>
               <Heading fontWeight={600} isTruncated fontSize="lg">{event.detail?.location_address}</Heading>
             </VStack>
           </Center>
@@ -37,7 +37,7 @@ const Header = ({ width }: any) => {
           <Center alignItems="flex-end" w="100%" maxW={width! >= 1201 ? '265px' : '40%'}>
             <HStack space="6">
               <Box><Pressable onPress={() => { router.push(`/${event.url}/settings/editprofile`) }}><Icosettings width={28} height={28} /></Pressable></Box>
-              <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={28} height={28} /></Pressable></Box>
+              {/* <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={28} height={28} /></Pressable></Box> */}
               {/* <Notification /> */}
             </HStack>
           </Center>

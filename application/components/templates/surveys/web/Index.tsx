@@ -15,6 +15,8 @@ import { Banner } from 'application/models/Banner'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import ButtonElement from 'application/components/atoms/ButtonElement'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = () => {
 
@@ -80,7 +82,7 @@ const Index = () => {
         <>
             {
                 loading ? (
-                    <WebLoading />
+                    <SectionLoading />
                 ):(
                     <>
                     <NextBreadcrumbs module={module} />
@@ -98,13 +100,11 @@ const Index = () => {
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                                     {surveys && surveys.length > 0 ? (filteredPendingSurveys.length > 0 ? filteredPendingSurveys.map((survey:Survey)=>(
                                         <RectangleView key={survey.id} survey={survey} completed={false} />
-                                    )) : <Box padding={5}>
-                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                        </Box>
+                                    )) : 
+                                    <NoRecordFound/>
+                                  
                                     ) : (
-                                        <Box padding={5}>
-                                            <Text>{survey_labels?.NO_SURVEY_AVAILABL}</Text>
-                                        </Box>
+                                    <NoRecordFound/>
                                     )
                                 
                                 }
@@ -115,13 +115,10 @@ const Index = () => {
                                 <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
                                     {completed_surveys && completed_surveys.length > 0 ? ( filteredCompletedSurveys.length > 0 ? filteredCompletedSurveys.map((survey:Survey)=>(
                                         <RectangleView key={survey.id} survey={survey} completed={true} />
-                                    )) : <Box padding={5}>
-                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                        </Box> 
+                                    )) : <NoRecordFound/>
+                                    
                                     ) : (
-                                        <Box padding={5}>
-                                            <Text>{survey_labels?.NO_SURVEY_AVAILABL}</Text>
-                                        </Box>
+                                        <NoRecordFound label={survey_labels?.NO_SURVEY_AVAILABL}/>
                                     )}
                                   {completed_surveys.length > 0  &&  <Divider h="20px" bg="transparent" />}
                                 </Box>
