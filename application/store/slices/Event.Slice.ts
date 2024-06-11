@@ -4,7 +4,7 @@ import { Event } from 'application/models/Event'
 
 import { Module, SettingModule } from 'application/models/Module'
 import { CustomHtml } from 'application/models/CustomHtml'
-import { HomeMyEvent, UpcomingEvent } from 'application/models/FetchEvent'
+import { EventDetail, HomeMyEvent, UpcomingEvent } from 'application/models/FetchEvent'
 
 import type { RootState } from 'application/store/Index'
 
@@ -18,7 +18,7 @@ export interface EventState {
     screen: string,
     home_events: HomeMyEvent[],
     upcoming_events: UpcomingEvent[],
-    event_detail: HomeMyEvent | null,
+    event_detail: EventDetail|null,
 }
 
 const initialState: EventState = {
@@ -67,14 +67,12 @@ export const EventSlice = createSlice({
         UpdateUpcomingEvents(state, action: PayloadAction<UpcomingEvent[]>) {
             state.upcoming_events = action.payload;
         },
-        updateEventDetail(state, action: PayloadAction<{ id: number }>) {
-            state.event_detail = action.payload;
-            console.log(state.event_detail)
+        updateEventDetail(state, action: PayloadAction<{ detail: EventDetail }>) {
+            console.log('detail: ',action.payload.detail)
+            state.event_detail = action.payload.detail;
          },
-         fetchEventDetail(state, action: PayloadAction<{ id: number }>) {
-            state.event_detail = action.payload;
-            console.log(state.event_detail)
-         },
+        FetchEventDetail(state, action: PayloadAction<{ id: number }>) {
+        },
     },
 })
 
@@ -92,7 +90,7 @@ export const EventActions = {
     UpdateEvents: EventSlice.actions.UpdateEvents,
     UpdateUpcomingEvents: EventSlice.actions.UpdateUpcomingEvents,
     updateEventDetail: EventSlice.actions.updateEventDetail,
-    fetchEventDetail: EventSlice.actions.fetchEventDetail,
+    FetchEventDetail: EventSlice.actions.FetchEventDetail,
 }
 
 // Selectors

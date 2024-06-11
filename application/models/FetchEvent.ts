@@ -18,16 +18,17 @@ export interface UpcomingEvent{
   registration_url?: string;
 }
 export interface HomeMyEventDetail {
-  detail?: eventDetail;
+  detail?: EventDetail;
   name?: any[];
 }
-interface eventDetail {
+export interface EventDetail {
   id?: number;
   event_id?: number;
   name?: string;
   email?: string;
   logo?: string;
   booth?: string;
+  location_name?: string;
   phone_number?: string;
   website?: string;
   twitter?: string;
@@ -44,4 +45,10 @@ interface eventDetail {
   deleted_at?: string;
   url?: string;
   description?: any;
+  start_date?: string;
+  end_date?: string;
+  app_icon?: string;
+  registration_url?: string;
+  event_description?: string;
 }
+

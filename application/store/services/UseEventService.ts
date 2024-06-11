@@ -8,7 +8,7 @@ import { Module, SettingModule } from 'application/models/Module'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 import { CustomHtml } from 'application/models/CustomHtml'
-import { HomeMyEvent, HomeMyEventDetail, UpcomingEvent } from 'application/models/FetchEvent'
+import { EventDetail, HomeMyEvent, HomeMyEventDetail, UpcomingEvent } from 'application/models/FetchEvent'
 import HomeEvent from 'application/components/atoms/events/homeEvent/HomeEvent'
 import homeMyevents from 'application/assets/icons/homeMyevents'
 
@@ -19,14 +19,13 @@ export type EventServiceOperators = {
     setting_modules: SettingModule[]
     home_events: HomeMyEvent[]
     upcoming_events: UpcomingEvent[]
-    event_detail: any,
+    event_detail: EventDetail|null,
     FetchEvent: (slug: string) => void
     FetchEventByCode: (code: string) => void
     loadModules: () => void
     loadSettingsModules: () => void
     FetchEvents: (payload: {query: string, screen: string }) => void
-    updateEventDetail: (payload: { id: number }) => void
-     fetchEventDetail: (payload: { id: number }) => void
+    FetchEventDetail: (payload: { id: number }) => void
 }
 
 /**
@@ -69,21 +68,15 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
             },
             [dispatch],
         ),
-         FetchEvents: useCallback(
+        FetchEvents: useCallback(
             (payload: {query: string, screen: string }) => {
                 dispatch(EventActions.FetchEvents(payload))
             },
             [dispatch],
         ),
-          updateEventDetail: useCallback(
+        FetchEventDetail: useCallback(
             (payload: { id: number }) => {
-                dispatch(EventActions.updateEventDetail(payload))
-            },
-            [dispatch],
-        ),
-        fetchEventDetail: useCallback(
-            (payload: { id: number }) => {
-                dispatch(EventActions.fetchEventDetail(payload))
+                dispatch(EventActions.FetchEventDetail(payload))
             },
             [dispatch],
         ),

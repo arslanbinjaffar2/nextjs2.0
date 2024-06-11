@@ -87,13 +87,13 @@ function* OnGetSettingModules({
     }
 }
 
-function* OnFetchEvent({
+function* OnFetchEvents({
     payload,
 }: {
     type: typeof EventActions.FetchEvents
     payload: {query: string, screen: string }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({process: 'fetching-events'}))
     const state = yield select(state => state);
     console.log(state.event)
     const response: HttpResponse = yield call(fetchEventApi, payload, state)
@@ -102,7 +102,8 @@ function* OnFetchEvent({
     } else{
         yield put(EventActions.UpdateUpcomingEvents(response.data.data))
     }
-    
+    yield put(LoadingActions.removeProcess({process: 'fetching-events'}))
+
 }
 function* getHomeEventDetail({
     payload,
@@ -110,12 +111,12 @@ function* getHomeEventDetail({
     type: typeof EventActions.FetchEvent
     payload: { id: number }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
-    yield put(LoadingActions.addProcess({ process: 'homeevent-detail' }))
+    yield put(LoadingActions.addProcess({ process: 'event-detail' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getHomeEventDetailApi, payload, state)
-    yield put(EventActions.updateEventDetail(response.data.data))
-    yield put(LoadingActions.set(false));
+    console.log('response: ',response.data.data)
+    yield put(EventActions.updateEventDetail({detail:response?.data?.data}))
+    yield put(LoadingActions.removeProcess({ process: 'event-detail' }))
 }
 // Watcher Saga
 export function* EventWatcherSaga(): SagaIterator {
@@ -123,9 +124,8 @@ export function* EventWatcherSaga(): SagaIterator {
     yield takeEvery(EventActions.FetchEventByCode.type, OnGetEventByCode)
     yield takeEvery(EventActions.loadModules.type, OnGetModules)
     yield takeEvery(EventActions.loadSettingsModules.type, OnGetSettingModules)
-    yield takeEvery(EventActions.FetchEvents.type, OnFetchEvent)
-    yield takeEvery(EventActions.updateEventDetail.type, getHomeEventDetail)
-    yield takeEvery(EventActions.fetchEventDetail.type, getHomeEventDetail)
+    yield takeEvery(EventActions.FetchEvents.type, OnFetchEvents)
+    yield takeEvery(EventActions.FetchEventDetail.type, getHomeEventDetail)
 }
 
 export default EventWatcherSaga

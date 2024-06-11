@@ -9,6 +9,8 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'solito/link';
 import { useRouter } from 'solito/src/router/use-router';
+import WebLoading from 'application/components/atoms/WebLoading';
+import UseLoadingService from 'application/store/services/UseLoadingService';
 
 const UpcomingEventComponent = () => {
     const { push } = useRouter();
@@ -16,6 +18,7 @@ const UpcomingEventComponent = () => {
     const { _env } = UseEnvService();
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredUpcomingEvents, setFilteredUpcomingEvents] = useState<UpcomingEvent[]>([]);
+    const {processing} = UseLoadingService();
 
     useEffect(() => {
         FetchEvents({ query: '', screen: 'upcomingEvents' });
@@ -41,6 +44,8 @@ const UpcomingEventComponent = () => {
 
     return (
         <>
+        {processing?.includes('fetching-events') ? <WebLoading /> :(
+            <>
             <HStack space={2} alignItems="center" mb={3} justifyContent="space-between">
                 <Text fontSize="2xl">{modules?.find((programTitle) => programTitle.alias === 'upcomingEvents')?.name ?? ''}</Text>
                 <Input
@@ -119,6 +124,8 @@ const UpcomingEventComponent = () => {
                     </Box>
                 ))}
             </View>
+            </>
+        )}
         </>
     );
 };

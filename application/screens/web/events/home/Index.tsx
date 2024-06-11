@@ -9,11 +9,7 @@ type indexProps = {
 }
 
 const Index = ({ navigation }: indexProps) => {
-  const { modules,event,FetchEvents,home_events } = UseEventService();
-  console.log(home_events,'okkkk');
- React.useEffect(() => {
-        FetchEvents({ query: '', screen: 'homeMyevents' });
-    }, []);
+  const { modules} = UseEventService();
     
   const module = modules.find((module) => module.alias === 'homeMyevents');
   return (

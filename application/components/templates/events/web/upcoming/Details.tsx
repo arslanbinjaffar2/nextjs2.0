@@ -13,20 +13,27 @@ import UseEnvService from 'application/store/services/UseEnvService'
 import { Link } from 'solito/link'
 type ScreenParams = { id: string; cms: string | undefined };
 import { createParam } from 'solito';
+import WebLoading from 'application/components/atoms/WebLoading'
+import UseLoadingService from 'application/store/services/UseLoadingService'
+
 const { useParam } = createParam<ScreenParams>();
+
 const Index = () => {
-    const {push}=useRouter()
-  const { event, updateEventDetail, event_detail } = UseEventService();
+  const {push}=useRouter()
+  const { event, FetchEventDetail, event_detail } = UseEventService();
   const { _env } = UseEnvService()
-    const [id] = useParam('id');
+  const [id] = useParam('id');
+  const {processing} = UseLoadingService();
 
 React.useEffect(() => {
     if (id) {
-        updateEventDetail({ id: Number(id) })
+        FetchEventDetail({ id: Number(id) })
     }
 }, [id])
-  return (
+
+return (
     <>
+    {processing?.includes('event-detail') ?  <WebLoading /> :(
     <VStack width={'100%'}>
       <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 
       <Pressable alignItems={'center'} flexDirection={'row'}
@@ -104,7 +111,7 @@ React.useEffect(() => {
         </HStack>
         <Box alignItems={'center'} flexDirection={'row'} pt={'6px'}>
         <Icopin width={16} height={18} />
-            <Text ml={'6px'} fontSize={'xs'}>{event_detail?.location}</Text>
+            <Text ml={'6px'} fontSize={'xs'}>{event_detail?.location_name}</Text>
         </Box>
         <Text pt={'4'}>
           {event_detail?.event_description}
@@ -112,6 +119,7 @@ React.useEffect(() => {
        </HStack> 
       </VStack>
     </VStack>
+    )}
     <Modal isOpen={false} onClose={() => {}} >
         <Modal.Content maxWidth="480" maxH=" 248">
           <Modal.CloseButton />
