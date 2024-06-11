@@ -219,10 +219,12 @@ const checkActiveRoute = (row:any, path:any, info:any, page:any) => {
     else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.section_id)){
       return true;
     }
-  }else{
-    if(path.includes(row?.alias)){
+  }else {
+    // Check if the path exactly matches the alias and not just includes it as part of another word
+    const regex = new RegExp(`/${row?.alias}(?![a-z0-9_-])`, 'i');
+    if (regex.test(path) && !path.includes('/dashboard')) {
       return true;
-    };
+    }
   }
   
 }
