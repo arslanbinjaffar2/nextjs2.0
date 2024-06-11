@@ -67,35 +67,39 @@ return (
           {event_detail?.name}</Text>
           </Box>
           <View flexDirection={'row'} alignItems={'center'} mt={'3'} width={['100%','']}>
-        <Button 
-        bg={'#000000'}
-        width={['50%','136px']}
-       
-        height={38} 
-        onPress={()=>{
-            console.log('hello')
-        }} 
-        >
-            <Box display={'flex'} alignItems={'center'} flexDirection={'row'}>
-                 <DynamicIcon iconType={'Notattending'} iconProps={{ width:14,height:16, color:'#fff' }}/>
-            <Text ml={'6px'} color={'#fff'}>Not attending</Text>
-            </Box>
-            
-        </Button>
-        <Button 
-        width={['50%','86px']}
-        height={38} 
-        ml={'10px'}
-        onPress={()=>{
-            console.log('hello')
-        }} 
-        >
-            <Box display={'flex'} alignItems={'center'} flexDirection={'row'}>
-                 <DynamicIcon iconType={'register'} iconProps={{ width:17,height:16 }}/>
-            <Text ml={'6px'}>Register</Text>
-            </Box>
-            
-        </Button>
+          {event_detail?.not_attending_link && <Button 
+            bg={'#000000'}
+            width={['50%','136px']}
+          
+            height={38} 
+            onPress={()=>{
+                window.open(event_detail?.not_attending_link, '_blank');
+            }} 
+            >
+                <Box display={'flex'} alignItems={'center'} flexDirection={'row'}>
+                    <DynamicIcon iconType={'Notattending'} iconProps={{ width:14,height:16, color:'#fff' }}/>
+                <Text ml={'6px'} color={'#fff'}>Not attending</Text>
+                </Box>
+                
+            </Button>
+          }
+        {event_detail?.register_link && 
+          <Button 
+          width={['50%','86px']}
+          height={38} 
+          ml={'10px'}
+          onPress={()=>{
+              // open the url in new tab
+              window.open(event_detail?.register_link, '_blank');
+          }} 
+          >
+              <Box display={'flex'} alignItems={'center'} flexDirection={'row'}>
+                  <DynamicIcon iconType={'register'} iconProps={{ width:17,height:16 }}/>
+              <Text ml={'6px'}>Register</Text>
+              </Box>
+              
+          </Button>
+        }
         </View>
 
           </VStack>

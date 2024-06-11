@@ -102,22 +102,22 @@ const UpcomingEventComponent = () => {
                                     </Text>
                                 </Box>
                                 <View flexDirection="row" alignItems="center" mt="3">
-                                    <Button bg="#000000" width={['100%', '136px']} height={38} onPress={() => console.log('hello')}>
+                                    {upcoming_event?.not_attending_link &&<Button bg="#000000" width={['100%', '136px']} height={38} onPress={() => window.open(upcoming_event?.not_attending_link, '_blank')}>
                                         <Box display="flex" alignItems="center" flexDirection="row">
                                             <DynamicIcon iconType="Notattending" iconProps={{ width: 14, height: 16, color: '#fff' }} />
                                             <Text ml="6px" color="#fff">
                                                 Not attending
                                             </Text>
                                         </Box>
-                                    </Button>
-                                    <Button width={['100%', '86px']} height={38} ml="10px" onPress={() => console.log('hello')}>
-                                        <Link href={upcoming_event?.registration_url as string} target="_blank">
+                                    </Button>}
+                                    {upcoming_event?.register_link && <Button width={['100%', '86px']} height={38} ml="10px" onPress={() => window.open(upcoming_event?.register_link, '_blank')}>
+                                        <Link href={upcoming_event?.register_link as string} target="_blank">
                                             <Box display="flex" alignItems="center" flexDirection="row">
                                                 <DynamicIcon iconType="register" iconProps={{ width: 17, height: 16 }} />
                                                 <Text ml="6px">Register</Text>
                                             </Box>
                                         </Link>
-                                    </Button>
+                                    </Button>}
                                 </View>
                             </View>
                         </View>

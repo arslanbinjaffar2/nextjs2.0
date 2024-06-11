@@ -15,7 +15,8 @@ export interface UpcomingEvent{
   end_date?: string;
   location?: string;
   app_icon?: string;
-  registration_url?: string;
+  register_link?: string;
+  not_attending_link?: string;
 }
 export interface HomeMyEventDetail {
   detail?: EventDetail;
@@ -48,7 +49,8 @@ export interface EventDetail {
   start_date?: string;
   end_date?: string;
   app_icon?: string;
-  registration_url?: string;
   event_description?: string;
+  register_link?: string;
+  not_attending_link?: string;
 }
 
