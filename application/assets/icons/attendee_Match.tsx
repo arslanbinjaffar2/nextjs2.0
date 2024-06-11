@@ -26,7 +26,7 @@ return(
         />
       </ClipPath>
     </Defs>
-    <G id="Group_5314" data-name="Group 5314" clipPath="url(#clip-path)">
+    <G id="Group_5314" data-name="Group 5314">
       <Path
         id="Path_2335"
         data-name="Path 2335"
