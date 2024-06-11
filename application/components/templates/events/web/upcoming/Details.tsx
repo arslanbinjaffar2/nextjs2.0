@@ -21,7 +21,7 @@ const Index = () => {
     const [id] = useParam('id');
 
 React.useEffect(() => {
-    if (id && (!event_detail || event_detail.id !== Number(id))) {
+    if (id) {
         updateEventDetail({ id: Number(id) })
     }
 }, [id])
@@ -41,6 +41,7 @@ React.useEffect(() => {
       <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} width={'calc(100% - 86px)'}>{event_detail?.name}</Text>
       </Box>
       <VStack mt={'4'}>
+        {console.log(event_detail,'llll')}
       {
         event_detail?.app_icon ? (
           <Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_icon}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} />
@@ -105,46 +106,10 @@ React.useEffect(() => {
         <Icopin width={16} height={18} />
             <Text ml={'6px'} fontSize={'xs'}>{event_detail?.location}</Text>
         </Box>
-        <Text pt={'4'} fontSize={'sm'}>
-        The “Innovative Solutions for a Sustainable Future Conference” is a premier global event that brings together leaders, innovators, policymakers, and scholars from around the world to address the critical challenges and opportunities in achieving sustainable development. This three-day conference will serve as a dynamic platform for sharing cutting-edge research, pioneering technologies, and actionable strategies aimed at fostering a sustainable future for all.
+        <Text pt={'4'}>
+          {event_detail?.event_description}
         </Text>
-        <Text py={'3'} fontSize={'sm'}>
-        In an era where technological advancements are reshaping every aspect of our lives, staying informed about the latest trends and innovations is crucial. From artificial intelligence and machine learning to quantum computing and biotechnology, the future holds immense possibilities. These advancements promise not only to revolutionize industries but also to redefine the way we interact with the world. As we delve deeper into this digital age, understanding these emerging technologies becomes imperative for both businesses and individuals looking to stay ahead of the curve.
-        </Text>
-        <Text fontWeight={'medium'} fontSize={'md'}>Sustainable urban development:</Text>
-        <VStack>
-        <Box alignItems={'center'} flexDirection={'row'} >
-        <Icon ml="2" color="primary.text" size="lg" as={Entypo} name="dot-single" />
-            <Text fontSize={'xs'}> Transforming industries with predictive analytics and automation</Text>
-        </Box>
-        <Box alignItems={'center'} flexDirection={'row'} py={'6px'}>
-        <Icon ml="2" color="primary.text" size="lg" as={Entypo} name="dot-single" />
-            <Text fontSize={'xs'}> Enhancing personalized user experiences</Text>
-        </Box>
-        <Box alignItems={'center'} flexDirection={'row'}>
-        <Icon ml="2" color="primary.text" size="lg" as={Entypo} name="dot-single" />
-       <Text fontSize={'xs'}> Driving efficiency and innovation in various sectors</Text>
-        </Box>
-        </VStack>
-        {/*  */}
-        <Text fontWeight={'medium'} fontSize={'md'}>Climate change mitigation and adaptation:</Text>
-        <VStack>
-        <Box alignItems={'center'} flexDirection={'row'} >
-        <Icon ml="2" color="primary.text" size="lg" as={Entypo} name="dot-single" />
-            <Text fontSize={'xs'}> Transforming industries with predictive analytics and automation</Text>
-        </Box>
-        <Box alignItems={'center'} flexDirection={'row'} py={'6px'}>
-        <Icon ml="2" color="primary.text" size="lg" as={Entypo} name="dot-single" />
-            <Text fontSize={'xs'}> Enhancing personalized user experiences</Text>
-        </Box>
-        <Box alignItems={'center'} flexDirection={'row'}>
-        <Icon ml="2" color="primary.text" size="lg" as={Entypo} name="dot-single" />
-       <Text fontSize={'xs'}> Driving efficiency and innovation in various sectors</Text>
-        </Box>
-        </VStack>
-        {/*  */}
-        <Text pt={3}>In an era where technological advancements are reshaping every aspect of our lives, staying informed about the latest trends and innovations is crucial. From artificial intelligence and machine learning to quantum computing and biotechnology, the future holds immense possibilities.</Text>
-        </HStack>   
+       </HStack> 
       </VStack>
     </VStack>
     <Modal isOpen={false} onClose={() => {}} >
