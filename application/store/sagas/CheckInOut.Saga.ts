@@ -12,6 +12,8 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
 
+import { ToastActions } from '../slices/Toast.Slice'
+
 function* OnFetchCheckInOut({
     payload,
 }: {
@@ -36,6 +38,9 @@ function* OnSendQRCode({
     yield put(LoadingActions.addProcess({process:'checkin-send-qr-code'}));
     const state = yield select(state => state);
     const response: HttpResponse = yield call(sendQRCodeApi, {}, state)
+     if(response.status == 200){
+        yield put (ToastActions.AddToast({toast:{message: 'Qr-Code sent successfully' ,status:"success"}}))
+    }
     yield put(LoadingActions.removeProcess({process:'checkin-send-qr-code'}));
 }
 

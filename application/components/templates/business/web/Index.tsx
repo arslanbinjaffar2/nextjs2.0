@@ -16,8 +16,8 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import in_array from "in_array";
-import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import { colors } from 'application/styles';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
   const { processing, loading } = UseLoadingService();
@@ -233,7 +233,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
               <RectangleAttendeeView attendee={attendee} border={searchMatchAttendees.length - 1 == k ? 0 : 1} speaker={0} />
             )}
           </Box>}
-          {!searchingAttendees && !searchMatchAttendees && <Box overflow="hidden" mb={3} bg="primary.box" w="100%" rounded="lg" padding={3}><Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text></Box>}
+          {!searchingAttendees && !searchMatchAttendees && <NoRecordFound mb={3} bg="primary.box"/>}
           {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
             <Button
               size="lg"
@@ -329,9 +329,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
       </View>
     ))
   ) : searchTerm.length > 0 && filteredkeywords?.length === 0 ? (
-    <Box overflow="hidden" mb={3} w="100%" rounded="lg" padding={3} bg={"primary.box"}>
-      <Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
-    </Box>
+    <NoRecordFound bg="primary.box" />
   ) : searchTerm.length === 0 && interestkeywords?.length > 0 ? (
     interestkeywords.map((keyword: Keyword) => (
       <View key={keyword?.id}>
@@ -349,9 +347,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
       </View>
     ))
   ) : (
-    <Box overflow="hidden" mb={3} w="100%" rounded="lg" padding={3} bg={"primary.box"}>
-      <Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
-    </Box>
+    <NoRecordFound bg="primary.box" />
   )}
 </Box>
 
