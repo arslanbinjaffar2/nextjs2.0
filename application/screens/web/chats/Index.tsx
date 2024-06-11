@@ -13,6 +13,7 @@ import moment from 'moment';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from 'in_array';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useDebouncedCallback } from "use-debounce";
 
 
@@ -135,13 +136,12 @@ const Index = ({ navigation }: indexProps)  => {
                   <Text opacity="0.6" fontSize="md">18:00</Text>
                 </VStack>
               </HStack> */}
-              {/* <HStack borderBottomWidth="0" borderColor="primary.bordercolor" w="100%" p="4" space="5">
+              <HStack borderTopWidth="1" borderColor="primary.bordercolor" w="100%" p="4" space="5">
                 <Avatar
-                  source={{
-                    uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                  }}
+                 
                 >
-                  SS
+                  <Icon size={'xl'} color={'primary.text'} as={MaterialIcons} name="groups"  />
+                  
                 </Avatar>
                 <VStack space="0">
                   <Heading fontSize="lg">Janet Fowler</Heading>
@@ -152,7 +152,7 @@ const Index = ({ navigation }: indexProps)  => {
                   <Text opacity="0.6" fontSize="md">21:00</Text>
                   <Avatar.Badge position="static" borderWidth="0" bg="primary.secondary" size={4} />
                 </VStack>
-              </HStack> */}
+              </HStack>
             </Box> 
             <Box alignItems="center" w="100%">
               <Button

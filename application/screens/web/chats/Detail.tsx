@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Image, Input, ScrollView, Spacer, Spinner, Text, TextArea, VStack } from 'native-base';
+import { Avatar, Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Image, Input, Popover, ScrollView, Spacer, Spinner, Text, TextArea, VStack } from 'native-base';
 import Master from 'application/screens/web/layouts/Master';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -87,37 +87,64 @@ const Detail = ({ navigation }: indexProps) => {
       <NextBreadcrumbs module={module} title={title} />
       <Container pt="2" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-          <HStack space="3" alignItems="center">
-            <Icon as={AntDesign} name="arrowleft" size="xl" color="primary.text" />
-            <Text fontSize="2xl">{event?.labels?.GENERAL_BACK}</Text>
-          </HStack>
+          <Text fontWeight={'500'} isTruncated pr="6" fontSize="2xl">{title}</Text>
           <Spacer />
-          <Text isTruncated pr="6" fontSize="lg">{title}</Text>
-          <Spacer />
-          <Avatar
-            source={{
-              uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
+          <Popover
+            trigger={(triggerProps) => {
+            return <Button rounded={'full'}  bg={'transparent'} variant={'unstyled'} p={0} {...triggerProps} >
+                <Avatar source={{uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'}}>
+                      SS
+                    <Avatar.Badge borderWidth="1" bg="red.500" />
+                  </Avatar>
+            </Button>
             }}
+            
           >
-            SS
-            <Avatar.Badge borderWidth="1" bg="red.500" />
-          </Avatar>
+            <Popover.Content top={2} width={210} shadow={3} borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
+              <Popover.Header p={3} borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
+               <Text fontWeight={500} fontSize={'md'}>Participants (4)</Text>
+               
+              </Popover.Header>
+              <Popover.Body p={0} borderTopWidth="0" borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
+                <ScrollView maxHeight={180}>
+                  {[...Array(15)].map(item => 
+                    <HStack p={3} borderTopWidth={'1'} borderTopColor={'primary.bordercolor'} space="2" alignItems="center">
+                      <Avatar
+                        size={'xs'}
+                        source={{
+                          uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"
+                        }}
+                        
+                      >
+                        SS
+                      </Avatar>
+                      <Text  fontSize="sm">John Smith </Text>
+                      
+                      
+                    </HStack>
+                    
+                  )}
+                </ScrollView>
+                
+              </Popover.Body>
+            </Popover.Content>
+          </Popover>
         </HStack>
-        <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
-          <ScrollView w="100%" minH="450px" py="4" px="3">
+        <VStack position={'relative'} mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
+          <ScrollView w="100%" maxH="450px" py="4" px="3">
             {processing.includes('chat-detail') ? <SectionLoading /> : (
               <>
               {Object.entries(groupedMessages).map(([groupKey, messages]) => {
                 return (
                   <>
-                  <Box bg="primary.darkbox" mb={2}>
-                    <Text fontSize="xs" textAlign="center">{moment(groupKey).format(GENERAL_DATE_FORMAT)}</Text>
+                  <Box display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} top={0} mb={2}>
+                    <Text bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).format(GENERAL_DATE_FORMAT)}</Text>
                   </Box>
                   {messages.map((message: ChatMessage) => {
                     return (
                       <>
                       {message?.sender_id === loggedInUserId ? (
-                        <HStack direction="row-reverse" mb="3" space="0" alignItems="flex-end">
+                        <HStack position={'relative'} zIndex={1} direction="row-reverse" mb="3" space="0" alignItems="flex-end">
                           <Avatar
                             source={{
                               uri: getSenderImage(message?.sender?.image)
@@ -132,7 +159,7 @@ const Detail = ({ navigation }: indexProps) => {
                           </VStack>
                         </HStack> 
                       ):(
-                        <HStack mb="3" space="0" alignItems="flex-end">
+                        <HStack position={'relative'} zIndex={1}  mb="3" space="0" alignItems="flex-end">
                           <Avatar
                             source={{
                               uri: getSenderImage(message?.sender?.image)
