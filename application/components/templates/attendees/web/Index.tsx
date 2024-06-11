@@ -23,6 +23,7 @@ import { Category } from 'application/models/event/Category';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
+import DynamicIcon from 'application/utils/DynamicIcon';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { slug: any }

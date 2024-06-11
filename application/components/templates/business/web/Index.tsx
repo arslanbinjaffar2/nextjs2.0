@@ -16,9 +16,9 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import in_array from "in_array";
+import { colors } from 'application/styles';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
-import { colors } from 'application/styles';
 const Index = () => {
   const { processing, loading } = UseLoadingService();
 
