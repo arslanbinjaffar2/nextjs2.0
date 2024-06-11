@@ -18,6 +18,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { GalleryImage } from 'application/models/gallery/GalleryImage';
 import WebLoading from 'application/components/atoms/WebLoading';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 type AppProps = {
@@ -131,7 +132,7 @@ const SquareBox = ({ post, index }: AppProps) => {
 
   return (
     <>
-       {deleteprocessing && <Box mb={3}><WebLoading /></Box>}
+       {deleteprocessing && <SectionLoading />}
       {!deleteprocessing && <Box mb="3" w="100%" py={3} bg={'primary.box'} roundedTop={index === 0 ? 0 : 10} roundedBottom={10} borderWidth="0" borderColor="primary.box">
       <VStack space="3">
 

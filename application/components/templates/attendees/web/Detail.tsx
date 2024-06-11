@@ -156,7 +156,7 @@ const Detail = ({ speaker }: Props) => {
     return (
         <>
             {in_array('attendee-detail', processing) ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>

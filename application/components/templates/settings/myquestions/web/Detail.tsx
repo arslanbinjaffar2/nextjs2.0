@@ -19,6 +19,7 @@ import Icoquestion from 'application/assets/icons/small/Icoquestion';
 import UseEnvService from 'application/store/services/UseEnvService';
 import IcoSend from 'application/assets/icons/small/IcoSend'
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type ScreenParams = { id: string }
 const Detail = () => {
@@ -80,13 +81,13 @@ const Detail = () => {
   };
   const module = setting_modules?.find((module) => module.alias === 'myquestions');
   if (questionAnswers && Number(questionAnswers?.question_id) !== Number(id)) {
-    return <WebLoading />;
+    return <SectionLoading />;
   }
 
   return (
     <>
       {loading ? (
-        <WebLoading />
+        <SectionLoading />
       ) : (
         <Container pt="2" maxW="100%" w="100%">
           <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
