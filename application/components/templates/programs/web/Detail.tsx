@@ -185,7 +185,7 @@ const Detail = () => {
     return (
         <>
             {in_array('program-detail', processing) ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
                 <>
                     <NextBreadcrumbs queryParameters={{ 'currentIndex':currentIndex ?? '' }} module={module} title={detail?.program?.topic}/>

@@ -29,6 +29,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
 import { getColorScheme } from 'application/styles/colors';
 import SwipeBtn from '../../../atoms/swipeBtn';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type ScreenParams = { id: string }
 
@@ -263,7 +264,7 @@ const Detail = () => {
   return (
     <>
       {loading ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
 
               <>
@@ -412,7 +413,7 @@ const CountdownTimer = React.memo(() => {
       {timeLeft > 0 ? (
         <Text fontSize="md">{poll_labels?.POLL_SURVEY_REDIRECT_MSG} {timeLeft}</Text>
       ) : (
-        <WebLoading />
+        <SectionLoading />
       )}
     </>
   );

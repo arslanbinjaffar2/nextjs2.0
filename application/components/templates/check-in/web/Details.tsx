@@ -10,6 +10,7 @@ import in_array from "in_array";
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import NoRecordFound from 'application/components/atoms/NoRecordFound'
+import SectionLoading from 'application/components/atoms/SectionLoading'
 
 const CheckInDetails = () => {
     const { event, modules } = UseEventService();
@@ -41,7 +42,7 @@ const CheckInDetails = () => {
         { in_array('checking-in-out-order-detail',processing) ? (
           <>
             <Box mt={10}>
-            <WebLoading />
+            <SectionLoading />
             </Box>
           </>
         ):(

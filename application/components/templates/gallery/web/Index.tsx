@@ -13,6 +13,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = () => {
   const { loading, scroll, processing } = UseLoadingService();
@@ -56,7 +57,7 @@ const Index = () => {
     <>
       {
         (in_array('gallery', processing)) && page === 1 ? (
-          <WebLoading />
+          <SectionLoading />
         ) : (
           <>
             <NextBreadcrumbs module={module} />

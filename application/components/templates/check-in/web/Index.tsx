@@ -34,6 +34,7 @@ import { GroupedHistory, History } from 'application/models/checkInOut/CheckInOu
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useRouter } from 'solito/router'
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 const CheckinList = ({type, k, group}: any) => {
@@ -246,7 +247,7 @@ const Index = () => {
     <>
       {
         in_array('fetch-checkin-out',processing) ? (
-            <WebLoading />
+            <SectionLoading />
         ):(
             <Container mb={3} pt="1" maxW="100%" w="100%">
               <NextBreadcrumbs module={module} />

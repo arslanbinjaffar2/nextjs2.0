@@ -11,6 +11,7 @@ import { Pressable } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService'
 import NoRecordFound from '../NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type AppProps = {
   attendee_id: number,
@@ -71,7 +72,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
                   </HStack>
             {(in_array('social_wall_posts', processing)) && page === 1 ? (
                 <Box  w={'100%'} p="4" rounded="lg">
-                  <WebLoading />
+                  <SectionLoading />
                 </Box>
                 
             ):

@@ -41,6 +41,7 @@ import IndexTemplatePrograms from 'application/components/templates/programs/web
 import { CustomHtml } from 'application/models/CustomHtml'
 import OurExhibitor from 'application/components/molecules/exhibitors/OurExhibitor';
 import OurSponsor from 'application/components/molecules/sponsors/OurSponsor';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type indexProps = {
   navigation: unknown
@@ -86,7 +87,7 @@ const Index = ({ navigation }: indexProps) => {
   return (
     <>
       {(in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
-        <WebLoading />
+        <SectionLoading />
       ) : (
         <>
          
