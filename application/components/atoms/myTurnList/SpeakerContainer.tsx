@@ -2,6 +2,7 @@ import DynamicIcon from 'application/utils/DynamicIcon'
 import { Text, HStack, View, Avatar, Box, Image } from 'native-base'
 import React from 'react'
 import moment from 'moment';
+import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService'
 import useRequestToSpeakService from 'application/store/services/useRequestToSpeakService';
@@ -9,7 +10,7 @@ import useRequestToSpeakService from 'application/store/services/useRequestToSpe
 const SpeakerContainer = ({ currentAttendee }: { currentAttendee: any }) => {
 
   const { attendee } = currentAttendee
-
+  const { event } = UseEventService();
   const { response } = UseAuthService()
   const { _env } = UseEnvService()
   const { field_settings, settings } = useRequestToSpeakService();
@@ -97,7 +98,7 @@ const SpeakerContainer = ({ currentAttendee }: { currentAttendee: any }) => {
               }
               <Text fontSize={'sm'}> {renderDetails()}</Text>
             </Box>
-            <Text fontSize={'sm'} py={'10px'} mr={'14px'} color={'#05E0E0'}>(Speaking now)</Text>
+            <Text fontSize={'sm'} py={'10px'} mr={'14px'} color={'#05E0E0'}>({event?.labels?.NOW_SPEAKING ?? "Speaking Now"})</Text>
           </HStack>
         </View>
 

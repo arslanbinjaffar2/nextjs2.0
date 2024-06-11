@@ -101,7 +101,7 @@ const ShowTurnList = () => {
                         }
 
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text fontSize="md">Total Speakers: {attendeesToCome?.length ?? 0}</Text>
+                            <Text fontSize="md">{event?.labels?.TURNLIST_TOTAL_SPEAKERS ?? 'Total Speakers'}: {attendeesToCome?.length ?? 0}</Text>
                         </HStack>
                         <View bg={'primary.box'} rounded={'10px'} width={'100%'}>
                             {attendeesToCome?.length > 0 ?
