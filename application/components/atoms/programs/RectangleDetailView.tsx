@@ -9,6 +9,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import { Platform } from 'react-native';
 import moment from 'moment'
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import in_array from 'in_array';
 type AppProps = {
   program: Program,
@@ -54,7 +55,11 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
       {workshop && <Divider w={'5px'} bg={'primary.500'}  position={'absolute'} right={0} height={'calc(100% + 1px)'} top={0} />}
       <Pressable
               onPress={() => {
-                push(`/${event.url}/agendas/detail/${program.id}?currentIndex=${currentIndex}`)
+                if(section === 'myturnlist'){
+                  push(`/${event.url}/myturnlist/show/${program.id}`)
+                }else{
+                  push(`/${event.url}/agendas/detail/${program.id}?currentIndex=${currentIndex}`)
+                }
               }}>
 
                 <HStack pl="30px" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
@@ -77,7 +82,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
                     </Center>
                     <Spacer />
                     
-                    {_condtion && <HStack pr="3" space={['2','4']} alignItems="center" justifyContent={'flex-end'}>
+                    {_condtion && section !== 'myturnlist' && <HStack pr="3" space={['2','4']} alignItems="center" justifyContent={'flex-end'}>
                       {program?.session?.length && program?.enable_speakerlist ? (
                         <IconButton
                           p={0}
@@ -98,6 +103,19 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
                       </Pressable>}
                       
                     </HStack>}
+                      {section === 'myturnlist' && <HStack pr="3" space="5" alignItems="center">
+                              <IconButton
+                                bg="transparent"
+                                p="1"
+                                _hover={{ bg: 'transparent' }}
+                                icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                                onPress={() => {
+                                  push(`/${event.url}/myturnlist/show/${program.id}`)
+                                }}
+
+                              />
+                            </HStack>
+                            }
                   </HStack>
                 </HStack>
       </Pressable>
