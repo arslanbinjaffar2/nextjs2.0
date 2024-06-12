@@ -195,7 +195,7 @@ body {
   display: flex;
   flex-direction: column;
   line-height: 1.5;
-  word-break: break-all;
+  word-break: break-word;
 }
 .ebs-iframe-content * {
   margin: 0;

@@ -126,6 +126,7 @@ interface Setting {
     app_text_mode?: string;
     app_background_image?: string;
     fav_icon?: string;
+    app_icon?: string;
 }
 interface AttendeeSetting {
     id?: number;
