@@ -28,7 +28,7 @@ const IcoLike = (props: SvgProps) => {
         />
       </ClipPath>
     </Defs>
-    <G id="Group_890" data-name="Group 890" clipPath="url(#clip-path)">
+    <G id="Group_890" data-name="Group 890" >
       <Path
         id="Path_1634"
         data-name="Path 1634"

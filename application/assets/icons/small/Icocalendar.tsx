@@ -13,7 +13,18 @@ const Icocalendar = (props: SvgProps) => {
     viewBox="0 0 17 18.778"
     {...props}
   >
-    <G id="calendar.2" transform="translate(0.5 0.5)">
+    <Defs>
+      <ClipPath id="clip-path">
+        <Rect
+          id="Rectangle_3824"
+          data-name="Rectangle 3824"
+          width={14}
+          height={14.833}
+          fill={colors.text ? colors.text : '#fff'}
+        />
+      </ClipPath>
+    </Defs>
+    <G id="Group_1788" data-name="Group 1788" >
       <Path
         id="Path_286"
         data-name="Path 286"

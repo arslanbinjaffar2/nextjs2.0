@@ -30,7 +30,7 @@ const Icohotelbed = (props: SvgProps) => {
         id="Group_703"
         data-name="Group 703"
         transform="translate(0 0)"
-        clipPath="url(#clip-path)"
+        
       >
         <Path
           id="Path_1806"
