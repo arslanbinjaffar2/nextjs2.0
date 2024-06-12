@@ -63,6 +63,7 @@ import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBo
 import { useWindowDimensions } from 'react-native';
 import SessionRating from 'application/components/atoms/programs/SessionRating';
 import ButtonElement from 'application/components/atoms/ButtonElement'
+import { getColorScheme } from 'application/styles/colors';
 
 
 
@@ -110,6 +111,18 @@ const Detail = () => {
     const [iframeWidth, setiframeWidth] = React.useState(250);
     const _elementWidth = React.useRef<HTMLDivElement>(null); 
 
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['attendee']) && page < last_page ) {
@@ -208,17 +221,16 @@ const Detail = () => {
                 <>
                     <NextBreadcrumbs queryParameters={{ 'currentIndex':currentIndex ?? '' }} module={module} title={detail?.program?.topic}/>
                     <DetailBlock>
-                        {/* <Text>
-                            <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
-                        </Text> */}
-                        {htmlContent &&<Text>            
-                        <RenderHtml
-                        contentWidth={width}
-                        source={{ html: htmlContent }}
-                        tagsStyles={tagsStyles} 
                         
-                        />
-                        </Text>}
+                        {htmlContent &&<Box w={'100%'}>            
+                            <RenderHtml
+                                defaultTextProps={{selectable:true}}
+                                contentWidth={600}
+                                systemFonts={['Avenir']}
+                                tagsStyles={mixedStyle}
+                                source={{ html: htmlContent}}
+                            />
+                        </Box>}
                     </DetailBlock>
                     <Container ref={_elementWidth} mb="3" maxW="100%" w="100%">
                         <HStack mb="3" style={{rowGap: 2, columnGap: 1}} space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">

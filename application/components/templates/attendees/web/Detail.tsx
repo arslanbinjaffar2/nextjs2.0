@@ -31,6 +31,8 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import { Platform } from 'react-native';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
+import { getColorScheme } from "application/styles/colors";
 
 type ScreenParams = { id: string }
 
@@ -57,6 +59,19 @@ const Detail = ({ speaker }: Props) => {
     const { response } = UseAuthService();
 
     const { loading, scroll, processing } = UseLoadingService();
+
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
 
     const tab1 = React.useRef<HTMLDivElement>();
     const tab2 = React.useRef<HTMLDivElement>();
@@ -204,8 +219,15 @@ const Detail = ({ speaker }: Props) => {
                                                         }
                                                     </React.Fragment>
                                                 )}
-                                            </HStack>          
-                                    {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<Text textAlign={'left'}><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div></Text>} />}
+                                            </HStack>
+                                              
+                                    {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<RenderHtml
+																									defaultTextProps={{selectable:true}}
+																									contentWidth={600}
+																									systemFonts={['Avenir']}
+																									tagsStyles={mixedStyle}
+																									source={{ html: detail?.detail?.info?.about! }}
+																							/>} />}
                                     {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) && <SubRegistration detail={detail} />}
                                     {tab === 'groups' &&
                                             <Container mb="3" rounded="10" bg={`${groups?.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
