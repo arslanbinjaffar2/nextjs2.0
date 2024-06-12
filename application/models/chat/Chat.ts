@@ -36,3 +36,23 @@ export interface ParticipantInfo {
     full_name: string;
     image: string;
 }
+
+export interface NewChatSearchResults {
+    groups: Group[];
+    attendees: Attendee[];
+}
+
+export interface Group {
+    id: number;
+    name: string;
+    image: string;
+}
+
+export interface Attendee {
+    id: number;
+    email: string;
+    first_name: string;
+    last_name: string;
+    full_name: string;
+    image: string;
+}

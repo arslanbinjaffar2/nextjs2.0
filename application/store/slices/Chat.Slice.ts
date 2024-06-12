@@ -1,18 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import type { RootState } from 'application/store/Index'
-import { Chat } from 'application/models/chat/Chat'
+import { Chat, Group, NewChatSearchResults,Attendee } from 'application/models/chat/Chat'
 
 export interface ChatState {
     chats: Chat[],
     chat: Chat | null,
+    new_chat_search_results: NewChatSearchResults,
     labels: any,
 }
 
 const initialState: ChatState = {
     chats: [],
     labels: [],
-    chat: null
+    chat: null,
+    new_chat_search_results: {
+        groups: [],
+        attendees: [],
+    }
 }
 
 // Slice
@@ -40,6 +45,13 @@ export const ChatSlice = createSlice({
         },
         MarkAsRead(state, action: PayloadAction<{message_id:number}>) {
             
+        },
+        NewChatSearch(state, action: PayloadAction<{search:string}>) {
+
+        },
+        updateNewChatSearch(state, action: PayloadAction<{attendees:Attendee[],groups:Group[]}>) {
+            state.new_chat_search_results.attendees = action.payload.attendees;
+            state.new_chat_search_results.groups = action.payload.groups;
         }
     },
 })
@@ -52,7 +64,9 @@ export const ChatActions = {
    updateChat: ChatSlice.actions.updateChat,
    StartNewChat: ChatSlice.actions.StartNewChat,
    SaveMessage: ChatSlice.actions.SaveMessage,
-   MarkAsRead: ChatSlice.actions.MarkAsRead
+   MarkAsRead: ChatSlice.actions.MarkAsRead,
+   NewChatSearch: ChatSlice.actions.NewChatSearch,
+   updateNewChatSearch: ChatSlice.actions.updateNewChatSearch
 }
 
 export const SelectChats = (state: RootState) => state.chats.chats
@@ -60,6 +74,8 @@ export const SelectChats = (state: RootState) => state.chats.chats
 export const SelectChatLabels = (state: RootState) => state.chats.labels
 
 export const SelectChat = (state: RootState) => state.chats.chat
+
+export const SelectNewChatSearchResults = (state: RootState) => state.chats.new_chat_search_results
 
 // Reducer
 export default ChatSlice.reducer

@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getChatDetailApi, getChatsApi, markChatReadApi, saveMessageChatApi, startNewChatApi } from 'application/store/api/Chat.Api';
+import { getChatDetailApi, getChatsApi, markChatReadApi, newChatSearchApi, saveMessageChatApi, startNewChatApi } from 'application/store/api/Chat.Api';
 
 import { LoadingActions } from 'application/store/slices/Loading.Slice'
 
@@ -79,6 +79,19 @@ function* OnMarkAsRead({
     const response: HttpResponse = yield call(markChatReadApi,payload, state)
 }
 
+function* OnNewChatSearch({
+    payload,
+}: {
+    type: typeof ChatActions.NewChatSearch
+    payload: {search:string}
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process: 'new-chat-search'}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(newChatSearchApi,payload, state)
+    yield put(ChatActions.updateNewChatSearch({attendees:response.data?.data?.attendees!,groups:response.data?.data?.groups!}))
+    yield put(LoadingActions.removeProcess({process: 'new-chat-search'}))
+}
+
 // Watcher Saga
 export function* ChatWatcherSaga(): SagaIterator {
     yield takeEvery(ChatActions.FetchChats.type, OnGetChats)
@@ -86,6 +99,7 @@ export function* ChatWatcherSaga(): SagaIterator {
     yield takeEvery(ChatActions.StartNewChat.type, OnStartNewChat)
     yield takeEvery(ChatActions.SaveMessage.type, OnSaveMessage)
     yield takeEvery(ChatActions.MarkAsRead.type, OnMarkAsRead)
+    yield takeEvery(ChatActions.NewChatSearch.type, OnNewChatSearch)
 }
 
 export default ChatWatcherSaga

@@ -9,7 +9,7 @@ export const getChatsApi = (payload: any, state: any): Promise<HttpResponse> => 
 }
 
 export const getChatDetailApi = (payload: any, state: any): Promise<HttpResponse> => {
-    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/chat/${payload.thread_id}`);
+    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/chat/detail/${payload.thread_id}`);
 }
 
 export const startNewChatApi = (payload: any, state: any): Promise<HttpResponse> => {
@@ -22,4 +22,8 @@ export const saveMessageChatApi = (payload: any, state: any): Promise<HttpRespon
 
 export const markChatReadApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/chat/mark-as-read`, payload);
+}
+
+export const newChatSearchApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/chat/new-search`, {params: payload});
 }
