@@ -87,6 +87,7 @@ export interface Event {
     timezone?: any
     agenda_tab_settings?: AgendaTabSetting[]
     dashboard_modules?: DashboardModule[]
+    home_my_event?: HomeMyEvent[]
 }
 interface Setting {
     poll_setting?: string;
