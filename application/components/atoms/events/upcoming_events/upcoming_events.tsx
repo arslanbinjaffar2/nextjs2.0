@@ -9,7 +9,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'solito/link';
 import { useRouter } from 'solito/src/router/use-router';
-import WebLoading from 'application/components/atoms/WebLoading';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 
 const UpcomingEventComponent = () => {
@@ -44,7 +44,7 @@ const UpcomingEventComponent = () => {
 
     return (
         <>
-        {processing?.includes('fetching-events') ? <WebLoading /> :(
+        {processing?.includes('fetching-events') ? <SectionLoading /> :(
             <>
             <HStack space={2} alignItems="center" mb={3} justifyContent="space-between">
                 <Text fontSize="2xl">{modules?.find((programTitle) => programTitle.alias === 'upcomingEvents')?.name ?? ''}</Text>
@@ -63,6 +63,7 @@ const UpcomingEventComponent = () => {
                 />
             </HStack>
             <View bg="primary.box" rounded="lg">
+                {filteredUpcomingEvents.length === 0 && <Text>To replace with no record found</Text>}
                 {filteredUpcomingEvents.map((upcoming_event: UpcomingEvent, key: number) => (
                     <Box borderBottomWidth={filteredUpcomingEvents.length - 1 === key ? 0 : 1} key={key}>
                         <View display="flex" flexDirection={['column', 'row']} alignItems="flex-start" width="100%" py="14px" px="16px" bg="primary.box">
@@ -98,7 +99,7 @@ const UpcomingEventComponent = () => {
                                 <Box alignItems="center" flexDirection="row" pt="6px">
                                     <Icopin width={16} height={18} />
                                     <Text ml="6px" fontSize="xs">
-                                        {upcoming_event.location}
+                                        {upcoming_event.location_name}
                                     </Text>
                                 </Box>
                                 <View flexDirection="row" alignItems="center" mt="3">

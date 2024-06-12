@@ -4,8 +4,9 @@ export interface HomeMyEvent{
   url?: string;
   start_date?: string;
   end_date?: string;
-  location?: string;
+  location_name?: string;
   app_icon?: string;
+  description?: string;
 }
 export interface UpcomingEvent{
   id?: number;
@@ -13,8 +14,9 @@ export interface UpcomingEvent{
   url?: string;
   start_date?: string;
   end_date?: string;
-  location?: string;
+  location_name?: string;
   app_icon?: string;
+  description?: string;
   register_link?: string;
   not_attending_link?: string;
 }

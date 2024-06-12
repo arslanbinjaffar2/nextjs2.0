@@ -12,7 +12,7 @@ import { UseEventService } from 'application/store/services'
 import { createParam } from 'solito';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseLoadingService from 'application/store/services/UseLoadingService'
-import WebLoading from 'application/components/atoms/WebLoading'
+import SectionLoading from 'application/components/atoms/SectionLoading'
 type ScreenParams = { id: string; cms: string | undefined };
 
 const { useParam } = createParam<ScreenParams>();
@@ -34,7 +34,7 @@ React.useEffect(() => {
 
   return (
    <>
-    {processing?.includes('event-detail') ?  <WebLoading /> :(
+    {processing?.includes('event-detail') ?  <SectionLoading /> :(
       <VStack width={'100%'}>
         <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 
         <Pressable alignItems={'center'} flexDirection={'row'}

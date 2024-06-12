@@ -9,7 +9,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'solito/src/router/use-router';
 import UseLoadingService from 'application/store/services/UseLoadingService';
-import WebLoading from 'application/components/atoms/WebLoading';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const HomeEvent = () => {
     const { push } = useRouter();
@@ -43,7 +43,7 @@ const HomeEvent = () => {
 
     return (
         <>
-        {processing?.includes('fetching-events') ? <WebLoading /> :(
+        {processing?.includes('fetching-events') ? <SectionLoading /> :(
             <>
             <HStack space={2} alignItems="center" mb={3} justifyContent={'space-between'}>
             <Text fontSize="2xl">{modules?.find((programTitle) => (programTitle.alias == 'homeMyevents'))?.name ?? ''}</Text>
@@ -69,6 +69,7 @@ const HomeEvent = () => {
                         />
             </HStack>
             <View>
+                {filteredHomeEvent.length === 0 && <Text>To replace with no record found</Text>}
                 {filteredHomeEvent.map((home_event: HomeMyEvent, key: number) => (
                     <View key={key} display="flex" flexDirection={['column', 'row']} alignItems="flex-start" width="100%" py="14px" px="16px" bg={'primary.box'}>
                         <Pressable onPress={() => push(`/${event.url}/home_events/detail/${home_event?.id}`)} >
@@ -110,7 +111,7 @@ const HomeEvent = () => {
                             </HStack>
                             <Box alignItems="center" flexDirection="row" pt="6px">
                                 <Icopin width={16} height={18} />
-                                <Text ml="6px" fontSize="xs">{home_event?.location}</Text>
+                                <Text ml="6px" fontSize="xs">{home_event?.location_name}</Text>
                             </Box>
                             <Button isDisabled={home_event?.id == event?.id} width={['100%', '86px']} height={38} mt="3" onPress={() => window.open(`/${home_event?.url}`, '_blank')}>
                                 <Box display="flex" alignItems="center" flexDirection="row">
