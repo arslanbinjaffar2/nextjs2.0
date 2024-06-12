@@ -15,15 +15,17 @@ type ScreenParams = { id: string; cms: string | undefined };
 import { createParam } from 'solito';
 import SectionLoading from 'application/components/atoms/SectionLoading'
 import UseLoadingService from 'application/store/services/UseLoadingService'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs'
 
 const { useParam } = createParam<ScreenParams>();
 
 const Index = () => {
   const {push}=useRouter()
-  const { event, FetchEventDetail, event_detail } = UseEventService();
+  const { event, FetchEventDetail, event_detail,,modules } = UseEventService();
   const { _env } = UseEnvService()
   const [id] = useParam('id');
   const {processing} = UseLoadingService();
+  const module = modules.find((module) => module.alias === 'upcomingEvents');
 
 React.useEffect(() => {
     if (id) {
@@ -33,19 +35,12 @@ React.useEffect(() => {
 
 return (
     <>
+     <NextBreadcrumbs module={module} title={event_detail?.name}/>
     {processing?.includes('event-detail') ?  <SectionLoading /> :(
     <VStack width={'100%'}>
       <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 
-      <Pressable alignItems={'center'} flexDirection={'row'}
-             onPress={()=>{
-              push(`/${event.url}/upcoming_events`)
-          }} 
-      >
-        <Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="arrowleft" />
-        <Text fontSize={'2xl'} fontWeight={'medium'}>BACK</Text>
-        </Pressable>
       
-      <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} width={'calc(100% - 86px)'}>{event_detail?.name}</Text>
+      <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} width={'100%'}>{event_detail?.name}</Text>
       </Box>
       <VStack mt={'4'}>
         {console.log(event_detail,'llll')}
@@ -78,7 +73,7 @@ return (
             >
                 <Box display={'flex'} alignItems={'center'} flexDirection={'row'}>
                     <DynamicIcon iconType={'Notattending'} iconProps={{ width:14,height:16, color:'#fff' }}/>
-                <Text ml={'6px'} color={'#fff'}>Not attending</Text>
+                <Text ml={'6px'} color={'#fff'}>{event?.labels?.ATTENDEE_UNSUBSCRIBE_TEXT}</Text>
                 </Box>
                 
             </Button>
@@ -95,7 +90,7 @@ return (
           >
               <Box display={'flex'} alignItems={'center'} flexDirection={'row'}>
                   <DynamicIcon iconType={'register'} iconProps={{ width:17,height:16 }}/>
-              <Text ml={'6px'}>Register</Text>
+              <Text ml={'6px'}>{event?.labels?.EMAIL_CLICK_HERE_TO_REGISTER}</Text>
               </Box>
               
           </Button>
@@ -109,7 +104,7 @@ return (
             <Text ml={'6px'} fontSize={'xs'}>{event_detail?.start_date} - {event_detail?.end_date}</Text>
         </Box>
         <Box alignItems={'center'} flexDirection={'row'}>
-            <Text fontSize={'xs'}>Event ID:</Text>
+            <Text fontSize={'xs'}>{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>
             <Text fontSize={'xs'}>{event_detail?.id}</Text>
         </Box>
         </HStack>

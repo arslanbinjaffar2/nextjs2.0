@@ -105,7 +105,7 @@ const HomeEvent = () => {
                                     <Text ml="6px" fontSize="xs">{home_event?.start_date}</Text>
                                 </Box>
                                 <Box alignItems="center" flexDirection="row">
-                                    <Text fontSize="xs">Event ID:</Text>
+                                    <Text fontSize="xs">{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>
                                     <Text fontSize="xs">{home_event?.id}</Text>
                                 </Box>
                             </HStack>

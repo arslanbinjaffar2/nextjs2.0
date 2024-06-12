@@ -13,6 +13,7 @@ import { createParam } from 'solito';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseLoadingService from 'application/store/services/UseLoadingService'
 import SectionLoading from 'application/components/atoms/SectionLoading'
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs'
 type ScreenParams = { id: string; cms: string | undefined };
 
 const { useParam } = createParam<ScreenParams>();
@@ -20,9 +21,10 @@ const { useParam } = createParam<ScreenParams>();
 const Index = () => {
   const { push } = useRouter();
   const [id] = useParam('id');
-  const { event, FetchEventDetail, event_detail } = UseEventService();
+  const { event, FetchEventDetail, event_detail,modules } = UseEventService();
   const { _env } = UseEnvService();
   const {processing} = UseLoadingService();
+  const module = modules.find((module) => module.alias === 'homeMyevents');
 
 
 React.useEffect(() => {
@@ -34,19 +36,13 @@ React.useEffect(() => {
 
   return (
    <>
+  <NextBreadcrumbs module={module} title={event_detail?.name}/>
     {processing?.includes('event-detail') ?  <SectionLoading /> :(
       <VStack width={'100%'}>
         <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 
-        <Pressable alignItems={'center'} flexDirection={'row'}
-              onPress={()=>{
-                push(`/${event.url}/home_events`)
-            }} 
-        >
-          <Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="arrowleft" />
-          <Text fontSize={'2xl'} fontWeight={'medium'}>BACK</Text>
-          </Pressable>
         
-        <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} width={'calc(100% - 86px)'}>{event_detail?.name}</Text>
+        
+        <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} width={'100%'}>{event_detail?.name}</Text>
         </Box>
         <VStack mt={'4'}>
           {
@@ -85,7 +81,7 @@ React.useEffect(() => {
               <Text ml={'6px'} fontSize={'xs'}>{event_detail?.start_date} - {event_detail?.end_date}</Text>
           </Box>
           <Box alignItems={'center'} flexDirection={'row'}>
-              <Text fontSize={'xs'}>Event ID:</Text>
+              <Text fontSize={'xs'}>{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>
               <Text fontSize={'xs'}>{event_detail?.id}</Text>
           </Box>
           </HStack>

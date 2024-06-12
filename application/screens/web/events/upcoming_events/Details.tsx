@@ -9,12 +9,8 @@ type indexProps = {
 }
 
 const Index = ({ navigation }: indexProps) => {
-  const { event } = UseEventService()
-  const { modules } = UseEventService();
-  const module = modules.find((module) => module.alias === 'upcomingEvents');
   return (
     <>
-      <NextBreadcrumbs module={module} title='UPCOMING EVENTS DETAILS'/>
       <Indextemplate/>
     </>
   );

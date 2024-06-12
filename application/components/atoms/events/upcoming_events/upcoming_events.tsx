@@ -92,7 +92,7 @@ const UpcomingEventComponent = () => {
                                         </Text>
                                     </Box>
                                     <Box alignItems="center" flexDirection="row">
-                                        <Text fontSize="xs">Event ID:</Text>
+                                        <Text fontSize="xs">{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>
                                         <Text fontSize="xs"> {upcoming_event.id}</Text>
                                     </Box>
                                 </HStack>
@@ -107,7 +107,7 @@ const UpcomingEventComponent = () => {
                                         <Box display="flex" alignItems="center" flexDirection="row">
                                             <DynamicIcon iconType="Notattending" iconProps={{ width: 14, height: 16, color: '#fff' }} />
                                             <Text ml="6px" color="#fff">
-                                                Not attending
+                                                {event?.labels?.ATTENDEE_UNSUBSCRIBE_TEXT}
                                             </Text>
                                         </Box>
                                     </Button>}
@@ -115,7 +115,7 @@ const UpcomingEventComponent = () => {
                                         <Link href={upcoming_event?.register_link as string} target="_blank">
                                             <Box display="flex" alignItems="center" flexDirection="row">
                                                 <DynamicIcon iconType="register" iconProps={{ width: 17, height: 16 }} />
-                                                <Text ml="6px">Register</Text>
+                                                <Text ml="6px">{event?.labels?.EMAIL_CLICK_HERE_TO_REGISTER}</Text>
                                             </Box>
                                         </Link>
                                     </Button>}
