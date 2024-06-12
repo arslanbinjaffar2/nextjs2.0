@@ -9,6 +9,8 @@ import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.
 import UseEventService from 'application/store/services/UseEventService';
 import { colorText } from 'application/styles/colors'
 import UseToastService from 'application/store/services/UseToastService';
+import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
+import { getColorScheme } from "application/styles/colors";
 
 type AppProps = {
     detail: SponsorDetail|null,
@@ -25,6 +27,19 @@ const DetailBox = ({ detail }: AppProps) => {
     const { event } = UseEventService()
 
     const [isFav,setIsFav] = useState(false)
+
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
 
     useEffect(() => {
         console.log("fav: ",isFav)
@@ -103,7 +118,13 @@ const DetailBox = ({ detail }: AppProps) => {
                     </HStack>
                     {detail?.detail?.description && event?.sponsor_tab_settings?.about === 1 && <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
-                        <Text><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div></Text>
+                         <RenderHtml
+                            defaultTextProps={{selectable:true}}
+                            contentWidth={600}
+                            systemFonts={['Avenir']}
+                            tagsStyles={mixedStyle}
+                            source={{ html: detail?.detail?.description }}
+                        />
                     </Box>}
                 </Box>
             </Box>}

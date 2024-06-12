@@ -2,9 +2,25 @@ import { AlertDialog, Center, HStack, Text, Spacer, IconButton, Icon, ScrollView
 import React from 'react';
 import IcoNewsUpdate from "application/assets/icons/IcoNewsUpdate";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
+import { getColorScheme } from "application/styles/colors";
+import UseEventService from "application/store/services/UseEventService";
+
 
 const PolicyModal = ({ isOpen, onClose, cancelRef, title, body}:any) => {
-    
+        const { event } = UseEventService()
+        const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
     return <AlertDialog  leastDestructiveRef={cancelRef} size={'lg'} isOpen={isOpen} onClose={onClose}>
           <AlertDialog.Content  bg={'primary.boxsolid'}>
             <AlertDialog.Header borderColor={'transparent'} bg={'transparent'} fontWeight={600}>
@@ -29,7 +45,13 @@ const PolicyModal = ({ isOpen, onClose, cancelRef, title, body}:any) => {
             {body && <AlertDialog.Body px={5} pt={0}  bg={'transparent'}>
               <Text fontSize="md">
                 <ScrollView maxHeight={350}>
-                <div className="ebs-iframe-content" dangerouslySetInnerHTML={{ __html: body }} />
+                 <RenderHtml
+                    defaultTextProps={{selectable:true}}
+                    contentWidth={600}
+                    systemFonts={['Avenir']}
+                    tagsStyles={mixedStyle}
+                    source={{ html: body }}
+                />
 
                 </ScrollView>
               </Text>
