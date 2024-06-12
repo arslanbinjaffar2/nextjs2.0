@@ -39,7 +39,7 @@ const ShowTurnList = () => {
         }
         return false;
     }
-    const alreadyInSpeech = currentAttendee && currentAttendee.status === 'inspeech' && currentUser.id === currentAttendee.attendee_id;
+    const alreadyInSpeech = currentAttendee ? currentAttendee.status === 'inspeech' && currentUser?.id === currentAttendee.attendee_id : {};
 
     React.useEffect(() => {
         FetchProgramTurnList({ program_id: Number(_programId) })

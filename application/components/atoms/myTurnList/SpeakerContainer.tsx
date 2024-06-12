@@ -34,7 +34,7 @@ const SpeakerContainer = ({ currentAttendee }: { currentAttendee: any }) => {
 
 
   const isFieldVisible = (fieldName: string) => {
-    const field = field_settings.find((field: any) => field.fields_name === fieldName);
+    const field = field_settings ? field_settings.find((field: any) => field.fields_name === fieldName) : [];
     if (!loggedInUser) {
       return field && !field.is_private;
     }
