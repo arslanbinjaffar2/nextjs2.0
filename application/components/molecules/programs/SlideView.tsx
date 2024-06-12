@@ -212,7 +212,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 						<>
 						{programs?.length > 0 && <>
 							{(!screen || screen !== 'qa') &&
-								<Heading pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
+								<Heading px={4} pt="2" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>
 								{section === 'program' || section === 'track-program' ? modules?.find((module) => (module.alias == 'agendas'))?.name:null}
 								{section === 'my-program' ? modules?.find((module) => (module.alias == 'myprograms'))?.name:null}
 								</Heading>
@@ -222,11 +222,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 							<LazySlider onChange={handleChange} programs={programs} />
 							{programs?.length > 0 && <RenderPrograms limit={limit} programs={programs} dates={dates} dashboard={dashboard} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} screen={screen} section={section} speaker={speaker} />}
 							{programs?.length <= 0 &&
-								<Box overflow="hidden" w="100%" rounded="lg">
-									<Box padding={5}>
-										<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-									</Box>
-								</Box>
+								<NoRecordFound />
 							}
 							{showAllButton && <Center py="3" px="2" w="100%" alignItems="flex-end">
 								<Button onPress={() => {

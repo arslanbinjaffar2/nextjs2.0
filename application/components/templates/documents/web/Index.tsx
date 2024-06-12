@@ -12,6 +12,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { Document } from 'application/models/document/Document'; 
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import FindPath from 'application/utils/FindPath';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 const Index = React.memo(() => {
@@ -47,7 +48,7 @@ const Index = React.memo(() => {
     return (
         <>
             {in_array('documents', processing) ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
                 <>
                     <NextBreadcrumbs module={module} additionalBreadcrubms={breadcrumbs} onBreadcrumbPress={handleBreadcrumbPress} onAdditionalMainBreadcrumbPress={onAdditionalMainBreadcrumbPress}/>

@@ -14,6 +14,7 @@ import {
 	IconButton,
 	Image,
 	Spacer,
+	Spinner,
 	Text,
 	VStack
 } from 'native-base'
@@ -34,11 +35,13 @@ import { GroupedHistory, History } from 'application/models/checkInOut/CheckInOu
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { useRouter } from 'solito/router'
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 const CheckinList = ({type, k, group}: any) => {
 	const [toggle, settoggle] = React.useState(false);
   const {event} = UseEventService();
+ 
 
   function formatTime(log:History,type?:string){
     let time = log.checkin !== '' && log.checkin !== '0000-00-00 00:00:00' ? log.checkin : log.checkout;  
@@ -246,16 +249,18 @@ const Index = () => {
     <>
       {
         in_array('fetch-checkin-out',processing) ? (
-            <WebLoading />
+            <SectionLoading />
+            
         ):(
             <Container mb={3} pt="1" maxW="100%" w="100%">
+              
               <NextBreadcrumbs module={module} />
 							<Box flexDirection="row" w={'100%'} alignItems="center">
 								<HStack mb={3} w={'100%'} space="0" alignItems="center" justifyContent={'center'} pt={4}>
                 <Text mb="0" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
 								<Spacer />
                    <>
-                    {in_array('checkin-send-qr-code', processing) ?  <WebLoading/> : 
+                    {in_array('checkin-send-qr-code', processing) ?  <Spinner color={'primary.text'} size="sm"  /> : 
                     <HStack  space="2" alignItems="center">
                       {checkInOut?.setting?.enable_email_ticket ?
                       <IconButton

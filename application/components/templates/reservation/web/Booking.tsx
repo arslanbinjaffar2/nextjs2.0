@@ -26,8 +26,8 @@ import UseNotificationService from 'application/store/services/UseNotificationSe
 import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import { useDebouncedCallback } from "use-debounce";
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { id: string }
 
