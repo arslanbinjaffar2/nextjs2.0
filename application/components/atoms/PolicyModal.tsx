@@ -2,12 +2,12 @@ import { AlertDialog, Center, HStack, Text, Spacer, IconButton, Icon, ScrollView
 import React from 'react';
 import IcoNewsUpdate from "application/assets/icons/IcoNewsUpdate";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
 import { getColorScheme } from "application/styles/colors";
 import UseEventService from "application/store/services/UseEventService";
 
 
 const PolicyModal = ({ isOpen, onClose, cancelRef, title, body}:any) => {
+        const RenderHtml = require('react-native-render-html').default;
         const { event } = UseEventService()
         const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
         const mixedStyle = {

@@ -40,7 +40,6 @@ import {
 } from 'react-simple-wysiwyg';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
-import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
 
 
 type ScreenParams = { id: string }
@@ -49,6 +48,8 @@ const { useParam } = createParam<ScreenParams>()
 
 const Detail = () => {
     const mounted = React.useRef(false);
+
+    const RenderHtml = require('react-native-render-html').default;
 
     const { processing, loading } = UseLoadingService();
     const { _env } = UseEnvService();

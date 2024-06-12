@@ -31,7 +31,6 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import { Platform } from 'react-native';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
-import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
 import { getColorScheme } from "application/styles/colors";
 
 type ScreenParams = { id: string }
@@ -43,6 +42,8 @@ type Props = {
 }
 
 const Detail = ({ speaker }: Props) => {
+
+    const RenderHtml = require('react-native-render-html').default;
 
     const mounted = React.useRef(false);
 

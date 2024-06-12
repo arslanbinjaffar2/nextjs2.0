@@ -9,7 +9,6 @@ import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.
 import UseEventService from 'application/store/services/UseEventService';
 import { colorText } from 'application/styles/colors'
 import UseToastService from 'application/store/services/UseToastService';
-import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
 import { getColorScheme } from "application/styles/colors";
 
 type AppProps = {
@@ -17,6 +16,8 @@ type AppProps = {
 }
 
 const DetailBox = ({ detail }: AppProps) => {
+
+    const RenderHtml = require('react-native-render-html').default;
     
     const {AddToast}=UseToastService()
 
