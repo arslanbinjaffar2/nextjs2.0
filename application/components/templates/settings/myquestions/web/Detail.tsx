@@ -21,10 +21,11 @@ import IcoSend from 'application/assets/icons/small/IcoSend'
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import { getColorScheme } from 'application/styles/colors';
-import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
 
 type ScreenParams = { id: string }
 const Detail = () => {
+
+  const RenderHtml = require('react-native-render-html').default;
   
   const { useParam } = createParam<ScreenParams>()
   const { event, setting_modules } = UseEventService();
