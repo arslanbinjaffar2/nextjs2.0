@@ -21,7 +21,7 @@ const { useParam } = createParam<ScreenParams>();
 
 const Index = () => {
   const {push}=useRouter()
-  const { event, FetchEventDetail, event_detail,,modules } = UseEventService();
+  const { event, FetchEventDetail, event_detail,modules } = UseEventService();
   const { _env } = UseEnvService()
   const [id] = useParam('id');
   const {processing} = UseLoadingService();

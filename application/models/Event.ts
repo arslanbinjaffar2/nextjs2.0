@@ -1,3 +1,4 @@
+import { HomeMyEvent } from "application/models/FetchEvent";
 export interface Event {
     id?: number;
     organizer_name?: string;
