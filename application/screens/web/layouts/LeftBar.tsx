@@ -180,14 +180,14 @@ const LeftBar = () => {
           </HStack>
         </Pressable>
         {modules.map((row: any, key: any) => {
-        if (row.alias == 'certificate' && row.certificate_setting == 0) {
-            return null;
-        } else {
-            return (row.alias !== 'information_pages' || row.is_page_empty !== true) ? (
-                <PressableElement key={key} row={row} />
-            ) : null;
-        }
-    })}
+            if (row.alias == 'certificate' && row.certificate_setting == 0) {
+                return null;
+            } else {
+                return (row.alias !== 'information_pages' || row.is_page_empty !== true) ? (
+                    <PressableElement key={key} row={row} />
+                ) : null;
+            }
+        })}
         {/* <Pressable
           w="100%"
           px="4"
