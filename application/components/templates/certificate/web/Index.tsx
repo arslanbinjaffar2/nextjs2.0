@@ -57,7 +57,7 @@ const Index = React.memo(() => {
     useEffect(() => {
         setFilteredCertificate(certificate);
         setIsLoading(false) 
-    }, []);
+    }, [certificate]);
     useEffect(() => {
         if (searchQuery) {
             const lowercasedFilter = searchQuery.toLowerCase();
