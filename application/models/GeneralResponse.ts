@@ -5,6 +5,8 @@ export interface HttpResponse {
 
 export interface GeneralResponse {
     data?: any,
+    event?: any,
+    label?: any,
     meta?: any,
     message?: string,
     error?: string,
