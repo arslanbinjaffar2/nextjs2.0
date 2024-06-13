@@ -49,7 +49,7 @@ const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50'
        return <PollRectangleView poll={poll} key={poll.id} completed={false} />
     })}
     <Center py="3" px="2" w="100%" alignItems="flex-end">
-      {polls[Object.keys(polls)[pollDateIndex]]?.length > 4 && <Button p="1" onPress={()=> push(`/${event.url}/polls`)} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+      {polls[Object.keys(polls)[pollDateIndex]]?.length > 4 && <Button p="1" onPress={()=> push(`/${event.url}/polls`)} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" color={'primary.text'}/>}>
         See all
       </Button>}
     </Center>
