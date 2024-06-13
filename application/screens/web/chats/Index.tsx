@@ -52,7 +52,7 @@ const Index = ({ navigation }: indexProps)  => {
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text fontSize="2xl">{module?.name ?? "Chat"}</Text>
           <Spacer />
-          <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_SEARCH} onChangeText={(text)=>debounced(text)} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
+          <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_CHAT_SEARCH_MESSAGES} onChangeText={(text)=>debounced(text)} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
         <>
           {
@@ -61,7 +61,7 @@ const Index = ({ navigation }: indexProps)  => {
               {processing.includes('chats') ? <SectionLoading />:(
                 <>
                 {chats.map((chat, index) => (
-                  <Pressable onPress={() => push(`/${event.url}/chat/${chat.id}`)} key={index}>
+                  <Pressable onPress={() => push(`/${event.url}/chat/detail/${chat.id}`)} key={index}>
                     <HStack borderBottomWidth={index < chats.length - 1 ? '1' : '0'} borderColor="primary.bordercolor" w="100%" p="4" space="5">
                       <AvatarComponent participants={chat.participants_info} />
                       <VStack space="0">

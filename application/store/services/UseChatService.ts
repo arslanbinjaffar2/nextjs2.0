@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
-import { Chat, NewChatSearchResults } from 'application/models/chat/Chat'
+import { Chat, ChatMessage, NewChatSearchResults } from 'application/models/chat/Chat'
 import { ChatActions, SelectChat, SelectChatLabels, SelectChats, SelectNewChatSearchResults } from 'application/store/slices/Chat.Slice'
 
 export type ChatServiceOperators = {
@@ -15,6 +15,7 @@ export type ChatServiceOperators = {
     SaveMessage: (payload: {message:string,thread_id:number}) => void
     MarkAsRead: (payload: {message_id:number}) => void
     NewChatSearch: (payload: {search:string}) => void
+    PushMessageToChat: (payload: {message:ChatMessage,thread_id:number}) => void
 }
 
 /**
@@ -63,6 +64,12 @@ export const UseChatService = (): Readonly<ChatServiceOperators> => {
         NewChatSearch: useCallback(
             (payload: {search:string}) => {
                 dispatch(ChatActions.NewChatSearch(payload))
+            },
+            [dispatch],
+        ),
+        PushMessageToChat: useCallback(
+            (payload: {message:ChatMessage,thread_id:number}) => {
+                dispatch(ChatActions.PushMessageToChat(payload))
             },
             [dispatch],
         ),

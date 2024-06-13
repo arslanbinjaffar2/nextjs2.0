@@ -17,6 +17,7 @@ import moment from 'moment';
 import { GENERAL_DATE_FORMAT, GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals';
 import UseEnvService from 'application/store/services/UseEnvService';
 import { useDebouncedCallback } from "use-debounce";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 type ScreenParams = { id: string }
 const { useParam } = createParam<ScreenParams>()
@@ -70,11 +71,12 @@ const Detail = ({ navigation }: indexProps) => {
   // Function to get the first letters of the first and last name
   const getFirstLetters = (name: string) => {
     const names = name.split(' ');
-    return (names[0].substring(0, 1) + names[1].substring(0, 1)).toUpperCase();
+    return (names[0]?.substring(0, 1) + names[1]?.substring(0, 1)).toUpperCase();
   };
 
   // get image of sender 
   const getSenderImage = (image: string) => {
+    console.log('image: ',image)
     // source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
     if(image){
       return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
@@ -92,33 +94,43 @@ const Detail = ({ navigation }: indexProps) => {
           <Popover
             trigger={(triggerProps) => {
             return <Button rounded={'full'}  bg={'transparent'} variant={'unstyled'} p={0} {...triggerProps} >
-                <Avatar source={{uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'}}>
-                      SS
-                    <Avatar.Badge borderWidth="1" bg="red.500" />
-                  </Avatar>
+                  {chat?.participants_info && chat?.participants_info?.length > 1 ? (
+                    <Avatar>
+                      <Icon size={'xl'} color={'primary.text'} as={MaterialIcons} name="groups"  />
+                    </Avatar>
+                  ):(
+                    <Avatar
+                        source={{
+                          uri: getSenderImage(chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.image : '')
+                        }}
+                        >
+                        {getFirstLetters(chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.full_name : '')}
+                        <Avatar.Badge borderWidth="1" bg="green.500" />
+                    </Avatar>
+                  )}
             </Button>
             }}
             
           >
             <Popover.Content top={2} width={210} shadow={3} borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
               <Popover.Header p={3} borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
-               <Text fontWeight={500} fontSize={'md'}>Participants (4)</Text>
+               <Text fontWeight={500} fontSize={'md'}>Participants ({chat?.participants_info?.length})</Text>
                
               </Popover.Header>
               <Popover.Body p={0} borderTopWidth="0" borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
                 <ScrollView maxHeight={180}>
-                  {[...Array(15)].map(item => 
+                  {chat?.participants_info.map((participant: ParticipantInfo) => 
                     <HStack p={3} borderTopWidth={'1'} borderTopColor={'primary.bordercolor'} space="2" alignItems="center">
                       <Avatar
                         size={'xs'}
                         source={{
-                          uri:"https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg"
+                          uri:getSenderImage(participant?.image)
                         }}
                         
                       >
-                        SS
+                        {getFirstLetters(participant?.full_name)}
                       </Avatar>
-                      <Text  fontSize="sm">John Smith </Text>
+                      <Text  fontSize="sm">{participant?.full_name}</Text>
                       
                       
                     </HStack>
@@ -274,7 +286,7 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
               console.log('hello')
             }}
           /> */}
-          {processing.includes('new-chat') ? (
+          {processing.includes('save-message') ? (
             <Spinner size="lg" color="primary.text" />
           ) : (
             <IconButton

@@ -12,6 +12,8 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { Group, Attendee } from 'application/models/chat/Chat';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import UseEnvService from 'application/store/services/UseEnvService';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+
 
 
 type SelectedItem = {
@@ -139,6 +141,7 @@ const NewChat = () => {
           {/* Attendee Results */}
           {selectedtab === 'attendee' && (
             <>
+            {new_chat_search_results.attendees?.length == 0 && <NoRecordFound />}
             {new_chat_search_results.attendees.map((attendee,k) =>
               <HStack key={k} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
                <Checkbox  value={`${attendee.id}`} isChecked={selectedItems.some((item) => item.type == 'attendee' && item.value.id === attendee.id)} onChange={(value) => {
@@ -160,6 +163,7 @@ const NewChat = () => {
           {/* Group Results */}
           {selectedtab === 'group' && (
             <>
+            {new_chat_search_results.groups?.length == 0 && <NoRecordFound />}
             {new_chat_search_results.groups.map((group,k) =>
               <HStack key={k} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
                <Checkbox value={group.id.toString()} isChecked={selectedItems.some((item) => item.type == 'group' && item.value.id === group.id)} onChange={(value) => {

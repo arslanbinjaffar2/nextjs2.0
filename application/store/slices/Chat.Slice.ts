@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import type { RootState } from 'application/store/Index'
-import { Chat, Group, NewChatSearchResults,Attendee } from 'application/models/chat/Chat'
+import { Chat, Group, NewChatSearchResults,Attendee, ChatMessage } from 'application/models/chat/Chat'
+import chat from 'application/assets/icons/chat'
 
 export interface ChatState {
     chats: Chat[],
@@ -52,6 +53,11 @@ export const ChatSlice = createSlice({
         updateNewChatSearch(state, action: PayloadAction<{attendees:Attendee[],groups:Group[]}>) {
             state.new_chat_search_results.attendees = action.payload.attendees;
             state.new_chat_search_results.groups = action.payload.groups;
+        },
+        PushMessageToChat(state, action: PayloadAction<{message:ChatMessage,thread_id:number}>) {
+           if(state.chat?.id === action.payload.thread_id){
+            state.chat.messages.push(action.payload.message);
+           }
         }
     },
 })
@@ -66,7 +72,8 @@ export const ChatActions = {
    SaveMessage: ChatSlice.actions.SaveMessage,
    MarkAsRead: ChatSlice.actions.MarkAsRead,
    NewChatSearch: ChatSlice.actions.NewChatSearch,
-   updateNewChatSearch: ChatSlice.actions.updateNewChatSearch
+   updateNewChatSearch: ChatSlice.actions.updateNewChatSearch,
+   PushMessageToChat: ChatSlice.actions.PushMessageToChat
 }
 
 export const SelectChats = (state: RootState) => state.chats.chats
