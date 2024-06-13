@@ -18,7 +18,6 @@ import UseSocketService from 'application/store/services/UseSocketService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds';
 import IcoSend from 'application/assets/icons/small/IcoSend'
-import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
 import { getColorScheme } from "application/styles/colors";
 import { 
     BtnBold,
@@ -47,6 +46,7 @@ const { useParam } = createParam<ScreenParams>()
 
 const Detail = () => {
     const mounted = React.useRef(false);
+    const RenderHtml = require('react-native-render-html').default;
 
     const { processing, loading } = UseLoadingService();
     const { _env } = UseEnvService();

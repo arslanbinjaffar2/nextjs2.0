@@ -16,7 +16,7 @@ import {  func } from 'application/styles';
 
 const PressableElement = ({row}: any) => {
   const router = useRouter()
-  const { event, modules } = UseEventService()
+  const { event, modules,event_detail } = UseEventService()
   const { width } = useWindowDimensions();
   const { unread, setUnreadCount } = UseAlertService();
   const { info, page } = UseInfoService();
@@ -53,7 +53,17 @@ const PressableElement = ({row}: any) => {
         // }
       } else if (row?.alias === 'my-registrations') {
         router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
-      } else {
+      } 
+      else if (row?.alias === 'upcomingEvents') {
+        router.push(`/${event.url}/upcoming_events`)
+      }
+      else if (row?.alias === 'homeMyevents') {
+        router.push(`/${event.url}/home_events`)
+      }
+      else if (row?.alias === 'homeMyevents') {
+        router.push(`/${event.url}/home_events/detail/${event?.id}`)
+      }
+      else {
         router.push(`/${event.url}/${row?.alias}`)
       }
     }}>
@@ -170,14 +180,14 @@ const LeftBar = () => {
           </HStack>
         </Pressable>
         {modules.map((row: any, key: any) => {
-        if (row.alias == 'certificate' && row.certificate_setting == 0) {
-            return null;
-        } else {
-            return (row.alias !== 'information_pages' || row.is_page_empty !== true) ? (
-                <PressableElement key={key} row={row} />
-            ) : null;
-        }
-    })}
+            if (row.alias == 'certificate' && row.certificate_setting == 0) {
+                return null;
+            } else {
+                return (row.alias !== 'information_pages' || row.is_page_empty !== true) ? (
+                    <PressableElement key={key} row={row} />
+                ) : null;
+            }
+        })}
         {/* <Pressable
           w="100%"
           px="4"

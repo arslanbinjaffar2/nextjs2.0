@@ -23,7 +23,6 @@ import in_array from "in_array";
 import { Category } from 'application/models/event/Category';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
-import RenderHtml from 'react-native-render-html';
 import { useWindowDimensions } from 'react-native';
 
 type ScreenParams = { id: string }
@@ -35,6 +34,8 @@ type Props = {
 }
 
 const Detail = ({ speaker }: Props) => {
+
+    const RenderHtml = require('react-native-render-html').default;
 
     const { width } = useWindowDimensions();
 

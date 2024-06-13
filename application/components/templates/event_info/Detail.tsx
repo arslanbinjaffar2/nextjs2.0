@@ -14,7 +14,6 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
-import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
 import { color } from 'native-base/lib/typescript/theme/styled-system';
 
 
@@ -24,6 +23,7 @@ type ScreenParams = { id: string, cms: string | undefined }
 const { useParam } = createParam<ScreenParams>()
 
 const Detail = (props: any) => {
+    const RenderHtml = require('react-native-render-html').default;
 
     const { event } = UseEventService()
 

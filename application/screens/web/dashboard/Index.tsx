@@ -44,7 +44,6 @@ import { CustomHtml } from 'application/models/CustomHtml'
 import OurExhibitor from 'application/components/molecules/exhibitors/OurExhibitor';
 import OurSponsor from 'application/components/molecules/sponsors/OurSponsor';
 import SectionLoading from 'application/components/atoms/SectionLoading';
-import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
 import { getColorScheme } from 'application/styles/colors';
 
 type indexProps = {
@@ -52,6 +51,7 @@ type indexProps = {
 }
 
 const Index = ({ navigation }: indexProps) => {
+  const RenderHtml = require('react-native-render-html').default;
 
   const [tab, setTab] = useState('qa');
 

@@ -4,6 +4,7 @@ import { Event } from 'application/models/Event'
 
 import { Module, SettingModule } from 'application/models/Module'
 import { CustomHtml } from 'application/models/CustomHtml'
+import { EventDetail, HomeMyEvent, UpcomingEvent } from 'application/models/FetchEvent'
 
 import type { RootState } from 'application/store/Index'
 
@@ -15,6 +16,10 @@ export interface EventState {
     custom_html: Array<CustomHtml>
     setting_modules: SettingModule[]
     event_url: string
+    screen: string,
+    home_events: HomeMyEvent[],
+    upcoming_events: UpcomingEvent[],
+    event_detail: EventDetail|null,
 }
 
 const initialState: EventState = {
@@ -23,6 +28,10 @@ const initialState: EventState = {
     setting_modules: [],
     event_url: '',
     custom_html: [],
+    screen: 'homeMyevents',
+    home_events:[],
+    upcoming_events:[],
+    event_detail: null,
 }
 
 // Slice
@@ -54,6 +63,26 @@ export const EventSlice = createSlice({
         customHtml(state, action: PayloadAction<Array<CustomHtml>>) {
             state.custom_html = action.payload
         },
+        FetchEvents(state, action: PayloadAction<{query: string, screen: string }>){
+            state.screen = action.payload.screen;
+        },
+        UpdateEvents(state, action: PayloadAction<HomeMyEvent[]>) {
+            if(action.payload !== undefined){
+                state.home_events = action.payload;
+            }
+        },
+        UpdateUpcomingEvents(state, action: PayloadAction<UpcomingEvent[]>) {
+            if(action.payload !== undefined){
+                state.upcoming_events = action.payload;
+            }
+        },
+        updateEventDetail(state, action: PayloadAction<{ detail: EventDetail }>) {
+            if(action.payload.detail !== undefined){
+                state.event_detail = action.payload.detail;
+            }
+         },
+        FetchEventDetail(state, action: PayloadAction<{ id: number }>) {
+        },
     },
 })
 
@@ -68,15 +97,22 @@ export const EventActions = {
     updateSettingsModules: EventSlice.actions.updateSettingsModules,
     SetEventUrl: EventSlice.actions.SetEventUrl,
     customHtml: EventSlice.actions.customHtml,
+    FetchEvents: EventSlice.actions.FetchEvents,
+    UpdateEvents: EventSlice.actions.UpdateEvents,
+    UpdateUpcomingEvents: EventSlice.actions.UpdateUpcomingEvents,
+    updateEventDetail: EventSlice.actions.updateEventDetail,
+    FetchEventDetail: EventSlice.actions.FetchEventDetail,
 }
 
 // Selectors
 export const SelectEvent = (state: RootState) => state.event.event
- console.log(SelectEvent)
 export const Modules = (state: RootState) => state.event.modules
 export const CustomHtmls = (state: RootState) => state.event.custom_html
 
 export const SettingModules = (state: RootState) => state.event.setting_modules
+export const SelectHomeEvents = (state: RootState) => state.event.home_events
+export const SelectUpcomingEvents = (state: RootState) => state.event.upcoming_events
+export const SelectHomeEventDetail = (state: RootState) => state.event.event_detail
 
 export const SelectEventUrl = (state: RootState) => state.event.event_url
 
