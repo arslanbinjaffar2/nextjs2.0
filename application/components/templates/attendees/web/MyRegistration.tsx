@@ -1,10 +1,12 @@
 
-import React, { useEffect } from 'react'
-import {HStack, Spacer } from 'native-base'
+import React, { useEffect, useRef, useState } from 'react'
+import {Box, HStack, Spacer } from 'native-base'
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const MyRegistrationDetail = () => {
+    const [iframeHeight, setIframeHeight] = useState(0);
+    const iframe = useRef<any>();
 
     const { FetchMyRegistration, registration } = UseAttendeeService();
     React.useEffect(() => {
@@ -13,10 +15,24 @@ const MyRegistrationDetail = () => {
 
     return (
         <>
-        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" bgColor={'#fff'}>
-            <Spacer />
-            {registration?.invoice ? <div dangerouslySetInnerHTML={{ __html: registration?.invoice }} /> : <SectionLoading />}
-        </HStack>
+        <Box mb="3" w="100%" p={4} rounded={'10'}  alignItems="center" bg={'white'}>
+            {registration?.invoice ? <>
+            {/* <div dangerouslySetInnerHTML={{ __html: registration?.invoice }} /> */}
+            <iframe 
+            style={{ borderWidth: 0, color:'#fff' }} 
+            ref={iframe}
+            width={'100%'}
+            onLoad={() => {
+                const obj = iframe.current;
+                setIframeHeight(
+                    obj.contentWindow.document.body.scrollHeight + 50 
+                );
+            }}
+            height={iframeHeight}
+            srcDoc={registration?.invoice} 
+        /></>
+             : <SectionLoading />}
+        </Box>
             
         </>
     )
