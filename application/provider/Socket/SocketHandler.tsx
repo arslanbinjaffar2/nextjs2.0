@@ -147,7 +147,7 @@ const SocketHandler = () => {
         console.log('new message: ', data);
 
         // redirect to chat/detail if it is new thread and sender id is same as current user
-        if ((data?.is_new_thread && data?.message?.sender_id == response?.data?.user?.id) || (nextRouter.asPath.includes('chat/new') && data?.message?.sender_id == response?.data?.user?.id)) {
+        if (nextRouter.asPath.includes('chat/new') && data?.message?.sender_id == response?.data?.user?.id) {
           console.log('push to the chat detail');
           nextRouter.push(`/${event.url}/chat/detail/${data?.thread_id}`);
           

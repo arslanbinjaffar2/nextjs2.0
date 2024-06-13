@@ -27,3 +27,7 @@ export const markChatReadApi = (payload: any, state: any): Promise<HttpResponse>
 export const newChatSearchApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/chat/new-search`, {params: payload});
 }
+
+export const getParticipantInfoApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/chat/participant-info`, {params: payload});
+}
