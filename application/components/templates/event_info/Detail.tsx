@@ -14,12 +14,16 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import Icodocument from 'application/assets/icons/small/Icodocument';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import { color } from 'native-base/lib/typescript/theme/styled-system';
+
+
 
 type ScreenParams = { id: string, cms: string | undefined }
 
 const { useParam } = createParam<ScreenParams>()
 
 const Detail = (props: any) => {
+    const RenderHtml = require('react-native-render-html').default;
 
     const { event } = UseEventService()
 
@@ -35,11 +39,18 @@ const Detail = (props: any) => {
 
     const [cms] = useParam('cms');
 
-    const [iframeHeight, setIframeHeight] = useState(0);
-    const iframe = useRef<any>();
-
-      const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
-
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+    const mixedStyle = {
+    body: {
+        fontFamily: 'Avenir',
+        fontSize: '16px',
+        userSelect: 'auto',
+        color: colors.text
+    },
+    p: {
+        fontFamily: 'Avenir',
+    }
+}
     const onWebViewMessage = (event: any) => {
         setweb_height(parseInt(event.nativeEvent.data) + 15);
     }
@@ -65,20 +76,16 @@ const Detail = (props: any) => {
                                 <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%"  />
                             </HStack>}
                             {page?.description != "" && (Platform.OS === 'web' ? (
-                                <iframe 
-                                    style={{ borderWidth: 0, color:'#fff' }} 
-                                    ref={iframe}
-                                    onLoad={() => {
-                                        const obj = iframe.current;
-                                        obj.contentWindow.document.body.style.fontFamily = '"Open Sans", sans-serif';
-                                        obj.contentWindow.document.body.style.color = colors.text ? colors.text : '#000';
-                                        setIframeHeight(
-                                            obj.contentWindow.document.body.scrollHeight + 50 
-                                        );
-                                    }}
-                                    height={iframeHeight}
-                                    srcDoc={page?.description} 
-                                />
+                                <Box  p="5">
+                                    <RenderHtml
+                                        defaultTextProps={{selectable:true}}
+                                        contentWidth={600}
+                                        systemFonts={['Avenir']}
+                                        tagsStyles={mixedStyle}
+                                        source={{ html: page?.description }}
+                                    />
+                                </Box>
+                                
                             ) : (
                                 <WebView
                                     onMessage={onWebViewMessage}

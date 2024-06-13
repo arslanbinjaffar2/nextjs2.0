@@ -13,7 +13,6 @@ import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
 import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
-import RenderHtml from 'react-native-render-html';
 import { useWindowDimensions } from 'react-native';
 import {useFocusEffect } from '@react-navigation/native'
 
@@ -22,6 +21,7 @@ type ScreenParams = { id: string }
 const { useParam } = createParam<ScreenParams>()
 
 const Detail = () => {
+    const RenderHtml = require('react-native-render-html').default;
     const { width } = useWindowDimensions();
 
     const mounted = React.useRef(false);

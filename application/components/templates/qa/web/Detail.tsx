@@ -18,7 +18,7 @@ import UseSocketService from 'application/store/services/UseSocketService';
 import { TextInput } from 'react-native';
 import IcoSend from 'application/assets/icons/small/IcoSend'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
-import { colorText } from 'application/styles/colors'
+import { colorText, getColorScheme } from 'application/styles/colors'
 import { 
     BtnBold,
     BtnBulletList,
@@ -41,12 +41,15 @@ import {
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 
+
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
 
 const Detail = () => {
     const mounted = React.useRef(false);
+
+    const RenderHtml = require('react-native-render-html').default;
 
     const { processing, loading } = UseLoadingService();
     const { _env } = UseEnvService();
@@ -71,7 +74,18 @@ const Detail = () => {
     
     const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' | 'my_question' | ''>('');
     const [id] = useParam('id');
-
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
     const updateQuestionsCount = (tab: string) => {
         switch (tab) {
             case 'popular':
@@ -399,7 +413,15 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack w={'100%'} space="4" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <Text w={'100%'} pt={1}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
+                                            <Box w={'100%'} pt={1}>
+                                                <RenderHtml
+                                                    defaultTextProps={{selectable:true}}
+                                                    contentWidth={600}
+                                                    systemFonts={['Avenir']}
+                                                    tagsStyles={mixedStyle}
+                                                    source={{ html: question?.info?.question }}
+                                                />
+                                            </Box>
                                                 
                                         </HStack>   
                                         {qaSettings.up_vote == 1 && <HStack 
@@ -471,9 +493,15 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                                <Text w={'100%'} pt={1}>
-                                                    <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                                </Text>
+                                                <Box w={'100%'} pt={1}>
+                                                    <RenderHtml
+                                                        defaultTextProps={{selectable:true}}
+                                                        contentWidth={600}
+                                                        systemFonts={['Avenir']}
+                                                        tagsStyles={mixedStyle}
+                                                        source={{ html: question?.info?.question }}
+                                                    />
+                                                </Box>
                                         </HStack>  
                                         {qaSettings.up_vote == 1 && <HStack 
                                                 mt={3}
@@ -546,9 +574,15 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack space={"3"} alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                                <Text w={'100%'} pt={1}>
-                                                    <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                                </Text>
+                                                <Box w={'100%'} pt={1}>
+                                                    <RenderHtml
+                                                        defaultTextProps={{selectable:true}}
+                                                        contentWidth={600}
+                                                        systemFonts={['Avenir']}
+                                                        tagsStyles={mixedStyle}
+                                                        source={{ html: question?.info?.question }}
+                                                    />
+                                                </Box>
                                         </HStack>  
                                         {qaSettings.up_vote == 1 && <HStack 
                                             mt={3}
@@ -620,9 +654,15 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <Text w={'100%'} pt={1}>
-                                                <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                            </Text>
+                                            <Box w={'100%'} pt={1}>
+                                                <RenderHtml
+                                                    defaultTextProps={{selectable:true}}
+                                                    contentWidth={600}
+                                                    systemFonts={['Avenir']}
+                                                    tagsStyles={mixedStyle}
+                                                    source={{ html: question?.info?.question }}
+                                                />
+                                            </Box>
                                         </HStack>  
                                     {qaSettings.up_vote == 1 && <HStack 
                                     mt={3}

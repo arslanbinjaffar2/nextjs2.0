@@ -9,12 +9,15 @@ import { Dimensions, useWindowDimensions } from 'react-native';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import UseEventService from 'application/store/services/UseEventService';
 import { colorText } from 'application/styles/colors'
+import { getColorScheme } from "application/styles/colors";
 
 type AppProps = {
     detail: ExhibitorDetail | null,
 }
 
 const DetailBox = ({ detail }: AppProps) => {
+
+    const RenderHtml = require('react-native-render-html').default;
 
     const { width } = useWindowDimensions();
 
@@ -27,6 +30,19 @@ const DetailBox = ({ detail }: AppProps) => {
     const windowWidth = Dimensions.get('window').width;
     
     const [isFav,setIsFav] = useState(false)
+
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
 
     useEffect(() => {
         console.log("fav: ",isFav)
@@ -102,9 +118,13 @@ const DetailBox = ({ detail }: AppProps) => {
                     </HStack>
                     {detail?.detail?.description && event?.exhibitor_tab_settings?.about == 1 && <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
-                        <Text lineHeight={0} fontSize="lg">
-                            <div className='ebs-iframe-content' style={{overflow:'hidden'}} dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>
-                        </Text>
+                        <RenderHtml
+                            defaultTextProps={{selectable:true}}
+                            contentWidth={600}
+                            systemFonts={['Avenir']}
+                            tagsStyles={mixedStyle}
+                            source={{ html: detail?.detail?.description }}
+                        />
                         
                     </Box>}
                 </Box>

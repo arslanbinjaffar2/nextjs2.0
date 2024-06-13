@@ -42,12 +42,14 @@ import { CustomHtml } from 'application/models/CustomHtml'
 import OurExhibitor from 'application/components/molecules/exhibitors/OurExhibitor';
 import OurSponsor from 'application/components/molecules/sponsors/OurSponsor';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { getColorScheme } from 'application/styles/colors';
 
 type indexProps = {
   navigation: unknown
 }
 
 const Index = ({ navigation }: indexProps) => {
+  const RenderHtml = require('react-native-render-html').default;
 
   const [tab, setTab] = useState('qa');
 
@@ -69,8 +71,19 @@ const Index = ({ navigation }: indexProps) => {
   const { response } = UseAuthService();
 
   const { push } = useRouter()
-   const { width } = useWindowDimensions();
-
+  const { width } = useWindowDimensions();
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+      const mixedStyle = {
+        body: {
+            fontFamily: 'Avenir',
+            fontSize: '16px',
+            userSelect: 'auto',
+            color: colors.text
+        },
+        p: {
+            fontFamily: 'Avenir',
+        }
+    }
   React.useEffect(() => {
     FetchPolls();
     FetchSurveys();
@@ -218,7 +231,13 @@ const Index = ({ navigation }: indexProps) => {
                   <Text width={'100%'} mt={2}>
                       <VStack  mx={0} width={'100%'} space={3}>
                         <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
-                          <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: custom_html[0]?.custom_html_1?.content ?? '' }} />
+                          <RenderHtml
+                              defaultTextProps={{selectable:true}}
+                              contentWidth={600}
+                              systemFonts={['Avenir']}
+                              tagsStyles={mixedStyle}
+                              source={{ html: custom_html[0]?.custom_html_1?.content ?? '' }}
+                          />
                         </Box>
                       </VStack>
                   </Text>
@@ -230,7 +249,13 @@ const Index = ({ navigation }: indexProps) => {
                   <Text width={'100%'} mt={2}>
                       <VStack  mx={0} width={'100%'} space={3}>
                         <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
-                          <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: custom_html[0]?.custom_html_2?.content ?? '' }} />
+                          <RenderHtml
+                              defaultTextProps={{selectable:true}}
+                              contentWidth={600}
+                              systemFonts={['Avenir']}
+                              tagsStyles={mixedStyle}
+                              source={{ html: custom_html[0]?.custom_html_2?.content ?? '' }}
+                          />
                         </Box>
                       </VStack>
                   </Text>
@@ -242,7 +267,13 @@ const Index = ({ navigation }: indexProps) => {
                   <Text width={'100%'} mt={2}>
                       <VStack mx={0} width={'100%'} space={3}>
                         <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
-                          <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html:custom_html[0]?.custom_html_3?.content ?? '' }} />
+                          <RenderHtml
+                              defaultTextProps={{selectable:true}}
+                              contentWidth={600}
+                              systemFonts={['Avenir']}
+                              tagsStyles={mixedStyle}
+                              source={{ html: custom_html[0]?.custom_html_3?.content ?? '' }}
+                          />
                         </Box>
                       </VStack>
                   </Text>
