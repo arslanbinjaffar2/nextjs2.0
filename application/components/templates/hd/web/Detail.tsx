@@ -18,6 +18,7 @@ import UseSocketService from 'application/store/services/UseSocketService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds';
 import IcoSend from 'application/assets/icons/small/IcoSend'
+import { getColorScheme } from "application/styles/colors";
 import { 
     BtnBold,
     BtnBulletList,
@@ -45,6 +46,7 @@ const { useParam } = createParam<ScreenParams>()
 
 const Detail = () => {
     const mounted = React.useRef(false);
+    const RenderHtml = require('react-native-render-html').default;
 
     const { processing, loading } = UseLoadingService();
     const { _env } = UseEnvService();
@@ -64,7 +66,18 @@ const Detail = () => {
 
     const [id] = useParam('id');
     const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' >('popular')
-
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
     React.useEffect(() => {
         if (id) {
             FetchGroupDetail({ id: Number(id) });
@@ -286,7 +299,15 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack w={'100%'} space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <Text w={'100%'} pt={1}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
+                                            <Box w={'100%'} pt={1}>
+                                                <RenderHtml
+                                                    defaultTextProps={{selectable:true}}
+                                                    contentWidth={600}
+                                                    systemFonts={['Avenir']}
+                                                    tagsStyles={mixedStyle}
+                                                    source={{ html: question?.info?.question }}
+                                                />
+                                            </Box>
                                                 
                                         </HStack>   
                                         {hdSettings.up_vote == 1 && <HStack 
@@ -347,9 +368,15 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                                <Text w={'100%'} pt={1}>
-                                                    <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                                </Text>
+                                                <Box w={'100%'} pt={1}>
+                                                    <RenderHtml
+                                                    defaultTextProps={{selectable:true}}
+                                                    contentWidth={600}
+                                                    systemFonts={['Avenir']}
+                                                    tagsStyles={mixedStyle}
+                                                    source={{ html: question?.info?.question }}
+                                                />
+                                                </Box>
                                         </HStack>  
                                         {hdSettings.up_vote == 1 && <HStack 
                                                 mt={3}
@@ -408,9 +435,15 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                                <Text w={'100%'} pt={1}>
-                                                    <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                                </Text>
+                                                <Box w={'100%'} pt={1}>
+                                                    <RenderHtml
+                                                        defaultTextProps={{selectable:true}}
+                                                        contentWidth={600}
+                                                        systemFonts={['Avenir']}
+                                                        tagsStyles={mixedStyle}
+                                                        source={{ html: question?.info?.question }}
+                                                    />
+                                                </Box>
                                         </HStack>  
                                         {hdSettings.up_vote == 1 && <HStack 
                                             mt={3}

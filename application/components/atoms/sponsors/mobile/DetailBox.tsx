@@ -5,7 +5,6 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseSponsorService from 'application/store/services/UseSponsorService';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import RenderHtml from 'react-native-render-html';
 import { useWindowDimensions } from 'react-native';
 
 type AppProps = {
@@ -13,6 +12,8 @@ type AppProps = {
 }
 
 const DetailBox = ({ detail }: AppProps) => {
+
+    const RenderHtml = require('react-native-render-html').default;
 
     const { width } = useWindowDimensions();
 
