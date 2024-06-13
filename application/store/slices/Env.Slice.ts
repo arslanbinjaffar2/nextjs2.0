@@ -10,6 +10,8 @@ export interface EnvState {
     api_gateway_url: string,
     app_server_enviornment: string,
     socket_connection_server: string,
+    app_api_url: string,
+    app_registration_url: string,
 }
 
 const initialState: EnvState = {
@@ -20,6 +22,8 @@ const initialState: EnvState = {
     api_gateway_url: '',
     app_server_enviornment:'',
     socket_connection_server:'',
+    app_api_url:'',
+    app_registration_url:'',
 }
 
 // Slice
@@ -35,6 +39,8 @@ export const EnvSlice = createSlice({
             state.api_gateway_url = action.payload.api_gateway_url
             state.app_server_enviornment = action.payload.app_server_enviornment
             state.socket_connection_server = action.payload.socket_connection_server
+            state.app_api_url = action.payload.app_api_url
+            state.app_registration_url = action.payload.app_registration_url
         },
     },
 })
