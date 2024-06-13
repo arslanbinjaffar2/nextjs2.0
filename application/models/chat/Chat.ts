@@ -8,6 +8,7 @@ export interface Chat {
 }
 
 export interface ChatMessage {
+    id: number;
     body: string;
     sender_id: number;
     user_type: string;

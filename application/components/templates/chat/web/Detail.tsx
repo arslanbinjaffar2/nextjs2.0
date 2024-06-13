@@ -8,7 +8,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { UseEventService } from 'application/store/services';
 import { createParam } from 'solito';
 import UseChatService from 'application/store/services/UseChatService';
-import { ChatMessage, ParticipantInfo } from 'application/models/chat/Chat';
+import { ChatMessage, ParticipantInfo, ReadState } from 'application/models/chat/Chat';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
@@ -31,7 +31,7 @@ type ChatMessageGroup = {
 const Detail = ({ navigation }: indexProps) => {
   const {event,modules} = UseEventService();
   const [_id] = useParam('id');
-  const {chat, FetchChat} = UseChatService();
+  const {chat, FetchChat,MarkAsRead} = UseChatService();
 
   const {response} = UseAuthService();
   const [loggedInUserId] = React.useState(response?.data?.user?.id);
@@ -52,6 +52,14 @@ const Detail = ({ navigation }: indexProps) => {
   // Memoize the grouping of messages by date
   const groupedMessages = React.useMemo(() => {
     if (!chat?.messages) return {};
+
+    // get the latest message
+    const latestMessage = chat.messages[chat.messages.length - 1];
+
+    // if latest message is not empty and sender_id is not current user id and read state does not have this user id
+    if(latestMessage && latestMessage?.sender_id !== loggedInUserId && !latestMessage?.read_state.some((read_state:ReadState) => read_state.user_id === loggedInUserId)  ){
+      MarkAsRead({message_id: latestMessage?.id});
+    }
 
     // Reduce messages into groups by date
     return chat.messages.reduce((acc, message) => {
