@@ -159,7 +159,16 @@ const SocketHandler = () => {
         }else{
           // show popup to user about the new message
           console.log('adding toast');
-          AddToast({toast:{message:data?.message?.body ,status:"success"}})
+          AddNotification({
+            notification:{
+              type:'chat',
+              title:data?.message?.sender?.first_name + ' ' + data?.message?.sender?.last_name,
+              text:data?.message?.body,
+              btnLeftText:event?.labels?.GENERAL_OK ,
+              btnRightText:event?.labels?.GENERAL_MESSAGE_DETAIL,
+              url:`/chat/detail/${data?.thread_id}`
+            }
+          })
         }         
       });
       
