@@ -6,7 +6,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseChatService from 'application/store/services/UseChatService';
-import { Chat, ParticipantInfo } from 'application/models/chat/Chat';
+import { Chat, ChatMessage, ParticipantInfo, ReadState } from 'application/models/chat/Chat';
 import { Pressable } from 'react-native';
 import { useRouter } from 'next/router';
 import moment from 'moment';
@@ -18,7 +18,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { func } from 'application/styles';
 import UseEnvService from 'application/store/services/UseEnvService';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
-
+import UseAuthService from 'application/store/services/UseAuthService';
 type indexProps = {
   navigation: unknown
 }
@@ -31,6 +31,7 @@ const Index = ({ navigation }: indexProps)  => {
   const { push } = useRouter();
   const { processing } = UseLoadingService();
   const [search, setSearch] = React.useState('');
+  const { response } = UseAuthService();
 
   const debounced = useDebouncedCallback((value:any) => {
     setSearch(value);
@@ -43,6 +44,13 @@ const Index = ({ navigation }: indexProps)  => {
   React.useEffect(() => {
     FetchChats({search:search})
   }, [search])
+
+  function isRead(message: ChatMessage){
+    if(message?.sender_id == response?.data?.user?.id){
+        return true
+    }
+    return message?.read_state?.some((read_state: ReadState) => read_state?.user_id === response?.data?.user?.id)
+  }
 
   return (
     <>
@@ -70,7 +78,7 @@ const Index = ({ navigation }: indexProps)  => {
                             <>{participant?.full_name}{index < chat.participants_info.length - 1 ? ', ' : ''}</>
                           ))}
                         </Heading>
-                        <Text isTruncated fontSize="md" opacity="0.6">{chat?.latest_message?.body}</Text>
+                        <Text isTruncated fontSize="md" opacity="0.6" >{chat?.latest_message?.body}</Text>
                       </VStack>
                       <Spacer />
                       <VStack alignItems="flex-end" space="2">
