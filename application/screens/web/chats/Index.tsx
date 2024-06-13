@@ -83,7 +83,7 @@ const Index = ({ navigation }: indexProps)  => {
                       <Spacer />
                       <VStack alignItems="flex-end" space="2">
                         <Text opacity="0.6" fontSize="md">{moment(chat?.latest_message?.sent_date).fromNow()}</Text>
-                        <Avatar.Badge position="static" borderWidth="0" bg="green.500" size={4} />
+                        {!isRead(chat?.latest_message) && <Avatar.Badge position="static" borderWidth="0" bg="green.500" size={4} />}
                     </VStack>
                   </HStack>
                   </Pressable>
