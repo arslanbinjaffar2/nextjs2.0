@@ -52,10 +52,12 @@ const Detail = (props: any) => {
 
     return (
         <>
-            {page && <View w="100%">
+            {page && <View w="100%" >
                 <ScrollView h={'68%'}>
-                    <HStack rounded="10" space={0} alignItems="center" w="100%"  bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"}>
-                        <Box w="100%" rounded="10" bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"}>
+                    <HStack rounded="10" space={0} alignItems="center" w="100%"  bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"}
+                    mb={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "20px"}
+                    >
+                        <Box w="100%" rounded="10" bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"} >
                             {(page.image == '' && page.description == '' && page.pdf == '') &&(
                                 <>
                                     <NoRecordFound mb="3" bg="primary.box"/>
