@@ -55,7 +55,7 @@ const Detail = (props: any) => {
             {page && <View w="100%" >
                 <ScrollView h={'68%'}>
                     <HStack rounded="10" space={0} alignItems="center" w="100%"  bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"}
-                    mb={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "20px"}
+                 
                     >
                         <Box w="100%" rounded="10" bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"} >
                             {(page.image == '' && page.description == '' && page.pdf == '') &&(
@@ -131,7 +131,9 @@ const Detail = (props: any) => {
                     {/* <BannerView url={''} /> */}
                 </HStack>
             </View>}
+            {/* <View mb={4}> */}
                 <BannerAds module_name={'information_pages'} module_type={'detail'} />
+            {/* </View> */}
         </>
     )
 
