@@ -61,7 +61,7 @@ const Login = ({ props }: any) => {
                   alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
                         : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
                           ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.header_logo}`
-                          : images.Logo }} w="180px" h="61px" alignSelf={'center'} />
+                          : images.Logo }} w="250px" h="85px" alignSelf={'center'} />
                 <VStack w={'100%'} alignItems={'center'} space='4'>
                     {event.attendee_settings?.cpr === 1 && (
                         <>
