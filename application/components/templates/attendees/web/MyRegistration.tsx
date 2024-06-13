@@ -53,7 +53,7 @@ const MyRegistrationDetail = () => {
             <NextBreadcrumbs module={module} title={editOrderFrame ? "Update Order" : "Edit Order"} />
             <HStack w="100%" justifyContent="space-between" alignItems="center" mt={3}>
                 <Text fontSize="2xl" fontWeight="medium" textTransform="uppercase">{editOrderFrame ? "Update Order" : "Edit Order"}</Text>
-                {!editOrderFrame && !processing.includes('my-registration') &&
+                {!editOrderFrame && !processing.includes('my-registration') && registration?.is_invoice_update === 1 &&
                     <Pressable onPress={() => cloneOrder(registration?.order_id)}>
                         <HStack space={2} alignItems="center">
                             <DynamicIcon iconType={'edit_profile'} iconProps={{ width: 18, height: 18, color: func.colorType(event?.settings?.primary_color) }} />
