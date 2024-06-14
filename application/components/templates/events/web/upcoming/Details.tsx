@@ -114,9 +114,9 @@ return (
         <Icopin width={16} height={18} />
             <Text ml={'6px'} fontSize={'xs'}>{event_detail?.location_name}</Text>
         </Box>
-        <Text pt={'4'}>
-          {event_detail?.event_description}
-        </Text>
+        <Box pt={'4'}>
+            <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: event_detail?.event_description ?? '' }} />
+        </Box>
        </HStack> 
       </VStack>
     </VStack>
