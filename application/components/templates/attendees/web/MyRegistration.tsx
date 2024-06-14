@@ -47,6 +47,19 @@ const MyRegistrationDetail = () => {
         FetchMyRegistration();
     }, []);
 
+    React.useEffect(() => {
+        const listener = (events:any) =>{
+            if(events.data.order_id !== undefined) {
+                setEditOrderFrame(false);
+                FetchMyRegistration();
+            } 
+        }
+        window.addEventListener("message", listener);
+        return () => {
+          window.removeEventListener('message', listener);
+        }
+      }, []);
+
     const module = modules.find((module) => module.alias === ("attendees"));
     return (
         <>
