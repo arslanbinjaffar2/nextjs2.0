@@ -1,3 +1,5 @@
+import { HomeMyEvent } from "application/models/FetchEvent";
+
 export interface Event {
     id?: number;
     organizer_name?: string;
@@ -87,6 +89,7 @@ export interface Event {
     agenda_tab_settings?: AgendaTabSetting[]
     dashboard_modules?: DashboardModule[]
     timezone?: any
+    home_my_event?: HomeMyEvent[]
 }
 interface Setting {
     poll_setting?: string;

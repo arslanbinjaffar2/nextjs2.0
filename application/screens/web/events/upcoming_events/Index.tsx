@@ -6,35 +6,25 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { Text } from 'native-base';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
+import Indextemplate from 'application/components/templates/events/web/upcoming/Index'
 type indexProps = {
-    navigation: unknown
+  navigation: unknown
 }
 
 const Index = ({ navigation }: indexProps) => {
-    const { event } = UseEventService()
+  const { event } = UseEventService()
     const { modules } = UseEventService();
     const module = modules.find((module) => module.alias === 'upcomingEvents');
-    // const { showToast,Toast } = useToast();
-
-    // const handleSuccess = () => {
-    //   showToast(Status.Success, 'Action completed successfully!');
-    // };
-  
-    // const handleError = () => {
-    //   showToast(Status.Error, 'An error occurred!');
-    // };
-    
-    return (
-        <>
-            <NextBreadcrumbs module={module} />
-            <NoRecordFound mb="3" bg="primary.box"/>
-
-        </>
-    );
+  return (
+    <>
+      <NextBreadcrumbs module={module} />
+      <Indextemplate/>
+    </>
+  );
 };
 
 Index.propTypes = {
-    navigation: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
 };
 
 export default Index;

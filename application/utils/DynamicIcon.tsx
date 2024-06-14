@@ -79,6 +79,8 @@ import staro from 'application/assets/icons/staro'
 import save from 'application/assets/icons/save'
 import edit_order from 'application/assets/icons/edit_order'
 
+import Notattending from 'application/assets/icons/Notattending'
+import register from 'application/assets/icons/register'
 type IconProps = {
     name?: string;
     color?: string;
@@ -89,7 +91,7 @@ type IconProps = {
 
 type IconType ='qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
 'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin' | 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | 'editnotes' | 'mybookings' 
-|'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | 'myPollResults' | 'mySurveyResults' | 'my_sub_registrations' | 'network_interest' | 'livesurveys'| 'attendee_Match' | 'star'| 'staro'| 'save' | 'edit_order' | any;
+|'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | 'myPollResults' | 'mySurveyResults' | 'my_sub_registrations' | 'network_interest' | 'livesurveys'| 'attendee_Match' | 'star'| 'staro'| 'save' | 'edit_order' | 'Notattending' | 'register' | any;
 
 type Props = {
     iconType: IconType;
@@ -176,7 +178,9 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         star,
         staro,
         save,
-        edit_order
+        edit_order,
+        Notattending,
+        register
     };
 
     const IconComponent = iconMap[iconType];

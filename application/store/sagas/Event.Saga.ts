@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getEventApi, getEventByCodeApi, getModulesApi, getSettingModulesApi } from 'application/store/api/Event.Api';
+import { getEventApi, getEventByCodeApi, getModulesApi,getHomeEventDetailApi, getSettingModulesApi,fetchEventApi } from 'application/store/api/Event.Api';
 
 import { EventActions } from 'application/store/slices/Event.Slice'
 
@@ -87,12 +87,45 @@ function* OnGetSettingModules({
     }
 }
 
+function* OnFetchEvents({
+    payload,
+}: {
+    type: typeof EventActions.FetchEvents
+    payload: {query: string, screen: string, selected_filter: string }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process: 'fetching-events'}))
+    const state = yield select(state => state);
+    console.log(state.event)
+    const response: HttpResponse = yield call(fetchEventApi, payload, state)
+     if( payload.screen === 'homeMyevents') {
+        yield put(EventActions.UpdateEvents(response?.data?.data?.events))
+    } else{
+        yield put(EventActions.UpdateUpcomingEvents(response?.data?.data?.events))
+    }
+    yield put(LoadingActions.removeProcess({process: 'fetching-events'}))
+
+}
+function* getHomeEventDetail({
+    payload,
+}: {
+    type: typeof EventActions.FetchEvent
+    payload: { id: number }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: 'event-detail' }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getHomeEventDetailApi, payload, state)
+    console.log('response: ',response.data.data)
+    yield put(EventActions.updateEventDetail({detail:response?.data?.data?.detail}))
+    yield put(LoadingActions.removeProcess({ process: 'event-detail' }))
+}
 // Watcher Saga
 export function* EventWatcherSaga(): SagaIterator {
     yield takeEvery(EventActions.FetchEvent.type, OnGetEvent)
     yield takeEvery(EventActions.FetchEventByCode.type, OnGetEventByCode)
     yield takeEvery(EventActions.loadModules.type, OnGetModules)
     yield takeEvery(EventActions.loadSettingsModules.type, OnGetSettingModules)
+    yield takeEvery(EventActions.FetchEvents.type, OnFetchEvents)
+    yield takeEvery(EventActions.FetchEventDetail.type, getHomeEventDetail)
 }
 
 export default EventWatcherSaga
