@@ -48,7 +48,7 @@ const MatrixAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
             <Radio.Group w="100%" isDisabled={ (canChangeAnswer !== undefined && canChangeAnswer == 0) ? true : false } key={answer.id} display={'flex'} name={`group-${k}`} aria-label={answer?.info[0]?.value}  defaultValue={`${formData[question.id]?.answer[answer.id] ?? ''}`}   onChange={matrix_id => {updateFormData(question.id, question.question_type, matrix_id, answer.id);}}>
               <HStack w="100%" key={k} space="1" alignItems="center">
                 <Center bg={matrix ? 'primary.500' : ''} nativeID='zindex-9' pl={1} py={2} zIndex={9} alignItems="flex-start" position={Platform.OS === 'web' ? `sticky`: 'absolute'} left={0} minW="150px" maxW="150px"  flex="1">
-                  <Text isTruncated fontSize="lg">
+                  <Text fontSize="lg">
                     {answer?.info[0]?.value}
                   </Text>
                 </Center>
