@@ -42,7 +42,7 @@ return (
     <VStack width={'100%'}>
       <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 
       
-      <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} width={'100%'}>{event_detail?.name}</Text>
+      <Text fontSize={'2xl'} fontWeight={'medium'} width={'100%'}>{event_detail?.name}</Text>
       </Box>
       <VStack mt={'4'}>
         {console.log(event_detail,'llll')}
