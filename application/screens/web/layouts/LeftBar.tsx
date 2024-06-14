@@ -55,10 +55,10 @@ const PressableElement = ({row}: any) => {
         router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
       } 
       else if (row?.alias === 'upcomingEvents') {
-        router.push(`/${event.url}/upcoming_events`)
+        router.push(`/${event.url}/upcoming-events`)
       }
       else if (row?.alias === 'homeMyevents') {
-        router.push(`/${event.url}/home_events`)
+        router.push(`/${event.url}/home-events`)
       }
       else if (row?.alias === 'homeMyevents') {
         router.push(`/${event.url}/home_events/detail/${event?.id}`)
