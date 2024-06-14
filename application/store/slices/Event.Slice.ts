@@ -58,7 +58,7 @@ export const EventSlice = createSlice({
         customHtml(state, action: PayloadAction<Array<CustomHtml>>) {
             state.custom_html = action.payload
         },
-        FetchEvents(state, action: PayloadAction<{query: string, screen: string }>){
+        FetchEvents(state, action: PayloadAction<{query: string, screen: string, selected_filter: string }>){
             state.screen = action.payload.screen;
         },
         UpdateEvents(state, action: PayloadAction<HomeMyEvent[]>) {

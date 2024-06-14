@@ -9,12 +9,8 @@ type indexProps = {
 }
 
 const Index = ({ navigation }: indexProps) => {
-  const { modules} = UseEventService();
-    
-  const module = modules.find((module) => module.alias === 'homeMyevents');
   return (
     <>
-      <NextBreadcrumbs module={module} />
       <Indextemplate/>
     </>
   );

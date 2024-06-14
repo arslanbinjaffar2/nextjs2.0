@@ -24,7 +24,7 @@ const UpcomingEventComponent = () => {
     const {processing} = UseLoadingService();
 
     useEffect(() => {
-        FetchEvents({ query: '', screen: 'upcomingEvents' });
+        FetchEvents({ query: '', screen: 'upcomingEvents',selected_filter:'all' });
     }, []);
 
     useEffect(() => {
