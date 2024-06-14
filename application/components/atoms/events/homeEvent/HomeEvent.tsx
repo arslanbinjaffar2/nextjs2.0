@@ -96,7 +96,7 @@ const HomeEvent = () => {
             <View>
                 {filteredHomeEvent.map((home_event: HomeMyEvent, key: number) => (
                     <View key={key} display="flex" flexDirection={['column', 'row']} alignItems="flex-start" width="100%" py="14px" px="16px" bg={'primary.box'}>
-                        <Pressable onPress={() => push(`/${event.url}/home_events/detail/${home_event?.id}`)} >
+                        <Pressable onPress={() => push(`/${event.url}/home-events/detail/${home_event?.id}`)} >
                             {home_event.app_header_logo ? (
                                 <Image
                                 source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${home_event?.app_header_logo}` }}
@@ -120,7 +120,7 @@ const HomeEvent = () => {
                                         )}
                         </Pressable>
                         <View display="flex" flexDirection="column" ml={['', '30px']} mt={['14px', '']} w="100%">
-                            <Pressable onPress={() => push(`/${event.url}/home_events/detail/${home_event?.id}`)}>
+                            <Pressable onPress={() => push(`/${event.url}/home-events/detail/${home_event?.id}`)}>
                                 <Text textDecorationLine="underline" fontSize="md" fontWeight={'semibold'}>{home_event?.name}</Text>
                             </Pressable>
                             <HStack space="3" alignItems="center" width="100%" flexDirection="row" pt="6px">
