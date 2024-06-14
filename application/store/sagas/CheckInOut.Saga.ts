@@ -39,7 +39,7 @@ function* OnSendQRCode({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(sendQRCodeApi, {}, state)
      if(response.status == 200){
-        yield put (ToastActions.AddToast({toast:{message: 'Qr-Code sent successfully' ,status:"success"}}))
+        yield put (ToastActions.AddToast({toast:{message: response?.data.event?.labels?.CHECKOUT_EMAIL_MSG ,status:"success"}}))
     }
     yield put(LoadingActions.removeProcess({process:'checkin-send-qr-code'}));
 }
