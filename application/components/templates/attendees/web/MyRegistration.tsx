@@ -48,29 +48,30 @@ const MyRegistrationDetail = () => {
     }, []);
 
     React.useEffect(() => {
-        const listener = (events:any) =>{
-            if(events.data.order_id !== undefined) {
+        const listener = (events: any) => {
+            if (events.data.order_id !== undefined) {
                 setEditOrderFrame(false);
                 FetchMyRegistration();
-            } 
+            }
         }
         window.addEventListener("message", listener);
         return () => {
-          window.removeEventListener('message', listener);
+            window.removeEventListener('message', listener);
         }
-      }, []);
+    }, []);
 
     const module = modules.find((module) => module.alias === ("attendees"));
     return (
         <>
-            <NextBreadcrumbs module={module} title={editOrderFrame ? "Update Order" : "Edit Order"} />
+            <NextBreadcrumbs module={module} title={event?.labels?.EVENTSITE_MY_PROFILE_PROGRAM ?? 'My Registration'} />
             <HStack w="100%" justifyContent="space-between" alignItems="center" mt={3}>
-                <Text fontSize="2xl" fontWeight="medium" textTransform="uppercase">{editOrderFrame ? "Update Order" : "Edit Order"}</Text>
+                <Text fontSize="2xl" fontWeight="medium" textTransform="uppercase">{event?.labels?.EVENTSITE_MY_PROFILE_PROGRAM ?? 'My Registration'}</Text>
                 {!editOrderFrame && !processing.includes('my-registration') && registration?.is_invoice_update === 1 &&
-                    <Pressable onPress={() => cloneOrder(registration?.order_id)}>
-                        <HStack space={2} alignItems="center">
-                            <DynamicIcon iconType={'edit_profile'} iconProps={{ width: 18, height: 18, color: func.colorType(event?.settings?.primary_color) }} />
-                        </HStack>
+                    <Pressable
+                        p="1"
+                        borderRadius="8"
+                        onPress={() => cloneOrder(registration?.order_id)}>
+                        <DynamicIcon iconType={'edit_profile'} iconProps={{ width: 18, height: 18 }} />
                     </Pressable>
                 }
             </HStack>
