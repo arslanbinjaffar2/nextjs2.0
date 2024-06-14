@@ -45,6 +45,7 @@ export interface Program {
     hide_time?: number;
     videos?: string;
     is_attatched_with_subregistration: number;
+    is_fav: boolean;
 }
 
 interface PollQuestion {
