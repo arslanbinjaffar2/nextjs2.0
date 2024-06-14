@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, VStack, Radio, FormControl, Spinner, Divider, HStack, View } from 'native-base';
+import { Button, Center, Flex, Text, Image, VStack, Radio, FormControl, Spinner, Divider, HStack, View, Box } from 'native-base';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images, func } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
@@ -36,7 +36,6 @@ const Verification = ({ props }: any) => {
     const { push } = useRouter();
     const router = useRouter();
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
-
     const [id] = useParam('id')
 
     const onSubmit: SubmitHandler<Inputs> = input => {
@@ -93,6 +92,7 @@ const Verification = ({ props }: any) => {
                             </FormControl>
                             <HStack space={3} alignItems="center">
                                 <Countdown
+                                    key={response.redirect}
                                     date={Date.now() + (response?.data?.ms! ? Number(response?.data?.ms) : 0)}
                                     renderer={({ hours, minutes, seconds, completed }) => {
                                         if (completed) {
@@ -109,12 +109,12 @@ const Verification = ({ props }: any) => {
                                                     <Text>{event.labels.EVENTSITE_TIME_LEFT} = {zeroPad(minutes)}:{zeroPad(seconds)}</Text>
                                                     {true && (
                                                         <>
-                                                            {Number(minutes) < 4 && (
+                                                            {Number(minutes) < 4 && 
                                                                 <><Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
                                                                     <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
                                                                         verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
                                                                     }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text></>
-                                                            )}
+                                                            }
                                                         </>
                                                     )}
                                                 </>
