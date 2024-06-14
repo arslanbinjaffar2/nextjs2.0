@@ -11,7 +11,7 @@ import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import { Link } from 'solito/link'
 import { createParam } from 'solito';
 import ReactCodeInput from 'react-verification-code-input';
-import Countdown from "react-countdown";
+import Countdown, {zeroPad} from "react-countdown";
 import UseEnvService from 'application/store/services/UseEnvService';
 import { SwipeButton } from 'react-native-expo-swipe-button';
 import { getColorScheme } from 'application/styles/colors';
@@ -88,7 +88,7 @@ const Verification = ({ props }: any) => {
                                         <Text fontSize="md" color={'danger.500'}>{error ? error : errors.code?.message}</Text>
                                 </FormControl.ErrorMessage>
                             </FormControl>
-                            <Flex direction="row">
+                            <View flex={1} flexDirection={'row'}>
                                 <Countdown
                                     date={Date.now() + (response?.data?.ms! ? Number(response?.data?.ms) : 0)}
                                     renderer={({ hours, minutes, seconds, completed }) => {
@@ -103,8 +103,8 @@ const Verification = ({ props }: any) => {
                                         } else {
                                             return (
                                                 <>
-                                                    <Text>{event.labels.EVENTSITE_TIME_LEFT} = {minutes}:{seconds}</Text>
-                                                    {minutes < 4 && (
+                                                    <Text>{event.labels.EVENTSITE_TIME_LEFT} = {zeroPad(minutes)}:{zeroPad(seconds)}</Text>
+                                                    {true && (
                                                       <>
                                                           <Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
                                                           <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
@@ -117,7 +117,7 @@ const Verification = ({ props }: any) => {
                                         }
                                     }}
                                 />
-                            </Flex>
+                            </View>
                             <Link href={`/${event.url}/auth/login`}>
                                 <Text textDecorationLine={'underline'}  w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
                             </Link>
