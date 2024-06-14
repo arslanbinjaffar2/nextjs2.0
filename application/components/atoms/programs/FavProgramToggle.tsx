@@ -33,7 +33,7 @@ return (
         {in_array(`program-fav-${program_id}`,processing) ? (
         <Spinner width={28} height={28} color={isFav ? 'secondary.500' : 'primary.text'} size="sm"  />
     ):(
-        <Icon size="xl" opacity={in_array(`program-fav-${program_id}`,processing) && '0.5'} as={AntDesign} name={isFav ? 'heart' : 'hearto'} color={isFav ? 'secondary.500' : 'primary.text'} />
+        <Icon size="xl" as={AntDesign} name={isFav ? 'heart' : 'hearto'} color={isFav ? 'secondary.500' : 'primary.text'} />
     )}
     </Pressable>
 )}
