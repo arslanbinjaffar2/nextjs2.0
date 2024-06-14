@@ -228,9 +228,14 @@ body {
   background: rgba(0,0,0,0.1) !important;
   border-radius: 6px !important;
   border-color: transparent !important;
-  color: #fff !important;
   flex: 1 !important;
 }
+ #field-color-dark .styles_react-code-input__CRulA > input {
+  color: #000 !important;
+ }
+ #field-color-light .styles_react-code-input__CRulA > input {
+  color: #fff !important;
+ }
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
 }

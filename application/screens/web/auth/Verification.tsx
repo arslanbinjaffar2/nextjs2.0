@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, VStack, Radio, FormControl, Spinner, Divider, Box } from 'native-base';
+import { Button, Center, Flex, Text, Image, VStack, Radio, FormControl, Spinner, Divider, Box, View } from 'native-base';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images, func } from 'application/styles';
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
@@ -77,7 +77,9 @@ const Verification = ({ props }: any) => {
                                 <Controller
                                     control={control}
                                     render={({ field: { onChange } }) => (
-                                        <ReactCodeInput type='number' onChange={(val) => onChange(val)} fields={6} fieldHeight={40} fieldWidth={75} />
+																			<View w={'100%'} nativeID={`field-color-${colors.text === '#000000' ? 'dark' : 'light'}`}>
+                                        <ReactCodeInput  type='number' onChange={(val) => onChange(val)} fields={6} fieldHeight={40} fieldWidth={75} />
+																			</View>
                                     )}
                                     name="code"
                                     rules={{ required: 'Code is required' }}
