@@ -18,8 +18,20 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
     const { event } = UseEventService();
     const { _env } = UseEnvService()
     const [sendRequest, setSendRequest] = useState(currentUserStatus.status === 'pending')
-    console.log(currentUserStatus, 'currentUserStatus')
     if (!activeAttendee) return null;
+
+    const getStatusLabel = () => {
+        switch (currentUserStatus.status) {
+            case 'accepted':
+                return event?.labels?.SPEAKER_LIST_STATUS_ACCEPTED;
+            case 'pending':
+                return event?.labels?.SPEAKER_LIST_STATUS_WAITING;
+            default:
+                return '';
+        }
+    };
+
+    const statusLabel = getStatusLabel();
 
     const { image, first_name, last_name = {} } = activeAttendee;
 
@@ -81,13 +93,18 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
                             <Text textBreakStrategy='balanced' fontSize="lg">
                                 {renderDetails()}
                             </Text>
+                            {statusLabel &&
+                                <Text textBreakStrategy='balanced' fontSize="lg">
+                                    {event?.labels?.GENERAL_STATUS}: {statusLabel}
+                                </Text>
+                            }
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>
                         {!alreadyInSpeech && currentUserStatus.status !== 'accepted' && (
                             <>
                                 {settings.use_group_to_control_request_to_speak ? (
-                                    activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ? 
+                                    activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ?
                                         <Pressable
                                             mr={'4'}
                                             onPress={() => {
@@ -101,7 +118,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
                                                 </Box> : null
                                             }
                                         </Pressable>
-                                     : null
+                                        : null
                                 ) : (
                                     <Pressable
                                         mr={'4'}
