@@ -63,9 +63,9 @@ const HomeEvent = () => {
 					bg: "teal.600",
 					endIcon: <CheckIcon size="5" />
 					}} mt={1} onValueChange={itemValue => setSelectedFilter(itemValue)}>
-						<Select.Item label={"All"} value={'all'} />
-						<Select.Item label={"Active & Future"} value={'active_and_future'} />
-						<Select.Item label={"Expired"} value={'expired'} />
+						<Select.Item label={event?.labels?.GENERAL_ALL} value={'all'} />
+						<Select.Item label={event?.labels?.GENERAL_FILTER_ACTIVE_AND_FUTURE} value={'active_and_future'} />
+						<Select.Item label={event?.labels?.GENERAL_FILTER_EXPIRED} value={'expired'} />
         		</Select>
             </View>
             
@@ -92,8 +92,8 @@ const HomeEvent = () => {
             </HStack>
         {processing?.includes('fetching-events') ? <SectionLoading /> :(
             <>   
+            {filteredHomeEvent.length === 0 && <View bg="primary.box" rounded="lg"><NoRecordFound /></View>}
             <View>
-                {filteredHomeEvent.length === 0 && <NoRecordFound />}
                 {filteredHomeEvent.map((home_event: HomeMyEvent, key: number) => (
                     <View key={key} display="flex" flexDirection={['column', 'row']} alignItems="flex-start" width="100%" py="14px" px="16px" bg={'primary.box'}>
                         <Pressable onPress={() => push(`/${event.url}/home_events/detail/${home_event?.id}`)} >
