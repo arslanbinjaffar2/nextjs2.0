@@ -76,9 +76,9 @@ const HomeEvent = () => {
                 {filteredHomeEvent.map((home_event: HomeMyEvent, key: number) => (
                     <View key={key} display="flex" flexDirection={['column', 'row']} alignItems="flex-start" width="100%" py="14px" px="16px" bg={'primary.box'}>
                         <Pressable onPress={() => push(`/${event.url}/home_events/detail/${home_event?.id}`)} >
-                            {home_event.app_icon ? (
+                            {home_event.app_header_logo ? (
                                 <Image
-                                source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${home_event?.app_icon}` }}
+                                source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${home_event?.app_header_logo}` }}
                                     alt="Event Image"
                                     size="xl"
                                     width={114}

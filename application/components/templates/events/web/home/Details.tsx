@@ -48,8 +48,8 @@ React.useEffect(() => {
         </Box>
         <VStack mt={'4'}>
           {
-            event_detail?.app_icon ? (
-              <Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_icon}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} />
+            event_detail?.app_header_logo ? (
+              <Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_header_logo}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} />
                 ):
                 <Image source={{ uri: "https://dev.eventbuizz.com/_admin_assets/images/logo-unavailable-2.png" }} bg={'gray.300'} alt="Event Image" size="xl" width={'100%'} height={157} rounded={'sm'} /> 
             }
@@ -90,9 +90,10 @@ React.useEffect(() => {
           <Icopin width={16} height={18} />
               <Text ml={'6px'} fontSize={'xs'}>{event_detail?.location_name}</Text>
           </Box>
-          <Text pt={'4'}>
-            {event_detail?.event_description}
-          </Text>
+          <Box pt={'4'}>
+            <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: event_detail?.event_description ?? '' }} />
+          </Box>
+  
           </HStack>
           
         </VStack>

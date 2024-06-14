@@ -47,8 +47,8 @@ return (
       <VStack mt={'4'}>
         {console.log(event_detail,'llll')}
       {
-        event_detail?.app_icon ? (
-          <Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_icon}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} />
+        event_detail?.app_header_logo ? (
+          <Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_header_logo}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} />
             ):
             <Image source={{ uri: "https://dev.eventbuizz.com/_admin_assets/images/logo-unavailable-2.png" }}
             bg={'gray.300'}
