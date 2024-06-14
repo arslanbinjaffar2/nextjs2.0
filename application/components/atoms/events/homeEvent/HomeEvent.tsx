@@ -63,9 +63,9 @@ const HomeEvent = () => {
 					bg: "teal.600",
 					endIcon: <CheckIcon size="5" />
 					}} mt={1} onValueChange={itemValue => setSelectedFilter(itemValue)}>
-						<Select.Item label={"All"} value={'all'} />
-						<Select.Item label={"Active & Future"} value={'active_and_future'} />
-						<Select.Item label={"Expired"} value={'expired'} />
+						<Select.Item label={event?.labels?.GENERAL_ALL} value={'all'} />
+						<Select.Item label={event?.labels?.GENERAL_FILTER_ACTIVE_AND_FUTURE} value={'active_and_future'} />
+						<Select.Item label={event?.labels?.GENERAL_FILTER_EXPIRED} value={'expired'} />
         		</Select>
             </View>
             
