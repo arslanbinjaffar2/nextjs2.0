@@ -16,6 +16,8 @@ import { createParam } from 'solito';
 import SectionLoading from 'application/components/atoms/SectionLoading'
 import UseLoadingService from 'application/store/services/UseLoadingService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs'
+import moment from 'moment'
+import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
 
 const { useParam } = createParam<ScreenParams>();
 
@@ -40,13 +42,13 @@ return (
     <VStack width={'100%'}>
       <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 
       
-      <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} width={'100%'}>{event_detail?.name}</Text>
+      <Text fontSize={'2xl'} fontWeight={'medium'} width={'100%'}>{event_detail?.name}</Text>
       </Box>
       <VStack mt={'4'}>
         {console.log(event_detail,'llll')}
       {
-        event_detail?.app_icon ? (
-          <Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_icon}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} />
+        event_detail?.app_header_logo ? (
+          <Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_header_logo}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} />
             ):
             <Image source={{ uri: "https://dev.eventbuizz.com/_admin_assets/images/logo-unavailable-2.png" }}
             bg={'gray.300'}
@@ -101,7 +103,7 @@ return (
           <HStack  space="3" alignItems="center" width={'100%'} flexDirection={'row'} pt={'6px'}>        
         <Box alignItems={'center'} flexDirection={'row'}>
         <Icocalendar width={16} height={18} />
-            <Text ml={'6px'} fontSize={'xs'}>{event_detail?.start_date} - {event_detail?.end_date}</Text>
+            <Text ml={'6px'} fontSize={'xs'}>{moment(event_detail?.start_date).format(GENERAL_DATE_FORMAT)} - {moment(event_detail?.end_date).format(GENERAL_DATE_FORMAT)}</Text>
         </Box>
         <Box alignItems={'center'} flexDirection={'row'}>
             <Text fontSize={'xs'}>{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>
@@ -112,9 +114,9 @@ return (
         <Icopin width={16} height={18} />
             <Text ml={'6px'} fontSize={'xs'}>{event_detail?.location_name}</Text>
         </Box>
-        <Text pt={'4'}>
-          {event_detail?.event_description}
-        </Text>
+        <Box pt={'4'}>
+            <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: event_detail?.event_description ?? '' }} />
+        </Box>
        </HStack> 
       </VStack>
     </VStack>

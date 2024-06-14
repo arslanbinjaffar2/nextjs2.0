@@ -5,7 +5,7 @@ export interface HomeMyEvent{
   start_date?: string;
   end_date?: string;
   location_name?: string;
-  app_icon?: string;
+  app_header_logo?: string;
   description?: string;
 }
 export interface UpcomingEvent{
@@ -15,7 +15,7 @@ export interface UpcomingEvent{
   start_date?: string;
   end_date?: string;
   location_name?: string;
-  app_icon?: string;
+  app_header_logo?: string;
   description?: string;
   register_link?: string;
   not_attending_link?: string;
@@ -50,7 +50,7 @@ export interface EventDetail {
   description?: any;
   start_date?: string;
   end_date?: string;
-  app_icon?: string;
+  app_header_logo?: string;
   event_description?: string;
   register_link?: string;
   not_attending_link?: string;
