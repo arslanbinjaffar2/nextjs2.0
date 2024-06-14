@@ -11,6 +11,7 @@ import { Link } from 'solito/link';
 import { useRouter } from 'solito/src/router/use-router';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const UpcomingEventComponent = () => {
     const { push } = useRouter();
@@ -63,7 +64,7 @@ const UpcomingEventComponent = () => {
                 />
             </HStack>
             <View bg="primary.box" rounded="lg">
-                {filteredUpcomingEvents.length === 0 && <Text>To replace with no record found</Text>}
+                {filteredUpcomingEvents.length === 0 && <NoRecordFound />}
                 {filteredUpcomingEvents.map((upcoming_event: UpcomingEvent, key: number) => (
                     <Box borderBottomWidth={filteredUpcomingEvents.length - 1 === key ? 0 : 1} key={key}>
                         <View display="flex" flexDirection={['column', 'row']} alignItems="flex-start" width="100%" py="14px" px="16px" bg="primary.box">

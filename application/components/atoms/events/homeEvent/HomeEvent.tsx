@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'solito/src/router/use-router';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const HomeEvent = () => {
     const { push } = useRouter();
@@ -69,7 +70,7 @@ const HomeEvent = () => {
                         />
             </HStack>
             <View>
-                {filteredHomeEvent.length === 0 && <Text>To replace with no record found</Text>}
+                {filteredHomeEvent.length === 0 && <NoRecordFound />}
                 {filteredHomeEvent.map((home_event: HomeMyEvent, key: number) => (
                     <View key={key} display="flex" flexDirection={['column', 'row']} alignItems="flex-start" width="100%" py="14px" px="16px" bg={'primary.box'}>
                         <Pressable onPress={() => push(`/${event.url}/home_events/detail/${home_event?.id}`)} >
