@@ -15,7 +15,7 @@ import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import moment from 'moment';
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 
-const UpcomingEventComponent = () => {
+const UpcomingEvents = () => {
     const { push } = useRouter();
     const { modules, event, FetchEvents, upcoming_events } = UseEventService();
     const { _env } = UseEnvService();
@@ -146,4 +146,4 @@ const UpcomingEventComponent = () => {
     );
 };
 
-export default UpcomingEventComponent;
+export default UpcomingEvents;
