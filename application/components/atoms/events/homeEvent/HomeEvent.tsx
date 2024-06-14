@@ -114,12 +114,12 @@ const HomeEvent = () => {
                                 <Icopin width={16} height={18} />
                                 <Text ml="6px" fontSize="xs">{home_event?.location_name}</Text>
                             </Box>
-                            <Button isDisabled={home_event?.id == event?.id} width={['100%', '86px']} height={38} mt="3" onPress={() => window.open(`/${home_event?.url}`, '_blank')}>
+                            {home_event?.id != event?.id && <Button width={['100%', '86px']} height={38} mt="3" onPress={() => window.open(`/${home_event?.url}`, '_blank')}>
                                 <Box display="flex" alignItems="center" flexDirection="row">
                                     <DynamicIcon iconType="logout" iconProps={{ width: 14, height: 14 }} />
                                     <Text ml="6px">{event?.labels?.EVENTSITE_LOGIN}</Text>
                                 </Box>
-                            </Button>
+                            </Button>}
                         </View>
                     </View>
                 ))}

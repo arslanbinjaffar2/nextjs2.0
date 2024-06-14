@@ -60,8 +60,7 @@ React.useEffect(() => {
           <Text fontSize={'xl'} fontWeight={'medium'} >
             {event_detail?.name}</Text>
             </Box>
-          <Button 
-          isDisabled={event_detail?.id == event?.id}
+          {event_detail?.id != event?.id && <Button
           width={['100%','86px']}
           height={38} 
           onPress={()=>{
@@ -73,7 +72,7 @@ React.useEffect(() => {
               <Text ml={'6px'}>{event?.labels?.EVENTSITE_LOGIN}</Text>
               </Box>
               
-          </Button>
+          </Button>}
             </VStack>
             <HStack  space="3" alignItems="center" width={'100%'} flexDirection={'row'} pt={'6px'}>        
           <Box alignItems={'center'} flexDirection={'row'}>
