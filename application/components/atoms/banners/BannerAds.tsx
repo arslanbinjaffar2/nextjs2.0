@@ -29,7 +29,7 @@ const BannerAds = ({
     const filtered = banners.filter((banner: Banner) => {
       if (module_name === 'dashboard') {
         var moduleType = banner.module_type.split(',');
-        console.log(moduleType,"moduleType")
+        
         return (
           banner.module_name === module_name &&
           moduleType.includes(module_type ?? '')
@@ -138,7 +138,6 @@ const BannerAds = ({
     };
   }, [filteredBanners]);
   const currentBannerImage = filteredBanners[currentBanner]?.image;
-  console.log(filteredBanners,"filteredBanners")
   return (
     <>
  {filteredBanners.length > 0 && <Box my="4" h={[(width - 30) * 0.24, 600 * 0.24]} position={'relative'} w={'100%'} >
