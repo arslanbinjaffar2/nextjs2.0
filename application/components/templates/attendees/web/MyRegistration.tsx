@@ -65,7 +65,7 @@ const MyRegistrationDetail = () => {
         <>
             <NextBreadcrumbs module={module} title={event?.labels?.EVENTSITE_MY_PROFILE_PROGRAM ?? 'My Registration'} />
             <HStack w="100%" justifyContent="space-between" alignItems="center" mt={3}>
-                <Text fontSize="2xl" fontWeight="medium" textTransform="uppercase">{event?.labels?.EVENTSITE_MY_PROFILE_PROGRAM ?? 'My Registration'}</Text>
+                <Text fontSize="2xl" fontWeight="medium">{event?.labels?.EVENTSITE_MY_PROFILE_PROGRAM ?? 'My Registration'}</Text>
                 {!editOrderFrame && !processing.includes('my-registration') && registration?.is_invoice_update === 1 &&
                     <Pressable
                         p="1"
