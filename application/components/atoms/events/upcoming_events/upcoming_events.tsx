@@ -12,6 +12,8 @@ import { useRouter } from 'solito/src/router/use-router';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import moment from 'moment';
+import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 
 const UpcomingEventComponent = () => {
     const { push } = useRouter();
@@ -89,7 +91,7 @@ const UpcomingEventComponent = () => {
                                     <Box alignItems="center" flexDirection="row">
                                         <Icocalendar width={16} height={18} />
                                         <Text ml="6px" fontSize="xs">
-                                            {upcoming_event.start_date} {upcoming_event.end_date}
+                                            {moment(upcoming_event?.start_date).format(GENERAL_DATE_FORMAT)} - {moment(upcoming_event?.end_date).format(GENERAL_DATE_FORMAT)}
                                         </Text>
                                     </Box>
                                     <Box alignItems="center" flexDirection="row">

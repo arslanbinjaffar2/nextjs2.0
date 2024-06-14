@@ -16,6 +16,8 @@ import { createParam } from 'solito';
 import SectionLoading from 'application/components/atoms/SectionLoading'
 import UseLoadingService from 'application/store/services/UseLoadingService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs'
+import moment from 'moment'
+import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
 
 const { useParam } = createParam<ScreenParams>();
 
@@ -101,7 +103,7 @@ return (
           <HStack  space="3" alignItems="center" width={'100%'} flexDirection={'row'} pt={'6px'}>        
         <Box alignItems={'center'} flexDirection={'row'}>
         <Icocalendar width={16} height={18} />
-            <Text ml={'6px'} fontSize={'xs'}>{event_detail?.start_date} - {event_detail?.end_date}</Text>
+            <Text ml={'6px'} fontSize={'xs'}>{moment(event_detail?.start_date).format(GENERAL_DATE_FORMAT)} - {moment(event_detail?.end_date).format(GENERAL_DATE_FORMAT)}</Text>
         </Box>
         <Box alignItems={'center'} flexDirection={'row'}>
             <Text fontSize={'xs'}>{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>

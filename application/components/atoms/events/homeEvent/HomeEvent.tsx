@@ -11,6 +11,8 @@ import { useRouter } from 'solito/src/router/use-router';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
+import moment from 'moment';
 
 const HomeEvent = () => {
     const { push } = useRouter();
@@ -103,7 +105,7 @@ const HomeEvent = () => {
                             <HStack space="3" alignItems="center" width="100%" flexDirection="row" pt="6px">
                                 <Box alignItems="center" flexDirection="row">
                                     <Icocalendar width={16} height={18} />
-                                    <Text ml="6px" fontSize="xs">{home_event?.start_date}</Text>
+                                    <Text ml="6px" fontSize="xs">{moment(home_event?.start_date).format(GENERAL_DATE_FORMAT)}</Text>
                                 </Box>
                                 <Box alignItems="center" flexDirection="row">
                                     <Text fontSize="xs">{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>
