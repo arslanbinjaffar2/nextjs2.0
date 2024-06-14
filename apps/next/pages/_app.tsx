@@ -17,6 +17,8 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
     api_gateway_url: process.env.APP_API_GATEWAY_URL,
     app_server_enviornment: process.env.APP_SERVER_ENVIRONMENT,
     socket_connection_server: process.env.APP_SOCKET_SERVER,
+    app_api_url: process.env.APP_API_URL,
+    app_registration_url: process.env.APP_REGISTRATION_URL,
   }
 
   const getLayout = Component.getLayout || ((page:any) => <Master>{page}</Master>)

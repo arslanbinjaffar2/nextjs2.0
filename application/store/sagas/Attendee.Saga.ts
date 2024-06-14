@@ -108,11 +108,11 @@ function* OnGetMyRegistration({
     type: typeof AttendeeActions.FetchMyRegistration
     payload: {}
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'my-registration' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getInvoiceApi, payload, state)
     yield put(AttendeeActions.updateRegistration(response.data.data))
-    yield put(LoadingActions.set(false))
+    yield put(LoadingActions.removeProcess({ process: 'my-registration' }))
 }
 
 // Watcher Saga
