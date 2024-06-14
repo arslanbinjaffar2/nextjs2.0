@@ -94,7 +94,7 @@ const UpcomingEvents = () => {
                                         )}
                             </Pressable>
                             <View display="flex" flexDirection="column" ml={['', '30px']} mt={['14px', '']} w="100%">
-                                <Pressable onPress={() => push(`/${event.url}/upcoming_events/detail/${upcoming_event?.id}`)}>
+                                <Pressable onPress={() => push(`/${event.url}/upcoming-events/detail/${upcoming_event?.id}`)}>
                                     <Text textDecorationLine="underline" fontSize="md" fontWeight="semibold">
                                         {upcoming_event.name}
                                     </Text>
