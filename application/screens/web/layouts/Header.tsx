@@ -26,7 +26,7 @@ const Header = ({ width }: any) => {
                           : images.Logo }} w="180px" h="61px" alignSelf={'center'} />
             </Pressable>
           </Center>
-          <Center w="100%" maxW={width! > 1200 ? '600px' : '40%'}>
+          <Center w="100%" maxW={width! > 1200 ? '600px' : 'calc(100% - 200px)'}>
             <VStack pb="0" space={0} w="100%">
               <Heading textTransform={'uppercase'} fontWeight={500} isTruncated fontSize="3xl">{event.name}</Heading>
               <Heading textTransform={'uppercase'} fontWeight={500} isTruncated pb="1" fontSize="xl">{event.detail?.location_name}</Heading>
@@ -34,7 +34,7 @@ const Header = ({ width }: any) => {
             </VStack>
           </Center>
           <Spacer />
-          <Center alignItems="flex-end" w="100%" maxW={width! >= 1201 ? '265px' : '40%'}>
+          <Center alignItems="flex-end" w="100%" maxW={width! >= 1201 ? '265px' : '70px'}>
             <HStack space="6">
               <Box><Pressable onPress={() => { router.push(`/${event.url}/settings/editprofile`) }}><Icosettings width={28} height={28} /></Pressable></Box>
               {/* <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={28} height={28} /></Pressable></Box> */}
