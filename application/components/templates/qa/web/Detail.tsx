@@ -160,7 +160,7 @@ const Detail = () => {
     const [question, setQuestion] = React.useState<string>('');
     const debounced = useDebouncedCallback((value:any) => {
         setQuestion(value);
-    }, 100);
+    }, 500);
 
     const TabHeadings:any = {
         popular: qaDetials.labels.QA_POPULAR ?? "Popular",
@@ -324,7 +324,9 @@ const Detail = () => {
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
                                 <EditorProvider>
-                                    <Editor style={{width: '100%',color:colors.text}} value={question}
+                                    <Editor
+                                    key="qa"
+                                    style={{width: '100%',color:colors.text}} value={question}
                                     placeholder={qaDetials.labels.QA_TYPE_YOUR_QUESTION }
                                     
                                     onChange={(e) => {
