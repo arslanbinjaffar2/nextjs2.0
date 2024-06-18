@@ -3,7 +3,7 @@ import { Box, View,Container} from 'native-base'
 import { Banner } from 'application/models/Banner'
 import UseEnvService from 'application/store/services/UseEnvService'
 import UseBannerService from 'application/store/services/UseBannerService'
-import { Platform, TouchableOpacity } from 'react-native'
+import { Platform, TouchableOpacity, useWindowDimensions } from 'react-native'
 import { useRouter } from 'solito/router'
 import UseEventService from '../../../store/services/UseEventService'
 import RectangleView from 'application/components/atoms/banners/RectangleView'
@@ -21,7 +21,7 @@ const BannerAds = ({
   const [filteredBanners, setFilteredBanners] = useState<Banner[]>([]);
   const [currentBanner, setCurrentBanner] = React.useState(0);
   const { banners, FetchBanners } = UseBannerService();
-
+  const { width } = useWindowDimensions();
   useEffect(() => {
     if(banners === undefined){
       return;
@@ -29,6 +29,7 @@ const BannerAds = ({
     const filtered = banners.filter((banner: Banner) => {
       if (module_name === 'dashboard') {
         var moduleType = banner.module_type.split(',');
+        
         return (
           banner.module_name === module_name &&
           moduleType.includes(module_type ?? '')
@@ -59,7 +60,6 @@ const BannerAds = ({
       }
     });
     // Further processing with filteredBanner
-    console.log('filtered:',filtered)
     setFilteredBanners(filtered)
   }, [banners, module_name, module_type, module_id]);
 
@@ -140,9 +140,10 @@ const BannerAds = ({
   const currentBannerImage = filteredBanners[currentBanner]?.image;
   return (
     <>
+ {filteredBanners.length > 0 && <Box my="4" h={[(width - 30) * 0.24, 600 * 0.24]} position={'relative'} w={'100%'} >
       {filteredBanners.map((banner:Banner,index)=>
-        <Container mb="4"  w="100%" maxW="100%">
-          <Box width={"100%"} height={"5%"}>
+        <Container position={'absolute'} left={'0'} top={'0'} h={'100%'}  w="100%" maxW="100%">
+          <Box width={"100%"}>
           <Box maxW="100%" maxH="100%" display={index === currentBanner ? 'block' : 'none'}>
           <TouchableOpacity onPress={() => handleBannerClick(banner)}>
             <View w={'100%'} h={'100%'}>
@@ -155,7 +156,8 @@ const BannerAds = ({
           </Box>
         </Container>
       )}
-    </>
+    </Box>}
+      </>
   );
 };
 

@@ -7,6 +7,8 @@ import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT} from 'application/utils/Globals'
 import IcoInfo from 'application/assets/icons/small/IcoInfo';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import UseAuthService from 'application/store/services/UseAuthService'
+
 type AppProps = {
     detail: Detail,
     info: React.ReactNode,
@@ -15,15 +17,29 @@ type AppProps = {
 
 const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     const { event  } = UseEventService();
-
+    const { response } = UseAuthService()
     // Define the fields to remove
     const fieldsToRemove = ['first_name', 'last_name', 'delegate_number', 'table_number', 'initial', 'email', 'phone', 'resume', 'facebook', 'linkedin', 'twitter', 'website', 'company_name', 'department', 'title', 'profile_picture'];
-
+    const loggedInUser = detail?.detail?.id === response.data?.user?.id;
     // Filter out the specified fields from sort_field_setting
     const filteredSortFieldSetting = detail?.sort_field_setting.filter((setting: any) => !fieldsToRemove.includes(setting.name));
-    
+
+    const isFieldVisible = (fieldName: string) => {
+        const field = detail.sort_field_setting.find((field: any) => field.name === fieldName);
+        if (!loggedInUser) {
+          return field && !field.is_private;
+        }
+        return !!field;
+      };
+
+    const hasContactInfo = ['bio_info', 'show_job_tasks', 'age', 'show_industry', 'interest', 'network_group', 'gender', 'first_name_passport', 'last_name_passport', 'passport_no',
+        'place_of_birth', 'date_of_issue_passport', 'date_of_expiry_passport', 'birth_date', 'employment_date', 'spoken_languages', 'organization', 'country', 'pa_country', 'pa_street',
+        'pa_house_no', 'pa_post_code', 'pa_city', 'type'
+    ]
+    .some(fieldName => isFieldVisible(fieldName) && detail?.detail?.info?.[fieldName])
+
     // Check if the filtered array has at least one item
-    const shouldShowNoRecord = filteredSortFieldSetting.length === 0;
+    const shouldShowNoRecord = filteredSortFieldSetting.length === 0 || !hasContactInfo;
         
     return (
         <Box overflow="hidden" bg={`${detail?.sort_field_setting.length > 0 ? "primary.box" : ""}`} w="100%"  p="0" rounded="10">
@@ -97,26 +113,6 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
                                             </Box>
                                         </HStack>
                                     )}
-                                    {/* {setting.name === 'email' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.email! && (
-                                        <HStack w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
-                                            <Box w="150px">
-                                                <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.email}:</Heading>
-                                            </Box>
-                                            <Box pl="1" w="calc(100% - 200px)">
-                                                <Text fontSize="sm">{detail?.detail?.email}</Text>
-                                            </Box>
-                                        </HStack>
-                                    )}
-                                    {setting.name === 'phone' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.phone! && (
-                                        <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
-                                            <Box w="150px">
-                                                <Heading fontSize="16px" fontWeight={'500'} lineHeight="lg">{detail?.sort_field_labels?.phone}:</Heading>
-                                            </Box>
-                                            <Box pl="1" w="calc(100% - 200px)">
-                                                <Text fontSize="sm">{detail?.detail?.phone}</Text>
-                                            </Box>
-                                        </HStack>
-                                    )} */}
                                     {setting.name === 'gender' && (showPrivate == 1 || setting.is_private == 0 ) && detail?.detail?.info?.gender! && (
                                         <HStack w="100%" borderBottomWidth={0} borderBottomColor={'primary.bordercolor'} pb={2} mb={2} >
                                             <Box w="150px">
