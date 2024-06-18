@@ -320,8 +320,10 @@ const Detail = () => {
                                 <EditorProvider key={"qa_editor_provider"}>
                                     <Editor 
                                     autoFocus={true}
+                                    contentEditable={true}
                                     key={"qa_editor"}
-                                    style={{width: '100%'}} value={question}
+                                    style={{width: '100%'}} 
+                                    value={question}
                                     placeholder={qaDetials.labels.QA_TYPE_YOUR_QUESTION }
                                     onChange={(e) => {
                                         setQuestion(e.target.value) }}  >
