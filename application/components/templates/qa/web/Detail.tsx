@@ -317,7 +317,7 @@ const Detail = () => {
                     <Box w="100%" px="3">
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
-                            <TextArea focusOutlineColor="transparent" _focus={{ bg: 'transparent' }} value={question} onChangeText={(value)=>setQuestion(value)}  px="4" py="0" fontSize="lg" w="100%" borderWidth="0" rounded="0" minH="60px" placeholder="" autoCompleteType={undefined}  />
+                            <TextArea key={"QA_editor"} rounded={8} bg="primary.darkbox" borderWidth={0} borderColor={'primary.darkbox'} value={question} onChangeText={(value)=>setQuestion(value)}  p="3" fontSize="lg" w="100%"  minH="60px" placeholder="" autoCompleteType={undefined}  />
                                 {/* <EditorProvider key={"qa_editor_provider"}>
                                     <Editor 
                                     name={"qa_editor"}
