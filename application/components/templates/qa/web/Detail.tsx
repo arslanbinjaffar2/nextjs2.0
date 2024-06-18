@@ -160,7 +160,7 @@ const Detail = () => {
     const [question, setQuestion] = React.useState<string>('');
     const debounced = useDebouncedCallback((value:any) => {
         setQuestion(value);
-    }, 500);
+    }, 100);
 
     const TabHeadings:any = {
         popular: qaDetials.labels.QA_POPULAR ?? "Popular",
