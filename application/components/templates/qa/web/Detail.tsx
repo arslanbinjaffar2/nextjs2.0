@@ -11,7 +11,7 @@ import { createParam } from 'solito';
 import WebLoading from 'application/components/atoms/WebLoading';
 import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
-import moment from 'moment-timezone';
+import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { QaSettings } from 'application/models/qa/Qa';
 import UseSocketService from 'application/store/services/UseSocketService';
@@ -40,7 +40,6 @@ import {
 } from 'react-simple-wysiwyg';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
-import { useDebouncedCallback } from "use-debounce";
 
 
 type ScreenParams = { id: string }
@@ -56,8 +55,6 @@ const Detail = () => {
     const { _env } = UseEnvService();
 
     const { event, modules } = UseEventService();
-
-    const eventTimeZone = event?.timezone?.timezone;
 
     const [query, setQuery] = React.useState('');
 
@@ -132,12 +129,14 @@ const Detail = () => {
     React.useEffect(() => {
         if(socket !== null){
             socket?.on(`event-buizz:qa_admin_block_listing_${event.id}_${id}`, function (data:any):any {
+                console.log("🚀 ~ data:", data)
                 if(data.data_raw){
                     QaRecentPopularSocketUpdate(data.data_raw);
                     FetchTabDetails({ id: Number(id) });
                 }
             });
             socket?.on(`event-buizz:qa_block_sort_${event.id}_${id}`, function (data:any):any {
+                console.log(data, 'data');
                 QaSort(data);
             });
         }
@@ -152,15 +151,10 @@ const Detail = () => {
     const [speaker, setSpeaker] = React.useState<any>(null);
     const [paragraph, setParagraph] = React.useState<any>(null);
     const [lineNumber, setLineNumber] = React.useState<any>('');
+    const [question, setQuestion] = React.useState<any>('');
     const [anonymously, setAnonymously] = React.useState<any>(false);
     const [questionsCount, setQuestionsCount] = React.useState<any>(0);
     const [error, setError] = React.useState<any>(null);
-
-    //const [question, setQuestion] = React.useState<any>('');
-    const [question, setQuestion] = React.useState<string>('');
-    const debounced = useDebouncedCallback((value:any) => {
-        setQuestion(value);
-    }, 500);
 
     const TabHeadings:any = {
         popular: qaDetials.labels.QA_POPULAR ?? "Popular",
@@ -212,15 +206,15 @@ const Detail = () => {
             QA_MODERATOR_LINE_NUMBER: 'Line number',
             answered: 0,
             allLanguages: JSON.stringify(qaDetials.all_languages),
-            created_at: moment().tz(eventTimeZone).format('YYYY-MM-DD HH:mm:ss'),
-            updated_at: moment().tz(eventTimeZone).format('YYYY-MM-DD HH:mm:ss'),
+            created_at: moment().toDate(),
+            updated_at: moment().toDate(),
             language_id: event.language_id,
             base_url: _env.eventcenter_base_url,
             enable_gdpr: event?.gdpr_settings?.enable_gdpr,
             enable_attendee_gdpr: response?.attendee_detail?.event_attendee?.gdpr,
             attendee_invisible: event?.gdpr_settings?.attendee_invisible,
             ip: qaDetials.clientIp,
-        } 
+        }
           
         SubmitQa(postData);
         
@@ -324,13 +318,13 @@ const Detail = () => {
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
                                 <EditorProvider>
-                                    <Editor
-                                    key="qa"
-                                    style={{width: '100%',color:colors.text}} value={question}
+                                    <Editor 
+                                    key={"qa_editor"}
+                                    style={{width: '100%'}} value={question}
                                     placeholder={qaDetials.labels.QA_TYPE_YOUR_QUESTION }
                                     
                                     onChange={(e) => {
-                                        debounced(e.target.value) }}  >
+                                        setQuestion(e.target.value) }}  >
                                                 <Toolbar>
                                                 <BtnUndo />
                                                 <BtnRedo />
@@ -415,7 +409,7 @@ const Detail = () => {
                                     </View>
                                     
                                  
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.created_at}</Text>
+                                    <Text position="absolute" right="0" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                              
                                     <Box w={'100%'}>
@@ -495,7 +489,7 @@ const Detail = () => {
                                     </HStack>
                                     </View>
                       
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.created_at}</Text>
+                                    <Text position="absolute" right="0" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                             
                                     <Box w={'100%'}>
@@ -576,7 +570,7 @@ const Detail = () => {
                                     </View>
                                     
                                 
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.created_at}</Text>
+                                    <Text position="absolute" right="0" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                   
                                     <Box w={'100%'}>
@@ -656,7 +650,7 @@ const Detail = () => {
                                     </View>
                                     
                                 
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.created_at}</Text>
+                                    <Text position="absolute" right="0" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                    
                                     <Box w={'100%'}>
