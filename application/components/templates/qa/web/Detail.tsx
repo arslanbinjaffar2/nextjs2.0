@@ -40,6 +40,7 @@ import {
 } from 'react-simple-wysiwyg';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { useDebouncedCallback } from "use-debounce";
 
 
 type ScreenParams = { id: string }
@@ -151,10 +152,15 @@ const Detail = () => {
     const [speaker, setSpeaker] = React.useState<any>(null);
     const [paragraph, setParagraph] = React.useState<any>(null);
     const [lineNumber, setLineNumber] = React.useState<any>('');
-    const [question, setQuestion] = React.useState<any>('');
     const [anonymously, setAnonymously] = React.useState<any>(false);
     const [questionsCount, setQuestionsCount] = React.useState<any>(0);
     const [error, setError] = React.useState<any>(null);
+
+    //const [question, setQuestion] = React.useState<any>('');
+    const [question, setQuestion] = React.useState<string>('');
+    const debounced = useDebouncedCallback((value:any) => {
+        setQuestion(value);
+    }, 500);
 
     const TabHeadings:any = {
         popular: qaDetials.labels.QA_POPULAR ?? "Popular",
@@ -322,7 +328,7 @@ const Detail = () => {
                                     placeholder={qaDetials.labels.QA_TYPE_YOUR_QUESTION }
                                     
                                     onChange={(e) => {
-                                        setQuestion(e.target.value) }}  >
+                                        debounced(e.target.value) }}  >
                                                 <Toolbar>
                                                 <BtnUndo />
                                                 <BtnRedo />
