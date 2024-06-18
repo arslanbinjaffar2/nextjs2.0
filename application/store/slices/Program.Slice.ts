@@ -166,6 +166,14 @@ export const ProgramSlice = createSlice({
         FetchProgramDetail(state, action: PayloadAction<{ id: number }>) { },
         UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
+            if(action.payload?.detail?.program?.id){
+                const existingIndex = state.fav_programs.findIndex(fav => fav.id === action.payload?.detail?.program?.id);
+                if (existingIndex !== -1) {
+                    state.fav_programs[existingIndex].is_fav = action.payload?.detail?.program?.is_fav;
+                } else {
+                    state.fav_programs.push({ id: action.payload?.detail?.program?.id, is_fav: action.payload?.detail?.program?.is_fav });
+                }
+            }
         },
         SetFavouriteProgramError(state, action : PayloadAction<string>){
             // state.favouriteProgramError = action.payload;

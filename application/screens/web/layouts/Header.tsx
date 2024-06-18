@@ -20,7 +20,7 @@ const Header = ({ width }: any) => {
           <Center overflow="hidden" alignItems="flex-start" w="100%" maxW={width! > 1200 ? '265px' : '70px'}>
             <Pressable onPress={() => { router.push(`/${event.url}/dashboard`) }}>
              <Image
-                  alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
+                  alt='logo' mb={{ base: 5, lg: 10 }} resizeMode='contain' source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
                         : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
                           ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.header_logo}`
                           : images.Logo }} w="180px" h="61px" alignSelf={'center'} />

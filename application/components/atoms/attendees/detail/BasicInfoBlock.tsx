@@ -13,6 +13,7 @@ import { useRouter } from 'solito/router';
 import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
 import { func } from 'application/styles';
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 
 type AppProps = {
@@ -113,27 +114,22 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 )}
                         </VStack>
                         <Spacer />
-                        <Box flexDirection="row" alignItems="center" justifyContent="space-between">
-
-
+                        <HStack flexDirection="row" alignItems="center" justifyContent="space-between" space="3">
+                        {speaker === 0 &&
+                                detail?.hasOrderItems &&
+                                event?.attendee_settings?.display_registration_invoice == 1 &&
+                                detail?.detail?.id === response?.attendee_detail?.id ? (
+                                <Pressable onPress={() => { handleRegistrationPress() }}>
+                                    <DynamicIcon iconType="edit_order" iconProps={{ width: 20, height: 22 }}  />
+                                </Pressable>
+                            ) : null}
                             {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
                                 <Pressable onPress={() => { toggleFav() }}>
                                     <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
                                 </Pressable>
                             )}
 
-                            {speaker === 0 &&
-                                detail?.hasOrderItems &&
-                                event?.attendee_settings?.display_registration_invoice == 1 &&
-                                detail?.detail?.id === response?.attendee_detail?.id ? (
-                                <IconButton
-                                    variant="transparent"
-                                    p="2"
-                                    onPress={() => { handleRegistrationPress() }}
-                                    icon={<IcoClipboard width={28} height={28} />}
-                                />
-                            ) : null}
-                        </Box>
+                        </HStack>
                     </HStack>
                     <HStack w="100%" space="0">
                         {detail?.sort_field_setting && detail.sort_field_setting.find((setting: any) => setting.name === 'initial' && (showPrivate == 1 || setting.is_private == 0) && detail?.detail?.info?.initial) && (
