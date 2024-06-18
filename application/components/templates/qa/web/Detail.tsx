@@ -317,8 +317,9 @@ const Detail = () => {
                     <Box w="100%" px="3">
                          <Text w={'100%'} color={'primary.text'} fontSize="md">
                             <Box w={'100%'} bg="primary.darkbox" rounded={8}>
-                                <EditorProvider key={"qa_editor"}>
+                                <EditorProvider key={"qa_editor_provider"}>
                                     <Editor 
+                                    key={"qa_editor"}
                                     style={{width: '100%'}} value={question}
                                     placeholder={qaDetials.labels.QA_TYPE_YOUR_QUESTION }
                                     onChange={(e) => {
