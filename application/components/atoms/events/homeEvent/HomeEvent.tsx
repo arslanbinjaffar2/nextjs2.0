@@ -4,7 +4,7 @@ import { HomeMyEvent } from 'application/models/FetchEvent';
 import { UseEventService } from 'application/store/services';
 import UseEnvService from 'application/store/services/UseEnvService';
 import DynamicIcon from 'application/utils/DynamicIcon';
-import { Box, Button, HStack, Image, Pressable, Text, View, Input ,Icon, Select, CheckIcon} from 'native-base';
+import { Box, Button, HStack, Image, Pressable, Text, View, Input ,Icon, Select, CheckIcon, VStack} from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'solito/src/router/use-router';
@@ -14,6 +14,7 @@ import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 import moment from 'moment';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { func } from 'application/styles';
 
 const HomeEvent = () => {
     const { push } = useRouter();
@@ -93,9 +94,9 @@ const HomeEvent = () => {
         {processing?.includes('fetching-events') ? <SectionLoading /> :(
             <>   
             {filteredHomeEvent.length === 0 && <View bg="primary.box" rounded="lg"><NoRecordFound /></View>}
-            <View>
+            <Box bg={'primary.box'} rounded={10}>
                 {filteredHomeEvent.map((home_event: HomeMyEvent, key: number) => (
-                    <View key={key} display="flex" flexDirection={['column', 'row']} alignItems="flex-start" width="100%" py="14px" px="16px" bg={'primary.box'}>
+                    <HStack borderTopWidth={key === 0 ? 0 : 1} borderTopColor={'primary.bordercolor'} key={key} display="flex" alignItems="flex-start" width="100%" p={4}>
                         <Pressable onPress={() => push(`/${event.url}/home-events/detail/${home_event?.id}`)} >
                             {home_event.app_header_logo ? (
                                 <Image
@@ -119,34 +120,37 @@ const HomeEvent = () => {
                                         />
                                         )}
                         </Pressable>
-                        <View display="flex" flexDirection="column" ml={['', '30px']} mt={['14px', '']} w="100%">
+                        <VStack space={2}  ml={['4']} w={'calc(100% - 140px)'}>
                             <Pressable onPress={() => push(`/${event.url}/home-events/detail/${home_event?.id}`)}>
-                                <Text textDecorationLine="underline" fontSize="md" fontWeight={'semibold'}>{home_event?.name}</Text>
+                                <Text  fontSize="lg" fontWeight={'500'}>{home_event?.name}</Text>
                             </Pressable>
-                            <HStack space="3" alignItems="center" width="100%" flexDirection="row" pt="6px">
+                            <HStack space="3" alignItems="center" width="100%" flexDirection="row">
                                 <Box alignItems="center" flexDirection="row">
                                     <Icocalendar width={16} height={18} />
-                                    <Text ml="6px" fontSize="xs">{moment(home_event?.start_date).format(GENERAL_DATE_FORMAT)}</Text>
+                                    <Text ml="6px" fontSize="12px">{moment(home_event?.start_date).format(GENERAL_DATE_FORMAT)}</Text>
                                 </Box>
-                                <Box alignItems="center" flexDirection="row">
-                                    <Text fontSize="xs">{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>
-                                    <Text fontSize="xs">{home_event?.id}</Text>
+                                <Box  alignItems="center" flexDirection="row">
+                                    <Text fontSize="12px">{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>
+                                    <Text fontSize="12px">{home_event?.id}</Text>
                                 </Box>
                             </HStack>
-                            <Box alignItems="center" flexDirection="row" pt="6px">
+                            <Box alignItems="center" flexDirection="row">
                                 <Icopin width={16} height={18} />
-                                <Text ml="6px" fontSize="xs">{home_event?.location_name}</Text>
+                                <Text ml="6px" fontSize="12px">{home_event?.location_name}</Text>
                             </Box>
-                            {home_event?.id != event?.id && <Button width={['100%', '86px']} height={38} mt="3" onPress={() => window.open(`/${home_event?.url}`, '_blank')}>
-                                <Box display="flex" alignItems="center" flexDirection="row">
-                                    <DynamicIcon iconType="logout" iconProps={{ width: 14, height: 14 }} />
-                                    <Text ml="6px">{event?.labels?.EVENTSITE_LOGIN}</Text>
-                                </Box>
-                            </Button>}
-                        </View>
-                    </View>
+                            
+                            {home_event?.id != event?.id && 
+                                <Text>
+                                    <Button _text={{color: 'primary.hovercolor'}} px={4} py={2} leftIcon={<DynamicIcon iconType="logout" iconProps={{ width: 14, height: 14,color: func.colorType(event?.settings?.primary_color) }} />} onPress={() => window.open(`/${home_event?.url}`, '_blank')}>
+                                        {event?.labels?.EVENTSITE_LOGIN}
+                                    </Button>
+                                </Text>
+                                
+                            }
+                        </VStack>
+                    </HStack>
                 ))}
-            </View>
+            </Box>
             </>
         )}
         </>
