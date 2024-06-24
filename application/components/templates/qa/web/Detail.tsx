@@ -234,7 +234,7 @@ const Detail = () => {
         SubmitQa(postData);
 
         setAnonymously(false);
-        setParagraph(null);
+        setParagraph('');
         setLineNumber('');
         setQuestion('');
         setSpeaker(null);
