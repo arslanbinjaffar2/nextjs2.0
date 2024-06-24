@@ -30,7 +30,6 @@ const Icohotelbed = (props: SvgProps) => {
         id="Group_703"
         data-name="Group 703"
         transform="translate(0 0)"
-        
       >
         <Path
           id="Path_1806"
