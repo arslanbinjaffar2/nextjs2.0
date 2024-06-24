@@ -78,7 +78,6 @@ import star from 'application/assets/icons/star'
 import staro from 'application/assets/icons/staro'
 import save from 'application/assets/icons/save'
 import edit_order from 'application/assets/icons/edit_order'
-
 import Notattending from 'application/assets/icons/Notattending'
 import register from 'application/assets/icons/register'
 type IconProps = {
