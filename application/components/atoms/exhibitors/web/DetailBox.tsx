@@ -29,7 +29,9 @@ const DetailBox = ({ detail }: AppProps) => {
 
     const windowWidth = Dimensions.get('window').width;
     
-    const [isFav,setIsFav] = useState(false)
+    const [isFav,setIsFav] = useState(false);
+
+    const _bannerWidth = React.useRef<HTMLDivElement>(null);
 
     const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
         const mixedStyle = {
@@ -66,9 +68,9 @@ const DetailBox = ({ detail }: AppProps) => {
     }
     return (
         <Box w="100%"  p="0" roundedTop="10">
-            <Box w="100%"  p="0" roundedTop="10">
+            <Box ref={_bannerWidth} w="100%"  p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
-                    <Image resizeMode='contain'  mb="5" roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
+                    <Image resizeMode='contain'  mb="5" roundedTop="10"  source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="" w="100%" h={_bannerWidth.current?.clientWidth ? _bannerWidth.current?.clientWidth * 0.34 : 180} />
                 ) : (
                     <Image mb="5" roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="" w="100%" h="160px" />
                 )}
