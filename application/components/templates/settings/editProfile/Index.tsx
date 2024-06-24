@@ -1108,87 +1108,95 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'profile_picture' && (
-                            <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} px="6"  w="100%" >
-                                
-                                    <HStack mb="0" alignItems="start" flexDirection={['column', 'row']}  w="100%" >
-                                        <Center alignItems="flex-start" pb={[2,0]} w={["100%","225px"]}>
-                                            <Text isTruncated fontWeight="500" fontSize="16px">Profile picture</Text>
-                                        </Center>
-                                        <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
-                                            <HStack w="100%">
-                                                <VStack w={'100%'} space={2}>
-                                                    <Center w="150px">
-                                                        {((attendeeData && attendeeData?.image && attendeeData?.image !== "") || attendeeData?.blob_image !== undefined) ? 
-                                                        <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image :`${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
-                                                        : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
-                                                    </Center>
-                                                    <View flexDirection={'row'} alignItems={'center'}>
-                                            <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
-                                                            if(inputFileRef.current){
-                                                                inputFileRef.current.click();
-                                                            }
-                                                        }} 
-                                                        size={'lg'}
-                                                     >
-                                                   
-                                                    </Button>
-                                                    <Box   ml={3}>
+                        <HStack mb="3" alignItems="start" flexDirection={['column', 'row']} px="6" w="100%" >
 
-                                                        {attendeeData?.blob_image !== undefined ? <Text fontSize="md" color={'primary.text'}>{attendeeData.file?.name}</Text>:
-                                                        <Text fontSize="md" color={'primary.text'}>{attendeeData.image}</Text>
-                                                        }
-                                                    </Box>
-                                                    <Pressable
-                                                        onPress={() => {
-                                                            setAttendeeData({
-                                                                ...attendeeData,
-                                                                image: "",
-                                                                file: "",
-                                                                blob_image:undefined
-                                                            });
-                                                            if (inputFileRef.current) {
-                                                                inputFileRef.current.value = '';
-                                                            }
-                                                        }}
-                                                      
-                                                    style={{
-                                                        display: (attendeeData && attendeeData.image || attendeeData.file) ? "flex" : "none"
-                                                    }}
-                                                          
-                                                    >
-                                                        <Icon as={AntDesign} name="close" ml={"6px"} size="xl" color="primary.text" />
-                                                    </Pressable>
+                            <HStack mb="0" alignItems="start" flexDirection={['column', 'row']} w="100%" >
+                                <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
+                                    <Text isTruncated fontWeight="500" fontSize="16px">{labels?.profile_picture ?? "Profile picture"}</Text>
+                                </Center>
+                                <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
+                                    <HStack w="100%">
+                                        <VStack w={'100%'} space={2}>
+                                            <Center w="150px">
+                                                {((attendeeData && attendeeData?.image && attendeeData?.image !== "") || attendeeData?.blob_image !== undefined) ?
+                                                    <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image : `${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
+                                                    : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
+                                            </Center>
+
+                                            {/* <Button w={150} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
+                                                if (inputFileRef.current) {
+                                                    inputFileRef.current.click();
+                                                }
+                                            }}
+                                                size={'lg'}
+                                            >
+                                                {event?.labels.GENERAL_BROWSE ?? 'Browse'}
+                                            </Button> */}
+                                            <View flexDirection={'row'} alignItems={'center'}>
+                    <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
+                                    if(inputFileRef.current){
+                                        inputFileRef.current.click();
+                                    }
+                                }} 
+                                size={'lg'}
+                             >
+                           
+                            </Button>
+                            <Box   ml={3}>
+
+                                {attendeeData?.blob_image !== undefined ? <Text fontSize="md" color={'primary.text'}>{attendeeData.file?.name}</Text>:
+                                <Text fontSize="md" color={'primary.text'}>{attendeeData.image}</Text>
+                                }
+                            </Box>
+                            <Pressable
+                                onPress={() => {
+                                    setAttendeeData({
+                                        ...attendeeData,
+                                        image: "",
+                                        file: "",
+                                        blob_image:undefined
+                                    });
+                                    if (inputFileRef.current) {
+                                        inputFileRef.current.value = '';
+                                    }
+                                }}
+                              
+                            style={{
+                                display: (attendeeData && attendeeData.image || attendeeData.file) ? "flex" : "none"
+                            }}
+                                  
+                            >
+                                <Icon as={AntDesign} name="close" ml={"6px"} size="xl" color="primary.text" />
+                            </Pressable>
 
 
-                                                    </View>
-                                                </VStack>
-                                                {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
-                                                    <input 
-                                                    width="100%"
-                                                        height="50px"
-                                                        type='file'
-                                                        style={{display:'none'}}
-                                                        accept="image/*"
-                                                        placeholder={labels?.phone}
-                                                        readOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
-                                                        onChange={(e) => {
-                                                            if (e?.target?.files! && e?.target?.files?.length > 0) {
-                                                                setAttendeeData({
-                                                                ...attendeeData,
-                                                                file: e.target.files[0],
-                                                                blob_image: URL.createObjectURL(e.target.files[0]),
-                                                                });
-                                                            }
-                                                        }}
-                                                        ref={inputFileRef}
-                                                    />
-                                                </Center>}
-                                            </HStack>
-                                        </Center>
+                            </View>
+                                        </VStack>
+                                        {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
+                                            <input
+                                                width="100%"
+                                                height="50px"
+                                                type='file'
+                                                style={{ display: 'none' }}
+                                                accept="image/*"
+                                                placeholder={labels?.phone}
+                                                readOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                                onChange={(e) => {
+                                                    if (e?.target?.files! && e?.target?.files?.length > 0) {
+                                                        setAttendeeData({
+                                                            ...attendeeData,
+                                                            file: e.target.files[0],
+                                                            blob_image: URL.createObjectURL(e.target.files[0]),
+                                                        });
+                                                    }
+                                                }}
+                                                ref={inputFileRef}
+                                            />
+                                        </Center>}
                                     </HStack>
-                                {/* </Center> */}
+                                </Center>
                             </HStack>
-                        // </HStack>
+                        </HStack>
                     )}
                     {setting?.name === 'resume' && (
                         <HStack mb="3" alignItems="start" px="6" w="100%" >
@@ -1213,63 +1221,75 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                         <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
                                                     </Pressable>
                                                     : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />}
-                                               
+                                                {/* {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
+                                                    attendee.attendee_cv === 'string' ? <Text fontSize="md">{attendee.attendee_cv}</Text> :
+                                                        <Text fontSize="md">{attendeeData.attendee_cv}</Text>} */}
 
-                                                    
-                                                </Center>
-                                             <View flexDirection={'row'} alignItems={'center'}>
-                                            <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
-                                                    isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
-                                                    onPress={()=>{
-                                                        if(inputresumeFileRef.current){
-                                                            inputresumeFileRef.current.click();
-                                                        }
-                                                    }}
-                                                    size={'lg'}
-                                                     >
-                                                  
-                                                    </Button>
-                                                    <Box   ml={3}>
-                                                    {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
-                                                    attendee.attendee_cv === 'string' ? <Text  fontSize="md" color={'primary.text'}>{attendee.attendee_cv}</Text> :
-                                                        <Text fontSize="md" color={'primary.text'}>{attendeeData.attendee_cv}</Text>}
-                                                    </Box>
-                                                    <Pressable
-                                                  
-                                                  onPress={()=>{
-                                                    setAttendeeData((prev: any) => {
-                                                        return {
-                                                            ...prev,
-                                                            attendee_cv: ""
-                                                        }
-                                                    });
-                                                        if (inputresumeFileRef.current) {
-                                                            inputresumeFileRef.current.value = '';
-                                                        }
-                                                  }}
-                                                  
-                                                  style={{
-                                                    display: typeof attendeeData.attendee_cv === 'object' || (typeof attendeeData.attendee_cv === 'string' && attendeeData.attendee_cv !== "") ? "flex" : "none"
-                                                  }}
-                                                  
-                                              >
-                                                          <Icon as={AntDesign} name="close" ml={"6px"} size="xl" color="primary.text"  />
-                                              </Pressable>
-                                             </View>
 
-                                            </VStack>
-                                            {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
-                                                <input 
-                                                		width="100%"
-                                                    height="50px"
-                                                    type='file'
-                                                    style={{display:'none'}}
-                                                    accept="application/pdf"
-                                                    placeholder={labels?.phone}
-                                                    readOnly={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? false : true}
-                                                    onChange={(e) => {
-                                                        if (e?.target?.files! && e?.target?.files?.length > 0) {
-                                                            setAttendeeData({
+                                            </Center>
+                                            <View flexDirection={'row'} alignItems={'center'}>
+                    <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
+                            isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
+                            onPress={()=>{
+                                if(inputresumeFileRef.current){
+                                    inputresumeFileRef.current.click();
+                                }
+                            }}
+                            size={'lg'}
+                             >
+                          
+                            </Button>
+                            <Box   ml={3}>
+                            {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
+                            attendee.attendee_cv === 'string' ? <Text  fontSize="md" color={'primary.text'}>{attendee.attendee_cv}</Text> :
+                                <Text fontSize="md" color={'primary.text'}>{attendeeData.attendee_cv}</Text>}
+                            </Box>
+                            <Pressable
+                          
+                          onPress={()=>{
+                            setAttendeeData((prev: any) => {
+                                return {
+                                    ...prev,
+                                    attendee_cv: ""
+                                }
+                            });
+                                if (inputresumeFileRef.current) {
+                                    inputresumeFileRef.current.value = '';
+                                }
+                          }}
+                          
+                          style={{
+                            display: typeof attendeeData.attendee_cv === 'object' || (typeof attendeeData.attendee_cv === 'string' && attendeeData.attendee_cv !== "") ? "flex" : "none"
+                          }}
+                          
+                      >
+                                  <Icon as={AntDesign} name="close" ml={"6px"} size="xl" color="primary.text"  />
+                      </Pressable>
+                     </View>
+                                            {/* <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
+                                                isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
+                                                onPress={() => {
+                                                    if (inputresumeFileRef.current) {
+                                                        inputresumeFileRef.current.click();
+                                                    }
+                                                }}
+                                                size={'lg'}
+                                            >
+                                                {event?.labels.GENERAL_BROWSE ?? 'Browse'}
+                                            </Button> */}
+                                        </VStack>
+                                        {setting?.is_editable === 1 && <Center pl="2" w="calc(100% - 100px)">
+                                            <input
+                                                width="100%"
+                                                height="50px"
+                                                type='file'
+                                                style={{ display: 'none' }}
+                                                accept="application/pdf"
+                                                placeholder={labels?.phone}
+                                                readOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
+                                                onChange={(e) => {
+                                                    if (e?.target?.files! && e?.target?.files?.length > 0) {
+                                                        setAttendeeData({
                                                             ...attendeeData,
                                                             attendee_cv: e.target.files[0],
                                                         });
