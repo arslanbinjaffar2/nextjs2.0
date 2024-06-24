@@ -18,7 +18,7 @@ import NewChatBox from 'application/components/atoms/chat/NewChatBox';
 
 type SelectedItem = {
   type: string,
-  value: Attendee | Group
+  value: Attendee | Group | any
 }
 
 type indexProps = {

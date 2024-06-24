@@ -27,7 +27,9 @@ const DetailBox = ({ detail }: AppProps) => {
     
     const { event } = UseEventService()
 
-    const [isFav,setIsFav] = useState(false)
+    const [isFav,setIsFav] = useState(false);
+
+    const _bannerWidth = React.useRef<HTMLDivElement>(null);
 
     const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
         const mixedStyle = {
@@ -65,11 +67,11 @@ const DetailBox = ({ detail }: AppProps) => {
 
     return (
         <>
-            {detail && <Box w="100%"  p="0" roundedTop="10">
+            {detail && <Box ref={_bannerWidth} w="100%"  p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
-                    <Image  roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
+                    <Image  roundedTop="10"  resizeMode='contain' source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="" w="100%" h={_bannerWidth.current?.clientWidth ? _bannerWidth.current?.clientWidth * 0.34 : 180} />
                 ) : (
-                    <Image  roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="" w="100%" h="160px" />
+                    <Image  roundedTop="10" size="contain" source={ExhibitorDefaultImage} alt="" w="100%" h="203px" />
                 )}
                 <Box pt={5} w="100%" px="6">
                     <HStack w="100%" mb="1" space="3" alignItems="flex-start">

@@ -91,7 +91,7 @@ function* OnFetchEvents({
     payload,
 }: {
     type: typeof EventActions.FetchEvents
-    payload: {query: string, screen: string }
+    payload: {query: string, screen: string, selected_filter: string }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({process: 'fetching-events'}))
     const state = yield select(state => state);

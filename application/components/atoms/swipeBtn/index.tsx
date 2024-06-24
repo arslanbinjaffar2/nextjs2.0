@@ -15,7 +15,7 @@ const SwipeBtn = ({loading,onComplete}:Props) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   return (
     <>
-    <Box  position={'relative'} m="auto" w="100%" maxW={310}  p="0" rounded="sm" overflow="hidden">
+    <Box  position={'relative'} m="auto" w="100%" maxW={250}  p="0" rounded="sm" overflow="hidden">
     {!loading && <SwipeButton
         Icon={
           <> 

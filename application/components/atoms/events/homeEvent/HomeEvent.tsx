@@ -4,12 +4,17 @@ import { HomeMyEvent } from 'application/models/FetchEvent';
 import { UseEventService } from 'application/store/services';
 import UseEnvService from 'application/store/services/UseEnvService';
 import DynamicIcon from 'application/utils/DynamicIcon';
-import { Box, Button, HStack, Image, Pressable, Text, View, Input ,Icon} from 'native-base';
+import { Box, Button, HStack, Image, Pressable, Text, View, Input ,Icon, Select, CheckIcon, VStack} from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'solito/src/router/use-router';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
+import moment from 'moment';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { func } from 'application/styles';
 
 const HomeEvent = () => {
     const { push } = useRouter();
@@ -17,46 +22,64 @@ const HomeEvent = () => {
     const { _env } = UseEnvService();
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredHomeEvent, setFilteredHomeEvent] = useState<HomeMyEvent[]>([]);
+    const [selectedFilter, setSelectedFilter] = useState<string>('active_and_future');
     const {processing} = UseLoadingService();
+    const module = modules.find((module) => module.alias === 'homeMyevents');
 
     useEffect(() => {
-        FetchEvents({ query: '', screen: 'homeMyevents' });
+        FetchEvents({ query: '', screen: 'homeMyevents',selected_filter:selectedFilter });
     }, []);
 
     useEffect(() => {
-        setFilteredHomeEvent(home_events);
-    }, [home_events]);
+        filterBySearchQuery();
+    }, [home_events, searchQuery]);
 
-    const handleSearch = (query: string) => {
-        setSearchQuery(query);
-        if (!query) {
+    function filterBySearchQuery(){
+        if (!searchQuery) {
             setFilteredHomeEvent(home_events);
         } else {
-            const lowercasedFilter = query.toLowerCase();
+            const lowercasedFilter = searchQuery.toLowerCase();
             const filteredData = home_events.filter((item: HomeMyEvent) =>
                 (item.id && item.id.toString().includes(lowercasedFilter)) ||
                 (item?.name && item.name.toLowerCase().includes(lowercasedFilter))
             );
             setFilteredHomeEvent(filteredData);
         }
-    };
+    }
+
+    React.useEffect(() => {
+        FetchEvents({ query: '', screen: 'homeMyevents',selected_filter:selectedFilter });
+    }, [selectedFilter]);
 
     return (
         <>
-        {processing?.includes('fetching-events') ? <SectionLoading /> :(
-            <>
-            <HStack space={2} alignItems="center" mb={3} justifyContent={'space-between'}>
-            <Text fontSize="2xl">{modules?.find((programTitle) => (programTitle.alias == 'homeMyevents'))?.name ?? ''}</Text>
+        <NextBreadcrumbs module={module} />
+        <Text fontSize="2xl">{modules?.find((programTitle) => (programTitle.alias == 'homeMyevents'))?.name ?? ''}</Text>
+        <HStack space={2} alignItems="center" mb={3} justifyContent={'space-between'}>
 
+            <View w={'50%'}>
+            <Select w={'100%'}  bg={'primary.box'}  
+                rounded="10"
+				selectedValue={selectedFilter} _selectedItem={{
+					bg: "teal.600",
+					endIcon: <CheckIcon size="5" />
+					}} mt={1} onValueChange={itemValue => setSelectedFilter(itemValue)}>
+						<Select.Item label={event?.labels?.GENERAL_ALL} value={'all'} />
+						<Select.Item label={event?.labels?.GENERAL_FILTER_ACTIVE_AND_FUTURE} value={'active_and_future'} />
+						<Select.Item label={event?.labels?.GENERAL_FILTER_EXPIRED} value={'expired'} />
+        		</Select>
+            </View>
+            
+				 
                 <Input
                     rounded="10"
-                    w="60%"
+                    w="50%"
                     maxW={290}
                     bg="primary.box"
                     borderWidth={0}
                     placeholder={event.labels.GENERAL_SEARCH}
                     value={searchQuery}
-                    onChangeText={handleSearch}
+                    onChangeText={setSearchQuery}
                     InputLeftElement={
                         <Icon
                         ml={2}
@@ -68,14 +91,16 @@ const HomeEvent = () => {
                         }
                         />
             </HStack>
-            <View>
-                {filteredHomeEvent.length === 0 && <Text>To replace with no record found</Text>}
+        {processing?.includes('fetching-events') ? <SectionLoading /> :(
+            <>   
+            {filteredHomeEvent.length === 0 && <View bg="primary.box" rounded="lg"><NoRecordFound /></View>}
+            <Box bg={'primary.box'} rounded={10}>
                 {filteredHomeEvent.map((home_event: HomeMyEvent, key: number) => (
-                    <View key={key} display="flex" flexDirection={['column', 'row']} alignItems="flex-start" width="100%" py="14px" px="16px" bg={'primary.box'}>
-                        <Pressable onPress={() => push(`/${event.url}/home_events/detail/${home_event?.id}`)} >
-                            {home_event.app_icon ? (
+                    <HStack borderTopWidth={key === 0 ? 0 : 1} borderTopColor={'primary.bordercolor'} key={key} display="flex" alignItems="flex-start" width="100%" p={4}>
+                        <Pressable onPress={() => push(`/${event.url}/home-events/detail/${home_event?.id}`)} >
+                            {home_event.app_header_logo ? (
                                 <Image
-                                source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${home_event?.app_icon}` }}
+                                source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${home_event?.app_header_logo}` }}
                                     alt="Event Image"
                                     size="xl"
                                     width={114}
@@ -95,34 +120,37 @@ const HomeEvent = () => {
                                         />
                                         )}
                         </Pressable>
-                        <View display="flex" flexDirection="column" ml={['', '30px']} mt={['14px', '']} w="100%">
-                            <Pressable onPress={() => push(`/${event.url}/home_events/detail/${home_event?.id}`)}>
-                                <Text textDecorationLine="underline" fontSize="md" fontWeight={'semibold'}>{home_event?.name}</Text>
+                        <VStack space={2}  ml={['4']} w={'calc(100% - 140px)'}>
+                            <Pressable onPress={() => push(`/${event.url}/home-events/detail/${home_event?.id}`)}>
+                                <Text  fontSize="lg" fontWeight={'500'}>{home_event?.name}</Text>
                             </Pressable>
-                            <HStack space="3" alignItems="center" width="100%" flexDirection="row" pt="6px">
+                            <HStack space="3" alignItems="center" width="100%" flexDirection="row">
                                 <Box alignItems="center" flexDirection="row">
                                     <Icocalendar width={16} height={18} />
-                                    <Text ml="6px" fontSize="xs">{home_event?.start_date}</Text>
+                                    <Text ml="6px" fontSize="12px">{moment(home_event?.start_date).format(GENERAL_DATE_FORMAT)}</Text>
                                 </Box>
-                                <Box alignItems="center" flexDirection="row">
-                                    <Text fontSize="xs">{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>
-                                    <Text fontSize="xs">{home_event?.id}</Text>
+                                <Box  alignItems="center" flexDirection="row">
+                                    <Text fontSize="12px">{event?.labels?.GENERAL_EVENT_ID_LABEL}:</Text>
+                                    <Text fontSize="12px">{home_event?.id}</Text>
                                 </Box>
                             </HStack>
-                            <Box alignItems="center" flexDirection="row" pt="6px">
+                            <Box alignItems="center" flexDirection="row">
                                 <Icopin width={16} height={18} />
-                                <Text ml="6px" fontSize="xs">{home_event?.location_name}</Text>
+                                <Text ml="6px" fontSize="12px">{home_event?.location_name}</Text>
                             </Box>
-                            <Button isDisabled={home_event?.id == event?.id} width={['100%', '86px']} height={38} mt="3" onPress={() => window.open(`/${home_event?.url}`, '_blank')}>
-                                <Box display="flex" alignItems="center" flexDirection="row">
-                                    <DynamicIcon iconType="logout" iconProps={{ width: 14, height: 14 }} />
-                                    <Text ml="6px">{event?.labels?.EVENTSITE_LOGIN}</Text>
-                                </Box>
-                            </Button>
-                        </View>
-                    </View>
+                            
+                            {home_event?.id != event?.id && 
+                                <Text>
+                                    <Button _text={{color: 'primary.hovercolor'}} px={4} py={2} leftIcon={<DynamicIcon iconType="logout" iconProps={{ width: 14, height: 14,color: func.colorType(event?.settings?.primary_color) }} />} onPress={() => window.open(`/${home_event?.url}`, '_blank')}>
+                                        {event?.labels?.EVENTSITE_LOGIN}
+                                    </Button>
+                                </Text>
+                                
+                            }
+                        </VStack>
+                    </HStack>
                 ))}
-            </View>
+            </Box>
             </>
         )}
         </>

@@ -41,7 +41,13 @@ const PressableElement = ({row}: any) => {
     onPress={() => {
       if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
         // setLoading(true);
-        router.push(`/${event.url}/${row?.alias}/event-info/0`)
+        if(row?.section_type == 'link'){
+          router.push(`${row?.url}`)
+        }else if(row?.section_type == 'page'){
+          router.push(`/${event.url}/${row?.alias}/event-info-detail/${row?.id}`)
+        }else{
+          router.push(`/${event.url}/${row?.alias}/event-info/0`)
+        }
       } else if (in_array(row?.alias, ['information_pages'])) {
         // setLoading(true);
         // if(row?.section_type === 'link') {
@@ -55,13 +61,13 @@ const PressableElement = ({row}: any) => {
         router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
       } 
       else if (row?.alias === 'upcomingEvents') {
-        router.push(`/${event.url}/upcoming_events`)
+        router.push(`/${event.url}/upcoming-events`)
       }
       else if (row?.alias === 'homeMyevents') {
-        router.push(`/${event.url}/home_events`)
+        router.push(`/${event.url}/home-events`)
       }
       else if (row?.alias === 'homeMyevents') {
-        router.push(`/${event.url}/home_events/detail/${event?.id}`)
+        router.push(`/${event.url}/home-events/detail/${event?.id}`)
       }
       else {
         router.push(`/${event.url}/${row?.alias}`)

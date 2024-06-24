@@ -58,10 +58,10 @@ const Login = ({ props }: any) => {
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={['30px','50px','30px']} w={"100%"}
             rounded="10">
                 <Image
-                  alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
+                  alt='logo' display={'flex'} resizeMode='contain' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
                         : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
                           ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.header_logo}`
-                          : images.Logo }} w="180px" h="61px" alignSelf={'center'} />
+                          : images.Logo }} w="250px" h="85px" alignSelf={'center'} />
                 <VStack w={'100%'} alignItems={'center'} space='4'>
                     {event.attendee_settings?.cpr === 1 && (
                         <>

@@ -26,7 +26,7 @@ export type EventServiceOperators = {
     loadModules: () => void
     loadSettingsModules: () => void
     SetEventUrl: (event_url: string) => void
-    FetchEvents: (payload: {query: string, screen: string }) => void
+    FetchEvents: (payload: {query: string, screen: string,selected_filter: string }) => void
     FetchEventDetail: (payload: { id: number }) => void
 }
 
@@ -78,7 +78,7 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
             [dispatch],
         ),
         FetchEvents: useCallback(
-            (payload: {query: string, screen: string }) => {
+            (payload: {query: string, screen: string,selected_filter: string }) => {
                 dispatch(EventActions.FetchEvents(payload))
             },
             [dispatch],

@@ -196,7 +196,9 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         share,
         dropdown,
         upload,
-        edit_order
+        edit_order,
+        Notattending,
+        register
     };
 
     const IconComponent = iconMap[iconType];

@@ -11,8 +11,11 @@ import { Link } from 'solito/link';
 import { useRouter } from 'solito/src/router/use-router';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import moment from 'moment';
+import { GENERAL_DATE_FORMAT } from 'application/utils/Globals';
 
-const UpcomingEventComponent = () => {
+const UpcomingEvents = () => {
     const { push } = useRouter();
     const { modules, event, FetchEvents, upcoming_events } = UseEventService();
     const { _env } = UseEnvService();
@@ -21,7 +24,7 @@ const UpcomingEventComponent = () => {
     const {processing} = UseLoadingService();
 
     useEffect(() => {
-        FetchEvents({ query: '', screen: 'upcomingEvents' });
+        FetchEvents({ query: '', screen: 'upcomingEvents',selected_filter:'all' });
     }, []);
 
     useEffect(() => {
@@ -63,23 +66,35 @@ const UpcomingEventComponent = () => {
                 />
             </HStack>
             <View bg="primary.box" rounded="lg">
-                {filteredUpcomingEvents.length === 0 && <Text>To replace with no record found</Text>}
+                {filteredUpcomingEvents.length === 0 && <NoRecordFound />}
                 {filteredUpcomingEvents.map((upcoming_event: UpcomingEvent, key: number) => (
                     <Box borderBottomWidth={filteredUpcomingEvents.length - 1 === key ? 0 : 1} key={key}>
                         <View display="flex" flexDirection={['column', 'row']} alignItems="flex-start" width="100%" py="14px" px="16px" bg="primary.box">
                             <Pressable onPress={() => push(`/${event.url}/upcomingEvents/detail/0`)}>
+                            {upcoming_event.app_header_logo ? (
                                 <Image
-                                    source={{ uri: 'https://dev.eventbuizz.com/_admin_assets/images/logo-unavailable-2.png' }}
-                                    alt="Alternate Text"
+                                source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${upcoming_event?.app_header_logo}` }}
+                                    alt="Event Image"
                                     size="xl"
                                     width={114}
-                                    height={50}
-                                    bg="gray.300"
+                                    height={46}
                                     rounded="sm"
-                                />
+                                    
+                                    />
+                                    ) : (
+                                        <Image
+                                        source={{ uri: "https://dev.eventbuizz.com/_admin_assets/images/logo-unavailable-2.png" }}
+                                        alt="Event Image"
+                                        size="xl"
+                                        width={114}
+                                        height={46}
+                                        rounded="sm"
+                                        bg={'gray.300'}
+                                        />
+                                        )}
                             </Pressable>
                             <View display="flex" flexDirection="column" ml={['', '30px']} mt={['14px', '']} w="100%">
-                                <Pressable onPress={() => push(`/${event.url}/upcoming_events/detail/${upcoming_event?.id}`)}>
+                                <Pressable onPress={() => push(`/${event.url}/upcoming-events/detail/${upcoming_event?.id}`)}>
                                     <Text textDecorationLine="underline" fontSize="md" fontWeight="semibold">
                                         {upcoming_event.name}
                                     </Text>
@@ -88,7 +103,7 @@ const UpcomingEventComponent = () => {
                                     <Box alignItems="center" flexDirection="row">
                                         <Icocalendar width={16} height={18} />
                                         <Text ml="6px" fontSize="xs">
-                                            {upcoming_event.start_date} {upcoming_event.end_date}
+                                            {moment(upcoming_event?.start_date).format(GENERAL_DATE_FORMAT)} - {moment(upcoming_event?.end_date).format(GENERAL_DATE_FORMAT)}
                                         </Text>
                                     </Box>
                                     <Box alignItems="center" flexDirection="row">
@@ -131,4 +146,4 @@ const UpcomingEventComponent = () => {
     );
 };
 
-export default UpcomingEventComponent;
+export default UpcomingEvents;
