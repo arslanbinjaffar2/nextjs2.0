@@ -60,7 +60,7 @@ export function colorText(color: string) {
 
 export function getColorScheme(primaryColor:string, textMode:string|undefined){
   const background = hex2rgb(primaryColor);
-  const hsb = rgb2hsv(background[0], background[1], background[2]);
+  const hsb = primaryColor.toLowerCase() === '#ffffff' ? rgb2hsv(64, 64, 64) :  rgb2hsv(background[0], background[1], background[2]); // condition for white background
   const box = hsbTorgb(hsb[0], (hsb[1] / 2 - 30), hsb[2] + 1);
   const darkbox = hsbTorgb(hsb[0], hsb[1] / 3, hsb[2] + 45);
   const darkboxtexttype = colourIsLight(background[0],background[1],background[2]);

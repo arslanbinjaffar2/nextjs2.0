@@ -26,6 +26,8 @@ const DateAnswer = ({ question, formData, updateFormData, labels, error }: PropT
       {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
       </Box>}
+      {Number(question.enable_comments) === 1 && 
+      <>
       <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
         <Icowritecomment width="15px" height="18px" />
         <Text fontSize="lg">{labels?.GENERAL_YOUR_COMMENT}</Text>
@@ -40,7 +42,9 @@ const DateAnswer = ({ question, formData, updateFormData, labels, error }: PropT
           onChangeText={(text) => updateFormData(question.id, 'comment', text)}
           borderWidth="0" fontSize="md" placeholder={labels?.GENERAL_COMMENT} autoCompleteType={undefined} />
         <Text fontSize="sm" textAlign={'right'}>{labels?.GENERAL_CHARACTER_REMAINING !== undefined ? `510 ${labels?.GENERAL_CHARACTER_REMAINING}` : ''}</Text>
-      </Box>
+        </Box>
+      </>
+      }
     </Center>
   )
 }

@@ -10,6 +10,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import LoadMore from 'application/components/atoms/LoadMore';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds';
 
 const MyProgram = () => {
 
@@ -58,6 +59,7 @@ const MyProgram = () => {
             {(in_array('programs', processing) || in_array('tracks', processing)) && page > 1 && (
                 <LoadMore />
             )}
+            <BannerAds module_name={'myagendas'} module_type={'listing'} />
         </>
     );
 };
