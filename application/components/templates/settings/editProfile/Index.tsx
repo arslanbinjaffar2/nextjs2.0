@@ -17,6 +17,8 @@ import { Attendee, Attendeefeildsettings, CallingCode, Country, Labels, Language
 
 import UseEventService from 'application/store/services/UseEventService';
 
+import UseAuthService from 'application/store/services/UseAuthService';
+
 import { Event } from 'application/models/Event';
 
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
@@ -65,16 +67,15 @@ import SectionLoading from 'application/components/atoms/SectionLoading';
 const index = () => {
 
     const { FetchEditProfiles, settings, labels, attendee, languages, callingCodes, countries, customFields, attendee_feild_settings, UpdateAttendee, updatingAttendee, success_message, UpdateSuccess } = UseEditProfileService();
-    
-    const { loading, scroll } = UseLoadingService();
-    const toast = useToast();
-    const toastIdRef = React.useRef();
+
+    const { loading } = UseLoadingService();
     const { event } = UseEventService();
 
 
     React.useEffect(() => {
         FetchEditProfiles();
-    }, [])
+    }, [updatingAttendee])
+
     return (
         <>
             {loading ? (
@@ -123,7 +124,8 @@ type formProps = {
 
 
 const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee, success_message, UpdateSuccess }: formProps) => {
-  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+    const { getUser } = UseAuthService();
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
     const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
@@ -363,6 +365,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         formData.append('file', data.attendeeObj.file);
         formData.append('attendee_cv', data.attendeeObj.att_cv);
         updateAttendee(formData);
+        setTimeout(() => {
+            getUser();
+        }, 1000);
     };
  
 
