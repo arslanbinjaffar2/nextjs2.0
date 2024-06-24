@@ -5,6 +5,7 @@ import IcoLongArrow from '../../../assets/icons/IcoLongArrow'
 import { getColorScheme } from 'application/styles/colors'
 import UseEventService from 'application/store/services/UseEventService'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
+import { func } from 'application/styles'
 interface Props{
   loading:boolean | any,
   onComplete:()=>void
@@ -22,7 +23,7 @@ const SwipeBtn = ({loading,onComplete}:Props) => {
           {
             loading ?
             <Spinner accessibilityLabel="Loading posts" />:
-        <IcoLongArrow />
+        <IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />
           }    
           </>
 
@@ -55,7 +56,7 @@ const SwipeBtn = ({loading,onComplete}:Props) => {
       }}
     />}
     {loading && <Box my={'10px'} bg="secondary.500" p="0" height={'60px'} rounded="10px">
-      <Spinner mt={5} accessibilityLabel="Loading posts" />
+      <Spinner color={'primary.hovercolor'} mt={5} accessibilityLabel="Loading posts" />
     </Box>}
         
   </Box>
