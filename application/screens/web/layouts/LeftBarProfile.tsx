@@ -63,7 +63,7 @@ const PressableElement = ({row}: any) => {
 const LeftBarProfile = () => {
 
   const { width } = useWindowDimensions();
-
+  const [dahboardHover, setdahboardHover] = React.useState(false)
   const router = useRouter()
 
   const { event, setting_modules } = UseEventService();
@@ -76,15 +76,17 @@ const LeftBarProfile = () => {
           py="2"
           bg={`${ router.asPath.includes('/dashboard') && 'primary.500'}`}
           _hover={{ bg: 'primary.500' }}
+          onHoverIn={() => setdahboardHover(true)}
+          onHoverOut={() => setdahboardHover(false)}
           borderRadius="4"
           onPress={() => {
             router.push(`/${event.url}/dashboard`)
           }}>
           <HStack space="4" alignItems="center">
             <Center w="30px">
-              <IcoDashboard color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : undefined} width="24" height="24" />
+              <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : undefined} width="24" height="24" />
             </Center>
-            {width > 1200 && <Text  color={router.asPath.includes('/dashboard') ? 'primary.hovercolor' : 'primary.text'} fontSize={'20px'} fontWeight={400}>{event?.labels?.GENERAL_DASHBOARD ?? 'Dashboard'}</Text>}
+            {width > 1200 && <Text  color={dahboardHover || router.asPath.includes('/dashboard') ? 'primary.hovercolor' : 'primary.text'} fontSize={'20px'} fontWeight={400}>{event?.labels?.GENERAL_DASHBOARD ?? 'Dashboard'}</Text>}
           </HStack>
         </Pressable>
         {setting_modules?.map((row: any, key: any) =>
