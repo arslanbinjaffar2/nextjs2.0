@@ -46,6 +46,17 @@ type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
 
+
+
+const CustomSelect = ( props:any) => {
+  const computedValue = React.useMemo(() => {
+    // Expensive computation here
+    return props.children;
+  }, [props.initialiState]);
+
+  return <React.Fragment>{computedValue}</React.Fragment>;
+};
+
 const Detail = () => {
     const mounted = React.useRef(false);
 
@@ -265,21 +276,23 @@ const Detail = () => {
                     <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER ?? "Select Speaker"}</Text>
                     <Center  alignItems={'flex-start'} justifyContent={'flex-start'} p="0"   w={'70%'}>
                       <View w={'100%'} >
+												<CustomSelect initialiState={speaker} qaDetials={qaDetials}>
                         <Select
-                        placeholder={qaDetials.labels.QA_SELECT_SPEAKER}
-                        w="100%"
-                        rounded="4"
-                        minW={'20%'}
-                        h="42px"
-                        flex={1}
-                        borderWidth="1"
-                        selectedValue={speaker ?? ''}
-                        onValueChange={(item)=>setSpeaker(item)}
-                    >
-                        {qaDetials?.speakers?.map((speaker, i)=>(
-                            <Select.Item label={`${speaker?.attendee?.first_name} ${speaker?.attendee?.last_name}`} value={`${speaker?.id}`} />
-                        ))}
-                    </Select>
+													placeholder={qaDetials.labels.QA_SELECT_SPEAKER}
+													w="100%"
+													rounded="4"
+													minW={'20%'}
+													h="42px"
+													flex={1}
+													borderWidth="1"
+													selectedValue={speaker ?? ''}
+													onValueChange={(item)=>setSpeaker(item)}
+											>
+													{qaDetials?.speakers?.map((speaker, i)=>(
+															<Select.Item key={speaker.id} label={`${speaker?.attendee?.first_name} ${speaker?.attendee?.last_name}`} value={`${speaker?.id}`} />
+													))}
+											</Select>
+											</CustomSelect>
                       </View>
                       
                     </Center>
@@ -289,21 +302,23 @@ const Detail = () => {
                     <Text  w="30%"  fontSize="lg">{qaDetials.labels.QA_SELECT_PARAGRAPH ?? "Select Paragraph"}</Text>
                     <Center  w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                     <View w={'100%'}  >
-                    <Select
-                        placeholder={qaDetials.labels.QA_SELECT_PARAGRAPH}
-                        w="100%"
-                        minW={'100%'}
-                        rounded="4"
-                        h="42px"
-                        flex={1}
-                        borderWidth="1"
-                        selectedValue={paragraph ?? ''}
-                        onValueChange={(item)=>setParagraph(item)}
-                    >
-                        {qaDetials?.paragraph?.map((pg, i)=>(
-                            <Select.Item  label={`${pg?.heading}`} value={`${pg.id}`} />
-                        ))}
-                    </Select>
+                    	<CustomSelect initialiState={paragraph} qaDetials={qaDetials}>
+												<Select
+														placeholder={qaDetials.labels.QA_SELECT_PARAGRAPH}
+														w="100%"
+														minW={'100%'}
+														rounded="4"
+														h="42px"
+														flex={1}
+														borderWidth="1"
+														selectedValue={paragraph ?? ''}
+														onValueChange={(item)=>{setParagraph(item)}}
+												>
+														{qaDetials?.paragraph?.map((pg: any, i: number)=>(
+																<Select.Item  key={pg.id} label={`${pg?.heading}`} value={`${pg.id}`} />
+														))}
+												</Select>
+											</CustomSelect>
                     </View>
                     
                     </Center>
