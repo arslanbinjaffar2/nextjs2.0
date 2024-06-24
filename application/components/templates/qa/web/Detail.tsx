@@ -419,7 +419,7 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack w={'100%'} space="4" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <Box w={'100%'} pt={1}>
+                                            <Box w={'calc(100% - 55px)'} pt={1}>
                                                 <RenderHtml
                                                     defaultTextProps={{selectable:true}}
                                                     contentWidth={600}
@@ -499,7 +499,7 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                                <Box w={'100%'} pt={1}>
+                                                <Box w={'calc(100% - 55px)'} pt={1}>
                                                     <RenderHtml
                                                         defaultTextProps={{selectable:true}}
                                                         contentWidth={600}
@@ -580,7 +580,7 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack space={"3"} alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                                <Box w={'100%'} pt={1}>
+                                                <Box w={'calc(100% - 55px)'}  pt={1}>
                                                     <RenderHtml
                                                         defaultTextProps={{selectable:true}}
                                                         contentWidth={600}
@@ -660,7 +660,7 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text pl={3} textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <Box w={'100%'} pt={1}>
+                                            <Box w={'calc(100% - 55px)'}  pt={1}>
                                                 <RenderHtml
                                                     defaultTextProps={{selectable:true}}
                                                     contentWidth={600}
