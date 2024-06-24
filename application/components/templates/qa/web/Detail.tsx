@@ -46,6 +46,17 @@ type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
 
+
+
+const CustomSelect = ( props:any) => {
+  const computedValue = React.useMemo(() => {
+    // Expensive computation here
+    return props.children;
+  }, [props.initialiState]);
+
+  return <React.Fragment>{computedValue}</React.Fragment>;
+};
+
 const Detail = () => {
     const mounted = React.useRef(false);
 
@@ -266,6 +277,7 @@ const Detail = () => {
                                         <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER ?? "Select Speaker"}</Text>
                                         <Center alignItems={'flex-start'} justifyContent={'flex-start'} p="0" w={'70%'}>
                                             <View w={'100%'} >
+                                            <CustomSelect initialiState={speaker} qaDetials={qaDetials}>
                                                 <Select
                                                     placeholder={qaDetials.labels.QA_SELECT_SPEAKER}
                                                     w="100%"
@@ -281,6 +293,7 @@ const Detail = () => {
                                                         <Select.Item label={`${speaker?.attendee?.first_name} ${speaker?.attendee?.last_name}`} value={`${speaker?.id}`} />
                                                     ))}
                                                 </Select>
+                                                </CustomSelect>
                                             </View>
 
                                         </Center>
@@ -291,6 +304,7 @@ const Detail = () => {
                                         <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                                             <View w={'100%'}  >
                                                 {qaDetials?.paragraph?.length > 0 ?
+                                                <CustomSelect initialiState={paragraph} qaDetials={qaDetials}>
                                                     <Select
                                                         placeholder={qaDetials.labels.QA_SELECT_PARAGRAPH}
                                                         w="100%"
@@ -306,6 +320,7 @@ const Detail = () => {
                                                             <Select.Item label={`${pg?.heading}`} value={`${pg.id}`} />
                                                         ))}
                                                     </Select>
+                                                    </CustomSelect>
                                                 : <Input placeholder={qaDetials.labels.PARAGRAPH_NUMBER} value={paragraph} onChangeText={(value) => setParagraph(value)} />}
 
                                             </View>
