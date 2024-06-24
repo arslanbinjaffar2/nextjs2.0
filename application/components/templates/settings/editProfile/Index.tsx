@@ -74,7 +74,7 @@ const index = () => {
 
     React.useEffect(() => {
         FetchEditProfiles();
-    }, [updatingAttendee])
+    }, [])
 
     return (
         <>
