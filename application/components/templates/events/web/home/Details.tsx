@@ -1,4 +1,4 @@
-import { Box, Button, CheckIcon, Container, HStack, Icon, Image, Input, Pressable, Select, Text, View, VStack } from 'native-base'
+import { Box, Button, CheckIcon, Container, HStack, Icon, Image, Input, Pressable, Select, Spacer, Text, View, VStack } from 'native-base'
 import HomeEvent from 'application/components/atoms/events/homeEvent/HomeEvent'
 import React from 'react'
 import Search from 'application/components/atoms/programs/Search'
@@ -16,6 +16,7 @@ import SectionLoading from 'application/components/atoms/SectionLoading'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs'
 import moment from 'moment'
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
+import { func } from 'application/styles'
 type ScreenParams = { id: string; cms: string | undefined };
 
 const { useParam } = createParam<ScreenParams>();
@@ -40,39 +41,38 @@ React.useEffect(() => {
    <>
   <NextBreadcrumbs module={module} title={event_detail?.name}/>
     {processing?.includes('event-detail') ?  <SectionLoading /> :(
-      <VStack width={'100%'}>
+      <VStack  width={'100%'}>
         <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 
-        
-        
         <Text fontSize={'2xl'} fontWeight={'medium'} width={'100%'}>{event_detail?.name}</Text>
         </Box>
-        <VStack mt={'4'}>
+        <VStack  mt={'4'}>
           {
             event_detail?.app_header_logo ? (
-              <Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_header_logo}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} />
+              <Box roundedTop={10} bg={'primary.box'}><Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_header_logo}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} /></Box>
                 ):
-                <Image source={{ uri: "https://dev.eventbuizz.com/_admin_assets/images/logo-unavailable-2.png" }} bg={'gray.300'} alt="Event Image" size="xl" width={'100%'} height={157} rounded={'sm'} /> 
+               <Box roundedTop={10} bg={'primary.box'}><Image source={{ uri: "https://dev.eventbuizz.com/_admin_assets/images/logo-unavailable-2.png" }} bg={'gray.300'} alt="Event Image" size="xl" width={'100%'} height={157} rounded={'sm'} /> </Box> 
             }
-          <HStack  px={6} py={4} bg={'primary.box'} roundedBottom={'md'} flexDirection={'column'}>
-            <VStack flexDirection={['column','row']} justifyContent={'space-between'} alignItems={'center'} 
+          <HStack bg={'primary.box'} px={6} py={4}  roundedBottom={'md'} flexDirection={'column'}>
+            <VStack flexDirection={['column','row']} justifyContent={'flex-start'} alignItems={'flex-start'} 
 
             width={'100%'}
             >   
-            <Box width={['100%','calc(100% - 86px)']}>
+            <Box width={['100%','calc(100% - 150px)']}>
           <Text fontSize={'xl'} fontWeight={'medium'} >
             {event_detail?.name}</Text>
             </Box>
+            <Spacer />
           {event_detail?.id != event?.id && <Button
-          width={['100%','86px']}
-          height={38} 
+          px={5}
+          py={2}
+          _text={{color: 'primary.hovercolor'}}
+          leftIcon={ <DynamicIcon iconType="logout" iconProps={{ width: 14, height: 14,color: func.colorType(event?.settings?.primary_color) }} />}
           onPress={()=>{
               window.open(`/${event_detail?.url}`, '_blank')
           }} 
           >
-              <Box display={'flex'} alignItems={'center'} flexDirection={'row'}>
-                  <DynamicIcon iconType={'logout'} iconProps={{ width:14,height:14 }}/>
-              <Text ml={'6px'}>{event?.labels?.EVENTSITE_LOGIN}</Text>
-              </Box>
+                 
+             {event?.labels?.EVENTSITE_LOGIN}
               
           </Button>}
             </VStack>
@@ -90,9 +90,9 @@ React.useEffect(() => {
           <Icopin width={16} height={18} />
               <Text ml={'6px'} fontSize={'xs'}>{event_detail?.location_name}</Text>
           </Box>
-          <Box pt={'4'}>
+          <Text color={'primary.text'} pt={'4'}>
             <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: event_detail?.event_description ?? '' }} />
-          </Box>
+          </Text>
   
           </HStack>
           
