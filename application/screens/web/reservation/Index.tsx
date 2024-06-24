@@ -15,6 +15,7 @@ import ButtonElement from 'application/components/atoms/ButtonElement';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import BannerAds from 'application/components/atoms/banners/BannerAds';
 
 const Index = () => {
 const [tab, setTab] = React.useState('all');
@@ -139,6 +140,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
         )}
       </Container>
       )}
+      <BannerAds module_name={'reservation'} module_type={'listing'} />
       </>
   );
 
