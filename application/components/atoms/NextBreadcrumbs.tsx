@@ -61,6 +61,10 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
       }
     }else if(alias === "general-info" || alias === "practical-info" || alias === "additional-info"){
       url = `/${event.url}/${alias}/event-info/0`;
+    }else if(alias === "homeMyevents"){
+      url = `/${event.url}/home-events`;
+    }else if(alias === "upcomingEvents"){
+      url = `/${event.url}/upcoming-events`;
     }
     push(url);
   };
