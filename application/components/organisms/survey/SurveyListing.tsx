@@ -19,7 +19,7 @@ const SurveyListing = ({surveys}:{surveys:Surveys}) => {
        return <SurveyRectangleView survey={poll} key={poll.id} completed={false} />
     })}
     <Center py="3" px="2" w="100%" alignItems="flex-end">
-      {surveys?.length > 4 && <Button p="1" onPress={()=> push(`/${event.url}/survey`)} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+      {surveys?.length > 4 && <Button p="1" onPress={()=> push(`/${event.url}/survey`)} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" color={'primary.text'}/>}>
         See all
       </Button>}
     </Center>
