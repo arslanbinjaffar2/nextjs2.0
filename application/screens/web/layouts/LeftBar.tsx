@@ -77,7 +77,6 @@ const PressableElement = ({row}: any) => {
       <Center w="30px">
         {/* <Text>{row.icon}</Text> */}
         <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') }
-        
         iconProps={{ width: 26, height: 26, color: isHovered || checkActiveRoute(row, router.asPath, info, page) ? func.colorType(event?.settings?.primary_color) : undefined }} />
         {/* <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} /> */}
       </Center>
