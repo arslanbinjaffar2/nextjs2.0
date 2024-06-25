@@ -1,32 +1,39 @@
-import React from "react"
+import React, { useState } from "react"
 import { useRouter } from 'solito/router'
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEventService from 'application/store/services/UseEventService';
+import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import { Center, Box, Text, HStack, Divider, Button, Spacer } from "native-base"
+import SectionLoading from "application/components/atoms/SectionLoading";
 
 const GDPR = () => {
     const { push } = useRouter();
     const { event } = UseEventService();
-    const { response } = UseAuthService();
+    const { loading } = UseLoadingService();
+    const { response, getUser } = UseAuthService();
     const { addGDPRlog } = UseAttendeeService();
 
     const checkUserGDPR = () => {
         let requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1 ? true : false;
-          if(requiredGDPR){
-              let userGDPRLogged = response?.data?.user?.gdpr_log;
-              if(!userGDPRLogged){
+        if (requiredGDPR) {
+            let userGDPRLogged = response?.data?.user?.gdpr_log;
+            if (!userGDPRLogged) {
                 return false;
-              }
-          }
-          return true;
+            }
+        }
+        return true;
     }
 
     React.useEffect(() => {
-        if(checkUserGDPR() === true){
+        if (checkUserGDPR() === true) {
             push(`/${event.url}/subRegistration`)
         }
-    }, [])
+    }, [response])
+
+    if(loading){
+        return <SectionLoading />
+    }
 
     return (
         <>
@@ -47,10 +54,13 @@ const GDPR = () => {
                             colorScheme="primary"
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             onPress={() => {
-                                addGDPRlog({gdpr: 0})
+                                addGDPRlog({ gdpr: 0 })
+                                setTimeout(() => {
+                                    getUser()
+                                }, 500);
                             }}
                         >
-                            {event?.labels?.GENERAL_CANCEL}
+                            {event?.labels?.GENERAL_REJECT}
                         </Button>
                         <Spacer />
                         <Button
@@ -60,7 +70,10 @@ const GDPR = () => {
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             colorScheme="primary"
                             onPress={() => {
-                                addGDPRlog({gdpr: 1})
+                                addGDPRlog({ gdpr: 1 })
+                                setTimeout(() => {
+                                    getUser()
+                                }, 500);
                             }}
                         >
                             {event?.labels?.GENERAL_ACCEPT}
