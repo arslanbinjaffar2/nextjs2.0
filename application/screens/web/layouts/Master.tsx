@@ -33,7 +33,7 @@ const Master = ({ children, section }: Props) => {
 
   const { width } = useWindowDimensions();
 
-  const { event, modules, loadModules, loadSettingsModules } = UseEventService();
+  const { event, modules, loadModules, loadSettingsModules,event_url } = UseEventService();
 
   const { getUser, response, isLoggedIn } = UseAuthService();
 
@@ -51,7 +51,7 @@ const Master = ({ children, section }: Props) => {
 
   const keyword_skip = localStorage.getItem(`keyword_skip`) === 'true' ? true : false;
 
-  const access_token_exists = Boolean(localStorage.getItem(`access_token`));
+  const access_token_exists = Boolean(localStorage.getItem(`access_token_${event_url}`));
 
   React.useEffect(() => {
       getUser();
@@ -59,26 +59,21 @@ const Master = ({ children, section }: Props) => {
 
   React.useEffect(() => {
     if (response.redirect === "login" || access_token_exists === false) {
-      push(`/${event.url}/auth/login`)
+      localStorage.setItem(`requested_url_${event_url}`, nextRouter.asPath);
+      push(`/${event.url}/auth/login`);
+    }else{
+        const requested_url = localStorage.getItem(`requested_url_${event_url}`);
+        if (requested_url) {localStorage.removeItem(`requested_url_${event_url}`);
+         if(requested_url.split('/').pop() !== 'editprofile'){
+           push(requested_url);
+         }
+        }
     }
   }, [response])
-
-  const checkUserGDPR = () => {
-    let requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1 ? true : false;
-      if(requiredGDPR){
-          let userGDPRLogged = response?.data?.user?.gdpr_log;
-          if(!userGDPRLogged){
-            return false;
-          }
-      }
-      return true;
-}
   
   React.useEffect(() => {
 
-    if(checkUserGDPR() === false){
-      push(`/${event.url}/auth/gdpr`)
-    }else if ((sub_reg_skip) !== true) {
+    if ((sub_reg_skip) !== true) {
       push(`/${event.url}/subRegistration`)
     } else if ((keyword_skip) !== true) {
       push(`/${event.url}/network-interest`)
