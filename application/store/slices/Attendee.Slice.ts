@@ -189,6 +189,7 @@ export const AttendeeSlice = createSlice({
             }
             localStorage.setItem('breadcrumbs', JSON.stringify(state.categoryBreadcrumbs))
         },
+        addGDPRlog(state, action: PayloadAction<{gdpr: number}>) {}
     },
 });
 
@@ -213,6 +214,7 @@ export const AttendeeActions = {
     updateRegistration: AttendeeSlice.actions.updateMyRegistration,
     setBreadcrumbs: AttendeeSlice.actions.setBreadcrumbs,
     updateBreadcrumb: AttendeeSlice.actions.updateBreadcrumb,
+    addGDPRlog: AttendeeSlice.actions.addGDPRlog,
 }
 
 export const SelectAttendees = (state: RootState) => state.attendees.attendees

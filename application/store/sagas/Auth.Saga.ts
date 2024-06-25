@@ -11,6 +11,7 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 import { select } from 'redux-saga/effects';
 import { NetworkInterestActions } from '../slices/NetworkInterest.Slice';
 import { SubRegistrationActions } from '../slices/SubRegistration.Slice';
+import { LoadingActions } from 'application/store/slices/Loading.Slice'
 
 // Worker Sagas handlers
 function* OnLogin({
@@ -133,12 +134,15 @@ function* OnGetUser({ }: {
 }): SagaIterator {
     const state = yield select(state => state);
     try {
+        yield put(LoadingActions.set(true))
+        const state = yield select(state => state);
         const response: HttpResponse = yield call(getUserApi, state);
         if (response?.status === 401) {
             yield put(AuthActions.clearToken(state?.event?.event_url));
         } else {
             yield put(AuthActions.success({response: response.data,event_url:state?.event?.event_url}));
         }
+        yield put(LoadingActions.set(false))
     } catch (error: any) {
         yield put(AuthActions.clearToken(state?.event?.event_url));
     }
