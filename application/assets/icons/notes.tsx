@@ -8,8 +8,8 @@ const notes = (props: SvgProps) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   return (
  <Svg
-    width={13.743}
-    height={19.459}
+    width={props.width}
+    height={props.height}
     viewBox="0 0 13.743 19.459"
     {...props}
   >
