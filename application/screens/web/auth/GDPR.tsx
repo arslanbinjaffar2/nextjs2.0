@@ -2,15 +2,12 @@ import React, { useState } from "react"
 import { useRouter } from 'solito/router'
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEventService from 'application/store/services/UseEventService';
-import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import { Center, Box, Text, HStack, Divider, Button, Spacer } from "native-base"
-import SectionLoading from "application/components/atoms/SectionLoading";
 
 const GDPR = () => {
     const { push } = useRouter();
     const { event } = UseEventService();
-    const { loading } = UseLoadingService();
     const { response, getUser } = UseAuthService();
     const { addGDPRlog } = UseAttendeeService();
 
@@ -30,10 +27,6 @@ const GDPR = () => {
             push(`/${event.url}/subRegistration`)
         }
     }, [response])
-
-    if(loading){
-        return <SectionLoading />
-    }
 
     return (
         <>
@@ -55,9 +48,7 @@ const GDPR = () => {
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             onPress={() => {
                                 addGDPRlog({ gdpr: 0 })
-                                setTimeout(() => {
-                                    getUser()
-                                }, 500);
+                                push(`/${event.url}/subRegistration`)
                             }}
                         >
                             {event?.labels?.GDPR_CANCEL}
@@ -71,9 +62,7 @@ const GDPR = () => {
                             colorScheme="primary"
                             onPress={() => {
                                 addGDPRlog({ gdpr: 1 })
-                                setTimeout(() => {
-                                    getUser()
-                                }, 500);
+                                push(`/${event.url}/subRegistration`)
                             }}
                         >
                             {event?.labels?.GDPR_ACCEPT}

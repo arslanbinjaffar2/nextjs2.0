@@ -70,23 +70,10 @@ const Master = ({ children, section }: Props) => {
         }
     }
   }, [response])
-
-  const checkUserGDPR = () => {
-    let requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1 ? true : false;
-      if(requiredGDPR){
-          let userGDPRLogged = response?.data?.user?.gdpr_log;
-          if(!userGDPRLogged){
-            return false;
-          }
-      }
-      return true;
-}
   
   React.useEffect(() => {
 
-    if(checkUserGDPR() === false){
-      push(`/${event.url}/auth/gdpr`)
-    }else if ((sub_reg_skip) !== true) {
+    if ((sub_reg_skip) !== true) {
       push(`/${event.url}/subRegistration`)
     } else if ((keyword_skip) !== true) {
       push(`/${event.url}/network-interest`)
