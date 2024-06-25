@@ -60,7 +60,7 @@ const GDPR = () => {
                                 }, 500);
                             }}
                         >
-                            {event?.labels?.GENERAL_REJECT}
+                            {event?.labels?.GDPR_CANCEL}
                         </Button>
                         <Spacer />
                         <Button
@@ -76,7 +76,7 @@ const GDPR = () => {
                                 }, 500);
                             }}
                         >
-                            {event?.labels?.GENERAL_ACCEPT}
+                            {event?.labels?.GDPR_ACCEPT}
                         </Button>
                     </HStack>
                 </Box>

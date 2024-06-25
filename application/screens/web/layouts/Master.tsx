@@ -83,18 +83,15 @@ const Master = ({ children, section }: Props) => {
 }
   
   React.useEffect(() => {
-    if(access_token_exists){
-      if(checkUserGDPR() === false){
-        push(`/${event.url}/auth/gdpr`)
-      }else if ((sub_reg_skip) !== true) {
-        push(`/${event.url}/subRegistration`)
-      } else if ((keyword_skip) !== true) {
-        push(`/${event.url}/network-interest`)
-      }
-    }else{
-      push(`/${event.url}/auth/login`)
+
+    if(checkUserGDPR() === false){
+      push(`/${event.url}/auth/gdpr`)
+    }else if ((sub_reg_skip) !== true) {
+      push(`/${event.url}/subRegistration`)
+    } else if ((keyword_skip) !== true) {
+      push(`/${event.url}/network-interest`)
     }
-   
+    
   }, [nextRouter.asPath])
 
 
