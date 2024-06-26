@@ -42,7 +42,7 @@ export interface ToastProps {
             iconProps={{ width: 24, height: 24 }}
           />
           <View w={'calc(100% - 35px)'} style={{ marginLeft: 10 }}>
-            <Text style={{ fontSize: 14, color: 'primary.text' }}>{toast.message}</Text>
+            <Text fontSize={'md'} color={'#fff'}>{toast.message}</Text>
           </View>
         </View>
         <Pressable onPress={()=>onClose({id:index})} ml={['3','']}>
