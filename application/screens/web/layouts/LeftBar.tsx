@@ -222,7 +222,7 @@ const checkActiveRoute = (row:any, path:any, info:any, page:any) => {
     else if(info && info[0] && row?.id == info[0]?.section_id ){
       return true;
     }
-    else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.section_id)){
+    else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.id)){
       return true;
     }
   }else {
