@@ -109,17 +109,22 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
                 },800)
                 if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
                   // setLoading(true);
-                  
-                  router.push(`/${event.url}/${row?.alias}/event-info/0`)
+                  if(row?.section_type == 'link'){
+                    router.push(`${row?.url}`)
+                  }else if(row?.section_type == 'page'){
+                    router.push(`/${event.url}/${row?.alias}/event-info-detail/${row?.id}`)
+                  }else{
+                    router.push(`/${event.url}/${row?.alias}/event-info/0`)
+                  }
                 } else if (in_array(row?.alias, ['information_pages'])) {
-                  // setLoading(true); 
-                  
+                  // setLoading(true);
                   if(row?.section_type === 'link') {
                     router.push(`${row?.url}`)
+                  } else if(row?.section_type === 'page') {
+                    router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
                   } else {
-                    router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
+                    router.push(`/${event.url}/information-pages/${row?.id}`)
                   }
-                  
                 } else if (row?.alias === 'my-registrations') {
                   router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
                 } else {
