@@ -23,6 +23,10 @@ const GDPR = () => {
     }
 
     React.useEffect(() => {
+        getUser()
+    }, [])
+
+    React.useEffect(() => {
         if (checkUserGDPR() === true) {
             push(`/${event.url}/subRegistration`)
         }
