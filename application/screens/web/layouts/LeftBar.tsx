@@ -50,13 +50,13 @@ const PressableElement = ({row}: any) => {
         }
       } else if (in_array(row?.alias, ['information_pages'])) {
         // setLoading(true);
-        // if(row?.section_type === 'link') {
-        //   router.push(`${row?.url}`)
-        //  if(row?.section_type === 'page') {
-        //   router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
-        // } else {
-          router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
-        // }
+        if(row?.section_type === 'link') {
+          router.push(`${row?.url}`)
+        } else if(row?.section_type === 'page') {
+          router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
+        } else {
+          router.push(`/${event.url}/information-pages/${row?.id}`)
+        }
       } else if (row?.alias === 'my-registrations') {
         router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
       } 
@@ -231,7 +231,7 @@ const checkActiveRoute = (row:any, path:any, info:any, page:any) => {
     else if(info && info[0] && row?.id == info[0]?.section_id ){
       return true;
     }
-    else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.section_id)){
+    else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.id)){
       return true;
     }
   }else {
