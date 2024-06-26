@@ -42,7 +42,7 @@ const AuthLayout = ({ children }: Props) => {
                 push(`/${event.url}/subRegistration`)
             }
         }
-    }, [])
+    }, [response])
 
     React.useEffect(() => {
         if (isLoggedIn) {
