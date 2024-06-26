@@ -25,7 +25,12 @@ const AuthLayout = ({ children }: Props) => {
 
     React.useEffect(() => {
         if (isLoggedIn) {
-            push(`/${event.url}/subRegistration`)
+            loadSettingsModules();
+            if(checkUserGDPR() === false){
+                push(`/${event.url}/auth/gdpr`)
+            }else{
+                push(`/${event.url}/subRegistration`)
+            }
         }
     }, [isLoggedIn])
 
