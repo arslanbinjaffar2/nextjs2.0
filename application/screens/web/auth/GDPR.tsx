@@ -38,8 +38,10 @@ const GDPR = () => {
                 <HStack mb="3" pt="3" w="100%" space="3" alignItems="center">
                     <Text fontSize="2xl">{event?.gdpr?.subject}</Text>
                 </HStack>
-                <HStack w="100%" space="3" alignItems="center">
-                    <p dangerouslySetInnerHTML={{ __html: event?.gdpr?.description }}>{ }</p>
+                <HStack w="100%" space="2" pb={2} alignItems="center">
+                    <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
+                        <p dangerouslySetInnerHTML={{ __html: event?.gdpr?.description }}></p>
+                    </div>
                 </HStack>
                 <Box py="0" w="100%">
                     <Divider mb="15" opacity={0.27} bg="primary.text" />
@@ -47,6 +49,7 @@ const GDPR = () => {
                         <Button
                             bg="transparent"
                             p="2"
+                            
                             fontSize="lg"
                             colorScheme="primary"
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
@@ -59,9 +62,7 @@ const GDPR = () => {
                         </Button>
                         <Spacer />
                         <Button
-                            w="80px"
                             py="2"
-                            px="1"
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             colorScheme="primary"
                             onPress={() => {
