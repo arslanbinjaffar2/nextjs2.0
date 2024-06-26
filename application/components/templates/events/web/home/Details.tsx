@@ -14,9 +14,12 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseLoadingService from 'application/store/services/UseLoadingService'
 import SectionLoading from 'application/components/atoms/SectionLoading'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs'
+import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import moment from 'moment'
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
 import { func } from 'application/styles'
+import { getColorScheme } from 'application/styles/colors'
+import { useWindowDimensions } from 'react-native'
 type ScreenParams = { id: string; cms: string | undefined };
 
 const { useParam } = createParam<ScreenParams>();
@@ -29,7 +32,22 @@ const Index = () => {
   const {processing} = UseLoadingService();
   const module = modules.find((module) => module.alias === 'homeMyevents');
 
-
+  const { width } = useWindowDimensions();
+  const RenderHtml = require('react-native-render-html').default;
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+  const mixedStyle = {
+    body: {
+      fontFamily: 'Avenir',
+      fontSize: '16px',
+      userSelect: 'auto',
+      color: colors.text
+      },
+      p: {
+        fontFamily: 'Avenir',
+        }
+        }
+        
+const _bannerWidth = React.useRef<HTMLDivElement>(null);
 React.useEffect(() => {
     if (id && (!event_detail || event_detail.id !== Number(id))) {
         FetchEventDetail({ id: Number(id) })
@@ -39,18 +57,23 @@ React.useEffect(() => {
 
   return (
    <>
+   
   <NextBreadcrumbs module={module} title={event_detail?.name}/>
     {processing?.includes('event-detail') ?  <SectionLoading /> :(
       <VStack  width={'100%'}>
-        <Box flexDirection={'row'} alignItems={'center'} width={'100%'}> 
+        <Box   flexDirection={'row'} alignItems={'center'} width={'100%'}> 
         <Text fontSize={'2xl'} fontWeight={'medium'} width={'100%'}>{event_detail?.name}</Text>
         </Box>
-        <VStack  mt={'4'}>
+        <VStack   mt={'4'}>
           {
             event_detail?.app_header_logo ? (
-              <Box roundedTop={10} bg={'primary.box'}><Image source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_header_logo}` }}  alt="Event Image" size="xl" width={'100%'} height={157}  roundedTop={'md'} /></Box>
+              <Box width={'100%'} ref={_bannerWidth}  roundedTop={10} bg={'primary.box'}>
+                <Image resizeMode='contain' resizeMethod='scale' source={{ uri: `${_env.eventcenter_base_url}/assets/event/branding/${event_detail?.app_header_logo}` }}  alt="Event Image"  width={'100%'} h={[(width - 30) * 0.34,(width - 30) * 0.34 ,_bannerWidth.current?.clientWidth ? _bannerWidth.current?.clientWidth * 0.34 : 180]} roundedTop={'md'} />
+              </Box>
                 ):
-               <Box roundedTop={10} bg={'primary.box'}><Image source={{ uri: "https://dev.eventbuizz.com/_admin_assets/images/logo-unavailable-2.png" }} bg={'gray.300'} alt="Event Image" size="xl" width={'100%'} height={157} rounded={'sm'} /> </Box> 
+               <Box roundedTop={10} bg={'primary.box'}>
+                <Image mb="5" roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="" w="100%" h="160px" />
+              </Box> 
             }
           <HStack bg={'primary.box'} px={6} py={4}  roundedBottom={'md'} flexDirection={'column'}>
             <VStack flexDirection={['column','row']} justifyContent={'flex-start'} alignItems={'flex-start'} 
@@ -90,9 +113,15 @@ React.useEffect(() => {
           <Icopin width={16} height={18} />
               <Text ml={'6px'} fontSize={'xs'}>{event_detail?.location_name}</Text>
           </Box>
-          <Text color={'primary.text'} pt={'4'}>
-            <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: event_detail?.event_description ?? '' }} />
-          </Text>
+          <Box  pt={'4'}>
+            <RenderHtml
+                  defaultTextProps={{selectable:true}}
+                  contentWidth={600}
+                  systemFonts={['Avenir']}
+                  tagsStyles={mixedStyle}
+                  source={{ html: event_detail?.event_description ?? '' }}
+              />
+          </Box>
   
           </HStack>
           

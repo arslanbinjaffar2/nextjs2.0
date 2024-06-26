@@ -83,7 +83,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             >{detail?.detail?.first_name && detail?.detail?.last_name ? detail?.detail?.first_name?.substring(0, 1) + detail?.detail?.last_name?.substring(0, 1) : detail?.detail?.first_name?.substring(0, 1)}</Avatar>
                         )}
                         <VStack w="calc(100% - 160px)" space="0">
-                            <Text lineHeight="sm" fontSize="xl">
+                            <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="xl">
                                 {`${detail?.detail?.first_name}`} {detail?.sort_field_setting.find((s: any) => (s.name === 'last_name')) && detail?.detail?.last_name}
                             </Text>
                             {detail?.detail?.info &&
@@ -92,7 +92,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.department == 0 || isPrivate?.company_name == 0))
                                 && (
                                     <>
-                                        <Text lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title && (
+                                        <Text color={'primary.hovercolor'} lineHeight="22px" fontSize="lg">{detail?.detail?.info?.title && (
                                             <>
                                                 {`${detail?.detail?.info?.title}`}
                                                 {detail?.detail?.info?.department || detail?.detail?.info?.company_name ? ', ' : ''}
@@ -120,12 +120,12 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 event?.attendee_settings?.display_registration_invoice == 1 &&
                                 detail?.detail?.id === response?.attendee_detail?.id ? (
                                 <Pressable onPress={() => { handleRegistrationPress() }}>
-                                    <DynamicIcon iconType="edit_order" iconProps={{ width: 20, height: 22 }}  />
+                                    <DynamicIcon iconType="edit_order" iconProps={{ width: 20, height: 22, color: func.colorType(event?.settings?.primary_color) }}  />
                                 </Pressable>
                             ) : null}
                             {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
                                 <Pressable onPress={() => { toggleFav() }}>
-                                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+                                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : undefined} />
                                 </Pressable>
                             )}
 
@@ -135,24 +135,24 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         {detail?.sort_field_setting && detail.sort_field_setting.find((setting: any) => setting.name === 'initial' && (showPrivate == 1 || setting.is_private == 0) && detail?.detail?.info?.initial) && (
                             <Center alignItems="flex-start" pl="0" w="33.33%">
                                 <VStack space="0">
-                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.initial}</Text>
-                                    <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.initial}</Text>
+                                    <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.initial}</Text>
+                                    <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="md">{detail?.detail?.info?.initial}</Text>
                                 </VStack>
                             </Center>
                         )}
                         {detail?.sort_field_setting && detail.sort_field_setting.find((setting: any) => setting.name === 'delegate_number' && (showPrivate == 1 || setting.is_private == 0) && detail?.detail?.info?.delegate_number) && (
                             <Center borderLeftWidth={detail?.detail?.info?.initial ? 1 : 0} borderColor="primary.bordercolor" alignItems="flex-start" pl={detail?.detail?.info?.initial ? ['3', '8'] : 0} w="33.33%">
                                 <VStack space="0">
-                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.delegate} </Text>
-                                    <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.delegate_number}</Text>
+                                    <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.delegate} </Text>
+                                    <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="md">{detail?.detail?.info?.delegate_number}</Text>
                                 </VStack>
                             </Center>
                         )}
                         {detail?.sort_field_setting && detail.sort_field_setting.find((setting: any) => setting.name === 'table_number' && (showPrivate == 1 || setting.is_private == 0) && detail?.detail?.info?.table_number!) && (
                             <Center borderLeftWidth={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number ? 1 : 0} borderColor="primary.bordercolor" alignItems="flex-start" pl={detail?.detail?.info?.initial || detail?.detail?.info?.delegate_number ? ['3', '8'] : 0} w="33.33%">
                                 <VStack space="0">
-                                    <Text lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.table_number}</Text>
-                                    <Text lineHeight="sm" fontSize="md">{detail?.detail?.info?.table_number}</Text>
+                                    <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="md">{detail?.sort_field_labels?.table_number}</Text>
+                                    <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="md">{detail?.detail?.info?.table_number}</Text>
                                 </VStack>
                             </Center>
                         )}
