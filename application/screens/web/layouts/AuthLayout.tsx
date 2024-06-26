@@ -36,6 +36,7 @@ const AuthLayout = ({ children }: Props) => {
 
     React.useEffect(() => {
         if (isLoggedIn) {
+            loadSettingsModules();
             if(checkUserGDPR() === false){
                 push(`/${event.url}/auth/gdpr`)
             }else{
