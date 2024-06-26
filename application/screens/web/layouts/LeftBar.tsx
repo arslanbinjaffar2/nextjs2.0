@@ -55,7 +55,7 @@ const PressableElement = ({row}: any) => {
         } else if(row?.section_type === 'page') {
           router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
         } else {
-          router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
+          router.push(`/${event.url}/information-pages/${row?.id}`)
         }
       } else if (row?.alias === 'my-registrations') {
         router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
