@@ -40,11 +40,15 @@ const PageDetail = (props: any) => {
     }
   }, [id, cms]);
 
-  let modifiedCms = cms;
-  
-  if (cms === 'information-pages') {
-    modifiedCms = cms.replace(/-/g, '_');
-  }
+  const cmsToModuleAliasMapping:Record<string, string> = {
+    "additional-info": "additional-info",
+    "general-info": "general-info",
+    "practical-info": "practical-info",
+    "information-pages": "information_pages",
+    "information-pages-sub": "information_pages",
+  };
+
+  let modifiedCms = cmsToModuleAliasMapping[cms!];
   
   const module = modules.find((module) => {
     return module.alias === modifiedCms && module.id === (page as any)?.section_id
