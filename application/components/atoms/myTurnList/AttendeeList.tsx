@@ -6,6 +6,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import UseAuthService from 'application/store/services/UseAuthService'
 import useRequestToSpeakService from 'application/store/services/useRequestToSpeakService';
+import UseEventService from 'application/store/services/UseEventService';
 
 type boxItemProps = {
   attendee: Attendee
@@ -17,6 +18,7 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
   const { _env } = UseEnvService()
 
   const { push } = useRouter()
+  const { event } = UseEventService();
 
   const { field_settings, settings } = useRequestToSpeakService();
   const { response } = UseAuthService()
@@ -53,7 +55,7 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
   return (
 
     <Pressable
-      onPress={() => { }}>
+      onPress={() => {  push(`/${event.url}/speakers/detail/${attendee.id}`) }}>
       <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
         <HStack w="100%" space="5" alignItems="center" justifyContent="space-between">
           {attendee?.image && settings?.show_image_turnlist === 1 ? (
