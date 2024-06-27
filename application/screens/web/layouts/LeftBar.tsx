@@ -223,6 +223,10 @@ const checkActiveRoute = (row:any, path:any, info:any, page:any) => {
     }
     else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.id)){
       return true;
+    }else if(path.includes(`information-pages-sub/event-info-detail/`) && page && (row?.id == page?.section_id)){
+      return true;
+    }else if(path.includes(`information-pages/event-info-detail/`) && page && (row?.id == page?.section_id)){
+      return true;
     }
   }else {
     // Check if the path exactly matches the alias and not just includes it as part of another word
