@@ -299,7 +299,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
         let custom_field_id = customFields.reduce((ack, question, i) => {
             if (customFieldData[`custom_field_id_q${i}`] !== undefined) {
-                let ids = question.allow_multiple === 1 ? customFieldData[`custom_field_id_q${i}`].map((ans: any) => (ans.value)).join(',') + "," : customFieldData[`custom_field_id_q${i}`].value + ',';
+                let ids = question.allow_multiple === 1 ? customFieldData[`custom_field_id_q${i}`] && customFieldData[`custom_field_id_q${i}`].map((ans: any) => (ans.value)).join(',') + "," : customFieldData[`custom_field_id_q${i}`].value + ',';
                 ack += ids;
             }
             return ack;
@@ -312,13 +312,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         }
 
         infoObj[`custom_field_id${event.id}`] = custom_field_id;
-
+        
         let settings = {
             gdpr: attendeeData?.gdpr,
             accept_foods_allergies: attendeeData?.accept_foods_allergies
         }
 
-        const languageNamesString: string = spokenLanguages.map((language: any) => language.label).join(',');
+        const languageNamesString: string = spokenLanguages && spokenLanguages.map((language: any) => language.label).join(',');
         attendeeObj.SPOKEN_LANGUAGE = languageNamesString;
 
         if (attendeeData?.email) attendeeObj.email = attendeeData?.email;
