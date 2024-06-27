@@ -19,7 +19,7 @@ function* OnFetchEditProfileData({
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getEditProfileDataApi, {}, state)
+    const response: HttpResponse = yield call(getEditProfileDataApi, {is_edit: 1}, state)
     yield put(EditProfileActions.update(response.data.data))
     yield put(LoadingActions.set(false));
 }
