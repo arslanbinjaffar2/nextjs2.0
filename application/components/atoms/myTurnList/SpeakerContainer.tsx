@@ -71,9 +71,9 @@ const SpeakerContainer = ({ currentAttendee }: { currentAttendee: any }) => {
         <View pl={'4'} pt={'4'} pr={'5'}>
 
           <HStack alignItems="start" width={'100%'} justifyContent={'space-between'}>
-            {(isFieldVisible('delegate_number') && getValueFromAttendeeInfo('delegate_number')) && (
-              <Text fontSize={'sm'} flex={'1'}>Delegate Number# {getValueFromAttendeeInfo('delegate_number')}</Text>
-            )}
+          <Text fontSize={'sm'} flex={'1'}>
+              {isFieldVisible('delegate_number') && getValueFromAttendeeInfo('delegate_number') ? `Delegate Number# ${getValueFromAttendeeInfo('delegate_number')}` : ''}
+            </Text>
             <Box alignSelf={'center'} flex={'1'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
               <Avatar
                 borderWidth={0}
@@ -85,9 +85,9 @@ const SpeakerContainer = ({ currentAttendee }: { currentAttendee: any }) => {
               >{getInitials(attendee?.first_name, attendee?.last_name)}</Avatar>
             </Box>
 
-            {(isFieldVisible('network_group') && getValueFromAttendeeInfo('network_group')) && (
-              <Text fontSize={'sm'} flex={'1'}>Network group: {getValueFromAttendeeInfo('network_group')}</Text>
-            )}
+            <Text fontSize={'sm'} flex={'1'}>
+              {isFieldVisible('network_group') && getValueFromAttendeeInfo('network_group') ? `Network group: ${getValueFromAttendeeInfo('network_group')}` : ''}
+            </Text>
           </HStack>
           <HStack space="3" alignItems="center" flexDirection={'column'} mt={'8px'}>
             <Box flexDirection={'row'} alignItems={'center'}>
