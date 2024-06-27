@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, HStack, Text, View } from 'native-base';
+import { Box, Button, Container, HStack, Text, View } from 'native-base';
 import in_array from "in_array";
 import { createParam } from 'solito';
 import SectionLoading from 'application/components/atoms/SectionLoading';
@@ -12,6 +12,7 @@ import SpeakerContainer from 'application/components/atoms/myTurnList/SpeakerCon
 import ActiveAttendee from 'application/components/atoms/myTurnList/ActiveAttendee';
 import Program from 'application/components/atoms/myTurnList/Program'
 import UseSocketService from 'application/store/services/UseSocketService';
+import { useRouter } from 'next/router';
 import UseAuthService from 'application/store/services/UseAuthService';
 
 
@@ -22,6 +23,7 @@ const { useParam } = createParam<ScreenParams>()
 const ShowTurnList = () => {
     const { modules, event } = UseEventService();
     const { response } = UseAuthService();
+    const { push } = useRouter()
 
     const { processing, loading } = UseLoadingService();
     const [socketUpdate, setSocketUpdate] = React.useState(false);
@@ -35,11 +37,12 @@ const ShowTurnList = () => {
     const gdprSettings = event?.gdpr_settings;
 
     const checkGdpr = () => {
-        if (gdprSettings?.enable_gdpr === '1' && gdprSettings?.attendee_invisible === '1') {
-            return response.attendee_detail?.event_attendee?.gdpr === '0';
+        if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 1) {
+            return response.attendee_detail?.event_attendee?.gdpr === 0;
         }
         return false;
     }
+    
     const alreadyInSpeech = !!currentAttendee && currentAttendee.status === 'inspeech' && currentUser?.id === currentAttendee.attendee_id;
 
     const fetchData = async () => {
@@ -106,8 +109,13 @@ const ShowTurnList = () => {
                         }
 
                         {checkGdpr() === true &&
-                            <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                <Text>{event?.labels?.GENERAL_GDPR_ACCEPT_TEXT}</Text>
+                            <Box p={3} bg="primary.box" rounded="lg" w="100%" display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
+                                <Text>
+                                    {event?.labels?.GENERAL_GDPR_ACCEPT_TEXT}
+                                </Text>
+                                <Button onPress={() => { push(`/${event.url}/settings/editprofile`) }} width={'20%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
+                                    <Text fontWeight={'semibold'} fontSize={'md'} isTruncated textAlign={'center'}>{event?.labels?.GENERAL_EDIT_PROFILE}</Text>
+                                </Button>
                             </Box>
 
                         }
