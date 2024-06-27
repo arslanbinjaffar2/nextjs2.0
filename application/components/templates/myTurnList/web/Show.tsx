@@ -25,8 +25,9 @@ const ShowTurnList = () => {
 
     const { processing, loading } = UseLoadingService();
     const [socketUpdate, setSocketUpdate] = React.useState(false);
+    const [initialLoad, setInitialLoad] = React.useState(true);
 
-    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser, currentUserStatus } = useRequestToSpeakService();
+    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser } = useRequestToSpeakService();
     const [_programId] = useParam('id');
 
     const { socket } = UseSocketService();
@@ -39,10 +40,26 @@ const ShowTurnList = () => {
         }
         return false;
     }
-    const alreadyInSpeech = currentAttendee && currentAttendee.status === 'inspeech' && currentUser.id === currentAttendee.attendee_id;
+    const alreadyInSpeech = !!currentAttendee && currentAttendee.status === 'inspeech' && currentUser?.id === currentAttendee.attendee_id;
+
+    const fetchData = async () => {
+        await FetchProgramTurnList({ program_id: Number(_programId) });
+        setTimeout(() => {
+            setInitialLoad(false);
+        }, 2000);
+    };
 
     React.useEffect(() => {
-        FetchProgramTurnList({ program_id: Number(_programId) })
+        fetchData();
+    }, []);
+
+    const getCurrentUserIndex = () => {
+        if (!currentUser || !attendeesToCome) return -1;
+        return attendeesToCome.findIndex((attendee: any) => attendee.attendee_id === currentUser.id) + 1;
+    };
+
+
+    React.useEffect(() => {
     }, [socketUpdate]);
 
     React.useEffect(() => {
@@ -51,6 +68,7 @@ const ShowTurnList = () => {
                 // console.log(data, 'web_app_attendee_to_come_speaker_list_');
                 let action = data?.soket_current_action;
                 if (action === 'accepted' || action === 'pending') {
+                    fetchData();
                     setSocketUpdate(prevState => !prevState);
                 }
             });
@@ -59,6 +77,7 @@ const ShowTurnList = () => {
                 let isStop = data?.is_stop;
                 let makeLive = data?.make_live;
                 if (isStop || makeLive) {
+                    fetchData();
                     setSocketUpdate(prevState => !prevState);
                 }
             });
@@ -74,14 +93,16 @@ const ShowTurnList = () => {
     const module = modules.find((module) => module.alias === 'myturnlist');
     return (
         <>
-            {(loading || in_array('program-turn-list', processing)) ? <SectionLoading /> : (
+            {(initialLoad && (loading && in_array('program-turn-list', processing))) ? <SectionLoading /> : (
                 <>
                     <NextBreadcrumbs module={module} title={agendaDetail?.info?.topic} />
                     <Container pt="2" maxW="100%" w="100%">
                         <Program details={agendaDetail} />
 
                         {currentAttendee && currentAttendee.status === 'inspeech' &&
-                            <SpeakerContainer currentAttendee={currentAttendee} />
+                            <SpeakerContainer currentAttendee={currentAttendee} 
+                                socketUpdate={() => setSocketUpdate(prevState => !prevState)}
+                            />
                         }
 
                         {checkGdpr() === true &&
@@ -95,13 +116,13 @@ const ShowTurnList = () => {
                             <ActiveAttendee
                                 activeAttendee={currentUser}
                                 program_id={Number(_programId)}
-                                currentUserStatus={currentUserStatus}
                                 alreadyInSpeech={alreadyInSpeech}
+                                currentUserIndex={getCurrentUserIndex()}
                             />
                         }
 
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text fontSize="md">Total Speakers: {attendeesToCome?.length ?? 0}</Text>
+                            <Text fontSize="md">{event?.labels?.TURNLIST_TOTAL_SPEAKERS ?? 'Total Speakers'}: {attendeesToCome?.length ?? 0}</Text>
                         </HStack>
                         <View bg={'primary.box'} rounded={'10px'} width={'100%'}>
                             {attendeesToCome?.length > 0 ?
@@ -119,5 +140,6 @@ const ShowTurnList = () => {
             )}
         </>
     )
+            
 }
 export default ShowTurnList;

@@ -106,6 +106,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     boxsolid: `rgba(${[...colors.background]},1)`,
                     bordersecondary: `${type2}`,
                     boxsolidtext: `${colors.darkboxtext}`,
+                    bordersecondary: `${type2}`,
                     hovercolor: `${type}`,
                     darkbox: `rgba(0,0,0,0.2)`,
                     toastbg:`rgba(0,0,0,0.7)`,

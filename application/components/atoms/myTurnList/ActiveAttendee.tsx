@@ -3,26 +3,55 @@ import DynamicIcon from 'application/utils/DynamicIcon'
 import UseEnvService from 'application/store/services/UseEnvService';
 import { Text, HStack, View, Avatar, Box, Pressable, Button, Image } from 'native-base'
 import React, { useState } from 'react'
+import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService'
 import useRequestToSpeakService from 'application/store/services/useRequestToSpeakService';
 
 interface ActiveAttendeeProps {
     activeAttendee: Attendee
     program_id: number
-    currentUserStatus: any
     alreadyInSpeech: boolean
+    currentUserIndex: number
 }
 
-const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, alreadyInSpeech }: ActiveAttendeeProps) => {
+const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUserIndex }: ActiveAttendeeProps) => {
+
+    const { event } = UseEventService();
     const { _env } = UseEnvService()
-    const [sendRequest, setSendRequest] = useState(currentUserStatus.status === 'pending')
-    console.log(currentUserStatus, 'currentUserStatus')
+   
+
+    const { FetchProgramTurnList, currentUserStatus } = useRequestToSpeakService();
+
+    const userStatus = currentUserStatus.status;
+
+    const [sendRequest, setSendRequest] = useState<boolean>(userStatus === 'pending')
+    const [status, setStatus] = useState<boolean>(false)
+
     if (!activeAttendee) return null;
+
+    const getStatusLabel = () => {
+        switch (currentUserStatus.status) {
+            case 'accepted':
+                return event?.labels?.SPEAKER_LIST_STATUS_ACCEPTED;
+            case 'pending':
+                return event?.labels?.SPEAKER_LIST_STATUS_WAITING;
+            default:
+                return '';
+        }
+    };
+
+    React.useEffect(() => {
+        FetchProgramTurnList({ program_id: Number(program_id) });
+    }, [status])
+
+    React.useEffect(() => {
+    }, [userStatus])
+
+    const statusLabel = getStatusLabel();
 
     const { image, first_name, last_name = {} } = activeAttendee;
 
     const { field_settings, settings, RequestToSpeech } = useRequestToSpeakService();
-    console.log(settings, 'settings')
 
     const { response } = UseAuthService()
 
@@ -80,18 +109,24 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
                             <Text textBreakStrategy='balanced' fontSize="lg">
                                 {renderDetails()}
                             </Text>
+                            {statusLabel &&
+                                <Text textBreakStrategy='balanced' fontSize="lg">
+                                    {event?.labels?.GENERAL_STATUS}: {statusLabel}
+                                </Text>
+                            }
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>
-                        {!alreadyInSpeech && currentUserStatus.status !== 'accepted' && (
+                        {!alreadyInSpeech && userStatus !== 'accepted' && (
                             <>
                                 {settings.use_group_to_control_request_to_speak ? (
-                                    activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ? 
+                                    activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ?
                                         <Pressable
                                             mr={'4'}
                                             onPress={() => {
                                                 setSendRequest(!sendRequest)
-                                                RequestToSpeech({ agenda_id: program_id, action: currentUserStatus.status === 'pending' ? 'cancel' : 'request' })
+                                                RequestToSpeech({ agenda_id: program_id, action: userStatus === 'pending' ? 'cancel' : 'request' })
+                                                setStatus(prev => !prev)
                                             }}
                                         >
                                             {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
@@ -100,18 +135,19 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
                                                 </Box> : null
                                             }
                                         </Pressable>
-                                     : null
+                                        : null
                                 ) : (
                                     <Pressable
                                         mr={'4'}
                                         onPress={() => {
                                             setSendRequest(!sendRequest)
-                                            RequestToSpeech({ agenda_id: program_id, action: currentUserStatus.status === 'pending' ? 'cancel' : 'request' })
+                                            RequestToSpeech({ agenda_id: program_id, action: userStatus === 'pending' ? 'cancel' : 'request' })
+                                            setStatus(prev => !prev)
                                         }}
                                     >
                                         {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
                                             : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                                <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>Cancel request</Text>
+                                                <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.GENERAL_CANCEL}</Text>
                                             </Box> : null
                                         }
                                     </Pressable>
@@ -119,9 +155,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
                             </>
                         )}
 
-                        {(isFieldVisible('delegate_number') && getValueFromAttendeeInfo('delegate_number')) && (
-                            <Text fontWeight={'medium'} fontSize={'lg'}># {getValueFromAttendeeInfo('delegate_number')}</Text>
-                        )}
+                        {currentUserIndex ? <Text fontWeight={'medium'} fontSize={'lg'}>#{currentUserIndex}</Text> : null}
                     </Box>
                 </HStack>
             </View>
