@@ -103,6 +103,7 @@ const Detail = ({ navigation }: indexProps) => {
           <Text fontWeight={'500'} isTruncated pr="6" fontSize="2xl">{title}</Text>
           <Spacer />
           <Popover
+           placement='bottom right'
             trigger={(triggerProps) => {
             return <Button rounded={'full'}  bg={'transparent'} variant={'unstyled'} p={0} {...triggerProps} >
                   {chat?.participants_info && chat?.participants_info?.length > 1 ? (
