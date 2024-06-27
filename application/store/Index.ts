@@ -35,6 +35,7 @@ import GallerySlice from './slices/Gallery.Slice'
 import SocialWallSlice, { SocialWallActions } from './slices/SocialWall.Slice'
 import MeetingReservationSlice from './slices/MeetingReservation.Slice'
 import ToastSlice from './slices/Toast.Slice'
+import ChatSlice from './slices/Chat.Slice'
 
 const makeStore = () => {
 
@@ -74,7 +75,8 @@ const makeStore = () => {
             socket:SocketSlice,
             hd:HdSlice,
             meetingReservation:MeetingReservationSlice,
-            toast:ToastSlice
+            toast:ToastSlice,
+            chats:ChatSlice
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
