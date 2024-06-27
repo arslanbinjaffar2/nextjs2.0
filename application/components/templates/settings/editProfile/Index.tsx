@@ -77,8 +77,9 @@ const index = () => {
 
     return (
         <>
-            
-                    <EditProfileFrom
+            {attendee ? 
+                <>
+                <EditProfileFrom
                         attendee={attendee!}
                         languages={languages}
                         callingCodes={callingCodes}
@@ -94,6 +95,9 @@ const index = () => {
                         success_message={success_message}
                     
                     />
+                </> : <SectionLoading />
+            }
+                    
         </>
     )
 }
