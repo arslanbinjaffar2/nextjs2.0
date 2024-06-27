@@ -10,14 +10,22 @@ import useRequestToSpeakService from 'application/store/services/useRequestToSpe
 interface ActiveAttendeeProps {
     activeAttendee: Attendee
     program_id: number
-    currentUserStatus: any
     alreadyInSpeech: boolean
 }
 
-const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, alreadyInSpeech }: ActiveAttendeeProps) => {
+const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech }: ActiveAttendeeProps) => {
+
     const { event } = UseEventService();
     const { _env } = UseEnvService()
-    const [sendRequest, setSendRequest] = useState(currentUserStatus.status === 'pending')
+   
+
+    const { FetchProgramTurnList, currentUserStatus } = useRequestToSpeakService();
+
+    const userStatus = currentUserStatus.status;
+
+    const [sendRequest, setSendRequest] = useState<boolean>(userStatus === 'pending')
+    const [status, setStatus] = useState<boolean>(false)
+
     if (!activeAttendee) return null;
 
     const getStatusLabel = () => {
@@ -30,6 +38,13 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
                 return '';
         }
     };
+
+    React.useEffect(() => {
+        FetchProgramTurnList({ program_id: Number(program_id) });
+    }, [status])
+
+    React.useEffect(() => {
+    }, [userStatus])
 
     const statusLabel = getStatusLabel();
 
@@ -101,7 +116,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>
-                        {!alreadyInSpeech && currentUserStatus.status !== 'accepted' && (
+                        {!alreadyInSpeech && userStatus !== 'accepted' && (
                             <>
                                 {settings.use_group_to_control_request_to_speak ? (
                                     activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ?
@@ -109,7 +124,8 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
                                             mr={'4'}
                                             onPress={() => {
                                                 setSendRequest(!sendRequest)
-                                                RequestToSpeech({ agenda_id: program_id, action: currentUserStatus.status === 'pending' ? 'cancel' : 'request' })
+                                                RequestToSpeech({ agenda_id: program_id, action: userStatus === 'pending' ? 'cancel' : 'request' })
+                                                setStatus(prev => !prev)
                                             }}
                                         >
                                             {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
@@ -124,7 +140,8 @@ const ActiveAttendee = ({ activeAttendee, program_id, currentUserStatus, already
                                         mr={'4'}
                                         onPress={() => {
                                             setSendRequest(!sendRequest)
-                                            RequestToSpeech({ agenda_id: program_id, action: currentUserStatus.status === 'pending' ? 'cancel' : 'request' })
+                                            RequestToSpeech({ agenda_id: program_id, action: userStatus === 'pending' ? 'cancel' : 'request' })
+                                            setStatus(prev => !prev)
                                         }}
                                     >
                                         {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />

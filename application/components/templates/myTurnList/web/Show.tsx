@@ -108,7 +108,6 @@ const ShowTurnList = () => {
                             <ActiveAttendee
                                 activeAttendee={currentUser}
                                 program_id={Number(_programId)}
-                                currentUserStatus={currentUserStatus}
                                 alreadyInSpeech={alreadyInSpeech}
                             />
                         }
