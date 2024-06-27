@@ -68,7 +68,6 @@ const index = () => {
 
     const { FetchEditProfiles, settings, labels, attendee, languages, callingCodes, countries, customFields, attendee_feild_settings, UpdateAttendee, updatingAttendee, success_message, UpdateSuccess } = UseEditProfileService();
 
-    const { loading } = UseLoadingService();
     const { event } = UseEventService();
 
 
@@ -78,11 +77,9 @@ const index = () => {
 
     return (
         <>
-            {loading ? (
-                <SectionLoading />
-            ) : (
+            {attendee ? 
                 <>
-                    <EditProfileFrom
+                <EditProfileFrom
                         attendee={attendee!}
                         languages={languages}
                         callingCodes={callingCodes}
@@ -98,8 +95,9 @@ const index = () => {
                         success_message={success_message}
                     
                     />
-                </>
-            )}
+                </> : <SectionLoading />
+            }
+                    
         </>
     )
 }
@@ -172,6 +170,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     const [gender, setGender] = React.useState(attendee?.info?.gender ?? '');
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [modalContent, setModalContent] = React.useState({ title: '', body: '' });
+    const [gdpr, setGdpr] = React.useState(attendee?.current_event_attendee?.gdpr === 1 ? true : false);
+    const [accept_foods_allergies, setAcceptFoodsAllergies] = React.useState(attendee?.current_event_attendee?.accept_foods_allergies === 1 ? true : false);
     const cancelRef = React.useRef(null);
     const openModal = (title: any, body: any) => {
         setModalContent({ title, body });
@@ -238,7 +238,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
             ...attendeeData,
             [name]: value,
         });
-    },1000);
+    },500);
     const updateAttendeeFeildDate = (name: string, value: any) => {
         setAttendeeData({
             ...attendeeData,
@@ -254,7 +254,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 [name]: value,
             },
         });
-    },1000);
+    },500);
 
     const updateDate = (obj: any) => {
         setAttendeeData({
@@ -299,7 +299,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
         let custom_field_id = customFields.reduce((ack, question, i) => {
             if (customFieldData[`custom_field_id_q${i}`] !== undefined) {
-                let ids = question.allow_multiple === 1 ? customFieldData[`custom_field_id_q${i}`].map((ans: any) => (ans.value)).join(',') + "," : customFieldData[`custom_field_id_q${i}`].value + ',';
+                let ids = question.allow_multiple === 1 ? customFieldData[`custom_field_id_q${i}`] && customFieldData[`custom_field_id_q${i}`].map((ans: any) => (ans.value)).join(',') + "," : customFieldData[`custom_field_id_q${i}`].value + ',';
                 ack += ids;
             }
             return ack;
@@ -312,13 +312,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         }
 
         infoObj[`custom_field_id${event.id}`] = custom_field_id;
-
+        
         let settings = {
-            gdpr: attendeeData?.gdpr,
-            accept_foods_allergies: attendeeData?.accept_foods_allergies
+            gdpr: gdpr,
+            accept_foods_allergies: accept_foods_allergies
         }
 
-        const languageNamesString: string = spokenLanguages.map((language: any) => language.label).join(',');
+        const languageNamesString: string = spokenLanguages && spokenLanguages.map((language: any) => language.label).join(',');
         attendeeObj.SPOKEN_LANGUAGE = languageNamesString;
 
         if (attendeeData?.email) attendeeObj.email = attendeeData?.email;
@@ -370,10 +370,6 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         }, 1000);
     };
  
-
-    if (Object.keys(attendeeData).length === 0) {
-        return <SectionLoading />;
-    }
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
@@ -1382,7 +1378,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 <HStack mb="3" mt="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                 <HStack alignItems={'center'} w={['100%', 'calc(100% - 225px)']}>
                     <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
-                        updateAttendeeFeild('gdpr', isSelected);
+                        // updateAttendeeFeild('gdpr', isSelected);
+                        setGdpr(isSelected)
                     }} size="md"></Checkbox>
                     <Text color={'primary.text'} ml={4}>{event?.gdpr?.inline_text}</Text>
                     <Pressable onPress={() => {openModal(event?.gdpr?.subject, event?.gdpr?.description)}}>
@@ -1394,7 +1391,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 <HStack mb="3" mt="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                      <HStack alignItems={'center'} w={['100%', 'calc(100% - 225px)']}>
                         <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.accept_foods_allergies === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
-                            updateAttendeeFeild('accept_foods_allergies', isSelected);
+                            // updateAttendeeFeild('accept_foods_allergies', isSelected);
+                            setAcceptFoodsAllergies(isSelected)
                         }} size="md"></Checkbox>
                         <Text color={'primary.text'} ml={4}>{event?.food_disclaimer?.inline_text}</Text>
                     <Pressable onPress={() => {openModal(event?.food_disclaimer?.subject, event?.food_disclaimer?.description)}}>
