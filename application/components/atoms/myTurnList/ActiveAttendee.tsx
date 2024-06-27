@@ -11,9 +11,10 @@ interface ActiveAttendeeProps {
     activeAttendee: Attendee
     program_id: number
     alreadyInSpeech: boolean
+    currentUserIndex: number
 }
 
-const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech }: ActiveAttendeeProps) => {
+const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUserIndex }: ActiveAttendeeProps) => {
 
     const { event } = UseEventService();
     const { _env } = UseEnvService()
@@ -154,9 +155,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech }: ActiveA
                             </>
                         )}
 
-                        {(isFieldVisible('delegate_number') && getValueFromAttendeeInfo('delegate_number')) && (
-                            <Text fontWeight={'medium'} fontSize={'lg'}># {getValueFromAttendeeInfo('delegate_number')}</Text>
-                        )}
+                        {currentUserIndex ? <Text fontWeight={'medium'} fontSize={'lg'}>#{currentUserIndex}</Text> : null}
                     </Box>
                 </HStack>
             </View>

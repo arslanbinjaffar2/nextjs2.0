@@ -67,7 +67,7 @@ const SpeakerContainer = ({ currentAttendee }: { currentAttendee: any }) => {
 
   return (
     <>
-      <View rounded={'10px'} bg={'#2C74A0'} width={'100%'} height={"auto"} flexDirection={'column'} justifyContent={'space-between'}>
+      <View rounded={'10px'} bg={'primary.100'} width={'100%'} height={"auto"} flexDirection={'column'} justifyContent={'space-between'}>
         <View pl={'4'} pt={'4'} pr={'5'}>
 
           <HStack alignItems="start" width={'100%'} justifyContent={'space-between'}>
@@ -98,12 +98,12 @@ const SpeakerContainer = ({ currentAttendee }: { currentAttendee: any }) => {
               }
               <Text fontSize={'sm'}> {renderDetails()}</Text>
             </Box>
-            <Text fontSize={'sm'} py={'10px'} mr={'14px'} color={'#05E0E0'}>({event?.labels?.NOW_SPEAKING ?? "Speaking Now"})</Text>
+            <Text fontSize={'sm'} py={'10px'} mr={'14px'} color={'secondary.100'}>({event?.labels?.NOW_SPEAKING ?? "Speaking Now"})</Text>
           </HStack>
         </View>
 
         {timeSpent &&
-          <HStack bg={"#059DE0"} height={'43px'} width={'100%'} justifyContent={'center'} roundedBottom={'10px'} alignItems={'center'}>
+          <HStack bg={"secondary.100"} height={'43px'} width={'100%'} justifyContent={'center'} roundedBottom={'10px'} alignItems={'center'}>
             <DynamicIcon iconType={'checkIn'} iconProps={{ width: 24, height: 24 }} />
             <Text fontSize={'2xl'} ml={'6px'} fontWeight={'semibold'}>{timeSpent}</Text>
           </HStack>

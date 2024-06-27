@@ -27,7 +27,7 @@ const ShowTurnList = () => {
     const [socketUpdate, setSocketUpdate] = React.useState(false);
     const [initialLoad, setInitialLoad] = React.useState(true);
 
-    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser, currentUserStatus } = useRequestToSpeakService();
+    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser } = useRequestToSpeakService();
     const [_programId] = useParam('id');
 
     const { socket } = UseSocketService();
@@ -52,6 +52,12 @@ const ShowTurnList = () => {
     React.useEffect(() => {
         fetchData();
     }, []);
+
+    const getCurrentUserIndex = () => {
+        if (!currentUser || !attendeesToCome) return -1;
+        return attendeesToCome.findIndex((attendee: any) => attendee.attendee_id === currentUser.id) + 1;
+    };
+
 
     React.useEffect(() => {
     }, [socketUpdate]);
@@ -109,6 +115,7 @@ const ShowTurnList = () => {
                                 activeAttendee={currentUser}
                                 program_id={Number(_programId)}
                                 alreadyInSpeech={alreadyInSpeech}
+                                currentUserIndex={getCurrentUserIndex()}
                             />
                         }
 
