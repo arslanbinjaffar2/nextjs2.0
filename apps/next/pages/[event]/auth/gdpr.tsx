@@ -19,7 +19,7 @@ export async function getServerSideProps() {
 Index.getLayout = function getLayout(page:any) {
     return (
         <AfterLoginLayout>
-            <BackgroundLayout>{page}</BackgroundLayout>
+            {page}
         </AfterLoginLayout>
       
     )
