@@ -100,7 +100,9 @@ const ShowTurnList = () => {
                         <Program details={agendaDetail} />
 
                         {currentAttendee && currentAttendee.status === 'inspeech' &&
-                            <SpeakerContainer currentAttendee={currentAttendee} />
+                            <SpeakerContainer currentAttendee={currentAttendee} 
+                                socketUpdate={() => setSocketUpdate(prevState => !prevState)}
+                            />
                         }
 
                         {checkGdpr() === true &&

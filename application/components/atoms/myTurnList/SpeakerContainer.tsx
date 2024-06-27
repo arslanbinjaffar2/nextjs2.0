@@ -7,7 +7,12 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService'
 import useRequestToSpeakService from 'application/store/services/useRequestToSpeakService';
 
-const SpeakerContainer = ({ currentAttendee }: { currentAttendee: any }) => {
+interface SpeakerContainerProps {
+  currentAttendee: any
+  socketUpdate: () => void
+}
+
+const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerProps) => {
 
   const { attendee } = currentAttendee
   const { event } = UseEventService();
@@ -16,21 +21,39 @@ const SpeakerContainer = ({ currentAttendee }: { currentAttendee: any }) => {
   const { field_settings, settings } = useRequestToSpeakService();
   const loggedInUser = attendee?.id === response.data?.user?.id;
   const [timeSpent, setTimeSpent] = React.useState('');
+
+  const speechTime = settings?.enable_speech_time;
+  const moderatorSpeechTime = settings?.enable_speech_time_for_moderator;
+
+  const countDownTimeSeconds = settings?.speak_time;
+
   React.useEffect(() => {
     const interval = setInterval(() => {
       const now = moment();
       const speechStartTime = moment(currentAttendee.speech_start_time);
-      if (now.isAfter(speechStartTime)) {
-        const duration = moment.duration(now.diff(speechStartTime));
-        const formattedTime = `${duration.hours().toString().padStart(2, '0')} : ${duration.minutes().toString().padStart(2, '0')} : ${duration.seconds().toString().padStart(2, '0')}`;
-        setTimeSpent(formattedTime);
-      } else {
-        setTimeSpent('00 : 00 : 00');
+      if (moderatorSpeechTime) {
+        if (now.isAfter(speechStartTime)) {
+          const duration = moment.duration(now.diff(speechStartTime));
+          const formattedTime = `${duration.hours().toString().padStart(2, '0')} : ${duration.minutes().toString().padStart(2, '0')} : ${duration.seconds().toString().padStart(2, '0')}`;
+          setTimeSpent(formattedTime);
+        } else {
+          setTimeSpent('00 : 00 : 00');
+        }
+      } else if (speechTime && !moderatorSpeechTime) {
+        const endTime = speechStartTime.add(countDownTimeSeconds, 'seconds');
+        if (now.isBefore(endTime)) {
+          const duration = moment.duration(endTime.diff(now));
+          const formattedTime = `${duration.hours().toString().padStart(2, '0')} : ${duration.minutes().toString().padStart(2, '0')} : ${duration.seconds().toString().padStart(2, '0')}`;
+          setTimeSpent(formattedTime);
+        } else {
+          setTimeSpent('00 : 00 : 00');
+          socketUpdate();
+        }
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [currentAttendee]);
+  }, [currentAttendee, speechTime, moderatorSpeechTime, countDownTimeSeconds]);
 
 
   const isFieldVisible = (fieldName: string) => {
@@ -102,12 +125,12 @@ const SpeakerContainer = ({ currentAttendee }: { currentAttendee: any }) => {
           </HStack>
         </View>
 
-        {timeSpent &&
+        {timeSpent && settings?.display_time ?
           <HStack bg={"secondary.100"} height={'43px'} width={'100%'} justifyContent={'center'} roundedBottom={'10px'} alignItems={'center'}>
             <DynamicIcon iconType={'checkIn'} iconProps={{ width: 24, height: 24 }} />
             <Text fontSize={'2xl'} ml={'6px'} fontWeight={'semibold'}>{timeSpent}</Text>
           </HStack>
-        }
+        : null}
       </View>
     </>
 
