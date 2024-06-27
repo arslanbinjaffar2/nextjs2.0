@@ -13,7 +13,7 @@ type Props = {
 
 const AuthLayout = ({ children }: Props) => {
 
-    const { event, event_url } = UseEventService();
+    const { event, event_url, loadSettingsModules } = UseEventService();
 
     const { loadToken, isLoggedIn, getUser } = UseAuthService();
 
@@ -26,11 +26,7 @@ const AuthLayout = ({ children }: Props) => {
     React.useEffect(() => {
         if (isLoggedIn) {
             loadSettingsModules();
-            if(checkUserGDPR() === false){
-                push(`/${event.url}/auth/gdpr`)
-            }else{
-                push(`/${event.url}/subRegistration`)
-            }
+            push(`/${event.url}/subRegistration`)
         }
     }, [isLoggedIn])
 
