@@ -280,7 +280,6 @@ const Detail = () => {
                                         <Center alignItems={'flex-start'} justifyContent={'flex-start'} p="0" w={'70%'}>
                                             <View w={'100%'} >
                                             <CustomSelect initialiState={speaker} qaDetials={qaDetials}>
-                                            <CustomSelect initialiState={speaker} qaDetials={qaDetials}>
                                                 <Select
                                                     placeholder={qaDetials.labels.QA_SELECT_SPEAKER}
                                                     w="100%"
@@ -323,7 +322,6 @@ const Detail = () => {
                                                             <Select.Item label={`${pg?.heading}`} value={`${pg.id}`} />
                                                         ))}
                                                     </Select>
-                                                    </CustomSelect>
                                                     </CustomSelect>
                                                 : <Input placeholder={qaDetials.labels.PARAGRAPH_NUMBER} value={paragraph} onChangeText={(value) => setParagraph(value)} />}
 
