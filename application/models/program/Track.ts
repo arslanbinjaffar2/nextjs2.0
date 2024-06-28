@@ -9,4 +9,6 @@ export interface Track {
     deleted_at?: string;
     name?: string;
     color?: string;
+    sub_tracks?: Track[];
+    parent?: Track;
 }

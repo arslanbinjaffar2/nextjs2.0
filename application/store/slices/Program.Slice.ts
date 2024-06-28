@@ -63,6 +63,7 @@ export const ProgramSlice = createSlice({
             state.page = action.payload.page;
             state.screen = action.payload.screen;
             state.track_id = action.payload.track_id;
+            state.track = {};
             if (action.payload.page === 1) {
                 state.programs = [];
                 state.track = {};
