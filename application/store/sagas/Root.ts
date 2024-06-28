@@ -52,6 +52,7 @@ import {HdWatcherSaga} from 'application/store/sagas/Hd.Saga'
 import {SocialWallWatcherSaga} from 'application/store/sagas/SocialWall.Saga'
 
 import {MeetingReservationWatcherSaga} from 'application/store/sagas/MeetingReservation.Saga'
+import {ChatWatcherSaga} from 'application/store/sagas/Chat.Saga'
 
 
 export function* RootSaga() {
@@ -82,7 +83,8 @@ export function* RootSaga() {
                 fork(GalleryWatcherSaga),
                 fork(HdWatcherSaga),
                 fork(SocialWallWatcherSaga),
-                fork(MeetingReservationWatcherSaga)
+                fork(MeetingReservationWatcherSaga),
+                fork(ChatWatcherSaga)
             ])
 }
 

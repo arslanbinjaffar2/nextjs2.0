@@ -59,6 +59,7 @@ const Detail = (props: any) => {
         "general-info": "general_info",
         "practical-info": "event_info",
         "information-pages": "information_pages/temp",
+        "information-pages-sub": "information_pages/temp",
       };
 
     return (

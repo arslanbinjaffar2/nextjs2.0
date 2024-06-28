@@ -212,7 +212,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 							<IconButton p={1} variant="unstyled"
 								icon={<DynamicIcon iconType="chat" iconProps={{ width: 19, height: 19 }} />}
 								onPress={()=>{
-									push(`/${event.url}/chat/${attendeeToShow?.id}`);
+									push(`/${event.url}/chat/new/${attendeeToShow?.id}`);
 								}} />
 							
 							</Tooltip>

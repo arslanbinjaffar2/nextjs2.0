@@ -4,22 +4,22 @@ import PropTypes from 'prop-types';
 
 import Master from 'application/screens/web/layouts/Master';
 
-import ChatDetails from 'application/components/templates/chat/web/Detail';
+import NewChatTemplate from 'application/components/templates/chat/web/NewChat';
 
 type indexProps = {
     navigation: unknown
 }
 
-const Detail = ({ navigation }: indexProps) => {
+const NewChat = ({ navigation }: indexProps) => {
 
     return (
-        <ChatDetails navigation={navigation}/>
+        <NewChatTemplate navigation={navigation}/>
     );
 
 };
 
-Detail.propTypes = {
+NewChat.propTypes = {
     navigation: PropTypes.object.isRequired,
 };
 
-export default Detail;
+export default NewChat;
