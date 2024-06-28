@@ -20,7 +20,7 @@ export type RequestToSpeakServiceOperators = {
     currentUser: any,
     FetchActivePrograms: () => void,
     FetchProgramTurnList: (payload: {program_id: number}) => void,
-    RequestToSpeech: (payload: {agenda_id: number, action: string}) => void,
+    RequestToSpeech: (payload: {agenda_id: number, action: string, notes?: string}) => void,
 }
 
 export const UseRequestToSpeakService = (): Readonly<RequestToSpeakServiceOperators> => {
@@ -55,7 +55,7 @@ export const UseRequestToSpeakService = (): Readonly<RequestToSpeakServiceOperat
             [dispatch],
         ),
         RequestToSpeech: useCallback(
-            (payload: {agenda_id: number, action: string}) => {
+            (payload: {agenda_id: number, action: string, notes?: string}) => {
                 console.log(payload, 'payload')
                 dispatch(RequestToSpeakActions.RequestToSpeech(payload))
             },
