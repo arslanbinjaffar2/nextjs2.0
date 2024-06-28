@@ -24,7 +24,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const userStatus = currentUserStatus.status;
 
-    const [sendRequest, setSendRequest] = useState<boolean>(currentUserStatus.status === 'pending' ? true : false)
+    const [sendRequest, setSendRequest] = useState<boolean>(currentUserStatus.status === 'pending' || currentUserStatus.status === 'accepted' ? true : false)
     const [status, setStatus] = useState<boolean>(false)
 
     if (!activeAttendee) return null;
@@ -126,7 +126,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>
-                        {!alreadyInSpeech && userStatus !== 'accepted' && (
+                        {!alreadyInSpeech && (
                             <>
                                 {settings.use_group_to_control_request_to_speak ? (
                                     activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ?
