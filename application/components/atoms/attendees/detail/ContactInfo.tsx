@@ -108,7 +108,7 @@ const ContactInfo = ({ detail }: AppProps) => {
           ) : ''}
       </HStack>
       <Box py={3}>
-      {sortedFields.length > 0 && <VStack px="3" pb={3}  w="100%" space="3">
+      {sortedFields.length > 0 && <VStack px="3" pb={visibleSocialIcons.length > 0 ? 3 : 0}  w="100%" space="3">
         {sortedFields.map((field: any) => (
             <HStack key={field.name} space="1" alignItems="center">
               <Box>
@@ -121,7 +121,7 @@ const ContactInfo = ({ detail }: AppProps) => {
             </HStack>
           ))}
         </VStack>}
-        <HStack space={3} px={3} pt={0} w="100%" justifyContent="flex-start" alignItems="center">
+        {visibleSocialIcons.length > 0 && <HStack space={3} px={3} pt={0} w="100%" justifyContent="flex-start" alignItems="center">
           {visibleSocialIcons.map(icon => (
             <Pressable
               key={icon.name}
@@ -135,7 +135,7 @@ const ContactInfo = ({ detail }: AppProps) => {
               {icon.component}
             </Pressable>
           ))}
-        </HStack>
+        </HStack>}
       </Box>
     </Box>
   );
