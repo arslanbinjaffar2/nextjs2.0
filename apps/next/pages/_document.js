@@ -165,6 +165,9 @@ body {
   content: attr(placeholder);
   opacity:0.7;
   }
+#shareAccountDropDown{
+  z-index: 99 !important;
+}
 #break_Word{
   
 }

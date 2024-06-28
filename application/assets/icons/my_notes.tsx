@@ -29,7 +29,7 @@ const my_notes = (props: SvgProps) => {
       id="Group_5689"
       data-name="Group 5689"
       transform="translate(0 0)"
-      clipPath="url(#clip-path)"
+      
     >
       <Path
         id="Path_2372"
