@@ -80,6 +80,13 @@ import save from 'application/assets/icons/save'
 import edit_order from 'application/assets/icons/edit_order'
 import Notattending from 'application/assets/icons/Notattending'
 import register from 'application/assets/icons/register'
+import delete_icon from 'application/assets/icons/delete'
+import share_account from 'application/assets/icons/share_account'
+import download_2 from 'application/assets/icons/download_2'
+import email from 'application/assets/icons/email'
+import share from 'application/assets/icons/share'
+import dropdown from 'application/assets/icons/dropdown'
+import upload from 'application/assets/icons/upload'
 type IconProps = {
     name?: string;
     color?: string;
@@ -90,7 +97,7 @@ type IconProps = {
 
 type IconType ='qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
 'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin' | 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | 'editnotes' | 'mybookings' 
-|'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | 'myPollResults' | 'mySurveyResults' | 'my_sub_registrations' | 'network_interest' | 'livesurveys'| 'attendee_Match' | 'star'| 'staro'| 'save' | 'edit_order' | 'Notattending'|'register' | any;
+|'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | 'myPollResults' | 'mySurveyResults' | 'my_sub_registrations' | 'network_interest' | 'livesurveys'| 'attendee_Match' | 'star'| 'staro'| 'save' | 'edit_order' | 'Notattending'|'register' | 'delete_icon'| 'share_account'|'download_2'| 'email' |'share'| 'dropdown' | 'upload' | any;
 
 type Props = {
     iconType: IconType;
@@ -179,7 +186,14 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         save,
         edit_order,
         Notattending,
-        register
+        register,
+        delete_icon,
+        share_account,
+        download_2,
+        email,
+        share,
+        dropdown,
+        upload
     };
 
     const IconComponent = iconMap[iconType];

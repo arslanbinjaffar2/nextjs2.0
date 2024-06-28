@@ -24,7 +24,7 @@ const IcoClipboard = (props: SvgProps) => {
         />
       </ClipPath>
     </Defs>
-    <G id="Group_5539" data-name="Group 5539" clipPath="url(#clip-path)">
+    <G id="Group_5539" data-name="Group 5539" >
       <Path
         id="Rectangle_4108"
         data-name="Rectangle 4108"

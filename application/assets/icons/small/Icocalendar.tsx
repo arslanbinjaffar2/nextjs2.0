@@ -24,7 +24,7 @@ const Icocalendar = (props: SvgProps) => {
         />
       </ClipPath>
     </Defs>
-    <G id="Group_1788" data-name="Group 1788" clipPath="url(#clip-path)">
+    <G id="Group_1788" data-name="Group 1788" >
       <Path
         id="Path_2139"
         data-name="Path 2139"

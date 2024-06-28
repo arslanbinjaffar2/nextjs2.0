@@ -83,7 +83,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
             })
           }
         }}>
-        <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
+        <HStack px={"4"} alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
           <HStack w="100%" space="0" alignItems="center" justifyContent="space-between">
             {attendee?.image && attendee.field_settings.profile_picture.is_private == 0 ? (
               <Image mr={5} rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
@@ -142,7 +142,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
               )}
             </VStack>
             <Spacer />
-            <HStack space="4" alignItems="center">
+            <HStack space={["0","4"]} alignItems="center">
                 {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && (
                   <Button
                   display={['none','']}
