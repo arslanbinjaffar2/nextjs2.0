@@ -24,7 +24,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const userStatus = currentUserStatus.status;
 
-    const [sendRequest, setSendRequest] = useState<boolean>(userStatus === 'pending')
+    const [sendRequest, setSendRequest] = useState<boolean>(currentUserStatus.status === 'pending' ? true : false)
     const [status, setStatus] = useState<boolean>(false)
 
     if (!activeAttendee) return null;
@@ -129,9 +129,9 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                                 setStatus(prev => !prev)
                                             }}
                                         >
-                                            {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                            {!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
                                                 : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                                    <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>Cancel request</Text>
+                                                    <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.GENERAL_CANCEL}</Text>
                                                 </Box> : null
                                             }
                                         </Pressable>
@@ -145,7 +145,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                             setStatus(prev => !prev)
                                         }}
                                     >
-                                        {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                        {!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
                                             : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
                                                 <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.GENERAL_CANCEL}</Text>
                                             </Box> : null
