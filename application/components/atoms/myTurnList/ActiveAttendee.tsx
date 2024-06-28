@@ -1,7 +1,7 @@
 import { Attendee } from 'application/models/attendee/Attendee'
 import DynamicIcon from 'application/utils/DynamicIcon'
 import UseEnvService from 'application/store/services/UseEnvService';
-import { Text, HStack, View, Avatar, Box, Pressable, Button, Image } from 'native-base'
+import { Text, HStack, View, Avatar, Box, Pressable, Button, Image, Modal, TextArea, Icon } from 'native-base'
 import React, { useState } from 'react'
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService'
@@ -18,7 +18,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const { event } = UseEventService();
     const { _env } = UseEnvService()
-   
+
 
     const { FetchProgramTurnList, currentUserStatus } = useRequestToSpeakService();
 
@@ -26,6 +26,8 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const [sendRequest, setSendRequest] = useState<boolean>(currentUserStatus.status === 'pending' || currentUserStatus.status === 'accepted' ? true : false)
     const [status, setStatus] = useState<boolean>(false)
+    const [noteBox, setNoteBox] = useState<boolean>(false)
+    const [note, setNote] = useState<string>('')
 
     if (!activeAttendee) return null;
 
@@ -57,14 +59,6 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const loggedInUser = activeAttendee?.id === response.data?.user?.id;
 
-    const isFieldVisible = (fieldName: string) => {
-        const field = field_settings.find((field: any) => field.fields_name === fieldName);
-        if (!loggedInUser) {
-            return field && !field.is_private;
-        }
-        return !!field;
-    };
-
     const getInitials = (firstName: any, lastName: any) => {
         if (firstName && lastName) {
             return firstName.substring(0, 1) + lastName.substring(0, 1);
@@ -81,25 +75,44 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const getVisibleFieldsWithValues = () => {
         return field_settings
-          .filter((field: any) => {
-            const isVisible = loggedInUser ? true : !field.is_private;
-            const value = getValueFromAttendeeInfo(field.fields_name);
-            return isVisible && value;
-          })
-          .map((field: any) => field.fields_name);
-      };
+            .filter((field: any) => {
+                const isVisible = loggedInUser ? true : !field.is_private;
+                const value = getValueFromAttendeeInfo(field.fields_name);
+                return isVisible && value;
+            })
+            .map((field: any) => field.fields_name);
+    };
 
-      const renderDetails = () => {
+    const renderDetails = () => {
         const fields = getVisibleFieldsWithValues(); // Add more fields if needed
-        return fields.map((field:any) => {
-          const value = getValueFromAttendeeInfo(field);
-          if (value) {
-            return <Text key={field} textBreakStrategy='balanced' fontSize="lg">{value}</Text>;
-          }
-          return null;
+        return fields.map((field: any) => {
+            const value = getValueFromAttendeeInfo(field);
+            if (value) {
+                return <Text key={field} textBreakStrategy='balanced' fontSize="lg">{value}</Text>;
+            }
+            return null;
         });
-      };
-    
+    };
+
+    const submitRequestToSpeak = () => {
+
+        let action = userStatus === 'pending' || userStatus === 'accepted' ? 'cancel' : 'request';
+        if(action === 'request' && settings?.ask_to_speak_notes === 1){
+            setNoteBox(true)
+        }else{
+            setSendRequest(!sendRequest)
+            RequestToSpeech({ agenda_id: program_id, action: action })
+            setStatus(prev => !prev)
+        }
+    };
+
+    const submitRequestToSpeakWithNote = () => {
+        setNoteBox(false)
+        setSendRequest(!sendRequest)
+        RequestToSpeech({ agenda_id: program_id, action: 'request', notes: note })
+        setStatus(prev => !prev)
+    }
+
     return (
         <>
             <View bg={'primary.box'} rounded={'10px'} pl={'10px'} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
@@ -133,9 +146,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                         <Pressable
                                             mr={'4'}
                                             onPress={() => {
-                                                setSendRequest(!sendRequest)
-                                                RequestToSpeech({ agenda_id: program_id, action: userStatus === 'pending' ? 'cancel' : 'request' })
-                                                setStatus(prev => !prev)
+                                                submitRequestToSpeak()
                                             }}
                                         >
                                             {!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
@@ -149,9 +160,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                     <Pressable
                                         mr={'4'}
                                         onPress={() => {
-                                            setSendRequest(!sendRequest)
-                                            RequestToSpeech({ agenda_id: program_id, action: userStatus === 'pending' ? 'cancel' : 'request' })
-                                            setStatus(prev => !prev)
+                                            submitRequestToSpeak()
                                         }}
                                     >
                                         {!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
@@ -168,6 +177,55 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                     </Box>
                 </HStack>
             </View>
+            <Modal
+                isOpen={noteBox}
+                onClose={() => {
+                    setNoteBox(false)
+                }}
+            >
+                <Modal.Header height={'42px'} px={'16px'} py={'8px'} flexDirection={'row'} maxWidth={'300px'} width={['80%', '90%']} roundedTop={'10px'} alignItems={'center'} mx={'auto'}>
+                    <DynamicIcon iconType={'my_notes'} iconProps={{ width: 20, height: 20 }} />
+                    <Text ml={2}>{event?.labels?.WRITE_NOTE_TO_MODRATOR}</Text>
+                </Modal.Header>
+                <Modal.Content p={0} maxWidth={'300px'} width={['80%', '90%']} roundedBottom={'10px'} roundedTop={0} mx={'auto'}>
+                    <Modal.Body position={'relative'} zIndex={1} p={4} >
+                        <View flexDirection={'column'}>
+                            <TextArea
+                                p="0"
+                                h="150px"
+                                value={note}
+                                onChangeText={(text) => setNote(text)}
+                                focusOutlineColor="transparent"
+                                placeholder={event?.labels?.WRITE_NOTES}
+                                _focus={{ bg: 'transparent' }}
+                                borderWidth="0" fontSize="md" autoCompleteType={undefined} />
+                            <Text>
+                            </Text>
+                            <HStack  flexDirection={'row'}  alignItems={'center'} mt={'4'} space={2}>
+                                    <Button
+                                    flex={1}
+                                        onPress={() => {
+                                            setNoteBox(false)
+                                            setNote('')
+                                        }}
+                                    >
+                                        {event?.labels?.GENERAL_SKIP}
+                                    </Button>
+                                    <Button
+                                    flex={1}
+
+                                        onPress={() => {
+                                            submitRequestToSpeakWithNote()
+                                        }}
+                                    >
+                                        {event?.labels?.GENERAL_SUBMIT}
+                                    </Button>
+                            </HStack>
+                        </View>
+
+                    </Modal.Body>
+                </Modal.Content>
+            </Modal>
         </>
 
     )
