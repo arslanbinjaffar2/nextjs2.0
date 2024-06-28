@@ -96,7 +96,7 @@ const LazySlider = ({ programs, onChange }: any) => {
 						</Slider>
 					</View>
 					<Spacer />
-					{programs.length > 7 && <HStack space="0" alignItems="center">
+					{programs.length > (width > 600 ? 7 : 3) && <HStack space="0" alignItems="center">
 						<Center>
 							<IconButton
 								variant="unstyled"
