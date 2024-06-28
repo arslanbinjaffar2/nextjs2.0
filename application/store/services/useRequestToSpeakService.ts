@@ -14,7 +14,7 @@ export type RequestToSpeakServiceOperators = {
     settings: any,
     attendeesToCome: any,
     agendaSettings: any,
-    currentUserStatus: string,
+    currentUserStatus: any,
     activeSpeakerlistSession: any,
     field_settings: any,
     currentUser: any,

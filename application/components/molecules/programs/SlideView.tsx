@@ -85,8 +85,8 @@ const LazySlider = ({ programs, onChange }: any) => {
 								}}>
 									<Box justifyContent={'center'} display={'flex'} alignItems={'center'} w={'60px'} h={'60px'} px={2} bg={currentIndex === index ? "secondary.500" : "primary.box"} rounded="md">
 										<VStack space="1">
-											<Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? func.colorType(event?.settings?.secondary_color) : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
-											<Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? func.colorType(event?.settings?.secondary_color) : "primary.text"} fontWeight={500}>{moment(item[0]?.date).format('D')}</Text>
+											<Text fontSize={'sm'} textTransform={'uppercase'} textAlign={'center'} fontWeight={'400'} color={currentIndex === index ? "primary.bordersecondary" : "primary.text"}>{moment(item[0]?.date).format('ddd')}</Text>
+											<Text fontSize={'md'} textAlign={'center'} color={currentIndex === index ? "primary.bordersecondary" : "primary.text"} fontWeight={500}>{moment(item[0]?.date).format('D')}</Text>
 										</VStack>
 
 									</Box>

@@ -120,6 +120,7 @@ const AvatarComponent = ({ participants }: { participants: ParticipantInfo[] }) 
   const { _env } = UseEnvService();
   // Function to get the first letters of the first and last name
   const getFirstLetters = (name: string) => {
+    if(!name) return '';
     const names = name?.split(' ');
     return (names[0]?.substring(0, 1) + names[1]?.substring(0, 1)).toUpperCase();
   };
