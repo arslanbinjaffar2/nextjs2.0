@@ -126,7 +126,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>
-                        {!alreadyInSpeech && event?.myturnlist_setting?.ask_to_apeak == 1 && (
+                        {!alreadyInSpeech && (
                             <>
                                 {settings.use_group_to_control_request_to_speak ? (
                                     activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ?
