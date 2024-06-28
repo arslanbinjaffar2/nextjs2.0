@@ -24,7 +24,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const userStatus = currentUserStatus.status;
 
-    const [sendRequest, setSendRequest] = useState<boolean>(userStatus === 'pending')
+    const [sendRequest, setSendRequest] = useState<boolean>(currentUserStatus.status === 'pending' ? true : false)
     const [status, setStatus] = useState<boolean>(false)
 
     if (!activeAttendee) return null;
@@ -79,21 +79,32 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
         return null;
     }
 
-    const renderDetails = () => {
-        let details = '';
-        if (getValueFromAttendeeInfo('company_name') && isFieldVisible('company_name')) {
-            details += getValueFromAttendeeInfo('company_name');
-        }
-        if (getValueFromAttendeeInfo('title') && isFieldVisible('title')) {
-            details += (details ? ' - ' : '') + getValueFromAttendeeInfo('title');
-        }
-        return details;
-    };
+    const getVisibleFieldsWithValues = () => {
+        return field_settings
+          .filter((field: any) => {
+            const isVisible = loggedInUser ? true : !field.is_private;
+            const value = getValueFromAttendeeInfo(field.fields_name);
+            return isVisible && value;
+          })
+          .map((field: any) => field.fields_name);
+      };
+
+      const renderDetails = () => {
+        const fields = getVisibleFieldsWithValues(); // Add more fields if needed
+        return fields.map((field:any) => {
+          const value = getValueFromAttendeeInfo(field);
+          if (value) {
+            return <Text key={field} textBreakStrategy='balanced' fontSize="lg">{value}</Text>;
+          }
+          return null;
+        });
+      };
+    
     return (
         <>
-            <View height={"105px"} bg={'primary.box'} rounded={'10px'} pl={'10px'} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
+            <View bg={'primary.box'} rounded={'10px'} pl={'10px'} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
                 <HStack justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
-                    <Box flexDirection={'row'} alignItems={'center'}>
+                    <Box flexDirection={'row'}>
                         {activeAttendee?.image && settings?.show_image_turnlist === 1 ? (
                             <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${image}` }} alt="" w="50px" h="50px" />
                         ) : (
@@ -106,14 +117,12 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                         )}
                         <View flexDirection={'column'} ml={'14px'}>
                             <Text fontWeight={'medium'} fontSize={'lg'}>{activeAttendee.first_name} {activeAttendee.last_name}</Text>
-                            <Text textBreakStrategy='balanced' fontSize="lg">
-                                {renderDetails()}
-                            </Text>
                             {statusLabel &&
                                 <Text textBreakStrategy='balanced' fontSize="lg">
                                     {event?.labels?.GENERAL_STATUS}: {statusLabel}
                                 </Text>
                             }
+                            {renderDetails()}
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>
@@ -129,9 +138,9 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                                 setStatus(prev => !prev)
                                             }}
                                         >
-                                            {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                            {!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
                                                 : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                                    <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>Cancel request</Text>
+                                                    <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.GENERAL_CANCEL}</Text>
                                                 </Box> : null
                                             }
                                         </Pressable>
@@ -145,7 +154,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                             setStatus(prev => !prev)
                                         }}
                                     >
-                                        {!sendRequest ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                        {!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
                                             : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
                                                 <Text fontWeight={'semibold'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.GENERAL_CANCEL}</Text>
                                             </Box> : null

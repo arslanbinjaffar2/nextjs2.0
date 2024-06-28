@@ -77,15 +77,27 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
     }
     return null;
   }
+
+  const getVisibleFieldsWithValues = () => {
+    return field_settings
+      .filter((field: any) => {
+        const isVisible = loggedInUser ? true : !field.is_private;
+        const value = getValueFromAttendeeInfo(field.fields_name);
+        return isVisible && value;
+      })
+      .map((field: any) => field.fields_name);
+  };
+  
+  
   const renderDetails = () => {
-    let details = '';
-    if (getValueFromAttendeeInfo('company_name') && isFieldVisible('company_name')) {
-      details += getValueFromAttendeeInfo('company_name');
-    }
-    if (getValueFromAttendeeInfo('title') && isFieldVisible('title')) {
-      details += (details ? ' - ' : "") + getValueFromAttendeeInfo('title');
-    }
-    return details;
+    const fields = getVisibleFieldsWithValues(); // Add more fields if needed
+    return fields.map((field: any) => {
+      const value = getValueFromAttendeeInfo(field);
+      if (value) {
+        return <Text key={field} textBreakStrategy='balanced' fontSize="lg">{value}</Text>;
+      }
+      return null;
+    });
   };
 
   return (
@@ -115,11 +127,9 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
           <HStack space="3" alignItems="center" flexDirection={'column'} mt={'8px'}>
             <Box flexDirection={'row'} alignItems={'center'}>
               <Text fontSize={'lg'} fontWeight={'medium'}>{attendee?.first_name} {attendee?.last_name}</Text>
-              {(isFieldVisible('company_name') && getValueFromAttendeeInfo('company_name')) || (isFieldVisible('title') && getValueFromAttendeeInfo('title')) ?
-                <Text fontSize={'lg'} fontWeight={'medium'} mx={'1'}>|</Text>
-                : null
-              }
-              <Text fontSize={'sm'}> {renderDetails()}</Text>
+            </Box>
+            <Box alignItems={'center'}>
+                {renderDetails()}
             </Box>
             <Text fontSize={'sm'} py={'10px'} mr={'14px'} color={'secondary.100'}>({event?.labels?.NOW_SPEAKING ?? "Speaking Now"})</Text>
           </HStack>

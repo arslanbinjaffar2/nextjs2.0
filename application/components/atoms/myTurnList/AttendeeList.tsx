@@ -25,12 +25,14 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
 
   const loggedInUser = attendee?.id === response.data?.user?.id;
 
-  const isFieldVisible = (fieldName: string) => {
-    const field = field_settings.find((field: any) => field.fields_name === fieldName);
-    if (!loggedInUser) {
-      return field && !field.is_private;
-    }
-    return !!field;
+  const getVisibleFieldsWithValues = () => {
+    return field_settings
+      .filter((field: any) => {
+        const isVisible = loggedInUser ? true : !field.is_private;
+        const value = getValueFromAttendeeInfo(field.fields_name);
+        return isVisible && value;
+      })
+      .map((field: any) => field.fields_name);
   };
 
 
@@ -42,43 +44,41 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
   }
 
   const renderDetails = () => {
-    let details = '';
-    if (getValueFromAttendeeInfo('company_name') && isFieldVisible('company_name')) { 
-      details += getValueFromAttendeeInfo('company_name');
-    }
-    if (getValueFromAttendeeInfo('title') && isFieldVisible('title')) {
-      details += (details ? ' - ' : '') + getValueFromAttendeeInfo('title');
-    }
-    return details;
+    const fields = getVisibleFieldsWithValues(); // Add more fields if needed
+    return fields.map((field: any) => {
+      const value = getValueFromAttendeeInfo(field);
+      if (value) {
+        return <Text key={field} textBreakStrategy='balanced' fontSize="lg">{value}</Text>;
+      }
+      return null;
+    });
   };
 
   return (
 
     <Pressable
-      onPress={() => {  push(`/${event.url}/speakers/detail/${attendee.id}`) }}>
+      onPress={() => { push(`/${event.url}/speakers/detail/${attendee.id}`) }}>
       <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-        <HStack w="100%" space="5" alignItems="center" justifyContent="space-between">
-          {attendee?.image && settings?.show_image_turnlist === 1 ? (
-            <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
-          ) : (
-            <Avatar
-              borderWidth={0}
-              borderColor="primary.darkbox"
-              textTransform="uppercase"
-              bg={'#A5A5A5'}
-            >{attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0, 1) + attendee?.last_name?.substring(0, 1) : attendee?.first_name?.substring(0, 1)}</Avatar>
-          )}
+        <HStack w="100%" space="5" alignItems={'center'} justifyContent="space-between">
+
+          <Box alignSelf={renderDetails() !== null ? 'flex-start' : 'center'}>
+            {attendee?.image && settings?.show_image_turnlist === 1 ? (
+              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
+            ) : (
+              <Avatar
+                borderWidth={0}
+                borderColor="primary.darkbox"
+                textTransform="uppercase"
+                bg={'#A5A5A5'}
+              >{attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0, 1) + attendee?.last_name?.substring(0, 1) : attendee?.first_name?.substring(0, 1)}</Avatar>
+            )}
+          </Box>
+
           <VStack w={['calc(100% - 175px)', 'calc(100% - 300px)']} space="0">
             {(attendee?.first_name || attendee?.last_name) ? (
               <>
-                <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
-                {(getValueFromAttendeeInfo('company_name') || getValueFromAttendeeInfo('title') || getValueFromAttendeeInfo('department')) && (
-                  <Text textBreakStrategy='balanced' fontSize="lg">
-                    <Text textBreakStrategy='balanced' fontSize="lg">
-                      {renderDetails()}
-                    </Text>
-                  </Text>
-                )}
+                <Text lineHeight="22px" fontWeight={'medium'} fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
+                {renderDetails()}
               </>
             ) : null}
           </VStack>

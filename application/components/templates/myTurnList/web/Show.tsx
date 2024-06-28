@@ -68,15 +68,15 @@ const ShowTurnList = () => {
     React.useEffect(() => {
         if (socket !== null) {
             socket?.on(`event-buizz:web_app_attendee_to_come_speaker_list_${event.id}_${_programId}`, function (data: any): any {
-                // console.log(data, 'web_app_attendee_to_come_speaker_list_');
+                console.log(data, 'web_app_attendee_to_come_speaker_list_');
                 let action = data?.soket_current_action;
-                if (action === 'accepted' || action === 'pending') {
+                if (action === 'accepted' || action === 'pending' || action === 'cancel') {
                     fetchData();
                     setSocketUpdate(prevState => !prevState);
                 }
             });
             socket?.on(`event-buizz:web_app_in_speach_speaker_list_${event.id}_${_programId}`, function (data: any): any {
-                // console.log(data, 'web_app_in_speach_speaker_list_');
+                console.log(data, 'web_app_in_speach_speaker_list_');
                 let isStop = data?.is_stop;
                 let makeLive = data?.make_live;
                 if (isStop || makeLive) {
