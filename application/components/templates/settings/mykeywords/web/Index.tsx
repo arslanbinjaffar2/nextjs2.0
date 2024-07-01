@@ -9,6 +9,7 @@ import UseNetworkInterestService from 'application/store/services/UseNetworkInte
 import { Keyword } from 'application/models/networkInterest/NetworkInterest';
 import in_array from "in_array";
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { func } from 'application/styles';
 
 
 const Index = () => {
@@ -116,9 +117,10 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         px="6"
                         py="1"
                         rounded="20px"
+                        _text={{color: ((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.hovercolor" : "primary.text", fontSize: 'lg'}}
+                        _hover={{_text: {color: "primary.hovercolor"}}}
                         bg={((filters?.indexOf(0) !== -1) || filters?.length == 0) ? "primary.500" : "primary.box"}
                         borderWidth="0"
-                        _text={{ fontSize: 'lg' }}
                         borderColor="primary.bdBox"
                         colorScheme="primary"
                         onPress={() => {
@@ -137,7 +139,8 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                             bg={filters?.indexOf(keyword?.id) !== -1 ? "primary.500" :"primary.box" }
                             borderWidth="0"
                             borderColor="primary.bdBox"
-                            _text={{ fontSize: 'lg' }}
+                            _text={{color: filters?.indexOf(keyword?.id) !== -1 ? "primary.hovercolor" : "primary.text", fontSize: 'lg'}}
+                            _hover={{_text: {color: "primary.hovercolor"}}}
                             colorScheme="primary"
                             onPress={() => {
                                 setFilter(keyword?.id)
@@ -177,7 +180,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         isLoading={UpdatingMyKeywords}
                         isDisabled={UpdatingMyKeywords}
                         shadow="1"
-                        _text={{ fontWeight: 600, fontSize: '2xl' }}
+                        _text={{ fontWeight: 600, fontSize: '2xl', color: func.colorType(event?.settings?.primary_color) }}
                         colorScheme="primary"
                         onPress={() => {
                           SaveMykerwords(mykeywords);
@@ -215,7 +218,7 @@ const ManageKeywords = ({keywords, SaveMykerwords, UpdatingMyKeywords}:{keywords
                         isLoading={UpdatingMyKeywords}
                         isDisabled={UpdatingMyKeywords}
                         shadow="1"
-                        _text={{ fontWeight: 600, fontSize: '2xl' }}
+                        _text={{ fontWeight: 600, fontSize: '2xl', color: func.colorType(event?.settings?.primary_color) }}
                         colorScheme="primary"
                         onPress={() => {
                           SaveMykerwords(mykeywords);
@@ -247,9 +250,10 @@ const CheckboxWrapp = ({ title, checked, addMyKeyword}: checkboxProps) => {
         mb="3"
         _hover={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
         _pressed={{ bg: checked ? 'primary.500' : 'primary.darkbox' }}
-        _text={{ fontSize: 'lg' }}
+        _text={{ fontSize: 'lg', color: checked ? 'primary.hovercolor' : 'primary.text' }}
+        _icon={{color: checked ? 'primary.hovercolor' : 'primary.text'}}
         rounded="20px"
-        leftIcon={<Icon color={'primary.hovercolor'} as={AntDesign} name={checked ? 'check' : 'plus'} />}
+        leftIcon={<Icon  as={AntDesign} name={checked ? 'check' : 'plus'} />}
         onPress={() => {
             addMyKeyword();
         }}
