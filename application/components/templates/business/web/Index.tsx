@@ -80,11 +80,13 @@ export default Index
 
 const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchAttendees, setEnableFilter }: { keywords: Keyword[], searchMatchAttendees: Attendee[] | null, FetchSearchMatchAttendees: (payload: any) => void,  setEnableFilter: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const { event, modules } = UseEventService();
-  const { processing } = UseLoadingService();
+  const { processing, loading } = UseLoadingService();
 
   const [searchTerm, setSearchTerm] = useState("");
 
   const [mySearchkeywords, setMySearchKeywords] = useState([]);
+  const [searching, setSearching] = useState<boolean>(false);
+  const [filteredAttendees, setFilteredAttendees] = useState<Attendee[]>([]);
 
   const processKeywords = (keywords: any) => {
     return keywords?.reduce((ack: any, item: any) => {
@@ -108,10 +110,24 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
     setMySearchKeywords(newSearchKeywords);
   }, [keywords]);
 
-  const filteredAttendees = (searchMatchAttendees?.filter((attendee) =>
-    attendee?.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    attendee?.last_name?.toLowerCase().includes(searchTerm.toLowerCase())
-  )) || [];
+  useEffect(() => {
+    const performSearch = async () => {
+      if (searchTerm.length > 0) {
+        setSearching(true);
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const filteredAttendees = (searchMatchAttendees?.filter((attendee) =>
+          attendee?.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          attendee?.last_name?.toLowerCase().includes(searchTerm.toLowerCase())
+        )) || [];
+        await setFilteredAttendees(filteredAttendees);
+        await new Promise(resolve => setTimeout(resolve, 500)); // Adding delay before setting searching to false
+        setSearching(false);
+      } else {
+        setFilteredAttendees(searchMatchAttendees || []);
+      }
+    };
+    performSearch();
+  }, [searchTerm, searchMatchAttendees]);
 
   useEffect(() => {
     if (mySearchkeywords.length > 0) {
@@ -136,7 +152,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
           </Pressable>
         </View>
       </HStack>
-      {in_array('keywords', processing) ? <SectionLoading /> : <>
+      {in_array('keywords',processing) || searching || loading || !searchMatchAttendees ? <SectionLoading /> : <>
         <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {filteredAttendees && filteredAttendees?.map((attendee: Attendee, k: number) =>
             <React.Fragment key={`${k}`}>
