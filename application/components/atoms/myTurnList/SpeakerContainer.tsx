@@ -6,6 +6,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService'
 import useRequestToSpeakService from 'application/store/services/useRequestToSpeakService';
+import { func } from 'application/styles';
 
 interface SpeakerContainerProps {
   currentAttendee: any
@@ -137,8 +138,8 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
 
         {timeSpent && settings?.display_time ?
           <HStack bg={"secondary.100"} height={'43px'} width={'100%'} justifyContent={'center'} roundedBottom={'10px'} alignItems={'center'}>
-            <DynamicIcon iconType={'checkIn'} iconProps={{ width: 24, height: 24 }} />
-            <Text fontSize={'2xl'} ml={'6px'} fontWeight={'semibold'}>{timeSpent}</Text>
+            <DynamicIcon iconType={'checkIn'} iconProps={{ width: 24, height: 24, color: func.colorType(event?.settings?.secondary_color) ? func.colorType(event?.settings?.secondary_color) : undefined }} />
+            <Text color={'primary.bordersecondary'} fontSize={'2xl'} ml={'6px'} fontWeight={'semibold'}>{timeSpent}</Text>
           </HStack>
         : null}
       </View>
