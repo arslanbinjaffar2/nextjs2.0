@@ -175,7 +175,7 @@ const Index = ({ speaker, screen }: Props) => {
     React.useEffect(() => {
         FetchBanners();
     }, []);
-
+  const hasValidRecords = groups.some(group => group.info?.name);
     console.log(screen);
     return (
         <>
@@ -360,20 +360,46 @@ const Index = ({ speaker, screen }: Props) => {
                                         </React.Fragment>
                              )}
                         </Container>}
-                        {(tab === 'group' || tab === 'sub-group') && <Container mb="3" pt={3} rounded="10" bg="primary.box" w="100%" maxW="100%">
-                            {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
-                                <React.Fragment key={`item-box-group-${k}`}>
-                                    {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">{map?.letter}</Text>
-                                    )}
-                                    {map?.records?.map((group: Group, k: number) =>
-                                        <React.Fragment key={`${k}`}>
-                                            <RectangleGroupView group={group} k={k} border={map?.records.length === 1 ? 0 : map?.records.length > 1 && k ===  map?.records.length -1 ? 0 : 1 } updateTab={updateTab} />
+                       
+                        {(tab === 'group' || tab === 'sub-group') && (
+                            <Container mb="3" pt={3} rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                {hasValidRecords ? (
+                                    GroupAlphabatically(groups, 'info').map((groupData: any, groupIndex: number) => (
+                                        <React.Fragment key={`group-box-${groupIndex}`}>
+                                            {groupData?.letter && (
+                                                <Text
+                                                    roundedTop={groupIndex === 0 ? 10 : 0}
+                                                    w="100%"
+                                                    pl="18px"
+                                                    bg="primary.darkbox"
+                                                >
+                                                    {groupData.letter}
+                                                </Text>
+                                            )}
+                                            {groupData?.records?.map((group: Group, recordIndex: number) =>
+                                                group.info.name ? (
+                                                    <RectangleGroupView
+                                                        key={`rectangle-view-${recordIndex}`}
+                                                        group={group}
+                                                        k={recordIndex}
+                                                        border={groupData.records.length === 1 ? 0
+                                                                : groupData.records.length > 1 && recordIndex === groupData.records.length - 1
+                                                                ? 0
+                                                                : 1
+                                                        }
+                                                        updateTab={updateTab}
+                                                    />
+                                                ) : null
+                                            )}
                                         </React.Fragment>
-                                    )}
-                                </React.Fragment>
-                            )}
-                        </Container>}
+                                    ))
+                                ) : (
+                                    <Box p="3">
+                                        <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                    </Box>
+                                )}
+                            </Container>
+                        )}
                         {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
