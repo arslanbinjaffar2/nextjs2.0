@@ -16,7 +16,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import in_array from "in_array";
-import { colors } from 'application/styles';
+import { colors, func } from 'application/styles';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
@@ -37,7 +37,7 @@ const Index = () => {
   }, [])
 
   const module = modules.find((module) => module.alias === 'business');
-  console.log(enableFilter)
+
   return (
     <>
       <NextBreadcrumbs module={module} />
@@ -79,6 +79,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
 
   const [searchTerm, setSearchTerm] = useState("");
 
+  const  [innerLoader, setinnerLoader] = useState(true);
   const [mySearchkeywords, setMySearchKeywords] = useState([]);
 
   const processKeywords = (keywords:any) => {
@@ -110,13 +111,15 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
 
   useEffect(() => {
     if (mySearchkeywords.length > 0) {
+      setinnerLoader(true);
       FetchSearchMatchAttendees(mySearchkeywords);
+      setinnerLoader(false);
     }
   }, [mySearchkeywords]);
 
   return (
     <>
-      <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
+     {in_array('keywords',processing) || innerLoader ? <SectionLoading /> : <> <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
         <Text fontSize="2xl">{event?.labels?.GENERAL_NETWORK_INTEREST_MATCHED_ATTENDEES ?? modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
         <View flexDirection={'row'} alignItems={'center'} w={['100%', '60%']} justifyContent={'space-between'}
         style={{ gap:8 }}
@@ -131,7 +134,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
           </Pressable>
         </View>
       </HStack>
-      {in_array('keywords',processing) ? <SectionLoading /> : <>
+      
         <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {filteredAttendees && filteredAttendees?.map((attendee: Attendee, k: number) =>
             <React.Fragment key={`${k}`}>
@@ -222,8 +225,8 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
   return (
     <>
       {showAttendees ? (
-        <Container pt="2" maxW="100%" w="100%" >
-         <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
+        <Container pt="0" maxW="100%" w="100%" >
+         <HStack display={["block", "flex"]} mb="3" pt="0" w="100%" alignItems="center" justifyContent={'space-between'}>
         <Text fontSize="2xl">{event?.labels?.GENERAL_NETWORK_INTEREST_MATCHED_ATTENDEES ?? modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
 
         </HStack>
@@ -253,11 +256,11 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
           </Box>}
         </Container>
 
-      ) : (<Container pt="2" maxW="100%" w="100%">
+      ) : (<Container pt="0" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
           <Text fontSize="2xl">{modules?.find((network) => (network.alias == 'business'))?.name ?? ""}</Text>
           <Pressable rounded="10" bg="primary.500" p={'8px'} onPress={() => setEnableFilter(false)}>
-            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22}} />
+            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22, color: func.colorType(event?.settings?.secondary_color) ? func.colorType(event?.settings?.secondary_color) : undefined}} />
           </Pressable>
         </HStack>
         <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
