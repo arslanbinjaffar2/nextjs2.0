@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectFloorPlans, FloorPlanActions, SelectFloorPlanSponsorCount, SelectFloorPlanDetail, SelectFloorPlanLabels, SelectFloorPlanCategories, SelectFloorPlanExhibitorCount,  } from 'application/store/slices/FloorPlan.Slice'
+import { SelectFloorPlans, FloorPlanActions, SelectFloorPlanSponsorCount, SelectFloorPlanDetail, SelectFloorPlanLabels, SelectFloorPlanCategories, SelectFloorPlanExhibitorCount,SelectFloorPlanisLoading  } from 'application/store/slices/FloorPlan.Slice'
 
 import {  FloorPlan, FloorPlanCategory, FloorPlanDetail } from 'application/models/floorPlans/FloorPlans'
 
@@ -15,7 +15,8 @@ export type FloorPlanServiceOperators = {
     labels: any;
     categories: FloorPlanCategory[];
     FetchFloorPlans: () => void,
-    FetchFloorPlanDetail: (payload: { id: number }) => void
+    FetchFloorPlanDetail: (payload: { id: number }) => void,
+    isLoading: boolean
 }
 
 /**
@@ -33,6 +34,7 @@ export const UseFloorPlanService = (): Readonly<FloorPlanServiceOperators> => {
         exhibitorCount: useAppSelector(SelectFloorPlanExhibitorCount),
         detail: useAppSelector(SelectFloorPlanDetail),
         labels: useAppSelector(SelectFloorPlanLabels),
+        isLoading: useAppSelector(SelectFloorPlanisLoading),
         categories: useAppSelector(SelectFloorPlanCategories),
         FetchFloorPlans: useCallback(
             () => {

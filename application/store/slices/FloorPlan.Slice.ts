@@ -16,6 +16,7 @@ export interface FloorPlanState {
     sponsorCount: number;
     exhibitorCount: number;
     labels: any;
+    isLoading: boolean
 }
 
 const initialState: FloorPlanState = {
@@ -26,6 +27,7 @@ const initialState: FloorPlanState = {
     exhibitorCount: 0,
     labels: [],
     categories: [],
+    isLoading: true,
 }
 
 // Slice
@@ -40,6 +42,8 @@ export const FloorPlanSlice = createSlice({
             state.categories = action.payload.filters;
             state.sponsorCount = action.payload.sponsorCount;
             state.exhibitorCount = action.payload.exhibitorCount;
+            state.isLoading = false;
+           
         },
         FetchFloorPlanDetail(state, action: PayloadAction<{ id: number }>) {},
         updateFloorPlanDetail(state, action: PayloadAction<{ floor_plan: FloorPlanDetail }>) {
@@ -74,6 +78,8 @@ export const SelectFloorPlanDetail = (state: RootState) => state.floorPlans.deta
 export const SelectFloorPlanLabels = (state: RootState) => state.floorPlans.labels
 
 export const SelectFloorPlanCategories = (state: RootState) => state.floorPlans.categories
+
+export const SelectFloorPlanisLoading = (state: RootState) => state.floorPlans.isLoading
 
 
 
