@@ -63,6 +63,37 @@ import {
 import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
+const ReduceMemory = ({value,handleChange}:any) => {
+	const [editorValue, seteditorValue] = React.useState(value);
+	useEffect(() => {
+		handleChange('about', editorValue)
+	}, [editorValue])
+
+		return (
+				<>
+						<EditorProvider>
+							<Editor  style={{width: '100%'}} value={editorValue} onChange={(e) => seteditorValue(e.target.value)}>
+												<Toolbar>
+													<BtnUndo />
+													<BtnRedo />
+													<Separator />
+													<BtnBold />
+													<BtnItalic />
+													<BtnUnderline />
+													<BtnStrikeThrough />
+													<Separator />
+													<BtnNumberedList />
+													<BtnBulletList />
+													<Separator />
+													<BtnLink />
+													<BtnClearFormatting />
+													<HtmlButton />
+											</Toolbar>
+							</Editor>
+			</EditorProvider>
+				</>
+		)
+}
 
 const index = () => {
 
@@ -247,6 +278,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     };
 
     const updateAttendeeInfoFeild = useDebouncedCallback((name: string, value: any) => {
+			console.log('first', value)
         setAttendeeData({
             ...attendeeData,
             info: {
@@ -463,27 +495,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center overflow={'hidden'} justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Text  w={'100%'} color={'primary.text'} fontSize="md">
                                     <Box opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'} pointerEvents={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? 'auto' : 'none'} w={'100%'} bg="primary.darkbox" rounded={8}>
-                                        <EditorProvider>
-                                            <Editor  style={{width: '100%'}} defaultValue={attendeeData?.info?.about} onChange={(e) => {
-                                                updateAttendeeInfoFeild('about', e.target.value); }}  >
-                                                     <Toolbar>
-                                                        <BtnUndo />
-                                                        <BtnRedo />
-                                                        <Separator />
-                                                        <BtnBold />
-                                                        <BtnItalic />
-                                                        <BtnUnderline />
-                                                        <BtnStrikeThrough />
-                                                        <Separator />
-                                                        <BtnNumberedList />
-                                                        <BtnBulletList />
-                                                        <Separator />
-                                                        <BtnLink />
-                                                        <BtnClearFormatting />
-                                                        <HtmlButton />
-                                                    </Toolbar>
-                                            </Editor>
-                                    </EditorProvider>
+                                        <ReduceMemory value={attendee.info.about} handleChange={updateAttendeeInfoFeild} />
                                     </Box>
                                     
                                 </Text>
