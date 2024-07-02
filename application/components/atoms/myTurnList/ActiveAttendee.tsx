@@ -98,8 +98,8 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const submitRequestToSpeak = () => {
 
-        let action = userStatus === 'pending' || userStatus === 'accepted' ? 'cancel' : 'request';
-        if(action === 'request' && settings?.ask_to_speak_notes === 1){
+        let action = userStatus === "pending" || userStatus === "accepted" ? "cancel" : "request";
+        if(action === "request" && settings?.ask_to_speak_notes === 1){
             setNoteBox(true)
         }else{
             setSendRequest(!sendRequest)
