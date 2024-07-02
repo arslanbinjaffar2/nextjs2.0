@@ -115,11 +115,11 @@ const Index = ({dashboard}:IndexProps) => {
         if(!tab || tab == '') return;
         let pageNo = loadMore ? page + 1 : 1;
         if(tab == 'program' || tab == 'my-program'){
-            if(!loadMore){
-                ResetTracks();
-                FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
-            }
-            FetchPrograms({ page: pageNo, query: '', screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: track_id });
+            // if(!loadMore){
+            //     ResetTracks();
+            //     FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
+            // }
+            FetchPrograms({ page: pageNo, query: '', screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
         }else if(tab == 'track'){
             FetchTracks({ page: pageNo, query: '', screen: tab, track_id: 0 });
         }
@@ -198,16 +198,11 @@ const Index = ({dashboard}:IndexProps) => {
                         <>
                         <Pressable
                             onPress={async () => {
-                                if (in_array(tab, ['track', 'track-program', 'sub-track'])) {
-                                FetchTracks({ page: 1, query: '', screen: tab, track_id: (track?.parent_id !== undefined ? track?.parent_id : 0) });
                                 if (tab === 'track-program') {
-                                    setTab('sub-track');
-                                }
-                                } else {
-                                FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
+                                    FetchPrograms({ page: 1, query: '', screen: 'program', id: 0, track_id: track?.parent_id ?? 0 });
                                 }
                             }}>
-                            <Text  fontSize="sm">{parent_track.name}</Text>
+                            <Text  fontSize="sm">{track?.parent?.name}</Text>
                         </Pressable>
                         <Icon color={'primary.text'} as={AntDesign} name="right"  />
                         <Text fontSize="sm">{track?.name}</Text>
@@ -219,12 +214,10 @@ const Index = ({dashboard}:IndexProps) => {
                     <Pressable
                     onPress={async () => {
                         if (in_array(tab, ['track', 'track-program', 'sub-track'])) {
-                        FetchTracks({ page: 1, query: '', screen: tab, track_id: (track?.parent_id !== undefined ? track?.parent_id : 0) });
-                        if (tab === 'track-program') {
-                            setTab('sub-track');
-                        }
+                            FetchTracks({ page: 1, query: '', screen: tab, track_id: 0 });
+                            setTab('track');
                         } else {
-                        FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
+                            FetchPrograms({ query: '', page: 1, screen: tab, id: tab === 'my-program' ? response?.data?.user?.id : 0, track_id: 0 });
                         }
                     }}>
                     <Text fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  />{event?.labels?.NATIVE_APP_LOADING_GO_BACK}</Text>

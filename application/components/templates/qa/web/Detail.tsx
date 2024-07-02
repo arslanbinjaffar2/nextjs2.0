@@ -71,6 +71,8 @@ const Detail = () => {
 
     const { response } = UseAuthService();
 
+    const { push } = useRouter()
+
 
     const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails, SubmitQa, SubmitQaLike, QaRecentPopularSocketUpdate, QaSort } = UseQaService();
     console.log(qaSettings?.paragraph_number)
@@ -237,6 +239,15 @@ const Detail = () => {
         setQuestion('');
         setSpeaker(null);
     }
+
+    const gdprSettings = event?.gdpr_settings;
+    const checkGdpr = () => {
+        if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 1) {
+            return response.attendee_detail?.event_attendee?.gdpr === 0;
+        }
+        return false;
+    }
+
     const module = modules.find((module) => module.alias === 'qa');
     return (
         <>
@@ -266,6 +277,16 @@ const Detail = () => {
                                         )}
                                     </HStack>
                                 </Box>
+                                {checkGdpr() === true ?
+                                    <Box p={3} bg="primary.box" rounded="lg" w="100%" display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
+                                        <Text>
+                                            {event?.labels?.GENERAL_GDPR_ACCEPT_TEXT}
+                                        </Text>
+                                        <Button onPress={() => { push(`/${event.url}/settings/editprofile`) }} width={'20%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
+                                            <Text fontWeight={'semibold'} fontSize={'md'} isTruncated textAlign={'center'}>{event?.labels?.GENERAL_EDIT_PROFILE}</Text>
+                                        </Button>
+                                    </Box>
+                                :
                                 <Box w="100%">
                                     <HStack pl={"3"} w="100%" bg="primary.darkbox" mb="3" alignItems="center">
                                         <Text fontSize="lg">{qaDetials.labels.QA_ASK_A_QUESTION ?? "Ask a Question"}</Text>
@@ -376,6 +397,7 @@ const Detail = () => {
                                         />
                                     </HStack>
                                 </Box>
+                                }
                                 {qaSettings?.qa_tabs == 1 && enabledTabs.length > 0 && <Box w="100%">
                                     <HStack px="3" space="0" alignItems="center" bg="primary.darkbox" mb="3">
                                         <HStack space="2" alignItems="center">
