@@ -125,7 +125,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             ) : null}
                             {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
                                 <Pressable onPress={() => { toggleFav() }}>
-                                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : undefined} />
+                                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : func.colorType(event?.settings?.primary_color)} />
                                 </Pressable>
                             )}
 
@@ -197,7 +197,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 maxWidth={'120px'}
                                 colorScheme="primary"
                                 onPress={() => { push(`/${event.url}/reservation/${detail?.detail?.id}`) }}>
-                                <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                                <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                             </Button>
                         )}
                     </HStack>
