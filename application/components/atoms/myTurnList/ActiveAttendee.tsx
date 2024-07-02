@@ -26,7 +26,6 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
     const userStatus = currentUserStatus.status;
 
     const [sendRequest, setSendRequest] = useState<boolean>(currentUserStatus.status === "pending" || currentUserStatus.status === "accepted" ? true : false)
-    console.log("🚀 ~ ActiveAttendee ~ sendRequest:", currentUserStatus)
     
     const [status, setStatus] = useState<boolean>(false)
     const [noteBox, setNoteBox] = useState<boolean>(false)
