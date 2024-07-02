@@ -20,13 +20,11 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
     const { event } = UseEventService();
     const { _env } = UseEnvService()
 
-
     const { FetchProgramTurnList, currentUserStatus } = useRequestToSpeakService();
 
     const userStatus = currentUserStatus.status;
 
-    const [sendRequest, setSendRequest] = useState<boolean>(currentUserStatus.status === "pending" || currentUserStatus.status === "accepted" ? true : false)
-    
+    const [sendRequest, setSendRequest] = useState<boolean>(userStatus === "pending" || userStatus === "accepted" ? true : false)
     const [status, setStatus] = useState<boolean>(false)
     const [noteBox, setNoteBox] = useState<boolean>(false)
     const [note, setNote] = useState<string>('')
@@ -105,6 +103,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
             setSendRequest(!sendRequest)
             RequestToSpeech({ agenda_id: program_id, action: action })
             setStatus(prev => !prev)
+            setNote('')
         }
     };
 
@@ -113,6 +112,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
         setSendRequest(!sendRequest)
         RequestToSpeech({ agenda_id: program_id, action: 'request', notes: note })
         setStatus(prev => !prev)
+        setNote('')
     }
 
     return (
