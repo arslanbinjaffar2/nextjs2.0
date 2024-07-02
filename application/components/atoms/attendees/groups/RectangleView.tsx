@@ -69,7 +69,7 @@ const RectangleView = ({ group, border, k, updateTab, navigation, isProgramDetai
                 }
             }
         }}>
-            <Box w="100%" borderBottomWidth={border === 0 ? 0 : 1} borderColor="primary.bordercolor" py="4">
+            <Box w="100%" borderTopWidth={border === 0 ? 0 : 1} borderColor="primary.bordercolor" py="4">
                 <HStack px="4" alignItems="flex-start" space={0} justifyContent="flex-start">
                     <HStack w="100%" space="5" alignItems="center" justifyContent="space-between">
                         <Avatar

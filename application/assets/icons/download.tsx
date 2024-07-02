@@ -25,7 +25,7 @@ const SVGComponent = (props: SvgProps) => {
                 />
             </ClipPath>
         </Defs>
-        <G id="Group_5634" data-name="Group 5634" >
+        <G id="Group_5634" data-name="Group 5634">
             <Path
                 id="Path_2358"
                 data-name="Path 2358"
