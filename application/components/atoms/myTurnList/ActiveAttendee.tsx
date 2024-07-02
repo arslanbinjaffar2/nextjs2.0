@@ -86,7 +86,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
     };
 
     const renderDetails = () => {
-        const fields = getVisibleFieldsWithValues(); // Add more fields if needed
+        const fields = getVisibleFieldsWithValues();
         return fields.map((field: any) => {
             const value = getValueFromAttendeeInfo(field);
             if (value) {
