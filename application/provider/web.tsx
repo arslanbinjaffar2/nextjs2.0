@@ -85,8 +85,10 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
            const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
            const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
            const rgb2 = hex2rgb(event?.settings?.secondary_color ?? '#343d50');
+           const rgb3 = hex2rgb(event?.settings?.app_background_color ?? '#343d50');
            const type = colourIsLight(rgb[0],rgb[1],rgb[2]) ? '#1e1e1e' : '#EAEAEA';
            const type2 = colourIsLight(rgb2[0],rgb2[1],rgb2[2]) ? '#1e1e1e' : '#EAEAEA';
+           const type3 = colourIsLight(rgb3[0],rgb3[1],rgb3[2]) ? '#1e1e1e' : '#EAEAEA';
            const _border = hex2rgb(colors.text);
            const theme = extendTheme({
             colors: {
@@ -106,6 +108,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     boxsolid: `rgba(${[...colors.background]},1)`,
                     bordersecondary: `${type2}`,
                     boxsolidtext: `${colors.darkboxtext}`,
+                    backgroundtext: `${type3}`,
                     hovercolor: `${type}`,
                     darkbox: `rgba(0,0,0,0.2)`,
                     toastbg:`rgba(0,0,0,0.7)`,
