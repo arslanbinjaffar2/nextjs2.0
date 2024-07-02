@@ -152,7 +152,7 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
           </Pressable>
         </View>
       </HStack>
-      {in_array('keywords',processing) || searching || loading || !searchMatchAttendees ? <SectionLoading /> : <>
+      {in_array('keywords',processing) || searching || loading ? <SectionLoading /> : <>
         <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {filteredAttendees && filteredAttendees?.map((attendee: Attendee, k: number) =>
             <React.Fragment key={`${k}`}>
