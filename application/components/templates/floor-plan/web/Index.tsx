@@ -12,6 +12,7 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import IcoSort from 'application/assets/icons/small/IcoSort';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { colorText } from 'application/styles/colors';
 const Index = () => {
   const { loading } = UseLoadingService();
   const { push, back } = useRouter()
@@ -88,7 +89,6 @@ const Index = () => {
   useEffect(() => {
     filterFloorPlans();
   },[search]);
- console.log(selectedCategories)
   return (
     <>
       {
@@ -110,12 +110,13 @@ const Index = () => {
                   h={'40px'}
                   bg={toggle ? 'primary.500' : 'primary.box'}
                   colorScheme="primary"
+                  
                   onPress={()=>{
                    setToggle(!toggle)
                   }}
                  
                  >
-                  <IcoSort width="20px" height="18px" />
+                  <IcoSort width="20px" height="18px" color={colorText(event.settings?.app_text_mode as string)}/>
                  </Button>
                  
                 </HStack>

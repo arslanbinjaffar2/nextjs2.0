@@ -25,6 +25,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import { colorText } from 'application/styles/colors';
 
 type ScreenParams = { slug: any }
 
@@ -252,6 +253,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     setBreadcrumbs([]);
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'attendee'))
                                 }} 
+                              
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                
                             >
@@ -274,7 +276,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                         borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
                                         bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
                                         w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
-                                        _text={{ fontWeight: '600' }}
+                                        _text={{ fontWeight: '600',color:`${colorText(event.settings?.app_text_mode as string)}` }}
                                     >
                                         {modules?.find((module) => (module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
                                     </Button>
@@ -318,6 +320,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     setBreadcrumbs([]);
                                 }} 
                                 bg={tab === 'category' || tab === 'sub-category' || tab === 'category-attendee' ? 'primary.boxbutton' : 'primary.box'} 
+                                
                             >
                                {event?.labels?.SPEAKER_CATEGORY}
                             </ButtonElement>
@@ -343,7 +346,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                         </>
                     )}
 
-                    {console.log((tab === 'category' || tab === 'sub-category' || tab === 'category-attendee'))}
                       {(tab === 'category' || tab === 'sub-category' || tab === 'category-attendee') && categoryBreadcrumbs.length > 0 && (
                         <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
                             <Text flex="1" textTransform="uppercase" fontSize="sm">

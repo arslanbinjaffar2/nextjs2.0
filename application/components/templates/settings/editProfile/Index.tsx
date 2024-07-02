@@ -23,7 +23,7 @@ import { Event } from 'application/models/Event';
 
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
 
-import { getColorScheme } from 'application/styles/colors';
+import { colorText, getColorScheme } from 'application/styles/colors';
 
 import { GENERAL_DATE_FORMAT } from 'application/utils/Globals'
 
@@ -1118,12 +1118,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image : `${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
                                                     : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
                                             </Center>
-                                            <Button w={150} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
+                                            <Button w={150} px={4} py={3} leftIcon={<Icon as={AntDesign} color={colorText(event.settings?.app_text_mode as string)} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
                                                 if (inputFileRef.current) {
                                                     inputFileRef.current.click();
                                                 }
                                             }}
                                                 size={'lg'}
+                                                _text={{  color:`${colorText(event.settings?.app_text_mode as string)}` }}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>
@@ -1184,7 +1185,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
                                             </Center>
 
-                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
+                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={colorText(event.settings?.app_text_mode as string)} name="upload" size="lg" />}
                                                 isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                 onPress={() => {
                                                     if (inputresumeFileRef.current) {
@@ -1192,6 +1193,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     }
                                                 }}
                                                 size={'lg'}
+                                                _text={{  color:`${colorText(event.settings?.app_text_mode as string)}` }}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>
@@ -1332,6 +1334,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                     shadow={3}
                     colorScheme="primary"
                     isLoading={updatingAttendee}
+                    _text={{  color:`${colorText(event.settings?.app_text_mode as string)}` }}
                     onPress={() => {
                         updateAttendeeData();
                         

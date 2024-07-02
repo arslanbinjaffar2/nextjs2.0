@@ -13,6 +13,7 @@ import { useSearchParams, usePathname } from 'next/navigation'
 
 import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
+import { colorText } from 'application/styles/colors'
 
 type boxItemProps = {
   attendee: Attendee
@@ -136,7 +137,9 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     maxWidth={'120px'}
                     colorScheme="primary"
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text textAlign="center" isTruncated width="95px" 
+                    color={colorText(event.settings?.primary_color ||'')}
+                    >{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
               )}
@@ -150,7 +153,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     colorScheme="primary"
 
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text textAlign="center" isTruncated width="95px"  color={colorText(event.settings?.primary_color ||'')}>{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
                   

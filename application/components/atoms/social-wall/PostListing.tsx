@@ -12,6 +12,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService'
 import NoRecordFound from '../NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { colorText } from 'application/styles/colors';
 
 type AppProps = {
   attendee_id: number,
@@ -64,9 +65,9 @@ const PostListing = ({ attendee_id }: AppProps) => {
                                 </HStack>
                             </Pressable>;
                     }}>
-                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>{labels?.SOCIAL_WALL_LATEST_POSTS}</Menu.Item>
-                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>{labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS}</Menu.Item>
-                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>{labels?.SOCIAL_WALL_MOST_LIKES}</Menu.Item>
+                        <Menu.Item _text={{color: `${colorText(event.settings?.app_text_mode || 'primary.boxsolidtext')}`}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>{labels?.SOCIAL_WALL_LATEST_POSTS}</Menu.Item>
+                        <Menu.Item _text={{color: `${colorText(event.settings?.app_text_mode || 'primary.boxsolidtext')}`}} _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>{labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS}</Menu.Item>
+                        <Menu.Item _text={{color: `${colorText(event.settings?.app_text_mode || 'primary.boxsolidtext')}`}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>{labels?.SOCIAL_WALL_MOST_LIKES}</Menu.Item>
                       </Menu>
                     </Box>
                   </HStack>
