@@ -1,16 +1,9 @@
 import { SagaIterator } from '@redux-saga/core'
-
-import { call, put, takeEvery } from 'redux-saga/effects'
-
-import { getExhibitorApi, makeFavouriteApi, getExhibitorDetailApi, getMyExhibitorApi, getOurExhibitorApi,getContactExhibitorApi } from 'application/store/api/Exhibitor.api';
-
+import { call, put, takeEvery, select } from 'redux-saga/effects'
+import { getExhibitorApi, makeFavouriteApi, getExhibitorDetailApi, getMyExhibitorApi, getOurExhibitorApi, getContactExhibitorApi } from 'application/store/api/Exhibitor.api';
 import { ExhibitorActions } from 'application/store/slices/Exhibitor.Slice'
-
 import { LoadingActions } from 'application/store/slices/Loading.Slice'
-
 import { HttpResponse } from 'application/models/GeneralResponse'
-
-import { select } from 'redux-saga/effects';
 import { DocumentActions } from '../slices/Document.Slice';
 import { SponsorActions } from 'application/store/slices/Sponsor.Slice'
 
@@ -18,20 +11,26 @@ function* OnGetExhibitors({
     payload,
 }: {
     type: typeof ExhibitorActions.FetchExhibitors
-    payload: { category_id: number, query: string, screen: string }
+    payload: { category_id: number, page: number, query: string, screen: string }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 200 }, state)
+    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 5  }, state)
     if (payload.screen === 'our-exhibitors') {
         yield put(ExhibitorActions.updateOurExhibitors(response.data.data.exhibitors!))
-    }else if(payload.screen === 'my-exhibitors') {
+    } else if (payload.screen === 'my-exhibitors') {
         yield put(ExhibitorActions.updateMyExhibitors(response.data.data.exhibitors!))
     } else {
         yield put(ExhibitorActions.update(response.data.data.exhibitors!))
         yield put(ExhibitorActions.updateSiteLabels(response.data.data.labels!))
     }
-    yield put(ExhibitorActions.updateCategories(response.data.data.exhibitorCategories!))
+    console.log(response.data.data.exhibitorCategories?.exhibitorCategories,'hjghj');
+const { exhibitorCategories, total, total_pages } = response.data.data.exhibitorCategories;
+    yield put(ExhibitorActions.updateCategories({
+        categories: exhibitorCategories,
+        total,
+        total_pages
+    }));
     yield put(ExhibitorActions.updateSettings(response.data.data.settings!))
     yield put(ExhibitorActions.updateCategory(payload.category_id))
     yield put(ExhibitorActions.updateQuery(payload.query))
@@ -42,7 +41,7 @@ function* OnGetMyExhibitors({
     payload,
 }: {
     type: typeof ExhibitorActions.FetchMyExhibitors
-    payload: {}
+    payload: { page: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
@@ -56,12 +55,13 @@ function* OnGetOurExhibitors({
     payload,
 }: {
     type: typeof ExhibitorActions.FetchOurExhibitors
-    payload: {}
+    payload: { page: number }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getOurExhibitorApi,payload, state)
-    yield put(ExhibitorActions.updateOurExhibitors(response.data.data.exhibitors!))
+    const response: HttpResponse = yield call(getOurExhibitorApi, payload, state)
+    yield put(ExhibitorActions.updateOurExhibitors({ exhibitors: response.data.data.exhibitors!, page: payload.page }))
+    
     yield put(ExhibitorActions.updateSettings(response.data.data.settings!))
     yield put(LoadingActions.set(false));
 }
@@ -75,7 +75,7 @@ function* OnMakeFavourite({
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     if(payload.screen === "my-exhibitors") {
-        yield put(ExhibitorActions.FetchMyExhibitors({ }))
+        yield put(ExhibitorActions.FetchMyExhibitors({ page: 1 }))
     }
 }
 
@@ -94,6 +94,7 @@ function* OnGetExhibitorDetail({
     yield put(LoadingActions.set(false));
     yield put(LoadingActions.removeProcess({ process: 'exhibitor-detail' }))
 }
+
 function* OnGetExhibitorContact({
     payload,
 }: {
