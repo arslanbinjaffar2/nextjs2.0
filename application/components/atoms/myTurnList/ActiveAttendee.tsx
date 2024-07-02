@@ -24,7 +24,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const userStatus = currentUserStatus.status;
 
-    const [sendRequest, setSendRequest] = useState<boolean>(userStatus === "pending" || userStatus === "accepted" ? true : false)
+    const [sendRequest, setSendRequest] = useState<boolean>((userStatus === "pending" || userStatus === "accepted") ? true : false)
     const [status, setStatus] = useState<boolean>(false)
     const [noteBox, setNoteBox] = useState<boolean>(false)
     const [note, setNote] = useState<string>('')
@@ -137,7 +137,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                     {event?.labels?.GENERAL_STATUS}: {statusLabel}
                                 </Text>
                             }
-                            {renderDetails()}
+                            {userStatus !== "accepted" && renderDetails()}
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>

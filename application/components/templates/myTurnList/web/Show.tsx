@@ -120,7 +120,7 @@ const ShowTurnList = () => {
 
                         }
 
-                        {currentUser && checkGdpr() === false &&
+                        {currentUser && checkGdpr() === false && currentAttendee.status !== 'inspeech' &&
                             <ActiveAttendee
                                 activeAttendee={currentUser}
                                 program_id={Number(_programId)}
