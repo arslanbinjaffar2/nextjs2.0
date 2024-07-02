@@ -95,7 +95,7 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
     return fields.map((field: any) => {
       const value = getValueFromAttendeeInfo(field);
       if (value) {
-        return <Text key={field} textBreakStrategy='balanced' fontSize="lg">{value}</Text>;
+        return <Text color={'primary.hovercolor'} key={field} textBreakStrategy='balanced' fontSize="lg">{value}</Text>;
       }
       return null;
     });
@@ -103,11 +103,11 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
 
   return (
     <>
-      <View rounded={'10px'} bg={'primary.100'} width={'100%'} height={"auto"} flexDirection={'column'} justifyContent={'space-between'}>
+      <View  rounded={'10px'} bg={'primary.100'} width={'100%'} height={"auto"} flexDirection={'column'} justifyContent={'space-between'}>
         <View pl={'4'} pt={'4'} pr={'5'}>
 
           <HStack alignItems="start" width={'100%'} justifyContent={'space-between'}>
-          <Text fontSize={'sm'} flex={'1'}>
+          <Text color={'primary.hovercolor'} fontSize={'sm'} flex={'1'}>
               {isFieldVisible('delegate_number') && getValueFromAttendeeInfo('delegate_number') ? `Delegate Number# ${getValueFromAttendeeInfo('delegate_number')}` : ''}
             </Text>
             <Box alignSelf={'center'} flex={'1'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
@@ -121,18 +121,18 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
               >{getInitials(attendee?.first_name, attendee?.last_name)}</Avatar>
             </Box>
 
-            <Text fontSize={'sm'} flex={'1'}>
+            <Text color={'primary.hovercolor'} fontSize={'sm'} flex={'1'}>
               {isFieldVisible('network_group') && getValueFromAttendeeInfo('network_group') ? `Network group: ${getValueFromAttendeeInfo('network_group')}` : ''}
             </Text>
           </HStack>
           <HStack space="3" alignItems="center" flexDirection={'column'} mt={'8px'}>
             <Box flexDirection={'row'} alignItems={'center'}>
-              <Text fontSize={'lg'} fontWeight={'medium'}>{attendee?.first_name} {attendee?.last_name}</Text>
+              <Text color={'primary.hovercolor'} fontSize={'lg'} fontWeight={'medium'}>{attendee?.first_name} {attendee?.last_name}</Text>
             </Box>
             <Box alignItems={'center'}>
                 {renderDetails()}
             </Box>
-            <Text fontSize={'sm'} py={'10px'} mr={'14px'} color={'secondary.100'}>({event?.labels?.NOW_SPEAKING ?? "Speaking Now"})</Text>
+            <Text color={'primary.hovercolor'} fontSize={'sm'} py={'10px'} mr={'14px'} >({event?.labels?.NOW_SPEAKING ?? "Speaking Now"})</Text>
           </HStack>
         </View>
 
