@@ -17,8 +17,8 @@ const IcoSort = (props: SvgProps) => {
       id="filter_list_FILL0_wght100_GRAD0_opsz24"
       d="M180.344-655.792v-.909h3.279v.909Zm-4.773-5.649v-.909H188.4v.909ZM172-667.091V-668h20v.909Z"
       transform="translate(-171.5 668.5)"
-      fill={colors.text ? colors.text : '#fff'}
-      stroke={colors.text ? colors.text : '#fff'}
+      fill={props.color ? props.color : colors.text}
+      stroke={props.color ? props.color : colors.text}
       strokeWidth={1}
     />
   </Svg>
