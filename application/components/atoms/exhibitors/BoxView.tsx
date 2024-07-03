@@ -145,15 +145,18 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
 																					trigger={(triggerProps) => {
 																					return <Button
 																									bg={'transparent'}
+																									colorScheme={'unstyled'}
 																									px={1}
 																									py={0}
 																									mr={2}
+																									_text={{fontSize: 'sm', lineHeight: 24}}
+																									_hover={{_text: {color: 'primary.hovercolor'}}}
 																									position={'relative'}
 																									left={`${(measureText(exhibitor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(exhibitor?.categories[0]?.info.name, 14)) + 28 + (1 * 10)}px`}
 																									rounded={'full'}
 																									{...triggerProps}
 																								>
-																									<Text lineHeight={24} fontSize="sm" color={colorText(event.settings?.app_text_mode as string)}>{`+${ exhibitor.categories.length - 3}`}</Text>
+																									{`+${ exhibitor.categories.length - 3}`}
 																								</Button>
 																							}}>
 																					<Popover.Content borderColor={'primary.500'} bgColor={'primary.500'}>

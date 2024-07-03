@@ -13,6 +13,7 @@ import IcoSort from 'application/assets/icons/small/IcoSort';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import { colorText } from 'application/styles/colors';
+import { func } from 'application/styles';
 const Index = () => {
   const { loading } = UseLoadingService();
   const { push, back } = useRouter()
@@ -30,6 +31,7 @@ const Index = () => {
   const [filteredFloorPlans, setFilteredFloorPlans] = useState<FloorPlan[]>([]);
   const [filteredCategories, setFilteredCategories] = useState<FloorPlanCategory[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<FloorPlanCategory[]>([]);
+  const [hover, sethover] = useState(false);
 
 
   useEffect(()=>{
@@ -106,6 +108,7 @@ const Index = () => {
                  <Input rounded="10" w={'320px'} bg="primary.box" borderWidth={0} value={search} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setSearch} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                  <Spacer />
                  <Button
+                  onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} 
                   w={'42px'}
                   h={'40px'}
                   bg={toggle ? 'primary.500' : 'primary.box'}
@@ -116,7 +119,7 @@ const Index = () => {
                   }}
                  
                  >
-                  <IcoSort width="20px" height="18px" color={colorText(event.settings?.app_text_mode as string)}/>
+                  <IcoSort width="20px" height="18px" color={toggle || hover ? func.colorType(event?.settings?.primary_color) : undefined} />
                  </Button>
                  
                 </HStack>
