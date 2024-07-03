@@ -1217,10 +1217,10 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     <HStack w="100%">
                                         <VStack w={'100%'} space={2}>
                                             <Center mb={3} w="150px">
-                                                {typeof attendee.attendee_cv == 'string' ?
+                                                {typeof attendee.attendee_cv === 'string' && attendee.attendee_cv ? (
                                                     <Pressable
                                                         onPress={async () => {
-                                                            const url: any = `${_env.eventcenter_base_url}/event/${event.url}/settings/downloadResume/${attendeeData?.attendee_cv}`;
+                                                            const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${attendee.attendee_cv}`;
                                                             const supported = await Linking.canOpenURL(url);
                                                             if (supported) {
                                                                 await Linking.openURL(url);
@@ -1228,10 +1228,17 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                         }}>
                                                         <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
                                                     </Pressable>
-                                                    : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />}
-                                                {/* {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
-                                                    attendee.attendee_cv === 'string' ? <Text fontSize="md">{attendee.attendee_cv}</Text> :
-                                                        <Text fontSize="md">{attendeeData.attendee_cv}</Text>} */}
+                                                    ) : (
+                                                     <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
+                                                    )
+                                                }
+                                                {typeof attendee.attendee_cv === 'string' ? (
+                                                    <Text fontSize="md">{attendee.attendee_cv}</Text>
+                                                ) : typeof attendeeData.attendee_cv === 'object' ? (
+                                                    <Text fontSize="md">{attendeeData.attendee_cv.name}</Text>
+                                                ) : (
+                                                    <Text fontSize="md">{attendeeData.attendee_cv}</Text>
+                                                )}
 
 
                                             </Center>
