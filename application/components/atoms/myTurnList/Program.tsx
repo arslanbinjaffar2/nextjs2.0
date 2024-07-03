@@ -22,7 +22,7 @@ const ProgramContainer = ({ details }: { details: Program }) => {
             </>}
             <VStack maxW={['calc(100% - 148px)', 'calc(100% - 100px)']} space="1" width={'100%'}>
               <Text fontSize="md" lineHeight="22px" textBreakStrategy='simple' >
-                {details?.info?.topic}
+                {details?.info?.topic} 
               </Text>
               {details?.program_tracks?.length > 0 && event?.agenda_settings?.show_tracks == 1 && <>
                 <HStack alignItems="flex-start" justifyContent={'flex-start'} display={'flex'} flexWrap={'wrap'}>
