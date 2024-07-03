@@ -71,24 +71,13 @@ const Index = React.memo(() => {
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
-
-    useEffect(() => {
-        if (mounted.current) {
-            getTabData();
-        }
-    }, [tab]);
-
     useEffect(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
-
-    
-
     const loadMore = (loadMore = false) => {
         if (mounted.current) {
         let pageNo = page + 1 ;
-        console.log(page,'llllll')
         FetchExhibitors({ page: pageNo, category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors') ? categoryIdQueryParam : 0), query: '', screen: 'exhibitors' });
         }
     };
