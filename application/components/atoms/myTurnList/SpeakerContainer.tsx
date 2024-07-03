@@ -36,8 +36,6 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
           const duration = moment.duration(now.diff(speechStartTime));
           const formattedTime = `${duration.hours().toString().padStart(2, '0')} : ${duration.minutes().toString().padStart(2, '0')} : ${duration.seconds().toString().padStart(2, '0')}`;
           setTimeSpent(formattedTime);
-        } else {
-          setTimeSpent('00 : 00 : 00');
         }
       } else if (speechTime && !moderatorSpeechTime) {
         const endTime = speechStartTime.add(countDownTimeSeconds, 'seconds');
