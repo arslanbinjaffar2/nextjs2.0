@@ -1164,26 +1164,29 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                     <HStack w="100%">
                                         <VStack w={'100%'} space={2}>
-                                            <Center mb={3} w="150px">
-                                                {typeof attendee.attendee_cv == 'string' ?
-                                                    <Pressable
-                                                        onPress={async () => {
-                                                            const url: any = `${_env.eventcenter_base_url}/event/${event.url}/settings/downloadResume/${attendeeData?.attendee_cv}`;
-                                                            const supported = await Linking.canOpenURL(url);
-                                                            if (supported) {
-                                                                await Linking.openURL(url);
-                                                            }
-                                                        }}>
-                                                        <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
-                                                    </Pressable>
-                                                    : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />}
-                                                {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
-                                                    attendee.attendee_cv === 'string' ? <Text fontSize="md">{attendee.attendee_cv}</Text> :
-                                                        <Text fontSize="md">{attendeeData.attendee_cv}</Text>}
-
-
-                                            </Center>
-
+                                           <Center mb={3} w="150px">
+                                            {typeof attendee.attendee_cv === 'string' && attendee.attendee_cv ? (
+                                                <Pressable
+                                                    onPress={async () => {
+                                                        const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${attendee.attendee_cv}`;
+                                                        const supported = await Linking.canOpenURL(url);
+                                                        if (supported) {
+                                                            await Linking.openURL(url);
+                                                        }
+                                                    }}>
+                                                    <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
+                                                </Pressable>
+                                            ) : (
+                                                <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
+                                            )}
+                                            {typeof attendee.attendee_cv === 'string' ? (
+                                                <Text fontSize="md">{attendee.attendee_cv}</Text>
+                                            ) : typeof attendeeData.attendee_cv === 'object' ? (
+                                                <Text fontSize="md">{attendeeData.attendee_cv.name}</Text>
+                                            ) : (
+                                                <Text fontSize="md">{attendeeData.attendee_cv}</Text>
+                                            )}
+                                        </Center>
                                             <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
                                                 isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                 onPress={() => {
