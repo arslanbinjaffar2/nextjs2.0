@@ -24,7 +24,12 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const userStatus = currentUserStatus.status;
 
-    const [sendRequest, setSendRequest] = useState<boolean>((userStatus === "pending" || userStatus === "accepted") ? true : false)
+    const [sendRequest, setSendRequest] = useState<boolean>(false);
+
+    React.useEffect(() => {
+        setSendRequest(userStatus === "pending" || userStatus === "accepted");
+    }, [userStatus]);
+    
     const [status, setStatus] = useState<boolean>(false)
     const [noteBox, setNoteBox] = useState<boolean>(false)
     const [note, setNote] = useState<string>('')
