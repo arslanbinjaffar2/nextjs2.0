@@ -29,6 +29,7 @@ const Index = React.memo(() => {
     const tabQueryParam = searchParams.get('tab');
     const modeQueryParam = searchParams.get('mode');
     const categoryIdQueryParam = searchParams.get('category_id');
+    const [page, setPage] = useState(1);
     const createQueryString = React.useCallback(
         (name: string, value: string) => {
             const params = new URLSearchParams(searchParams.toString());
@@ -45,10 +46,10 @@ const Index = React.memo(() => {
     const [tab, setTab] = React.useState(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list);
     const [mode, setMode] = React.useState(modeQueryParam ? modeQueryParam : 'grid');
     const [searchQuery, setSearch] = React.useState('');
-    const { exhibitors, labels, categories, FetchExhibitors, category_id, query, page, total_pages } = UseExhibitorService();
+    const { exhibitors, labels, categories, FetchExhibitors, category_id, query, total_pages } = UseExhibitorService();
     const mounted = useRef(false);
     React.useEffect(() => {
-        FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: '', screen: 'exhibitors' });
+        FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: '', page: page, screen: 'exhibitors' });
         setTab(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list)
     }, [tabQueryParam])
 
@@ -185,11 +186,10 @@ const Index = React.memo(() => {
                 {console.log(total_pages,'okk')}
                 {console.log(page,'yesssss')}
              
-                {(in_array('exhibitors', processing)) && (page < total_pages) && total_pages > 1 && (
-                    
+                {(in_array('exhibitors', processing)) && (total_pages > 1) && (
                     <LoadMore />
                 )}
-                {!loading && !in_array('exhibitors', processing) && (page < total_pages) &&  total_pages > 1 && (
+                {!loading && !in_array('exhibitors', processing) && (total_pages > 1) && (
                     <>
                        {console.log('dfdfdfd')}
                         <IntersectionObserverComponent onIntersect={loadMore} />

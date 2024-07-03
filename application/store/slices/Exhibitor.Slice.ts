@@ -48,8 +48,6 @@ export const ExhibitorSlice = createSlice({
     reducers: {
         FetchExhibitors(state, action: PayloadAction<{ category_id: number, query: string, page?: number,  screen: string }>) {
             state.screen = action.payload.screen;
-            state.page = action.payload.page ? action.payload.page : 1;
-
         },
           
         FetchMyExhibitors(state, action: PayloadAction<{}>) {},
