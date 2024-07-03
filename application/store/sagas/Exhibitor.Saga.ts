@@ -11,10 +11,11 @@ function* OnGetExhibitors({
     payload,
 }: {
     type: typeof ExhibitorActions.FetchExhibitors
-    payload: { category_id: number, page: number, query: string, screen: string }
+    payload: { category_id: number, query: string, page?: number,  screen: string }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
+    console.log("🚀 ~ OnGetExhibitors ~ payload:", payload)
     const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 5  }, state)
     if (payload.screen === 'our-exhibitors') {
         yield put(ExhibitorActions.updateOurExhibitors(response.data.data.exhibitors!))
