@@ -12,7 +12,6 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import IcoSort from 'application/assets/icons/small/IcoSort';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
-import { colorText } from 'application/styles/colors';
 const Index = () => {
   const { loading } = UseLoadingService();
   const { push, back } = useRouter()
@@ -116,7 +115,7 @@ const Index = () => {
                   }}
                  
                  >
-                  <IcoSort width="20px" height="18px" color={colorText(event.settings?.app_text_mode as string)}/>
+                  <IcoSort width="20px" height="18px" color={'primary.text'} />
                  </Button>
                  
                 </HStack>

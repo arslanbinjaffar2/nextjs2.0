@@ -153,7 +153,7 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
 																									rounded={'full'}
 																									{...triggerProps}
 																								>
-																									<Text lineHeight={24} fontSize="sm" color={colorText(event.settings?.app_text_mode as string)}>{`+${ exhibitor.categories.length - 3}`}</Text>
+																									<Text lineHeight={24} fontSize="sm" >{`+${ exhibitor.categories.length - 3}`}</Text>
 																								</Button>
 																							}}>
 																					<Popover.Content borderColor={'primary.500'} bgColor={'primary.500'}>
