@@ -47,7 +47,6 @@ const Index = React.memo(() => {
     const [searchQuery, setSearch] = React.useState('');
     const { exhibitors, labels, categories, FetchExhibitors, category_id, query, page, total_pages } = UseExhibitorService();
     const mounted = useRef(false);
-
     React.useEffect(() => {
         FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: '', screen: 'exhibitors' });
         setTab(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list)
@@ -183,11 +182,16 @@ const Index = React.memo(() => {
                         <BannerAds module_name={'exhibitors'} module_type={'listing'} />
                     </>
                 )}
-                {(in_array('exhibitors', processing)) && page < total_pages && total_pages > 1 && (
+                {console.log(total_pages,'okk')}
+                {console.log(page,'yesssss')}
+             
+                {(in_array('exhibitors', processing)) && (page < total_pages) && total_pages > 1 && (
+                    
                     <LoadMore />
                 )}
-                {!loading && !in_array('exhibitors', processing) && (page < total_pages &&  total_pages > 1) && (
+                {!loading && !in_array('exhibitors', processing) && (page < total_pages) &&  total_pages > 1 && (
                     <>
+                       {console.log('dfdfdfd')}
                         <IntersectionObserverComponent onIntersect={loadMore} />
                     </>
                 )}
