@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { ExhibitorActions, SelectExhibitors, SelectExhibitorCategories, SelectExhibitorSettings, SelectExhibitorCategoryID, SelectExhibitorQuery, SelectExhibitorDetail, SelectOurExhibitors, SelectMyExhibitors ,SelectSiteLabel} from 'application/store/slices/Exhibitor.Slice'
+import { ExhibitorActions, SelectExhibitors,SelectPage,SelectTotalPages, SelectExhibitorCategories, SelectExhibitorSettings, SelectExhibitorCategoryID, SelectExhibitorQuery, SelectExhibitorDetail, SelectOurExhibitors, SelectMyExhibitors ,SelectSiteLabel} from 'application/store/slices/Exhibitor.Slice'
 
 import { Exhibitor } from 'application/models/exhibitor/Exhibitor'
 
@@ -13,6 +13,8 @@ import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 import { ExhibitorDetail } from 'application/models/exhibitor/ExhibitorDetail'
 
 export type ExhibitorServiceOperators = {
+    page: number
+    total_pages: number
     exhibitors: Exhibitor[]
     our_exhibitors: Exhibitor[]
     my_exhibitors: Exhibitor[]
@@ -22,7 +24,7 @@ export type ExhibitorServiceOperators = {
     detail: ExhibitorDetail|null
     category_id: number
     query: string
-    FetchExhibitors: (payload: { category_id: number, query: string, screen: string }) => void
+    FetchExhibitors: (payload: { category_id: number,page:number, query: string, screen: string }) => void
     FetchMyExhibitors: () => void
     FetchOurExhibitors: () => void
     FetchExhibitorDetail: (payload: { id: number }) => void
@@ -39,6 +41,8 @@ export const UseExhibitorService = (): Readonly<ExhibitorServiceOperators> => {
 
     return {
         exhibitors: useAppSelector(SelectExhibitors),
+        page: useAppSelector(SelectPage),
+        total_pages: useAppSelector(SelectTotalPages),
         labels: useAppSelector(SelectSiteLabel),
         our_exhibitors: useAppSelector(SelectOurExhibitors),
         my_exhibitors: useAppSelector(SelectMyExhibitors),
@@ -48,7 +52,7 @@ export const UseExhibitorService = (): Readonly<ExhibitorServiceOperators> => {
         query: useAppSelector(SelectExhibitorQuery),
         detail: useAppSelector(SelectExhibitorDetail),
         FetchExhibitors: useCallback(
-            (payload: { category_id: number, query: string, screen: string }) => {
+            (payload: { category_id: number,page: number, query: string, screen: string }) => {
                 dispatch(ExhibitorActions.FetchExhibitors(payload))
             },
             [dispatch],

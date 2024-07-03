@@ -14,6 +14,9 @@ import { SponsorSlice } from 'application/store/slices/Sponsor.Slice'
 export interface ExhibitorState {
     exhibitors: Exhibitor[],
     labels: any,
+    page: number,
+    total: number,
+    total_pages: number,
     our_exhibitors: Exhibitor[],
     my_exhibitors: Exhibitor[],
     categories: ExhibitorCategory[],
@@ -33,6 +36,8 @@ const initialState: ExhibitorState = {
     settings: {},
     category_id: 0,
     query: '',
+    page: 1,
+    total_pages: 1,
     screen: 'exhibitors',
     detail: null,
 }
@@ -42,9 +47,14 @@ export const ExhibitorSlice = createSlice({
     name: 'exhibitors',
     initialState,
     reducers: {
-        FetchExhibitors(state, action: PayloadAction<{ category_id: number, query: string, screen: string }>) {
+        FetchExhibitors(state, action: PayloadAction<{ category_id: number, query: string, page: number,  screen: string }>) {
             state.screen = action.payload.screen;
+            state.page = action.payload.page;
+        if ( state.page == null) {
+              state.page = 1
+            }
         },
+          
         FetchMyExhibitors(state, action: PayloadAction<{}>) {},
         FetchOurExhibitors(state, action: PayloadAction<{}>) {},
         FetchExhibitorDetail(state, action: PayloadAction<{ id: number }>) { },
@@ -68,8 +78,11 @@ export const ExhibitorSlice = createSlice({
         updateQuery(state, action: PayloadAction<string>) {
             state.query = action.payload;
         },
-        updateCategories(state, action: PayloadAction<ExhibitorCategory[]>) {
-            state.categories = action.payload;
+        updateCategories(state, action: PayloadAction<{ categories: ExhibitorCategory[], total: number, total_pages: number }>) {
+            console.log(action.payload.total,'fffff')
+            state.categories = action.payload.categories;
+            state.total = action.payload.total;
+            state.total_pages = action.payload.total_pages;
         },
         updateSettings(state, action: PayloadAction<ExhibitorSetting>) {
             state.settings = action.payload;
@@ -116,6 +129,8 @@ export const SelectExhibitorCategoryID = (state: RootState) => state.exhibitors.
 export const SelectExhibitorQuery = (state: RootState) => state.exhibitors.query
 
 export const SelectExhibitorDetail = (state: RootState) => state.exhibitors.detail
+export const SelectPage = (state: RootState) => state.exhibitors.page
 
+export const SelectTotalPages = (state: RootState) => state.exhibitors.total_pages
 // Reducer
 export default ExhibitorSlice.reducer
