@@ -76,10 +76,10 @@ export const ExhibitorSlice = createSlice({
         updateQuery(state, action: PayloadAction<string>) {
             state.query = action.payload;
         },
-        updateCategories(state, action: PayloadAction<{ categories: ExhibitorCategory[], total: number, total_pages: number }>) {
-            console.log(action.payload.total,'fffff')
+        updateCategories(state, action: PayloadAction<{ categories: ExhibitorCategory[], page: number, total_pages: number }>) {
+            console.log(action.payload.page,'fffff')
             state.categories = action.payload.categories;
-            state.total = action.payload.total;
+            state.page = action.payload.page;
             state.total_pages = action.payload.total_pages;
         },
         updateSettings(state, action: PayloadAction<ExhibitorSetting>) {

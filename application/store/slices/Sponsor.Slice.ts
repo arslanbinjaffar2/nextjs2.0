@@ -44,7 +44,7 @@ export const SponsorSlice = createSlice({
     name: 'sponsors',
     initialState,
     reducers: {
-        FetchSponsors(state, action: PayloadAction<{ category_id: number, query: string, screen: string, page: 1 }>) {
+        FetchSponsors(state, action: PayloadAction<{ category_id: number, query: string, screen: string}>) {
             state.screen = action.payload.screen;
         },
         FetchMySponsors(state, action: PayloadAction<{}>) {},
