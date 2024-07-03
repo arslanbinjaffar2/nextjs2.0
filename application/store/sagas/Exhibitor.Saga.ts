@@ -16,7 +16,7 @@ function* OnGetExhibitors({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     console.log("🚀 ~ OnGetExhibitors ~ payload:", payload)
-    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 5  }, state)
+    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 10  }, state)
     if (payload.screen === 'our-exhibitors') {
         yield put(ExhibitorActions.updateOurExhibitors(response.data.data.exhibitors!))
     } else if (payload.screen === 'my-exhibitors') {
