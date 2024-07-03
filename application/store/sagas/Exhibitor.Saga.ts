@@ -25,10 +25,10 @@ function* OnGetExhibitors({
         yield put(ExhibitorActions.updateSiteLabels(response.data.data.labels!))
     }
     console.log(response.data.data.exhibitorCategories?.exhibitorCategories,'hjghj');
-const { exhibitorCategories, total, total_pages } = response.data.data.exhibitorCategories;
+const { exhibitorCategories, page, total_pages } = response.data.data.exhibitorCategories;
     yield put(ExhibitorActions.updateCategories({
         categories: exhibitorCategories,
-        total,
+        page,
         total_pages
     }));
     yield put(ExhibitorActions.updateSettings(response.data.data.settings!))
