@@ -11,7 +11,7 @@ import { createParam } from 'solito';
 import WebLoading from 'application/components/atoms/WebLoading';
 import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { QaSettings } from 'application/models/qa/Qa';
 import UseSocketService from 'application/store/services/UseSocketService';
@@ -67,9 +67,13 @@ const Detail = () => {
 
     const { event, modules } = UseEventService();
 
+    const eventTimeZone = event?.timezone?.timezone;
+
     const [query, setQuery] = React.useState('');
 
     const { response } = UseAuthService();
+
+    const { push } = useRouter()
 
 
     const { qaDetials, qaSettings, FetchProgramDetail, FetchTabDetails, SubmitQa, SubmitQaLike, QaRecentPopularSocketUpdate, QaSort } = UseQaService();
@@ -219,8 +223,8 @@ const Detail = () => {
             QA_MODERATOR_LINE_NUMBER: 'Line number',
             answered: 0,
             allLanguages: JSON.stringify(qaDetials.all_languages),
-            created_at: moment().toDate(),
-            updated_at: moment().toDate(),
+            created_at: moment().tz(eventTimeZone).format('YYYY-MM-DD HH:mm:ss'),
+            updated_at: moment().tz(eventTimeZone).format('YYYY-MM-DD HH:mm:ss'),
             language_id: event.language_id,
             base_url: _env.eventcenter_base_url,
             enable_gdpr: event?.gdpr_settings?.enable_gdpr,
@@ -236,8 +240,16 @@ const Detail = () => {
         setLineNumber('');
         setQuestion('');
         setSpeaker(null);
-
     }
+
+    const gdprSettings = event?.gdpr_settings;
+    const checkGdpr = () => {
+        if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 1) {
+            return response.attendee_detail?.event_attendee?.gdpr === 0;
+        }
+        return false;
+    }
+
     const module = modules.find((module) => module.alias === 'qa');
     return (
         <>
@@ -267,6 +279,16 @@ const Detail = () => {
                                         )}
                                     </HStack>
                                 </Box>
+                                {checkGdpr() === true ?
+                                    <Box p={3} bg="primary.box" rounded="lg" w="100%" display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
+                                        <Text>
+                                            {event?.labels?.GENERAL_GDPR_ACCEPT_TEXT}
+                                        </Text>
+                                        <Button onPress={() => { push(`/${event.url}/settings/editprofile`) }} width={'20%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
+                                            <Text fontWeight={'semibold'} fontSize={'md'} isTruncated textAlign={'center'}>{event?.labels?.GENERAL_EDIT_PROFILE}</Text>
+                                        </Button>
+                                    </Box>
+                                :
                                 <Box w="100%">
                                     <HStack pl={"3"} w="100%" bg="primary.darkbox" mb="3" alignItems="center">
                                         <Text fontSize="lg">{qaDetials.labels.QA_ASK_A_QUESTION ?? "Ask a Question"}</Text>
@@ -274,7 +296,7 @@ const Detail = () => {
                                     {error && <Box mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
                                         <Text color="red.400"> {error} </Text>
                                     </Box>}
-                                    {qaDetials?.speakers?.length > 0 && <HStack px={3} w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
+                                    {qaSettings?.enable_speaker_on_qa === 1 && qaDetials?.speakers?.length > 0 && <HStack px={3} w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
                                         <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER ?? "Select Speaker"}</Text>
                                         <Center alignItems={'flex-start'} justifyContent={'flex-start'} p="0" w={'70%'}>
                                             <View w={'100%'} >
@@ -305,7 +327,7 @@ const Detail = () => {
                                         <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                                             <View w={'100%'}  >
                                                 {qaDetials?.paragraph?.length > 0 ?
-                                                <CustomSelect initialiState={paragraph} qaDetials={qaDetials}>
+                                                    <CustomSelect initialiState={paragraph} qaDetials={qaDetials}>
                                                     <Select
                                                         placeholder={qaDetials.labels.QA_SELECT_PARAGRAPH}
                                                         w="100%"
@@ -377,6 +399,7 @@ const Detail = () => {
                                         />
                                     </HStack>
                                 </Box>
+                                }
                                 {qaSettings?.qa_tabs == 1 && enabledTabs.length > 0 && <Box w="100%">
                                     <HStack px="3" space="0" alignItems="center" bg="primary.darkbox" mb="3">
                                         <HStack space="2" alignItems="center">

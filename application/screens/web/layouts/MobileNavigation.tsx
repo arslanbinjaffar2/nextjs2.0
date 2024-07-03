@@ -1,6 +1,6 @@
 import React from 'react';
 import {  useWindowDimensions } from 'react-native';
-import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon, VStack } from 'native-base'
+import { Box, View, Pressable, Text, HStack, Center, IconButton, Icon, VStack, Spacer, Tooltip } from 'native-base'
 import { SafeAreaView } from "react-native-safe-area-context";
 import Slider from "react-slick";
 import IcoDashboard from 'application/assets/icons/IcoDashboard';
@@ -25,6 +25,7 @@ const MobileNavigation = () => {
   const _dimension = width > 480 ? 4 : 2;
   const [rightArrow, setrightArrow] = React.useState<number>(module_lenght > _dimension ? module_lenght : 0)
   const sliderRef = React.useRef<Slider>(null);
+  
    const settings = {
       dots: false,
       arrows: false,
@@ -48,6 +49,7 @@ const MobileNavigation = () => {
       }
     ]
     };
+  const showOnDashboardExists = modules.some(module => module.show_on_dashboard === 1);
   return (
     <React.Fragment>
     {module_lenght > 0 && <SafeAreaView edges={['left']}>
@@ -62,9 +64,7 @@ const MobileNavigation = () => {
                 sliderRef.current.slickPrev();
               }
             }}
-            
           />}
-          
           
         </Center>
          <View mb={[0,0]} w={[width - 130,"510px"]}>
@@ -113,7 +113,6 @@ const MobileNavigation = () => {
                 sliderRef.current.slickNext();
               }
             }}
-
           />}
         </Center>
       </HStack>

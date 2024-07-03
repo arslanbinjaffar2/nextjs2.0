@@ -159,6 +159,12 @@ export const style = `
 body {
   display: flex;
 }
+
+.rsw-ce[contentEditable=true]:empty:not(:focus):before {
+  color: inherit !important;
+  content: attr(placeholder);
+  opacity:0.7;
+}
 #shareAccountDropDown{
   z-index: 99 !important;
 }

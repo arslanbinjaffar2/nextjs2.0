@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Master from 'application/screens/web/layouts/Master';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+
 import Indextemplate from 'application/components/templates/events/web/home/Index'
 type indexProps = {
   navigation: unknown

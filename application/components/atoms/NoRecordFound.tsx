@@ -9,8 +9,8 @@ type Props={
 const NoRecordFound = ({label,mb,bg}:Props) => {
     const { event} = UseEventService();
   return (
-    <Box overflow="hidden" mb={mb} w={"100%"} rounded="lg" padding={3} bg={bg}>
-    <Text>{event.labels.GENERAL_NO_RECORD ?? label }</Text>
+  <Box overflow="hidden" mb={mb} w={"100%"} rounded="lg" padding={3} bg={bg}>
+      <Text>{event.labels.GENERAL_NO_RECORD ?? label }</Text>
   </Box>
   )
 }

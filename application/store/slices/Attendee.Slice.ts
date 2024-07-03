@@ -245,9 +245,8 @@ export const SelectCategoryName = (state: RootState) => state.attendees.category
 
 export const SelectHotels = (state: RootState) => state.attendees.hotels
 
-export const SelectMyRegistration = (state: RootState) => state.attendees.registration
-
 export const SelectLastPage = (state: RootState) => state.attendees.last_page
+export const SelectMyRegistration = (state: RootState) => state.attendees.registration
 
 export const SelectCategoryBreadcrumbs = (state: RootState) => state.attendees.categoryBreadcrumbs
 

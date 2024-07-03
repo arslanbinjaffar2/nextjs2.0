@@ -189,7 +189,6 @@ const Index = ({dashboard}:IndexProps) => {
                 </HStack>
             )}
 
-               
             
             {Object.keys(track).length > 0 && (
                 <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
@@ -248,6 +247,8 @@ const Index = ({dashboard}:IndexProps) => {
 
             {!dashboard && !in_array('programs', processing) && !in_array('tracks', processing) && (page < total_pages && total_pages>1) && (in_array(tab, ['program', 'my-program','track'])) && (
                 <>
+                {console.log(page,'dfdfd')}
+                {console.log(total_pages,'totak_page')}
                 <IntersectionObserverComponent onIntersect={loadMore} />
                 </>
             )}

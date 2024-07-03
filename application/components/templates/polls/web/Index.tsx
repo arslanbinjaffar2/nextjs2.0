@@ -15,7 +15,7 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
-import NoRecordFound from '../../../atoms/NoRecordFound';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = () => {
@@ -125,8 +125,8 @@ const Index = () => {
                                             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                                 <Text fontSize="lg">{polls[key] ? polls[key][0]?.agenda_start_date_formatted : ''}</Text>
                                             </HStack>
-                                            {polls[key] && polls[key].map((poll)=>(
-                                                <RectangleView key={poll.id} poll={poll} completed={false} />
+                                            {polls[key] && polls[key].map((poll, k)=>(
+                                                <RectangleView key={poll.id} poll={poll} completed={false} index={k} />
                                             ))}
                                         </React.Fragment>
                                     )) : 
@@ -146,8 +146,8 @@ const Index = () => {
                                             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                                 <Text fontSize="lg">{completed_polls[key][0]?.agenda_start_date_formatted}</Text>
                                             </HStack>
-                                            {completed_polls[key].map((poll)=>(
-                                                <RectangleView key={poll.id} poll={poll} completed={true} />
+                                            {completed_polls[key].map((poll,k)=>(
+                                                <RectangleView key={poll.id} poll={poll} completed={true} index={k} />
                                             ))}
                                         </React.Fragment>
                                     )) : 

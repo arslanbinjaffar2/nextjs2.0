@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { EventActions, SelectEvent, Modules, SettingModules,CustomHtmls, SelectHomeEvents, SelectUpcomingEvents,SelectHomeEventDetail } from 'application/store/slices/Event.Slice'
+import { EventActions, SelectEvent, Modules, SettingModules, SelectEventUrl,CustomHtmls, SelectHomeEvents, SelectUpcomingEvents, SelectHomeEventDetail } from 'application/store/slices/Event.Slice'
 
 import { Event } from 'application/models/Event'
 
@@ -17,6 +17,7 @@ export type EventServiceOperators = {
     modules: Array<Module>
     custom_html: Array<CustomHtml>
     setting_modules: SettingModule[]
+    event_url: string
     home_events: HomeMyEvent[]
     upcoming_events: UpcomingEvent[]
     event_detail: EventDetail|null,
@@ -24,6 +25,7 @@ export type EventServiceOperators = {
     FetchEventByCode: (code: string) => void
     loadModules: () => void
     loadSettingsModules: () => void
+    SetEventUrl: (event_url: string) => void
     FetchEvents: (payload: {query: string, screen: string,selected_filter: string }) => void
     FetchEventDetail: (payload: { id: number }) => void
 }
@@ -41,6 +43,7 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
         modules: useAppSelector(Modules),
         custom_html: useAppSelector(CustomHtmls),
         setting_modules: useAppSelector(SettingModules),
+        event_url: useAppSelector(SelectEventUrl),
         home_events:useAppSelector(SelectHomeEvents),
         upcoming_events:useAppSelector(SelectUpcomingEvents),
         event_detail: useAppSelector(SelectHomeEventDetail),
@@ -65,6 +68,12 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
         loadSettingsModules: useCallback(
             () => {
                 dispatch(EventActions.loadSettingsModules())
+            },
+            [dispatch],
+        ),
+        SetEventUrl: useCallback(
+            (event_url: string) => {
+                dispatch(EventActions.SetEventUrl(event_url))
             },
             [dispatch],
         ),

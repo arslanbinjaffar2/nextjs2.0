@@ -58,6 +58,8 @@ import myPollResults from 'application/assets/icons/myPollResults';
 import attendee_authority from 'application/assets/icons/attendee_authority';
 import checkin_agendas from 'application/assets/icons/checkin_agendas';
 import checkin from 'application/assets/icons/checkin_agendas';
+import playIcon from 'application/assets/icons/play'
+import playCompleteIcon from 'application/assets/icons/play_completed'
 import business from 'application/assets/icons/IcoNetworkInterest';
 import network_interest from 'application/assets/icons/IcoNetworkInterest';
 import document from 'application/assets/icons/document'
@@ -77,9 +79,7 @@ import attendee_Match from 'application/assets/icons/attendee_Match'
 import star from 'application/assets/icons/star'
 import staro from 'application/assets/icons/staro'
 import save from 'application/assets/icons/save'
-import edit_order from 'application/assets/icons/edit_order'
-import Notattending from 'application/assets/icons/Notattending'
-import register from 'application/assets/icons/register'
+import hand from 'application/assets/icons/hand'
 import delete_icon from 'application/assets/icons/delete'
 import share_account from 'application/assets/icons/share_account'
 import download_2 from 'application/assets/icons/download_2'
@@ -87,6 +87,10 @@ import email from 'application/assets/icons/email'
 import share from 'application/assets/icons/share'
 import dropdown from 'application/assets/icons/dropdown'
 import upload from 'application/assets/icons/upload'
+import Notattending from 'application/assets/icons/Notattending'
+import register from 'application/assets/icons/register'
+import edit_order from 'application/assets/icons/edit_order'
+
 import icosort from 'application/assets/icons/small/IcoSort'
 type IconProps = {
     name?: string;
@@ -98,7 +102,7 @@ type IconProps = {
 
 type IconType ='qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
 'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin' | 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | 'editnotes' | 'mybookings' 
-|'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | 'myPollResults' | 'mySurveyResults' | 'my_sub_registrations' | 'network_interest' | 'livesurveys'| 'attendee_Match' | 'star'| 'staro'| 'save' | 'edit_order' | 'Notattending'|'register' | 'delete_icon'| 'share_account'|'download_2'| 'email' |'share'| 'dropdown' | 'upload' | 'icosort'| any;
+|'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | 'myPollResults' | 'mySurveyResults' | 'my_sub_registrations' | 'network_interest' | 'livesurveys'| 'star'| 'staro'| 'save' | 'attendee_Match' | 'hand' | 'delete_icon'| 'share_account'|'download_2'| 'email' |'share'| 'dropdown' | 'upload' | 'Notattending'|'register' | 'edit_order' | 'icosort' | any ;
 
 type Props = {
     iconType: IconType;
@@ -185,9 +189,7 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         star,
         staro,
         save,
-        edit_order,
-        Notattending,
-        register,
+        hand,
         delete_icon,
         share_account,
         download_2,
@@ -195,6 +197,9 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         share,
         dropdown,
         upload,
+        edit_order,
+        Notattending,
+        register,
         icosort
     };
 

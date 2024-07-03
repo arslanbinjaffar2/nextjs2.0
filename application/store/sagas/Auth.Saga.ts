@@ -24,7 +24,7 @@ function* OnLogin({
         const state = yield select(state => state);
         const response: HttpResponse = yield call(getLoginApi, payload, state);
         if (response.data.success) {
-            yield put(AuthActions.success(response.data));
+            yield put(AuthActions.success({response: response.data,event_url:state?.event?.event_url}));
         } else {
             yield put(AuthActions.failed(response.data.message!));
         }
@@ -43,7 +43,7 @@ function* OnPasswordReset({
         const state = yield select(state => state);
         const response: HttpResponse = yield call(getPasswordResetApi, payload, state);
         if (response.data.success) {
-            yield put(AuthActions.success(response.data));
+            yield put(AuthActions.success({response: response.data,event_url:state?.event?.event_url}));
         } else {
             yield put(AuthActions.failed(response.data.message!));
         }
@@ -62,7 +62,7 @@ function* OnChooseProvider({
         const state = yield select(state => state);
         const response: HttpResponse = yield call(getChooseProviderApi, payload, state);
         if (response.data.success) {
-            yield put(AuthActions.success(response.data));
+            yield put(AuthActions.success({response: response.data,event_url:state?.event?.event_url}));
         } else {
             yield put(AuthActions.failed(response.data.message!));
         }
@@ -81,7 +81,7 @@ function* OnReset({
         const state = yield select(state => state);
         const response: HttpResponse = yield call(getResetApi, payload, state);
         if (response.data.success) {
-            yield put(AuthActions.success(response.data));
+            yield put(AuthActions.success({response: response.data,event_url:state?.event?.event_url}));
         } else {
             yield put(AuthActions.failed(response.data.message!));
         }
@@ -100,7 +100,7 @@ function* OnVerification({
         const state = yield select(state => state);
         const response: HttpResponse = yield call(getVerificationApi, payload, state);
         if (response.data.success) {
-            yield put(AuthActions.success(response.data));
+            yield put(AuthActions.success({response: response.data,event_url:state?.event?.event_url}));
         } else {
             yield put(AuthActions.failed(response.data.message!));
         }
@@ -119,7 +119,7 @@ function* OnLoadProvider({
         const state = yield select(state => state);
         const response: HttpResponse = yield call(getLoadProviderApi, payload, state);
         if (response.data.success) {
-            yield put(AuthActions.success(response.data));
+            yield put(AuthActions.success({response: response.data,event_url:state?.event?.event_url}));
         } else {
             yield put(AuthActions.failed(response.data.message!));
         }
@@ -132,18 +132,19 @@ function* OnGetUser({ }: {
     type: typeof AuthActions.getUser
     payload: LoginPayload
 }): SagaIterator {
+    const state = yield select(state => state);
     try {
         yield put(LoadingActions.set(true))
         const state = yield select(state => state);
         const response: HttpResponse = yield call(getUserApi, state);
         if (response?.status === 401) {
-            yield put(AuthActions.clearToken());
+            yield put(AuthActions.clearToken(state?.event?.event_url));
         } else {
-            yield put(AuthActions.success(response.data));
+            yield put(AuthActions.success({response: response.data,event_url:state?.event?.event_url}));
         }
         yield put(LoadingActions.set(false))
     } catch (error: any) {
-        yield put(AuthActions.clearToken());
+        yield put(AuthActions.clearToken(state?.event?.event_url));
     }
 }
 
@@ -152,7 +153,8 @@ function* OnLogout({
     type: typeof AuthActions.logout
     payload: Event
 }): SagaIterator {
-    yield put(AuthActions.clearToken());
+    const state = yield select(state => state);
+    yield put(AuthActions.clearToken(state?.event?.event_url));
     yield put(NetworkInterestActions.clearState());
     yield put(SubRegistrationActions.clearState());
     yield put(AuthActions.reloadPage());

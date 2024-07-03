@@ -20,11 +20,9 @@ const RectangleView = ({ k, attendee, total }: AppProps) => {
     const { _env } = UseEnvService()
     
     const { event } = UseEventService()
-
     const { detail } = UseExhibitorService()
     
     const showLastName = attendee?.sort_settings?.last_name?.status ? 1 : 0;
-
     return (
         <Pressable w={'100%'} onPress={() => {push(`/${event.url}/attendees/detail/${attendee.id}`)}}>
         <HStack w={'100%'} key={`item-${k}`} py="3" px="3" space="3" alignItems="center" borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor">
@@ -37,7 +35,7 @@ const RectangleView = ({ k, attendee, total }: AppProps) => {
                   textTransform="uppercase"
                   bg={'#A5A5A5'}
                   >{ attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0,1) + attendee?.last_name?.substring(0,1) : attendee?.first_name?.substring(0,1)}</Avatar>
-   
+
             )}
             <VStack w={'calc(100% - 120px)'} space="0">
                 {(attendee?.first_name || attendee?.last_name) && (

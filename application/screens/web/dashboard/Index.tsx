@@ -7,7 +7,7 @@ import SpeakerListing from 'application/components/organisms/speakers/Listing';
 import QAListing from 'application/components/organisms/qa/Listing';
 import ChatClient from 'application/components/organisms/chat/ChatClient';
 import Master from 'application/screens/web/layouts/Master';
-import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack, Spacer, Box } from 'native-base'
+import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack, Spacer, Box, View } from 'native-base'
 import PollListingByDate from 'application/components/organisms/polls/PollListingByDate'
 import SurveyListing from 'application/components/organisms/survey/SurveyListing'
 import UsePollService from 'application/store/services/UsePollService';
@@ -37,6 +37,8 @@ import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import { Banner } from 'application/models/Banner'
 import { Module } from 'application/models/Module';
 import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
+import Myexhibitors from 'application/screens/web/settings/myexhibitors/Index'
+import Mysponsors from 'application/screens/web/settings/mysponsers/Index'
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
 import { CustomHtml } from 'application/models/CustomHtml'
 import OurExhibitor from 'application/components/molecules/exhibitors/OurExhibitor';
@@ -96,7 +98,7 @@ const Index = ({ navigation }: indexProps) => {
       FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: 1, category_id: 0, screen: 'dashboard-my-speakers', program_id: 0 });
     }
   }, [modules.length]);
-
+   const name=modules?.find((module) => (module.alias == 'agendas'))?.name as string
   return (
     <>
       {(in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
@@ -143,7 +145,7 @@ const Index = ({ navigation }: indexProps) => {
 
                     <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
                       <HStack pr={3} mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
-                      <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
+                      <IconWithLeftHeading icon={<DynamicIcon iconType={modules.find((module: Module) => module.alias === 'speakers')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
                       {my_attendees?.length > 6 &&
                         <Button onPress={() => {
                           push(`/${event.url}/speakers`)
@@ -154,7 +156,7 @@ const Index = ({ navigation }: indexProps) => {
                       </HStack>
                       <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
                         <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
-                          {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
+                          {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={[width/3 - 30,'78']}>
                             <RoundedView attendee={attendee} />
                             <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
                           </VStack>)}
@@ -284,9 +286,6 @@ const Index = ({ navigation }: indexProps) => {
           }) // end loop dashboard_modules
 
          }
-
-             
-
           
          
           {/* <HStack mb="3" space={1} justifyContent="center" w="100%">

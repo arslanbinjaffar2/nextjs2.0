@@ -25,8 +25,8 @@ export type AttendeeServiceOperators = {
     categories: Category[]
     total: Number
     hotels:any
-    registration:any
     last_page: number
+    registration:any
     parent_id:number
     FetchAttendees: (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }) => void
     FetchGroups: (payload: { query: string, page: number, group_id: number, attendee_id: number, program_id: number }) => void
@@ -66,8 +66,8 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         categories: useAppSelector(SelectCategories),
         total: useAppSelector(SelectSelectTotal),
         hotels: useAppSelector(SelectHotels),
-        registration: useAppSelector(SelectMyRegistration),
         last_page: useAppSelector(SelectLastPage),
+        registration: useAppSelector(SelectMyRegistration),
         categoryBreadcrumbs: useAppSelector(SelectCategoryBreadcrumbs),
         FetchAttendees: useCallback(
             (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }) => {

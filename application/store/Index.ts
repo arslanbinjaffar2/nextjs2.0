@@ -14,6 +14,7 @@ import DocumentSlice from 'application/store/slices/Document.Slice'
 import AttendeeSlice from 'application/store/slices/Attendee.Slice'
 import CertificateSlice from 'application/store/slices/Certificate.Slice'
 import ProgramSlice from 'application/store/slices/Program.Slice'
+import RequestToSpeakSlice from 'application/store/slices/RequestToSpeak.Slice'
 import InfoSlice from 'application/store/slices/Info.Slice'
 import PollSlice from './slices/Poll.Slice'
 import SurveySlice from './slices/Survey.Slice'
@@ -33,8 +34,9 @@ import HdSlice from './slices/Hd.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 import GallerySlice from './slices/Gallery.Slice'
 import SocialWallSlice, { SocialWallActions } from './slices/SocialWall.Slice'
-import MeetingReservationSlice from './slices/MeetingReservation.Slice'
 import ToastSlice from './slices/Toast.Slice'
+import MeetingReservationSlice from './slices/MeetingReservation.Slice'
+import ChatSlice from './slices/Chat.Slice'
 
 const makeStore = () => {
 
@@ -73,8 +75,10 @@ const makeStore = () => {
             notifications:NotificationSlice,
             socket:SocketSlice,
             hd:HdSlice,
+            toast:ToastSlice,
             meetingReservation:MeetingReservationSlice,
-            toast:ToastSlice
+            requestToSpeak: RequestToSpeakSlice,
+            chats:ChatSlice
         },
         devTools: true,
         middleware: getDefaultMiddleware =>

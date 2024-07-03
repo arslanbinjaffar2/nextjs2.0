@@ -29,6 +29,7 @@ import {FloorPlanWatcherSaga} from 'application/store/sagas/FloorPlan.Saga'
 import {BannerWatcherSaga} from 'application/store/sagas/Banner.Saga'
 
 import {CertificateWatcherSaga} from 'application/store/sagas/Certificate.Saga'
+import {RequestToSpeakWatcherSaga} from 'application/store/sagas/RequestToSpeak.Saga'
 
 import {EditProfileWatcherSaga} from 'application/store/sagas/EditProfile.Saga'
 
@@ -52,6 +53,7 @@ import {HdWatcherSaga} from 'application/store/sagas/Hd.Saga'
 import {SocialWallWatcherSaga} from 'application/store/sagas/SocialWall.Saga'
 
 import {MeetingReservationWatcherSaga} from 'application/store/sagas/MeetingReservation.Saga'
+import {ChatWatcherSaga} from 'application/store/sagas/Chat.Saga'
 
 
 export function* RootSaga() {
@@ -82,7 +84,9 @@ export function* RootSaga() {
                 fork(GalleryWatcherSaga),
                 fork(HdWatcherSaga),
                 fork(SocialWallWatcherSaga),
-                fork(MeetingReservationWatcherSaga)
+                fork(MeetingReservationWatcherSaga),
+                fork(RequestToSpeakWatcherSaga),
+                fork(ChatWatcherSaga)
             ])
 }
 

@@ -46,7 +46,7 @@ export interface ToastProps {
           </View>
         </View>
         <Pressable onPress={()=>onClose({id:index})} ml={['3','']}>
-          <DynamicIcon iconType={'close'} iconProps={{ width: 14, height: 14, color: 'white' }} />
+          <DynamicIcon iconType={'close'} iconProps={{ width: 14, height: 14 }} />
         </Pressable>
       </View>
       

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Pressable, ZStack, Popover, Button } from 'native-base'
+import { Box, Image, Spacer, Text, Center, HStack, IconButton, Icon, Pressable, ZStack, Popover, Button, Toast } from 'native-base'
 import { Sponsor, Category } from 'application/models/sponsor/Sponsor'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
@@ -11,7 +11,6 @@ import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.
 import UseToastService from 'application/store/services/UseToastService';
 import { Linking } from 'react-native';
 import { colorText } from 'application/styles/colors';
-
 type AppProps = {
     sponsor: Sponsor,
     k: number
@@ -41,6 +40,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
     
     function toggleFav(){
         if(isFav){
+          
             setIsFav(false)
         }else{
             setIsFav(true)

@@ -12,6 +12,10 @@ import UseSocialWallService from 'application/store/services/UseSocialWallServic
 import moment from 'moment';
 import { useRouter as UseNextRouter } from 'next/router';
 import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
+import { ChatMessage } from 'application/models/chat/Chat';
+import { message } from 'application/store/slices/Error.slice';
+import UseToastService from 'application/store/services/UseToastService';
+import UseChatService from 'application/store/services/UseChatService';
 const SocketHandler = () => {
   
     const { _env } = UseEnvService()
@@ -43,6 +47,14 @@ const SocketHandler = () => {
     React.useEffect(() => {
       setDetailId(Number(nextRouter?.query?.id));
     }, [nextRouter.query]);
+
+    type SocketNewMessageData = {
+      is_new_thread: boolean;
+      thread_id: number;
+      message: ChatMessage;
+    }
+    const {AddToast} = UseToastService();
+    const {PushMessageToChat} = UseChatService();
 
     React.useEffect(() => {
       
@@ -128,6 +140,36 @@ const SocketHandler = () => {
 
       socketConnect.on(`event-buizz:meeting_request_alert_${event?.id}_${response?.data?.user?.id}`, function (data:any):any {
         AddSocketRequest({request:data})
+      });
+
+      socketConnect.on(`event-buizz:new_chat_message_${event?.id}_${response?.data?.user?.id}`, function (data:SocketNewMessageData):any {
+        // else : show popup to user about the new message
+        console.log('new message: ', data);
+
+        // redirect to chat/detail if it is new thread and sender id is same as current user
+        if (nextRouter.asPath.includes('chat/new') && data?.message?.sender_id == response?.data?.user?.id) {
+          console.log('push to the chat detail');
+          nextRouter.push(`/${event.url}/chat/detail/${data?.thread_id}`);
+          
+          // else: if user is on same chat detail page, then push the message to state 
+        }else if(nextRouter.asPath.includes('chat/detail') && data?.thread_id == detailId){
+          // push the message to state
+          console.log('push to the state');
+          PushMessageToChat({message:data?.message,thread_id:data?.thread_id});
+        }else{
+          // show popup to user about the new message
+          console.log('adding toast');
+          AddNotification({
+            notification:{
+              type:'chat',
+              title:data?.message?.sender?.first_name + ' ' + data?.message?.sender?.last_name,
+              text:data?.message?.body,
+              btnLeftText:event?.labels?.GENERAL_OK ,
+              btnRightText:event?.labels?.GENERAL_MESSAGE_DETAIL,
+              url:`/chat/detail/${data?.thread_id}`
+            }
+          })
+        }         
       });
       
       return () =>{

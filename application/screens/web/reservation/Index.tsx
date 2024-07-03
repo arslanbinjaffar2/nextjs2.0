@@ -72,13 +72,12 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
   }
 
 	const module = modules.find((module) => module.alias === 'reservation');
-
   return (
       <>
       <NextBreadcrumbs module={module} />
       <HStack display={["block","flex"]} mb="3" pt="2" w="100%" space="3" alignItems="center" >
         <Text fontSize="2xl" textAlign={['center','start']} w={['100%','']} >
-            {modules.find((module: any, key: number) => module.alias === 'reservation')?.name}
+            {module?.name}
         </Text>
         <Spacer />
         <View position={'relative'} width={['100%','calc(100% - 200px)']} mt={['3','']}>

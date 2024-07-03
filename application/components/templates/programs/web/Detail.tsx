@@ -14,6 +14,8 @@ import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand'
 
 import DynamicIcon from 'application/utils/DynamicIcon';
 
+import { Module } from 'application/models/Module';
+
 import { createParam } from 'solito';
 
 import UseProgramService from 'application/store/services/UseProgramService';
@@ -107,6 +109,10 @@ const Detail = () => {
     const { width } = useWindowDimensions();
 
     const RenderHtml = require('react-native-render-html').default;
+
+    const [iframeWidth, setiframeWidth] = React.useState(250);
+    const _elementWidth = React.useRef<HTMLDivElement>(null); 
+
     const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
         const mixedStyle = {
           body: {
@@ -184,6 +190,21 @@ const Detail = () => {
             setTab(tabs[0][0]);
         }
     }, [detail]);
+    useEffect(() => {
+        if (_elementWidth.current) {
+            setiframeWidth(_elementWidth.current?.clientWidth - 32)
+        }
+    }, [])
+    
+    
+    const tagsStyles = {
+        img: {
+        width: '100%', // Adjust width as needed
+        height: 'auto', // Adjust height as needed
+        maxWidth: iframeWidth, // Adjust maxWidth as needed
+        },
+    };
+
 
     React.useEffect(() => {
         if(tabs.length > 0){
@@ -213,7 +234,7 @@ const Detail = () => {
                             />
                         </Box>}
                     </DetailBlock>
-                    <Container mb="3" maxW="100%" w="100%">
+                    <Container ref={_elementWidth} mb="3" maxW="100%" w="100%">
                         <HStack mb="3" style={{rowGap: 2, columnGap: 1}} space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
                             {tabs.map((mtab: any, key: number) => (
                                 <ButtonElement key={mtab[0]} minW={'calc(50% - 2px)'} onPress={() => setTab(mtab[0])}  bg={tab === mtab[0] ? 'primary.boxbutton' : 'primary.box'}>{mtab[1]}</ButtonElement>
@@ -252,7 +273,8 @@ const Detail = () => {
                                             <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
                                             <Text fontSize="md">{event?.labels?.POLLS}</Text>
                                         </HStack>
-                                        <Pressable onPress={() => {
+                                        
+                                            <Pressable onPress={() => {
                                                 if (detail?.authority_recieved) {
 
                                                 } else {
@@ -290,10 +312,22 @@ const Detail = () => {
                                 {showRequestToSpeak && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <IcoRaiseHand width="14" height="17" />
+                                            <DynamicIcon iconType={modules.find((module: Module) => module.alias === 'myturnlist')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 17, height: 17 }} />
                                             <Text fontSize="md">{modules?.find((module)=>(module.alias == 'myturnlist'))?.name}</Text>
                                         </HStack>
-                                        <RequestToSpeakRectangleView program={detail?.program} />
+                                        <Pressable onPress={() => {
+                                                push(`/${event.url}/myturnlist/show/${detail?.program?.id}`)
+                                            }}>
+                                                <Box w="100%" py="4">
+                                                    <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                                                        <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
+                                                            <Text fontSize="md">{event?.labels?.ASK_TO_SPEAK}</Text>
+                                                        </VStack>
+                                                        <Spacer />
+                                                        <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
+                                                    </HStack>
+                                                </Box>
+                                        </Pressable>
                                     </>
                                 )}
 
@@ -340,10 +374,10 @@ const Detail = () => {
                                         </React.Fragment>
                                     )}
                                 </Container>}
-                                {tab === 'group' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                {tab === 'group' && <Container mb="3" rounded="10px" bg="primary.box" w="100%" maxW="100%">
                                     {groups.map((map: any, k: number) =>
                                         <React.Fragment key={`item-box-group-${k}`}>
-                                            <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
+                                            <Text roundedTop={10} w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
                                             {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
                                                     <RectangleGroupView group={group} k={k} border={k} navigation={true} isProgramDetailPage={true} />

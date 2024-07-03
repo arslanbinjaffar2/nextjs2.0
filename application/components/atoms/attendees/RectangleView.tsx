@@ -9,10 +9,11 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
-import { useSearchParams, usePathname } from 'next/navigation'
-
+import UserPlaceholderImage from 'application/assets/images/user-placeholder.jpg';
+import AvatarColors from 'application/utils/AvatarColors'
 import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
+import { useSearchParams, usePathname } from 'next/navigation'
 import { colorText } from 'application/styles/colors'
 import ButtonElement from '../ButtonElement'
 
@@ -159,13 +160,13 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   
                 {/* //  )}  */}
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
-                <Pressable
-                  onPress={() => toggleFav()}>
-                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
-                </Pressable>
-              )}
-              <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
-            </HStack>
+                  <Pressable
+                    onPress={() => toggleFav()}>
+                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
+                  </Pressable>
+                )}
+                <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
+              </HStack>
           </HStack>
         </HStack>
       </Pressable>
