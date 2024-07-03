@@ -31,13 +31,18 @@ const ResetPasswordRequest = ({ props }: any) => {
     const { push } = useRouter();
 
     const router = useRouter();
+    const nativeButton = React.useRef<HTMLElement | null>(null)
 
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = input => {
         passwordReset({ email: input.email })
     };
-
+      const handleKeyPress = (event: any) => {
+        if (event.key === 'Enter') {
+            nativeButton.current?.click();
+        }
+    };
     React.useEffect(() => {
         if (response.redirect === "choose-provider") {
             push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
@@ -64,7 +69,7 @@ const ResetPasswordRequest = ({ props }: any) => {
                             <Controller
                                 control={control}
                                 render={({ field: { onChange, onBlur, value } }) => (
-                                    <Input onChangeText={(val) => onChange(val)} type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_EMAIL} />
+                                    <Input onKeyPress={handleKeyPress} onChangeText={(val) => onChange(val)} type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_EMAIL} />
                                 )}
                                 name="email"
                                 rules={{
@@ -98,6 +103,7 @@ const ResetPasswordRequest = ({ props }: any) => {
                             </Button>
                         </Text>
                         <Button
+                            ref={nativeButton}
                             width={'100%'}
                             isLoading={processing}
                             onPress={handleSubmit(onSubmit)}

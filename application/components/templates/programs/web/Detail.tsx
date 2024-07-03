@@ -340,10 +340,10 @@ const Detail = () => {
                                         </React.Fragment>
                                     )}
                                 </Container>}
-                                {tab === 'group' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                {tab === 'group' && <Container mb="3" rounded="10px" bg="primary.box" w="100%" maxW="100%">
                                     {groups.map((map: any, k: number) =>
                                         <React.Fragment key={`item-box-group-${k}`}>
-                                            <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
+                                            <Text roundedTop={10} w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
                                             {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
                                                     <RectangleGroupView group={group} k={k} border={k} navigation={true} isProgramDetailPage={true} />
