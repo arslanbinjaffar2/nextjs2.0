@@ -1220,7 +1220,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                 {typeof attendee.attendee_cv === 'string' && attendee.attendee_cv ? (
                                                     <Pressable
                                                         onPress={async () => {
-                                                            const url: any = `${_env.eventcenter_base_url}/event/${event.url}/settings/downloadResume/${attendeeData?.attendee_cv}`;
+                                                        const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${attendee.attendee_cv}`;
                                                             const supported = await Linking.canOpenURL(url);
                                                             if (supported) {
                                                                 await Linking.openURL(url);
