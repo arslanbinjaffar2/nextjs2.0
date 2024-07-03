@@ -60,13 +60,13 @@ const ResetPassword = ({ props }: any) => {
         reset({ password: input.password, password_confirmation: input.password_confirmation, token: token! })
     };
 
-    // React.useEffect(() => {
-    //     if (response.redirect === "login") {
-    //         push(`/${event.url}/auth/login`)
-    //     } else if (response.redirect === "dashboard") {
-    //         push(`/${event.url}/dashboard`)
-    //     }
-    // }, [response.redirect])
+    React.useEffect(() => {
+        if (response.redirect === "login") {
+            push(`/${event.url}/auth/login`)
+        } else if (response.redirect === "dashboard") {
+            push(`/${event.url}/dashboard`)
+        }
+    }, [response.redirect])
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">

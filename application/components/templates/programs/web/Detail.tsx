@@ -14,6 +14,8 @@ import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand'
 
 import DynamicIcon from 'application/utils/DynamicIcon';
 
+import { Module } from 'application/models/Module';
+
 import { createParam } from 'solito';
 
 import UseProgramService from 'application/store/services/UseProgramService';
@@ -310,10 +312,22 @@ const Detail = () => {
                                 {showRequestToSpeak && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <IcoRaiseHand width="14" height="17" />
+                                            <DynamicIcon iconType={modules.find((module: Module) => module.alias === 'myturnlist')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 17, height: 17 }} />
                                             <Text fontSize="md">{modules?.find((module)=>(module.alias == 'myturnlist'))?.name}</Text>
                                         </HStack>
-                                        <RequestToSpeakRectangleView program={detail?.program} />
+                                        <Pressable onPress={() => {
+                                                push(`/${event.url}/myturnlist/show/${detail?.program?.id}`)
+                                            }}>
+                                                <Box w="100%" py="4">
+                                                    <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                                                        <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
+                                                            <Text fontSize="md">{event?.labels?.ASK_TO_SPEAK}</Text>
+                                                        </VStack>
+                                                        <Spacer />
+                                                        <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
+                                                    </HStack>
+                                                </Box>
+                                        </Pressable>
                                     </>
                                 )}
 
@@ -360,10 +374,10 @@ const Detail = () => {
                                         </React.Fragment>
                                     )}
                                 </Container>}
-                                {tab === 'group' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                {tab === 'group' && <Container mb="3" rounded="10px" bg="primary.box" w="100%" maxW="100%">
                                     {groups.map((map: any, k: number) =>
                                         <React.Fragment key={`item-box-group-${k}`}>
-                                            <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
+                                            <Text roundedTop={10} w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
                                             {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
                                                     <RectangleGroupView group={group} k={k} border={k} navigation={true} isProgramDetailPage={true} />

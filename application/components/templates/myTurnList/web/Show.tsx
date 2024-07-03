@@ -42,7 +42,7 @@ const ShowTurnList = () => {
         }
         return false;
     }
-    
+
     const alreadyInSpeech = !!currentAttendee && currentAttendee.status === 'inspeech' && currentUser?.id === currentAttendee.attendee_id;
 
     const fetchData = async () => {
@@ -103,7 +103,7 @@ const ShowTurnList = () => {
                         <Program details={agendaDetail} />
 
                         {currentAttendee && currentAttendee.status === 'inspeech' &&
-                            <SpeakerContainer currentAttendee={currentAttendee} 
+                            <SpeakerContainer currentAttendee={currentAttendee}
                                 socketUpdate={() => setSocketUpdate(prevState => !prevState)}
                             />
                         }
@@ -120,7 +120,7 @@ const ShowTurnList = () => {
 
                         }
 
-                        {currentUser && checkGdpr() === false &&
+                        {currentUser && checkGdpr() === false && currentAttendee.status !== 'inspeech' &&
                             <ActiveAttendee
                                 activeAttendee={currentUser}
                                 program_id={Number(_programId)}
@@ -129,25 +129,30 @@ const ShowTurnList = () => {
                             />
                         }
 
-                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-                            <Text fontSize="md">{event?.labels?.TURNLIST_TOTAL_SPEAKERS ?? 'Total Speakers'}: {attendeesToCome?.length ?? 0}</Text>
-                        </HStack>
-                        <View bg={'primary.box'} rounded={'10px'} width={'100%'}>
-                            {attendeesToCome?.length > 0 ?
-                                attendeesToCome.map((item: any, key: number) => (
-                                    <Box w="100%" borderBottomWidth={attendeesToCome?.length - 1 == key ? 0 : 1} borderColor="primary.bordercolor" py="3">
-                                        <AttendeeList attendee={item.attendee} border={attendeesToCome.length > 0 && attendeesToCome[attendeesToCome.length - 1]?.id !== item?.attendee?.id ? 1 : 0} />
-                                    </Box>
-                                ))
-                                : <Box p={3} bg="primary.box" rounded="lg" w="100%">
-                                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                </Box>}
-                        </View>
+                        {checkGdpr() === false ?
+                            <>
+                                <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
+                                    <Text fontSize="md">{event?.labels?.TURNLIST_TOTAL_SPEAKERS ?? 'Total Speakers'}: {attendeesToCome?.length ?? 0}</Text>
+                                </HStack>
+                                <View bg={'primary.box'} rounded={'10px'} width={'100%'}>
+                                    {attendeesToCome?.length > 0 ?
+                                        attendeesToCome.map((item: any, key: number) => (
+                                            <Box w="100%" borderBottomWidth={attendeesToCome?.length - 1 == key ? 0 : 1} borderColor="primary.bordercolor" py="3">
+                                                <AttendeeList attendee={item.attendee} border={attendeesToCome.length > 0 && attendeesToCome[attendeesToCome.length - 1]?.id !== item?.attendee?.id ? 1 : 0} />
+                                            </Box>
+                                        ))
+                                        : <Box p={3} bg="primary.box" rounded="lg" w="100%">
+                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                        </Box>}
+                                </View>
+                            </>
+                            : null}
+
                     </Container>
                 </>
             )}
         </>
     )
-            
+
 }
 export default ShowTurnList;
