@@ -7,18 +7,19 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import { FloorPlan,FloorPlanCategory } from 'application/models/floorPlans/FloorPlans';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 import { useRouter } from 'solito/router';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import IcoSort from 'application/assets/icons/small/IcoSort';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
-import SectionLoading from 'application/components/atoms/SectionLoading';
+import { func } from 'application/styles';
 const Index = () => {
   const { loading } = UseLoadingService();
   const { push, back } = useRouter()
   const [query, setQuery] = React.useState("");
   const [toggle, setToggle] = React.useState<boolean>(false)
 
-  const { FetchFloorPlans, floor_plans, sponsorCount,exhibitorCount,labels,categories } = UseFloorPlanService();    
+  const { FetchFloorPlans, floor_plans, sponsorCount,exhibitorCount,labels,categories , isLoading} = UseFloorPlanService();    
   const { event, modules } = UseEventService();
   const module = modules.find((module) => {
     return module.alias === 'plans'
@@ -88,12 +89,12 @@ const Index = () => {
   useEffect(() => {
     filterFloorPlans();
   },[search]);
- console.log(selectedCategories)
+
   return (
     <>
       {
-        loading ? (
-          <SectionLoading />
+        (loading || isLoading) ? (
+           <SectionLoading />
         ) : (
           <>
             <NextBreadcrumbs module={module} />
@@ -115,7 +116,7 @@ const Index = () => {
                   }}
                  
                  >
-                  <IcoSort width="20px" height="18px" />
+                  <IcoSort width="20px" height="18px" color={toggle ? func.colorType(event?.settings?.secondary_color) : undefined} />
                  </Button>
                  
                 </HStack>
@@ -152,8 +153,9 @@ const Index = () => {
                 </Box>
                 <HStack flexWrap={'wrap'}  p={4} borderTopColor={'primary.bordercolor'} borderTopWidth={1}  alignItems="center"
                >
-                  {filteredCategories.map((category:FloorPlanCategory) => (
+                  {filteredCategories.map((category:FloorPlanCategory, k:any) => (
                     <Pressable
+                      key={k}
                       p="0"
                       borderWidth="0"
                       onPress={()=>{
@@ -182,6 +184,7 @@ const Index = () => {
                 <VStack mb="0" w="100%" space="0">
                   {filteredFloorPlans.map((plan: FloorPlan,i) => (
                     <Pressable
+                      key={i}
                       p="0"
                       borderWidth="0"
                       onPress={()=>{push(`/${event.url}/plans/detail/${plan.id}`)}}
