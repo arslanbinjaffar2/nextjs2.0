@@ -24,7 +24,7 @@ export type ExhibitorServiceOperators = {
     detail: ExhibitorDetail|null
     category_id: number
     query: string
-    FetchExhibitors: (payload: { category_id: number,page:number, query: string, screen: string }) => void
+    FetchExhibitors: (payload: { category_id: number,page?:number, query: string, screen: string }) => void
     FetchMyExhibitors: () => void
     FetchOurExhibitors: () => void
     FetchExhibitorDetail: (payload: { id: number }) => void
@@ -52,7 +52,7 @@ export const UseExhibitorService = (): Readonly<ExhibitorServiceOperators> => {
         query: useAppSelector(SelectExhibitorQuery),
         detail: useAppSelector(SelectExhibitorDetail),
         FetchExhibitors: useCallback(
-            (payload: { category_id: number,page: number, query: string, screen: string }) => {
+            (payload: { category_id: number,page?: number, query: string, screen: string }) => {
                 dispatch(ExhibitorActions.FetchExhibitors(payload))
             },
             [dispatch],

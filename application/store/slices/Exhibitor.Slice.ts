@@ -15,7 +15,6 @@ export interface ExhibitorState {
     exhibitors: Exhibitor[],
     labels: any,
     page: number,
-    total: number,
     total_pages: number,
     our_exhibitors: Exhibitor[],
     my_exhibitors: Exhibitor[],
@@ -47,12 +46,10 @@ export const ExhibitorSlice = createSlice({
     name: 'exhibitors',
     initialState,
     reducers: {
-        FetchExhibitors(state, action: PayloadAction<{ category_id: number, query: string, page: number,  screen: string }>) {
+        FetchExhibitors(state, action: PayloadAction<{ category_id: number, query: string, page?: number,  screen: string }>) {
             state.screen = action.payload.screen;
-            state.page = action.payload.page;
-        if ( state.page == null) {
-              state.page = 1
-            }
+            state.page = action.payload.page ? action.payload.page : 1;
+
         },
           
         FetchMyExhibitors(state, action: PayloadAction<{}>) {},
@@ -66,8 +63,9 @@ export const ExhibitorSlice = createSlice({
         updateSiteLabels(state, action: PayloadAction<[]>) {
             state.labels = action.payload;
         },
-        updateOurExhibitors(state, action: PayloadAction<Exhibitor[]>) {
-            state.our_exhibitors = action.payload;
+        updateOurExhibitors(state, action: PayloadAction<{exhibitors: Exhibitor[], page: number}>) {
+        state.our_exhibitors = action.payload.exhibitors;
+        state.page = action.payload.page;
         },
         updateMyExhibitors(state, action: PayloadAction<Exhibitor[]>) {
             state.my_exhibitors = action.payload;
@@ -78,10 +76,10 @@ export const ExhibitorSlice = createSlice({
         updateQuery(state, action: PayloadAction<string>) {
             state.query = action.payload;
         },
-        updateCategories(state, action: PayloadAction<{ categories: ExhibitorCategory[], total: number, total_pages: number }>) {
-            console.log(action.payload.total,'fffff')
+        updateCategories(state, action: PayloadAction<{ categories: ExhibitorCategory[], page: number, total_pages: number }>) {
+            console.log(action.payload.page,'fffff')
             state.categories = action.payload.categories;
-            state.total = action.payload.total;
+            state.page = action.payload.page;
             state.total_pages = action.payload.total_pages;
         },
         updateSettings(state, action: PayloadAction<ExhibitorSetting>) {
