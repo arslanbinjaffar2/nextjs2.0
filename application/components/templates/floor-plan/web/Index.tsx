@@ -168,8 +168,8 @@ const Index = () => {
                       mb={'8px'}
                       mr={'6px'}>
                         <HStack  space="2" alignItems="center" justifyContent={'center'}>
-                          {isSelected(category?.id) && <Icon color={'primary.text'} as={AntDesign} name="check"  />}
-                          <Text  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
+                          {isSelected(category?.id) && <Icon color={'primary.bordersecondary'} as={AntDesign} name="check"  />}
+                          <Text color={isSelected(category?.id) ? 'primary.bordersecondary' : 'primary.text'} fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
                         </HStack>
                         
                       

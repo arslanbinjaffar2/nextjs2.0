@@ -261,25 +261,16 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             </ButtonElement>}
                             {
                                 modules?.some(module => module.alias === 'my-attendee-list') && (
-                                    <Button
+                                    <ButtonElement
                                         onPress={() => {
                                             setTab('my-attendee')
                                             setBreadcrumbs([]);
                                             push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
                                         }} 
-                                        borderRadius="0" 
-                                        borderWidth="0px" 
-                                        py={0} 
-                                        borderColor="primary.darkbox" 
-                                        h="42px" 
-                                        borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
-                                        borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
                                         bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
-                                        w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
-                                        _text={{ fontWeight: '600',color:`${colorText(event.settings?.app_text_mode as string)}` }}
                                     >
                                         {modules?.find((module) => (module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
-                                    </Button>
+                                    </ButtonElement>
                                 )
                             }
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
