@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'next/router';
 import AntDesign from '@expo/vector-icons/AntDesign'
+import { colorText } from 'application/styles/colors';
 const EmailSend = ({id}:{id:any}) => {
     const [emailData, setEmailData] = React.useState({ email: '',  subject: '', comments: '' });
     const [errors, setErrors] = React.useState({ email: '',  subject: '', comments: '' });
@@ -114,14 +115,13 @@ const EmailSend = ({id}:{id:any}) => {
                     py="2"
                     px="9"
                     mx={'auto'}
-					shadow={3}
-                  
+					shadow={3} 
                     isLoading={loading}
                     colorScheme="primary"
                     onPress={()=>validateForm()}
                   
                 >
-                    <Text fontSize="2xl" fontWeight={600}>{event?.labels?.GENERAL_SEND_EMAIL}</Text>
+                    <Text fontSize="2xl" fontWeight={600} color={'primary.hovercolor'}>{event?.labels?.GENERAL_SEND_EMAIL}</Text>
                 </Button>
     </>
 

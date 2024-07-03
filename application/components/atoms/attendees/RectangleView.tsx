@@ -14,6 +14,8 @@ import AvatarColors from 'application/utils/AvatarColors'
 import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
 import { useSearchParams, usePathname } from 'next/navigation'
+import { colorText } from 'application/styles/colors'
+import ButtonElement from '../ButtonElement'
 
 type boxItemProps = {
   attendee: Attendee
@@ -137,25 +139,26 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     maxWidth={'120px'}
                     colorScheme="primary"
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text textAlign="center" isTruncated width="95px" 
+                    color={colorText(event.settings?.primary_color ||'')}
+                    >{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
               )}
             </VStack>
             <Spacer />
             <HStack space={["0","4"]} alignItems="center">
-                {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && (
+                {/* {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && ( */}
                   <Button
                   display={['none','']}
                     py={2}
                     colorScheme="primary"
-
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text textAlign="center" isTruncated width="95px"  color={'primary.hovercolor'} >{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
                   
-                )}
+                {/* //  )}  */}
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                   <Pressable
                     onPress={() => toggleFav()}>

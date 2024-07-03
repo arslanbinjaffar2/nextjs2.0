@@ -12,6 +12,7 @@ import { useRouter } from 'solito/router';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import IcoSort from 'application/assets/icons/small/IcoSort';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import { colorText } from 'application/styles/colors';
 import { func } from 'application/styles';
 const Index = () => {
   const { loading } = UseLoadingService();
@@ -30,6 +31,7 @@ const Index = () => {
   const [filteredFloorPlans, setFilteredFloorPlans] = useState<FloorPlan[]>([]);
   const [filteredCategories, setFilteredCategories] = useState<FloorPlanCategory[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<FloorPlanCategory[]>([]);
+  const [hover, sethover] = useState(false);
 
 
   useEffect(()=>{
@@ -89,7 +91,6 @@ const Index = () => {
   useEffect(() => {
     filterFloorPlans();
   },[search]);
-
   return (
     <>
       {
@@ -107,16 +108,18 @@ const Index = () => {
                  <Input rounded="10" w={'320px'} bg="primary.box" borderWidth={0} value={search} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setSearch} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                  <Spacer />
                  <Button
+                  onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} 
                   w={'42px'}
                   h={'40px'}
                   bg={toggle ? 'primary.500' : 'primary.box'}
                   colorScheme="primary"
+                  
                   onPress={()=>{
                    setToggle(!toggle)
                   }}
                  
                  >
-                  <IcoSort width="20px" height="18px" color={toggle ? func.colorType(event?.settings?.secondary_color) : undefined} />
+                  <IcoSort width="20px" height="18px" color={toggle || hover ? func.colorType(event?.settings?.primary_color) : undefined} />
                  </Button>
                  
                 </HStack>
@@ -166,8 +169,8 @@ const Index = () => {
                       mb={'8px'}
                       mr={'6px'}>
                         <HStack  space="2" alignItems="center" justifyContent={'center'}>
-                          {isSelected(category?.id) && <Icon color={'primary.text'} as={AntDesign} name="check"  />}
-                          <Text  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
+                          {isSelected(category?.id) && <Icon color={'primary.bordersecondary'} as={AntDesign} name="check"  />}
+                          <Text color={isSelected(category?.id) ? 'primary.bordersecondary' : 'primary.text'} fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
                         </HStack>
                         
                       

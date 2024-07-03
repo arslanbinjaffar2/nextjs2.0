@@ -1137,6 +1137,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                 }
                                             }}
                                                 size={'lg'}
+                                                _text={{color:'primary.hovercolor'}}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button> */}
@@ -1286,6 +1287,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     }
                                                 }}
                                                 size={'lg'}
+                                                _text={{color:'primary.hovercolor'}}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button> */}

@@ -19,6 +19,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { GalleryImage } from 'application/models/gallery/GalleryImage';
 import WebLoading from 'application/components/atoms/WebLoading';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { colorText } from 'application/styles/colors'
 
 
 type AppProps = {
@@ -175,8 +176,8 @@ const SquareBox = ({ post, index }: AppProps) => {
                   }}
 
                 >
-                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{event?.labels?.GENERAL_EDIT}</Menu.Item>
-                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>{event?.labels?.GENERAL_DELETE}</Menu.Item>
+                  <Menu.Item _text={{color: 'primary.boxsolidtext'}} _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{event?.labels?.GENERAL_EDIT}</Menu.Item>
+                  <Menu.Item _text={{color: 'primary.boxsolidtext'}} _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>{event?.labels?.GENERAL_DELETE}</Menu.Item>
                 </Menu>
               </HStack>
 

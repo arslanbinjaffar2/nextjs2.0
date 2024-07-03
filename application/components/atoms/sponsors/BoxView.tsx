@@ -152,12 +152,14 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 																										px={1}
 																										py={0}
 																										mr={2}
+																										_text={{fontSize: 'sm', lineHeight: 24}}
+																										_hover={{_text: {color: 'primary.hovercolor'}}}
 																										position={'relative'}
 																										left={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(sponsor?.categories[0]?.info.name, 14)) + 28 + (1 * 10)}px`}
 																										rounded={'full'}
 																										{...triggerProps}
 																									>
-																										<Text lineHeight={24} fontSize="sm">{`+${ sponsor.categories.length - 3}`}</Text>
+																										{`+${ sponsor.categories.length - 3}`}
 																									</Button>
 																								}}>
 																						<Popover.Content borderColor={'primary.500'} bgColor={'primary.500'}>
