@@ -34,7 +34,7 @@ const Index = React.memo(() => {
         (name: string, value: string) => {
             const params = new URLSearchParams(searchParams.toString());
             params.set(name, value);
-            if (name == 'tab' && value == 'name') {
+            if (name === 'tab' && value === 'name') {
                 params.delete('category_id');
             }
             return params.toString();
@@ -48,10 +48,12 @@ const Index = React.memo(() => {
     const [searchQuery, setSearch] = React.useState('');
     const { exhibitors, labels, categories, FetchExhibitors, category_id, query, total_pages } = UseExhibitorService();
     const mounted = useRef(false);
+
     React.useEffect(() => {
-        FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: '', page: page, screen: 'exhibitors' });
-        setTab(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list)
-    }, [tabQueryParam])
+        FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: '', page: 1, screen: 'exhibitors' });
+        setTab(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list);
+        setPage(1);  // Reset the page number when the tab changes
+    }, [tabQueryParam]);
 
     const updateTab = (tab: string) => {
         setTab(tab);
@@ -65,53 +67,56 @@ const Index = React.memo(() => {
 
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
-            FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: query, screen: 'exhibitors' });
+            FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: query, page: 1, screen: 'exhibitors' });
+            setPage(1);  // Reset the page number on search
         }, 1000);
     }, []);
+
     React.useEffect(() => {
         setSearch(query);
     }, [query]);
+
     useEffect(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
-    const loadMore = (loadMore = false) => {
-        if (mounted.current) {
-        let pageNo = page + 1 ;
-        FetchExhibitors({ page: pageNo, category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors') ? categoryIdQueryParam : 0), query: '', screen: 'exhibitors' });
+
+    const loadMore = () => {
+        if (mounted.current && page < total_pages) {
+            const nextPage = page + 1;
+            FetchExhibitors({ page: nextPage, category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors') ? categoryIdQueryParam : 0), query: searchQuery, screen: 'exhibitors' });
+            setPage(nextPage);
         }
     };
 
     const module = modules.find((module) => module.alias === 'exhibitors');
-    console.log(categories,'fgfgf');
-    const category = categories.find((category) => {
-        return category.id ===  Number(categoryIdQueryParam)
-    })
+    console.log(categories, 'categories');
+    const category = categories.find((category) => category.id === Number(categoryIdQueryParam));
+    
     return (
         <>
             <NextBreadcrumbs module={module} title={category?.name}/>
             <Container h="100%" pt="4" maxW="100%" w="100%">  
                     <HStack display={['block','flex']} mb="3" pt="2" w="100%" space="3" alignItems="center">
-                        <Text pb={[3,0]} fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias == 'exhibitors'))?.name ?? ""}</Text>
+                        <Text pb={[3,0]} fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias === 'exhibitors'))?.name ?? ""}</Text>
                         <Spacer />
                         <Input rounded="10" w={['100%','60%']} bg="primary.box" borderWidth={0} value={searchQuery} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
                             search(text);
                             setSearch(text);
                         }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                     </HStack>
-                {(event?.exhibitor_settings?.exhibitorTab == 1) && (
+                {(event?.exhibitor_settings?.exhibitorTab === 1) && (
                     <HStack mb="3" space={1} justifyContent="center" w="100%">
-                        {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
-                            setTab('name')
+                        {(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'name') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
+                            setTab('name');
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
-                            push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'name'))
-
-                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={8} borderRightRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? 0 : 8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_NAME}</Button>}
-                        {(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'category') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
-                            setTab('category')
+                            push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'name'));
+                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={8} borderRightRadius={(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'category') ? 0 : 8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'category') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_NAME}</Button>}
+                        {(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'category') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
+                            setTab('category');
                             FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
-                            push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'))
-                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab == 1 || event?.exhibitor_settings?.exhibitor_list == 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
+                            push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'));
+                        }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
                     </HStack>
                 )}
                 {loading ? (
@@ -183,10 +188,8 @@ const Index = React.memo(() => {
                         <BannerAds module_name={'exhibitors'} module_type={'listing'} />
                     </>
                 )}
-                {console.log(total_pages,'okk')}
-                {console.log(page,'yesssss')}
-             
-                {(in_array('exhibitors', processing)) && (total_pages > 1) && (
+                {console.log(page, 'current page')}
+                {(in_array('exhibitors', processing)) && (page < total_pages && total_pages > 1) && (
                     <LoadMore />
                 )}
                 {!loading && !in_array('exhibitors', processing) && (total_pages > 1) && (
