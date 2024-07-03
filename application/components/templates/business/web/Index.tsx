@@ -16,7 +16,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import in_array from "in_array";
-import { colors } from 'application/styles';
+import { colors, func } from 'application/styles';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
@@ -81,6 +81,7 @@ export default Index
 const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchAttendees, setEnableFilter }: { keywords: Keyword[], searchMatchAttendees: Attendee[] | null, FetchSearchMatchAttendees: (payload: any) => void,  setEnableFilter: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const { event, modules } = UseEventService();
   const { processing, loading } = UseLoadingService();
+   const  [innerLoader, setinnerLoader] = useState(true);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -131,7 +132,9 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
 
   useEffect(() => {
     if (mySearchkeywords.length > 0) {
+      setinnerLoader(true);
       FetchSearchMatchAttendees(mySearchkeywords);
+      setinnerLoader(false);
     }
   }, [mySearchkeywords]);
 
@@ -142,17 +145,18 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
         <View flexDirection={'row'} alignItems={'center'} w={['100%', '60%']} justifyContent={'space-between'}
         style={{ gap:8 }}
         >
-        <Input rounded="10" w={['88%', '90%']} bg="primary.box" borderWidth={0}
+          <Spacer />
+        <Input rounded="10" w={['70%', '80%']} bg="primary.box" borderWidth={0}
             borderColor={'transparent'}
             value={searchTerm} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
               setSearchTerm(text);
             }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-          <Pressable rounded="10" bg="primary.box" p={'8px'} onPress={() => setEnableFilter(true)}>
+          <Button _hover={{bg: 'primary.box'}} colorScheme={'unstyled'} disabled={in_array('keywords',processing) || searching || loading || innerLoader ?  true : false} rounded="10" bg="primary.box" p={'8px'} onPress={() => setEnableFilter(true)}>
             <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22 }} />
-          </Pressable>
+          </Button>
         </View>
       </HStack>
-      {in_array('keywords',processing) || searching || loading || !searchMatchAttendees ? <SectionLoading /> : <>
+      {in_array('keywords',processing) || searching || loading || innerLoader ? <SectionLoading /> : <>
         <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {filteredAttendees && filteredAttendees?.map((attendee: Attendee, k: number) =>
             <React.Fragment key={`${k}`}>
@@ -256,9 +260,9 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
             value={searchTerm} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
               setSearchTerm(text);
             }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-          <Pressable rounded="10" bg="primary.box" p={'8px'} onPress={() => setShowAttendees(false)}>
+          <Button colorScheme={'unstyled'} rounded="10" bg="primary.box" p={'8px'} onPress={() => setShowAttendees(false)}>
             <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22 }} />
-          </Pressable>
+          </Button>
         </View>
         </HStack>
         <>
@@ -297,7 +301,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
           <Text fontSize="2xl">{modules?.find((network) => (network.alias == 'business'))?.name ?? ""}</Text>
           <Pressable rounded="10" bg="primary.500" p={'8px'} onPress={() => setEnableFilter(false)}>
-            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22}} />
+            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22, color: func.colorType(event?.settings?.primary_color) ? func.colorType(event?.settings?.primary_color) : undefined}} />
           </Pressable>
         </HStack>
         <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
