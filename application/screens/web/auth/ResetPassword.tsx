@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, FormControl } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, FormControl, HStack, Pressable } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images, func } from 'application/styles';
@@ -34,6 +34,12 @@ const ResetPassword = ({ props }: any) => {
 
     const { push } = useRouter();
     const router = useRouter();
+      const nativeButton = React.useRef<HTMLElement | null>(null);
+    const handleKeyPress = (event: any) => {
+        if (event.key === 'Enter') {
+            nativeButton.current?.click();
+        }
+    };
 
     const formSchema = Yup.object().shape({
         password: Yup.string()
@@ -61,7 +67,6 @@ const ResetPassword = ({ props }: any) => {
             push(`/${event.url}/dashboard`)
         }
     }, [response.redirect])
-    console.log(event.labels.DESKTOP_APP_LABEL_GO_BACK_TO,"label")
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
@@ -76,7 +81,7 @@ const ResetPassword = ({ props }: any) => {
                         <Controller
                             control={control}
                             render={({ field: { onChange, onBlur, value } }) => (
-                                <Input onChangeText={(val) => onChange(val)} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} placeholder={event.labels.GENERAL_PASSWORD} />
+                                <Input onKeyPress={handleKeyPress} onChangeText={(val) => onChange(val)} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} placeholder={event.labels.GENERAL_PASSWORD} />
                             )}
                             name="password"
                             defaultValue=""
@@ -91,7 +96,7 @@ const ResetPassword = ({ props }: any) => {
                         <Controller
                             control={control}
                             render={({ field: { onChange, onBlur, value } }) => (
-                                <Input onChangeText={(val) => onChange(val)} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} placeholder={event.labels.CONFIRM_PASSWORD} />
+                                <Input onKeyPress={handleKeyPress}  onChangeText={(val) => onChange(val)} type="password" leftElement={<Icon as={<Ionicons name="lock-closed-outline" />} size={5} ml="2" color="primary.text" />} placeholder={event.labels.CONFIRM_PASSWORD} />
                             )}
                             name="password_confirmation"
                             defaultValue=""
@@ -102,24 +107,27 @@ const ResetPassword = ({ props }: any) => {
                                 : errors.password_confirmation?.message}
                         </FormControl.ErrorMessage>
                     </FormControl>
-                    <Text fontSize="md" > 
-                        <Button
+                    <HStack  width={'100%'} alignItems={'flex-start'} fontSize="md" > 
+                        <Pressable
                             p="0"
                             bg={'transparent'}
                             borderWidth="0"
+                            display={'inline-block'}
                             textDecorationLine={'underline'}
                             variant={'unstyled'}
-                            _hover={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
-                            _pressed={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
+                            _hover={{bg: 'transparent',textDecorationLine:'none'}}
+                            _pressed={{bg: 'transparent',textDecorationLine:'none'}}
                             onPress={()=>{
                                 router.push(`/${event.url}/auth/login`)
                             }}
                         
                         >
-                             {event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO}{event?.labels?.DESKTOP_APP_LABEL_LOGIN}
-                        </Button>
-                        </Text>
+                             <Text  fontSize="md">{event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO}{event?.labels?.DESKTOP_APP_LABEL_LOGIN}</Text>
+                             
+                        </Pressable>
+                    </HStack>
                     <Button
+                        ref={nativeButton}
                         isLoading={processing}
                         onPress={handleSubmit(onSubmit)}
                         minH='48px'

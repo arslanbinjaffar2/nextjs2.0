@@ -297,7 +297,9 @@ const Detail = () => {
                       bg="transparent"
                       p="2"
                       fontSize="lg"
-                      leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
+                      leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left"  />}
+                      _icon={{color: 'primary.text'}}
+                      _hover={{_text: {color: 'primary.hovercolor'},_icon: {color: 'primary.hovercolor'}}}
                       colorScheme="primary"
                       onPress={() => {
                         setActiveQuestionError(null);
@@ -312,7 +314,9 @@ const Detail = () => {
                       isDisabled={steps >= (detail?.questions.length! -1) ? true : false}
                       p="2"
                       fontSize="lg"
-                      rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                      rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right"  />}
+                      _icon={{color: 'primary.text'}}
+                      _hover={{_text: {color: 'primary.hovercolor'},_icon: {color: 'primary.hovercolor'}}}
                       colorScheme="primary"
                       onPress={() => {
                         setNextStep();
@@ -347,6 +351,7 @@ const Detail = () => {
                     py="3"
                     px="3"
                     isLoading={false}
+                    color={'primary.hover'}
                     colorScheme="primary"
                     onPress={()=>{
                       resetForSubmitAgain()

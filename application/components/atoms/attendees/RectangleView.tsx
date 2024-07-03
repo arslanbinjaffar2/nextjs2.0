@@ -95,7 +95,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                 bg={'#A5A5A5'}
               >{attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0, 1) + attendee?.last_name?.substring(0, 1) : attendee?.first_name?.substring(0, 1)}</Avatar>
             )}
-            <VStack w={['calc(100% - 100px)','calc(100% - 250px)']} space="0">
+            <VStack w={['calc(100% - 120px)','calc(100% - 280px)']} space="0">
               {(attendee?.first_name || attendee?.last_name) ? (
                 <>
                   <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
@@ -135,7 +135,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     maxWidth={'120px'}
                     colorScheme="primary"
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
               )}
@@ -147,8 +147,9 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   display={['none','']}
                     py={2}
                     colorScheme="primary"
+
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
                   
