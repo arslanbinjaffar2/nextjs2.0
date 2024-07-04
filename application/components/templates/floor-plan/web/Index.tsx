@@ -105,7 +105,7 @@ const Index = () => {
                 <Text fontSize="2xl">{module?.name}</Text>
                 <Spacer />
                 <HStack  space="1" alignItems="center">
-                 <Input rounded="10" w={'320px'} bg="primary.box" borderWidth={0} value={search} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setSearch} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                 <Input rounded="10" w={['calc(100% - 60px)','320px']} bg="primary.box" borderWidth={0} value={search} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setSearch} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                  <Spacer />
                  <Button
                   onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} 

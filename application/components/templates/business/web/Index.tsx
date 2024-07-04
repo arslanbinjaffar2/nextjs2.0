@@ -80,9 +80,7 @@ export default Index
 const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchAttendees, setEnableFilter }: { keywords: Keyword[], searchMatchAttendees: Attendee[] | null, FetchSearchMatchAttendees: (payload: any) => void,  setEnableFilter: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const { event, modules } = UseEventService();
   const { processing, loading } = UseLoadingService();
-
   const [searchTerm, setSearchTerm] = useState("");
-
   const  [innerLoader, setinnerLoader] = useState(true);
   const [mySearchkeywords, setMySearchKeywords] = useState([]);
   const [searching, setSearching] = useState<boolean>(false);
@@ -139,22 +137,23 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
 
   return (
     <>
-     {in_array('keywords',processing) || innerLoader || searching || loading ? <SectionLoading /> : <> <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
+      <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
         <Text fontSize="2xl">{event?.labels?.GENERAL_NETWORK_INTEREST_MATCHED_ATTENDEES ?? modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
         <View flexDirection={'row'} alignItems={'center'} w={['100%', '60%']} justifyContent={'space-between'}
         style={{ gap:8 }}
         >
-        <Input rounded="10" w={['88%', '90%']} bg="primary.box" borderWidth={0}
+          <Spacer />
+        <Input rounded="10" w={['70%', '80%']} bg="primary.box" borderWidth={0}
             borderColor={'transparent'}
             value={searchTerm} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
               setSearchTerm(text);
             }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-          <Pressable rounded="10" bg="primary.box" p={'8px'} onPress={() => setEnableFilter(true)}>
+          <Button _hover={{bg: 'primary.box'}} colorScheme={'unstyled'} disabled={in_array('keywords',processing) || searching || loading || innerLoader ?  true : false} rounded="10" bg="primary.box" p={'8px'} onPress={() => setEnableFilter(true)}>
             <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22 }} />
-          </Pressable>
+          </Button>
         </View>
       </HStack>
-      
+      {in_array('keywords',processing) || searching || loading || innerLoader ? <SectionLoading /> : <>
         <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {filteredAttendees && filteredAttendees?.map((attendee: Attendee, k: number) =>
             <React.Fragment key={`${k}`}>
@@ -260,9 +259,9 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
             value={searchTerm} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
               setSearchTerm(text);
             }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-          <Pressable rounded="10" bg="primary.box" p={'8px'} onPress={() => setShowAttendees(false)}>
+          <Button colorScheme={'unstyled'} rounded="10" bg="primary.box" p={'8px'} onPress={() => setShowAttendees(false)}>
             <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22 }} />
-          </Pressable>
+          </Button>
         </View>
         </HStack>
         <>
@@ -275,9 +274,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
           </Box>} 
             </>}
             </>
-          {!searchingAttendees && !searchMatchAttendees && 
-          <Box overflow="hidden" mb={3} bg="primary.box" w="100%" rounded="lg" padding={3}><Text fontSize="xl">
-            {event.labels.GENERAL_NO_RECORD}</Text></Box>}
+          {!searchingAttendees && !searchMatchAttendees && <NoRecordFound mb={3} bg="primary.box"/>}
           {/* {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
             <Button
               size="lg"
@@ -302,7 +299,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
           <Text fontSize="2xl">{modules?.find((network) => (network.alias == 'business'))?.name ?? ""}</Text>
           <Pressable rounded="10" bg="primary.500" p={'8px'} onPress={() => setEnableFilter(false)}>
-            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22, color: func.colorType(event?.settings?.secondary_color) ? func.colorType(event?.settings?.secondary_color) : undefined}} />
+            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22, color: func.colorType(event?.settings?.primary_color) ? func.colorType(event?.settings?.primary_color) : undefined}} />
           </Pressable>
         </HStack>
         <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
@@ -374,9 +371,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
               </View>
             ))
           ) : searchTerm.length > 0 && filteredkeywords?.length === 0 ? (
-            <Box overflow="hidden" mb={3} w="100%" rounded="lg" padding={3} bg={"primary.box"}>
-              <Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
-            </Box>
+            <NoRecordFound bg="primary.box" />
           ) : searchTerm.length === 0 && interestkeywords?.length > 0 ? (
             interestkeywords.map((keyword: Keyword) => (
               <View key={keyword?.id}>
@@ -394,9 +389,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
               </View>
             ))
           ) : (
-            <Box overflow="hidden" mb={3} w="100%" rounded="lg" padding={3} bg={"primary.box"}>
-              <Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
-            </Box>
+            <NoRecordFound bg="primary.box" />
           )}
         </Box>
 
