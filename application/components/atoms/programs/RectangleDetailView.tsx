@@ -9,8 +9,10 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
 import { Platform } from 'react-native';
 import moment from 'moment'
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import in_array from 'in_array';
 import FavProgramToggle from 'application/components/atoms/programs/FavProgramToggle';
+import UseAuthService from 'application/store/services/UseAuthService';
 
 type AppProps = {
   program: Program,
@@ -28,6 +30,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
   const { MakeFavourite,agendas_attached_via_group } = UseProgramService();
 
   const { event } = UseEventService();
+  const { response } = UseAuthService();
 
   const [isFav,setFav] = useState(false);
 
@@ -53,6 +56,8 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
               onPress={() => {
                 if(screen && screen === 'qa'){
                   push(`/${event.url}/qa/detail/${program.id}`)
+                }else if(section === 'myturnlist'){
+                  push(`/${event.url}/myturnlist/show/${program.id}`)
                 }else{
                   push(`/${event.url}/agendas/detail/${program.id}?currentIndex=${currentIndex}`)
                 }
@@ -78,15 +83,15 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
                     </Center>
                     <Spacer />
                     
-                    {_condtion && <HStack pr="3" space={['2','4']} alignItems="center" justifyContent={'flex-end'}>
-                      {program?.session?.length && program?.enable_speakerlist ? (
+                    {_condtion && section !== 'myturnlist' && <HStack pr="3" space={['2','4']} alignItems="center" justifyContent={'flex-end'}>
+                      {program?.session?.length && program?.enable_speakerlist && (event?.myturnlist_setting?.ask_to_apeak == 1 || (event?.myturnlist_setting?.ask_to_apeak == 0 && response?.attendee_detail?.event_attendee?.ask_to_apeak == 1)) ? (
                         <IconButton
                           p={0}
                           mr="0"
                           variant="transparent"
                           icon={<IcoRaiseHand width={21} height={26} />}
                           onPress={() => {
-                            console.log('hello')
+                            push(`/${event.url}/myturnlist/show/${program.id}`)
                           }}
                         />
                       ): null}
@@ -96,6 +101,19 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
                        {event?.agenda_settings?.admin_fav_attendee == 1 && !in_array(program?.id, agendas_attached_via_group) && program?.is_attatched_with_subregistration !== 1 && <FavProgramToggle program_id={program.id} key={program.id} />}
                       
                     </HStack>}
+                      {section === 'myturnlist' && <HStack pr="3" space="5" alignItems="center">
+                              <IconButton
+                                bg="transparent"
+                                p="1"
+                                _hover={{ bg: 'transparent' }}
+                                icon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                                onPress={() => {
+                                  push(`/${event.url}/myturnlist/show/${program.id}`)
+                                }}
+
+                              />
+                            </HStack>
+                            }
                   </HStack>
                 </HStack>
       </Pressable>

@@ -14,6 +14,7 @@ import DocumentSlice from 'application/store/slices/Document.Slice'
 import AttendeeSlice from 'application/store/slices/Attendee.Slice'
 import CertificateSlice from 'application/store/slices/Certificate.Slice'
 import ProgramSlice from 'application/store/slices/Program.Slice'
+import RequestToSpeakSlice from 'application/store/slices/RequestToSpeak.Slice'
 import InfoSlice from 'application/store/slices/Info.Slice'
 import PollSlice from './slices/Poll.Slice'
 import SurveySlice from './slices/Survey.Slice'
@@ -76,7 +77,8 @@ const makeStore = () => {
             hd:HdSlice,
             meetingReservation:MeetingReservationSlice,
             toast:ToastSlice,
-            chats:ChatSlice
+            chats:ChatSlice,
+            requestToSpeak: RequestToSpeakSlice,
         },
         devTools: true,
         middleware: getDefaultMiddleware =>
