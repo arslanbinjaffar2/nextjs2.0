@@ -22,23 +22,20 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
   const { field_settings, settings } = useRequestToSpeakService();
   const loggedInUser = attendee?.id === response.data?.user?.id;
   const [timeSpent, setTimeSpent] = React.useState('');
+  const [speechStartTime, setSpeechStartTime] = React.useState<any>(moment(currentAttendee.speech_start_time) || null);
 
   const speechTime = settings?.enable_speech_time;
   const moderatorSpeechTime = settings?.enable_speech_time_for_moderator;
 
   const countDownTimeSeconds = settings?.speak_time;
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      const now = moment();
-      const speechStartTime = moment(currentAttendee.speech_start_time);
+  const updateTimer = () => {
+    const now = moment();
       if (moderatorSpeechTime) {
         if (now.isAfter(speechStartTime)) {
           const duration = moment.duration(now.diff(speechStartTime));
           const formattedTime = `${duration.hours().toString().padStart(2, '0')} : ${duration.minutes().toString().padStart(2, '0')} : ${duration.seconds().toString().padStart(2, '0')}`;
           setTimeSpent(formattedTime);
-        } else {
-          setTimeSpent('00 : 00 : 00');
         }
       } else if (speechTime && !moderatorSpeechTime) {
         const endTime = speechStartTime.add(countDownTimeSeconds, 'seconds');
@@ -51,19 +48,26 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
           socketUpdate();
         }
       }
-    }, 1000);
 
-    return () => clearInterval(interval);
-  }, [currentAttendee, speechTime, moderatorSpeechTime, countDownTimeSeconds]);
+    setTimeout(updateTimer, 1000);
+  }
 
+  React.useEffect(() => {
 
-  const isFieldVisible = (fieldName: string) => {
-    const field = field_settings ? field_settings.find((field: any) => field.fields_name === fieldName) : [];
-    if (!loggedInUser) {
-      return field && !field.is_private;
+    if (!speechStartTime) {
+      setSpeechStartTime(moment(currentAttendee.speech_start_time));
     }
-    return !!field;
-  };
+
+    if(speechStartTime) {
+      updateTimer();
+    }
+
+    return () => {
+      setSpeechStartTime(null);
+      setTimeSpent('');
+    };
+
+  }, []);
 
   const getInitials = (firstName: any, lastName: any) => {
     if (firstName && lastName) {
@@ -91,7 +95,7 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
   
   
   const renderDetails = () => {
-    const fields = getVisibleFieldsWithValues(); // Add more fields if needed
+    const fields = getVisibleFieldsWithValues();
     return fields.map((field: any) => {
       const value = getValueFromAttendeeInfo(field);
       if (value) {
@@ -107,9 +111,6 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
         <View pl={'4'} pt={'4'} pr={'5'}>
 
           <HStack alignItems="start" width={'100%'} justifyContent={'space-between'}>
-          {/* <Text color={'primary.hovercolor'} fontSize={'sm'} flex={'1'}>
-              {isFieldVisible('delegate_number') && getValueFromAttendeeInfo('delegate_number') ? `Delegate Number# ${getValueFromAttendeeInfo('delegate_number')}` : ''}
-            </Text> */}
             <Box alignSelf={'center'} flex={'1'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
               <Avatar
                 borderWidth={0}
@@ -120,10 +121,6 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate }: SpeakerContainerPro
                 size={'xl'}
               >{getInitials(attendee?.first_name, attendee?.last_name)}</Avatar>
             </Box>
-
-            {/* <Text color={'primary.hovercolor'} fontSize={'sm'} flex={'1'}>
-              {isFieldVisible('network_group') && getValueFromAttendeeInfo('network_group') ? `Network group: ${getValueFromAttendeeInfo('network_group')}` : ''}
-            </Text> */}
           </HStack>
           <HStack space="3" alignItems="center" flexDirection={'column'} mt={'8px'}>
             <Box flexDirection={'row'} alignItems={'center'}>
