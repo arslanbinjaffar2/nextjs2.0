@@ -1118,11 +1118,12 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image : `${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
                                                     : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
                                             </Center>
-                                            <Button w={150} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
+                                            <Button w={150} px={4} py={3} leftIcon={<Icon as={AntDesign}  color={'primary.hovercolor'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
                                                 if (inputFileRef.current) {
                                                     inputFileRef.current.click();
                                                 }
                                             }}
+                                            _text={{color:'primary.hovercolor'}}
                                                 size={'lg'}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
@@ -1187,7 +1188,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                 <Text fontSize="md">{attendeeData.attendee_cv}</Text>
                                             )}
                                         </Center>
-                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
+                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign}  color={'primary.hovercolor'} name="upload" size="lg" />}
                                                 isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                 onPress={() => {
                                                     if (inputresumeFileRef.current) {
@@ -1195,6 +1196,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     }
                                                 }}
                                                 size={'lg'}
+                                                _text={{color:'primary.hovercolor'}}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>

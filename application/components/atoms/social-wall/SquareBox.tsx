@@ -170,13 +170,13 @@ const SquareBox = ({ post, index }: AppProps) => {
                   w={180}
                   crossOffset={0}
                   trigger={(triggerProps) => {
-                    return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'primary.text'} as={Entypo} name="dots-three-horizontal" />
+                    return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '',color:'primary.hovercolor' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'primary.text'} as={Entypo} name="dots-three-horizontal" />
                     </Button>
                   }}
 
                 >
-                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{event?.labels?.GENERAL_EDIT}</Menu.Item>
-                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>{event?.labels?.GENERAL_DELETE}</Menu.Item>
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500',color:'primary.hovercolor' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{event?.labels?.GENERAL_EDIT}</Menu.Item>
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500',color:'primary.hovercolor' }} onPress={() => { deletePost() }}>{event?.labels?.GENERAL_DELETE}</Menu.Item>
                 </Menu>
               </HStack>
 
@@ -386,13 +386,13 @@ const SquareBox = ({ post, index }: AppProps) => {
                       );
                     }}
                   >
-                    <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
+                    <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{ bg: '' }} _hover={{ bg: 'primary.500',color:'primary.hovercolor' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
                       {labels?.SOCIAL_WALL_TOP_COMMENTS}
                     </Menu.Item>
                     <Menu.Item
                       _text={{color: 'primary.boxsolidtext'}} 
                       _focus={{ bg: '' }}
-                      _hover={{ bg: 'primary.500' }}
+                      _hover={{ bg: 'primary.500',color:'primary.hovercolor' }}
                       textValue="comments_newest"
                       onPress={() => handleCommentsSortBy('newest')}
                     >

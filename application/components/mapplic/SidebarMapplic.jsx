@@ -77,7 +77,7 @@ const SidebarMapplic = (json) => {
             onPress={()=>{
               setactive('exhibitor');closeLocation()
             }}>
-            <Text >{labels?.FLOOR_PLAN_EXHIBITOR_LABEL}</Text>
+            <Text color={'primary.hovercolor'}>{labels?.FLOOR_PLAN_EXHIBITOR_LABEL}</Text>
             
           </Button>
                 
