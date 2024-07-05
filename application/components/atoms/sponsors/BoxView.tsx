@@ -148,7 +148,6 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 																					<Popover
 																						trigger={(triggerProps) => {
 																						return <Button
-                                                                                                        _text={{fontSize: 'sm', lineHeight: 24}}
                                                                                                         _hover={{_text: {color: 'primary.hovercolor'}}}
 																										bg={'transparent'}
 																										px={1}
