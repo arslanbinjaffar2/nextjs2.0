@@ -152,7 +152,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                         >
                                             {!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
                                                 : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                                    <Text color={'primary.hovercolor'} fontWeight={'500'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL} sdfsdfs</Text>
+                                                    <Text color={'primary.hovercolor'} fontWeight={'500'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
                                                 </Box> : null
                                             }
                                         </Pressable>
@@ -186,7 +186,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                 }}
             >
                 <Modal.Header bg={'primary.boxsolid'} borderWidth={0} borderColor={'transparent'} px={'16px'} py={4} flexDirection={'row'} maxWidth={'450px'} width={['80%', '90%']} roundedTop={'10px'} alignItems={'center'} mx={'auto'}>
-                    <DynamicIcon iconType={'my_notes'} iconProps={{ width: 30, height: 30, color: func.colorType(event?.settings?.app_background_color) ? func.colorType(event?.settings?.app_background_color) : undefined  }} />
+                    <DynamicIcon iconType={'notes'} iconProps={{ width: 30, height: 30, color: func.colorType(event?.settings?.app_background_color) ? func.colorType(event?.settings?.app_background_color) : undefined  }} />
                     <Text color={'primary.backgroundtext'} fontSize={'2xl'} ml={2}>{event?.labels?.WRITE_NOTE_TO_MODRATOR}</Text>
                 </Modal.Header>
                 <Modal.Content bg={'primary.boxsolid'} p={0} maxWidth={'450px'} width={['80%', '90%']} roundedBottom={'10px'} roundedTop={0} mx={'auto'}>
