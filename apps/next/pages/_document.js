@@ -159,6 +159,9 @@ export const style = `
 body {
   display: flex;
 }
+#boxShadow{
+  box-shadow:rgba(0, 0, 0, 0.29) 0px 3px 4.65px 0px !important;
+}
 #shareAccountDropDown{
   z-index: 99 !important;
 }
