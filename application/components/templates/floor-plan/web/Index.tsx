@@ -89,7 +89,6 @@ const Index = () => {
   useEffect(() => {
     filterFloorPlans();
   },[search]);
-
   return (
     <>
       {
@@ -107,7 +106,8 @@ const Index = () => {
                  <Input rounded="10" w={['calc(100% - 60px)','320px']} bg="primary.box" borderWidth={0} value={search} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setSearch} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                  <Spacer />
                  <Button
-                       onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} 
+                  onHoverIn={() => sethover(true)} 
+                  onHoverOut={() => sethover(false)} 
                   w={'42px'}
                   h={'40px'}
                   bg={toggle ? 'primary.500' : 'primary.box'}
@@ -117,7 +117,7 @@ const Index = () => {
                   }}
                  
                  >
-                  <IcoSort width="20px" height="18px" color={toggle ? func.colorType(event?.settings?.secondary_color) : undefined} />
+                  <IcoSort width="20px" height="18px" color={(toggle || hover) ? func.colorType(event?.settings?.primary_color) : undefined} />
                  </Button>
                  
                 </HStack>
