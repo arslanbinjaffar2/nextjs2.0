@@ -1,7 +1,7 @@
 import { Attendee } from 'application/models/attendee/Attendee'
 import DynamicIcon from 'application/utils/DynamicIcon'
 import UseEnvService from 'application/store/services/UseEnvService';
-import { Text, HStack, View, Avatar, Box, Pressable, Button, Image, Modal, TextArea, Icon } from 'native-base'
+import { Text, HStack, View, Avatar, Box, Pressable, Button, Image, Modal, TextArea, Spinner } from 'native-base'
 import React, { useState } from 'react'
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService'
@@ -20,15 +20,20 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
     const { event } = UseEventService();
     const { _env } = UseEnvService()
 
-
     const { FetchProgramTurnList, currentUserStatus } = useRequestToSpeakService();
 
     const userStatus = currentUserStatus.status;
 
-    const [sendRequest, setSendRequest] = useState<boolean>(currentUserStatus.status === 'pending' || currentUserStatus.status === 'accepted' ? true : false)
+    const [sendRequest, setSendRequest] = useState<boolean>(false);
+
+    React.useEffect(() => {
+        setSendRequest(userStatus === "pending" || userStatus === "accepted");
+    }, [userStatus]);
+    
     const [status, setStatus] = useState<boolean>(false)
     const [noteBox, setNoteBox] = useState<boolean>(false)
     const [note, setNote] = useState<string>('')
+    const [loading, setLoading] = useState<boolean>(false)
 
     if (!activeAttendee) return null;
 
@@ -45,9 +50,15 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     React.useEffect(() => {
         FetchProgramTurnList({ program_id: Number(program_id) });
+        setTimeout(() => {
+            setLoading(false);
+        }, 5000);
     }, [status])
 
     React.useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 5000);
     }, [userStatus])
 
     const statusLabel = getStatusLabel();
@@ -85,7 +96,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
     };
 
     const renderDetails = () => {
-        const fields = getVisibleFieldsWithValues(); // Add more fields if needed
+        const fields = getVisibleFieldsWithValues();
         return fields.map((field: any) => {
             const value = getValueFromAttendeeInfo(field);
             if (value) {
@@ -97,21 +108,26 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     const submitRequestToSpeak = () => {
 
-        let action = userStatus === 'pending' || userStatus === 'accepted' ? 'cancel' : 'request';
-        if(action === 'request' && settings?.ask_to_speak_notes === 1){
+        let action = userStatus === "pending" || userStatus === "accepted" ? "cancel" : "request";
+        if(action === "request" && settings?.ask_to_speak_notes === 1){
             setNoteBox(true)
         }else{
+            setLoading(true);
             setSendRequest(!sendRequest)
             RequestToSpeech({ agenda_id: program_id, action: action })
             setStatus(prev => !prev)
+            setNote('')
+            
         }
     };
 
     const submitRequestToSpeakWithNote = () => {
+        setLoading(true);
         setNoteBox(false)
         setSendRequest(!sendRequest)
         RequestToSpeech({ agenda_id: program_id, action: 'request', notes: note })
         setStatus(prev => !prev)
+        setNote('')
     }
 
     return (
@@ -136,7 +152,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                     {event?.labels?.GENERAL_STATUS}: {statusLabel}
                                 </Text>
                             }
-                            {renderDetails()}
+                            {userStatus !== "accepted" && renderDetails()}
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>
@@ -147,13 +163,14 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                         <Pressable
                                             mr={'4'}
                                             onPress={() => {
-                                                submitRequestToSpeak()
+                                                submitRequestToSpeak();
                                             }}
                                         >
-                                            {!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                            {loading ? <Spinner color="primary.text" /> : 
+                                                (!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
                                                 : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                                    <Text color={'primary.hovercolor'} fontWeight={'500'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
-                                                </Box> : null
+                                                    <Text  fontWeight={'500'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
+                                                </Box> : null)
                                             }
                                         </Pressable>
                                         : null
@@ -161,20 +178,21 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                     <Pressable
                                         mr={'4'}
                                         onPress={() => {
-                                            submitRequestToSpeak()
+                                            submitRequestToSpeak();
                                         }}
                                     >
-                                        {!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                        {loading ? <Spinner color="primary.text" /> : 
+                                            (!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
                                             : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                                <Text color={'primary.hovercolor'} fontWeight={'500'}isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
-                                            </Box> : null
+                                                <Text  fontWeight={'500'}isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
+                                            </Box> : null)
                                         }
                                     </Pressable>
                                 )}
                             </>
                         )}
 
-                        {currentUserIndex ? <Text fontWeight={'medium'} fontSize={'lg'}>#{currentUserIndex}</Text> : null}
+                        {currentUserIndex && !loading ? <Text fontWeight={'medium'} fontSize={'lg'}>#{currentUserIndex}</Text> : null}
                     </Box>
                 </HStack>
             </View>
@@ -215,8 +233,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 																		_text={{color: 'primary.hovercolor'}}
                                     flex={1}
                                         onPress={() => {
-                                            setNoteBox(false)
-                                            setNote('')
+                                            submitRequestToSpeakWithNote()
                                         }}
                                     >
                                         {event?.labels?.RQS_SKIP ?? event?.labels?.GENERAL_SKIP}
