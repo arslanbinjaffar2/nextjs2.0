@@ -148,6 +148,8 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 																					<Popover
 																						trigger={(triggerProps) => {
 																						return <Button
+                                                                                                        _text={{fontSize: 'sm', lineHeight: 24}}
+                                                                                                        _hover={{_text: {color: 'primary.hovercolor'}}}
 																										bg={'transparent'}
 																										px={1}
 																										py={0}
@@ -159,7 +161,7 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 																										rounded={'full'}
 																										{...triggerProps}
 																									>
-																										<Text lineHeight={24} fontSize="sm">{`+${ sponsor.categories.length - 3}`}</Text>
+                                                                                                            {`+${ sponsor.categories.length - 3}`}
 																									</Button>
 																								}}>
 																						<Popover.Content borderColor={'primary.500'} bgColor={'primary.500'}>
