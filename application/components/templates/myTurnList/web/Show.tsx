@@ -95,8 +95,10 @@ const ShowTurnList = () => {
             }
         }
     }, [socket]);
-
+    
     const module = modules.find((module) => module.alias === 'myturnlist');
+    const sameUser = response?.data?.user?.id === currentAttendee?.attendee_id;
+    const showActiveAttendee = currentAttendee.status === 'inspeech' && sameUser;
     return (
         <>
             {(initialLoad && (loading && in_array('program-turn-list', processing))) ? <SectionLoading /> : (
@@ -125,7 +127,7 @@ const ShowTurnList = () => {
 
                         }
 
-                        {currentUser && checkGdpr() === false && currentAttendee.status !== 'inspeech' &&
+                        {currentUser && checkGdpr() === false && !showActiveAttendee &&
                             <ActiveAttendee
                                 activeAttendee={currentUser}
                                 program_id={Number(_programId)}
