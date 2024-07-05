@@ -98,7 +98,7 @@ const ShowTurnList = () => {
     
     const module = modules.find((module) => module.alias === 'myturnlist');
     const sameUser = response?.data?.user?.id === currentAttendee?.attendee_id;
-    const showActiveAttendee = currentAttendee.status === 'inspeech' && sameUser;
+    const showActiveAttendee = currentAttendee?.status === 'inspeech' && sameUser;
     return (
         <>
             {(initialLoad && (loading && in_array('program-turn-list', processing))) ? <SectionLoading /> : (
