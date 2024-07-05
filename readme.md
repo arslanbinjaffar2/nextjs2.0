@@ -25,6 +25,7 @@ Password: *Eventbuizz@2023*
 
 ## Commands
 
+
 eas build
 eas build:status
 npx expo -h
