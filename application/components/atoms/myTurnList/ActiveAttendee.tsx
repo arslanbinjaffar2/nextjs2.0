@@ -121,11 +121,15 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
         }
     };
 
-    const submitRequestToSpeakWithNote = () => {
+    const submitRequestToSpeakWithNote = (action: string) => {
         setLoading(true);
         setNoteBox(false)
         setSendRequest(!sendRequest)
-        RequestToSpeech({ agenda_id: program_id, action: 'request', notes: note })
+        if (action === 'skip') {
+            RequestToSpeech({ agenda_id: program_id, action: 'request', notes: '' })
+        } else if (action === 'submit') {
+            RequestToSpeech({ agenda_id: program_id, action: 'request', notes: note })
+        }
         setStatus(prev => !prev)
         setNote('')
     }
@@ -233,7 +237,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 																		_text={{color: 'primary.hovercolor'}}
                                     flex={1}
                                         onPress={() => {
-                                            submitRequestToSpeakWithNote()
+                                            submitRequestToSpeakWithNote('skip')
                                         }}
                                     >
                                         {event?.labels?.RQS_SKIP ?? event?.labels?.GENERAL_SKIP}
@@ -243,7 +247,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                     flex={1}
 
                                         onPress={() => {
-                                            submitRequestToSpeakWithNote()
+                                            submitRequestToSpeakWithNote('submit')
                                         }}
                                     >
                                         {event?.labels?.RQS_SUBMIT ?? event?.labels?.GENERAL_SUBMIT}
