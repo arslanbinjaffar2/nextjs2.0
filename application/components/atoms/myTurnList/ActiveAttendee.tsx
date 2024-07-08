@@ -120,6 +120,14 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
         }
     };
 
+    const gdprSettings = event?.gdpr_settings;
+    const notShowProfileImage = () => {
+        if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
+          return activeAttendee?.current_event_attendee?.gdpr === 0;
+        }
+        return false;
+      }
+
     const submitRequestToSpeakWithNote = (action: string) => {
         setLoading(true);
         setNoteBox(false)
@@ -138,7 +146,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
             <View bg={'primary.box'} rounded={'10px'} pl={'10px'} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
                 <HStack justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
                     <Box flexDirection={'row'}>
-                        {activeAttendee?.image && settings?.show_image_turnlist === 1 ? (
+                        {activeAttendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImage() ? (
                             <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${image}` }} alt="" w="50px" h="50px" />
                         ) : (
                             <Avatar
@@ -152,7 +160,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                             <Text fontWeight={'medium'} fontSize={'lg'}>{activeAttendee.first_name} {activeAttendee.last_name}</Text>
                             {statusLabel &&
                                 <Text textBreakStrategy='balanced' fontSize="lg">
-                                    {event?.labels?.GENERAL_STATUS}: {statusLabel}
+                                    {event?.labels?.RQA_STATUS ?? event?.labels?.GENERAL_STATUS}: {statusLabel}
                                 </Text>
                             }
                             {userStatus !== "accepted" && renderDetails()}

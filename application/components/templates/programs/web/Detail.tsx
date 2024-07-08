@@ -309,7 +309,7 @@ const Detail = () => {
                                     </>
                                 )} */}
                                 {/* <PollRectangleView /> */}
-                                {showRequestToSpeak && (
+                                {showRequestToSpeak && detail?.program?.request_to_speak_common_group === true && detail?.program?.is_active_speakerlist === true && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                             <DynamicIcon iconType={modules.find((module: Module) => module.alias === 'myturnlist')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 17, height: 17 }} />
