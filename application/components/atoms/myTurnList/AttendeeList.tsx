@@ -14,6 +14,7 @@ type boxItemProps = {
 }
 
 const AttendeeList = ({ attendee, border }: boxItemProps) => {
+console.log("🚀 ~ AttendeeList ~ attendee:", attendee)
 
   const { _env } = UseEnvService()
 
@@ -35,6 +36,14 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
       .map((field: any) => field.fields_name);
   };
 
+  const gdprSettings = event?.gdpr_settings;
+
+  const notShowProfileImage = () => {
+    if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
+      return attendee?.current_event_attendee?.gdpr === 0;
+    }
+    return true;
+  }
 
   const getValueFromAttendeeInfo = (field: string) => {
     if (attendee?.info !== undefined) {
@@ -62,7 +71,7 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
         <HStack w="100%" space="5" alignItems={'center'} justifyContent="space-between">
 
           <Box alignSelf={renderDetails() !== null ? 'flex-start' : 'center'}>
-            {attendee?.image && settings?.show_image_turnlist === 1 ? (
+            {attendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImage() ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar

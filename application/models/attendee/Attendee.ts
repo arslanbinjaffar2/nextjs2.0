@@ -21,6 +21,7 @@ export interface Attendee {
     private_country_display_name?: string;
     sort_settings?: any;
     attendee_program_groups?: any;
+    current_event_attendee?: any;
 }
 
 interface Eventattendee {
