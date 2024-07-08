@@ -20,13 +20,14 @@ type ScreenParams = { id: string }
 import in_array from "in_array";
 import { set } from 'lodash';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { func } from 'application/styles';
 
 const { useParam } = createParam<ScreenParams>()
 
 const EditPost = () => {
     const router = useRouter();
     const { _env } = UseEnvService();
-    const { modules  } = UseEventService();
+    const { modules ,event } = UseEventService();
     const { UpdateSocialWallPost,DetailSocialWallPost, post_detail } = UseSocialWallService();
     const { processing } = UseLoadingService();
     const { response } = UseAuthService();
@@ -206,7 +207,7 @@ const EditPost = () => {
                         rounded="100%"
                         variant="solid"
                         bg={'white'}
-                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color="black" />}
+                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color={func.colorType(event?.settings?.primary_color)} />}
                         onPress={() => {
                             removeFile()
                         }}
@@ -236,7 +237,7 @@ const EditPost = () => {
                         rounded="100%"
                         variant="solid"
                         bg={'white'}
-                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline" color="primary.text" />}
+                        icon={<Icon size="xl" as={Ionicons} name="ios-close-outline"  color={func.colorType(event?.settings?.primary_color)}  />}
                         onPress={() => {
                             removeFile()
                         }}
@@ -254,7 +255,8 @@ const EditPost = () => {
                 <Center bg="primary.box" w="65%">
                     <HStack w="100%" space="0" alignItems="center">
                     <input 
-                        width="100%"
+                            accept='image/*'
+                            width="100%"
                             height="50px"
                             type='file'
                             style={{display:'none'}}
@@ -268,7 +270,7 @@ const EditPost = () => {
                             rounded="0"
                             _hover={{ bg: 'primary.secondary' }}
                             variant="unstyled"
-                            icon={<Icon size="xl" as={Ionicons} name="ios-image-outline" color="primary.text" />}
+                            icon={<Icon size="xl" as={Ionicons} name="ios-image-outline" color={func.colorType(event?.settings?.primary_color)} />}
                             onPress={()=>{
                                 if(inputImageRef.current){
                                     inputImageRef.current.click();
@@ -277,6 +279,7 @@ const EditPost = () => {
                         />
                         <Divider w="1px" h="10" bg="primary.text" />
                         <input 
+                           accept='video/*'
                             width="100%"
                             height="50px"
                             type='file'
@@ -286,12 +289,13 @@ const EditPost = () => {
                             }}
                             ref={inputVideoRef}
                         />
-                        <IconButton
+                        <IconButton                  
                             w="50%"
                             rounded="0"
                             variant="unstyled"
                             _hover={{ bg: 'primary.secondary' }}
-                            icon={<Icon size="xl" as={Ionicons} name="ios-videocam-outline" color="primary.text" />}
+                            _icon={{ color:"primary.hovercolor" }}
+                            icon={<Icon size="xl" as={Ionicons} name="ios-videocam-outline" color={func.colorType(event?.settings?.primary_color)} />}
                             onPress={()=>{
                                 if(inputVideoRef.current){
                                     inputVideoRef.current.click();
