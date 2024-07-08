@@ -153,7 +153,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                             <Text fontWeight={'medium'} fontSize={'lg'}>{activeAttendee.first_name} {activeAttendee.last_name}</Text>
                             {statusLabel &&
                                 <Text textBreakStrategy='balanced' fontSize="lg">
-                                    {event?.labels?.GENERAL_STATUS}: {statusLabel}
+                                    {event?.labels?.RQS_STATUS ?? event?.labels?.GENERAL_STATUS}: {statusLabel}
                                 </Text>
                             }
                             {userStatus !== "accepted" && renderDetails()}
