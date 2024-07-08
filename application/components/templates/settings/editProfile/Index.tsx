@@ -1268,7 +1268,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                         <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
-                                placeholder={"Twitter"}
+                                placeholder={"X"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                 onChangeText={(answer) => {
