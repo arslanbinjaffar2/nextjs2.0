@@ -94,6 +94,13 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
       .map((field: any) => field.fields_name);
   };
 
+  const gdprSettings = event?.gdpr_settings;
+    const notShowProfileImage = () => {
+        if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
+          return attendee?.current_event_attendee?.gdpr === 0;
+        }
+        return true;
+      }
 
   const renderDetails = () => {
     const fields = getVisibleFieldsWithValues();
@@ -117,7 +124,7 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
                 borderWidth={0}
                 borderColor="primary.darkbox"
                 textTransform="uppercase"
-                source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${settings?.show_image_turnlist === 1 ? attendee?.image : ''}` }}
+                source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${settings?.show_image_turnlist === 1 && !notShowProfileImage() ? attendee?.image : ''}` }}
                 bg={'#A5A5A5'}
                 size={'xl'}
               >{getInitials(attendee?.first_name, attendee?.last_name)}</Avatar>

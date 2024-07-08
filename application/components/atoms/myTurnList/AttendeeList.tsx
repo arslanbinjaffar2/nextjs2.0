@@ -44,6 +44,7 @@ console.log("🚀 ~ AttendeeList ~ attendee:", attendee)
     }
     return true;
   }
+  console.log("🚀 ~ notShowProfileImage ~ notShowProfileImage:", notShowProfileImage())
 
   const getValueFromAttendeeInfo = (field: string) => {
     if (attendee?.info !== undefined) {
