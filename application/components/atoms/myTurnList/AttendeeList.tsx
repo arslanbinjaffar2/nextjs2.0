@@ -46,9 +46,16 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
 
   const getValueFromAttendeeInfo = (field: string) => {
     if (attendee?.info !== undefined) {
-      return attendee?.info.find((item: any) => item.name === field)?.value || null;
+      const infoValue = attendee?.info.find((item: any) => item.name === field)?.value;
+      if (infoValue) {
+        return infoValue;
+      }
     }
-    return null;
+    const notFields = ['date_of_issue_passport', 'EMPLOYMENT_DATE', 'date_of_expiry_passport'];
+    if (notFields.includes(field)) {
+      return null;
+    }
+    return (attendee as any)?.[field] || null;
   }
 
   const renderDetails = () => {

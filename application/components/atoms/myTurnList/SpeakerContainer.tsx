@@ -79,9 +79,16 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
 
   const getValueFromAttendeeInfo = (field: string) => {
     if (attendee?.info !== undefined) {
-      return attendee?.info.find((item: any) => item.name === field)?.value || null;
+      const infoValue = attendee?.info.find((item: any) => item.name === field)?.value;
+      if (infoValue) {
+        return infoValue;
+      }
     }
-    return null;
+    const notFields = ['date_of_issue_passport', 'EMPLOYMENT_DATE', 'date_of_expiry_passport'];
+    if (notFields.includes(field)) {
+      return null;
+    }
+    return (attendee as any)?.[field] || null;
   }
 
   const getVisibleFieldsWithValues = () => {
@@ -95,12 +102,12 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
   };
 
   const gdprSettings = event?.gdpr_settings;
-    const notShowProfileImage = () => {
-        if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
-          return attendee?.current_event_attendee?.gdpr === 0;
-        }
-        return false;
+  const notShowProfileImage = () => {
+    if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
+      return attendee?.current_event_attendee?.gdpr === 0;
     }
+    return false;
+  }
 
   const renderDetails = () => {
     const fields = getVisibleFieldsWithValues();
