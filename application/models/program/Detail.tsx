@@ -43,6 +43,7 @@ export interface Program {
     qa?: number;
     enable_checkin?: number;
     hide_time?: number;
+    request_to_speak_common_group?: boolean;
 }
 
 interface PollQuestion {
