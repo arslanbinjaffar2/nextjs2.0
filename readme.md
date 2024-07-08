@@ -18,7 +18,6 @@ That’s it your starter kit is ready to be used.
 
 All your screens and components will be present in packages/app and this can be accessed in the next and expo projects.
 
-
 Expo
 email => mms@eventbuizz.com 
 Password: *Eventbuizz@2023* 
