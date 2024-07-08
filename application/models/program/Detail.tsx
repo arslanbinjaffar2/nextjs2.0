@@ -44,6 +44,7 @@ export interface Program {
     enable_checkin?: number;
     hide_time?: number;
     request_to_speak_common_group?: boolean;
+    is_active_speakerlist?: boolean;
 }
 
 interface PollQuestion {
