@@ -99,8 +99,8 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
         if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
           return attendee?.current_event_attendee?.gdpr === 0;
         }
-        return true;
-      }
+        return false;
+    }
 
   const renderDetails = () => {
     const fields = getVisibleFieldsWithValues();

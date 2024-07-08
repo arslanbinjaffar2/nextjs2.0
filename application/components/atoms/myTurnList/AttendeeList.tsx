@@ -14,7 +14,6 @@ type boxItemProps = {
 }
 
 const AttendeeList = ({ attendee, border }: boxItemProps) => {
-console.log("🚀 ~ AttendeeList ~ attendee:", attendee)
 
   const { _env } = UseEnvService()
 
@@ -42,9 +41,8 @@ console.log("🚀 ~ AttendeeList ~ attendee:", attendee)
     if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
       return attendee?.current_event_attendee?.gdpr === 0;
     }
-    return true;
+    return false;
   }
-  console.log("🚀 ~ notShowProfileImage ~ notShowProfileImage:", notShowProfileImage())
 
   const getValueFromAttendeeInfo = (field: string) => {
     if (attendee?.info !== undefined) {

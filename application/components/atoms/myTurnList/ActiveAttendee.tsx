@@ -126,7 +126,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
         if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
           return activeAttendee?.current_event_attendee?.gdpr === 0;
         }
-        return true;
+        return false;
       }
 
     const submitRequestToSpeakWithNote = (action: string) => {
