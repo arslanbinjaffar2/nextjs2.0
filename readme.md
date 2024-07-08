@@ -29,4 +29,4 @@ eas build:status
 npx expo -h
 eas build:list
 eas build --platform android --profile development
-eas build:run -p android => install build to emulator 
+eas build:run -p android => install build to emulator
