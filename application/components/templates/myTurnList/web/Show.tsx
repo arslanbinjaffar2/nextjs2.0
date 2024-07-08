@@ -31,7 +31,7 @@ const ShowTurnList = () => {
     const [initialLoad, setInitialLoad] = React.useState(true);
     const [timer, setTimer] = React.useState<any>(null);
 
-    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser, remainingSeconds } = useRequestToSpeakService();
+    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser, remainingSeconds, timerStartText } = useRequestToSpeakService();
     const [_programId] = useParam('id');
 
     const { socket } = UseSocketService();
@@ -110,7 +110,7 @@ const ShowTurnList = () => {
                         {currentAttendee && currentAttendee.status === 'inspeech' &&
                             <SpeakerContainer currentAttendee={currentAttendee}
                                 socketUpdate={() => setSocketUpdate(prevState => !prevState)}
-                                timer={timer}
+                                timer={timerStartText}
                                 remainingSeconds={remainingSeconds}
                             />
                         }
