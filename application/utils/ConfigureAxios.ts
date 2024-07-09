@@ -32,6 +32,11 @@ export default function makeApi(baseURL: string, multiPartFormData = false) {
 
     api.interceptors.response.use((response) => response, (error) => {
         if (error.response.status === 401) {
+            if (Platform.OS === "android" || Platform.OS === "ios") {
+                AsyncStorageClass.clear();
+            } else {
+                localStorage.clear();
+            }
             return {
                 status: error.response.status,
                 data: {
