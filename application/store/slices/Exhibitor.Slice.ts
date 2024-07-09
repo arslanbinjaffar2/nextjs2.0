@@ -64,8 +64,16 @@ export const ExhibitorSlice = createSlice({
         FetchExhibitorDetail(state, action: PayloadAction<{ id: number }>) { },
         FetchExhibitorContact(state, action: PayloadAction<{ id: number }>) { },
         MakeFavourite(state, action: PayloadAction<{ exhibitor_id: number, screen: string }>) { },
-        update(state, action: PayloadAction<Exhibitor[]>) {
-            state.exhibitors = action.payload;
+        update(state, action: PayloadAction<{ exhibitors: Exhibitor[], page: number, total_pages: number }>) {
+            state.total_pages = action.payload.total_pages;
+            if (state.page > 1) {
+                console.log(action.payload.exhibitors, 'if exhibitor');
+                let exhibitors = action.payload.exhibitors;
+                state.exhibitors = [...state.exhibitors, ...exhibitors];
+            } else {
+                console.log(action.payload.exhibitors, 'if else');
+                state.exhibitors = action.payload.exhibitors;
+            }
         },
         updateSiteLabels(state, action: PayloadAction<[]>) {
             state.labels = action.payload;

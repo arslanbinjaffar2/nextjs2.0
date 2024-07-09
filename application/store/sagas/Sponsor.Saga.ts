@@ -27,7 +27,19 @@ function* OnGetSponsors({
     } else if(payload.screen === 'my-sponsors') {
         yield put(SponsorActions.updateMySponsors(response.data.data.sponsors!))
     }else{
-        yield put(SponsorActions.update(response.data.data.sponsors!))
+       if (payload.page && payload.page > 1) {
+           yield put(SponsorActions.update({
+               sponsors: response.data.data.sponsors || [],
+               page: response.data.data.page,
+               total_pages: response.data.data.total_pages,
+           }));
+        } else {
+           yield put(SponsorActions.update({
+               sponsors: response.data.data.sponsors || [],
+               page: response.data.data.page,
+               total_pages: response.data.data.total_pages,
+           }));
+        }
         yield put(SponsorActions.updateSiteLabels(response.data.data.labels!))
     }
     console.log(response.data.data.sponsorCategories?.sponsorCategories,'category');
