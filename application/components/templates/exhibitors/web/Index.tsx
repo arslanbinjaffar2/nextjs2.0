@@ -91,12 +91,12 @@ const Index = React.memo(() => {
 
     const module = modules.find((module) => module.alias === 'exhibitors');
     console.log(categories, 'categories');
-    const category = categories.find((category) => category.id === Number(categoryIdQueryParam));
-    
+    const category = categories?.find((category) => category.id === Number(categoryIdQueryParam));
+
     return (
         <>
             <NextBreadcrumbs module={module} title={category?.name}/>
-            <Container h="100%" pt="4" maxW="100%" w="100%">  
+            <Container h="100%" pt="4" maxW="100%" w="100%">
                     <HStack display={['block','flex']} mb="3" pt="2" w="100%" space="3" alignItems="center">
                         <Text pb={[3,0]} fontSize="2xl">{modules?.find((exhibitors)=>(exhibitors.alias === 'exhibitors'))?.name ?? ""}</Text>
                         <Spacer />
@@ -124,7 +124,7 @@ const Index = React.memo(() => {
                 ) : (
                     <>
                         {(tab === 'name' || tab === 'category-exhibitors') && <>
-                            {exhibitors.length > 0 &&
+                            {exhibitors?.length > 0 &&
                                 <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
                                     <IconButton
                                         opacity={mode === "list" ? 100 : 50}
@@ -151,7 +151,7 @@ const Index = React.memo(() => {
                             {mode === "list" &&
                                 <Box mb={3} w="100%" rounded="10" bg="primary.box" borderWidth={"0"} borderColor="primary.box">
                                     <ScrollView h={'53%'}>
-                                        {exhibitors.length > 0 && exhibitors.map((exhibitor: Exhibitor, key: number) =>
+                                        {exhibitors?.length > 0 && exhibitors.map((exhibitor: Exhibitor, key: number) =>
                                             <RectangleView exhibitor={exhibitor} border={exhibitors.length === 0 ? 0 : exhibitors.length > 0 && key === exhibitors.length - 1 ? 0 : 1} key={key} />
                                         )}
                                     </ScrollView>
@@ -161,21 +161,21 @@ const Index = React.memo(() => {
                                 <Box w="100%">
                                     <ScrollView h={'53%'} w={'100%'}>
                                         <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                            {exhibitors.length > 0 && exhibitors.map((exhibitor: Exhibitor, key: number) =>
+                                            {exhibitors?.length > 0 && exhibitors?.map((exhibitor: Exhibitor, key: number) =>
                                                 <BoxView exhibitor={exhibitor} k={key} />
                                             )}
                                         </HStack>
                                     </ScrollView>
                                 </Box>
                             }
-                            {exhibitors.length <= 0 &&
+                            {exhibitors?.length <= 0 &&
                                 <NoRecordFound mb="3" bg="primary.box" />
                             }
                         </>}
-                        {tab === 'category' && <Box w="100%" rounded="10" bg={categories.length > 0 ? "primary.box" : ""} borderWidth="0" borderColor="primary.bdBox">
+                        {tab === 'category' && <Box w="100%" rounded="10" bg={categories?.length > 0 ? "primary.box" : ""} borderWidth="0" borderColor="primary.bdBox">
                             <ScrollView h={'60%'} w={'100%'}>
                                 <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                    {categories.length > 0 ?
+                                    {categories?.length > 0 ?
                                         categories.map((category: ExhibitorCategory, key: number) =>
                                             <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
                                         )

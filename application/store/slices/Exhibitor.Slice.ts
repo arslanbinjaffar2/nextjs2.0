@@ -10,7 +10,9 @@ import { ExhibitorDetail } from 'application/models/exhibitor/ExhibitorDetail'
 
 import type { RootState } from 'application/store/Index'
 import { SponsorSlice } from 'application/store/slices/Sponsor.Slice'
-
+import {
+    current
+} from '@reduxjs/toolkit';
 export interface ExhibitorState {
     exhibitors: Exhibitor[],
     labels: any,
@@ -48,6 +50,13 @@ export const ExhibitorSlice = createSlice({
     reducers: {
         FetchExhibitors(state, action: PayloadAction<{ category_id: number, query: string, page?: number,  screen: string }>) {
             state.screen = action.payload.screen;
+            if (action.payload.page)
+            {
+                state.page = action.payload.page;
+            }
+            else{
+                state.page = 1;
+            }
         },
           
         FetchMyExhibitors(state, action: PayloadAction<{}>) {},
@@ -75,10 +84,14 @@ export const ExhibitorSlice = createSlice({
             state.query = action.payload;
         },
         updateCategories(state, action: PayloadAction<{ categories: ExhibitorCategory[], page: number, total_pages: number }>) {
-            console.log(action.payload.page,'fffff')
-            state.categories = action.payload.categories;
-            state.page = action.payload.page;
             state.total_pages = action.payload.total_pages;
+            if (state.page > 1) {
+                state.categories = [...state.categories, ...action.payload.categories];
+            } else {
+                console.log('else page', action.payload.page);
+                console.log('data', action.payload.categories);
+                state.categories = action.payload.categories;
+            }
         },
         updateSettings(state, action: PayloadAction<ExhibitorSetting>) {
             state.settings = action.payload;
