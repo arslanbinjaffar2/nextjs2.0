@@ -12,7 +12,6 @@ import { useRouter } from 'solito/router';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import IcoSort from 'application/assets/icons/small/IcoSort';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
-import { colorText } from 'application/styles/colors';
 import { func } from 'application/styles';
 const Index = () => {
   const { loading } = UseLoadingService();
