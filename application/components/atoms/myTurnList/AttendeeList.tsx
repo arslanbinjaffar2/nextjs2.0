@@ -35,12 +35,27 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
       .map((field: any) => field.fields_name);
   };
 
+  const gdprSettings = event?.gdpr_settings;
+
+  const notShowProfileImage = () => {
+    if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
+      return attendee?.current_event_attendee?.gdpr === 0;
+    }
+    return false;
+  }
 
   const getValueFromAttendeeInfo = (field: string) => {
     if (attendee?.info !== undefined) {
-      return attendee?.info.find((item: any) => item.name === field)?.value || null;
+      const infoValue = attendee?.info.find((item: any) => item.name === field)?.value;
+      if (infoValue) {
+        return infoValue;
+      }
     }
-    return null;
+    const notFields = ['date_of_issue_passport', 'EMPLOYMENT_DATE', 'date_of_expiry_passport'];
+    if (notFields.includes(field)) {
+      return null;
+    }
+    return (attendee as any)?.[field] || null;
   }
 
   const renderDetails = () => {
@@ -62,7 +77,7 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
         <HStack w="100%" space="5" alignItems={'center'} justifyContent="space-between">
 
           <Box alignSelf={renderDetails() !== null ? 'flex-start' : 'center'}>
-            {attendee?.image && settings?.show_image_turnlist === 1 ? (
+            {attendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImage() ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar

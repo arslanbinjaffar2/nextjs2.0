@@ -79,9 +79,16 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
 
   const getValueFromAttendeeInfo = (field: string) => {
     if (attendee?.info !== undefined) {
-      return attendee?.info.find((item: any) => item.name === field)?.value || null;
+      const infoValue = attendee?.info.find((item: any) => item.name === field)?.value;
+      if (infoValue) {
+        return infoValue;
+      }
     }
-    return null;
+    const notFields = ['date_of_issue_passport', 'EMPLOYMENT_DATE', 'date_of_expiry_passport'];
+    if (notFields.includes(field)) {
+      return null;
+    }
+    return (attendee as any)?.[field] || null;
   }
 
   const getVisibleFieldsWithValues = () => {
@@ -94,6 +101,13 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
       .map((field: any) => field.fields_name);
   };
 
+  const gdprSettings = event?.gdpr_settings;
+  const notShowProfileImage = () => {
+    if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
+      return attendee?.current_event_attendee?.gdpr === 0;
+    }
+    return false;
+  }
 
   const renderDetails = () => {
     const fields = getVisibleFieldsWithValues();
@@ -117,7 +131,7 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
                 borderWidth={0}
                 borderColor="primary.darkbox"
                 textTransform="uppercase"
-                source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${settings?.show_image_turnlist === 1 ? attendee?.image : ''}` }}
+                source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${settings?.show_image_turnlist === 1 && !notShowProfileImage() ? attendee?.image : ''}` }}
                 bg={'#A5A5A5'}
                 size={'xl'}
               >{getInitials(attendee?.first_name, attendee?.last_name)}</Avatar>
