@@ -17,11 +17,11 @@ function* OnGetSponsors({
     payload,
 }: {
     type: typeof SponsorActions.FetchSponsors
-    payload: { category_id: number, query: string, screen: string }
+    payload: { category_id: number, query: string,page?: number, screen: string }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getSponsorApi, { ...payload, limit: payload.screen === 'our-sponsors' ? 5 : 200 }, state)
+    const response: HttpResponse = yield call(getSponsorApi, { ...payload, limit: payload.screen === 'our-sponsors' ? 5 : 10 }, state)
     if(payload.screen === 'our-sponsors') {
         yield put(SponsorActions.updateOurSponsors(response.data.data.sponsors!))
     } else if(payload.screen === 'my-sponsors') {
@@ -30,8 +30,15 @@ function* OnGetSponsors({
         yield put(SponsorActions.update(response.data.data.sponsors!))
         yield put(SponsorActions.updateSiteLabels(response.data.data.labels!))
     }
-    
-    yield put(SponsorActions.updateCategories(response.data.data.sponsorCategories!))
+    console.log(response.data.data.sponsorCategories?.sponsorCategories,'category');
+    const { sponsorCategories, page, total_pages } = response.data.data.sponsorCategories;
+    yield put(SponsorActions.updateCategories({
+        categories: sponsorCategories,
+        page,
+        total_pages
+    }));
+
+    // yield put(SponsorActions.updateCategories(response.data.data.sponsorCategories!))
     yield put(SponsorActions.updateSettings(response.data.data.settings!))
     yield put(SponsorActions.updateCategory(payload.category_id))
     yield put(SponsorActions.updateQuery(payload.query))
