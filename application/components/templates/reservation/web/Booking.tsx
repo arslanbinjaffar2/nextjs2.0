@@ -477,9 +477,14 @@ const RectangleView = () => {
     const { _env } = UseEnvService();
 
 	const {FetchAvailableSlots,labels,available_slots,available_meeting_spaces} = UseMeetingReservationService();
+	const [attendeeId] = useParam('id');
 
 	React.useEffect(() => {
-		FetchAvailableSlots()
+		if(event?.appointment_settings?.availability_calendar === 1){
+			FetchAvailableSlots({attendee_id:Number(attendeeId)})
+		}else{
+			FetchAvailableSlots({})
+		}
 	}
 	, []);
 

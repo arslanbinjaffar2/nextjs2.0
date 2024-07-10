@@ -12,7 +12,7 @@ import {
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
-import { MeetingRequest, MeetingSlot, MeetingSpace, MyMeetingListing } from 'application/models/meetingReservation/MeetingReservation'
+import { AvailabilityCalendarSlot, MeetingRequest, MeetingSlot, MeetingSpace, MyMeetingListing } from 'application/models/meetingReservation/MeetingReservation'
 
 export type MeetingReservationServiceOperators = {
     my_meeting_listing: MyMeetingListing,
@@ -21,14 +21,18 @@ export type MeetingReservationServiceOperators = {
     available_meeting_spaces: MeetingSpace[],
     available_dates: any,
     socket_requests: any,
+    my_availability_calendar: AvailabilityCalendarSlot[],
     FetchMyMeetingRequests: (payload: {  }) => void
-    FetchAvailableSlots: () => void
+    FetchAvailableSlots: (payload:{attendee_id?:number}) => void
     AcceptMeetingRequest: (payload: { meeting_request_id:number }) => void
     RejectMeetingRequest: (payload: { meeting_request_id:number }) => void
     CancelMeetingRequest: (payload: { meeting_request_id:number }) => void
     SendReminder: (payload: { meeting_request_id:number }) => void
     AddSocketRequest: (payload: { request:any }) => void
     RemoveFirstSocketRequest: () => void
+    FetchMyAvailabilityCalendar: () => void
+    AddAvailabilityCalendarSlot: (payload: { date:string, start_time:string, end_time:string }) => void
+    DeleteAvailabilityCalendarSlot: (payload: { availability_calendar_id:number }) => void
 }
 
 /**
@@ -53,8 +57,8 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
             [dispatch],
         ),
         FetchAvailableSlots: useCallback(
-            () => {
-                dispatch(MeetingReservationActions.FetchAvailableSlots({}))
+            (payload:{attendee_id?:number}) => {
+                dispatch(MeetingReservationActions.FetchAvailableSlots(payload))
             },
             [dispatch],
         ),
@@ -92,6 +96,24 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
         RemoveFirstSocketRequest: useCallback(
             () => {
                 dispatch(MeetingReservationActions.RemoveFirstSocketRequest())
+            },
+            [dispatch],
+        ),
+        FetchMyAvailabilityCalendar: useCallback(
+            () => {
+                dispatch(MeetingReservationActions.FetchMyAvailabilityCalendar())
+            },
+            [dispatch],
+        ),
+        AddAvailabilityCalendarSlot: useCallback(
+            (payload: { date:string, start_time:string, end_time:string }) => {
+                dispatch(MeetingReservationActions.AddAvailabilityCalendarSlot(payload))
+            },
+            [dispatch],
+        ),
+        DeleteAvailabilityCalendarSlot: useCallback(
+            (payload: { availability_calendar_id:number }) => {
+                dispatch(MeetingReservationActions.DeleteAvailabilityCalendarSlot(payload))
             },
             [dispatch],
         ),

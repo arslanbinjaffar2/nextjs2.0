@@ -1,9 +1,9 @@
 import * as React from 'react';
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
-import { Button, Container, HStack, Spacer, Text, View } from 'native-base';
+import { Box, Button, Container, HStack, Spacer, Text, View, VStack } from 'native-base';
 import MeetingRequestBox from 'application/components/atoms/reservation/MeetingRequestBox';
 import useMeetingReservationService from 'application/store/services/UseMeetingReservationService';
-import { MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
+import { AvailabilityCalendarSlot, MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
 import UseEventService from 'application/store/services/UseEventService';
 import moment from 'moment';
 import WebLoading from 'application/components/atoms/WebLoading';
@@ -128,23 +128,93 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
             
           </ButtonElement>
         )}
+        <ButtonElement minW={[    
+            'calc(50% - 2px)']} 
+              onPress={() => {setTab('availability')}} 
+              borderWidth="0px" 
+              py={0} 
+              borderColor="primary.darkbox" 
+              borderRightRadius="0" 
+              borderLeftRadius={1} 
+              _hover={{_text: {color: 'primary.hovercolor'}}}
+              h="42px"
+              bg={tab === 'availability' ? 'primary.boxbutton' :'primary.box'} 
+              _text={{ fontWeight: '600' }}
+          
+          
+          >
+            My Availability
+          
+            
+          </ButtonElement>
       </HStack>
       {loadCount < 2 && in_array('my-meeting-requests',processing) ? (
         <SectionLoading />
       ):(
         <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-        {filteredRequests.length === 0 && <NoRecordFound/>}
-        {filteredRequests.map((request:MeetingRequest,k:number) =>
+        {tab !== 'availability' && filteredRequests.length === 0 && <NoRecordFound/>}
+        {tab !== 'availability' && filteredRequests.map((request:MeetingRequest,k:number) =>
           <React.Fragment key={k}>
             <MeetingRequestBox meeting_request={request} border={k}/>
           </React.Fragment>
         )}
       </Container>
       )}
+      <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+        <VStack  alignContent="center" alignItems="center" space="5" w="100%">
+          {tab === 'availability' && <AddAvailabilityCalendarSlot/>}
+          {tab === 'availability' && <AvailabilityCalendar/>}
+        </VStack>
+      
+      </Container>
       <BannerAds module_name={'reservation'} module_type={'listing'} />
       </>
   );
 
 };
+
+const AvailabilityCalendar = () => {
+  return (
+    <>
+    <Text>Availability here</Text>
+    </>
+  )
+}
+
+type newAvailabilityCalendarSlot = {
+  date:string;
+  start_time:string;
+  end_time:string;
+}
+const AddAvailabilityCalendarSlot = () => {
+  const { AddAvailabilityCalendarSlot } = useMeetingReservationService();
+  const [availability_calendar,setAvailabilityCalendar] = React.useState<newAvailabilityCalendarSlot>({date:'',start_time:'',end_time:''});
+
+  function add(){
+    if(availability_calendar.date === '' || availability_calendar.start_time === '' || availability_calendar.end_time === ''){
+      return;
+    }
+    AddAvailabilityCalendarSlot(availability_calendar)
+  }
+  return (
+    <>
+    <HStack  space="3">
+        <Text>Date</Text>
+        <DateTimePicker value={availability_calendar.date} onChange={(date:any) => setAvailabilityCalendar({...availability_calendar,date:date.format('DD-MM-YYYY')})} />
+    </HStack>
+    <HStack  space="3">
+        <Text>Start Time</Text>
+        <DateTimePicker value={availability_calendar.start_time}  showtime={`HH:mm`} showdate={false}  onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,start_time:time.format('HH:mm')})} />
+    </HStack>
+    <HStack  space="3">
+        <Text>End Time</Text>
+        <DateTimePicker value={availability_calendar.end_time} showtime={`HH:mm`} showdate={false} onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,end_time:time.format('HH:mm')})} />
+    </HStack>  
+    <ButtonElement onPress={() => add()}><Text  fontSize="xs">Add</Text>
+    </ButtonElement>  
+      
+    </>
+  )
+}
 
 export default Index;

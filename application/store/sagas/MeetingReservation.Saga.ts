@@ -9,8 +9,9 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
-import { acceptMeetingRequestApi, cancelMeetingRequestApi, getAvailableMeetingSlotsApi, getMyMeetingRequestsApi, rejectMeetingRequestApi, sendMeetingReminderApi } from 'application/store/api/MeetingReservation.api';
+import { acceptMeetingRequestApi, addAvailabilityCalendarSlotApi, cancelMeetingRequestApi, deleteAvailabilityCalendarSlotApi, getAvailableMeetingSlotsApi, getMyAvailabilityCalendarApi, getMyMeetingRequestsApi, rejectMeetingRequestApi, sendMeetingReminderApi } from 'application/store/api/MeetingReservation.api';
 import { NotificationActions } from '../slices/Notification.Slice'
+import { AvailabilityCalendarSlot } from 'application/models/meetingReservation/MeetingReservation'
 
 function* OnGetMyMeetingRequests({
     payload,
@@ -30,7 +31,7 @@ function* OnGetAvailableSlots({
     payload,
 }: {
     type: typeof MeetingReservationActions.FetchAvailableSlots
-    payload: {  }
+    payload: { attendee_id:number }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'get-available-slots' }))
     const state = yield select(state => state);
@@ -121,6 +122,45 @@ function* OnSendReminder({
     yield put(LoadingActions.removeProcess({ process: `send-reminder-${payload.meeting_request_id}` }))
 }
 
+function* OnAddAvailabilityCalendarSlot({
+    payload,
+}: {
+    type: typeof MeetingReservationActions.AddAvailabilityCalendarSlot
+    payload: { date:string, start_time:string, end_time:string }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: `add-availability-calendar-slot` }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(addAvailabilityCalendarSlotApi    , payload, state)
+    yield put(MeetingReservationActions.FetchMyAvailabilityCalendar())
+    yield put(LoadingActions.removeProcess({ process: `add-availability-calendar-slot` }))
+}
+
+function* OnDeleteAvailabilityCalendarSlot({
+    payload,
+}: {
+    type: typeof MeetingReservationActions.DeleteAvailabilityCalendarSlot
+    payload: { availability_calendar_id:number }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: `delete-availability-calendar-slot` }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(deleteAvailabilityCalendarSlotApi, payload, state)
+    yield put(MeetingReservationActions.FetchMyAvailabilityCalendar())
+    yield put(LoadingActions.removeProcess({ process: `delete-availability-calendar-slot` }))
+}
+
+function* OnFetchMyAvailabilityCalendar({
+    payload,
+}: {
+    type: typeof MeetingReservationActions.FetchMyAvailabilityCalendar
+    payload: {  }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: `fetch-my-availability-calendar` }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getMyAvailabilityCalendarApi, payload, state)
+    yield put(MeetingReservationActions.updateMyAvailabilityCalendar({availability_calendar:response.data.data.availability_calendar}))
+    yield put(LoadingActions.removeProcess({ process: `fetch-my-availability-calendar` }))
+}
+
 // Watcher Saga
 export function* MeetingReservationWatcherSaga(): SagaIterator {
     yield takeEvery(MeetingReservationActions.FetchMyMeetingRequests.type, OnGetMyMeetingRequests)
@@ -129,6 +169,9 @@ export function* MeetingReservationWatcherSaga(): SagaIterator {
     yield takeEvery(MeetingReservationActions.RejectMeetingRequest.type, OnRejectMeetingRequest)
     yield takeEvery(MeetingReservationActions.CancelMeetingRequest.type, OnCancelMeetingRequest)
     yield takeEvery(MeetingReservationActions.SendReminder.type, OnSendReminder)
+    yield takeEvery(MeetingReservationActions.AddAvailabilityCalendarSlot.type, OnAddAvailabilityCalendarSlot)
+    yield takeEvery(MeetingReservationActions.DeleteAvailabilityCalendarSlot.type, OnDeleteAvailabilityCalendarSlot)
+    yield takeEvery(MeetingReservationActions.FetchMyAvailabilityCalendar.type, OnFetchMyAvailabilityCalendar)  
 }
 
 export default MeetingReservationWatcherSaga
