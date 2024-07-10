@@ -54,13 +54,17 @@ const Login = ({ props }: any) => {
         } 
         if (response.redirect === "verification") {
             push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
-        } 
+        }
+    }, [response.redirect]);
+
+    React.useEffect(() => {
         if(isLoggedIn){
-            if(showEventDisclaimer()){
+            console.log("🚀 ~ React.useEffect ~ showEventDisclaimer():", showEventDisclaimer())
+            if(showEventDisclaimer() === true){
                 push(`/${event.url}/auth/disclaimer`)
             }
         }
-    }, [response.redirect]);
+    }, [isLoggedIn])
 		
 
     return (
