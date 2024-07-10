@@ -1,7 +1,7 @@
 import * as React from 'react';
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
-import { useRouter } from 'solito/router'
+import { useRouter } from 'next/router'
 
 type Props = {
     children:
@@ -18,6 +18,7 @@ const AuthLayout = ({ children }: Props) => {
     const { loadToken, isLoggedIn, getUser, response } = UseAuthService();
 
     const { push } = useRouter();
+    const router = useRouter();
 
     React.useEffect(() => {
         getUser();
@@ -35,7 +36,7 @@ const AuthLayout = ({ children }: Props) => {
     }
 
     React.useEffect(() => {
-        if (isLoggedIn) {
+        if (isLoggedIn && !router.pathname.includes('/auth/disclaimer')) {
             loadSettingsModules();
             if(checkUserGDPR() === false){
                 push(`/${event.url}/auth/gdpr`)

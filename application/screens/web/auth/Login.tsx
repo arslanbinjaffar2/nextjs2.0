@@ -43,6 +43,13 @@ const Login = ({ props }: any) => {
         }
     };
 
+    const showEventDisclaimer = () => {
+        if(event?.disclaimer_setting?.mobile_app === 1){
+            return true;
+        }
+        return false;
+    }
+
     React.useEffect(() => {
         if (response.redirect === "choose-provider") {
             push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
@@ -50,6 +57,11 @@ const Login = ({ props }: any) => {
         if (response.redirect === "verification") {
             push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
         } 
+        if(isLoggedIn){
+            if(showEventDisclaimer()){
+                push(`/${event.url}/auth/disclaimer`)
+            }
+        }
     }, [response.redirect]);
 		
 
