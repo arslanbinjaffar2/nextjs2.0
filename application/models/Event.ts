@@ -88,6 +88,7 @@ export interface Event {
     dashboard_modules?: DashboardModule[]
     event_language_code?: string,
     timezone?: any
+    event_disclaimer?: any
 }
 interface Setting {
     poll_setting?: string;

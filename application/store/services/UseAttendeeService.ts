@@ -40,7 +40,8 @@ export type AttendeeServiceOperators = {
     setBreadcrumbs: (breadcrumbs: Category[]) => void,
     updateBreadcrumb: (category: Category) => void,
     categoryBreadcrumbs: Category[],
-    addGDPRlog: (payload: {gdpr: number}) => void
+    addGDPRlog: (payload: {gdpr: number}) => void,
+    addDisclaimerlog: () => void
 }
 
 /**
@@ -138,6 +139,12 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         addGDPRlog: useCallback(
             (payload: {gdpr: number}) => {
                 dispatch(AttendeeActions.addGDPRlog(payload))
+            },
+            [dispatch],
+        ),
+        addDisclaimerlog: useCallback(
+            () => {
+                dispatch(AttendeeActions.addDisclaimerlog())
             },
             [dispatch],
         ),
