@@ -124,7 +124,7 @@ const Index = React.memo(() => {
                                                                                                                                     w={(event?.sponsor_settings?.sponsorTab === 1 || event?.sponsor_settings?.sponsor_list === 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_CATEGORY || "Category"}</Button>}
                 </HStack>
               )}
-              {loading ? (
+              {loading && page == 1 ? (
                 <SectionLoading />
               ) : (
                 <>
@@ -195,13 +195,11 @@ const Index = React.memo(() => {
                     <BannerAds module_name={'sponsors'} module_type={'listing'} />
                 </>
               )}
-              {console.log(page, 'current page')}
-              {(in_array('sponsors', processing)) && (page < total_pages && total_pages > 1) && (
+              {in_array('sponsors-listing', processing) && (page > 1) && (
                 <LoadMore />
               )}
               {!loading && !in_array('sponsors', processing) && (total_pages > 1) && (
                 <>
-                    {console.log('dfdfdfd')}
                     <IntersectionObserverComponent onIntersect={loadMore} />
                 </>
               )}
