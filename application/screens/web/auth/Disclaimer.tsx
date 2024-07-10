@@ -34,7 +34,7 @@ const Disclaimer = () => {
                         contentWidth={600}
                         systemFonts={['Avenir']}
                         tagsStyles={mixedStyle}
-                        source={{ html: event?.disclaimer_setting?.disclaimer }}
+                        source={{ html: event?.event_disclaimer }}
                     />
                 <Box py="0" w="100%">
                     <Divider mb="15" opacity={0.27} bg="primary.text" />

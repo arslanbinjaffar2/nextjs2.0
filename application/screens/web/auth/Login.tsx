@@ -44,11 +44,9 @@ const Login = ({ props }: any) => {
     };
 
     const showEventDisclaimer = () => {
-        if(event?.disclaimer_setting?.mobile_app === 1){
-            return true;
-        }
-        return false;
+        return response?.data?.user?.show_disclaimer;
     }
+        
 
     React.useEffect(() => {
         if (response.redirect === "choose-provider") {
