@@ -22,6 +22,7 @@ Expo
 email => mms@eventbuizz.com
 Password: *Eventbuizz@2023* 
 
+
 ## Commands
 
 eas build
