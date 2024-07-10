@@ -22,7 +22,19 @@ function* OnGetExhibitors({
     } else if (payload.screen === 'my-exhibitors') {
         yield put(ExhibitorActions.updateMyExhibitors(response.data.data.exhibitors!))
     } else {
-        yield put(ExhibitorActions.update(response.data.data.exhibitors!))
+        if (payload.page && payload.page > 1) {
+            yield put(ExhibitorActions.update({
+                exhibitors: response.data.data.exhibitors || [],
+                page: response.data.data.page,
+                total_pages: response.data.data.total_pages,
+            }));
+        } else {
+            yield put(ExhibitorActions.update({
+                exhibitors: response.data.data.exhibitors || [],
+                page: response.data.data.page,
+                total_pages: response.data.data.total_pages,
+            }));
+        }
         yield put(ExhibitorActions.updateSiteLabels(response.data.data.labels!))
     }
     console.log(response.data.data.exhibitorCategories?.exhibitorCategories,'hjghj');

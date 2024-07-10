@@ -63,8 +63,16 @@ export const SponsorSlice = createSlice({
         FetchSponsorDetail(state, action: PayloadAction<{ id: number }>) { },
         FetchSponsorContact(state, action: PayloadAction<{ id: number }>) { },
         MakeFavourite(state, action: PayloadAction<{ sponsor_id: number, screen: string }>) { },
-        update(state, action: PayloadAction<Sponsor[]>) {
-            state.sponsors = action.payload;
+        update(state, action: PayloadAction<{ sponsors: Sponsor[], page: number, total_pages: number }>) {
+            state.total_pages = action.payload.total_pages;
+            if (state.page > 1) {
+                console.log(action.payload.sponsors, 'if here');
+                let sponsors= action.payload.sponsors;
+                state.sponsors = [...state.sponsors, ...sponsors];
+            } else {
+                console.log(action.payload.sponsors, 'if else');
+                state.sponsors = action.payload.sponsors;
+            }
         },
         updateSiteLabels(state, action: PayloadAction<[]>) {
             state.labels = action.payload;
