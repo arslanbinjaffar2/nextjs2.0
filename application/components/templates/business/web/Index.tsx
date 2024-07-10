@@ -261,7 +261,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
               setSearchTerm(text);
             }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
           <Button colorScheme={'unstyled'} rounded="10" bg="primary.box" p={'8px'} onPress={() => setShowAttendees(false)}>
-            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22 }} />
+            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22,color:'primary.text' }} />
           </Button>
         </View>
         </HStack>
@@ -300,9 +300,9 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
       <Container pt="0" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
           <Text fontSize="2xl">{modules?.find((network) => (network.alias == 'business'))?.name ?? ""}</Text>
-          <Pressable rounded="10" bg="primary.500" p={'8px'} onPress={() => setEnableFilter(false)}>
+          <Button rounded="10" bg="primary.500" p={'8px'} onPress={() => setEnableFilter(false)}>
             <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22, color: func.colorType(event?.settings?.primary_color) ? func.colorType(event?.settings?.primary_color) : undefined}} />
-          </Pressable>
+          </Button>
         </HStack>
         <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
           <Center mb="3" px="1">
