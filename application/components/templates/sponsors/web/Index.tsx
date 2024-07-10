@@ -196,7 +196,9 @@ const Index = React.memo(() => {
                 </>
               )}
               {in_array('sponsors-listing', processing) && (page > 1) && (
-                <LoadMore />
+                <HStack mt={3} w="100%">
+                    <LoadMore />
+                </HStack>
               )}
               {!loading && !in_array('sponsors', processing) && (total_pages > 1) && (
                 <>
