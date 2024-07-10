@@ -190,7 +190,9 @@ const Index = React.memo(() => {
                 )}
                 {console.log(page, 'current page')}
                 {in_array('exhibitors-listing', processing) && (page > 1) && (
-                    <LoadMore />
+                  <HStack mt={3} w="100%">
+                      <LoadMore />
+                  </HStack>
                 )}
                 {!loading && !in_array('exhibitors', processing) && (total_pages > 1) && (
                     <>
