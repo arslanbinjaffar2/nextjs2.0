@@ -13,10 +13,11 @@ function* OnGetExhibitors({
     type: typeof ExhibitorActions.FetchExhibitors
     payload: { category_id: number, query: string, page?: number,  screen: string }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    // yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'exhibitors-listing' }))
     const state = yield select(state => state);
     console.log("🚀 ~ OnGetExhibitors ~ payload:", payload)
-    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 10  }, state)
+    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 50  }, state)
     if (payload.screen === 'our-exhibitors') {
         yield put(ExhibitorActions.updateOurExhibitors(response.data.data.exhibitors!))
     } else if (payload.screen === 'my-exhibitors') {
@@ -37,7 +38,6 @@ function* OnGetExhibitors({
         }
         yield put(ExhibitorActions.updateSiteLabels(response.data.data.labels!))
     }
-    console.log(response.data.data.exhibitorCategories?.exhibitorCategories,'hjghj');
 const { exhibitorCategories, page, total_pages } = response.data.data.exhibitorCategories;
     yield put(ExhibitorActions.updateCategories({
         categories: exhibitorCategories,
@@ -47,7 +47,9 @@ const { exhibitorCategories, page, total_pages } = response.data.data.exhibitorC
     yield put(ExhibitorActions.updateSettings(response.data.data.settings!))
     yield put(ExhibitorActions.updateCategory(payload.category_id))
     yield put(ExhibitorActions.updateQuery(payload.query))
-    yield put(LoadingActions.set(false));
+    // yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'exhibitors-listing' }))
+
 }
 
 function* OnGetMyExhibitors({

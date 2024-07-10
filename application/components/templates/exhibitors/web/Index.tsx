@@ -119,7 +119,7 @@ const Index = React.memo(() => {
                         }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
                     </HStack>
                 )}
-                {loading ? (
+                {loading && page == 1 ? (
                     <SectionLoading />
                 ) : (
                     <>
@@ -189,7 +189,7 @@ const Index = React.memo(() => {
                     </>
                 )}
                 {console.log(page, 'current page')}
-                {(in_array('exhibitors', processing)) && (page < total_pages && total_pages > 1) && (
+                {in_array('exhibitors-listing', processing) && (page > 1) && (
                     <LoadMore />
                 )}
                 {!loading && !in_array('exhibitors', processing) && (total_pages > 1) && (
