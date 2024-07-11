@@ -80,18 +80,21 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
     };
 
     const getValueFromAttendeeInfo = (field: string) => {
-        if (activeAttendee?.info !== undefined) {
-            const infoValue = activeAttendee?.info.find((item: any) => item.name === field)?.value;
-            if (infoValue) {
-                return infoValue;
-            }
+        if (field === 'EMPLOYMENT_DATE') {
+          return (activeAttendee as any)?.[field] || null;
         }
-        const notFields = ['date_of_issue_passport', 'EMPLOYMENT_DATE', 'date_of_expiry_passport'];
+        if (activeAttendee?.info !== undefined) {
+          const infoValue = activeAttendee?.info.find((item: any) => item.name === field)?.value;
+          if (infoValue) {
+            return infoValue;
+          }
+        }
+        const notFields = ['date_of_issue_passport', 'date_of_expiry_passport'];
         if (notFields.includes(field)) {
-            return null;
+          return null;
         }
         return (activeAttendee as any)?.[field] || null;
-    }
+      }
 
     const getVisibleFieldsWithValues = () => {
         return field_settings
