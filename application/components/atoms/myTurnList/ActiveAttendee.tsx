@@ -155,9 +155,9 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     return (
         <>
-            <View bg={'primary.box'} rounded={'10px'} pl={'10px'} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
+            <View bg={'primary.box'} rounded={'10px'} pl={4} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
                 <HStack justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
-                    <Box flexDirection={'row'}>
+                    <HStack w={settings?.ask_to_speak === 1 ? 'calc(100% - 150px)' :'calc(100% - 50px)'} space={4}>
                         {activeAttendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImageAndInfo() ? (
                             <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${image}` }} alt="" w="50px" h="50px" />
                         ) : (
@@ -177,7 +177,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                             }
                             {userStatus !== "accepted" && !notShowProfileImageAndInfo() && renderDetails()}
                         </Box>
-                    </Box>
+                    </HStack>
                     <Box flexDirection={'row'} alignItems={'center'}>
                         {!alreadyInSpeech && (
                             <>
