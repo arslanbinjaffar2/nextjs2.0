@@ -248,6 +248,8 @@ const Index = ({dashboard}:IndexProps) => {
 
             {!dashboard && !in_array('programs', processing) && !in_array('tracks', processing) && (page < total_pages && total_pages>1) && (in_array(tab, ['program', 'my-program','track'])) && (
                 <>
+                {console.log(page,'dfdfd')}
+                {console.log(total_pages,'totak_page')}
                 <IntersectionObserverComponent onIntersect={loadMore} />
                 </>
             )}
