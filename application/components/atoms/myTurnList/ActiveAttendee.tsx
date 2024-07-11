@@ -180,35 +180,26 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                     <Box flexDirection={'row'} alignItems={'center'}>
                         {!alreadyInSpeech && (
                             <>
-                                {settings.use_group_to_control_request_to_speak ? (
-                                    activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ?
-                                        <Pressable
-                                            mr={'4'}
-                                            onPress={() => {
-                                                submitRequestToSpeak();
-                                            }}
-                                        >
-                                            {loading ? <Spinner color="primary.text" /> :
-                                                (!sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
+                                {loading ? <Spinner color="primary.text" /> : (
+                                    <Pressable
+                                        mr={settings.use_group_to_control_request_to_speak ? '4' : '0'}
+                                        onPress={() => {
+                                                                                       submitRequestToSpeak();
+                                                                               }}
+                                    >
+                                        {settings.use_group_to_control_request_to_speak ? (
+                                            activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ? (
+                                                !sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
                                                     : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
                                                         <Text color={'primary.hovercolor'} fontWeight={'500'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
-                                                    </Box> : null)
-                                            }
-                                        </Pressable>
-                                        : null
-                                ) : (
-                                    <Pressable
-                                        mr={'0'}
-                                        onPress={() => {
-                                            submitRequestToSpeak();
-                                        }}
-                                    >
-                                        {loading ? <Spinner color="primary.text" /> :
-                                            (!sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
+                                                    </Box> : null
+                                            ) : null
+                                        ) : (
+                                            !sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
                                                 : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
                                                     <Text color={'primary.hovercolor'} fontWeight={'500'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
-                                                </Box> : null)
-                                        }
+                                                </Box> : null
+                                        )}
                                     </Pressable>
                                 )}
                             </>
