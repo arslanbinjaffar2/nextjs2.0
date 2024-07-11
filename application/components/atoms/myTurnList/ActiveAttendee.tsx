@@ -7,6 +7,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService'
 import useRequestToSpeakService from 'application/store/services/useRequestToSpeakService';
 import { func } from 'application/styles';
+import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand';
 
 interface ActiveAttendeeProps {
     activeAttendee: Attendee
@@ -153,7 +154,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
         <>
             <View bg={'primary.box'} rounded={'10px'} pl={'10px'} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
                 <HStack justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
-                    <Box flexDirection={'row'}>
+                    <HStack w={settings?.ask_to_speak === 1 ? 'calc(100% - 150px)' :'calc(100% - 50px)'} space={3}>
                         {activeAttendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImage() ? (
                             <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${image}` }} alt="" w="50px" h="50px" />
                         ) : (
@@ -164,7 +165,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                 bg={'#A5A5A5'}
                             >{getInitials(first_name, last_name)}</Avatar>
                         )}
-                        <View flexDirection={'column'} ml={'14px'}>
+                        <Box width={'calc(100% - 80px)'}>
                             <Text fontWeight={'medium'} fontSize={'lg'}>{activeAttendee.first_name} {activeAttendee.last_name}</Text>
                             {statusLabel &&
                                 <Text textBreakStrategy='balanced' fontSize="lg">
@@ -172,8 +173,8 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                 </Text>
                             }
                             {userStatus !== "accepted" && renderDetails()}
-                        </View>
-                    </Box>
+                        </Box>
+                    </HStack>
                     <Box flexDirection={'row'} alignItems={'center'}>
                         {!alreadyInSpeech && (
                             <>
@@ -186,24 +187,24 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                             }}
                                         >
                                             {loading ? <Spinner color="primary.text" /> :
-                                                (!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                                (!sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
                                                     : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                                        <Text fontWeight={'500'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
+                                                        <Text color={'primary.hovercolor'} fontWeight={'500'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
                                                     </Box> : null)
                                             }
                                         </Pressable>
                                         : null
                                 ) : (
                                     <Pressable
-                                        mr={'4'}
+                                        mr={'0'}
                                         onPress={() => {
                                             submitRequestToSpeak();
                                         }}
                                     >
                                         {loading ? <Spinner color="primary.text" /> :
-                                            (!sendRequest || userStatus === '' ? <DynamicIcon iconType={'hand'} iconProps={{ width: 20, height: 26 }} />
+                                            (!sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
                                                 : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                                    <Text fontWeight={'500'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
+                                                    <Text color={'primary.hovercolor'} fontWeight={'500'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
                                                 </Box> : null)
                                         }
                                     </Pressable>
@@ -211,7 +212,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                             </>
                         )}
 
-                        {currentUserIndex && !loading ? <Text fontWeight={'medium'} fontSize={'lg'}>#{currentUserIndex}</Text> : null}
+                        {currentUserIndex && !loading ? <Text pl={2} fontWeight={'medium'} fontSize={'lg'}>#{currentUserIndex}</Text> : null}
                     </Box>
                 </HStack>
             </View>
