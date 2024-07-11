@@ -23,6 +23,7 @@ export interface Program {
     program_attendees_attached: ProgramAttendeesAttached[];
     is_attatched_with_subregistration: number;
     info: any;
+    request_to_speak_common_group?: boolean;
 }
 
 export interface FavProgram {

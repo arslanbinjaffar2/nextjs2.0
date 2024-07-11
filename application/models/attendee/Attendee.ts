@@ -20,6 +20,8 @@ export interface Attendee {
     field_settings?: any;
     private_country_display_name?: string;
     sort_settings?: any;
+    attendee_program_groups?: any;
+    current_event_attendee?: any;
 }
 
 interface Eventattendee {
@@ -43,6 +45,7 @@ interface Eventattendee {
 }
 
 interface Info {
+    [x: string]: any;
     initial?: string;
     linkedin_protocol?: string;
     twitter_protocol?: string;
