@@ -24,7 +24,7 @@ const Index = () => {
   const module = modules.find((module) => {
     return module.alias === 'plans'
   });
-
+  const [hover, sethover] = useState(false);
   const [selectedfilter, setSelectedfilter] = useState('sponsors');
   const [search, setSearch] = useState('');
   const [filteredFloorPlans, setFilteredFloorPlans] = useState<FloorPlan[]>([]);
@@ -89,7 +89,6 @@ const Index = () => {
   useEffect(() => {
     filterFloorPlans();
   },[search]);
-
   return (
     <>
       {
@@ -104,9 +103,11 @@ const Index = () => {
                 <Text fontSize="2xl">{module?.name}</Text>
                 <Spacer />
                 <HStack  space="1" alignItems="center">
-                 <Input rounded="10" w={'320px'} bg="primary.box" borderWidth={0} value={search} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setSearch} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                 <Input rounded="10" w={['calc(100% - 60px)','320px']} bg="primary.box" borderWidth={0} value={search} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setSearch} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                  <Spacer />
                  <Button
+                  onHoverIn={() => sethover(true)} 
+                  onHoverOut={() => sethover(false)} 
                   w={'42px'}
                   h={'40px'}
                   bg={toggle ? 'primary.500' : 'primary.box'}
@@ -116,7 +117,7 @@ const Index = () => {
                   }}
                  
                  >
-                  <IcoSort width="20px" height="18px" color={toggle ? func.colorType(event?.settings?.secondary_color) : undefined} />
+                  <IcoSort width="20px" height="18px" color={(toggle || hover) ? func.colorType(event?.settings?.primary_color) : undefined} />
                  </Button>
                  
                 </HStack>
@@ -166,8 +167,8 @@ const Index = () => {
                       mb={'8px'}
                       mr={'6px'}>
                         <HStack  space="2" alignItems="center" justifyContent={'center'}>
-                          {isSelected(category?.id) && <Icon color={'primary.text'} as={AntDesign} name="check"  />}
-                          <Text  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
+                          {isSelected(category?.id) && <Icon color={'primary.bordersecondary'} as={AntDesign} name="check"  />}
+                          <Text  fontSize="lg" color={isSelected(category?.id) ? 'primary.bordersecondary' : 'primary.text'}>{category?.info[0]?.value} ({category?.pins_count})</Text>
                         </HStack>
                         
                       

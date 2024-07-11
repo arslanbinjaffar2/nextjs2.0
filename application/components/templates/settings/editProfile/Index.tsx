@@ -63,6 +63,37 @@ import {
 import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
+const ReduceMemory = ({value,handleChange}:any) => {
+	const [editorValue, seteditorValue] = React.useState(value);
+	useEffect(() => {
+		handleChange('about', editorValue)
+	}, [editorValue])
+
+		return (
+				<>
+						<EditorProvider>
+							<Editor  style={{width: '100%'}} value={editorValue} onChange={(e) => seteditorValue(e.target.value)}>
+												<Toolbar>
+													<BtnUndo />
+													<BtnRedo />
+													<Separator />
+													<BtnBold />
+													<BtnItalic />
+													<BtnUnderline />
+													<BtnStrikeThrough />
+													<Separator />
+													<BtnNumberedList />
+													<BtnBulletList />
+													<Separator />
+													<BtnLink />
+													<BtnClearFormatting />
+													<HtmlButton />
+											</Toolbar>
+							</Editor>
+			</EditorProvider>
+				</>
+		)
+}
 
 const index = () => {
 
@@ -247,6 +278,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     };
 
     const updateAttendeeInfoFeild = useDebouncedCallback((name: string, value: any) => {
+			console.log('first', value)
         setAttendeeData({
             ...attendeeData,
             info: {
@@ -463,27 +495,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center overflow={'hidden'} justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Text  w={'100%'} color={'primary.text'} fontSize="md">
                                     <Box opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'} pointerEvents={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? 'auto' : 'none'} w={'100%'} bg="primary.darkbox" rounded={8}>
-                                        <EditorProvider>
-                                            <Editor  style={{width: '100%'}} defaultValue={attendeeData?.info?.about} onChange={(e) => {
-                                                updateAttendeeInfoFeild('about', e.target.value); }}  >
-                                                     <Toolbar>
-                                                        <BtnUndo />
-                                                        <BtnRedo />
-                                                        <Separator />
-                                                        <BtnBold />
-                                                        <BtnItalic />
-                                                        <BtnUnderline />
-                                                        <BtnStrikeThrough />
-                                                        <Separator />
-                                                        <BtnNumberedList />
-                                                        <BtnBulletList />
-                                                        <Separator />
-                                                        <BtnLink />
-                                                        <BtnClearFormatting />
-                                                        <HtmlButton />
-                                                    </Toolbar>
-                                            </Editor>
-                                    </EditorProvider>
+                                        <ReduceMemory value={attendee.info.about} handleChange={updateAttendeeInfoFeild} />
                                     </Box>
                                     
                                 </Text>
@@ -1118,11 +1130,12 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image : `${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
                                                     : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
                                             </Center>
-                                            <Button w={150} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
+                                            <Button w={150} px={4} py={3} leftIcon={<Icon as={AntDesign}  color={'primary.hovercolor'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
                                                 if (inputFileRef.current) {
                                                     inputFileRef.current.click();
                                                 }
                                             }}
+                                            _text={{color:'primary.hovercolor'}}
                                                 size={'lg'}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
@@ -1164,27 +1177,30 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                     <HStack w="100%">
                                         <VStack w={'100%'} space={2}>
-                                            <Center mb={3} w="150px">
-                                                {typeof attendee.attendee_cv == 'string' ?
-                                                    <Pressable
-                                                        onPress={async () => {
-                                                            const url: any = `${_env.eventcenter_base_url}/event/${event.url}/settings/downloadResume/${attendeeData?.attendee_cv}`;
-                                                            const supported = await Linking.canOpenURL(url);
-                                                            if (supported) {
-                                                                await Linking.openURL(url);
-                                                            }
-                                                        }}>
-                                                        <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
-                                                    </Pressable>
-                                                    : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />}
-                                                {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
-                                                    attendee.attendee_cv === 'string' ? <Text fontSize="md">{attendee.attendee_cv}</Text> :
-                                                        <Text fontSize="md">{attendeeData.attendee_cv}</Text>}
-
-
-                                            </Center>
-
-                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
+                                           <Center mb={3} w="150px">
+                                            {typeof attendee.attendee_cv === 'string' && attendee.attendee_cv ? (
+                                                <Pressable
+                                                    onPress={async () => {
+                                                        const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${attendee.attendee_cv}`;
+                                                        const supported = await Linking.canOpenURL(url);
+                                                        if (supported) {
+                                                            await Linking.openURL(url);
+                                                        }
+                                                    }}>
+                                                    <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
+                                                </Pressable>
+                                            ) : (
+                                                <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
+                                            )}
+                                            {typeof attendee.attendee_cv === 'string' ? (
+                                                <Text fontSize="md">{attendee.attendee_cv}</Text>
+                                            ) : typeof attendeeData.attendee_cv === 'object' ? (
+                                                <Text fontSize="md">{attendeeData.attendee_cv.name}</Text>
+                                            ) : (
+                                                <Text fontSize="md">{attendeeData.attendee_cv}</Text>
+                                            )}
+                                        </Center>
+                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign}  color={'primary.hovercolor'} name="upload" size="lg" />}
                                                 isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                 onPress={() => {
                                                     if (inputresumeFileRef.current) {
@@ -1192,6 +1208,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     }
                                                 }}
                                                 size={'lg'}
+                                                _text={{color:'primary.hovercolor'}}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>
@@ -1265,7 +1282,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                         <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
-                                placeholder={"Twitter"}
+                                placeholder={"X"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                 onChangeText={(answer) => {
