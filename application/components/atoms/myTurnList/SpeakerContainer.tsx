@@ -78,13 +78,16 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
   };
 
   const getValueFromAttendeeInfo = (field: string) => {
+    if (field === 'EMPLOYMENT_DATE') {
+      return (attendee as any)?.[field] || null;
+    }
     if (attendee?.info !== undefined) {
       const infoValue = attendee?.info.find((item: any) => item.name === field)?.value;
       if (infoValue) {
         return infoValue;
       }
     }
-    const notFields = ['date_of_issue_passport', 'EMPLOYMENT_DATE', 'date_of_expiry_passport'];
+    const notFields = ['date_of_issue_passport', 'date_of_expiry_passport'];
     if (notFields.includes(field)) {
       return null;
     }
