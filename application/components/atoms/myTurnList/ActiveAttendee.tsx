@@ -80,18 +80,21 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
     };
 
     const getValueFromAttendeeInfo = (field: string) => {
-        if (activeAttendee?.info !== undefined) {
-            const infoValue = activeAttendee?.info.find((item: any) => item.name === field)?.value;
-            if (infoValue) {
-                return infoValue;
-            }
+        if (field === 'EMPLOYMENT_DATE') {
+          return (activeAttendee as any)?.[field] || null;
         }
-        const notFields = ['date_of_issue_passport', 'EMPLOYMENT_DATE', 'date_of_expiry_passport'];
+        if (activeAttendee?.info !== undefined) {
+          const infoValue = activeAttendee?.info.find((item: any) => item.name === field)?.value;
+          if (infoValue) {
+            return infoValue;
+          }
+        }
+        const notFields = ['date_of_issue_passport', 'date_of_expiry_passport'];
         if (notFields.includes(field)) {
-            return null;
+          return null;
         }
         return (activeAttendee as any)?.[field] || null;
-    }
+      }
 
     const getVisibleFieldsWithValues = () => {
         return field_settings
@@ -152,9 +155,9 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
 
     return (
         <>
-            <View bg={'primary.box'} rounded={'10px'} pl={'10px'} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
+            <View bg={'primary.box'} rounded={'10px'} pl={4} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
                 <HStack justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
-                    <Box flexDirection={'row'}>
+                    <HStack w={settings?.ask_to_speak === 1 ? 'calc(100% - 150px)' :'calc(100% - 50px)'} space={4}>
                         {activeAttendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImageAndInfo() ? (
                             <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${image}` }} alt="" w="50px" h="50px" />
                         ) : (
@@ -174,39 +177,30 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                             }
                             {userStatus !== "accepted" && !notShowProfileImageAndInfo() && renderDetails()}
                         </Box>
-                    </Box>
+                    </HStack>
                     <Box flexDirection={'row'} alignItems={'center'}>
                         {!alreadyInSpeech && (
                             <>
-                                {settings.use_group_to_control_request_to_speak ? (
-                                    activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ?
-                                        <Pressable
-                                            mr={'4'}
-                                            onPress={() => {
-                                                submitRequestToSpeak();
-                                            }}
-                                        >
-                                            {loading ? <Spinner color="primary.text" /> :
-                                                (!sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
+                                {loading ? <Spinner color="primary.text" /> : (
+                                    <Pressable
+                                        mr={settings.use_group_to_control_request_to_speak ? '4' : '0'}
+                                        onPress={() => {
+                                                                                       submitRequestToSpeak();
+                                                                               }}
+                                    >
+                                        {settings.use_group_to_control_request_to_speak ? (
+                                            activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ? (
+                                                !sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
                                                     : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
                                                         <Text color={'primary.hovercolor'} fontWeight={'500'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
-                                                    </Box> : null)
-                                            }
-                                        </Pressable>
-                                        : null
-                                ) : (
-                                    <Pressable
-                                        mr={'0'}
-                                        onPress={() => {
-                                            submitRequestToSpeak();
-                                        }}
-                                    >
-                                        {loading ? <Spinner color="primary.text" /> :
-                                            (!sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
+                                                    </Box> : null
+                                            ) : null
+                                        ) : (
+                                            !sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
                                                 : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
                                                     <Text color={'primary.hovercolor'} fontWeight={'500'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
-                                                </Box> : null)
-                                        }
+                                                </Box> : null
+                                        )}
                                     </Pressable>
                                 )}
                             </>
