@@ -128,24 +128,24 @@ function* OnAddAvailabilityCalendarSlot({
     type: typeof MeetingReservationActions.AddAvailabilityCalendarSlot
     payload: { date:string, start_time:string, end_time:string }
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: `add-availability-calendar-slot` }))
+    yield put(LoadingActions.addProcess({ process: `add-availability` }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(addAvailabilityCalendarSlotApi    , payload, state)
     yield put(MeetingReservationActions.FetchMyAvailabilityCalendar())
-    yield put(LoadingActions.removeProcess({ process: `add-availability-calendar-slot` }))
+    yield put(LoadingActions.removeProcess({ process: `add-availability` }))
 }
 
 function* OnDeleteAvailabilityCalendarSlot({
     payload,
 }: {
     type: typeof MeetingReservationActions.DeleteAvailabilityCalendarSlot
-    payload: { availability_calendar_id:number }
+    payload: { id:number }
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: `delete-availability-calendar-slot` }))
+    yield put(LoadingActions.addProcess({ process: `delete-availability` }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(deleteAvailabilityCalendarSlotApi, payload, state)
     yield put(MeetingReservationActions.FetchMyAvailabilityCalendar())
-    yield put(LoadingActions.removeProcess({ process: `delete-availability-calendar-slot` }))
+    yield put(LoadingActions.removeProcess({ process: `delete-availability` }))
 }
 
 function* OnFetchMyAvailabilityCalendar({
@@ -154,11 +154,11 @@ function* OnFetchMyAvailabilityCalendar({
     type: typeof MeetingReservationActions.FetchMyAvailabilityCalendar
     payload: {  }
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: `fetch-my-availability-calendar` }))
+    yield put(LoadingActions.addProcess({ process: `fetch-my-availability` }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getMyAvailabilityCalendarApi, payload, state)
-    yield put(MeetingReservationActions.updateMyAvailabilityCalendar({availability_calendar:response.data.data.availability_calendar}))
-    yield put(LoadingActions.removeProcess({ process: `fetch-my-availability-calendar` }))
+    yield put(MeetingReservationActions.updateMyAvailabilityCalendar({availability_calendar:response.data.data.calendarSlots}))
+    yield put(LoadingActions.removeProcess({ process: `fetch-my-availability` }))
 }
 
 // Watcher Saga

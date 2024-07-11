@@ -5,6 +5,7 @@ import {
     SelectAvailableDates,
     SelectAvailableMeetingSpaces,
     SelectAvailableSlots,
+    SelectMyAvailabilityCalendar,
     SelectMyMeetingListing,
     SelectSiteLabel,
     SelectSocketRequests
@@ -32,7 +33,7 @@ export type MeetingReservationServiceOperators = {
     RemoveFirstSocketRequest: () => void
     FetchMyAvailabilityCalendar: () => void
     AddAvailabilityCalendarSlot: (payload: { date:string, start_time:string, end_time:string }) => void
-    DeleteAvailabilityCalendarSlot: (payload: { availability_calendar_id:number }) => void
+    DeleteAvailabilityCalendarSlot: (payload: { id:number }) => void
 }
 
 /**
@@ -50,6 +51,7 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
         available_meeting_spaces: useAppSelector(SelectAvailableMeetingSpaces),
         available_dates: useAppSelector(SelectAvailableDates),
         socket_requests: useAppSelector(SelectSocketRequests),
+        my_availability_calendar: useAppSelector(SelectMyAvailabilityCalendar),
         FetchMyMeetingRequests: useCallback(
             (payload: {  }) => {
                 dispatch(MeetingReservationActions.FetchMyMeetingRequests(payload))
@@ -112,7 +114,7 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
             [dispatch],
         ),
         DeleteAvailabilityCalendarSlot: useCallback(
-            (payload: { availability_calendar_id:number }) => {
+            (payload: { id:number }) => {
                 dispatch(MeetingReservationActions.DeleteAvailabilityCalendarSlot(payload))
             },
             [dispatch],

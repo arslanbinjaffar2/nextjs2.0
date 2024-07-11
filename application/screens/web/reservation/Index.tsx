@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
-import { Box, Button, Container, HStack, Spacer, Text, View, VStack } from 'native-base';
+import { Avatar, Box, Button, Container, Flex, HStack, Spacer, Text, View, VStack } from 'native-base';
 import MeetingRequestBox from 'application/components/atoms/reservation/MeetingRequestBox';
 import useMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 import { AvailabilityCalendarSlot, MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
@@ -16,6 +16,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import BannerAds from 'application/components/atoms/banners/BannerAds';
+import { GENERAL_DATE_FORMAT, GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals';
 
 const Index = () => {
 const [tab, setTab] = React.useState('all');
@@ -128,7 +129,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
             
           </ButtonElement>
         )}
-        <ButtonElement minW={[    
+        {event?.appointment_settings?.availability_calendar === 1 && <ButtonElement minW={[    
             'calc(50% - 2px)']} 
               onPress={() => {setTab('availability')}} 
               borderWidth="0px" 
@@ -146,7 +147,8 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
             My Availability
           
             
-          </ButtonElement>
+          </ButtonElement>}
+        
       </HStack>
       {loadCount < 2 && in_array('my-meeting-requests',processing) ? (
         <SectionLoading />
@@ -160,13 +162,14 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
         )}
       </Container>
       )}
-      <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+
+      {event?.appointment_settings?.availability_calendar === 1 && <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
         <VStack  alignContent="center" alignItems="center" space="5" w="100%">
           {tab === 'availability' && <AddAvailabilityCalendarSlot/>}
           {tab === 'availability' && <AvailabilityCalendar/>}
         </VStack>
-      
-      </Container>
+      </Container>}
+
       <BannerAds module_name={'reservation'} module_type={'listing'} />
       </>
   );
@@ -174,9 +177,25 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
 };
 
 const AvailabilityCalendar = () => {
+  const { my_availability_calendar,FetchMyAvailabilityCalendar,DeleteAvailabilityCalendarSlot } = useMeetingReservationService();
+  const { processing } = UseLoadingService();
+  React.useEffect(() => {
+    FetchMyAvailabilityCalendar()
+  },[])
   return (
     <>
-    <Text>Availability here</Text>
+    {in_array('fetch-my-availability',processing) ? <SectionLoading h='100px' />:(
+      <>
+      {my_availability_calendar.map((item:AvailabilityCalendarSlot,k:number) =>
+        <HStack  bg="primary.400" p="2" mb={2} rounded="lg">
+          <Text key={k}>{moment(item.date).format(GENERAL_DATE_FORMAT)} {moment(item.date + ' ' + item.start_time).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)} - {moment(item.date + ' ' + item.end_time).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+          <ButtonElement onPress={() => DeleteAvailabilityCalendarSlot({id:item.id})}>
+            <Icocross />
+          </ButtonElement>
+        </HStack>
+      )}
+      </>
+    )} 
     </>
   )
 }
@@ -186,33 +205,42 @@ type newAvailabilityCalendarSlot = {
   start_time:string;
   end_time:string;
 }
+
 const AddAvailabilityCalendarSlot = () => {
   const { AddAvailabilityCalendarSlot } = useMeetingReservationService();
   const [availability_calendar,setAvailabilityCalendar] = React.useState<newAvailabilityCalendarSlot>({date:'',start_time:'',end_time:''});
+  const [showAddForm,setShowAddForm]= React.useState<boolean>(false);
+  const {processing}=UseLoadingService();
 
   function add(){
     if(availability_calendar.date === '' || availability_calendar.start_time === '' || availability_calendar.end_time === ''){
       return;
     }
     AddAvailabilityCalendarSlot(availability_calendar)
+    setAvailabilityCalendar({date:'',start_time:'',end_time:''});
   }
+
   return (
     <>
-    <HStack  space="3">
-        <Text>Date</Text>
-        <DateTimePicker value={availability_calendar.date} onChange={(date:any) => setAvailabilityCalendar({...availability_calendar,date:date.format('DD-MM-YYYY')})} />
-    </HStack>
-    <HStack  space="3">
-        <Text>Start Time</Text>
-        <DateTimePicker value={availability_calendar.start_time}  showtime={`HH:mm`} showdate={false}  onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,start_time:time.format('HH:mm')})} />
-    </HStack>
-    <HStack  space="3">
-        <Text>End Time</Text>
-        <DateTimePicker value={availability_calendar.end_time} showtime={`HH:mm`} showdate={false} onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,end_time:time.format('HH:mm')})} />
-    </HStack>  
-    <ButtonElement onPress={() => add()}><Text  fontSize="xs">Add</Text>
-    </ButtonElement>  
-      
+    <ButtonElement w="100%" onPress={() => setShowAddForm(!showAddForm)}>
+      <Text  fontSize="xs">{showAddForm ? 'Close':'Add Availibility'}</Text>
+    </ButtonElement>
+    {showAddForm && <Box  bg="primary.400" p="2" w="100%" rounded="lg">
+      <HStack  space="3">
+          <Text>Date</Text>
+          <DateTimePicker value={availability_calendar.date} showdate={GENERAL_DATE_FORMAT} onChange={(date:any) => setAvailabilityCalendar({...availability_calendar,date:date.format('DD-MM-YYYY')})} />
+      </HStack>
+      <HStack  space="3">
+          <Text>Start Time</Text>
+          <DateTimePicker value={availability_calendar.start_time}  showtime={`HH:mm`} showdate={false}  onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,start_time:time.format('HH:mm')})} />
+      </HStack>
+      <HStack  space="3">
+          <Text>End Time</Text>
+          <DateTimePicker value={availability_calendar.end_time} showtime={`HH:mm`} showdate={false} onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,end_time:time.format('HH:mm')})} />
+      </HStack>  
+      <ButtonElement isDisabled={in_array('add-availability',processing)} onPress={() => add()}><Text  fontSize="xs">Save</Text>
+      </ButtonElement>  
+    </Box>} 
     </>
   )
 }
