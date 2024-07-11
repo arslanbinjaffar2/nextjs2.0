@@ -129,7 +129,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
     };
 
     const gdprSettings = event?.gdpr_settings;
-    const notShowProfileImage = () => {
+    const notShowProfileImageAndInfo = () => {
         if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
             return activeAttendee?.current_event_attendee?.gdpr === 0;
         }
@@ -154,7 +154,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
             <View bg={'primary.box'} rounded={'10px'} pl={'10px'} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
                 <HStack justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
                     <Box flexDirection={'row'}>
-                        {activeAttendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImage() ? (
+                        {activeAttendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImageAndInfo() ? (
                             <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${image}` }} alt="" w="50px" h="50px" />
                         ) : (
                             <Avatar
@@ -171,7 +171,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                     {event?.labels?.RQA_STATUS ?? event?.labels?.GENERAL_STATUS}: {statusLabel}
                                 </Text>
                             }
-                            {userStatus !== "accepted" && renderDetails()}
+                            {userStatus !== "accepted" && !notShowProfileImageAndInfo() && renderDetails()}
                         </View>
                     </Box>
                     <Box flexDirection={'row'} alignItems={'center'}>
