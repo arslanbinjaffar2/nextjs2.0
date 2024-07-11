@@ -13,14 +13,14 @@ const ProgramContainer = ({ details }: { details: Program }) => {
     <>
       <Box w="100%" py="3" bg={'primary.box'} rounded={'10px'} mb={'14px'}>
         <HStack width={"100%"} px="4" alignItems="center" minH="55px" space={0} justifyContent="flex-start">
-          <HStack pt="0" w="100%" space="5" alignItems="center" justifyContent="space-between">
+          <HStack pt="0" w="100%" space="3" alignItems="center" justifyContent="space-between">
             {(event.agenda_settings?.agenda_display_time == 1 && details?.hide_time == 0) && <>
               <VStack w={["45px", "60px"]} space="0">
                 <Text lineHeight="22px">{moment(`${details.info.date} ${details.info.start_time}`, 'DD-MM-YYYY HH:mm:ss').format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                 <Text lineHeight="22px">{moment(`${details.info.date} ${details.info.end_time}`, 'DD-MM-YYYY HH:mm:ss').format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
               </VStack>
             </>}
-            <VStack maxW={['calc(100% - 148px)', 'calc(100% - 100px)']} space="1" width={'100%'}>
+            <VStack maxW={[(event.agenda_settings?.agenda_display_time == 1 && details?.hide_time == 0) ? 'calc(100% - 80px)' : '100%']} space="1" width={'100%'}>
               <Text fontSize="md" lineHeight="22px" textBreakStrategy='simple' >
                 {details?.info?.topic} 
               </Text>
