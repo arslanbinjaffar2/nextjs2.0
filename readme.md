@@ -20,7 +20,7 @@ All your screens and components will be present in packages/app and this can be 
 
 Expo
 email => mms@eventbuizz.com
-Password: *Eventbuizz@2023* 
+Password: *Eventbuizz@2023*  
 
 ## Commands 
 
