@@ -163,7 +163,7 @@ const Detail = () => {
     }, [socket]);
 
     const [speaker, setSpeaker] = React.useState<any>(null);
-    const [paragraph, setParagraph] = React.useState<any>(null);
+    const [paragraph, setParagraph] = React.useState<any>('');
     const [lineNumber, setLineNumber] = React.useState<any>('');
     const [question, setQuestion] = React.useState<any>('');
     const [anonymously, setAnonymously] = React.useState<any>(false);
