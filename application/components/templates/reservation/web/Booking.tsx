@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Center, CheckIcon, Container, Flex, Heading, HStack, Icon, IconButton, Modal, Pressable, ScrollView, Select, Spacer, Text, TextArea, View, VStack } from 'native-base';
+import { Avatar, Box, Button, Center, CheckIcon, Container, Flex, Heading, HStack, Icon, IconButton, Modal, Pressable, ScrollView, Select, Spacer, Text, TextArea, View, VStack } from 'native-base';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { Detail } from 'application/models/attendee/Detail';
@@ -477,9 +477,15 @@ const RectangleView = () => {
     const { _env } = UseEnvService();
 
 	const {FetchAvailableSlots,labels,available_slots,available_meeting_spaces} = UseMeetingReservationService();
+	const [attendeeId] = useParam('id');
 
 	React.useEffect(() => {
-		FetchAvailableSlots()
+		if(event?.appointment_settings?.availability_calendar === 1){
+			FetchAvailableSlots({attendee_id:Number(attendeeId)})
+		}else{
+			FetchAvailableSlots({})
+		}
+		getAttendee();
 	}
 	, []);
 
@@ -490,9 +496,65 @@ const RectangleView = () => {
     const [selectedMeetingSpace, setSelectedMeetingSpace] = React.useState<string>('');
 	const { modules } = UseEventService();
 	const module = modules.find((module) => module.alias === 'reservation');
+	const [attendee, setAttendee] = useState<MeetingAttendee | null >(null);
+	const [loadingAttendee, setLoadingAttendee] = useState<boolean>(false);
+
+	async function getAttendee(){
+		const mystate=store.getState()
+		try {
+			setLoadingAttendee(true);
+			const response = await getAttendeeDetailApi({id:attendeeId},mystate);
+			if(response?.status == 200){
+				setAttendee(response?.data?.data?.detail);
+				setLoadingAttendee(false);
+			}
+		} catch (error) {
+			console.log('error', error);
+		}
+	}
+
+	 // get image of sender 
+	 const getSenderImage = (image: string) => {
+		// source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
+		if(image){
+		  return `${_env?.eventcenter_base_url}/assets/attendees/${image}`;
+		}
+		return '';
+	  };
+
+	 // Function to get the first letters of the first and last name
+	 const getFirstLetters = (name: string) => {
+		if(name){
+		  const names = name.split(' ');
+		  return (names[0].substring(0, 1) + names[1].substring(0, 1)).toUpperCase();
+		}
+		return '';
+	  };
+
     return (
         <>
 		<NextBreadcrumbs module={module} title={labels?.RESERVATION_BOOK_MEETING_LABEL}/>
+		<HStack bg={'primary.box'} p={1} rounded={'20px'}  space="1" alignItems="center" width="100%">
+			{loadingAttendee ? <SectionLoading h='80px' />:(
+				<>
+				{attendee?(
+				<>
+					
+					<Avatar
+						size={'lg'}
+						source={{
+						uri: getSenderImage(attendee?.image)
+						}}>
+						{getFirstLetters(`${attendee?.first_name} ${attendee?.last_name}`)}
+					</Avatar>
+					<Text fontSize="14px">{attendee?.first_name} {attendee?.last_name}</Text> 
+				</>
+				):(
+				<NoRecordFound/>
+				)}
+				</>
+			)}
+			</HStack>
             <HStack mb="3" pt="2" w="100%" space="3"  justifyContent={'space-between'} flexDirection={['column','row']}>
                 {/* <Pressable onPress={()=> push(`/${event.url}/attendees`)} w={['100%','50%']}>
                     <HStack space="3" alignItems="center" >
