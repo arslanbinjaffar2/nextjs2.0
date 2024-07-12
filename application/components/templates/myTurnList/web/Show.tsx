@@ -101,7 +101,7 @@ const ShowTurnList = () => {
     const showActiveAttendee = currentAttendee?.status === 'inspeech' && sameUser;
     return (
         <>
-            {(initialLoad || in_array('program-turn-list', processing)) ? <SectionLoading /> : (
+            {(initialLoad || (loading || in_array('program-turn-list', processing))) ? <SectionLoading /> : (
                 <>
                     <NextBreadcrumbs module={module} title={agendaDetail?.info?.topic} />
                     <Container pt="2" maxW="100%" w="100%">
