@@ -78,13 +78,16 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
   };
 
   const getValueFromAttendeeInfo = (field: string) => {
+    if (field === 'EMPLOYMENT_DATE') {
+      return (attendee as any)?.[field] || null;
+    }
     if (attendee?.info !== undefined) {
       const infoValue = attendee?.info.find((item: any) => item.name === field)?.value;
       if (infoValue) {
         return infoValue;
       }
     }
-    const notFields = ['date_of_issue_passport', 'EMPLOYMENT_DATE', 'date_of_expiry_passport'];
+    const notFields = ['date_of_issue_passport', 'date_of_expiry_passport'];
     if (notFields.includes(field)) {
       return null;
     }
@@ -102,7 +105,7 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
   };
 
   const gdprSettings = event?.gdpr_settings;
-  const notShowProfileImage = () => {
+  const notShowProfileImageAndInfo = () => {
     if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
       return attendee?.current_event_attendee?.gdpr === 0;
     }
@@ -131,7 +134,7 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
                 borderWidth={0}
                 borderColor="primary.darkbox"
                 textTransform="uppercase"
-                source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${settings?.show_image_turnlist === 1 && !notShowProfileImage() ? attendee?.image : ''}` }}
+                source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${settings?.show_image_turnlist === 1 && !notShowProfileImageAndInfo() ? attendee?.image : ''}` }}
                 bg={'#A5A5A5'}
                 size={'xl'}
               >{getInitials(attendee?.first_name, attendee?.last_name)}</Avatar>
@@ -142,7 +145,7 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
               <Text color={'primary.hovercolor'} fontSize={'lg'} fontWeight={'medium'}>{attendee?.first_name} {attendee?.last_name}</Text>
             </Box>
             <Box alignItems={'center'}>
-              {renderDetails()}
+              {!notShowProfileImageAndInfo() && renderDetails()}
             </Box>
             <Text color={'primary.hovercolor'} fontSize={'sm'} py={'10px'} mr={'14px'} >({event?.labels?.NOW_SPEAKING ?? "Speaking Now"})</Text>
           </HStack>
