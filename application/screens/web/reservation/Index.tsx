@@ -232,11 +232,11 @@ const AddAvailabilityCalendarSlot = () => {
       </HStack>
       <HStack  space="3">
           <Text>Start Time</Text>
-          <DateTimePicker value={availability_calendar.start_time}  showtime={`HH:mm`} showdate={false}  onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,start_time:time.format('HH:mm')})} />
+          <DateTimePicker value={availability_calendar.start_time}  showtime={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} showdate={false}  onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,start_time:time.format('HH:mm')})} />
       </HStack>
       <HStack  space="3">
           <Text>End Time</Text>
-          <DateTimePicker value={availability_calendar.end_time} showtime={`HH:mm`} showdate={false} onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,end_time:time.format('HH:mm')})} />
+          <DateTimePicker value={availability_calendar.end_time} showtime={`GENERAL_TIME_FORMAT_WITHOUT_SECONDS`} showdate={false} onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,end_time:time.format('HH:mm')})} />
       </HStack>  
       <ButtonElement isDisabled={in_array('add-availability',processing)} onPress={() => add()}><Text  fontSize="xs">Save</Text>
       </ButtonElement>  
