@@ -60,7 +60,7 @@ const MyDTPicker: FC<any> = (props: Props): any => {
           opacity={props.disabled ? '0.5' : 1} rightElement={
           <>
             {props.showDate && <Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />}
-            {props.showtime && <Icon mr="2" size="5" as={Feather} name="clock" color="primary.text" />}
+            {props.showtime && <Icon mr="2" size="5" as={AntDesign} name="clockcircleo" color="primary.text"  />}
           </>
           } isReadOnly={true} {...props} placeholder={props.placeholder} />
           <span>{props.required && <em className="req">*</em>}</span>
