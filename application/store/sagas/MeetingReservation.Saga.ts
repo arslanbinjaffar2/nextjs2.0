@@ -12,6 +12,7 @@ import { select } from 'redux-saga/effects';
 import { acceptMeetingRequestApi, addAvailabilityCalendarSlotApi, cancelMeetingRequestApi, deleteAvailabilityCalendarSlotApi, getAvailableMeetingSlotsApi, getMyAvailabilityCalendarApi, getMyMeetingRequestsApi, rejectMeetingRequestApi, sendMeetingReminderApi } from 'application/store/api/MeetingReservation.api';
 import { NotificationActions } from '../slices/Notification.Slice'
 import { AvailabilityCalendarSlot } from 'application/models/meetingReservation/MeetingReservation'
+import { ToastActions } from '../slices/Toast.Slice'
 
 function* OnGetMyMeetingRequests({
     payload,
@@ -130,7 +131,10 @@ function* OnAddAvailabilityCalendarSlot({
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: `add-availability` }))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(addAvailabilityCalendarSlotApi    , payload, state)
+    const response: HttpResponse = yield call(addAvailabilityCalendarSlotApi, payload, state)
+    if(response.status==200){
+        yield put(ToastActions.AddToast({toast:{message:"added successfully",status:""}}))
+    }
     yield put(MeetingReservationActions.FetchMyAvailabilityCalendar())
     yield put(LoadingActions.removeProcess({ process: `add-availability` }))
 }
@@ -144,6 +148,9 @@ function* OnDeleteAvailabilityCalendarSlot({
     yield put(LoadingActions.addProcess({ process: `delete-availability` }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(deleteAvailabilityCalendarSlotApi, payload, state)
+    if(response.status==200){
+        yield put( ToastActions.AddToast({toast:{message:"deleted successfully",status:"deleted"}}))    
+    }
     yield put(MeetingReservationActions.FetchMyAvailabilityCalendar())
     yield put(LoadingActions.removeProcess({ process: `delete-availability` }))
 }

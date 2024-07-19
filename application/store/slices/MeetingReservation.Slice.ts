@@ -79,7 +79,7 @@ export const MeetingReservationSlice = createSlice({
            
         },
         DeleteAvailabilityCalendarSlot(state, action: PayloadAction<{ id:number }>) {
-            // state.my_availability_calendar = state.my_availability_calendar.filter((item:AvailabilityCalendarSlot) => item.id !== action.payload.availability_calendar_id)
+            state.my_availability_calendar = state.my_availability_calendar.filter((item:AvailabilityCalendarSlot) => item.id !== action.payload.id)
         },
     },
 })
