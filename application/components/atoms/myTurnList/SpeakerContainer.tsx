@@ -1,6 +1,8 @@
+"use client";
+
 import DynamicIcon from 'application/utils/DynamicIcon'
-import { Text, HStack, View, Avatar, Box, Image } from 'native-base'
-import React from 'react'
+import { Text, HStack, View, Avatar, Box } from 'native-base'
+import React, {useCallback, useRef} from 'react'
 import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
 import UseEnvService from 'application/store/services/UseEnvService';
@@ -23,36 +25,36 @@ const SpeakerContainer = ({ currentAttendee, socketUpdate, timer, remainingSecon
   const { _env } = UseEnvService()
   const { field_settings, settings } = useRequestToSpeakService();
   const loggedInUser = attendee?.id === response.data?.user?.id;
-  const [timeSpent, setTimeSpent] = React.useState('');
+  const [timeSpent, setTimeSpent] = React.useState('00:00:00');
 
   const speechTime = settings?.enable_speech_time;
   const moderatorSpeechTime = settings?.enable_speech_time_for_moderator;
 
-  const startTimer = (initialTimer: any) => {
-    let timer = initialTimer;
-    const updateTimerWatch = () => {
-      timer = timer.add(1, 'seconds');
-      setTimeSpent(`${timer.hours().toString().padStart(2, '0')} : ${timer.minutes().toString().padStart(2, '0')} : ${timer.seconds().toString().padStart(2, '0')}`);
-      setTimeout(updateTimerWatch, 1000);
-    };
-    updateTimerWatch();
-  };
+  const workerRef = useRef<Worker>();
 
-  const startCountdownTimer = (initialSeconds: number) => {
-    let timer = moment.duration(initialSeconds, 'seconds');
-    const updateTimerCoundownWatch = () => {
-      timer = timer.subtract(1, 'seconds');
-      setTimeSpent(`${timer.hours().toString().padStart(2, '0')} : ${timer.minutes().toString().padStart(2, '0')} : ${timer.seconds().toString().padStart(2, '0')}`);
-      if (timer.asSeconds() > 0) {
-        setTimeout(updateTimerCoundownWatch, 1000);
+  React.useEffect(() => {
+    workerRef.current = new Worker(new URL("../../../wokers/timer-worker.ts", import.meta.url ), { type: 'module' })
+    workerRef.current.onmessage = (event: MessageEvent) => {
+      if (event.data.type === 'update') {
+        setTimeSpent(event.data.timeSpent);
       }
     };
-    updateTimerCoundownWatch();
-  };
+    return () => {
+      workerRef.current?.terminate();
+    };
+  }, []);
+
+  const startTimer = useCallback((initialTimer: number) => {
+    workerRef.current?.postMessage({ type: 'start', timer: initialTimer });
+  }, []);
+
+  const startCountdownTimer = useCallback((initialTimer: number) => {
+    workerRef.current?.postMessage({ type: 'countdown', timer: initialTimer });
+  }, []);
 
   const updateTimer = () => {
     if (moderatorSpeechTime) {
-      startTimer(moment.duration(timer));
+      startTimer(moment.duration(timer).asSeconds());
     } else if (speechTime && !moderatorSpeechTime) {
       startCountdownTimer(remainingSeconds);
     }
