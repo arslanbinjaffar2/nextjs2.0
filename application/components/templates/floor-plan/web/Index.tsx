@@ -30,7 +30,6 @@ const Index = () => {
   const [filteredFloorPlans, setFilteredFloorPlans] = useState<FloorPlan[]>([]);
   const [filteredCategories, setFilteredCategories] = useState<FloorPlanCategory[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<FloorPlanCategory[]>([]);
-  const [hover, sethover] = useState(false);
 
 
   useEffect(()=>{
