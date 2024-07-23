@@ -14,6 +14,7 @@ import Program from 'application/components/atoms/myTurnList/Program'
 import UseSocketService from 'application/store/services/UseSocketService';
 import { useRouter } from 'next/router';
 import UseAuthService from 'application/store/services/UseAuthService';
+import moment from 'moment';
 
 
 type ScreenParams = { id: string, currentIndex: string }
@@ -28,8 +29,9 @@ const ShowTurnList = () => {
     const { processing, loading } = UseLoadingService();
     const [socketUpdate, setSocketUpdate] = React.useState(false);
     const [initialLoad, setInitialLoad] = React.useState(true);
+    const [timer, setTimer] = React.useState<any>(null);
 
-    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser } = useRequestToSpeakService();
+    const { attendeesToCome, FetchProgramTurnList, agendaDetail, currentAttendee, currentUser, remainingSeconds, timerStartText } = useRequestToSpeakService();
     const [_programId] = useParam('id');
 
     const { socket } = UseSocketService();
@@ -81,6 +83,7 @@ const ShowTurnList = () => {
                 let makeLive = data?.make_live;
                 if (isStop || makeLive) {
                     fetchData();
+                    setTimer(moment.duration(data?.data_timer));
                     setSocketUpdate(prevState => !prevState);
                 }
             });
@@ -92,8 +95,10 @@ const ShowTurnList = () => {
             }
         }
     }, [socket]);
-
+    
     const module = modules.find((module) => module.alias === 'myturnlist');
+    const sameUser = response?.data?.user?.id === currentAttendee?.attendee_id;
+    const showActiveAttendee = currentAttendee?.status === 'inspeech' && sameUser;
     return (
         <>
             {(initialLoad && (loading && in_array('program-turn-list', processing))) ? <SectionLoading /> : (
@@ -105,6 +110,8 @@ const ShowTurnList = () => {
                         {currentAttendee && currentAttendee.status === 'inspeech' &&
                             <SpeakerContainer currentAttendee={currentAttendee}
                                 socketUpdate={() => setSocketUpdate(prevState => !prevState)}
+                                timer={timerStartText}
+                                remainingSeconds={remainingSeconds}
                             />
                         }
 
@@ -120,7 +127,7 @@ const ShowTurnList = () => {
 
                         }
 
-                        {currentUser && checkGdpr() === false && currentAttendee.status !== 'inspeech' &&
+                        {currentUser && checkGdpr() === false && !showActiveAttendee &&
                             <ActiveAttendee
                                 activeAttendee={currentUser}
                                 program_id={Number(_programId)}

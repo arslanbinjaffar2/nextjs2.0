@@ -13,19 +13,31 @@ function* OnGetExhibitors({
     type: typeof ExhibitorActions.FetchExhibitors
     payload: { category_id: number, query: string, page?: number,  screen: string }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    // yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'exhibitors-listing' }))
     const state = yield select(state => state);
     console.log("🚀 ~ OnGetExhibitors ~ payload:", payload)
-    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 10  }, state)
+    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 50  }, state)
     if (payload.screen === 'our-exhibitors') {
         yield put(ExhibitorActions.updateOurExhibitors(response.data.data.exhibitors!))
     } else if (payload.screen === 'my-exhibitors') {
         yield put(ExhibitorActions.updateMyExhibitors(response.data.data.exhibitors!))
     } else {
-        yield put(ExhibitorActions.update(response.data.data.exhibitors!))
+        if (payload.page && payload.page > 1) {
+            yield put(ExhibitorActions.update({
+                exhibitors: response.data.data.exhibitors || [],
+                page: response.data.data.page,
+                total_pages: response.data.data.total_pages,
+            }));
+        } else {
+            yield put(ExhibitorActions.update({
+                exhibitors: response.data.data.exhibitors || [],
+                page: response.data.data.page,
+                total_pages: response.data.data.total_pages,
+            }));
+        }
         yield put(ExhibitorActions.updateSiteLabels(response.data.data.labels!))
     }
-    console.log(response.data.data.exhibitorCategories?.exhibitorCategories,'hjghj');
 const { exhibitorCategories, page, total_pages } = response.data.data.exhibitorCategories;
     yield put(ExhibitorActions.updateCategories({
         categories: exhibitorCategories,
@@ -35,7 +47,9 @@ const { exhibitorCategories, page, total_pages } = response.data.data.exhibitorC
     yield put(ExhibitorActions.updateSettings(response.data.data.settings!))
     yield put(ExhibitorActions.updateCategory(payload.category_id))
     yield put(ExhibitorActions.updateQuery(payload.query))
-    yield put(LoadingActions.set(false));
+    // yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'exhibitors-listing' }))
+
 }
 
 function* OnGetMyExhibitors({

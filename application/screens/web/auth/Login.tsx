@@ -43,14 +43,28 @@ const Login = ({ props }: any) => {
         }
     };
 
+    const showEventDisclaimer = () => {
+        return response?.data?.user?.show_disclaimer;
+    }
+        
+
     React.useEffect(() => {
         if (response.redirect === "choose-provider") {
             push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
         } 
         if (response.redirect === "verification") {
             push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
-        } 
+        }
     }, [response.redirect]);
+
+    React.useEffect(() => {
+        if(isLoggedIn){
+            console.log("🚀 ~ React.useEffect ~ showEventDisclaimer():", showEventDisclaimer())
+            if(showEventDisclaimer() === true){
+                push(`/${event.url}/auth/disclaimer`)
+            }
+        }
+    }, [isLoggedIn])
 		
 
     return (

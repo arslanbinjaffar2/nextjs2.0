@@ -1,6 +1,7 @@
 import React, { ReactElement, FC, useRef, useEffect } from 'react';
 import { Box, Button, Center, Checkbox, Divider, HStack, Icon, IconButton, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
 import "react-datetime/css/react-datetime.css";
 import Datetime from "react-datetime";
 import Icocross from 'application/assets/icons/Icocross';
@@ -51,7 +52,6 @@ const MyDTPicker: FC<any> = (props: Props): any => {
   };
 
   const renderInput = (props: any) => {
-
     return (
       <Box fontFamily={'Avenir'} w="100%">
         <label className={`label-input ${props.timeOnly ? 'ebs-time-icon' : ''}`}>
@@ -59,7 +59,8 @@ const MyDTPicker: FC<any> = (props: Props): any => {
           h={50}
           opacity={props.disabled ? '0.5' : 1} rightElement={
           <>
-            <Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />
+            {props.showDate && <Icon mr="2" size="5" as={AntDesign} name="calendar" color="primary.text" />}
+            {props.showtime && <Icon mr="2" size="5" as={Feather} name="clock" color="primary.text" />}
           </>
           } isReadOnly={true} {...props} placeholder={props.placeholder} />
           <span>{props.required && <em className="req">*</em>}</span>
@@ -72,8 +73,7 @@ const MyDTPicker: FC<any> = (props: Props): any => {
                 p={0}
                 variant="unstyled"
                 icon={<Icocross  width={12} height={12} />}
-                onPress={props.setClearDate}
-                
+                onPress={props.setClearDate}  
               />
              
             )}
@@ -84,7 +84,7 @@ const MyDTPicker: FC<any> = (props: Props): any => {
   return <Datetime
   
   locale={props?.locale !== undefined ? props?.locale : 'en'} initialValue={props.initialValue}
-  ref={textInput} renderView={(mode:any, renderDefault:any) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={(inputProps: any) => renderInput({ ...inputProps, showClearBtn: props?.showClearBtn,setClearDate: props.setClearDate })} />;
+  ref={textInput} renderView={(mode:any, renderDefault:any) => renderView(mode, renderDefault, props.showtime,props.showdate)} initialViewMode={props.showdate ? 'days' : 'time'} closeOnSelect={true} onChange={props.onChange} value={props.value} timeFormat={props.showtime} dateFormat={props.showdate} inputProps={{ placeholder: props.placeholder, required: props.required, disabled: props.readOnly }} renderInput={(inputProps: any) => renderInput({ ...inputProps, showClearBtn: props?.showClearBtn,setClearDate: props.setClearDate,showtime:props.showtime,showDate:props.showdate })} />;
 };
 
 type DateTimeProps = {
@@ -106,7 +106,7 @@ type DateTimeProps = {
 const DateTimePicker: FC<DateTimeProps> = (props): ReactElement => {
   return (
     <div style={{width: '100%'}} >
-      <MyDTPicker locale={props?.locale !== undefined ? props?.locale : 'en'} readOnly={props.readOnly} initialValue={props.initialValue} onChange={props.onChange} value={props.value} showtime={props.showtime !== undefined ? props.showtime : false} showdate={props.showdate !== undefined ? props.showdate : true} placeholder={props.label} showClearBtn={props.showClearBtn} setClearDate={props.setClearDate} />
+      <MyDTPicker  locale={props?.locale !== undefined ? props?.locale : 'en'} readOnly={props.readOnly} initialValue={props.initialValue} onChange={props.onChange} value={props.value} showtime={props.showtime !== undefined ? props.showtime : false} showdate={props.showdate !== undefined ? props.showdate : true} placeholder={props.label} showClearBtn={props.showClearBtn} setClearDate={props.setClearDate} />
     </div>
   )
 };

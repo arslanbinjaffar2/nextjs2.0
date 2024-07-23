@@ -35,12 +35,30 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
       .map((field: any) => field.fields_name);
   };
 
+  const gdprSettings = event?.gdpr_settings;
+
+  const notShowProfileImageAndInfo = () => {
+    if (gdprSettings?.enable_gdpr === 1 && gdprSettings?.attendee_invisible === 0) {
+      return attendee?.current_event_attendee?.gdpr === 0;
+    }
+    return false;
+  }
 
   const getValueFromAttendeeInfo = (field: string) => {
-    if (attendee?.info !== undefined) {
-      return attendee?.info.find((item: any) => item.name === field)?.value || null;
+    if (field === 'EMPLOYMENT_DATE') {
+      return (attendee as any)?.[field] || null;
     }
-    return null;
+    if (attendee?.info !== undefined) {
+      const infoValue = attendee?.info.find((item: any) => item.name === field)?.value;
+      if (infoValue) {
+        return infoValue;
+      }
+    }
+    const notFields = ['date_of_issue_passport', 'date_of_expiry_passport'];
+    if (notFields.includes(field)) {
+      return null;
+    }
+    return (attendee as any)?.[field] || null;
   }
 
   const renderDetails = () => {
@@ -62,7 +80,7 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
         <HStack w="100%" space="5" alignItems={'center'} justifyContent="space-between">
 
           <Box alignSelf={renderDetails() !== null ? 'flex-start' : 'center'}>
-            {attendee?.image && settings?.show_image_turnlist === 1 ? (
+            {attendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImageAndInfo() ? (
               <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar
@@ -78,7 +96,9 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
             {(attendee?.first_name || attendee?.last_name) ? (
               <>
                 <Text lineHeight="22px" fontWeight={'medium'} fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
-                {renderDetails()}
+                {!notShowProfileImageAndInfo() &&
+                  renderDetails()
+                }
               </>
             ) : null}
           </VStack>

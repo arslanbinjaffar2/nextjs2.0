@@ -295,7 +295,8 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
         </Container>
         </>
 
-      ) : (<Container pt="0" maxW="100%" w="100%">
+      ) : (
+      <Container pt="0" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
           <Text fontSize="2xl">{modules?.find((network) => (network.alias == 'business'))?.name ?? ""}</Text>
           <Pressable rounded="10" bg="primary.500" p={'8px'} onPress={() => setEnableFilter(false)}>

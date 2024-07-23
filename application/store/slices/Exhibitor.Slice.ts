@@ -10,7 +10,9 @@ import { ExhibitorDetail } from 'application/models/exhibitor/ExhibitorDetail'
 
 import type { RootState } from 'application/store/Index'
 import { SponsorSlice } from 'application/store/slices/Sponsor.Slice'
-
+import {
+    current
+} from '@reduxjs/toolkit';
 export interface ExhibitorState {
     exhibitors: Exhibitor[],
     labels: any,
@@ -48,6 +50,13 @@ export const ExhibitorSlice = createSlice({
     reducers: {
         FetchExhibitors(state, action: PayloadAction<{ category_id: number, query: string, page?: number,  screen: string }>) {
             state.screen = action.payload.screen;
+            if (action.payload.page)
+            {
+                state.page = action.payload.page;
+            }
+            else{
+                state.page = 1;
+            }
         },
           
         FetchMyExhibitors(state, action: PayloadAction<{}>) {},
@@ -55,8 +64,16 @@ export const ExhibitorSlice = createSlice({
         FetchExhibitorDetail(state, action: PayloadAction<{ id: number }>) { },
         FetchExhibitorContact(state, action: PayloadAction<{ id: number }>) { },
         MakeFavourite(state, action: PayloadAction<{ exhibitor_id: number, screen: string }>) { },
-        update(state, action: PayloadAction<Exhibitor[]>) {
-            state.exhibitors = action.payload;
+        update(state, action: PayloadAction<{ exhibitors: Exhibitor[], page: number, total_pages: number }>) {
+            state.total_pages = action.payload.total_pages;
+            if (state.page > 1) {
+                console.log(action.payload.exhibitors, 'if exhibitor');
+                let exhibitors = action.payload.exhibitors;
+                state.exhibitors = [...state.exhibitors, ...exhibitors];
+            } else {
+                console.log(action.payload.exhibitors, 'if else');
+                state.exhibitors = action.payload.exhibitors;
+            }
         },
         updateSiteLabels(state, action: PayloadAction<[]>) {
             state.labels = action.payload;
@@ -75,10 +92,14 @@ export const ExhibitorSlice = createSlice({
             state.query = action.payload;
         },
         updateCategories(state, action: PayloadAction<{ categories: ExhibitorCategory[], page: number, total_pages: number }>) {
-            console.log(action.payload.page,'fffff')
-            state.categories = action.payload.categories;
-            state.page = action.payload.page;
             state.total_pages = action.payload.total_pages;
+            if (state.page > 1) {
+                state.categories = [...state.categories, ...action.payload.categories];
+            } else {
+                console.log('else page', action.payload.page);
+                console.log('data', action.payload.categories);
+                state.categories = action.payload.categories;
+            }
         },
         updateSettings(state, action: PayloadAction<ExhibitorSetting>) {
             state.settings = action.payload;
