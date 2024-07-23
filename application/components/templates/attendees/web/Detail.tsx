@@ -238,7 +238,7 @@ const Detail = ({ speaker }: Props) => {
                                             <>
                                                 { groups?.map((group: Group, k: number) =>
                                                     <React.Fragment key={`${k}`}>
-                                                        <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true}/>
+                                                        <RectangleGroupView group={group} k={k} border={k} navigation={true}/>
                                                     </React.Fragment>
                                                 )}
                                                         

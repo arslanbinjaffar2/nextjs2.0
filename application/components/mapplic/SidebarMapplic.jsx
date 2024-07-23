@@ -60,7 +60,8 @@ const SidebarMapplic = (json) => {
             bg={active === 'sponsor'  ? 'primary.500' :'primary.box'}
             py={2}
             px={6}
-            _text={{fontSize: 'lg'}}
+            _text={{fontSize: 'lg',color:active=='sponsor' && "primary.hovercolor"}}
+            _hover={{ _text:{color:"primary.hovercolor"} }}
             onPress={()=>{
               setactive('sponsor'); closeLocation()
             }}>
@@ -71,7 +72,8 @@ const SidebarMapplic = (json) => {
            rounded={'full'}
             py={2}
             px={6}
-            _text={{fontSize: 'lg'}}
+            _text={{fontSize: 'lg',color:active=='exhibitor' && "primary.hovercolor"}}
+            _hover={{ _text:{color:"primary.hovercolor"} }}
             bg={active === 'exhibitor' ? 'primary.500' :'primary.box'}
             colorScheme="primary"
             onPress={()=>{

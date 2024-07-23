@@ -148,12 +148,12 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 																					<Popover
 																						trigger={(triggerProps) => {
 																						return <Button
+                                                                                                        _hover={{_text: {color: 'primary.hovercolor'}}}
 																										bg={'transparent'}
 																										px={1}
 																										py={0}
 																										mr={2}
 																										_text={{fontSize: 'sm', lineHeight: 24}}
-																										_hover={{_text: {color: 'primary.hovercolor'}}}
 																										position={'relative'}
 																										left={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(sponsor?.categories[0]?.info.name, 14)) + 28 + (1 * 10)}px`}
 																										rounded={'full'}

@@ -1136,6 +1136,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     inputFileRef.current.click();
                                                 }
                                             }}
+                                            _text={{color:'primary.hovercolor'}}
                                                 size={'lg'}
                                                 _text={{color:'primary.hovercolor'}}
                                             >

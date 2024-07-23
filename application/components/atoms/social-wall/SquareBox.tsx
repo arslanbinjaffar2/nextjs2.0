@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Avatar, Box, HStack, VStack, Text, Image, Spacer, Button, Divider, Center, Menu, Icon, Pressable, Modal, Popover, ScrollView } from 'native-base'
+import { Avatar, Box, HStack, VStack, Text, Image, Spacer, Button, Divider, Center, Menu, Icon, Pressable, Modal, Popover, ScrollView, View } from 'native-base'
 import IcoLike from 'application/assets/icons/Icolike'
 import IcoMessage from 'application/assets/icons/IcoMessage'
 // import IcoSharePost from 'application/assets/icons/IcoSharePost'
@@ -162,7 +162,7 @@ const SquareBox = ({ post, index }: AppProps) => {
           <Center>
             {post.attendee.id === response?.data?.user?.id && (
               <HStack px={3} w={'100%'} justifyContent={'flex-end'} space="3" alignItems="center">
-                <Menu
+                {/* <Menu
                   placement="bottom right"
                   bg="primary.boxsolid"
                   borderWidth={0}
@@ -171,14 +171,36 @@ const SquareBox = ({ post, index }: AppProps) => {
                   w={180}
                   crossOffset={0}
                   trigger={(triggerProps) => {
-                    return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'primary.text'} as={Entypo} name="dots-three-horizontal" />
+                    return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '',color:'primary.hovercolor' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} ><Icon color={'primary.text'} as={Entypo} name="dots-three-horizontal" />
                     </Button>
                   }}
 
                 >
-                  <Menu.Item _text={{color: 'primary.boxsolidtext'}} _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{event?.labels?.GENERAL_EDIT}</Menu.Item>
-                  <Menu.Item _text={{color: 'primary.boxsolidtext'}} _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} onPress={() => { deletePost() }}>{event?.labels?.GENERAL_DELETE}</Menu.Item>
-                </Menu>
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500',color:'primary.hovercolor' }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>{event?.labels?.GENERAL_EDIT}</Menu.Item>
+                  <Menu.Item _focus={{ bg: '' }} _hover={{ bg: 'primary.500',color:'primary.hovercolor' }} onPress={() => { deletePost() }}>{event?.labels?.GENERAL_DELETE}</Menu.Item>
+                </Menu> */}
+                <View 
+                  borderWidth={0}
+                  borderColor="#707070">
+                  
+                  <Popover 
+                    
+                     placement="bottom right"
+                    shouldFlip={true}
+                    crossOffset={0}
+                  trigger={triggerProps => {
+      return <Button w={'30px'} bg={'transparent'} _focus={{ bg: '' }} _hover={{ bg: '',color:'primary.hovercolor' }} height={'30px'} rounded={'full'} p={0} {...triggerProps} >
+        <Icon color={'primary.text'} as={Entypo} name="dots-three-horizontal" />
+      </Button>
+    }}>
+        <Popover.Content accessibilityLabel="Menu" w={180} bg="primary.boxsolid" borderWidth={0} rounded={'md'} nativeID='boxShadow' py={2}>
+        <Button borderWidth={0} justifyContent={'flex-start'} px={3} py={2} rounded={0} bg={''} _focus={{ bg: '' }} _hover={{ bg: 'primary.500', }} onPress={() => { push(`/${event.url}/social_wall/edit/${post.id}`) }}>
+          {event?.labels?.GENERAL_EDIT}</Button>
+        <Button borderWidth={0} justifyContent={'flex-start'} px={3} py={2}  rounded={0} bg={''} _focus={{ bg: '' }} _hover={{ bg: 'primary.500',}} onPress={() => { deletePost() }}>
+          {event?.labels?.GENERAL_DELETE}</Button>
+        </Popover.Content>
+      </Popover>
+                </View>
               </HStack>
 
             )}
@@ -387,13 +409,13 @@ const SquareBox = ({ post, index }: AppProps) => {
                       );
                     }}
                   >
-                    <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{ bg: '' }} _hover={{ bg: 'primary.500' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
+                    <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{ bg: '' }} _hover={{ bg: 'primary.500',color:'primary.hovercolor' }} textValue="id" onPress={() => handleCommentsSortBy('top')}>
                       {labels?.SOCIAL_WALL_TOP_COMMENTS}
                     </Menu.Item>
                     <Menu.Item
                       _text={{color: 'primary.boxsolidtext'}} 
                       _focus={{ bg: '' }}
-                      _hover={{ bg: 'primary.500' }}
+                      _hover={{ bg: 'primary.500',color:'primary.hovercolor' }}
                       textValue="comments_newest"
                       onPress={() => handleCommentsSortBy('newest')}
                     >

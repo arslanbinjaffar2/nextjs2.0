@@ -12,8 +12,8 @@ import moment from 'moment'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import in_array from 'in_array';
 import FavProgramToggle from 'application/components/atoms/programs/FavProgramToggle';
-
 import UseAuthService from 'application/store/services/UseAuthService';
+
 type AppProps = {
   program: Program,
   k: number,
