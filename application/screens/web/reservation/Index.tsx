@@ -148,9 +148,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
           
           
           >
-            My Availability
-          
-            
+           {event?.labels?.RESERVATION_MY_AVAILABILITY} 
           </ButtonElement>}
         
       </HStack>
@@ -281,11 +279,11 @@ function add(){
     <Text   fontSize="lg"fontWeight={'medium'} isTruncated ml={4}>{response?.data?.user?.name}</Text>
     </Box>
     <Button display={showAddForm?"none":"flex"} mt={[4,'']} colorScheme="primary" w={["60%",195]} height={38} onPress={() => setShowAddForm(!showAddForm)} p='2' _text={{ fontSize:"md" ,fontWeight:'semibold' }}>
-     + Add Availability
+     + {event?.labels?.RESERVATION_ADD_AVAILABILITY}
     </Button>
     </View>
     {showAddForm && <View rounded="10" bg="primary.box" w="100%"  mt={'5'}>
-      <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} pt={6}>ADD AVAILABILITY</Text>
+      <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} pt={6}>{event?.labels?.RESERVATION_ADD_AVAILABILITY}</Text>
     <Box w="100%" rounded="lg" p={[3,6]}>
       <HStack  space="3" justifyContent={'space-between'} flexDirection={['column','row']} alignItems={['flex-start',(touched.date && dateError )?'flex-start' :'center']}>  
           <View width={['100%',100]} flexDirection={'row'} alignItems={'center'} mb={[2,0]}>
