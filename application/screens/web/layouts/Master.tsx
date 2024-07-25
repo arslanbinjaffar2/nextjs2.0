@@ -47,10 +47,6 @@ const Master = ({ children, section }: Props) => {
 
   const nextRouter = UseNextRouter();
 
-  const sub_reg_skip = localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
-
-  const keyword_skip = localStorage.getItem(`keyword_skip`) === 'true' ? true : false;
-
   const access_token_exists = Boolean(localStorage.getItem(`access_token_${event_url}`));
 
   React.useEffect(() => {
@@ -73,6 +69,8 @@ const Master = ({ children, section }: Props) => {
   
   React.useEffect(() => {
     if(access_token_exists){
+      const sub_reg_skip = localStorage.getItem(`skip_sub_reg_${event_url}`) === 'true' ? true : false;
+      const keyword_skip = localStorage.getItem(`keyword_skip_${event_url}`) === 'true' ? true : false;
       if ((sub_reg_skip) !== true) {
         push(`/${event.url}/subRegistration`)
       } else if ((keyword_skip) !== true) {

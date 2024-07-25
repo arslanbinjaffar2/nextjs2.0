@@ -28,7 +28,7 @@ function* OnGetEvent({
     const response: HttpResponse = yield call(getEventApi, payload, env)
     yield put(EventActions.update(response.data.data.event!))
     if(response.data.data.event.keyword_settings.show_after_login == 0){
-        yield put(NetworkInterestActions.setSkip());
+        yield put(NetworkInterestActions.setSkip({event_url:response.data.data.event.url}));
     }
     yield put(LoadingActions.set(false));
 }

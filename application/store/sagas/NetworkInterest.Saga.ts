@@ -22,7 +22,7 @@ function* OnFetchNetworkInterests({
     const response: HttpResponse = yield call(getNetworkInterestApi, {}, state)
     yield put(NetworkInterestActions.update({ keywords: response.data.data! }))
     if(response?.data?.data.length <= 0){
-        yield put(NetworkInterestActions.setSkip());
+        yield put(NetworkInterestActions.setSkip({event_url:state?.event?.event_url}));
     }
     yield put(LoadingActions.set(false));
     yield put(LoadingActions.removeProcess({ process: 'keywords' }))
@@ -37,7 +37,7 @@ function* OnSaveMykeywords({
 }): SagaIterator {
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveNetworkInterestApi, payload, state)
-    yield put(NetworkInterestActions.saveMyKeywordSuccess());
+    yield put(NetworkInterestActions.saveMyKeywordSuccess({event_url:state?.event?.event_url}));
 }
 
 function* OnFetchSearchMatchAttendees({

@@ -39,21 +39,21 @@ export const NetworkInterestSlice = createSlice({
         SaveMykeywords(state, action: PayloadAction<any>) {
             state.updatingMykeywords = true;
         },
-        saveMyKeywordSuccess(state) {
+        saveMyKeywordSuccess(state, action: PayloadAction<{event_url:string}>) {
             state.updatingMykeywords = false;
             state.skip = true;
             if (Platform.OS === 'web') {
-                localStorage.setItem('keyword_skip', 'true');
+                localStorage.setItem(`keyword_skip_${action.payload.event_url}`, 'true');
             } else {
-                AsyncStorageClass.setItem('keyword_skip', 'true');
+                AsyncStorageClass.setItem(`keyword_skip_${action.payload.event_url}`, 'true');
             }
         },
-        setSkip(state){
+        setSkip(state, action: PayloadAction<{event_url:string}>){
             state.skip = true;
             if (Platform.OS === 'web') {
-                localStorage.setItem('keyword_skip', 'true');
+                localStorage.setItem(`keyword_skip_${action.payload.event_url}`, 'true');
             } else {
-                AsyncStorageClass.setItem('keyword_skip', 'true');
+                AsyncStorageClass.setItem(`keyword_skip_${action.payload.event_url}`, 'true');
             }
         },
         FetchSearchMatchAttendees(state, action: PayloadAction<any>) {
@@ -65,7 +65,7 @@ export const NetworkInterestSlice = createSlice({
             state.searchingAttendees = false;
 
         },
-        clearState(state){
+        clearState(state, action: PayloadAction<{event_url:string}>){
             state.keywords= [];
             state.updatingMykeywords=false;
             state.skip=false;
@@ -73,9 +73,9 @@ export const NetworkInterestSlice = createSlice({
             state.searchingAttendees=false;
 
             if (Platform.OS === 'web') {
-                localStorage.removeItem('keyword_skip');
+                localStorage.removeItem(`keyword_skip_${action.payload.event_url}`);
             } else {
-                AsyncStorageClass.removeItem('keyword_skip');
+                AsyncStorageClass.removeItem(`keyword_skip_${action.payload.event_url}`);
             }
         }
     },

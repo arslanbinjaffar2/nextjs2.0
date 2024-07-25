@@ -45,7 +45,7 @@ const Detail = () => {
 
   const { _env } = UseEnvService();
 
-  const { event, modules  } = UseEventService();
+  const { event, modules,event_url  } = UseEventService();
 
   const { response  } = UseAuthService();
 
@@ -126,7 +126,7 @@ const Detail = () => {
           if(netWorkskip !== true  && event?.keyword_settings?.show_after_login !== 0){
             push(`/${event.url}/network-interest`)
           }else{
-            setNetworkSkip();
+            setNetworkSkip({event_url:event_url});
             push(`/${event.url}/dashboard`)
           }
       }
@@ -307,7 +307,7 @@ const Detail = () => {
                       colorScheme="primary"
                       _hover={{_text: {color: 'primary.hovercolor'}}}
                       onPress={() => {
-                        setSkip();
+                        setSkip({event_url:event_url});
                       }}
                     >
                       {event?.labels?.GENERAL_SKIP}
