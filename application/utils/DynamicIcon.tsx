@@ -88,6 +88,8 @@ import share from 'application/assets/icons/share'
 import dropdown from 'application/assets/icons/dropdown'
 import upload from 'application/assets/icons/upload'
 import hand from 'application/assets/icons/hand'
+import calender_icon from 'application/assets/icons/calender_icon'
+import clock_icon from 'application/assets/icons/clock_icon'
 type IconProps = {
     name?: string;
     color?: string;
@@ -195,7 +197,9 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         share,
         dropdown,
         upload,
-        hand
+        hand,
+        calender_icon,
+        clock_icon
     };
 
     const IconComponent = iconMap[iconType];

@@ -142,7 +142,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
             </VStack>
             <Spacer />
             <HStack space={["0","4"]} alignItems="center">
-                {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && (
+                {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && ( 
                   <Button
                   display={['none','']}
                     py={2}
@@ -153,15 +153,15 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     
                   </Button>
                   
-                )}
-                {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && tabQueryParam !== 'category-attendee' && (
-                  <Pressable
-                    onPress={() => toggleFav()}>
-                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.primary_color : ''} />
-                  </Pressable>
-                )}
-                <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
-              </HStack>
+                )} 
+              {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
+                <Pressable
+                  onPress={() => toggleFav()}>
+                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+                </Pressable>
+              )}
+              <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
+            </HStack>
           </HStack>
         </HStack>
       </Pressable>
