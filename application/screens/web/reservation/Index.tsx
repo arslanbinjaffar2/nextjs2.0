@@ -331,12 +331,12 @@ function add(){
       <Button bg={'primary.box'}  mt={'5'} w={"48%"} height={38}  isDisabled={in_array('add-availability',processing)} onPress={() => {
         setShowAddForm(false)
       }} p='2'_text={{ fontSize:"md" ,fontWeight:'semibold' }} >
-          close
+          {event?.labels?.GENERAL_CANCEL}
       </Button>  
       <Button colorScheme="primary" mt={'5'} w={"48%"} height={38}  isDisabled={in_array('add-availability',processing)} onPress={() => {
         add()
         }} p='2'_text={{ fontSize:"md" ,fontWeight:'semibold' }} ml={3}>
-        {in_array('add-availability',processing) ? <Spinner color={'primary.text'} size={'sm'}/>:"Save"}
+        {in_array('add-availability',processing) ? <Spinner color={'primary.text'} size={'sm'}/>:event?.labels?.GENERAL_SAVE}
       </Button>  
         </HStack>
     </Box>
