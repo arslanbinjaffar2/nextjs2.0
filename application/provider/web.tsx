@@ -152,7 +152,7 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     defaultProps: {
                         size: 'lg', bg: 'primary.500',
                         _hover: { bg: event?.settings?.primary_color,_text:{color:'primary.hovercolor'} },
-                        _text: { color: 'primary.text' },
+                        _text: { color: 'primary.hovercolor' },
                         _pressed: { bg: `${colors.secondary}`, color: '#fff' }
                     }
                 },
