@@ -378,7 +378,7 @@ const SingleAvailabilityCalendar=({item,k,array}:{item:any,k:any,array:any})=>{
   </HStack>
     <AvailabilityModal 
     key={k}
-    AvaiblityID={item.id} isOpen={isOpen} onClose={onCloseModal} message='Are you sure you want to delete this availability?' title='Delete'/>
+    AvaiblityID={item.id} isOpen={isOpen} onClose={onCloseModal}/>
     </React.Fragment>
 
   )
