@@ -44,7 +44,7 @@ const Detail = () => {
 
   const { _env } = UseEnvService();
 
-  const { event  } = UseEventService();
+  const { event,event_url  } = UseEventService();
 
   const { response  } = UseAuthService();
 
@@ -291,7 +291,7 @@ const Detail = () => {
                       fontSize="lg"
                       colorScheme="primary"
                       onPress={() => {
-                        setSkip();
+                        setSkip({event_url:event_url});
                       }}
                     >
                       Skip
