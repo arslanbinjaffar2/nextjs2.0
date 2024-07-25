@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
-import { Avatar, Box, Button, Container, Flex, HStack, Spacer, Spinner, Text, View, VStack } from 'native-base';
+import { Avatar, Box, Button, Container, Flex, HStack, Icon, Spacer, Spinner, Text, View, VStack } from 'native-base';
 import MeetingRequestBox from 'application/components/atoms/reservation/MeetingRequestBox';
 import useMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 import { AvailabilityCalendarSlot, MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
@@ -22,7 +22,7 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { colors } from 'application/styles';
-
+import AntDesign from '@expo/vector-icons/AntDesign';
 const Index = () => {
 const [tab, setTab] = React.useState('all');
 const { FetchMyMeetingRequests,my_meeting_listing,labels} = useMeetingReservationService();
@@ -279,8 +279,12 @@ function add(){
     </Avatar>
     <Text   fontSize="lg"fontWeight={'medium'} isTruncated ml={4}>{response?.data?.user?.name}</Text>
     </Box>
-    <Button display={showAddForm?"none":"flex"} mt={[4,'']} colorScheme="primary" w={["60%",195]} height={38} onPress={() => setShowAddForm(!showAddForm)} p='2' _text={{ fontSize:"md" ,fontWeight:'semibold' }}>
-     + {event?.labels?.RESERVATION_ADD_AVAILABILITY}
+
+    <Button  colorScheme="primary" w={["60%",195]} height={38} display={showAddForm?"none":"flex"} justifyContent={'center'}   mt={[4,'']} p='2' _text={{ fontSize:"md" ,fontWeight:'semibold' }}  onPress={() => setShowAddForm(!showAddForm)} >
+      <Box  display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} w={'100%'}>
+      <Icon as={AntDesign} name="plus" size={15} color='primary.hovercolor' width={'5%'}/>
+      <Text ml={'1'} isTruncated width={'95%'} color='primary.hovercolor' fontSize={'md'} fontWeight={'semibold'}>{event?.labels?.RESERVATION_ADD_AVAILABILITY}</Text>
+      </Box>
     </Button>
     </View>
     {showAddForm && <View rounded="10" bg="primary.box" w="100%"  mt={'5'}>
