@@ -182,9 +182,14 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
 const AvailabilityCalendar = () => {
   const { my_availability_calendar,FetchMyAvailabilityCalendar} = useMeetingReservationService();
   const { processing } = UseLoadingService();
+  const [toDeleteId,setToDeleteId]=React.useState<number>(0)
   React.useEffect(() => {
     FetchMyAvailabilityCalendar()
   },[])
+
+  function onCloseModal(){
+    setToDeleteId(0)
+  }
 
   return (
     <>
@@ -193,9 +198,11 @@ const AvailabilityCalendar = () => {
       {my_availability_calendar.length>0 && 
       <VStack bg="primary.box" width={'100%'}  rounded={'lg'} py={1} >
       {my_availability_calendar.map((item:AvailabilityCalendarSlot,k:number,array:any) =>
-        <SingleAvailabilityCalendar array={array}  key={k} k={k} item={item}/>
+        <SingleAvailabilityCalendar array={array}  key={k} k={k} item={item} confirmDelete={()=>{setToDeleteId(item.id)}}/>
       )}
       </VStack>}
+      <AvailabilityModal 
+        AvaiblityID={toDeleteId} isOpen={toDeleteId !== 0} onClose={onCloseModal}/>
       </>
     )} 
     </>
@@ -344,12 +351,7 @@ export default Index;
 
 
 
-const SingleAvailabilityCalendar=({item,k,array}:{item:any,k:any,array:any})=>{
-  const [isOpen,setIsOpen]=React.useState(false)
-
-  const onCloseModal=()=>{
-    setIsOpen(false)
-  }
+const SingleAvailabilityCalendar=({item,k,array,confirmDelete}:{item:any,k:any,array:any,confirmDelete:(id:number)=>void})=>{
   return(
     <React.Fragment key={k}>
     <HStack px={4}  py="14"  width={'100%'} justifyContent={'space-between'} alignItems={'flex-start'} borderBottomColor={'primary.text'} borderBottomWidth={k!==array.length-1?1:0}>
@@ -370,15 +372,13 @@ const SingleAvailabilityCalendar=({item,k,array}:{item:any,k:any,array:any})=>{
       <Icocross />
     </ButtonElement> */}
     <Pressable
-     onPress={() => setIsOpen(true)}
+     onPress={() => confirmDelete(item.id)}
     >
       <DynamicIcon iconType={'delete_icon'} iconProps={{ height:18,width:16 }}/>
     </Pressable>
     
   </HStack>
-    <AvailabilityModal 
-    key={k}
-    AvaiblityID={item.id} isOpen={isOpen} onClose={onCloseModal}/>
+    
     </React.Fragment>
 
   )

@@ -47,7 +47,7 @@ export const AvailabilityModal = ({isOpen, onClose, AvaiblityID}: AvailabilityMo
                         <Container borderRightWidth={0}  w="50%">
                             <Button py={4} 
                             _text={{ fontSize:"2xl",fontWeight:"medium",color:'primary.text',textTransform:'uppercase' }}
-                            onPress={()=>handleConfirmDelete(AvaiblityID)} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}>
+                            onPress={()=>{onClose();handleConfirmDelete(AvaiblityID);}} bg={'none'} w="100%" rounded={0} variant="unstyled" textTransform={'uppercase'}>
                             {event.labels.GENERAL_YES}
                             </Button>
                         </Container>
