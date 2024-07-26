@@ -5,6 +5,7 @@ import Feather from '@expo/vector-icons/Feather';
 import UseChatService from 'application/store/services/UseChatService';
 import { useDebouncedCallback } from "use-debounce";
 import UseLoadingService from 'application/store/services/UseLoadingService';
+import IcoSend from 'application/assets/icons/small/IcoSend';
 
 type NewChatBoxProps = {
   user_ids?: number[],
@@ -46,12 +47,12 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
                 />
                 <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
                   {processing.includes('new-chat') ? (
-                    <Spinner size="lg" color="primary.text" />
+                    <Spinner w={44} h={44} padding="10px" color="primary.text" />
                   ) : (
                     <IconButton
                     variant="transparent"
                     isDisabled={message == '' || (!user_ids || user_ids.length === 0) && (!group_ids || group_ids.length === 0)}
-                    icon={<Icon size="lg" as={Feather} name="send" color="primary.text" />}
+                    icon={<IcoSend width={24} height={24} color="primary.text" />}
                     onPress={() => {
                       startChat()
                     }}

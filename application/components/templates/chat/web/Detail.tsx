@@ -18,6 +18,7 @@ import { GENERAL_DATE_FORMAT, GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'applic
 import UseEnvService from 'application/store/services/UseEnvService';
 import { useDebouncedCallback } from "use-debounce";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import IcoSend from 'application/assets/icons/small/IcoSend'
 
 type ScreenParams = { id: string }
 const { useParam } = createParam<ScreenParams>()
@@ -263,6 +264,7 @@ const Detail = ({ navigation }: indexProps) => {
 };
 
 const NewMessage = ({thread_id}: {thread_id: number}) => {
+  const textRef = React.useRef<HTMLInputElement>(null);
   const {SaveMessage} = UseChatService();
   const [message, setMessage] = React.useState('');
   const {processing} = UseLoadingService();
@@ -274,6 +276,9 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
     if(message!==''){
       SaveMessage({message:message,thread_id:thread_id});
       setMessage('');
+      if(textRef.current){
+        textRef.current.value = '';
+      }
     }
   }
 
@@ -286,7 +291,7 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
         <Text fontSize="lg">Write Message </Text>
       </HStack>
       <VStack p="1" w="100%" space="0">
-        <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder="Your message…" autoCompleteType={undefined} 
+        <TextArea ref={textRef} borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder="Your message…" autoCompleteType={undefined} 
         defaultValue={message}
         onChangeText={(text)=>debounced(text)}
         />
@@ -305,13 +310,14 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
               console.log('hello')
             }}
           /> */}
+       
           {processing.includes('save-message') ? (
-            <Spinner size="lg" color="primary.text" />
+            <Spinner w={44} h={44} padding="10px" color="primary.text" />
           ) : (
             <IconButton
             variant="transparent"
             isDisabled={message == ''}
-            icon={<Icon size="lg" as={Feather} name="send" color="primary.text" />}
+            icon={<IcoSend width={24} height={24} color="primary.text" />}
             onPress={() => {
               send()
             }}

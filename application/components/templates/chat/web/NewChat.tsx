@@ -76,12 +76,11 @@ const NewChat = ({navigation}: indexProps) => {
       <Container pt="2" maxW="100%" w="100%">
         <HStack flexWrap={'wrap'} mb="3" pt="2" w="100%" space="0" alignItems="center">
           <Text mb={3}  textAlign={'center'} width={'100%'} fontSize="2xl">{module?.name ?? "New Chat"}</Text>
-          <Input  rounded="10" w="100%" bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_SEARCH} onChangeText={(text)=>debouncedSearch(text)} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
+          <Input  rounded="10" w="100%" bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_SEARCH} onChangeText={(text)=>debouncedSearch(text)} leftElement={processing.includes('new-chat-search') ?
+          <Spinner p={0} maxHeight={26} maxWidth={26} ml={2} mr={1} color="primary.text" /> : <Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
 
-        {processing.includes('new-chat-search') && (
-          <Spinner size="lg" color="primary.text" />
-        )}
+       
 
         {/* Selected Items */}
           <HStack pb={3} borderBottomWidth={4} borderBottomColor={'primary.darkbox'} w={'100%'} mb={3} flexWrap={'wrap'} space="1" alignItems="center">
