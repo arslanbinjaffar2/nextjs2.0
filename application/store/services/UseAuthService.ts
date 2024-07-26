@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { AuthActions, LoginPayload, PasswordResetPayload, ChooseProviderPayload, ResetPayload, VerificationPayload, LoadProviderPayload, selectIsLoggedIn, isProcessing, response, error } from 'application/store/slices/Auth.Slice'
+import { AuthActions, LoginPayload, PasswordResetPayload, ChooseProviderPayload, ResetPayload, VerificationPayload, LoadProviderPayload, selectIsLoggedIn, isProcessing, response, error, disclaimerStatus } from 'application/store/slices/Auth.Slice'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
@@ -9,6 +9,7 @@ import { GeneralResponse } from 'application/models/GeneralResponse';
 export type EventServiceOperators = {
     isLoggedIn: boolean;
     processing?: boolean;
+    disclaimerStatus: boolean;
     response: GeneralResponse;
     error: string;
     login: (payload: LoginPayload) => void
@@ -20,6 +21,7 @@ export type EventServiceOperators = {
     getUser: () => void
     logout: () => void
     loadToken: (logged: boolean) => void
+    disclaimerStatusUpdated: (status: boolean) => void
 }
 
 /**
@@ -33,6 +35,7 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
     return {
         isLoggedIn: useAppSelector(selectIsLoggedIn),
         processing: useAppSelector(isProcessing),
+        disclaimerStatus: useAppSelector(disclaimerStatus),
         response: useAppSelector(response),
         error: useAppSelector(error),
         login: useCallback(
@@ -89,6 +92,14 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
             (logged: boolean) => {
                 dispatch(
                     AuthActions.loadToken(logged),
+                )
+            },
+            [dispatch],
+        ),
+        disclaimerStatusUpdated: useCallback(
+            (status: boolean) => {
+                dispatch(
+                    AuthActions.disclaimerStatusUpdated(status),
                 )
             },
             [dispatch],

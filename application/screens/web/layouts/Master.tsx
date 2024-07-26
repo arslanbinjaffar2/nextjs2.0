@@ -19,6 +19,7 @@ import { useRouter as UseNextRouter } from 'next/router';
 import SocketHandler from 'application/provider/Socket/SocketHandler';
 import ToastContainer from 'application/components/atoms/toast';
 import ThingsToIncludeOnAllLayouts from 'application/components/atoms/common/ThingsToIncludeOnAllLayouts';
+import usePostLoginFlowMiddleware from 'application/middlewares/usePostLoginFlowMiddleware';
 
 type Props = {
   children:
@@ -47,41 +48,16 @@ const Master = ({ children, section }: Props) => {
 
   const nextRouter = UseNextRouter();
 
-  const sub_reg_skip = localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
-
-  const keyword_skip = localStorage.getItem(`keyword_skip`) === 'true' ? true : false;
-
-  const access_token_exists = Boolean(localStorage.getItem(`access_token_${event_url}`));
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      await getUser();
+    };
+    fetchUser();
+}, []);
 
   React.useEffect(() => {
-      getUser();
-  }, [])
-
-  React.useEffect(() => {
-    if (response.redirect === "login" || access_token_exists === false) {
-      localStorage.setItem(`requested_url_${event_url}`, nextRouter.asPath);
-      push(`/${event.url}/auth/login`);
-    }else{
-        const requested_url = localStorage.getItem(`requested_url_${event_url}`);
-        if (requested_url) {localStorage.removeItem(`requested_url_${event_url}`);
-         if(requested_url.split('/').pop() !== 'editprofile'){
-           push(requested_url);
-         }
-        }
-    }
-  }, [response])
-  
-  React.useEffect(() => {
-
-    if ((sub_reg_skip) !== true) {
-      push(`/${event.url}/subRegistration`)
-    } else if ((keyword_skip) !== true) {
-      push(`/${event.url}/network-interest`)
-    }
-    
-  }, [nextRouter.asPath])
-
-
+    usePostLoginFlowMiddleware({ event, loadSettingsModules, isLoggedIn, response, push });
+  }, [response, isLoggedIn])
 
   React.useEffect(() => {
     if (modules.length === 0 && isLoggedIn && event.id) {
@@ -90,6 +66,7 @@ const Master = ({ children, section }: Props) => {
       FetchNotifications();
     }
   }, [modules, event, isLoggedIn])
+  
   const { height } = useWindowDimensions()
   return (
     <BackgroundLayout>
