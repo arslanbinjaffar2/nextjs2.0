@@ -11,7 +11,7 @@ import { useRouter } from 'solito/router'
 const Disclaimer = () => {
 
     const { push } = useRouter()
-    const { logout } = UseAuthService()
+    const { logout, disclaimerStatusUpdated, getUser } = UseAuthService()
     const { loading } = UseLoadingService()
     const { addDisclaimerlog } = UseAttendeeService();
     const RenderHtml = require('react-native-render-html').default;
@@ -32,9 +32,8 @@ const Disclaimer = () => {
 
     const acceptDisclaimer = async () => {
         await addDisclaimerlog();
-        setTimeout(() => {
-            push(`/${event.url}/auth/gdpr`);
-        }, 1000);
+        await getUser();
+        disclaimerStatusUpdated(true);
     }
 
     if(loading){

@@ -1,7 +1,8 @@
 import * as React from 'react';
-import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
-import { useRouter } from 'next/router'
+import UseEventService from 'application/store/services/UseEventService';
+import usePostLoginFlowMiddleware from 'application/middlewares/usePostLoginFlowMiddleware';
+import { useRouter } from 'solito/router';
 
 type Props = {
     children:
@@ -12,43 +13,24 @@ type Props = {
 };
 
 const AuthLayout = ({ children }: Props) => {
-
-    const { event,loadSettingsModules } = UseEventService();
-
-    const { loadToken, isLoggedIn, getUser, response } = UseAuthService();
-
+    const { event, loadSettingsModules } = UseEventService();
+    const { loadToken, getUser, response, isLoggedIn, disclaimerStatus } = UseAuthService();
     const { push } = useRouter();
-    const router = useRouter();
 
     React.useEffect(() => {
-        getUser();
-    }, [])
-
-    const checkUserGDPR = () => {
-        let requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1 ? true : false;
-          if(requiredGDPR){
-              let userGDPRLogged = response?.data?.user?.gdpr_log;
-              if(!userGDPRLogged){
-                return false;
-              }
-          }
-          return true;
-    }
-
-    React.useEffect(() => {
-        if (isLoggedIn && !router.pathname.includes('/auth/disclaimer')) {
-            loadSettingsModules();
-            if(checkUserGDPR() === false){
-                push(`/${event.url}/auth/gdpr`)
-            }else{
-                push(`/${event.url}/subRegistration`)
-            }
-        }
-    }, [isLoggedIn])
+        const fetchUser = async () => {
+          await getUser();
+        };
+        fetchUser();
+    }, []);
 
     React.useEffect(() => {
         loadToken(Boolean(localStorage.getItem('access_token')));
     }, [])
+
+    React.useEffect(() => {
+        usePostLoginFlowMiddleware({ event, loadSettingsModules, isLoggedIn, response, push });
+    }, [response, isLoggedIn, disclaimerStatus])
 
     return (
         <>

@@ -21,51 +21,36 @@ type Inputs = {
 const Login = ({ props }: any) => {
 
     const { event } = UseEventService();
-
     const { _env } = UseEnvService();
-
     const { isLoggedIn, processing, login, error, response } = UseAuthService();
-
-    const  { push } = useRouter();
-		  const router = useRouter();
-
-    const nativeButton = React.useRef<HTMLElement | null>(null)
-
+    const { push } = useRouter();
+    const router = useRouter();
+    const nativeButton = React.useRef<HTMLElement | null>(null);
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = input => {
-        login({ email: input.email, password: input.password })
+        login({ email: input.email, password: input.password });
     };
 
-      const handleKeyPress = (event: any) => {
+    const handleKeyPress = (event: any) => {
         if (event.key === 'Enter') {
             nativeButton.current?.click();
         }
     };
 
-    const showEventDisclaimer = () => {
-        return response?.data?.user?.show_disclaimer;
-    }
-        
-
-    React.useEffect(() => {
+    const handleRedirection = () => {
         if (response.redirect === "choose-provider") {
-            push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
-        } 
-        if (response.redirect === "verification") {
-            push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
+            push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`);
+        } else if (response.redirect === "verification") {
+            push(`/${event.url}/auth/verification/${response.data.authentication_id}`);
+        } else if (response.redirect === "disclaimer" || response?.data?.user?.show_disclaimer) {
+            push(`/${event.url}/auth/disclaimer`);
         }
-    }, [response.redirect]);
+    };
 
     React.useEffect(() => {
-        if(isLoggedIn){
-            console.log("🚀 ~ React.useEffect ~ showEventDisclaimer():", showEventDisclaimer())
-            if(showEventDisclaimer() === true){
-                push(`/${event.url}/auth/disclaimer`)
-            }
-        }
-    }, [isLoggedIn])
-		
+        handleRedirection();
+    }, [response.redirect, isLoggedIn]);
 
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>

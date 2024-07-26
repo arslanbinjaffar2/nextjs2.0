@@ -17,6 +17,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { UseEventService } from 'application/store/services';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import ThingsToIncludeOnAllLayouts from 'application/components/atoms/common/ThingsToIncludeOnAllLayouts';
+import usePostLoginFlowMiddleware from 'application/middlewares/usePostLoginFlowMiddleware';
 
 
 type indexProps = {
@@ -32,17 +33,20 @@ const AfterLoginLayout = ({ children }: indexProps) => {
 
   const { push } = useRouter();
 
-  const { isLoggedIn } = UseAuthService();
+  const { getUser, response, isLoggedIn, disclaimerStatus } = UseAuthService();
 
   const { event, modules, loadModules, loadSettingsModules } = UseEventService();
 
-  const access_token_exists =  Boolean(localStorage.getItem(`access_token`));
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      await getUser();
+    };
+    fetchUser();
+  }, []);
   
   React.useEffect(() => {
-    if (isLoggedIn === false || access_token_exists === false) {
-      push(`/${event.url}/auth/login`)
-    }
-  }, [])
+      usePostLoginFlowMiddleware({ event, loadSettingsModules, isLoggedIn, response, push });
+  }, [response, isLoggedIn, disclaimerStatus])
 
   return (
     <BackgroundLayout>
