@@ -415,7 +415,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     )}
                                     {map?.records?.map((group: Group, k: number) =>
                                         <React.Fragment key={`${k}`}>
-                                            <RectangleGroupView group={group} k={k} border={map?.records.length === 1 ? 0 : map?.records.length > 1 && k ===  map?.records.length -1 ? 0 : 1 } updateTab={updateTab} />
+                                            <RectangleGroupView group={group} k={k} border={k} updateTab={updateTab} />
                                         </React.Fragment>
                                     )}
                                 </React.Fragment>

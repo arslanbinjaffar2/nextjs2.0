@@ -163,7 +163,7 @@ const Detail = () => {
     }, [socket]);
 
     const [speaker, setSpeaker] = React.useState<any>(null);
-    const [paragraph, setParagraph] = React.useState<any>(null);
+    const [paragraph, setParagraph] = React.useState<any>('');
     const [lineNumber, setLineNumber] = React.useState<any>('');
     const [question, setQuestion] = React.useState<any>('');
     const [anonymously, setAnonymously] = React.useState<any>(false);
@@ -295,7 +295,7 @@ const Detail = () => {
                                     {error && <Box mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
                                         <Text color="red.400"> {error} </Text>
                                     </Box>}
-                                    {qaDetials?.speakers?.length > 0 && <HStack px={3} w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
+                                    {qaSettings?.enable_speaker_on_qa === 1 && qaDetials?.speakers?.length > 0 && <HStack px={3} w="100%" borderBottomWidth={1} borderBottomColor={'primary.bordercolor'} pb={'3'} mb="3" alignItems="center">
                                         <Text w={'30%'} fontSize="lg">{qaDetials.labels.QA_SELECT_SPEAKER ?? "Select Speaker"}</Text>
                                         <Center alignItems={'flex-start'} justifyContent={'flex-start'} p="0" w={'70%'}>
                                             <View w={'100%'} >

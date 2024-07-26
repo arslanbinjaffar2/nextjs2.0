@@ -14,6 +14,8 @@ import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand'
 
 import DynamicIcon from 'application/utils/DynamicIcon';
 
+import { Module } from 'application/models/Module';
+
 import { createParam } from 'solito';
 
 import UseProgramService from 'application/store/services/UseProgramService';
@@ -156,7 +158,7 @@ const Detail = () => {
         const resShowPoll = showPolls == undefined ? false : showPolls;
         setshowPolls(resShowPoll);
 
-        const showRequestToSpeak=modules?.find((polls)=>(polls.alias == 'myturnlist')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) ;
+        const showRequestToSpeak=detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) ;
         const resShowRequestToSpeak = showRequestToSpeak == undefined ? false : showRequestToSpeak;
         setshowRequestToSpeak(resShowRequestToSpeak);
 
@@ -287,13 +289,25 @@ const Detail = () => {
                                     </>
                                 )} */}
                                 {/* <PollRectangleView /> */}
-                                {showRequestToSpeak && (
+                                {showRequestToSpeak && detail?.program?.request_to_speak_common_group === true && detail?.program?.is_active_speakerlist === true && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <IcoRaiseHand width="14" height="17" />
-                                            <Text fontSize="md">{modules?.find((module)=>(module.alias == 'myturnlist'))?.name}</Text>
+                                            <DynamicIcon iconType={modules.find((module: Module) => module.alias === 'myturnlist')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 17, height: 17 }} />
+                                            <Text fontSize="md">{modules?.find((module)=>(module.alias == 'myturnlist'))?.name ?? "Request to Speak"}</Text>
                                         </HStack>
-                                        <RequestToSpeakRectangleView program={detail?.program} />
+                                        <Pressable onPress={() => {
+                                                push(`/${event.url}/myturnlist/show/${detail?.program?.id}`)
+                                            }}>
+                                                <Box w="100%" py="4">
+                                                    <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                                                        <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
+                                                            <Text fontSize="md">{event?.labels?.ASK_TO_SPEAK}</Text>
+                                                        </VStack>
+                                                        <Spacer />
+                                                        <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
+                                                    </HStack>
+                                                </Box>
+                                        </Pressable>
                                     </>
                                 )}
 
