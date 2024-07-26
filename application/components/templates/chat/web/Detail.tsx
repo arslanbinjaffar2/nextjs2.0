@@ -50,6 +50,10 @@ const Detail = ({ navigation }: indexProps) => {
   React.useEffect(() => {
     FetchChat({ thread_id: Number(_id) });
   }, []);
+
+  React.useEffect(() => {
+    FetchChat({ thread_id: Number(_id) });
+  }, [_id]);
   
   // Memoize the grouping of messages by date
   const groupedMessages = React.useMemo(() => {
@@ -94,14 +98,13 @@ const Detail = ({ navigation }: indexProps) => {
   };
 
   // get image of sender 
-  const getSenderImage = (image: string) => {
-    console.log('image: ',image)
+  const getSenderImage = React.useMemo(() => (image: string) => {
     // source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
     if(image){
       return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
     }
     return '';
-  };
+  }, []);
 
   return (
       <>
@@ -185,9 +188,12 @@ const Detail = ({ navigation }: indexProps) => {
                             {getFirstLetters(message?.sender?.full_name)}
                             <Avatar.Badge borderWidth="1" bg="green.500" />
                           </Avatar>
-                          <VStack mr="3" maxW="320" px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="#3F89D0" space="1">
-                            <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
-                            <Text opacity="0.8" textAlign="right" fontSize="md">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                          <VStack  space="0">
+                            <VStack mr="3" maxW="320" px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="#3F89D0" space="1">
+                              <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
+                              {/* <Text opacity="0.8" textAlign="right" fontSize="md">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text> */}
+                            </VStack>
+                            <Text textAlign={'right'} mr="3" fontSize="xs">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                           </VStack>
                         </HStack> 
                       ):(
@@ -200,9 +206,11 @@ const Detail = ({ navigation }: indexProps) => {
                             {getFirstLetters(message?.sender?.full_name)}
                             <Avatar.Badge borderWidth="1" bg="green.500" />
                           </Avatar>
-                          <VStack ml="3" maxW="320" px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
-                            <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
-                            <Text opacity="0.8" fontSize="md">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                          <VStack  space="0">
+                            <VStack ml="3" maxW="320" px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
+                              <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
+                            </VStack>
+                            <Text textAlign={'left'} ml="3" fontSize="xs">{message?.sender?.full_name} {moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                           </VStack>
                         </HStack>
                       )}
@@ -214,37 +222,6 @@ const Detail = ({ navigation }: indexProps) => {
               })}
               </>
             )}
-           
-{/* 
-            <HStack mb="3" space="0" alignItems="flex-end">
-              <Avatar
-                source={{
-                  uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                }}
-              >
-                SS
-                <Avatar.Badge borderWidth="1" bg="green.500" />
-              </Avatar>
-              <VStack ml="3" maxW="320" px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
-                <Text lineHeight="sm" pr="3" fontSize="lg">Hello John, what are you going to do this weekend?</Text>
-                <Text opacity="0.8" fontSize="md">17:45</Text>
-              </VStack>
-            </HStack>
-            
-            <HStack direction="row-reverse" mb="3" space="0" alignItems="flex-end">
-              <Avatar
-                source={{
-                  uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                }}
-              >
-                SS
-                <Avatar.Badge borderWidth="1" bg="green.500" />
-              </Avatar>
-              <VStack mr="3" maxW="320" px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="#3F89D0" space="1">
-                <Text lineHeight="sm" pr="3" fontSize="lg">Nothing planned, and you?</Text>
-                <Text opacity="0.8" textAlign="right" fontSize="md">17:45</Text>
-              </VStack>
-            </HStack> */}
 
           </ScrollView>
           <NewMessage thread_id={Number(_id)} />
