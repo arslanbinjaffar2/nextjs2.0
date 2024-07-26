@@ -13,7 +13,7 @@ type Props = {
 };
 
 const AuthLayout = ({ children }: Props) => {
-    const { event, loadSettingsModules } = UseEventService();
+    const { event, loadSettingsModules, event_url } = UseEventService();
     const { loadToken, getUser, response, isLoggedIn, disclaimerStatus } = UseAuthService();
     const { push } = useRouter();
 
@@ -25,7 +25,7 @@ const AuthLayout = ({ children }: Props) => {
     }, []);
 
     React.useEffect(() => {
-        loadToken(Boolean(localStorage.getItem('access_token')));
+        loadToken(Boolean(localStorage.getItem(`access_token_${event_url}`)));
     }, [])
 
     React.useEffect(() => {

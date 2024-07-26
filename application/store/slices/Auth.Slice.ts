@@ -4,6 +4,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAction } from '@reduxjs/toolkit';
 import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 import { Platform } from 'react-native';
+import {store} from 'application/store/Index';
 export interface LoginPayload {
     email: string;
     password: string;
@@ -82,19 +83,20 @@ const AuthSlice = createSlice({
         getUser(state) {
             state.processing = true;
         },
-        success(state, action: PayloadAction<GeneralResponse>) {
+        success(state, action: PayloadAction<{response:GeneralResponse,event_url:string}>) {
             state.processing = false;
-            state.response = action.payload;
+            state.response = action.payload.response;
             state.error = '';
-            if (action?.payload?.data?.access_token !== undefined) {
+            const event_url=action?.payload?.event_url;
+            if (action?.payload?.response.data?.access_token !== undefined) {
                 if (Platform.OS === 'web') {
-                    localStorage.setItem('access_token', action.payload.data.access_token);
+                    localStorage.setItem(`access_token_${event_url}`, action?.payload?.response.data.access_token);
                 } else {
-                    AsyncStorageClass.setItem('access_token', action.payload.data.access_token);
+                    AsyncStorageClass.setItem(`access_token_${event_url}`, action?.payload?.response.data.access_token);
                 }
                 state.isLoggedIn = true;
             }
-            else if(action?.payload?.data?.user !== undefined){
+            else if(action?.payload?.response.data?.user !== undefined){
                 state.isLoggedIn = true;
             }
         },
@@ -102,14 +104,15 @@ const AuthSlice = createSlice({
             state.processing = false;
             state.error = action.payload;
         },
-        clearToken(state) {
+        clearToken(state,action: PayloadAction<string>) {
             state.isLoggedIn = false;
             state.processing = false;
             state.response = { redirect: 'login' };
+            const event_url=action.payload;
             if (Platform.OS === 'web') {
-                localStorage.removeItem('access_token');
+                localStorage.removeItem(`access_token_${event_url}`);
             } else {
-                AsyncStorageClass.removeItem('access_token');
+                AsyncStorageClass.removeItem(`access_token_${event_url}`);
             }
         },
         loadToken(state, action: PayloadAction<boolean>) {

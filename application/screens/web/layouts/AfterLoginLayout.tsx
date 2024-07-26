@@ -35,7 +35,7 @@ const AfterLoginLayout = ({ children }: indexProps) => {
 
   const { getUser, response, isLoggedIn, disclaimerStatus } = UseAuthService();
 
-  const { event, modules, loadModules, loadSettingsModules } = UseEventService();
+  const { event, modules, loadModules, loadSettingsModules,event_url } = UseEventService();
 
   React.useEffect(() => {
     const fetchUser = async () => {
@@ -43,6 +43,8 @@ const AfterLoginLayout = ({ children }: indexProps) => {
     };
     fetchUser();
   }, []);
+  
+  const access_token_exists =  Boolean(localStorage.getItem(`access_token_${event_url}`));
   
   React.useEffect(() => {
       usePostLoginFlowMiddleware({ event, loadSettingsModules, isLoggedIn, response, push });

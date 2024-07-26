@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { EventActions, SelectEvent, Modules, SettingModules,CustomHtmls, SelectHomeEvents, SelectUpcomingEvents,SelectHomeEventDetail } from 'application/store/slices/Event.Slice'
+import { EventActions, SelectEvent, Modules, SettingModules,CustomHtmls, SelectHomeEvents, SelectUpcomingEvents,SelectHomeEventDetail, SelectEventUrl } from 'application/store/slices/Event.Slice'
 
 import { Event } from 'application/models/Event'
 
@@ -20,12 +20,14 @@ export type EventServiceOperators = {
     home_events: HomeMyEvent[]
     upcoming_events: UpcomingEvent[]
     event_detail: EventDetail|null,
+    event_url: string
     FetchEvent: (slug: string) => void
     FetchEventByCode: (code: string) => void
     loadModules: () => void
     loadSettingsModules: () => void
     FetchEvents: (payload: {query: string, screen: string,selected_filter: string }) => void
     FetchEventDetail: (payload: { id: number }) => void
+    SetEventUrl: (event_url: string) => void
 }
 
 /**
@@ -44,6 +46,7 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
         home_events:useAppSelector(SelectHomeEvents),
         upcoming_events:useAppSelector(SelectUpcomingEvents),
         event_detail: useAppSelector(SelectHomeEventDetail),
+        event_url: useAppSelector(SelectEventUrl),
         FetchEvent: useCallback(
             (slug: string) => {
                 dispatch(EventActions.FetchEvent(slug))
@@ -80,6 +83,12 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
             },
             [dispatch],
         ),
+        SetEventUrl: useCallback(
+            (event_url: string) => {
+                dispatch(EventActions.SetEventUrl(event_url))
+            },
+            [dispatch],
+        )
     }
 }
 

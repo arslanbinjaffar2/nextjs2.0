@@ -19,6 +19,7 @@ export interface EventState {
     home_events: HomeMyEvent[],
     upcoming_events: UpcomingEvent[],
     event_detail: EventDetail|null,
+    event_url: string
 }
 
 const initialState: EventState = {
@@ -30,6 +31,7 @@ const initialState: EventState = {
     home_events:[],
     upcoming_events:[],
     event_detail: null,
+    event_url: ''
 }
 
 // Slice
@@ -78,6 +80,9 @@ export const EventSlice = createSlice({
          },
         FetchEventDetail(state, action: PayloadAction<{ id: number }>) {
         },
+        SetEventUrl(state, action: PayloadAction<string>) {
+            state.event_url = action.payload
+        }
     },
 })
 
@@ -96,6 +101,7 @@ export const EventActions = {
     UpdateUpcomingEvents: EventSlice.actions.UpdateUpcomingEvents,
     updateEventDetail: EventSlice.actions.updateEventDetail,
     FetchEventDetail: EventSlice.actions.FetchEventDetail,
+    SetEventUrl: EventSlice.actions.SetEventUrl
 }
 
 // Selectors
@@ -107,6 +113,8 @@ export const SettingModules = (state: RootState) => state.event.setting_modules
 export const SelectHomeEvents = (state: RootState) => state.event.home_events
 export const SelectUpcomingEvents = (state: RootState) => state.event.upcoming_events
 export const SelectHomeEventDetail = (state: RootState) => state.event.event_detail
+
+export const SelectEventUrl = (state: RootState) => state.event.event_url
 
 // Reducer
 export default EventSlice.reducer
