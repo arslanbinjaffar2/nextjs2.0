@@ -176,7 +176,7 @@ const SocketHandler = () => {
         socketConnect.disconnect();
         SetSocket(null);
       }
-    }, [options, _env?.socket_connection_server,detailId]);
+    }, [options, _env?.socket_connection_server,detailId,nextRouter.asPath]);
     
     
 
