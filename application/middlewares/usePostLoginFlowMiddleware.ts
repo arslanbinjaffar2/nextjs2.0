@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
-import { useRouter } from 'solito/router';
-
-const usePostLoginFlowMiddleware = ({ event, loadSettingsModules, isLoggedIn, response, push }: { event: any, loadSettingsModules: any, isLoggedIn: any, response: any, push: any }) => {
-    const handleRedirection = async () => {
-      const access_token_exists = await Boolean(localStorage.getItem(`access_token`));
+const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isLoggedIn, response, push }: { event: any, event_url: any, loadSettingsModules: any, isLoggedIn: any, response: any, push: any }) => {
+  console.log(event_url)
+  const handleRedirection = async () => {
+      const access_token_exists = await Boolean(localStorage.getItem(`access_token_${event_url}`));
       if (!isLoggedIn || response.redirect === "login" || access_token_exists === false) {
         push(`/${event.url}/auth/login`);
         return;

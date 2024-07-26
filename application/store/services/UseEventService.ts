@@ -21,12 +21,11 @@ export type EventServiceOperators = {
     home_events: HomeMyEvent[]
     upcoming_events: UpcomingEvent[]
     event_detail: EventDetail|null,
-    FetchEvent: (slug: string) => void
+    FetchEvents: (payload: {query: string, screen: string,selected_filter: string }) => void
     FetchEventByCode: (code: string) => void
     loadModules: () => void
     loadSettingsModules: () => void
     SetEventUrl: (event_url: string) => void
-    FetchEvents: (payload: {query: string, screen: string,selected_filter: string }) => void
     FetchEventDetail: (payload: { id: number }) => void
 }
 
@@ -47,12 +46,6 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
         home_events:useAppSelector(SelectHomeEvents),
         upcoming_events:useAppSelector(SelectUpcomingEvents),
         event_detail: useAppSelector(SelectHomeEventDetail),
-        FetchEvent: useCallback(
-            (slug: string) => {
-                dispatch(EventActions.FetchEvent(slug))
-            },
-            [dispatch],
-        ),
         FetchEventByCode: useCallback(
             (code: string) => {
                 dispatch(EventActions.FetchEventByCode(code))
@@ -88,7 +81,7 @@ export const UseEventService = (): Readonly<EventServiceOperators> => {
                 dispatch(EventActions.FetchEventDetail(payload))
             },
             [dispatch],
-        ),
+        )
     }
 }
 

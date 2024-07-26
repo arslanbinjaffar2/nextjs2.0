@@ -45,7 +45,7 @@ const AfterLoginLayout = ({ children }: indexProps) => {
   }, []);
   
   React.useEffect(() => {
-      usePostLoginFlowMiddleware({ event, loadSettingsModules, isLoggedIn, response, push });
+      usePostLoginFlowMiddleware({ event, event_url, loadSettingsModules, isLoggedIn, response, push });
   }, [response, isLoggedIn, disclaimerStatus])
 
   return (
