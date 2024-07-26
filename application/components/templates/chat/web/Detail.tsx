@@ -29,6 +29,7 @@ type ChatMessageGroup = {
   [key: string]: ChatMessage[];
 };
 const Detail = ({ navigation }: indexProps) => {
+  const scrollViewRef = React.useRef<HTMLDivElement>(null);
   const {event,modules} = UseEventService();
   const [_id] = useParam('id');
   const {chat, FetchChat,MarkAsRead} = UseChatService();
@@ -74,6 +75,12 @@ const Detail = ({ navigation }: indexProps) => {
       return acc;
     }, {} as { [date: string]: typeof chat.messages });
   }, [chat?.messages]);
+
+  React.useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTop = scrollViewRef.current.scrollHeight;
+    }
+  }, [groupedMessages]);
   
 
   // Function to get the first letters of the first and last name
@@ -155,7 +162,7 @@ const Detail = ({ navigation }: indexProps) => {
           </Popover>
         </HStack>
         <VStack position={'relative'} mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
-          <ScrollView w="100%" maxH="450px" py="4" px="3">
+          <ScrollView ref={scrollViewRef} w="100%" maxH="450px" py="4" px="3">
             {processing.includes('chat-detail') ? <SectionLoading /> : (
               <>
               {Object.entries(groupedMessages).map(([groupKey, messages]) => {
