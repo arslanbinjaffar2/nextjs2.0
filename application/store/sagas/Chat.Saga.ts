@@ -18,10 +18,15 @@ function* OnGetChats({
     payload: { search: string }
 }): SagaIterator {
     yield put(LoadingActions.set(true))
-    yield put(LoadingActions.addProcess({process: 'chats'}));
+    if(payload.search){
+        yield put(LoadingActions.addProcess({process: 'chat-search'}));
+    }else{  
+        yield put(LoadingActions.addProcess({process: 'chats'}));
+    }
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getChatsApi,payload, state)
     yield put(ChatActions.update(response.data.data.threads!))
+    yield put(LoadingActions.removeProcess({process: 'chat-search'}));
     yield put(LoadingActions.removeProcess({process: 'chats'}));
     yield put(LoadingActions.set(false));
 }

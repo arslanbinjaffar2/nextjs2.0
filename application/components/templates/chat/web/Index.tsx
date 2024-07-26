@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Box, Button, Container, Heading, HStack, Icon, Image, Input, Spacer, Text, VStack } from 'native-base';
+import { Avatar, Box, Button, Container, Heading, HStack, Icon, Image, Input, Spacer, Spinner, Text, VStack } from 'native-base';
 import Master from 'application/screens/web/layouts/Master';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService';
@@ -60,7 +60,8 @@ const Index = ({ navigation }: indexProps)  => {
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text fontSize="2xl">{module?.name ?? "Chat"}</Text>
           <Spacer />
-          <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_CHAT_SEARCH_MESSAGES} onChangeText={(text)=>debounced(text)} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
+          <Input  rounded="10" w="60%" bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_CHAT_SEARCH_MESSAGES} onChangeText={(text)=>debounced(text)} leftElement={processing.includes('chat-search') ?
+          <Spinner p={0} maxHeight={26} maxWidth={26} ml={2} mr={1} color="primary.text" /> : <Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
         <>
           {
