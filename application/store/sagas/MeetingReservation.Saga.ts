@@ -133,6 +133,7 @@ function* OnAddAvailabilityCalendarSlot({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(addAvailabilityCalendarSlotApi, payload, state)
     if(response.status==200){
+
         yield put(ToastActions.AddToast({toast:{message:"added successfully",status:""}}))
     }
     yield put(MeetingReservationActions.FetchMyAvailabilityCalendar())
@@ -151,7 +152,6 @@ function* OnDeleteAvailabilityCalendarSlot({
     if(response.status==200){
         yield put( ToastActions.AddToast({toast:{message:"deleted successfully",status:"deleted"}}))    
     }
-    yield put(MeetingReservationActions.FetchMyAvailabilityCalendar())
     yield put(LoadingActions.removeProcess({ process: `delete-availability` }))
 }
 
