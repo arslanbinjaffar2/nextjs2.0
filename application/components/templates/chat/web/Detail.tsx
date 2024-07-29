@@ -98,13 +98,12 @@ const Detail = ({ navigation }: indexProps) => {
   };
 
   // get image of sender 
-  const getSenderImage = React.useMemo(() => (image: string) => {
-    // source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
+  function getSenderImage(image: string){
     if(image){
       return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
     }
     return '';
-  }, []);
+  }
 
   return (
       <>
@@ -126,7 +125,8 @@ const Detail = ({ navigation }: indexProps) => {
                         source={{
                           uri: getSenderImage(chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.image : '')
                         }}
-                        >
+                        key={chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.image : ''}
+                        > 
                         {getFirstLetters(chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.full_name : '')}
                         <Avatar.Badge borderWidth="1" bg="green.500" />
                     </Avatar>
