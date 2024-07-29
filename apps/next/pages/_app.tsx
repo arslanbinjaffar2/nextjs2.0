@@ -8,6 +8,8 @@ import { store } from 'application/store/Index'
 import Master from 'application/screens/web/layouts/Master'
 import   'application/assets/css/mapplic.css';
 import { useRouter } from 'next/router';
+import { MsalProvider } from "@azure/msal-react";
+import { msalInstance } from 'application/services/azure/authConfig';
 
 function MyApp({ Component, pageProps }: SolitoAppProps) {
 
@@ -45,9 +47,11 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
       </Head>
       {typeof window !== "undefined" && (
         <ReduxProvider store={store}>
-          <Provider env={env}>
-            {getLayout(<Component {...pageProps} />)}
-          </Provider>
+          <MsalProvider instance={msalInstance}>
+            <Provider env={env}>
+              {getLayout(<Component {...pageProps} />)}
+            </Provider>
+          </MsalProvider>
         </ReduxProvider>
       )}
     </>

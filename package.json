@@ -26,6 +26,7 @@
     "@types/react": "^17.0.39"
   },
   "dependencies": {
+    "@azure/msal-react": "^2.0.22",
     "use-debounce": "^10.0.1"
   }
 }

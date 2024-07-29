@@ -12,6 +12,7 @@ import validateEmail from 'application/utils/validations/ValidateEmail'
 import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import { Link } from 'solito/link'
 import UseEnvService from 'application/store/services/UseEnvService';
+import { useMsal } from "@azure/msal-react";
 
 type Inputs = {
     email: string,
@@ -42,6 +43,25 @@ const Login = ({ props }: any) => {
             nativeButton.current?.click();
         }
     };
+
+    const { instance } = useMsal();
+
+    const handleAADLogin = () => {
+        instance.loginRedirect({
+            scopes: ["User.Read"]
+        });
+    };
+
+    React.useEffect(() => {
+        instance.handleRedirectPromise().then((response) => {
+            if (response) {
+                const accessToken = response.accessToken;
+                console.log("🚀 ~ handleAADLogin ~ accessToken:", accessToken)
+            }
+        }).catch(e => {
+            console.log(e);
+        });
+    }, [instance]);
 
     React.useEffect(() => {
         if (response.redirect === "choose-provider") {
@@ -154,6 +174,13 @@ const Login = ({ props }: any) => {
                                         _hover={{ bg: 'primary.secondary' }}
                                     >
                                     </Button>
+                                    <Button
+                                           onPress={handleAADLogin}
+                                           minH='48px'
+                                           _hover={{ bg: 'primary.secondary' }}
+                                       >
+                                           Login with AAD
+                                       </Button>
                                 </VStack>
                             ) : (
                                 <VStack w={'100%'} space="10px">
@@ -178,6 +205,13 @@ const Login = ({ props }: any) => {
                                                 : (error ? error : errors.email?.message)}
                                         </FormControl.ErrorMessage>
                                     </FormControl>
+                                    <Button
+                                           onPress={handleAADLogin}
+                                           minH='48px'
+                                           _hover={{ bg: 'primary.secondary' }}
+                                       >
+                                           Login with AAD
+                                       </Button>
                                 </VStack>
                             )}
                         </>
