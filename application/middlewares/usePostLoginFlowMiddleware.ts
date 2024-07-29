@@ -14,8 +14,8 @@ const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isL
         return requiredGDPR && !userGDPRLogged;
       };
       let showGDPR = await checkUserGDPR();
-      const sub_reg_skip = localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
-      const keyword_skip = localStorage.getItem(`keyword_skip`) === 'true' ? true : false;
+      const sub_reg_skip = localStorage.getItem(`skip_sub_reg_${event_url}`) === 'true' ? true : false;
+      const keyword_skip = localStorage.getItem(`keyword_skip_${event_url}`) === 'true' ? true : false;
 
       if (response.redirect === "disclaimer" || response?.data?.user?.show_disclaimer) {
         push(`/${event.url}/auth/disclaimer`);
