@@ -25,26 +25,26 @@ const GDPR = () => {
     }
     }
 
-    const checkUserGDPR = () => {
-        let requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1 ? true : false;
-        if (requiredGDPR) {
-            let userGDPRLogged = response?.data?.user?.gdpr_log;
-            if (!userGDPRLogged) {
-                return false;
-            }
-        }
-        return true;
-    }
+    // const checkUserGDPR = () => {
+    //     let requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1 ? true : false;
+    //     if (requiredGDPR) {
+    //         let userGDPRLogged = response?.data?.user?.gdpr_log;
+    //         if (!userGDPRLogged) {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 
     React.useEffect(() => {
         getUser()
     }, [])
 
-    React.useEffect(() => {
-        if (checkUserGDPR() === true) {
-            push(`/${event.url}/subRegistration`)
-        }
-    }, [response])
+    // React.useEffect(() => {
+    //     if (checkUserGDPR() === true) {
+    //         push(`/${event.url}/subRegistration`)
+    //     }
+    // }, [response])
 
     return (
         <>

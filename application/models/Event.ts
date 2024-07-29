@@ -90,6 +90,7 @@ export interface Event {
     dashboard_modules?: DashboardModule[]
     timezone?: any
     home_my_event?: HomeMyEvent[]
+    event_disclaimer?: any
     appointment_settings?: AppointmentSettings
 }
 interface Setting {

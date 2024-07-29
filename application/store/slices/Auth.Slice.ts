@@ -42,6 +42,7 @@ export interface VerificationPayload {
 export interface AuthState {
     isLoggedIn: boolean;
     processing?: boolean;
+    disclaimerStatus: boolean;
     response: GeneralResponse;
     error: string;
 }
@@ -49,6 +50,7 @@ export interface AuthState {
 const initialState: AuthState = {
     isLoggedIn: false,
     processing: false,
+    disclaimerStatus: false,
     response: {},
     error: '',
 };
@@ -122,6 +124,10 @@ const AuthSlice = createSlice({
                 window.location.reload();
             }
         },
+        disclaimerStatusUpdated(state, action: PayloadAction<boolean>) {
+            console.log("🚀 ~ disclaimerStatusUpdated ~ action.payload:", action.payload)
+            state.disclaimerStatus = action.payload;
+        },
     },
 });
 
@@ -140,6 +146,7 @@ export const AuthActions = {
     loadToken: AuthSlice.actions.loadToken,
     clearToken: AuthSlice.actions.clearToken,
     reloadPage: AuthSlice.actions.reloadPage,
+    disclaimerStatusUpdated: AuthSlice.actions.disclaimerStatusUpdated,
 }
 
 // Selectors
@@ -150,6 +157,8 @@ export const isProcessing = (state: RootState) => state.auth.processing;
 export const response = (state: RootState) => state.auth.response;
 
 export const error = (state: RootState) => state.auth.error;
+
+export const disclaimerStatus = (state: RootState) => state.auth.disclaimerStatus;
 
 // Reducer
 const authReducer = AuthSlice.reducer;

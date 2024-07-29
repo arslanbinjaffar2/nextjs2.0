@@ -100,7 +100,7 @@ type IconProps = {
 
 type IconType ='qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
 'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin' | 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | 'editnotes' | 'mybookings' 
-|'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | 'myPollResults' | 'mySurveyResults' | 'my_sub_registrations' | 'network_interest' | 'livesurveys'| 'attendee_Match' | 'star'| 'staro'| 'save' | 'edit_order' | 'Notattending' | 'register' | 'delete_icon'| 'share_account'|'download_2'| 'email' |'share'| 'dropdown' | 'upload' | 'hand' | any;
+|'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | 'myPollResults' | 'mySurveyResults' | 'my_sub_registrations' | 'network_interest' | 'livesurveys'| 'attendee_Match' | 'star'| 'staro'| 'save' | 'edit_order' | 'Notattending'|'register' | 'delete_icon'| 'share_account'|'download_2'| 'email' |'share'| 'dropdown' | 'upload' | 'calender_icon'| 'clock_icon' | 'hand' | any;
 
 type Props = {
     iconType: IconType;
