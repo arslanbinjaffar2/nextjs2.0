@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Center, Checkbox, Divider, HStack, Icon, Radio, Text, TextArea, VStack } from 'native-base';
+import { Box, Center, Checkbox, Divider, HStack, Icon, Link, Radio, Text, TextArea, VStack } from 'native-base';
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData, Answer } from 'application/models/subRegistration/SubRegistration';
 import { Platform } from 'react-native';
@@ -38,9 +38,19 @@ const SingleAnswer = ({ question, formData, updateFormData, error, canChangeAnsw
           )}
         </Radio.Group>
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
+      {error && <>
+        <Box  mb="1" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
-      </Box>}
+        </Box>
+        <HStack justifyContent="start" px="4" w="100%" mb={2}>
+          <Text fontSize={'xs'}>{event?.labels?.SUB_REG_LIMIT_ERROR_RELOAD_MESSAGE}</Text>
+          <Icon ml={2} as={Ionicons} name="reload" size="sm" color="primary.text" onPress={()=>{
+            if(Platform.OS === 'web'){
+              window.location.reload();
+            }
+          }} />
+        </HStack>
+      </>}
       {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )
