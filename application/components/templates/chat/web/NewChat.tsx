@@ -166,7 +166,7 @@ const NewChat = ({navigation}: indexProps) => {
                   removeItem({type: 'group', value: group})
                 }
                 }} />
-                 <Avatar>
+                 <Avatar backgroundColor={group?.color ? group.color : undefined}>
                     <Icon color={'primary.text'} as={MaterialIcons} name="groups"  />
                  </Avatar>
                  <VStack space="0">
