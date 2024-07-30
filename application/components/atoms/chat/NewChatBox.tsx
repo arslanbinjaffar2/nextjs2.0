@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Center, Container, HStack, Icon, IconButton, Spinner, Text, TextArea, VStack } from 'native-base';
+import {Box, Center, Container, HStack, Icon, IconButton, Spinner, Text, TextArea, VStack } from 'native-base';
 import Entypo from '@expo/vector-icons/Entypo';
 import Feather from '@expo/vector-icons/Feather';
 import UseChatService from 'application/store/services/UseChatService';
@@ -17,6 +17,7 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
   const {processing} = UseLoadingService();
 
   const [message, setMessage] = React.useState<string>('');
+  const {new_chat_error,SetNewChatError} = UseChatService();
 
   const debounced = useDebouncedCallback((value:any) => {
     setMessage(value);
@@ -29,6 +30,10 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
       setMessage('')
     }
   }
+
+  React.useEffect(() => {
+    SetNewChatError({error:null});
+  },[])
 
   return (
       <>
@@ -62,6 +67,9 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
               </VStack>
             </Center>
         </VStack>
+        {new_chat_error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
+              <Text color="red.900"> {new_chat_error} </Text>
+        </Box>}
       </Container>
       </>
   );

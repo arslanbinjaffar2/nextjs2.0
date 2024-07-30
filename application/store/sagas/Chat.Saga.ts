@@ -9,7 +9,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
-import { ChatActions } from 'application/store/slices/Chat.Slice'
+import { ChatActions } from 'application/store/slices/Chat.Slice';
 
 function* OnGetChats({
     payload,
@@ -56,6 +56,9 @@ function* OnStartNewChat({
     yield put(LoadingActions.addProcess({process: 'new-chat'}));
     const state = yield select(state => state);
     const response: HttpResponse = yield call(startNewChatApi,payload, state)
+    if(!response?.data?.success){
+        yield put(ChatActions.SetNewChatError({error:response?.data?.data?.message ?? 'Something went wrong'}));
+    }
     yield put(LoadingActions.removeProcess({process: 'new-chat'}));
     yield put(LoadingActions.set(false));
 }

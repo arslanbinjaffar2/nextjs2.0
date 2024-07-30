@@ -29,7 +29,7 @@ type indexProps = {
 const NewChat = ({navigation}: indexProps) => {
   const {event,modules} = UseEventService();
   const module = modules.find((module) => module.alias === 'chat');
-  const {NewChatSearch,new_chat_search_results} = UseChatService();
+  const {NewChatSearch,new_chat_search_results,SetNewChatError} = UseChatService();
   const [selectedItems, setSelectedItems] = React.useState<SelectedItem[]>([]);
   const {processing} = UseLoadingService();
   const [selectedtab, setSelectedTab] = React.useState<string>('attendee');
@@ -69,6 +69,10 @@ const NewChat = ({navigation}: indexProps) => {
     const names = name.split(' ');
     return (names[0].substring(0, 1) + names[1].substring(0, 1)).toUpperCase();
   };
+
+  React.useEffect(() => {
+    SetNewChatError({error:null});
+  },[selectedItems])
 
   return (
       <>

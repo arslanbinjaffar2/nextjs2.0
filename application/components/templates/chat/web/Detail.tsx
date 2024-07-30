@@ -142,7 +142,7 @@ const Detail = ({ navigation }: indexProps) => {
               </Popover.Header>
               <Popover.Body p={0} borderTopWidth="0" borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
                 <ScrollView maxHeight={180}>
-                  {chat?.participants_info.map((participant: ParticipantInfo) => 
+                  {chat?.participants_info?.map((participant: ParticipantInfo) => 
                     <HStack p={3} borderTopWidth={'1'} borderTopColor={'primary.bordercolor'} space="2" alignItems="center">
                       <Avatar
                         size={'xs'}

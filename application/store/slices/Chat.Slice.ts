@@ -9,12 +9,14 @@ export interface ChatState {
     chat: Chat | null,
     new_chat_search_results: NewChatSearchResults,
     labels: any,
+    new_chat_error: string | null,
 }
 
 const initialState: ChatState = {
     chats: [],
     labels: [],
     chat: null,
+    new_chat_error: null,
     new_chat_search_results: {
         groups: [],
         attendees: [],
@@ -39,7 +41,7 @@ export const ChatSlice = createSlice({
             state.chat = action.payload;
         },
         StartNewChat(state, action: PayloadAction<{message:string,user_ids:number[],group_ids:number[]}>) {
-            
+            state.new_chat_error = null;
         },
         SaveMessage(state, action: PayloadAction<{message:string,thread_id:number}>) {
             
@@ -58,6 +60,9 @@ export const ChatSlice = createSlice({
            if(state.chat?.id === action.payload.thread_id){
             state.chat.messages.push(action.payload.message);
            }
+        },
+        SetNewChatError(state, action: PayloadAction<{error:string|null}>) {
+            state.new_chat_error = action.payload.error;
         }
     },
 })
@@ -73,7 +78,8 @@ export const ChatActions = {
    MarkAsRead: ChatSlice.actions.MarkAsRead,
    NewChatSearch: ChatSlice.actions.NewChatSearch,
    updateNewChatSearch: ChatSlice.actions.updateNewChatSearch,
-   PushMessageToChat: ChatSlice.actions.PushMessageToChat
+   PushMessageToChat: ChatSlice.actions.PushMessageToChat,
+   SetNewChatError: ChatSlice.actions.SetNewChatError,
 }
 
 export const SelectChats = (state: RootState) => state.chats.chats
@@ -83,6 +89,8 @@ export const SelectChatLabels = (state: RootState) => state.chats.labels
 export const SelectChat = (state: RootState) => state.chats.chat
 
 export const SelectNewChatSearchResults = (state: RootState) => state.chats.new_chat_search_results
+
+export const SelectNewChatError = (state: RootState) => state.chats.new_chat_error
 
 // Reducer
 export default ChatSlice.reducer
