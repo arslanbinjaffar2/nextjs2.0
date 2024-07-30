@@ -51,7 +51,7 @@ const Detail = () => {
 
   const { push } = useRouter()
 
-  const { mySubReg, FetchMySubRegistration, SaveSubRegistration, submitting, sucess_message, skip, setSkip } = UseSubRegistrationService();
+  const { mySubReg, FetchMySubRegistration, SaveSubRegistration, submitting, sucess_message, skip, setSkip,limit_errors } = UseSubRegistrationService();
 
   React.useEffect(() => {
     FetchMySubRegistration();
@@ -78,6 +78,7 @@ const Detail = () => {
             setSkip={setSkip}
             event={event}
             setting_modules={setting_modules}
+            limit_errors={limit_errors}
           />
         </>
       )}
@@ -88,7 +89,7 @@ const Detail = () => {
 export default Detail;
 
 
-function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, event, setting_modules, sucess_message }: any) {
+function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, event, setting_modules, sucess_message,limit_errors }: any) {
 
   const [formData, setFormData] = useState<FormData>(mySubReg?.questions?.question
     .reduce(
@@ -328,6 +329,15 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
       }
        },1300)
   },[submitting,goBack])
+
+  React.useEffect(()=>{
+    let newErrors=errors
+    limit_errors?.map((item:any)=>{
+      // add error to the formData
+      newErrors[item?.question_id]=({error:item?.message})
+    })
+    setErrors(newErrors)
+  },[limit_errors])
   
   return (
     <Container mb="3" maxW="100%" w="100%">

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { Box, Center, Checkbox, Divider, HStack, Heading, Text, TextArea, VStack } from 'native-base';
+import { Box, Center, Checkbox, Divider, HStack, Heading, Icon, Text, TextArea, VStack } from 'native-base';
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData, Answer, Settings, Allprogram } from 'application/models/subRegistration/SubRegistration';
 import moment from 'moment';
 import UseEventService from 'application/store/services/UseEventService';
 import {GENERAL_DATE_FORMAT} from 'application/utils/Globals';
 import Comments from 'application/components/atoms/subRegistration/questions/Comments';
+import { Platform } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 type PropTypes = {
   updates:number,
@@ -42,9 +44,19 @@ const MultipleAnswer = ({ question, formData, updateFormData, error,  settings, 
         </Checkbox.Group>
         </VStack>
       </Box>
-      {error && <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
+      {error && <>
+        <Box  mb="3" py="3" px="4" backgroundColor="red.100" w="100%">
               <Text color="red.900"> {error} </Text>
-      </Box>}
+        </Box>
+        <HStack justifyContent="start" px="4" w="100%" mb={2}>
+          <Text fontSize={'xs'}>{event?.labels?.SUB_REG_LIMIT_ERROR_RELOAD_MESSAGE}</Text>
+          <Icon ml={2} as={Ionicons} name="reload" size="sm" color="primary.text" onPress={()=>{
+            if(Platform.OS === 'web'){
+              window.location.reload();
+            }
+          }} />
+        </HStack>
+      </>}
       {Number(question.enable_comments) === 1 && <Comments question={question} updateFormData={updateFormData} canChangeAnswer={canChangeAnswer} />}
     </Center>
   )

@@ -30,6 +30,7 @@ export interface SubRegistrationState {
     page_scroll:boolean;
     redirect:string,
     skip:boolean,
+    limit_errors:any,
 }
 
 const initialState: SubRegistrationState = {
@@ -52,6 +53,7 @@ const initialState: SubRegistrationState = {
     redirect:'',
     skip:false,
     mySubReg:null,
+    limit_errors:[],
 }
 
 // Slice
@@ -78,6 +80,7 @@ export const SubRegistrationSlice = createSlice({
         },
         SaveSubRegistration(state, action: PayloadAction<any>) {
             state.submitting=true
+            state.limit_errors = null;
         },
         SubmitPageScroll(state, action: PayloadAction<any>){
             state.page_scroll = action.payload
@@ -123,6 +126,13 @@ export const SubRegistrationSlice = createSlice({
             } else {
                 AsyncStorageClass.removeItem('skip_sub_reg');
             }
+            state.limit_errors=null
+        },
+        setSubmitting(state,action:PayloadAction<boolean>){
+            state.submitting=action.payload
+        },
+        setLimitErrors(state,action:PayloadAction<any>){
+            state.limit_errors=action.payload
         }
     },
 })
@@ -138,6 +148,8 @@ export const SubRegistrationActions = {
     SubmitPageScroll:SubRegistrationSlice.actions.SubmitPageScroll,
     setSkip:SubRegistrationSlice.actions.setSkip,
     clearState:SubRegistrationSlice.actions.clearState,
+    setSubmitting:SubRegistrationSlice.actions.setSubmitting,
+    setLimitErrors:SubRegistrationSlice.actions.setLimitErrors,
 }
 export const SelectSubRegistrationAfterLogin = (state: RootState) => state.subRegistration.afterLogin
 export const SelectSubRegistrationMySubreg = (state: RootState) => state.subRegistration.mySubReg
@@ -145,6 +157,7 @@ export const SelectSubRegistrationSubmitting = (state: RootState) => state.subRe
 export const sucessMessageSubmitting = (state: RootState) => state.subRegistration.sucess_message
 export const sucessPageScrolling = (state: RootState) => state.subRegistration.page_scroll
 export const SelectSubRegistrationSkip = (state: RootState) => state.subRegistration.skip
+export const SelectSubRegistrationLimitErrors = (state: RootState) => state.subRegistration.limit_errors
 
 
 
