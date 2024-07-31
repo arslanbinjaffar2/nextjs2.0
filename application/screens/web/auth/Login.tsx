@@ -53,17 +53,6 @@ const Login = ({ props }: any) => {
     };
 
     React.useEffect(() => {
-        instance.handleRedirectPromise().then((response) => {
-            if (response) {
-                const accessToken = response.accessToken;
-                console.log("🚀 ~ handleAADLogin ~ accessToken:", accessToken)
-            }
-        }).catch(e => {
-            console.log(e);
-        });
-    }, [instance]);
-
-    React.useEffect(() => {
         if (response.redirect === "choose-provider") {
             push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
         } 
