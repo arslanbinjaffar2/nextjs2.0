@@ -137,7 +137,7 @@ const Detail = ({ navigation }: indexProps) => {
           >
             <Popover.Content top={2} width={210} shadow={3} borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
               <Popover.Header p={3} borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
-               <Text fontWeight={500} fontSize={'md'}>Participants ({chat?.participants_info?.length})</Text>
+               <Text fontWeight={500} fontSize={'md'}>{event?.labels?.CHAT_PARTICIPANTS} ({chat?.participants_info?.length})</Text>
                
               </Popover.Header>
               <Popover.Body p={0} borderTopWidth="0" borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
@@ -248,6 +248,7 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
   const debounced = useDebouncedCallback((value:any) => {
     setMessage(value);
   }, 500);
+  const {event} = UseEventService();
 
   function send(){
     if(message!==''){
@@ -265,10 +266,10 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
     <Center w="100%" maxW="100%">
       <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
         <Icon size="md" as={Entypo} name="new-message" color="primary.text" />
-        <Text fontSize="lg">Write Message </Text>
+        <Text fontSize="lg">{event?.labels?.CHAT_WRITE_MESSAGE_TITLE}</Text>
       </HStack>
       <VStack p="1" w="100%" space="0">
-        <TextArea ref={textRef} borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder="Your message…" autoCompleteType={undefined} 
+        <TextArea ref={textRef} borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined} 
         defaultValue={message}
         onChangeText={(text)=>debounced(text)}
         />

@@ -76,10 +76,10 @@ const NewChat = ({navigation}: indexProps) => {
 
   return (
       <>
-      <NextBreadcrumbs module={module} title="New Chat" />
+      <NextBreadcrumbs module={module} title={event?.labels?.CHAT_NEW} />
       <Container pt="2" maxW="100%" w="100%">
         <HStack flexWrap={'wrap'} mb="3" pt="2" w="100%" space="0" alignItems="center">
-          <Text mb={3}  textAlign={'center'} width={'100%'} fontSize="2xl">{module?.name ?? "New Chat"}</Text>
+          <Text mb={3}  textAlign={'center'} width={'100%'} fontSize="2xl">{event?.labels?.CHAT_NEW}</Text>
           <Input  rounded="10" w="100%" bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_SEARCH} onChangeText={(text)=>debouncedSearch(text)} leftElement={processing.includes('new-chat-search') ?
           <Spinner p={0} maxHeight={26} maxWidth={26} ml={2} mr={1} color="primary.text" /> : <Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
@@ -119,14 +119,14 @@ const NewChat = ({navigation}: indexProps) => {
               setSelectedTab('attendee')
           }}
           >
-            Attendees
+            {event?.labels?.EVENTSITE_ATTENDEES}
           </Button>
          <Button
             isPressed={selectedtab === 'group'} px="6" py="1" rounded="20px" bg={"primary.box"} borderWidth="0"
             _text={{ fontSize: 'lg', color: "primary.hovercolor" }}
             _hover={{_text: {color: 'primary.hovercolor'}}} borderColor="primary.bdBox" colorScheme="primary"
             onPress={() => {setSelectedTab('group')}}>
-            Groups
+            {event?.labels?.GENERAL_ATTENDEES_GROUP}
           </Button>
         </Button.Group>
         

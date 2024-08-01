@@ -8,7 +8,8 @@ import SectionLoading from 'application/components/atoms/SectionLoading';
 import { Attendee } from 'application/models/chat/Chat';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import UseEnvService from 'application/store/services/UseEnvService';
-
+import { UseEventService } from 'application/store/services';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 
 type indexProps = {
@@ -67,13 +68,17 @@ const NewChatAttendee = ({ navigation }: indexProps) => {
     return '';
   };
 
+  const {event,modules} = UseEventService();
+  const module = modules.find(m => m.alias === 'chat');
+
   return (
       <>
+      <NextBreadcrumbs module={module} title={event?.labels?.CHAT_NEW} />
       {loadingParticipantInfo ? <SectionLoading h='80px' />:(
         <>
         {attendee?(
           <>
-          <HStack bg={'primary.box'} p={1} rounded={'20px'}  space="1" alignItems="center" width="100%">
+          <HStack bg={'primary.box'} p={1} pt={2} rounded={'20px'}  space="1" alignItems="center" width="100%">
               
               <Avatar
                 size={'lg'}
