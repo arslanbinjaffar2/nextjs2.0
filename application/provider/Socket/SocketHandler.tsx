@@ -159,7 +159,7 @@ const SocketHandler = () => {
         }else{
           // refresh chats if user is on chat listing page
           if(nextRouter.asPath.includes('chat') && !nextRouter.asPath.includes('chat/detail')){
-            FetchChats({search:''});
+            FetchChats({search:'',doNotShowLoading:true});
           }
           // show popup to user about the new message
           console.log('adding toast');

@@ -15,20 +15,25 @@ function* OnGetChats({
     payload,
 }: {
     type: typeof ChatActions.FetchChats
-    payload: { search: string }
+    payload: { search: string,doNotShowLoading?:boolean }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
-    if(payload.search){
-        yield put(LoadingActions.addProcess({process: 'chat-search'}));
-    }else{  
-        yield put(LoadingActions.addProcess({process: 'chats'}));
+    if(!payload.doNotShowLoading){
+        yield put(LoadingActions.set(true))
+        if(payload.search){
+            yield put(LoadingActions.addProcess({process: 'chat-search'}));
+        }else{  
+            yield put(LoadingActions.addProcess({process: 'chats'}));
+        }
     }
+    
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getChatsApi,payload, state)
     yield put(ChatActions.update(response.data.data.threads!))
-    yield put(LoadingActions.removeProcess({process: 'chat-search'}));
-    yield put(LoadingActions.removeProcess({process: 'chats'}));
-    yield put(LoadingActions.set(false));
+    if(!payload.doNotShowLoading){
+        yield put(LoadingActions.removeProcess({process: 'chat-search'}));
+        yield put(LoadingActions.removeProcess({process: 'chats'}));
+        yield put(LoadingActions.set(false));
+    }
 }
 
 function* OnGetChat({

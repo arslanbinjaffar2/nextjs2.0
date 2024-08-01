@@ -28,7 +28,7 @@ export const ChatSlice = createSlice({
     name: 'chats',
     initialState,
     reducers: {
-        FetchChats(state, action: PayloadAction<{ search: string }>) {
+        FetchChats(state, action: PayloadAction<{ search: string,doNotShowLoading?:boolean }>) {
         
         },
         update(state, action: PayloadAction<Chat[]>) {
