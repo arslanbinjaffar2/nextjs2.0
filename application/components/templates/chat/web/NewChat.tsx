@@ -164,13 +164,13 @@ const NewChat = ({navigation}: indexProps) => {
             {new_chat_search_results.groups.map((parent_group,k) =>
               <>
                 <Box  bg="primary.darkbox" px={2}>
-                  {parent_group.parent.name}
+                  {parent_group?.parent?.name}
                 </Box>
                 
                 {/* sub groups start */}
-                {parent_group.sub_groups.map((group,k) =>
+                {parent_group?.sub_groups?.map((group,k) =>
                   <HStack key={k} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
-                  <Checkbox value={group.id.toString()} isChecked={selectedItems.some((item) => item.type == 'group' && item.value.id === group.id)} onChange={(value) => {
+                  <Checkbox value={group?.id?.toString()} isChecked={selectedItems.some((item) => item?.type == 'group' && item?.value?.id === group?.id)} onChange={(value) => {
                     if(value) {
                       selectItem({type: 'group', value: group})
                     } else {
@@ -181,7 +181,7 @@ const NewChat = ({navigation}: indexProps) => {
                       <Icon color={'primary.text'} as={MaterialIcons} name="groups"  />
                   </Avatar>
                   <VStack space="0">
-                    <Heading fontWeight={500} fontSize="lg">{group.name}</Heading>
+                    <Heading fontWeight={500} fontSize="lg">{group?.name}</Heading>
                   </VStack>
                 </HStack>
                 )}
