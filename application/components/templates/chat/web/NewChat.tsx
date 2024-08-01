@@ -139,7 +139,12 @@ const NewChat = ({navigation}: indexProps) => {
           {selectedtab === 'attendee' && (
             <>
             {new_chat_search_results.attendees?.length == 0 && <NoRecordFound />}
-            {new_chat_search_results.attendees.map((attendee,k) =>
+            {new_chat_search_results.attendees.filter((attendee: any) => {
+              if (Number(attendee?.current_event_attendee?.speaker) === 1 && event?.speaker_settings?.chat !== 1) {
+                return false;
+              }
+              return true;
+            }).map((attendee,k) =>
               <HStack key={k} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
                <Checkbox  value={`${attendee.id}`} isChecked={selectedItems.some((item) => item.type == 'attendee' && item.value.id === attendee.id)} onChange={(value) => {
                 if(value) {
