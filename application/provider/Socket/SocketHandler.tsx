@@ -54,7 +54,7 @@ const SocketHandler = () => {
       message: ChatMessage;
     }
     const {AddToast} = UseToastService();
-    const {PushMessageToChat} = UseChatService();
+    const {PushMessageToChat,FetchChats} = UseChatService();
 
     React.useEffect(() => {
       
@@ -157,6 +157,10 @@ const SocketHandler = () => {
           console.log('push to the state');
           PushMessageToChat({message:data?.message,thread_id:data?.thread_id});
         }else{
+          // refresh chats if user is on chat listing page
+          if(nextRouter.asPath.includes('chat') && !nextRouter.asPath.includes('chat/detail')){
+            FetchChats({search:''});
+          }
           // show popup to user about the new message
           console.log('adding toast');
           AddNotification({
