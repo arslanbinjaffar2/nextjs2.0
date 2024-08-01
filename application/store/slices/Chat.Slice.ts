@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import type { RootState } from 'application/store/Index'
-import { Chat, Group, NewChatSearchResults,Attendee, ChatMessage } from 'application/models/chat/Chat'
+import { Chat, Group, NewChatSearchResults,Attendee, ChatMessage, ParentGroup } from 'application/models/chat/Chat'
 import chat from 'application/assets/icons/chat'
 
 export interface ChatState {
@@ -52,7 +52,7 @@ export const ChatSlice = createSlice({
         NewChatSearch(state, action: PayloadAction<{search:string}>) {
 
         },
-        updateNewChatSearch(state, action: PayloadAction<{attendees:Attendee[],groups:Group[]}>) {
+        updateNewChatSearch(state, action: PayloadAction<{attendees:Attendee[],groups:ParentGroup[]}>) {
             state.new_chat_search_results.attendees = action.payload.attendees;
             state.new_chat_search_results.groups = action.payload.groups;
         },

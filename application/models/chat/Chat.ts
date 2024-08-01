@@ -39,7 +39,7 @@ export interface ParticipantInfo {
 }
 
 export interface NewChatSearchResults {
-    groups: Group[];
+    groups: ParentGroup[];
     attendees: Attendee[];
 }
 
@@ -48,6 +48,12 @@ export interface Group {
     name: string;
     image: string;
     color: string;
+    parent_id: number;
+}
+
+export interface ParentGroup {
+    parent: Group;
+    sub_groups: Group[];
 }
 
 export interface Attendee {

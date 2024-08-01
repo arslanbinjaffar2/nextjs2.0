@@ -74,6 +74,10 @@ const NewChat = ({navigation}: indexProps) => {
     SetNewChatError({error:null});
   },[selectedItems])
 
+  React.useEffect(() => {
+    console.log('new_chat_search_results.groups: ',new_chat_search_results.groups);
+  },[new_chat_search_results])
+
   return (
       <>
       <NextBreadcrumbs module={module} title={event?.labels?.CHAT_NEW} />
@@ -157,22 +161,34 @@ const NewChat = ({navigation}: indexProps) => {
           {selectedtab === 'group' && (
             <>
             {new_chat_search_results.groups?.length == 0 && <NoRecordFound />}
-            {new_chat_search_results.groups.map((group,k) =>
-              <HStack key={k} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
-               <Checkbox value={group.id.toString()} isChecked={selectedItems.some((item) => item.type == 'group' && item.value.id === group.id)} onChange={(value) => {
-                if(value) {
-                  selectItem({type: 'group', value: group})
-                } else {
-                  removeItem({type: 'group', value: group})
-                }
-                }} />
-                 <Avatar backgroundColor={group?.color ? group.color : undefined}>
-                    <Icon color={'primary.text'} as={MaterialIcons} name="groups"  />
-                 </Avatar>
-                 <VStack space="0">
-                   <Heading fontWeight={500} fontSize="lg">{group.name}</Heading>
-                 </VStack>
-               </HStack>)}
+            {new_chat_search_results.groups.map((parent_group,k) =>
+              <>
+                <Box  bg="primary.darkbox" px={2}>
+                  {parent_group.parent.name}
+                </Box>
+                
+                {/* sub groups start */}
+                {parent_group.sub_groups.map((group,k) =>
+                  <HStack key={k} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
+                  <Checkbox value={group.id.toString()} isChecked={selectedItems.some((item) => item.type == 'group' && item.value.id === group.id)} onChange={(value) => {
+                    if(value) {
+                      selectItem({type: 'group', value: group})
+                    } else {
+                      removeItem({type: 'group', value: group})
+                    }
+                    }} />
+                  <Avatar backgroundColor={group?.color ? group.color : undefined}>
+                      <Icon color={'primary.text'} as={MaterialIcons} name="groups"  />
+                  </Avatar>
+                  <VStack space="0">
+                    <Heading fontWeight={500} fontSize="lg">{group.name}</Heading>
+                  </VStack>
+                </HStack>
+                )}
+                {/* sub groups end */}
+
+              </>
+              )}
             </>
           )}
         </VStack>
