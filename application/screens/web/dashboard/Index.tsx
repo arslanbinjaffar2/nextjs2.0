@@ -85,6 +85,7 @@ const Index = ({ navigation }: indexProps) => {
         }
     }
   React.useEffect(() => {
+    console.log("🚀 ~ React.useEffect ~ modules:", modules.filter((module: any, key: number) => module.alias === 'exhibitors').length > 0)
     if (modules.filter((module: any, key: number) => module.alias === 'polls').length > 0) {
       FetchPolls();
       FetchSurveys();

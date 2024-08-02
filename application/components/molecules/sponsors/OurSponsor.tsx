@@ -36,7 +36,9 @@ const OurSponsor = ({ expand = false }: AppProps) => {
     const { modules, event } = UseEventService();
 
     React.useEffect(() => {
-        FetchOurSponsors();
+        if(modules.filter((module: any, key: number) => module.alias === 'sponsors').length > 0) { 
+            FetchOurSponsors();
+        }
     }, []);
 
     return (
