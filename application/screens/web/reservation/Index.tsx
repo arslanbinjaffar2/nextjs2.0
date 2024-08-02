@@ -236,9 +236,10 @@ const AddAvailabilityCalendarSlot = () => {
 });
 function add(){
   let hasError = false; // Flag to track if there are errors
+  const required_form_error = event?.labels?.REGISTRATION_FORM_FIELD_REQUIRED;
   if(availability_calendar.date === ''){
       setTouched(prev => ({ ...prev, date: true })); // Mark date as touched
-      setDateError('Date is required.'); // Set date error
+      setDateError(required_form_error); // Set date error
       hasError = true;
   } else {
       setDateError(''); // Clear date error
@@ -246,7 +247,7 @@ function add(){
 
   if(availability_calendar.start_time === ''){
       setTouched(prev => ({ ...prev, start_time: true })); // Mark start_time as touched
-      setStartTimeError('Start time is required.'); // Set start time error
+      setStartTimeError(required_form_error); // Set start time error
       hasError = true;
   } else {
       setStartTimeError(''); // Clear start time error
@@ -254,7 +255,7 @@ function add(){
 
   if(availability_calendar.end_time === ''){
       setTouched(prev => ({ ...prev, end_time: true })); // Mark end_time as touched
-      setEndTimeError('End time is required.'); // Set end time error
+      setEndTimeError(required_form_error); // Set end time error
       hasError = true;
   } else {
       setEndTimeError(''); // Clear end time error
@@ -299,32 +300,32 @@ function add(){
     <Box w="100%" rounded="lg" p={[3,6]}>
       <HStack  space="3" justifyContent={'space-between'} flexDirection={['column','row']} alignItems={['flex-start',(touched.date && dateError )?'flex-start' :'center']}>  
           <View width={['100%',100]} flexDirection={'row'} alignItems={'center'} mb={[2,0]}>
-          <Text>Date</Text>
+          <Text>{event?.labels?.RESERVATION_AVAILABILITY_DATE}</Text>
           <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>
           </View>
           <View flexDirection={'column'} width={['100%','calc(100% - 112px)']}>
-          <DateTimePicker  label={'select'} value={availability_calendar.date} showdate={GENERAL_DATE_FORMAT} onChange={(date:any) => setAvailabilityCalendar({...availability_calendar,date:date.format('DD-MM-YYYY')})} />
+          <DateTimePicker  label={GENERAL_DATE_FORMAT} value={availability_calendar.date} showdate={GENERAL_DATE_FORMAT} onChange={(date:any) => setAvailabilityCalendar({...availability_calendar,date:date.format('DD-MM-YYYY')})} />
           {touched.date && dateError && <Text color={'red.600'} mt={2}>{dateError}</Text>}
           </View>
       </HStack>
       <HStack  space="3" my={'14px'} flexDirection={['column','row']} alignItems={['flex-start',(touched.start_time && startTimeError)?'flex-start' :'center']} >
           <View width={['100%',100]} flexDirection={'row'} alignItems={'center'}  mb={[2,0]}>
-          <Text>Start Time</Text>
+          <Text>{event?.labels?.RESERVATION_AVAILABILITY_START_TIME}</Text>
           <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>
           </View>
           <View flexDirection={'column'} width={['100%','calc(100% - 112px)']}>
-          <DateTimePicker   value={availability_calendar.start_time}  showtime={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} showdate={false}  onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,start_time:time.format('HH:mm')})} label={'select'}/>
+          <DateTimePicker   value={availability_calendar.start_time}  showtime={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} showdate={false}  onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,start_time:time.format('HH:mm')})} label={GENERAL_TIME_FORMAT_WITHOUT_SECONDS}/>
           {touched.start_time && startTimeError && <Text color={'red.600'} mt={2}>{startTimeError}</Text>}
           </View>
 
       </HStack>
       <HStack  space="3" flexDirection={['column','row']} alignItems={['flex-start',(touched.end_time && endTimeError )?'flex-start' :'center']}>
       <View width={['100%',100]} flexDirection={'row'} alignItems={'center'}  mb={[2,0]}>
-          <Text>End Time</Text>
+          <Text>{event?.labels?.RESERVATION_AVAILABILITY_END_TIME}</Text>
           <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>
           </View>
           <View flexDirection={'column'} width={['100%','calc(100% - 112px)']}>
-          <DateTimePicker label={'select'} value={availability_calendar.end_time} showtime={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} showdate={false} onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,end_time:time.format('HH:mm')})} />
+          <DateTimePicker label={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} value={availability_calendar.end_time} showtime={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} showdate={false} onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,end_time:time.format('HH:mm')})} />
           {touched.end_time && endTimeError && <Text color={'red.600'} mt={2}>{endTimeError}</Text>}
           </View>
       </HStack>  
