@@ -2,6 +2,7 @@ export interface Chat {
     id: number;
     event_id: number;
     latest_message: ChatMessage;
+    messages_count: number;
     messages: ChatMessage[];
     participants: Participant[];
     participants_info: ParticipantInfo[];

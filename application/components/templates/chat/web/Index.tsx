@@ -84,7 +84,8 @@ const Index = ({ navigation }: indexProps)  => {
                       <Spacer />
                       <VStack alignItems="flex-end" space="2">
                         <Text opacity="0.6" fontSize="md">{moment(chat?.latest_message?.sent_date).fromNow()}</Text>
-                        {!isRead(chat?.latest_message) && <Avatar.Badge position="static" borderWidth="0" bg="green.500" size={4} />}
+                        {chat?.messages_count > 0 && <Box rounded={'full'}  minW="18px" minHeight={'18px'} position="static" borderWidth="0" bg="green.500" justifyContent="center" alignItems="center" ><Text px={'2px'} fontSize="xs">{chat?.messages_count}</Text>
+                        </Box>}
                     </VStack>
                   </HStack>
                   </Pressable>
