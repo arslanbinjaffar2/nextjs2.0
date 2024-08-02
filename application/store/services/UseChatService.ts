@@ -15,6 +15,7 @@ export type ChatServiceOperators = {
     StartNewChat: (payload: {message:string,user_ids:number[],group_ids:number[]}) => void
     SaveMessage: (payload: {message:string,thread_id:number}) => void
     MarkAsRead: (payload: {message_id:number}) => void
+    MarkThreadAsRead: (payload: {thread_id:number}) => void
     NewChatSearch: (payload: {search:string}) => void
     PushMessageToChat: (payload: {message:ChatMessage,thread_id:number}) => void
     SetNewChatError: (payload: {error:string|null}) => void
@@ -79,6 +80,12 @@ export const UseChatService = (): Readonly<ChatServiceOperators> => {
         SetNewChatError: useCallback(
             (payload: {error:string|null}) => {
                 dispatch(ChatActions.SetNewChatError(payload))
+            },
+            [dispatch],
+        ),
+        MarkThreadAsRead: useCallback(
+            (payload: {thread_id:number}) => {
+                dispatch(ChatActions.MarkThreadAsRead(payload))
             },
             [dispatch],
         ),

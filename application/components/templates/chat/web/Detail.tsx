@@ -33,7 +33,7 @@ const Detail = ({ navigation }: indexProps) => {
   const scrollViewRef = React.useRef<HTMLDivElement>(null);
   const {event,modules} = UseEventService();
   const [_id] = useParam('id');
-  const {chat, FetchChat,MarkAsRead} = UseChatService();
+  const {chat, FetchChat,MarkThreadAsRead} = UseChatService();
 
   const {response} = UseAuthService();
   const [loggedInUserId] = React.useState(response?.data?.user?.id);
@@ -59,13 +59,16 @@ const Detail = ({ navigation }: indexProps) => {
   const groupedMessages = React.useMemo(() => {
     if (!chat?.messages) return {};
 
+    // mark the whole thread as red for current user
+    MarkThreadAsRead({thread_id: Number(_id)});
+    
     // get the latest message
-    const latestMessage = chat.messages[chat.messages.length - 1];
-
-    // if latest message is not empty and sender_id is not current user id and read state does not have this user id
-    if(latestMessage && latestMessage?.sender_id !== loggedInUserId && !latestMessage?.read_state.some((read_state:ReadState) => read_state.user_id === loggedInUserId)  ){
-      MarkAsRead({message_id: latestMessage?.id});
-    }
+    // const latestMessage = chat.messages[chat.messages.length - 1];
+    
+    // // if latest message is not empty and sender_id is not current user id and read state does not have this user id
+    // if(latestMessage && latestMessage?.sender_id !== loggedInUserId && !latestMessage?.read_state.some((read_state:ReadState) => read_state.user_id === loggedInUserId)  ){
+    //   MarkThreadAsRead({thread_id: Number(_id)});
+    // }
 
     // Reduce messages into groups by date
     return chat.messages.reduce((acc, message) => {

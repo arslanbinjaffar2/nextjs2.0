@@ -63,6 +63,8 @@ export const ChatSlice = createSlice({
         },
         SetNewChatError(state, action: PayloadAction<{error:string|null}>) {
             state.new_chat_error = action.payload.error;
+        },
+        MarkThreadAsRead(state, action: PayloadAction<{thread_id:number}>) {
         }
     },
 })
@@ -80,6 +82,7 @@ export const ChatActions = {
    updateNewChatSearch: ChatSlice.actions.updateNewChatSearch,
    PushMessageToChat: ChatSlice.actions.PushMessageToChat,
    SetNewChatError: ChatSlice.actions.SetNewChatError,
+   MarkThreadAsRead: ChatSlice.actions.MarkThreadAsRead,
 }
 
 export const SelectChats = (state: RootState) => state.chats.chats

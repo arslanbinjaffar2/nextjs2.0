@@ -24,6 +24,10 @@ export const markChatReadApi = (payload: any, state: any): Promise<HttpResponse>
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/chat/mark-as-read`, payload);
 }
 
+export const markThreadReadApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/chat/mark-as-read-thread`, payload);
+}
+
 export const newChatSearchApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/chat/new-search`, {params: payload});
 }
