@@ -278,7 +278,7 @@ const Detail = () => {
         newErrors[item?.question_id] = { error: item?.message };
       });
       setErrors(newErrors);
-    }, [limit_errors, errors]);
+    }, [limit_errors]);
 
   return (
     <>
