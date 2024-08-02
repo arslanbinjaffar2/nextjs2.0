@@ -11,8 +11,8 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import validateEmail from 'application/utils/validations/ValidateEmail'
 import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import { Link } from 'solito/link'
+import WebLoading from 'application/components/atoms/WebLoading';
 import UseEnvService from 'application/store/services/UseEnvService';
-import { useMsal } from "@azure/msal-react";
 
 type Inputs = {
     email: string,
@@ -25,7 +25,7 @@ const Login = ({ props }: any) => {
 
     const { _env } = UseEnvService();
 
-    const { isLoggedIn, processing, login, error, response } = UseAuthService();
+    const { isLoggedIn, processing, login, error, response, loginWithToken } = UseAuthService();
 
     const  { push } = useRouter();
 		  const router = useRouter();
@@ -44,12 +44,16 @@ const Login = ({ props }: any) => {
         }
     };
 
-    const { instance } = useMsal();
+    React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+        loginWithToken({ token });
+    }
+    }, []);
 
     const handleAADLogin = () => {
-        instance.loginRedirect({
-            scopes: ["User.Read"]
-        });
+        window.location.href = `${_env.api_base_url}/event/${event.url}/auth/login/azure`;
     };
 
     React.useEffect(() => {
@@ -60,6 +64,10 @@ const Login = ({ props }: any) => {
             push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
         } 
     }, [response.redirect]);
+
+    if(processing) {
+        return <WebLoading />
+    }
 		
 
     return (

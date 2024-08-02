@@ -119,6 +119,9 @@ const AuthSlice = createSlice({
                 window.location.reload();
             }
         },
+        loginWithToken(state, action: PayloadAction<{ token: string }>) {
+            state.processing = true;
+        },
     },
 });
 
@@ -137,6 +140,7 @@ export const AuthActions = {
     loadToken: AuthSlice.actions.loadToken,
     clearToken: AuthSlice.actions.clearToken,
     reloadPage: AuthSlice.actions.reloadPage,
+    loginWithToken: AuthSlice.actions.loginWithToken,
 }
 
 // Selectors

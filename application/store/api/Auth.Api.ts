@@ -33,3 +33,7 @@ export const getVerificationApi = (payload: VerificationPayload, state: any): Pr
 export const getLoadProviderApi = (payload: LoadProviderPayload, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).get(`${EventBaseUrl}/${state?.event?.event.url}/auth/verification/${payload.id}?screen=${payload.screen}`);
 }
+
+export const getLoginWithTokenApi = (payload: { token: string }, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${EventBaseUrl}/${state?.event?.event.url}/auth/auto-login`, payload);
+}

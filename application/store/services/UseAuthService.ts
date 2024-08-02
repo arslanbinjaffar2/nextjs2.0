@@ -20,6 +20,7 @@ export type EventServiceOperators = {
     getUser: () => void
     logout: () => void
     loadToken: (logged: boolean) => void
+    loginWithToken: (payload: { token: string }) => void
 }
 
 /**
@@ -90,6 +91,12 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
                 dispatch(
                     AuthActions.loadToken(logged),
                 )
+            },
+            [dispatch],
+        ),
+        loginWithToken: useCallback(
+            (payload: { token: string }) => {
+                dispatch(AuthActions.loginWithToken(payload))
             },
             [dispatch],
         ),
