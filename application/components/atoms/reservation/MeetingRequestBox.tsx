@@ -43,6 +43,10 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 	const {AddNotification} = UseNotificationService();
 	const { _env } = UseEnvService();
 	const [attendeeToShow,setAttendeeToShow]=React.useState<MeetingAttendee>(meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee : meeting_request?.host_attendee);
+	const [showReminderBtn]=React.useState(()=>{
+		// if email or sms is enabled then show the reminder button
+		return event?.appointment_settings?.meeting_notifications_via?.includes('sms') || event?.appointment_settings?.meeting_notifications_via?.includes('email')
+	});
 	function acceptMeeting(){
 		AcceptMeetingRequest({meeting_request_id:meeting_request.id})
 	}
@@ -235,7 +239,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 								/>
 							</Tooltip>
 						{/* Send Email Icon */}
-							<Tooltip label={labels?.GENERAL_SEND_EMAIL} openDelay={200} bg={colors.primary}  _text={{ color: colors.text }}>
+						{showReminderBtn && (<Tooltip label={labels?.GENERAL_SEND_EMAIL} openDelay={200} bg={colors.primary}  _text={{ color: colors.text }}>
 							<IconButton isDisabled={sendingReminder === meeting_request?.id ? true :false} p={1} variant="unstyled"
 								icon={<Icosendemail color={colors.text} width={19} height={19} />}
 								onPress={()=>{
@@ -244,6 +248,8 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 								}}
 							/>
 							</Tooltip>
+						)}
+							
 					</>
 				)}
 

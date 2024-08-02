@@ -121,7 +121,7 @@ const EmailSend = ({id}:{id:any}) => {
                     onPress={()=>validateForm()}
                   
                 >
-                    <Text fontSize="2xl" fontWeight={600}>{event?.labels?.GENERAL_SEND_EMAIL}</Text>
+                    <Text fontSize="2xl" fontWeight={600} color={'primary.hovercolor'}>{event?.labels?.GENERAL_SEND_EMAIL}</Text>
                 </Button>
     </>
 

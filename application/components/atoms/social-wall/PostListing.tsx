@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, Text, Button, Select, CheckIcon, HStack, Center, Menu, Spacer, Icon} from 'native-base'
+import { Box, Text, Button, Select, CheckIcon, HStack, Center, Menu, Spacer, Icon, Popover} from 'native-base'
 import SquareBox from 'application/components/atoms/social-wall/SquareBox';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseSocialWallService from 'application/store/services/UseSocialWallService';
@@ -47,7 +47,7 @@ const PostListing = ({ attendee_id }: AppProps) => {
         <HStack px={3} py={1} bg={'primary.darkbox'} roundedTop={'10px'} w={'100%'} alignItems="center">
                     <Text fontSize="md">{labels?.SOCIAL_WALL_POST}</Text>
                     <Spacer />
-                    <Box>
+                    {/* <Box>
                       <Menu
                         placement="bottom right"
                         bg="primary.boxsolid"
@@ -64,11 +64,36 @@ const PostListing = ({ attendee_id }: AppProps) => {
                                 </HStack>
                             </Pressable>;
                     }}>
-                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='id' onPress={() => setSortBy("id")}>{labels?.SOCIAL_WALL_LATEST_POSTS}</Menu.Item>
-                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>{labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS}</Menu.Item>
-                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>{labels?.SOCIAL_WALL_MOST_LIKES}</Menu.Item>
+                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500',color:'primay.hovercolor'}} textValue='id' onPress={() => setSortBy("id")}>{labels?.SOCIAL_WALL_LATEST_POSTS}</Menu.Item>
+                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500',color:'primay.hovercolor'}} textValue='comments_count' onPress={() => setSortBy("comments_count")}>{labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS}</Menu.Item>
+                        <Menu.Item _text={{color: 'primary.boxsolidtext'}}  _focus={{bg: ''}} _hover={{bg: 'primary.500',color:'primay.hovercolor'}} textValue='likes_count' onPress={() => setSortBy("likes_count")}>{labels?.SOCIAL_WALL_MOST_LIKES}</Menu.Item>
                       </Menu>
-                    </Box>
+                    </Box> */}
+                        <Box 
+                  borderWidth={0}
+                  borderColor="#707070">
+                  
+                  <Popover 
+                    
+                     placement="bottom right"
+                    shouldFlip={true}
+                    crossOffset={0}
+                  trigger={triggerProps => {
+      return <Pressable accessibilityLabel="More options menu" {...triggerProps}>
+      <HStack  space="2" alignItems="center">
+        <Text fontSize="md"> {sortBy === 'id' ? labels?.SOCIAL_WALL_LATEST_POSTS : sortBy === 'comments_count' ? labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS : labels?.SOCIAL_WALL_MOST_LIKES}</Text>
+        <Icon as={AntDesign} name="caretdown" color={'primary.text'}  />
+      </HStack>
+  </Pressable>;
+    }}>
+        <Popover.Content accessibilityLabel="Menu" w={180} bg="primary.boxsolid" borderWidth={0} rounded={'md'} nativeID='boxShadow' py={2}>
+        <Button borderWidth={0} justifyContent={'flex-start'} px={3} py={2} rounded={0} bg={''} _focus={{ bg: '' }} _hover={{ bg: 'primary.500', }} onPress={() => setSortBy("id")}>{labels?.SOCIAL_WALL_LATEST_POSTS}</Button>
+        <Button borderWidth={0} justifyContent={'flex-start'} px={3} py={2}  rounded={0} bg={''} _focus={{ bg: '' }} _hover={{ bg: 'primary.500',}} onPress={() => setSortBy("comments_count")}>{labels?.SOCIAL_WALL_MOST_DISCUSSED_POSTS}</Button>
+        <Button borderWidth={0} justifyContent={'flex-start'} px={3} py={2}  rounded={0} bg={''} _focus={{ bg: '' }} _hover={{ bg: 'primary.500',}} onPress={() => setSortBy("likes_count")}>{labels?.SOCIAL_WALL_MOST_LIKES}</Button>
+
+        </Popover.Content>
+      </Popover>
+      </Box>
                   </HStack>
             {(in_array('social_wall_posts', processing)) && page === 1 ? (
                 <Box  w={'100%'} p="4" rounded="lg">

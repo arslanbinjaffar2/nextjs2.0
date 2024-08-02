@@ -48,8 +48,8 @@ export const Popup = ({location, type}) => {
 				{ (location?.link || location?.hours || location?.phone || settings.wayfinding) && (
 					<>
 					{ location.link && <HStack mt={2} justifyContent={'center'} alignItems={'center'} w={'100%'} px={3} py={2} borderColor={'#888'} borderTopWidth={1}>
-						<Link px={6} py={1} rounded={'full'} shadow={2}  fontSize={'lg'} bg={'primary.500'} color={'primary.text'} onPress={() => push(location.link)}><Text fontSize="md">Detail</Text>
-						 <Icon ml={2} mt={1} color={'primary.text'} as={AntDesign} name="rightcircleo"  />
+						<Link px={6} py={1} rounded={'full'} shadow={2}  fontSize={'lg'} bg={'primary.500'} color={'primary.hovercolor'} onPress={() => push(location.link)}><Text fontSize="md">Detail</Text>
+						 <Icon ml={2} mt={1} color={'primary.hovercolor'} as={AntDesign} name="rightcircleo"  />
 						</Link>
 						
 					</HStack>}
