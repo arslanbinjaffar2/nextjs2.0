@@ -125,8 +125,10 @@ const AuthSlice = createSlice({
             }
         },
         disclaimerStatusUpdated(state, action: PayloadAction<boolean>) {
-            console.log("🚀 ~ disclaimerStatusUpdated ~ action.payload:", action.payload)
             state.disclaimerStatus = action.payload;
+        },
+        loginWithToken(state, action: PayloadAction<{ token: string }>) {
+            state.processing = true;
         },
     },
 });
@@ -147,6 +149,7 @@ export const AuthActions = {
     clearToken: AuthSlice.actions.clearToken,
     reloadPage: AuthSlice.actions.reloadPage,
     disclaimerStatusUpdated: AuthSlice.actions.disclaimerStatusUpdated,
+    loginWithToken: AuthSlice.actions.loginWithToken,
 }
 
 // Selectors

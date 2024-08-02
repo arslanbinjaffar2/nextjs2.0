@@ -22,6 +22,7 @@ export type EventServiceOperators = {
     logout: () => void
     loadToken: (logged: boolean) => void
     disclaimerStatusUpdated: (status: boolean) => void
+    loginWithToken: (payload: { token: string }) => void
 }
 
 /**
@@ -101,6 +102,12 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
                 dispatch(
                     AuthActions.disclaimerStatusUpdated(status),
                 )
+            },
+            [dispatch],
+        ),
+        loginWithToken: useCallback(
+            (payload: { token: string }) => {
+                dispatch(AuthActions.loginWithToken(payload))
             },
             [dispatch],
         ),
