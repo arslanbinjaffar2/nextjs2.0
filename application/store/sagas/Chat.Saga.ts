@@ -2,28 +2,38 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getChatDetailApi, getChatsApi, markChatReadApi, newChatSearchApi, saveMessageChatApi, startNewChatApi } from 'application/store/api/Chat.Api';
+import { getChatDetailApi, getChatsApi, markChatReadApi, markThreadReadApi, newChatSearchApi, saveMessageChatApi, startNewChatApi } from 'application/store/api/Chat.Api';
 
 import { LoadingActions } from 'application/store/slices/Loading.Slice'
 
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
-import { ChatActions } from 'application/store/slices/Chat.Slice'
+import { ChatActions } from 'application/store/slices/Chat.Slice';
 
 function* OnGetChats({
     payload,
 }: {
     type: typeof ChatActions.FetchChats
-    payload: { search: string }
+    payload: { search: string,doNotShowLoading?:boolean }
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
-    yield put(LoadingActions.addProcess({process: 'chats'}));
+    if(!payload.doNotShowLoading){
+        yield put(LoadingActions.set(true))
+        if(payload.search){
+            yield put(LoadingActions.addProcess({process: 'chat-search'}));
+        }else{  
+            yield put(LoadingActions.addProcess({process: 'chats'}));
+        }
+    }
+    
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getChatsApi,payload, state)
     yield put(ChatActions.update(response.data.data.threads!))
-    yield put(LoadingActions.removeProcess({process: 'chats'}));
-    yield put(LoadingActions.set(false));
+    if(!payload.doNotShowLoading){
+        yield put(LoadingActions.removeProcess({process: 'chat-search'}));
+        yield put(LoadingActions.removeProcess({process: 'chats'}));
+        yield put(LoadingActions.set(false));
+    }
 }
 
 function* OnGetChat({
@@ -51,6 +61,9 @@ function* OnStartNewChat({
     yield put(LoadingActions.addProcess({process: 'new-chat'}));
     const state = yield select(state => state);
     const response: HttpResponse = yield call(startNewChatApi,payload, state)
+    if(!response?.data?.success){
+        yield put(ChatActions.SetNewChatError({error:response?.data?.data?.message ?? 'Something went wrong'}));
+    }
     yield put(LoadingActions.removeProcess({process: 'new-chat'}));
     yield put(LoadingActions.set(false));
 }
@@ -79,6 +92,16 @@ function* OnMarkAsRead({
     const response: HttpResponse = yield call(markChatReadApi,payload, state)
 }
 
+function* OnMarkThreadAsRead({
+    payload,
+}: {
+    type: typeof ChatActions.MarkThreadAsRead
+    payload: {thread_id:number}
+}): SagaIterator {
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(markThreadReadApi,payload, state)
+}
+
 function* OnNewChatSearch({
     payload,
 }: {
@@ -100,6 +123,7 @@ export function* ChatWatcherSaga(): SagaIterator {
     yield takeEvery(ChatActions.SaveMessage.type, OnSaveMessage)
     yield takeEvery(ChatActions.MarkAsRead.type, OnMarkAsRead)
     yield takeEvery(ChatActions.NewChatSearch.type, OnNewChatSearch)
+    yield takeEvery(ChatActions.MarkThreadAsRead.type, OnMarkThreadAsRead)
 }
 
 export default ChatWatcherSaga

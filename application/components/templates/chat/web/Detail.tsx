@@ -18,6 +18,7 @@ import { GENERAL_DATE_FORMAT, GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'applic
 import UseEnvService from 'application/store/services/UseEnvService';
 import { useDebouncedCallback } from "use-debounce";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import IcoSend from 'application/assets/icons/small/IcoSend'
 
 type ScreenParams = { id: string }
 const { useParam } = createParam<ScreenParams>()
@@ -29,9 +30,10 @@ type ChatMessageGroup = {
   [key: string]: ChatMessage[];
 };
 const Detail = ({ navigation }: indexProps) => {
+  const scrollViewRef = React.useRef<HTMLDivElement>(null);
   const {event,modules} = UseEventService();
   const [_id] = useParam('id');
-  const {chat, FetchChat,MarkAsRead} = UseChatService();
+  const {chat, FetchChat,MarkThreadAsRead} = UseChatService();
 
   const {response} = UseAuthService();
   const [loggedInUserId] = React.useState(response?.data?.user?.id);
@@ -48,18 +50,25 @@ const Detail = ({ navigation }: indexProps) => {
   React.useEffect(() => {
     FetchChat({ thread_id: Number(_id) });
   }, []);
+
+  React.useEffect(() => {
+    FetchChat({ thread_id: Number(_id) });
+  }, [_id]);
   
   // Memoize the grouping of messages by date
   const groupedMessages = React.useMemo(() => {
     if (!chat?.messages) return {};
 
+    // mark the whole thread as red for current user
+    MarkThreadAsRead({thread_id: Number(_id)});
+    
     // get the latest message
-    const latestMessage = chat.messages[chat.messages.length - 1];
-
-    // if latest message is not empty and sender_id is not current user id and read state does not have this user id
-    if(latestMessage && latestMessage?.sender_id !== loggedInUserId && !latestMessage?.read_state.some((read_state:ReadState) => read_state.user_id === loggedInUserId)  ){
-      MarkAsRead({message_id: latestMessage?.id});
-    }
+    // const latestMessage = chat.messages[chat.messages.length - 1];
+    
+    // // if latest message is not empty and sender_id is not current user id and read state does not have this user id
+    // if(latestMessage && latestMessage?.sender_id !== loggedInUserId && !latestMessage?.read_state.some((read_state:ReadState) => read_state.user_id === loggedInUserId)  ){
+    //   MarkThreadAsRead({thread_id: Number(_id)});
+    // }
 
     // Reduce messages into groups by date
     return chat.messages.reduce((acc, message) => {
@@ -74,6 +83,12 @@ const Detail = ({ navigation }: indexProps) => {
       return acc;
     }, {} as { [date: string]: typeof chat.messages });
   }, [chat?.messages]);
+
+  React.useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTop = scrollViewRef.current.scrollHeight;
+    }
+  }, [groupedMessages]);
   
 
   // Function to get the first letters of the first and last name
@@ -86,14 +101,12 @@ const Detail = ({ navigation }: indexProps) => {
   };
 
   // get image of sender 
-  const getSenderImage = (image: string) => {
-    console.log('image: ',image)
-    // source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
+  function getSenderImage(image: string){
     if(image){
       return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
     }
     return '';
-  };
+  }
 
   return (
       <>
@@ -115,7 +128,8 @@ const Detail = ({ navigation }: indexProps) => {
                         source={{
                           uri: getSenderImage(chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.image : '')
                         }}
-                        >
+                        key={chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.image : ''}
+                        > 
                         {getFirstLetters(chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.full_name : '')}
                         <Avatar.Badge borderWidth="1" bg="green.500" />
                     </Avatar>
@@ -126,12 +140,12 @@ const Detail = ({ navigation }: indexProps) => {
           >
             <Popover.Content top={2} width={210} shadow={3} borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
               <Popover.Header p={3} borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
-               <Text fontWeight={500} fontSize={'md'}>Participants ({chat?.participants_info?.length})</Text>
+               <Text fontWeight={500} fontSize={'md'}>{event?.labels?.CHAT_PARTICIPANTS} ({chat?.participants_info?.length})</Text>
                
               </Popover.Header>
               <Popover.Body p={0} borderTopWidth="0" borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
                 <ScrollView maxHeight={180}>
-                  {chat?.participants_info.map((participant: ParticipantInfo) => 
+                  {chat?.participants_info?.map((participant: ParticipantInfo) => 
                     <HStack p={3} borderTopWidth={'1'} borderTopColor={'primary.bordercolor'} space="2" alignItems="center">
                       <Avatar
                         size={'xs'}
@@ -155,7 +169,7 @@ const Detail = ({ navigation }: indexProps) => {
           </Popover>
         </HStack>
         <VStack position={'relative'} mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
-          <ScrollView w="100%" maxH="450px" py="4" px="3">
+          <ScrollView ref={scrollViewRef} w="100%" maxH="450px" py="4" px="3">
             {processing.includes('chat-detail') ? <SectionLoading /> : (
               <>
               {Object.entries(groupedMessages).map(([groupKey, messages]) => {
@@ -177,9 +191,12 @@ const Detail = ({ navigation }: indexProps) => {
                             {getFirstLetters(message?.sender?.full_name)}
                             <Avatar.Badge borderWidth="1" bg="green.500" />
                           </Avatar>
-                          <VStack mr="3" maxW="320" px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="#3F89D0" space="1">
-                            <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
-                            <Text opacity="0.8" textAlign="right" fontSize="md">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                          <VStack  space="0">
+                            <VStack mr="3" maxW="320" px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="#3F89D0" space="1">
+                              <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
+                              {/* <Text opacity="0.8" textAlign="right" fontSize="md">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text> */}
+                            </VStack>
+                            <Text textAlign={'right'} mr="3" fontSize="xs">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                           </VStack>
                         </HStack> 
                       ):(
@@ -192,9 +209,11 @@ const Detail = ({ navigation }: indexProps) => {
                             {getFirstLetters(message?.sender?.full_name)}
                             <Avatar.Badge borderWidth="1" bg="green.500" />
                           </Avatar>
-                          <VStack ml="3" maxW="320" px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
-                            <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
-                            <Text opacity="0.8" fontSize="md">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                          <VStack  space="0">
+                            <VStack ml="3" maxW="320" px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
+                              <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
+                            </VStack>
+                            <Text textAlign={'left'} ml="3" fontSize="xs">{message?.sender?.full_name} {moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                           </VStack>
                         </HStack>
                       )}
@@ -206,37 +225,6 @@ const Detail = ({ navigation }: indexProps) => {
               })}
               </>
             )}
-           
-{/* 
-            <HStack mb="3" space="0" alignItems="flex-end">
-              <Avatar
-                source={{
-                  uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                }}
-              >
-                SS
-                <Avatar.Badge borderWidth="1" bg="green.500" />
-              </Avatar>
-              <VStack ml="3" maxW="320" px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
-                <Text lineHeight="sm" pr="3" fontSize="lg">Hello John, what are you going to do this weekend?</Text>
-                <Text opacity="0.8" fontSize="md">17:45</Text>
-              </VStack>
-            </HStack>
-            
-            <HStack direction="row-reverse" mb="3" space="0" alignItems="flex-end">
-              <Avatar
-                source={{
-                  uri: 'https://pbs.twimg.com/profile_images/1369921787568422915/hoyvrUpc_400x400.jpg'
-                }}
-              >
-                SS
-                <Avatar.Badge borderWidth="1" bg="green.500" />
-              </Avatar>
-              <VStack mr="3" maxW="320" px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="#3F89D0" space="1">
-                <Text lineHeight="sm" pr="3" fontSize="lg">Nothing planned, and you?</Text>
-                <Text opacity="0.8" textAlign="right" fontSize="md">17:45</Text>
-              </VStack>
-            </HStack> */}
 
           </ScrollView>
           <NewMessage thread_id={Number(_id)} />
@@ -256,17 +244,22 @@ const Detail = ({ navigation }: indexProps) => {
 };
 
 const NewMessage = ({thread_id}: {thread_id: number}) => {
+  const textRef = React.useRef<HTMLInputElement>(null);
   const {SaveMessage} = UseChatService();
   const [message, setMessage] = React.useState('');
   const {processing} = UseLoadingService();
   const debounced = useDebouncedCallback((value:any) => {
     setMessage(value);
   }, 500);
+  const {event} = UseEventService();
 
   function send(){
     if(message!==''){
       SaveMessage({message:message,thread_id:thread_id});
       setMessage('');
+      if(textRef.current){
+        textRef.current.value = '';
+      }
     }
   }
 
@@ -276,10 +269,10 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
     <Center w="100%" maxW="100%">
       <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
         <Icon size="md" as={Entypo} name="new-message" color="primary.text" />
-        <Text fontSize="lg">Write Message </Text>
+        <Text fontSize="lg">{event?.labels?.CHAT_WRITE_MESSAGE_TITLE}</Text>
       </HStack>
       <VStack p="1" w="100%" space="0">
-        <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder="Your message…" autoCompleteType={undefined} 
+        <TextArea ref={textRef} borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined} 
         defaultValue={message}
         onChangeText={(text)=>debounced(text)}
         />
@@ -298,13 +291,14 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
               console.log('hello')
             }}
           /> */}
+       
           {processing.includes('save-message') ? (
-            <Spinner size="lg" color="primary.text" />
+            <Spinner w={44} h={44} padding="10px" color="primary.text" />
           ) : (
             <IconButton
             variant="transparent"
             isDisabled={message == ''}
-            icon={<Icon size="lg" as={Feather} name="send" color="primary.text" />}
+            icon={<IcoSend width={24} height={24} color="primary.text" />}
             onPress={() => {
               send()
             }}
