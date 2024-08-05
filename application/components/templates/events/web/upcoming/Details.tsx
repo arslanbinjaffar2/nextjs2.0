@@ -31,7 +31,7 @@ const Index = () => {
 
 React.useEffect(() => {
     if (id) {
-        FetchEventDetail({ id: Number(id) })
+        FetchEventDetail({ id: Number(id), screen: 'upcomingEvents' })
     }
 }, [id])
 
