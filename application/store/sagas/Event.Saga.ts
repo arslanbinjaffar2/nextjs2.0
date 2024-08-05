@@ -109,12 +109,11 @@ function* getHomeEventDetail({
     payload,
 }: {
     type: typeof EventActions.FetchEvent
-    payload: { id: number }
+    payload: { id: number, screen: string }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'event-detail' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getHomeEventDetailApi, payload, state)
-    console.log('response: ',response.data.data)
     yield put(EventActions.updateEventDetail({detail:response?.data?.data?.detail}))
     yield put(LoadingActions.removeProcess({ process: 'event-detail' }))
 }
