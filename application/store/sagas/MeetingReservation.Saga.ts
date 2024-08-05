@@ -9,7 +9,7 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
-import { acceptMeetingRequestApi, addAvailabilityCalendarSlotApi, cancelMeetingRequestApi, deleteAvailabilityCalendarSlotApi, getAvailableMeetingSlotsApi, getMyAvailabilityCalendarApi, getMyMeetingRequestsApi, rejectMeetingRequestApi, sendMeetingReminderApi } from 'application/store/api/MeetingReservation.api';
+import { acceptMeetingRequestApi, addAvailabilityCalendarSlotApi, cancelMeetingRequestApi, deleteAvailabilityCalendarSlotApi, getAfterLoginMyMeetingRequestsApi, getAvailableMeetingSlotsApi, getMyAvailabilityCalendarApi, getMyMeetingRequestsApi, rejectMeetingRequestApi, sendMeetingReminderApi } from 'application/store/api/MeetingReservation.api';
 import { NotificationActions } from '../slices/Notification.Slice'
 import { AvailabilityCalendarSlot } from 'application/models/meetingReservation/MeetingReservation'
 import { ToastActions } from '../slices/Toast.Slice'
@@ -168,6 +168,19 @@ function* OnFetchMyAvailabilityCalendar({
     yield put(LoadingActions.removeProcess({ process: `fetch-my-availability` }))
 }
 
+function* OnFetchAfterLoginMyMeetingRequests({
+    payload,
+}: {
+    type: typeof MeetingReservationActions.FetchAfterLoginMyMeetingRequests
+    payload: {  }
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: `reservation-after-login` }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getAfterLoginMyMeetingRequestsApi, payload, state)
+    yield put(MeetingReservationActions.updateAfterLoginMyMeetingRequests({my_meeting_requests:response.data.data.meeting_requests!}))
+    yield put(LoadingActions.removeProcess({ process: `reservation-after-login` }))
+}
+
 // Watcher Saga
 export function* MeetingReservationWatcherSaga(): SagaIterator {
     yield takeEvery(MeetingReservationActions.FetchMyMeetingRequests.type, OnGetMyMeetingRequests)
@@ -179,6 +192,7 @@ export function* MeetingReservationWatcherSaga(): SagaIterator {
     yield takeEvery(MeetingReservationActions.AddAvailabilityCalendarSlot.type, OnAddAvailabilityCalendarSlot)
     yield takeEvery(MeetingReservationActions.DeleteAvailabilityCalendarSlot.type, OnDeleteAvailabilityCalendarSlot)
     yield takeEvery(MeetingReservationActions.FetchMyAvailabilityCalendar.type, OnFetchMyAvailabilityCalendar)  
+    yield takeEvery(MeetingReservationActions.FetchAfterLoginMyMeetingRequests.type, OnFetchAfterLoginMyMeetingRequests)
 }
 
 export default MeetingReservationWatcherSaga

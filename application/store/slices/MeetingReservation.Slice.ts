@@ -13,6 +13,7 @@ export interface MeetingReservationState {
     labels: any,
     socket_requests: any,
     my_availability_calendar: AvailabilityCalendarSlot[],
+    after_login_my_meeting_requests: MeetingRequest[],
 }
 
 const initialState: MeetingReservationState = {
@@ -29,6 +30,7 @@ const initialState: MeetingReservationState = {
     available_dates: [],
     socket_requests: [],
     my_availability_calendar: [],
+    after_login_my_meeting_requests: [],
 }
 
 // Slice
@@ -81,6 +83,10 @@ export const MeetingReservationSlice = createSlice({
         DeleteAvailabilityCalendarSlot(state, action: PayloadAction<{ id:number }>) {
             state.my_availability_calendar = state.my_availability_calendar.filter((item:AvailabilityCalendarSlot) => item.id !== action.payload.id)
         },
+        FetchAfterLoginMyMeetingRequests(state, action: PayloadAction<{  }>) {},
+        updateAfterLoginMyMeetingRequests(state, action: PayloadAction<{ my_meeting_requests:MeetingRequest[] }>) {
+            state.after_login_my_meeting_requests = action.payload.my_meeting_requests
+        }
     },
 })
 
@@ -102,6 +108,8 @@ export const MeetingReservationActions = {
     updateMyAvailabilityCalendar: MeetingReservationSlice.actions.updateMyAvailabilityCalendar,
     AddAvailabilityCalendarSlot: MeetingReservationSlice.actions.AddAvailabilityCalendarSlot,
     DeleteAvailabilityCalendarSlot: MeetingReservationSlice.actions.DeleteAvailabilityCalendarSlot,
+    FetchAfterLoginMyMeetingRequests: MeetingReservationSlice.actions.FetchAfterLoginMyMeetingRequests,
+    updateAfterLoginMyMeetingRequests: MeetingReservationSlice.actions.updateAfterLoginMyMeetingRequests,
 }
 
 export const SelectMyMeetingListing = (state: RootState) => state.meetingReservation.my_meeting_listing
@@ -117,6 +125,8 @@ export const SelectSocketRequests = (state: RootState) => state.meetingReservati
 export const SelectAvailableMeetingSpaces = (state: RootState) => state.meetingReservation.available_meeting_spaces
 
 export const SelectMyAvailabilityCalendar = (state: RootState) => state.meetingReservation.my_availability_calendar
+
+export const SelectAfterLoginMyMeetingRequests = (state: RootState) => state.meetingReservation.after_login_my_meeting_requests
 
 // Reducer
 export default MeetingReservationSlice.reducer
