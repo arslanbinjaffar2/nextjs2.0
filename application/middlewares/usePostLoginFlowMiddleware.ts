@@ -29,14 +29,14 @@ const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isL
       } else if (!keyword_skip) {
         push(`/${event.url}/network-interest`);
       }
-      else {
-        const fromRoute = document.referrer;
-        if (!fromRoute) {
-          push(`/${event.url}/dashboard`);
-        } else {
-          push(fromRoute);
-        }
-      }
+      // else {
+      //   const fromRoute = document.referrer;
+      //   if (!fromRoute) {
+      //     push(`/${event.url}/dashboard`);
+      //   } else {
+      //     push(fromRoute);
+      //   }
+      // }
     };
 
     handleRedirection();
