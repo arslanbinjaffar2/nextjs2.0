@@ -25,6 +25,19 @@ const GDPR = () => {
     }
     }
 
+    const checkUserGDPR = () => {
+        const requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1;
+        const userGDPRLogged = response?.data?.user?.gdpr_log;
+        if (userGDPRLogged === undefined) {
+          return false;
+        }
+        return requiredGDPR && !userGDPRLogged;
+    };
+
+    if (!checkUserGDPR()) {
+        push(`/${event.url}/subRegistration`);
+    }
+
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     React.useEffect(() => {
@@ -61,6 +74,7 @@ const GDPR = () => {
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             onPress={() => handleGDPRClick(0)}
                             isDisabled={isSubmitting}
+                            isLoading={isSubmitting}
                         >
                             {event?.labels?.GDPR_CANCEL}
                         </Button>
@@ -71,6 +85,7 @@ const GDPR = () => {
                             _text={{ color: 'primary.hovercolor' }}
                             onPress={() => handleGDPRClick(1)}
                             isDisabled={isSubmitting}
+                            isLoading={isSubmitting}
                         >
                             {event?.labels?.GDPR_ACCEPT}
                         </Button>
