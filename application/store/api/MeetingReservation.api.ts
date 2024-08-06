@@ -47,3 +47,7 @@ export const addAvailabilityCalendarSlotApi = (payload: any, state: any): Promis
 export const deleteAvailabilityCalendarSlotApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/reservation/delete-availability`, payload);
 }
+
+export const getAfterLoginMyMeetingRequestsApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/reservation/after-login`, payload);
+}

@@ -23,6 +23,8 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { colors } from 'application/styles';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useRouter } from 'next/router';
+
 const Index = () => {
 const [tab, setTab] = React.useState('all');
 const { FetchMyMeetingRequests,my_meeting_listing,labels} = useMeetingReservationService();
@@ -36,7 +38,13 @@ const [dateFormat]= React.useState('DD-MM-YYYY');
 const { event,modules } = UseEventService();
 const [loadCount,setLoadCount] = React.useState<number>(0)
 const [showClose,setShowClose]=React.useState<boolean>(false)
+const router = useRouter();
+
   React.useEffect(() => {
+      let tabFromQuery = router.asPath.split('tab=')[1];
+      if(tabFromQuery){
+        setTab(String(tabFromQuery))
+      }
       FetchMyMeetingRequests({})
   },[])
 

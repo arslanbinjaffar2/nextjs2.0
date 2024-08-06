@@ -71,7 +71,16 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
     }
     if(type == 'chat'){
         return  {
-            type:'chat',
+            type:'chat',title:notification?.title,
+            text:notification?.text,
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
+            url:notification?.url,
+        }
+    }
+    if(type == 'pending-appointment-alert'){
+        return  {
+            type:'pending-appointment-alert',
             title:notification?.title,
             text:notification?.text,
             btnLeftText:notification?.btnLeftText,
