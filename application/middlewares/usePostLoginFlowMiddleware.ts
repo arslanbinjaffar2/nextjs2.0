@@ -25,8 +25,6 @@ const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isL
         push(`/${event.url}/subRegistration`);
       } else if (!keyword_skip) {
         push(`/${event.url}/network-interest`);
-      } else {
-        push(`/${event.url}/dashboard`);
       }
     };
 
