@@ -34,7 +34,9 @@ const OurExhibitor = ({ expand = false }: AppProps) => {
   const {width} = useWindowDimensions();
 
   React.useEffect(() => {
-    FetchOurExhibitors();
+    if(modules.filter((module: any, key: number) => module.alias === 'exhibitors').length > 0) {
+      FetchOurExhibitors();
+    }
   }, []);
 
   return (

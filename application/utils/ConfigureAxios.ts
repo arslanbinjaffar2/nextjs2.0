@@ -4,7 +4,6 @@ import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 import {store} from 'application/store/Index';
 import type { RootState } from 'application/store/Index'
 
-
 export default function makeApi(baseURL: string, multiPartFormData = false) {
 
     const api = axios.create({
@@ -35,6 +34,11 @@ export default function makeApi(baseURL: string, multiPartFormData = false) {
     )
 
     api.interceptors.response.use((response) => response, (error) => {
+        if (error.response.status === 403) {
+            const path = window.location.pathname.split('/')[1]+'/forbidden';
+            window.location.href = `${window.location.origin}/${path}`;
+        }
+        
         if (error.response.status === 401) {
             if (Platform.OS === "android" || Platform.OS === "ios") {
                 AsyncStorageClass.clear();
