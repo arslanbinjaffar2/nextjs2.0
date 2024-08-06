@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { Center, Box, Text, HStack, Divider, Button, Spacer } from "native-base"
@@ -9,8 +9,6 @@ import SectionLoading from "application/components/atoms/SectionLoading";
 import { useRouter } from 'solito/router'
 
 const Disclaimer = () => {
-
-    const { push } = useRouter()
     const { logout, disclaimerStatusUpdated, getUser } = UseAuthService()
     const { loading } = UseLoadingService()
     const { addDisclaimerlog } = UseAttendeeService();
@@ -30,7 +28,10 @@ const Disclaimer = () => {
         }
     }
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const acceptDisclaimer = async () => {
+        setIsSubmitting(true);
         await addDisclaimerlog();
         await getUser();
         disclaimerStatusUpdated(true);
@@ -60,13 +61,14 @@ const Disclaimer = () => {
                         <Button
                             bg="transparent"
                             p="2"
-
                             fontSize="lg"
                             colorScheme="primary"
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             onPress={() => {
-                                logout()
+                                setIsSubmitting(true);
+                                logout();
                             }}
+                            isDisabled={isSubmitting}
                         >
                             {event?.labels?.GENERAL_CANCEL}
                         </Button>
@@ -76,8 +78,9 @@ const Disclaimer = () => {
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             _text={{ color: 'primary.hovercolor' }}
                             onPress={() => {
-                                acceptDisclaimer()
+                                acceptDisclaimer();
                             }}
+                            isDisabled={isSubmitting}
                         >
                             {event?.labels?.GENERAL_ACCEPT}
                         </Button>

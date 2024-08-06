@@ -25,26 +25,17 @@ const GDPR = () => {
     }
     }
 
-    // const checkUserGDPR = () => {
-    //     let requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1 ? true : false;
-    //     if (requiredGDPR) {
-    //         let userGDPRLogged = response?.data?.user?.gdpr_log;
-    //         if (!userGDPRLogged) {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     React.useEffect(() => {
         getUser()
     }, [])
 
-    // React.useEffect(() => {
-    //     if (checkUserGDPR() === true) {
-    //         push(`/${event.url}/subRegistration`)
-    //     }
-    // }, [response])
+    const handleGDPRClick = async (gdprValue: number) => {
+        setIsSubmitting(true);
+        await addGDPRlog({ gdpr: gdprValue });
+        push(`/${event.url}/subRegistration`);
+    }
 
     return (
         <>
@@ -65,14 +56,11 @@ const GDPR = () => {
                         <Button
                             bg="transparent"
                             p="2"
-                            
                             fontSize="lg"
                             colorScheme="primary"
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
-                            onPress={() => {
-                                addGDPRlog({ gdpr: 0 })
-                                push(`/${event.url}/subRegistration`)
-                            }}
+                            onPress={() => handleGDPRClick(0)}
+                            isDisabled={isSubmitting}
                         >
                             {event?.labels?.GDPR_CANCEL}
                         </Button>
@@ -81,10 +69,8 @@ const GDPR = () => {
                             py="2"
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             _text={{ color: 'primary.hovercolor' }}
-                            onPress={() => {
-                                addGDPRlog({ gdpr: 1 })
-                                push(`/${event.url}/subRegistration`)
-                            }}
+                            onPress={() => handleGDPRClick(1)}
+                            isDisabled={isSubmitting}
                         >
                             {event?.labels?.GDPR_ACCEPT}
                         </Button>
