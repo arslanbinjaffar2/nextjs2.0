@@ -69,6 +69,16 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             btnRightText:notification?.btnRightText,
         }
     }
+    if(type == 'pending-appointment-alert'){
+        return  {
+            type:'pending-appointment-alert',
+            title:notification?.title,
+            text:notification?.text,
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
+            url:notification?.url,
+        }
+    }
 }
 
 export default ConvertToPopupObject

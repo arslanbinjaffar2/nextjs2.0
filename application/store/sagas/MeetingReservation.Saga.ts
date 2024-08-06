@@ -13,6 +13,8 @@ import { acceptMeetingRequestApi, addAvailabilityCalendarSlotApi, cancelMeetingR
 import { NotificationActions } from '../slices/Notification.Slice'
 import { AvailabilityCalendarSlot } from 'application/models/meetingReservation/MeetingReservation'
 import { ToastActions } from '../slices/Toast.Slice'
+import { Platform } from 'react-native'
+import AsyncStorageClass from 'application/utils/AsyncStorageClass'
 
 function* OnGetMyMeetingRequests({
     payload,
@@ -177,7 +179,25 @@ function* OnFetchAfterLoginMyMeetingRequests({
     yield put(LoadingActions.addProcess({ process: `reservation-after-login` }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getAfterLoginMyMeetingRequestsApi, payload, state)
-    yield put(MeetingReservationActions.updateAfterLoginMyMeetingRequests({my_meeting_requests:response.data.data.meeting_requests!}))
+    // yield put(MeetingReservationActions.updateAfterLoginMyMeetingRequests({my_meeting_requests:response?.data?.data?.my_meeting_requests!}))
+    if(response?.data?.data?.my_meeting_requests && response?.data?.data?.my_meeting_requests?.length > 0){
+        yield put(NotificationActions.addNotification({
+            notification:{
+              type:'pending-appointment-alert',
+              title: state?.event?.event?.labels?.RESERVATION_REQUESTED_APPOINTMENT_ALERT_TITLE,
+              text: state?.event?.event?.labels?.RESERVATION_REQUESTED_APPOINTMENT_ALERT_MSG,
+              btnLeftText:state?.event?.event?.labels?.GENERAL_OK,
+              btnRightText:state?.event?.event?.labels?.GENERAL_DETAIL,
+              url:'/reservation?tab=requested'
+            }
+          }))
+    }
+    //add skip 
+    if(Platform.OS === 'web'){
+        localStorage.setItem('skip_pending_appointment_alerts','true');
+    }else{
+    AsyncStorageClass.setItem('skip_pending_appointment_alerts',true)
+    }
     yield put(LoadingActions.removeProcess({ process: `reservation-after-login` }))
 }
 

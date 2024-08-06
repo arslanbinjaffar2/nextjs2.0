@@ -4,6 +4,9 @@ import { AvailabilityCalendarSlot, MeetingRequest, MeetingSpace, MyMeetingListin
 import { MeetingSlot } from 'application/models/meetingReservation/MeetingReservation'
 
 import type { RootState } from 'application/store/Index'
+import AsyncStorageClass from 'application/utils/AsyncStorageClass'
+import { Platform } from 'react-native'
+import { NotificationActions } from 'application/store/slices/Notification.Slice'
 
 export interface MeetingReservationState {
     my_meeting_listing: MyMeetingListing,
@@ -85,7 +88,32 @@ export const MeetingReservationSlice = createSlice({
         },
         FetchAfterLoginMyMeetingRequests(state, action: PayloadAction<{  }>) {},
         updateAfterLoginMyMeetingRequests(state, action: PayloadAction<{ my_meeting_requests:MeetingRequest[] }>) {
-            state.after_login_my_meeting_requests = action.payload.my_meeting_requests
+            if(action?.payload?.my_meeting_requests && action?.payload?.my_meeting_requests?.length > 0){
+                NotificationActions.addNotification({
+                    notification:{
+                      type:'pending-appointment-alert',
+                      title: 'Pending Appointment requests',
+                      text: 'You have pending appointment requests. Please check your appointment requests.',
+                      btnLeftText:'ok',
+                      btnRightText:'Go To Appointments',
+                      url:'/reservation?tab=requested'
+                    }
+                  })
+            }
+            // add skip 
+            // if(Platform.OS === 'web'){
+            //     localStorage.setItem('skip_pending_appointment_alerts','true');
+            // }else{
+            // AsyncStorageClass.setItem('skip_pending_appointment_alerts',true)
+            // }
+           
+        },
+        clearState(state) {
+            if(Platform.OS === 'web'){
+                localStorage.removeItem('skip_pending_appointment_alerts');
+            }else{
+                AsyncStorageClass.removeItem('skip_pending_appointment_alerts');
+            }
         }
     },
 })
@@ -110,6 +138,7 @@ export const MeetingReservationActions = {
     DeleteAvailabilityCalendarSlot: MeetingReservationSlice.actions.DeleteAvailabilityCalendarSlot,
     FetchAfterLoginMyMeetingRequests: MeetingReservationSlice.actions.FetchAfterLoginMyMeetingRequests,
     updateAfterLoginMyMeetingRequests: MeetingReservationSlice.actions.updateAfterLoginMyMeetingRequests,
+    clearState: MeetingReservationSlice.actions.clearState,
 }
 
 export const SelectMyMeetingListing = (state: RootState) => state.meetingReservation.my_meeting_listing
