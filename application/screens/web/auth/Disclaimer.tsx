@@ -9,7 +9,8 @@ import SectionLoading from "application/components/atoms/SectionLoading";
 import { useRouter } from 'solito/router'
 
 const Disclaimer = () => {
-    const { logout, disclaimerStatusUpdated, getUser } = UseAuthService()
+    const { push } = useRouter();
+    const { logout, disclaimerStatusUpdated, getUser, response } = UseAuthService()
     const { loading } = UseLoadingService()
     const { addDisclaimerlog } = UseAttendeeService();
     const RenderHtml = require('react-native-render-html').default;
@@ -28,6 +29,11 @@ const Disclaimer = () => {
         }
     }
 
+    let showDisclaimer = response?.data?.user?.show_disclaimer;
+    if(!showDisclaimer){
+        push(`/${event.url}/auth/gdpr`);
+    }
+
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const acceptDisclaimer = async () => {
@@ -35,10 +41,6 @@ const Disclaimer = () => {
         await addDisclaimerlog();
         await getUser();
         disclaimerStatusUpdated(true);
-    }
-
-    if(loading){
-        return <SectionLoading />
     }
 
     return (
@@ -81,6 +83,7 @@ const Disclaimer = () => {
                                 acceptDisclaimer();
                             }}
                             isDisabled={isSubmitting}
+                            isLoading={isSubmitting}
                         >
                             {event?.labels?.GENERAL_ACCEPT}
                         </Button>
