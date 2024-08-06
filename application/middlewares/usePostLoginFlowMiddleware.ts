@@ -10,9 +10,13 @@ const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isL
       const checkUserGDPR = () => {
         const requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1;
         const userGDPRLogged = response?.data?.user?.gdpr_log;
+        if (userGDPRLogged === undefined) {
+          return false;
+        }
         return requiredGDPR && !userGDPRLogged;
       };
       let showGDPR = await checkUserGDPR();
+      
       const sub_reg_skip = localStorage.getItem(`skip_sub_reg_${event_url}`) === 'true' ? true : false;
       const keyword_skip = localStorage.getItem(`keyword_skip_${event_url}`) === 'true' ? true : false;
 
@@ -24,6 +28,14 @@ const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isL
         push(`/${event.url}/subRegistration`);
       } else if (!keyword_skip) {
         push(`/${event.url}/network-interest`);
+      }
+      else {
+        const fromRoute = document.referrer;
+        if (!fromRoute) {
+          push(`/${event.url}/dashboard`);
+        } else {
+          push(fromRoute);
+        }
       }
     };
 

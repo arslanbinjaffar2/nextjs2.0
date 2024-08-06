@@ -125,7 +125,6 @@ const AuthSlice = createSlice({
             }
         },
         disclaimerStatusUpdated(state, action: PayloadAction<boolean>) {
-            console.log("🚀 ~ disclaimerStatusUpdated ~ action.payload:", action.payload)
             state.disclaimerStatus = action.payload;
         },
     },
