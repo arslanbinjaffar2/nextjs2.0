@@ -30,7 +30,7 @@ const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isL
         push(`/${event.url}/network-interest`);
       }
       else {
-        const fromRoute = document.referrer;
+        const fromRoute = window.history.state?.as || document.referrer;
         if (!fromRoute) {
           push(`/${event.url}/dashboard`);
         } else {
