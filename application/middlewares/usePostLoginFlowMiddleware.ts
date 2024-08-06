@@ -2,7 +2,6 @@ const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isL
   const handleRedirection = async () => {
       const access_token_exists = await Boolean(localStorage.getItem(`access_token_${event_url}`));
       if (access_token_exists === false) {
-        console.log("🚀 ~ handleRedirection ~ access_token_exists:", access_token_exists)
         push(`/${event.url}/auth/login`);
         return;
       }
