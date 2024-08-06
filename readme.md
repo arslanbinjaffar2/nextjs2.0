@@ -25,7 +25,7 @@ Password: *Eventbuizz@2023*
 ## Commands
 
 eas build
-eas build:status
+eas build:status 
 npx expo -h
 eas build:list
 eas build --platform android --profile development
