@@ -9,12 +9,11 @@ import SectionLoading from "application/components/atoms/SectionLoading";
 import { useRouter } from 'solito/router'
 
 const Disclaimer = () => {
-    const { push } = useRouter();
-    const { logout, disclaimerStatusUpdated, getUser, response } = UseAuthService()
+    const { logout, disclaimerStatusUpdated, getUser } = UseAuthService()
     const { loading } = UseLoadingService()
     const { addDisclaimerlog } = UseAttendeeService();
     const RenderHtml = require('react-native-render-html').default;
-    const { event, event_url } = UseEventService()
+    const { event } = UseEventService()
     const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 
     const mixedStyle = {
@@ -29,28 +28,6 @@ const Disclaimer = () => {
         }
     }
 
-    const checkUserGDPR = () => {
-        const requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1;
-        const userGDPRLogged = response?.data?.user?.gdpr_log;
-        return requiredGDPR && !userGDPRLogged;
-      };
-
-    let showGDPR = checkUserGDPR();
-      
-    const showDisclaimer = response?.data?.user?.show_disclaimer
-    if(!showDisclaimer){
-        const sub_reg_skip = localStorage.getItem(`skip_sub_reg_${event_url}`) === 'true' ? true : false;
-        const keyword_skip = localStorage.getItem(`keyword_skip_${event_url}`) === 'true' ? true : false;
-        if(showGDPR){
-            push(`/${event.url}/auth/gdpr`);
-        } else if (!sub_reg_skip) {
-            push(`/${event.url}/subRegistration`);
-        } else if (!keyword_skip) {
-            push(`/${event.url}/network-interest`);
-        }else{
-            push(`/${event.url}/dashboard`)
-        }
-    }
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const acceptDisclaimer = async () => {
