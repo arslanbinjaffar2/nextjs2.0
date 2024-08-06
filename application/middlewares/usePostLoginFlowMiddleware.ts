@@ -1,5 +1,4 @@
 const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isLoggedIn, response, push }: { event: any, event_url: any, loadSettingsModules: any, isLoggedIn: any, response: any, push: any }) => {
-  console.log(event_url)
   const handleRedirection = async () => {
       const access_token_exists = await Boolean(localStorage.getItem(`access_token_${event_url}`));
       if (access_token_exists === false) {
@@ -25,6 +24,9 @@ const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isL
         push(`/${event.url}/subRegistration`);
       } else if (!keyword_skip) {
         push(`/${event.url}/network-interest`);
+      }
+      else{
+        push(`/${event.url}/dashboard`)
       }
     };
 
