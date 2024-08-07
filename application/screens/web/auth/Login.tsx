@@ -11,6 +11,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import validateEmail from 'application/utils/validations/ValidateEmail'
 import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import { Link } from 'solito/link'
+import WebLoading from 'application/components/atoms/WebLoading';
 import UseEnvService from 'application/store/services/UseEnvService';
 
 type Inputs = {
@@ -21,10 +22,9 @@ type Inputs = {
 const Login = ({ props }: any) => {
 
     const { event } = UseEventService();
-
     const { _env } = UseEnvService();
 
-    const { isLoggedIn, processing, login, error, response } = UseAuthService();
+    const { isLoggedIn, processing, login, error, response, loginWithToken } = UseAuthService();
 
     const  { push } = useRouter();
 		  const router = useRouter();
@@ -34,37 +34,44 @@ const Login = ({ props }: any) => {
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = input => {
-        login({ email: input.email, password: input.password })
+        login({ email: input.email, password: input.password });
     };
 
-      const handleKeyPress = (event: any) => {
+    const handleKeyPress = (event: any) => {
         if (event.key === 'Enter') {
             nativeButton.current?.click();
         }
     };
 
-    const showEventDisclaimer = () => {
-        return response?.data?.user?.show_disclaimer;
-    }
-        
-
-    React.useEffect(() => {
+    const handleRedirection = () => {
         if (response.redirect === "choose-provider") {
-            push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
-        } 
-        if (response.redirect === "verification") {
-            push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
+            push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`);
+        } else if (response.redirect === "verification") {
+            push(`/${event.url}/auth/verification/${response.data.authentication_id}`);
+        } else if (response.redirect === "disclaimer" || response?.data?.user?.show_disclaimer) {
+            push(`/${event.url}/auth/disclaimer`);
         }
-    }, [response.redirect]);
+    };
 
     React.useEffect(() => {
-        if(isLoggedIn){
-            console.log("🚀 ~ React.useEffect ~ showEventDisclaimer():", showEventDisclaimer())
-            if(showEventDisclaimer() === true){
-                push(`/${event.url}/auth/disclaimer`)
-            }
-        }
-    }, [isLoggedIn])
+        handleRedirection();
+    }, [response.redirect, isLoggedIn]);
+
+    React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+        loginWithToken({ token });
+    }
+    }, []);
+
+    const handleAADLogin = () => {
+        window.location.href = `${_env.api_base_url}/event/${event.url}/auth/login/azure`;
+    };
+
+    if(processing) {
+        return <WebLoading />
+    }
 		
 
     return (
@@ -148,6 +155,7 @@ const Login = ({ props }: any) => {
 																						borderWidth="0"
 																						textDecorationLine={'underline'}
 																						variant={'unstyled'}
+																						_text={{color: func.colorType(event?.settings?.app_background_color)}}
 																						_hover={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
 																						_pressed={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
 																						onPress={()=>{
@@ -168,6 +176,13 @@ const Login = ({ props }: any) => {
                                         _hover={{ bg: 'primary.secondary' }}
                                     >
                                     </Button>
+                                    <Button
+                                           onPress={handleAADLogin}
+                                           minH='48px'
+                                           _hover={{ bg: 'primary.secondary' }}
+                                       >
+                                           Login with AAD
+                                       </Button>
                                 </VStack>
                             ) : (
                                 <VStack w={'100%'} space="10px">
@@ -192,6 +207,13 @@ const Login = ({ props }: any) => {
                                                 : (error ? error : errors.email?.message)}
                                         </FormControl.ErrorMessage>
                                     </FormControl>
+                                    <Button
+                                           onPress={handleAADLogin}
+                                           minH='48px'
+                                           _hover={{ bg: 'primary.secondary' }}
+                                       >
+                                           Login with AAD
+                                       </Button>
                                 </VStack>
                             )}
                         </>

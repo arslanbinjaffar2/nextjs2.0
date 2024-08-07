@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getLoginApi, getUserApi, getPasswordResetApi, getChooseProviderApi, getLoadProviderApi, getVerificationApi, getResetApi } from 'application/store/api/Auth.Api';
+import { getLoginApi, getUserApi, getPasswordResetApi, getChooseProviderApi, getLoadProviderApi, getVerificationApi, getResetApi, getLoginWithTokenApi } from 'application/store/api/Auth.Api';
 
 import { LoginPayload, AuthActions, ChooseProviderPayload, PasswordResetPayload, LoadProviderPayload, VerificationPayload, ResetPayload } from 'application/store/slices/Auth.Slice';
 
@@ -12,6 +12,7 @@ import { select } from 'redux-saga/effects';
 import { NetworkInterestActions } from '../slices/NetworkInterest.Slice';
 import { SubRegistrationActions } from '../slices/SubRegistration.Slice';
 import { LoadingActions } from 'application/store/slices/Loading.Slice'
+import { MeetingReservationActions } from 'application/store/slices/MeetingReservation.Slice';
 
 // Worker Sagas handlers
 function* OnLogin({
@@ -155,9 +156,29 @@ function* OnLogout({
 }): SagaIterator {
     const state = yield select(state => state);
     yield put(AuthActions.clearToken(state?.event?.event_url));
-    yield put(NetworkInterestActions.clearState());
-    yield put(SubRegistrationActions.clearState());
+    yield put(NetworkInterestActions.clearState({event_url:state?.event?.event_url}));
+    yield put(SubRegistrationActions.clearState({event_url:state?.event?.event_url}));
+    yield put(MeetingReservationActions.clearState());
     yield put(AuthActions.reloadPage());
+}
+
+function* OnLoginWithToken({
+    payload,
+}: {
+    type: typeof AuthActions.loginWithToken
+    payload: { token: string }
+}): SagaIterator {
+    try {
+        const state = yield select(state => state);
+        const response: HttpResponse = yield call(getLoginWithTokenApi, payload, state);
+        if (response.data.success) {
+            yield put(AuthActions.success({response: response.data,event_url:state?.event?.event_url}));
+        } else {
+            yield put(AuthActions.failed(response.data.message!));
+        }
+    } catch (error: any) {
+        yield put(AuthActions.failed(error.message));
+    }
 }
 
 // Watcher Saga
@@ -170,6 +191,7 @@ export function* AuthWatcherSaga(): SagaIterator {
     yield takeEvery(AuthActions.loadProvider.type, OnLoadProvider)
     yield takeEvery(AuthActions.getUser.type, OnGetUser)
     yield takeEvery(AuthActions.logout.type, OnLogout)
+    yield takeEvery(AuthActions.loginWithToken.type, OnLoginWithToken)
 }
 
 export default AuthWatcherSaga

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
-import { Avatar, Box, Button, Container, Flex, HStack, Spacer, Spinner, Text, View, VStack } from 'native-base';
+import { Avatar, Box, Button, Container, Flex, HStack, Icon, Spacer, Spinner, Text, View, VStack } from 'native-base';
 import MeetingRequestBox from 'application/components/atoms/reservation/MeetingRequestBox';
 import useMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 import { AvailabilityCalendarSlot, MeetingRequest } from 'application/models/meetingReservation/MeetingReservation';
@@ -22,6 +22,8 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { colors } from 'application/styles';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { useRouter } from 'next/router';
 
 const Index = () => {
 const [tab, setTab] = React.useState('all');
@@ -36,7 +38,13 @@ const [dateFormat]= React.useState('DD-MM-YYYY');
 const { event,modules } = UseEventService();
 const [loadCount,setLoadCount] = React.useState<number>(0)
 const [showClose,setShowClose]=React.useState<boolean>(false)
+const router = useRouter();
+
   React.useEffect(() => {
+      let tabFromQuery = router.asPath.split('tab=')[1];
+      if(tabFromQuery){
+        setTab(String(tabFromQuery))
+      }
       FetchMyMeetingRequests({})
   },[])
 
@@ -148,9 +156,7 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
           
           
           >
-            My Availability
-          
-            
+           {event?.labels?.RESERVATION_MY_AVAILABILITY} 
           </ButtonElement>}
         
       </HStack>
@@ -183,9 +189,14 @@ const [showClose,setShowClose]=React.useState<boolean>(false)
 const AvailabilityCalendar = () => {
   const { my_availability_calendar,FetchMyAvailabilityCalendar} = useMeetingReservationService();
   const { processing } = UseLoadingService();
+  const [toDeleteId,setToDeleteId]=React.useState<number>(0)
   React.useEffect(() => {
     FetchMyAvailabilityCalendar()
   },[])
+
+  function onCloseModal(){
+    setToDeleteId(0)
+  }
 
   return (
     <>
@@ -194,9 +205,11 @@ const AvailabilityCalendar = () => {
       {my_availability_calendar.length>0 && 
       <VStack bg="primary.box" width={'100%'}  rounded={'lg'} py={1} >
       {my_availability_calendar.map((item:AvailabilityCalendarSlot,k:number,array:any) =>
-        <SingleAvailabilityCalendar array={array}  key={k} k={k} item={item}/>
+        <SingleAvailabilityCalendar array={array}  key={k} k={k} item={item} confirmDelete={()=>{setToDeleteId(item.id)}}/>
       )}
       </VStack>}
+      <AvailabilityModal 
+        AvaiblityID={toDeleteId} isOpen={toDeleteId !== 0} onClose={onCloseModal}/>
       </>
     )} 
     </>
@@ -230,9 +243,10 @@ const AddAvailabilityCalendarSlot = () => {
 });
 function add(){
   let hasError = false; // Flag to track if there are errors
+  const required_form_error = event?.labels?.REGISTRATION_FORM_FIELD_REQUIRED;
   if(availability_calendar.date === ''){
       setTouched(prev => ({ ...prev, date: true })); // Mark date as touched
-      setDateError('Date is required.'); // Set date error
+      setDateError(required_form_error); // Set date error
       hasError = true;
   } else {
       setDateError(''); // Clear date error
@@ -240,7 +254,7 @@ function add(){
 
   if(availability_calendar.start_time === ''){
       setTouched(prev => ({ ...prev, start_time: true })); // Mark start_time as touched
-      setStartTimeError('Start time is required.'); // Set start time error
+      setStartTimeError(required_form_error); // Set start time error
       hasError = true;
   } else {
       setStartTimeError(''); // Clear start time error
@@ -248,7 +262,7 @@ function add(){
 
   if(availability_calendar.end_time === ''){
       setTouched(prev => ({ ...prev, end_time: true })); // Mark end_time as touched
-      setEndTimeError('End time is required.'); // Set end time error
+      setEndTimeError(required_form_error); // Set end time error
       hasError = true;
   } else {
       setEndTimeError(''); // Clear end time error
@@ -280,41 +294,45 @@ function add(){
     </Avatar>
     <Text   fontSize="lg"fontWeight={'medium'} isTruncated ml={4}>{response?.data?.user?.name}</Text>
     </Box>
-    <Button display={showAddForm?"none":"flex"} mt={[4,'']} colorScheme="primary" w={["60%",195]} height={38} onPress={() => setShowAddForm(!showAddForm)} p='2' _text={{ fontSize:"md" ,fontWeight:'semibold' }}>
-     + Add Availability
+
+    <Button  colorScheme="primary" w={["60%",195]} height={38} display={showAddForm?"none":"flex"} justifyContent={'center'}   mt={[4,'']} p='2' _text={{ fontSize:"md" ,fontWeight:'semibold' }}  onPress={() => setShowAddForm(!showAddForm)} >
+      <Box  display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} w={'100%'}>
+      <Icon as={AntDesign} name="plus" size={15} color='primary.hovercolor' width={'5%'}/>
+      <Text ml={'1'} isTruncated width={'95%'} color='primary.hovercolor' fontSize={'md'} fontWeight={'semibold'}>{event?.labels?.RESERVATION_ADD_AVAILABILITY}</Text>
+      </Box>
     </Button>
     </View>
     {showAddForm && <View rounded="10" bg="primary.box" w="100%"  mt={'5'}>
-      <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} pt={6}>ADD AVAILABILITY</Text>
+      <Text fontSize={'2xl'} fontWeight={'medium'} textAlign={'center'} pt={6}>{event?.labels?.RESERVATION_ADD_AVAILABILITY}</Text>
     <Box w="100%" rounded="lg" p={[3,6]}>
       <HStack  space="3" justifyContent={'space-between'} flexDirection={['column','row']} alignItems={['flex-start',(touched.date && dateError )?'flex-start' :'center']}>  
           <View width={['100%',100]} flexDirection={'row'} alignItems={'center'} mb={[2,0]}>
-          <Text>Date</Text>
+          <Text>{event?.labels?.RESERVATION_AVAILABILITY_DATE}</Text>
           <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>
           </View>
           <View flexDirection={'column'} width={['100%','calc(100% - 112px)']}>
-          <DateTimePicker  label={'select'} value={availability_calendar.date} showdate={GENERAL_DATE_FORMAT} onChange={(date:any) => setAvailabilityCalendar({...availability_calendar,date:date.format('DD-MM-YYYY')})} />
+          <DateTimePicker  label={GENERAL_DATE_FORMAT} value={availability_calendar.date} showdate={GENERAL_DATE_FORMAT} onChange={(date:any) => setAvailabilityCalendar({...availability_calendar,date:date.format('DD-MM-YYYY')})} />
           {touched.date && dateError && <Text color={'red.600'} mt={2}>{dateError}</Text>}
           </View>
       </HStack>
       <HStack  space="3" my={'14px'} flexDirection={['column','row']} alignItems={['flex-start',(touched.start_time && startTimeError)?'flex-start' :'center']} >
           <View width={['100%',100]} flexDirection={'row'} alignItems={'center'}  mb={[2,0]}>
-          <Text>Start Time</Text>
+          <Text>{event?.labels?.RESERVATION_AVAILABILITY_START_TIME}</Text>
           <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>
           </View>
           <View flexDirection={'column'} width={['100%','calc(100% - 112px)']}>
-          <DateTimePicker   value={availability_calendar.start_time}  showtime={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} showdate={false}  onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,start_time:time.format('HH:mm')})} label={'select'}/>
+          <DateTimePicker   value={availability_calendar.start_time}  showtime={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} showdate={false}  onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,start_time:time.format('HH:mm')})} label={GENERAL_TIME_FORMAT_WITHOUT_SECONDS}/>
           {touched.start_time && startTimeError && <Text color={'red.600'} mt={2}>{startTimeError}</Text>}
           </View>
 
       </HStack>
       <HStack  space="3" flexDirection={['column','row']} alignItems={['flex-start',(touched.end_time && endTimeError )?'flex-start' :'center']}>
       <View width={['100%',100]} flexDirection={'row'} alignItems={'center'}  mb={[2,0]}>
-          <Text>End Time</Text>
+          <Text>{event?.labels?.RESERVATION_AVAILABILITY_END_TIME}</Text>
           <Text display={Platform.OS === 'web' ? "inline" : 'flex'} color="red.500">*</Text>
           </View>
           <View flexDirection={'column'} width={['100%','calc(100% - 112px)']}>
-          <DateTimePicker label={'select'} value={availability_calendar.end_time} showtime={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} showdate={false} onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,end_time:time.format('HH:mm')})} />
+          <DateTimePicker label={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} value={availability_calendar.end_time} showtime={GENERAL_TIME_FORMAT_WITHOUT_SECONDS} showdate={false} onChange={(time:any) => setAvailabilityCalendar({...availability_calendar,end_time:time.format('HH:mm')})} />
           {touched.end_time && endTimeError && <Text color={'red.600'} mt={2}>{endTimeError}</Text>}
           </View>
       </HStack>  
@@ -322,12 +340,12 @@ function add(){
       <Button bg={'primary.box'}  mt={'5'} w={"48%"} height={38}  isDisabled={in_array('add-availability',processing)} onPress={() => {
         setShowAddForm(false)
       }} p='2'_text={{ fontSize:"md" ,fontWeight:'semibold' }} >
-          close
+          {event?.labels?.GENERAL_CANCEL}
       </Button>  
       <Button colorScheme="primary" mt={'5'} w={"48%"} height={38}  isDisabled={in_array('add-availability',processing)} onPress={() => {
         add()
         }} p='2'_text={{ fontSize:"md" ,fontWeight:'semibold' }} ml={3}>
-        {in_array('add-availability',processing) ? <Spinner color={'primary.text'} size={'sm'}/>:"Save"}
+        {in_array('add-availability',processing) ? <Spinner color={'primary.text'} size={'sm'}/>:event?.labels?.GENERAL_SAVE}
       </Button>  
         </HStack>
     </Box>
@@ -341,12 +359,7 @@ export default Index;
 
 
 
-const SingleAvailabilityCalendar=({item,k,array}:{item:any,k:any,array:any})=>{
-  const [isOpen,setIsOpen]=React.useState(false)
-
-  const onCloseModal=()=>{
-    setIsOpen(false)
-  }
+const SingleAvailabilityCalendar=({item,k,array,confirmDelete}:{item:any,k:any,array:any,confirmDelete:(id:number)=>void})=>{
   return(
     <React.Fragment key={k}>
     <HStack px={4}  py="14"  width={'100%'} justifyContent={'space-between'} alignItems={'flex-start'} borderBottomColor={'primary.text'} borderBottomWidth={k!==array.length-1?1:0}>
@@ -367,15 +380,13 @@ const SingleAvailabilityCalendar=({item,k,array}:{item:any,k:any,array:any})=>{
       <Icocross />
     </ButtonElement> */}
     <Pressable
-     onPress={() => setIsOpen(true)}
+     onPress={() => confirmDelete(item.id)}
     >
       <DynamicIcon iconType={'delete_icon'} iconProps={{ height:18,width:16 }}/>
     </Pressable>
     
   </HStack>
-    <AvailabilityModal 
-    key={k}
-    AvaiblityID={item.id} isOpen={isOpen} onClose={onCloseModal} message='Are you sure you want to delete this availability?' title='Delete'/>
+    
     </React.Fragment>
 
   )

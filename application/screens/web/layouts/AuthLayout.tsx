@@ -1,7 +1,8 @@
 import * as React from 'react';
-import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
-import { useRouter } from 'next/router'
+import UseEventService from 'application/store/services/UseEventService';
+import usePostLoginFlowMiddleware from 'application/middlewares/usePostLoginFlowMiddleware';
+import { useRouter } from 'solito/router';
 
 type Props = {
     children:
@@ -12,28 +13,24 @@ type Props = {
 };
 
 const AuthLayout = ({ children }: Props) => {
-
-    const { event, event_url, loadSettingsModules } = UseEventService();
-
-    const { loadToken, isLoggedIn, getUser } = UseAuthService();
-
+    const { event, loadSettingsModules, event_url } = UseEventService();
+    const { loadToken, getUser, response, isLoggedIn, disclaimerStatus } = UseAuthService();
     const { push } = useRouter();
-    const router = useRouter();
 
     React.useEffect(() => {
-        getUser();
-    }, [])
-
-    React.useEffect(() => {
-        if (isLoggedIn && !router.pathname.includes('/auth/disclaimer')) {
-            loadSettingsModules();
-            push(`/${event.url}/subRegistration`)
-        }
-    }, [isLoggedIn])
+        const fetchUser = async () => {
+          await getUser();
+        };
+        fetchUser();
+    }, []);
 
     React.useEffect(() => {
         loadToken(Boolean(localStorage.getItem(`access_token_${event_url}`)));
     }, [])
+
+    React.useEffect(() => {
+        usePostLoginFlowMiddleware({ event, event_url, loadSettingsModules, isLoggedIn, response, push });
+    }, [response, isLoggedIn, disclaimerStatus])
 
     return (
         <>

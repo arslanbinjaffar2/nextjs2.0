@@ -148,7 +148,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
             </VStack>
             <Spacer />
             <HStack space={["0","4"]} alignItems="center">
-                {/* {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && ( */}
+                {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && ( 
                   <Button
                   display={['none','']}
                     py={2}
@@ -158,7 +158,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     
                   </Button>
                   
-                {/* //  )}  */}
+                )} 
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                   <Pressable
                     onPress={() => toggleFav()}>

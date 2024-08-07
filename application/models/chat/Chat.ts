@@ -2,6 +2,7 @@ export interface Chat {
     id: number;
     event_id: number;
     latest_message: ChatMessage;
+    messages_count: number;
     messages: ChatMessage[];
     participants: Participant[];
     participants_info: ParticipantInfo[];
@@ -39,7 +40,7 @@ export interface ParticipantInfo {
 }
 
 export interface NewChatSearchResults {
-    groups: Group[];
+    groups: ParentGroup[];
     attendees: Attendee[];
 }
 
@@ -47,6 +48,13 @@ export interface Group {
     id: number;
     name: string;
     image: string;
+    color: string;
+    parent_id: number;
+}
+
+export interface ParentGroup {
+    parent: Group;
+    sub_groups: Group[];
 }
 
 export interface Attendee {

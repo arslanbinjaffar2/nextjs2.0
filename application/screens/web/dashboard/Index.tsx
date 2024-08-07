@@ -27,7 +27,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import in_array from "in_array";
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
-import { useWindowDimensions } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { Alert } from 'application/models/alert/Alert'
 import RectangleView from 'application/components/atoms/alerts/RectangleView'
@@ -45,6 +45,8 @@ import OurExhibitor from 'application/components/molecules/exhibitors/OurExhibit
 import OurSponsor from 'application/components/molecules/sponsors/OurSponsor';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import { getColorScheme } from 'application/styles/colors';
+import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 
 type indexProps = {
   navigation: unknown
@@ -87,10 +89,14 @@ const Index = ({ navigation }: indexProps) => {
         }
     }
   React.useEffect(() => {
-    FetchPolls();
-    FetchSurveys();
+    if (modules.filter((module: any, key: number) => module.alias === 'polls').length > 0) {
+      FetchPolls();
+      FetchSurveys();
+    }
     FetchBanners();
-    FetchAlerts();
+    if (modules.filter((module: any, key: number) => module.alias === 'alerts').length > 0) {
+      FetchAlerts();
+    }
     if (modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0) {
       // FetchPrograms({ query: '', page: 1, screen: 'dashboard', id: 0, track_id: 0 });
     }
@@ -99,6 +105,29 @@ const Index = ({ navigation }: indexProps) => {
     }
   }, [modules.length]);
    const name=modules?.find((module) => (module.alias == 'agendas'))?.name as string
+
+  const { FetchAfterLoginMyMeetingRequests } = UseMeetingReservationService();
+  function checkAppointmentAlerts() {
+    const moduleActive=modules.filter((module: any, key: number) => module.alias === 'reservation').length > 0;
+    if(!moduleActive){
+      return;
+    }
+    let skipPendingAppointmentAlerts = false;
+    if(Platform.OS === 'web'){
+      skipPendingAppointmentAlerts= Boolean(localStorage.getItem('skip_pending_appointment_alerts'));
+    }else{
+      skipPendingAppointmentAlerts= Boolean(AsyncStorageClass.getItem('skip_pending_appointment_alerts'));
+    }
+    console.log('skipPendingAppointmentAlerts',skipPendingAppointmentAlerts);
+    if(!skipPendingAppointmentAlerts){
+      FetchAfterLoginMyMeetingRequests({});
+    }
+  }
+
+  React.useEffect(() => {
+    checkAppointmentAlerts();
+  }, []);
+
   return (
     <>
       {(in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
