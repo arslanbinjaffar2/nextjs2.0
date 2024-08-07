@@ -91,7 +91,7 @@ const NewChat = ({navigation}: indexProps) => {
        
 
         {/* Selected Items */}
-          <HStack pb={3} borderBottomWidth={4} borderBottomColor={'primary.darkbox'} w={'100%'} mb={3} flexWrap={'wrap'} space="1" alignItems="center">
+          {selectedItems.length > 0 && <HStack pb={3} borderBottomWidth={4} borderBottomColor={'primary.darkbox'} w={'100%'} mb={3} flexWrap={'wrap'} space="1" alignItems="center">
             
             {selectedItems.map((item,k) =>
               <HStack bg={'primary.box'} p={1} rounded={'20px'}  space="1" alignItems="center">
@@ -104,8 +104,8 @@ const NewChat = ({navigation}: indexProps) => {
                 }}>
                 {getFirstLetters(`${item?.value?.full_name}`)}
               </Avatar>):(
-              <Avatar size={'xs'}>
-                <Icon size={'xs'} color={'primary.text'} as={MaterialIcons} name="groups"  />
+              <Avatar bg={item?.value.color ? item?.value.color : undefined} size={'xs'}>
+                <Icon size={'sm'} color={'primary.text'} as={MaterialIcons} name="groups"  />
               </Avatar>
               )}
               <Text fontSize="14px">{item.type === 'attendee' ? `${item.value?.first_name} ${item.value?.last_name}` : item.value?.name}</Text>
@@ -114,10 +114,10 @@ const NewChat = ({navigation}: indexProps) => {
                   onPress={()=>{removeItem(item)}}/> 
             </HStack>
           )}
-          </HStack>
+          </HStack>}
         {/* Tabs */}
         <Button.Group mb={3}>
-         <Button isPressed={selectedtab === 'attendee'} px="6" py="1" rounded="20px" bg={"primary.box"} borderWidth="0"
+         <Button  px="6" py="1" rounded="20px" bg={selectedtab === 'attendee' ? "primary.500" : "primary.box"} borderWidth="0"
           _text={{ fontSize: 'lg', color: "primary.hovercolor" }}
           _hover={{_text: {color: 'primary.hovercolor'}}} borderColor="primary.bdBox" colorScheme="primary"
           onPress={() => {
@@ -127,7 +127,7 @@ const NewChat = ({navigation}: indexProps) => {
             {event?.labels?.EVENTSITE_ATTENDEES}
           </Button>
          <Button
-            isPressed={selectedtab === 'group'} px="6" py="1" rounded="20px" bg={"primary.box"} borderWidth="0"
+             px="6" py="1" rounded="20px" bg={selectedtab === 'group' ? "primary.500" : "primary.box"} borderWidth="0"
             _text={{ fontSize: 'lg', color: "primary.hovercolor" }}
             _hover={{_text: {color: 'primary.hovercolor'}}} borderColor="primary.bdBox" colorScheme="primary"
             onPress={() => {setSelectedTab('group')}}>
