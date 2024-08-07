@@ -147,7 +147,7 @@ const Detail = ({ navigation }: indexProps) => {
               <Popover.Body p={0} borderTopWidth="0" borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
                 <ScrollView maxHeight={180}>
                   {chat?.participants_info?.map((participant: ParticipantInfo) => 
-                    <HStack p={3} borderTopWidth={'1'} borderTopColor={'primary.bordercolor'} space="2" alignItems="center">
+                    <HStack   p={3} borderTopWidth={'1'} borderTopColor={'primary.bordercolor'} space="2" alignItems="center">
                       <Avatar
                         size={'xs'}
                         source={{
@@ -176,7 +176,7 @@ const Detail = ({ navigation }: indexProps) => {
               {Object.entries(groupedMessages).map(([groupKey, messages]) => {
                 return (
                   <>
-                  <Box display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} top={0} mb={2}>
+                  <Box nativeID='zindex-99' display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} top={0} mb={2}>
                     <Text bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).format(GENERAL_DATE_FORMAT)}</Text>
                   </Box>
                   {messages.map((message: ChatMessage) => {
@@ -185,6 +185,7 @@ const Detail = ({ navigation }: indexProps) => {
                       {message?.sender_id === loggedInUserId ? (
                         <HStack position={'relative'} zIndex={1} direction="row-reverse" mb="3" space="0" alignItems="flex-end">
                           <Avatar
+                            key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`}
                             source={{
                               uri: getSenderImage(message?.sender?.image)
                             }}
@@ -193,11 +194,11 @@ const Detail = ({ navigation }: indexProps) => {
                             <Avatar.Badge borderWidth="1" bg="green.500" />
                           </Avatar>
                           <VStack  space="0">
-                            <VStack mr="3" maxW="320" px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="#3F89D0" space="1">
-                              <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
-                              {/* <Text opacity="0.8" textAlign="right" fontSize="md">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text> */}
+                            <VStack mr="3" maxW="320px" minW={120} px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="primary.500" space="2">
+                              <Text color={'primary.hovercolor'} lineHeight="sm" pr="3" fontSize="md">{message?.body}</Text>
+                              <Text color={'primary.hovercolor'} opacity="0.8" textAlign="right" fontSize="sm">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                             </VStack>
-                            <Text textAlign={'right'} mr="3" fontSize="xs">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                            {/* <Text textAlign={'right'} mr="3" fontSize="xs">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text> */}
                           </VStack>
                         </HStack> 
                       ):(
@@ -211,10 +212,11 @@ const Detail = ({ navigation }: indexProps) => {
                             <Avatar.Badge borderWidth="1" bg="green.500" />
                           </Avatar>
                           <VStack  space="0">
-                            <VStack ml="3" maxW="320" px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
-                              <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
+                            <VStack ml="3" maxW="320px" minW={120} px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="2">
+                              <Text lineHeight="sm" pr="3" fontSize="md">{message?.body}</Text>
+                              <Text textAlign={'left'} opacity="0.8"  fontSize="sm">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                             </VStack>
-                            <Text textAlign={'left'} ml="3" fontSize="xs">{message?.sender?.full_name} {moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                            <Text textAlign={'left'} ml="3" fontSize="xs">{message?.sender?.full_name}</Text>
                           </VStack>
                         </HStack>
                       )}
