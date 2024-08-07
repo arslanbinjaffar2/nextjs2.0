@@ -56,7 +56,7 @@ const Master = ({ children, section }: Props) => {
 }, []);
 
   React.useEffect(() => {
-    usePostLoginFlowMiddleware({ event, event_url, loadSettingsModules, isLoggedIn, response, push });
+    usePostLoginFlowMiddleware({ event, event_url, response, push });
   }, [response, isLoggedIn])
 
   // const access_token_exists = Boolean(localStorage.getItem(`access_token_${event_url}`));

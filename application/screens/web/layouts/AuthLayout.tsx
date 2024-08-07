@@ -29,7 +29,7 @@ const AuthLayout = ({ children }: Props) => {
     }, [])
 
     React.useEffect(() => {
-        usePostLoginFlowMiddleware({ event, event_url, loadSettingsModules, isLoggedIn, response, push });
+        usePostLoginFlowMiddleware({ event, event_url, response, push });
     }, [response, isLoggedIn, disclaimerStatus])
 
     return (
