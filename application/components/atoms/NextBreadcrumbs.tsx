@@ -15,7 +15,7 @@ interface NextBreadcrumb {
 }
 
 interface NextBreadcrumbsProps {
-  module: Module | undefined;
+  module?: Module | undefined;
   title?: string;
   additionalBreadcrubms?: Document[] | undefined;
   onBreadcrumbPress?: (breadcrumb: Document) => void;

@@ -157,7 +157,7 @@ const LeftBar = () => {
             p="1"
             borderRadius="8"
             onPress={() => {
-              router.push(`/${event.url}/settings/editprofile`)
+              router.push(`/${event.url}/settings`)
             }}>
               <DynamicIcon  iconType={'edit_profile'} iconProps={{ width:18,height:18,  color: dashhover  ? func.colorType(event?.settings?.primary_color) : undefined}}/>
             </Pressable>
