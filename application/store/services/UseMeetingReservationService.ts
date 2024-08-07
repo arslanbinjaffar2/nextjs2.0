@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 
 import {
     MeetingReservationActions,
+    SelectAfterLoginMyMeetingRequests,
     SelectAvailableDates,
     SelectAvailableMeetingSpaces,
     SelectAvailableSlots,
@@ -24,6 +25,7 @@ export type MeetingReservationServiceOperators = {
     available_dates: any,
     socket_requests: any,
     my_availability_calendar: AvailabilityCalendarSlot[],
+    after_login_my_meeting_requests: MeetingRequest[],
     FetchMyMeetingRequests: (payload: {  }) => void
     FetchAvailableSlots: (payload:{attendee_id?:number}) => void
     AcceptMeetingRequest: (payload: { meeting_request_id:number }) => void
@@ -35,6 +37,7 @@ export type MeetingReservationServiceOperators = {
     FetchMyAvailabilityCalendar: () => void
     AddAvailabilityCalendarSlot: (payload: { date:string, start_time:string, end_time:string }) => void
     DeleteAvailabilityCalendarSlot: (payload: { id:number }) => void
+    FetchAfterLoginMyMeetingRequests: (payload: {  }) => void
 }
 
 /**
@@ -53,6 +56,7 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
         available_dates: useAppSelector(SelectAvailableDates),
         socket_requests: useAppSelector(SelectSocketRequests),
         my_availability_calendar: useAppSelector(SelectMyAvailabilityCalendar),
+        after_login_my_meeting_requests: useAppSelector(SelectAfterLoginMyMeetingRequests),
         FetchMyMeetingRequests: useCallback(
             (payload: {  }) => {
                 dispatch(MeetingReservationActions.FetchMyMeetingRequests(payload))
@@ -117,6 +121,12 @@ export const UseMeetingReservationService = (): Readonly<MeetingReservationServi
         DeleteAvailabilityCalendarSlot: useCallback(
             (payload: { id:number }) => {
                 dispatch(MeetingReservationActions.DeleteAvailabilityCalendarSlot(payload))
+            },
+            [dispatch],
+        ),
+        FetchAfterLoginMyMeetingRequests: useCallback(
+            (payload: {  }) => {
+                dispatch(MeetingReservationActions.FetchAfterLoginMyMeetingRequests(payload))
             },
             [dispatch],
         ),
