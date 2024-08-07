@@ -90,6 +90,7 @@ const NewChat = ({navigation}: indexProps) => {
               <HStack bg={'primary.box'} p={1} rounded={'20px'}  space="1" alignItems="center">
               {item.type == 'attendee' ? (
               <Avatar
+                key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`}
                 size={'xs'}
                 source={{
                   uri: getSenderImage(item?.value?.image)
@@ -133,7 +134,7 @@ const NewChat = ({navigation}: indexProps) => {
             <>
             {new_chat_search_results.attendees?.length == 0 && <NoRecordFound />}
             {new_chat_search_results.attendees.map((attendee,k) =>
-              <HStack key={k} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
+              <HStack key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
                <Checkbox  value={`${attendee.id}`} isChecked={selectedItems.some((item) => item.type == 'attendee' && item.value.id === attendee.id)} onChange={(value) => {
                 if(value) {
                   selectItem({type: 'attendee', value: attendee})
@@ -141,7 +142,7 @@ const NewChat = ({navigation}: indexProps) => {
                   removeItem({type: 'attendee', value: attendee})
                 }
                }} />
-                 <Avatar source={{uri: getSenderImage(attendee?.image)}}>
+                <Avatar  source={{uri: getSenderImage(attendee?.image)}}>
                    {getFirstLetters(`${attendee?.first_name} ${attendee?.last_name}`)}
                  </Avatar>
                  <VStack space="0">
@@ -155,8 +156,8 @@ const NewChat = ({navigation}: indexProps) => {
             <>
             {new_chat_search_results.groups?.length == 0 && <NoRecordFound />}
             {new_chat_search_results.groups.map((group,k) =>
-              <HStack key={k} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
-               <Checkbox value={group.id.toString()} isChecked={selectedItems.some((item) => item.type == 'group' && item.value.id === group.id)} onChange={(value) => {
+              <HStack key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
+               <Checkbox value={group?.id?.toString()} isChecked={selectedItems.some((item) => item.type == 'group' && item.value.id === group.id)} onChange={(value) => {
                 if(value) {
                   selectItem({type: 'group', value: group})
                 } else {
