@@ -121,7 +121,7 @@ const Index = React.memo(() => {
                 ) : (
                     <>
                         {(tab === 'name' || tab === 'category-sponsor') && <>
-                            {sponsors.length > 0 && (
+                            {sponsors?.length > 0 && (
                             <HStack w="100%" mb="3" space="1" alignItems="center" justifyContent="flex-end">
                                 <IconButton
                                     opacity={mode === "list" ? 100 : 50}
@@ -160,14 +160,14 @@ const Index = React.memo(() => {
                             <Box w="100%">
                                 <ScrollView h={'53%'} w={'100%'}>
                                     <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
-                                        {sponsors.length > 0 && sponsors.map((sponsor: Sponsor, key: number) =>
+                                        {sponsors?.length > 0 && sponsors.map((sponsor: Sponsor, key: number) =>
                                             <BoxView sponsor={sponsor} k={key} />
                                         )}
                                     </HStack>
                                 </ScrollView>
                             </Box>
                         }
-                        {sponsors.length <= 0 &&
+                        {sponsors?.length <= 0 &&
                         <NoRecordFound mb="3" bg="primary.box"/>
                            
                         }
@@ -175,7 +175,7 @@ const Index = React.memo(() => {
 
                     {tab === 'category' && (
                                 <Box w="100%" rounded="10" bg="primary.box" borderWidth={0} borderColor="primary.bdBox">
-                          {categories.length > 0 ? (
+                          {categories?.length > 0 ? (
                             <ScrollView h={'60%'} w={'100%'}>
                                 <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
                                     {categories.map((category: SponsorCategory, key: number) => (

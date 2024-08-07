@@ -32,6 +32,7 @@ import ButtonElement from 'application/components/atoms/ButtonElement'
 import { Platform } from 'react-native';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import { getColorScheme } from "application/styles/colors";
+import ModuleEnabled from 'application/utils/ModuleEnabled';
 
 type ScreenParams = { id: string }
 
@@ -201,7 +202,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('category')} bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.SPEAKER_CATEGORY}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'documents' && row?.status == 1) {
+                                                                } else if (row?.tab_name === 'documents' && row?.status == 1 && ModuleEnabled('ddirectory', modules)) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('documents')} bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'}>
                                                                             {modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'Documents'}</ButtonElement>
