@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectSubRegistrationAfterLogin,  SelectSubRegistrationMySubreg,  SelectSubRegistrationSkip,  SelectSubRegistrationSubmitting,  SubRegistrationActions, sucessMessageSubmitting, sucessPageScrolling } from 'application/store/slices/SubRegistration.Slice'
+import { SelectSubRegistrationAfterLogin,  SelectSubRegistrationLimitErrors,  SelectSubRegistrationMySubreg,  SelectSubRegistrationSkip,  SelectSubRegistrationSubmitting,  SubRegistrationActions, sucessMessageSubmitting, sucessPageScrolling } from 'application/store/slices/SubRegistration.Slice'
 
 import {  AfterLogin, Allprogram, Questions, Settings } from 'application/models/subRegistration/SubRegistration'
 
@@ -25,11 +25,13 @@ export type SubRegistrationServiceOperators = {
     sucess_message:boolean,
     page_scroll:boolean,
     skip:boolean,
+    limit_errors:any,
     FetchSubRegistrationAfterLogin: () => void
     FetchMySubRegistration: () => void
     SubmitPageScroll: (payload:any) => void
     setSkip: (payload:{event_url:string}) => void
     SaveSubRegistration: (payload:any) => void
+    setLimitErrors: (payload:any) => void
 }
 
 /**
@@ -48,6 +50,7 @@ export const UseSubRegistrationService = (): Readonly<SubRegistrationServiceOper
         sucess_message: useAppSelector(sucessMessageSubmitting),
         page_scroll: useAppSelector(sucessPageScrolling),
         skip: useAppSelector(SelectSubRegistrationSkip),
+        limit_errors: useAppSelector(SelectSubRegistrationLimitErrors),
         FetchSubRegistrationAfterLogin: useCallback(
             () => {
                 dispatch(SubRegistrationActions.FetchSubRegistrationAfterLogin())
@@ -75,6 +78,12 @@ export const UseSubRegistrationService = (): Readonly<SubRegistrationServiceOper
         setSkip: useCallback(
             (payload:{event_url:string}) => {
                 dispatch(SubRegistrationActions.setSkip(payload))
+            },
+            [dispatch],
+        ),
+        setLimitErrors: useCallback(
+            (payload:any) => {
+                dispatch(SubRegistrationActions.setLimitErrors(payload))
             },
             [dispatch],
         ),

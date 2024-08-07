@@ -43,10 +43,16 @@ function* OnSaveSubRegistration({
 }): SagaIterator {
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveSubRegistrationApi, payload, state)
-    const SubRegistrationLabel=state?.event?.event.labels?.EVENTSITES_SUBREGISTRATION_UPDATE_MESSAGE
-    yield put(ToastActions.AddToast({toast:{status:"success", message:SubRegistrationLabel,duration:10000}}))
-    yield put(SubRegistrationActions.SubmitSuccess({event_url:state.event.event.url}))
-    yield put(SubRegistrationActions.setSkip({event_url:state.event.event.url}))
+    if(response.data.data.status){
+        const SubRegistrationLabel=state?.event?.event.labels?.EVENTSITES_SUBREGISTRATION_UPDATE_MESSAGE
+        yield put(ToastActions.AddToast({toast:{status:"success", message:SubRegistrationLabel,duration:10000}}))
+        yield put(SubRegistrationActions.SubmitSuccess())
+        yield put(SubRegistrationActions.setSkip())
+       
+    }else{
+        yield put(SubRegistrationActions.setSubmitting(false))
+        yield put(SubRegistrationActions.setLimitErrors(response.data.data.limit_errors!))
+    }
 }
 
 

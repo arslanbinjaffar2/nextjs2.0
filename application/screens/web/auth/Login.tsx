@@ -133,6 +133,7 @@ const Login = ({ props }: any) => {
 																						borderWidth="0"
 																						textDecorationLine={'underline'}
 																						variant={'unstyled'}
+																						_text={{color: func.colorType(event?.settings?.app_background_color)}}
 																						_hover={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
 																						_pressed={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
 																						onPress={()=>{

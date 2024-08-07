@@ -52,7 +52,7 @@ const Detail = () => {
 
   const { push } = useRouter()
 
-  const { afterLogin, FetchSubRegistrationAfterLogin, SaveSubRegistration, submitting, skip, setSkip } = UseSubRegistrationService();
+  const { afterLogin, FetchSubRegistrationAfterLogin, SaveSubRegistration, submitting, skip, setSkip, limit_errors } = UseSubRegistrationService();
 
   const { netWorkskip, setNetworkSkip } = UseNetworkInterestService();
 
@@ -275,6 +275,15 @@ const Detail = () => {
   if (loading) {
     return <SectionLoading />
   }
+
+    React.useEffect(()=>{
+      let newErrors = { ...errors };
+      limit_errors?.forEach((item:any) => {
+        // add error to the formData
+        newErrors[item?.question_id] = { error: item?.message };
+      });
+      setErrors(newErrors);
+    }, [limit_errors]);
 
   return (
     <>
