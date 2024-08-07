@@ -1,4 +1,4 @@
-const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isLoggedIn, response, push }: { event: any, event_url: any, loadSettingsModules: any, isLoggedIn: any, response: any, push: any }) => {
+const usePostLoginFlowMiddleware = ({ event, event_url, response, push }: { event: any, event_url: any, response: any, push: any }) => {
   const handleRedirection = async () => {
       const access_token_exists = await Boolean(localStorage.getItem(`access_token_${event_url}`));
       if (access_token_exists === false) {
