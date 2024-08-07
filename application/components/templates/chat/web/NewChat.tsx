@@ -29,7 +29,7 @@ type indexProps = {
 const NewChat = ({navigation}: indexProps) => {
   const {event,modules} = UseEventService();
   const module = modules.find((module) => module.alias === 'chat');
-  const {NewChatSearch,new_chat_search_results} = UseChatService();
+  const {NewChatSearch,new_chat_search_results,SetNewChatError} = UseChatService();
   const [selectedItems, setSelectedItems] = React.useState<SelectedItem[]>([]);
   const {processing} = UseLoadingService();
   const [selectedtab, setSelectedTab] = React.useState<string>('attendee');
@@ -70,18 +70,25 @@ const NewChat = ({navigation}: indexProps) => {
     return (names[0].substring(0, 1) + names[1].substring(0, 1)).toUpperCase();
   };
 
+  React.useEffect(() => {
+    SetNewChatError({error:null});
+  },[selectedItems])
+
+  React.useEffect(() => {
+    console.log('new_chat_search_results.groups: ',new_chat_search_results.groups);
+  },[new_chat_search_results])
+
   return (
       <>
-      <NextBreadcrumbs module={module} title="New Chat" />
+      <NextBreadcrumbs module={module} title={event?.labels?.CHAT_NEW} />
       <Container pt="2" maxW="100%" w="100%">
         <HStack flexWrap={'wrap'} mb="3" pt="2" w="100%" space="0" alignItems="center">
-          <Text mb={3}  textAlign={'center'} width={'100%'} fontSize="2xl">{module?.name ?? "New Chat"}</Text>
-          <Input  rounded="10" w="100%" bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_SEARCH} onChangeText={(text)=>debouncedSearch(text)} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
+          <Text mb={3}  textAlign={'center'} width={'100%'} fontSize="2xl">{event?.labels?.CHAT_NEW}</Text>
+          <Input  rounded="10" w="100%" bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_SEARCH} onChangeText={(text)=>debouncedSearch(text)} leftElement={processing.includes('new-chat-search') ?
+          <Spinner p={0} maxHeight={26} maxWidth={26} ml={2} mr={1} color="primary.text" /> : <Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1"  />}  />
         </HStack>
 
-        {processing.includes('new-chat-search') && (
-          <Spinner size="lg" color="primary.text" />
-        )}
+       
 
         {/* Selected Items */}
           <HStack pb={3} borderBottomWidth={4} borderBottomColor={'primary.darkbox'} w={'100%'} mb={3} flexWrap={'wrap'} space="1" alignItems="center">
@@ -117,14 +124,14 @@ const NewChat = ({navigation}: indexProps) => {
               setSelectedTab('attendee')
           }}
           >
-            Attendees
+            {event?.labels?.EVENTSITE_ATTENDEES}
           </Button>
          <Button
             isPressed={selectedtab === 'group'} px="6" py="1" rounded="20px" bg={"primary.box"} borderWidth="0"
             _text={{ fontSize: 'lg', color: "primary.hovercolor" }}
             _hover={{_text: {color: 'primary.hovercolor'}}} borderColor="primary.bdBox" colorScheme="primary"
             onPress={() => {setSelectedTab('group')}}>
-            Groups
+            {event?.labels?.GENERAL_ATTENDEES_GROUP}
           </Button>
         </Button.Group>
         
@@ -133,7 +140,12 @@ const NewChat = ({navigation}: indexProps) => {
           {selectedtab === 'attendee' && (
             <>
             {new_chat_search_results.attendees?.length == 0 && <NoRecordFound />}
-            {new_chat_search_results.attendees.map((attendee,k) =>
+            {new_chat_search_results.attendees.filter((attendee: any) => {
+              if (Number(attendee?.current_event_attendee?.speaker) === 1 && event?.speaker_settings?.chat !== 1) {
+                return false;
+              }
+              return true;
+            }).map((attendee,k) =>
               <HStack key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
                <Checkbox  value={`${attendee.id}`} isChecked={selectedItems.some((item) => item.type == 'attendee' && item.value.id === attendee.id)} onChange={(value) => {
                 if(value) {
@@ -155,22 +167,34 @@ const NewChat = ({navigation}: indexProps) => {
           {selectedtab === 'group' && (
             <>
             {new_chat_search_results.groups?.length == 0 && <NoRecordFound />}
-            {new_chat_search_results.groups.map((group,k) =>
-              <HStack key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
-               <Checkbox value={group?.id?.toString()} isChecked={selectedItems.some((item) => item.type == 'group' && item.value.id === group.id)} onChange={(value) => {
-                if(value) {
-                  selectItem({type: 'group', value: group})
-                } else {
-                  removeItem({type: 'group', value: group})
-                }
-                }} />
-                 <Avatar>
-                    <Icon color={'primary.text'} as={MaterialIcons} name="groups"  />
-                 </Avatar>
-                 <VStack space="0">
-                   <Heading fontWeight={500} fontSize="lg">{group.name}</Heading>
-                 </VStack>
-               </HStack>)}
+            {new_chat_search_results.groups.map((parent_group,k) =>
+              <>
+                <Box  bg="primary.darkbox" px={2}>
+                  {parent_group?.parent?.name}
+                </Box>
+                
+                {/* sub groups start */}
+                {parent_group?.sub_groups?.map((group,k) =>
+                  <HStack key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
+                  <Checkbox value={group?.id?.toString()} isChecked={selectedItems.some((item) => item?.type == 'group' && item?.value?.id === group?.id)} onChange={(value) => {
+                    if(value) {
+                      selectItem({type: 'group', value: group})
+                    } else {
+                      removeItem({type: 'group', value: group})
+                    }
+                    }} />
+                  <Avatar backgroundColor={group?.color ? group.color : undefined}>
+                      <Icon color={'primary.text'} as={MaterialIcons} name="groups"  />
+                  </Avatar>
+                  <VStack space="0">
+                    <Heading fontWeight={500} fontSize="lg">{group?.name}</Heading>
+                  </VStack>
+                </HStack>
+                )}
+                {/* sub groups end */}
+
+              </>
+              )}
             </>
           )}
         </VStack>
