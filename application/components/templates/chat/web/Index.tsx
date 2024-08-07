@@ -71,9 +71,9 @@ const Index = ({ navigation }: indexProps)  => {
                 <>
                 {chats.map((chat, index) => (
                   <Pressable onPress={() => push(`/${event.url}/chat/detail/${chat.id}`)} key={index}>
-                    <HStack borderBottomWidth={index < chats.length - 1 ? '1' : '0'} borderColor="primary.bordercolor" w="100%" p="4" space="5">
+                    <HStack borderBottomWidth={index < chats.length - 1 ? '1' : '0'} borderColor="primary.bordercolor" w="100%" p="4" space="0">
                       <AvatarComponent participants={chat.participants_info} />
-                      <VStack space="0">
+                      <VStack px={5} maxW={'calc(100% - 120px)'} space="0">
                         <Heading fontSize="lg">
                           {chat?.participants_info?.map((participant: ParticipantInfo, index: number) => (
                             <>{participant?.full_name}{index < chat.participants_info.length - 1 ? ', ' : ''}</>

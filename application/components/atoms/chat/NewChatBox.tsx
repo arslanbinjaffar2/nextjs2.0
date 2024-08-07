@@ -7,6 +7,7 @@ import { useDebouncedCallback } from "use-debounce";
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import IcoSend from 'application/assets/icons/small/IcoSend';
 import { UseEventService } from 'application/store/services';
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 
 type NewChatBoxProps = {
   user_ids?: number[],
@@ -43,16 +44,19 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
         {/* New Message */}
         <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
             <Center w="100%" maxW="100%">
-              <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
-                <Icon size="md" as={Entypo} name="new-message" color="primary.text" />
+              <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                <Icowritecomment width="15px" height="18px" />
                 <Text fontSize="lg">{event?.labels?.CHAT_WRITE_MESSAGE_TITLE}</Text>
               </HStack>
-              <VStack p="1" w="100%" space="0">
-                <TextArea borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined}
+              <VStack p="0" w="100%" space="0">
+                <Box py={3} px={4} pb={2}>
+                  <TextArea bg={'primary.darkbox'} borderWidth="0" borderColor="transparent" fontSize="md" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="0" w="100%" p="3" h={100} placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined}
                 defaultValue={message}
                 onChangeText={(text)=>debounced(text)}
                 />
-                <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
+                </Box>
+                
+                <HStack pr={4} mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
                   {processing.includes('new-chat') ? (
                     <Spinner w={44} h={44} padding="10px" color="primary.text" />
                   ) : (
