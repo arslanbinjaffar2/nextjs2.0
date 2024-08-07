@@ -122,7 +122,7 @@ const ResetPassword = ({ props }: any) => {
                             }}
                         
                         >
-                             <Text  fontSize="md">{event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO}{event?.labels?.DESKTOP_APP_LABEL_LOGIN}</Text>
+                             <Text color={func.colorType(event?.settings?.app_background_color)}  fontSize="md">{event?.labels?.DESKTOP_APP_LABEL_GO_BACK_TO}{event?.labels?.DESKTOP_APP_LABEL_LOGIN}</Text>
                              
                         </Pressable>
                     </HStack>
