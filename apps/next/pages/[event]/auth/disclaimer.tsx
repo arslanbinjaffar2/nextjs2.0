@@ -1,11 +1,10 @@
-import GDPR from 'application/screens/web/auth/GDPR'
+import Disclaimer from 'application/screens/web/auth/Disclaimer'
 import AfterLoginLayout from 'application/screens/web/layouts/AfterLoginLayout'
-import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout'
 
 const Index = () => {
     return (
         <>
-            <GDPR />
+            <Disclaimer />
         </>
     )
 }
@@ -16,12 +15,12 @@ export async function getServerSideProps() {
     }
 }
 
-Index.getLayout = function getLayout(page: any) {
+Index.getLayout = function getLayout(page:any) {
     return (
         <AfterLoginLayout>
             {page}
         </AfterLoginLayout>
-
+      
     )
 }
 

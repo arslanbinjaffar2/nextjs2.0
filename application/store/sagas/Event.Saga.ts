@@ -28,7 +28,7 @@ function* OnGetEvent({
     const response: HttpResponse = yield call(getEventApi, payload, env)
     yield put(EventActions.update(response.data.data.event!))
     if(response.data.data.event.keyword_settings.show_after_login == 0){
-        yield put(NetworkInterestActions.setSkip());
+        yield put(NetworkInterestActions.setSkip({event_url:response.data.data.event.url}));
     }
     yield put(LoadingActions.set(false));
 }
@@ -109,12 +109,11 @@ function* getHomeEventDetail({
     payload,
 }: {
     type: typeof EventActions.FetchEvent
-    payload: { id: number }
+    payload: { id: number, screen: string }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'event-detail' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getHomeEventDetailApi, payload, state)
-    console.log('response: ',response.data.data)
     yield put(EventActions.updateEventDetail({detail:response?.data?.data?.detail}))
     yield put(LoadingActions.removeProcess({ process: 'event-detail' }))
 }

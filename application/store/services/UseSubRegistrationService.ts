@@ -28,7 +28,7 @@ export type SubRegistrationServiceOperators = {
     FetchSubRegistrationAfterLogin: () => void
     FetchMySubRegistration: () => void
     SubmitPageScroll: (payload:any) => void
-    setSkip: () => void
+    setSkip: (payload:{event_url:string}) => void
     SaveSubRegistration: (payload:any) => void
 }
 
@@ -73,8 +73,8 @@ export const UseSubRegistrationService = (): Readonly<SubRegistrationServiceOper
             [dispatch],
         ),
         setSkip: useCallback(
-            () => {
-                dispatch(SubRegistrationActions.setSkip())
+            (payload:{event_url:string}) => {
+                dispatch(SubRegistrationActions.setSkip(payload))
             },
             [dispatch],
         ),

@@ -5,21 +5,21 @@ For a long long time the React Native community has been looking for a way to ma
 > Note: If you are looking to make your current codebase into a universal app, It’s really tricky and different for different codebases. Feel free to reach out to us on our Discord Server with such use cases, we will try to help you out as much as we can.
 > 
 
-We have already done the hard work for you and created a starter kit for you to start with. 
+We have already done the hard work for you and created a starter kit for you to start with.
 
-## Getting Started
+## Getting Started 
 
 - Clone the repo: [https://github.com/GeekyAnts/nativebase-templates/tree/master/solito-universal-app-template-nativebase-typescript](https://github.com/GeekyAnts/nativebase-templates/tree/master/solito-universal-app-template-nativebase-typescript)
 - Run `yarn` or `npm install` on the root directory.
 - Then run `yarn` or `npm install` in apps/expo and apps/next.
 - Now run `yarn` or `npm install` in packages/app.
 
-That’s it your starter kit is ready to be used.
+That’s it your starter kit is ready to be used. 
 
 All your screens and components will be present in packages/app and this can be accessed in the next and expo projects.
 
 Expo
-email => mms@eventbuizz.com 
+email => mms@eventbuizz.com
 Password: *Eventbuizz@2023*
 
 ## Commands

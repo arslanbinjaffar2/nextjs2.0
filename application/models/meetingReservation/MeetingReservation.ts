@@ -50,3 +50,11 @@ export interface MeetingAttendee {
     image:string,
     field_settings:any,
 }
+
+export interface AvailabilityCalendarSlot {
+    id:number,
+    date:string,
+    start_time:string,
+    end_time:string,
+    attendee_id:number,
+}

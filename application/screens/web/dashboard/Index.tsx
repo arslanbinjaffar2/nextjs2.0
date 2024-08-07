@@ -85,10 +85,14 @@ const Index = ({ navigation }: indexProps) => {
         }
     }
   React.useEffect(() => {
-    FetchPolls();
-    FetchSurveys();
+    if (modules.filter((module: any, key: number) => module.alias === 'polls').length > 0) {
+      FetchPolls();
+      FetchSurveys();
+    }
     FetchBanners();
-    FetchAlerts();
+    if (modules.filter((module: any, key: number) => module.alias === 'alerts').length > 0) {
+      FetchAlerts();
+    }
     if (modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0) {
       // FetchPrograms({ query: '', page: 1, screen: 'dashboard', id: 0, track_id: 0 });
     }

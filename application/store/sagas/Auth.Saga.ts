@@ -155,8 +155,8 @@ function* OnLogout({
 }): SagaIterator {
     const state = yield select(state => state);
     yield put(AuthActions.clearToken(state?.event?.event_url));
-    yield put(NetworkInterestActions.clearState());
-    yield put(SubRegistrationActions.clearState());
+    yield put(NetworkInterestActions.clearState({event_url:state?.event?.event_url}));
+    yield put(SubRegistrationActions.clearState({event_url:state?.event?.event_url}));
     yield put(AuthActions.reloadPage());
 }
 

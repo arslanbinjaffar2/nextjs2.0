@@ -85,9 +85,9 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
            const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
            const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
            const rgb2 = hex2rgb(event?.settings?.secondary_color ?? '#343d50');
-           const rgb3 = hex2rgb(event?.settings?.app_background_color ?? '#343d50');
            const type = colourIsLight(rgb[0],rgb[1],rgb[2]) ? '#1e1e1e' : '#EAEAEA';
            const type2 = colourIsLight(rgb2[0],rgb2[1],rgb2[2]) ? '#1e1e1e' : '#EAEAEA';
+           const rgb3 = hex2rgb(event?.settings?.app_background_color ?? '#343d50');
            const type3 = colourIsLight(rgb3[0],rgb3[1],rgb3[2]) ? '#1e1e1e' : '#EAEAEA';
            const _border = hex2rgb(colors.text);
            const theme = extendTheme({
@@ -153,8 +153,8 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     defaultProps: {
                         size: 'lg', bg: 'primary.500',
                         _hover: { bg: event?.settings?.primary_color,_text:{color:'primary.hovercolor'} },
-                        _text: { color: 'primary.text' },
-                        _pressed: { bg: `${colors.secondary}`, color: '#fff' }
+                        _text: { color: 'primary.hovercolor' },
+                        _pressed: { bg: `${colors.secondary}`, color: '#fff',_text:{color:'primary.text'} }
                     }
                 },
                 Checkbox: {

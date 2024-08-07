@@ -90,6 +90,8 @@ export interface Event {
     dashboard_modules?: DashboardModule[]
     timezone?: any
     home_my_event?: HomeMyEvent[]
+    event_disclaimer?: any
+    appointment_settings?: AppointmentSettings
 }
 interface Setting {
     poll_setting?: string;
@@ -642,4 +644,12 @@ export interface DashboardModule{
   status: number;
   alias: string;
   name: string;
+}
+// protected $fillable = ['event_id', 'request_expire_duration','meeting_notifications_via','enable_reminder','availability_calendar'];
+export interface AppointmentSettings{
+  event_id: number;
+  request_expire_duration: number;
+  meeting_notifications_via: string;
+  enable_reminder: number;
+  availability_calendar: number;
 }

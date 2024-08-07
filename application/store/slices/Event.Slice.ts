@@ -81,7 +81,7 @@ export const EventSlice = createSlice({
                 state.event_detail = action.payload.detail;
             }
          },
-        FetchEventDetail(state, action: PayloadAction<{ id: number }>) {
+        FetchEventDetail(state, action: PayloadAction<{ id: number, screen: string }>) {
         },
     },
 })
