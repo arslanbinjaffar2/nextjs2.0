@@ -46,8 +46,8 @@ function* OnSaveSubRegistration({
     if(response.data.data.status){
         const SubRegistrationLabel=state?.event?.event.labels?.EVENTSITES_SUBREGISTRATION_UPDATE_MESSAGE
         yield put(ToastActions.AddToast({toast:{status:"success", message:SubRegistrationLabel,duration:10000}}))
-        yield put(SubRegistrationActions.SubmitSuccess())
-        yield put(SubRegistrationActions.setSkip())
+        yield put(SubRegistrationActions.SubmitSuccess({event_url:state.event.event.url}))
+        yield put(SubRegistrationActions.setSkip({event_url:state.event.event.url}))
        
     }else{
         yield put(SubRegistrationActions.setSubmitting(false))
