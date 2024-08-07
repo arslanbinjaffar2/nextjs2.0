@@ -254,7 +254,7 @@ const Detail = () => {
       setSubmittingSurvey(false)
       setsteps(0)
     }
-    
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 
   return (
     <>

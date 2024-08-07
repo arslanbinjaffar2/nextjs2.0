@@ -25,9 +25,9 @@ export interface EventState {
 const initialState: EventState = {
     event: {},
     modules: [],
-    setting_modules: [],
     event_url: '',
     custom_html: [],
+    setting_modules: [],
     screen: 'homeMyevents',
     home_events:[],
     upcoming_events:[],

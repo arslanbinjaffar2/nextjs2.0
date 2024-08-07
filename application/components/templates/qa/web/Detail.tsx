@@ -11,7 +11,7 @@ import { createParam } from 'solito';
 import WebLoading from 'application/components/atoms/WebLoading';
 import in_array from "in_array";
 import UseEnvService from 'application/store/services/UseEnvService';
-import moment from 'moment-timezone';
+import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { QaSettings } from 'application/models/qa/Qa';
 import UseSocketService from 'application/store/services/UseSocketService';
@@ -66,8 +66,6 @@ const Detail = () => {
     const { _env } = UseEnvService();
 
     const { event, modules } = UseEventService();
-
-    const eventTimeZone = event?.timezone?.timezone;
 
     const [query, setQuery] = React.useState('');
 
@@ -223,8 +221,8 @@ const Detail = () => {
             QA_MODERATOR_LINE_NUMBER: 'Line number',
             answered: 0,
             allLanguages: JSON.stringify(qaDetials.all_languages),
-            created_at: moment().tz(eventTimeZone).format('YYYY-MM-DD HH:mm:ss'),
-            updated_at: moment().tz(eventTimeZone).format('YYYY-MM-DD HH:mm:ss'),
+            created_at: moment().toDate(),
+            updated_at: moment().toDate(),
             language_id: event.language_id,
             base_url: _env.eventcenter_base_url,
             enable_gdpr: event?.gdpr_settings?.enable_gdpr,

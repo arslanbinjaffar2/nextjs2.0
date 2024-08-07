@@ -83,11 +83,12 @@ export interface Event {
     sponsor_tab_settings?: any
     exhibitor_tab_settings?: any
     calling_code?: any
+    event_language_code?: string
     attendee_tab_settings?: any
     agenda_tab_settings?: AgendaTabSetting[]
     dashboard_modules?: DashboardModule[]
-    event_language_code?: string,
     timezone?: any
+    home_my_event?: HomeMyEvent[]
     event_disclaimer?: any
     appointment_settings?: AppointmentSettings
 }

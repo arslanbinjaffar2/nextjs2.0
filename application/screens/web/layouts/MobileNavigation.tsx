@@ -64,8 +64,10 @@ const MobileNavigation = () => {
                 sliderRef.current.slickPrev();
               }
             }}
+
           />}
-          
+
+
         </Center>
          <View mb={[0,0]} w={[width - 130,"510px"]}>
           <Slider
