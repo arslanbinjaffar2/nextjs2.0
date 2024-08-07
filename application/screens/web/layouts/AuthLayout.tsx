@@ -13,8 +13,8 @@ type Props = {
 };
 
 const AuthLayout = ({ children }: Props) => {
-    const { event, loadSettingsModules, event_url } = UseEventService();
-    const { loadToken, getUser, response, isLoggedIn, disclaimerStatus } = UseAuthService();
+    const { event, event_url } = UseEventService();
+    const { loadToken, getUser, onboarding, isLoggedIn } = UseAuthService();
     const { push } = useRouter();
 
     React.useEffect(() => {
@@ -29,8 +29,8 @@ const AuthLayout = ({ children }: Props) => {
     }, [])
 
     React.useEffect(() => {
-        usePostLoginFlowMiddleware({ event, event_url, response, push });
-    }, [response, isLoggedIn, disclaimerStatus])
+        usePostLoginFlowMiddleware({ event, event_url, onboarding, push });
+    }, [onboarding, isLoggedIn])
 
     return (
         <>

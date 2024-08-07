@@ -4,14 +4,9 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { Center, Box, Text, HStack, Divider, Button, Spacer } from "native-base"
 import { getColorScheme } from "application/styles/colors";
 import UseAttendeeService from "application/store/services/UseAttendeeService";
-import UseLoadingService from "application/store/services/UseLoadingService";
-import SectionLoading from "application/components/atoms/SectionLoading";
-import { useRouter } from 'solito/router'
 
 const Disclaimer = () => {
-    const { push } = useRouter();
-    const { logout, disclaimerStatusUpdated, getUser, response } = UseAuthService()
-    const { loading } = UseLoadingService()
+    const { logout, updateOnboarding } = UseAuthService()
     const { addDisclaimerlog } = UseAttendeeService();
     const RenderHtml = require('react-native-render-html').default;
     const { event } = UseEventService()
@@ -29,18 +24,17 @@ const Disclaimer = () => {
         }
     }
 
-    let showDisclaimer = response?.data?.user?.show_disclaimer;
-    if(!showDisclaimer){
-        push(`/${event.url}/auth/gdpr`);
-    }
-
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const rejectDisclaimer = async () => {
+        setIsSubmitting(true);
+        await logout();
+    }
 
     const acceptDisclaimer = async () => {
         setIsSubmitting(true);
         await addDisclaimerlog();
-        await getUser();
-        disclaimerStatusUpdated(true);
+        updateOnboarding({show_disclaimer: false});
     }
 
     return (
@@ -66,10 +60,7 @@ const Disclaimer = () => {
                             fontSize="lg"
                             colorScheme="primary"
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
-                            onPress={() => {
-                                setIsSubmitting(true);
-                                logout();
-                            }}
+                            onPress={rejectDisclaimer}
                             isDisabled={isSubmitting}
                         >
                             {event?.labels?.GENERAL_CANCEL}
@@ -79,9 +70,7 @@ const Disclaimer = () => {
                             py="2"
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             _text={{ color: 'primary.hovercolor' }}
-                            onPress={() => {
-                                acceptDisclaimer();
-                            }}
+                            onPress={acceptDisclaimer}
                             isDisabled={isSubmitting}
                             isLoading={isSubmitting}
                         >

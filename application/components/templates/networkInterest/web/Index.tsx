@@ -7,31 +7,27 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import UseEventService from 'application/store/services/UseEventService';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import { Keyword } from 'application/models/networkInterest/NetworkInterest';
-import { useRouter } from 'solito/router';
 import BannerAds from 'application/components/atoms/banners/BannerAds';
 import { func } from 'application/styles';
-import { color } from 'native-base/lib/typescript/theme/styled-system';
+import UseAuthService from 'application/store/services/UseAuthService';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
-
+    const { updateOnboarding } = UseAuthService();
     const { _env } = UseEnvService();
 
 
     const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords, skip } = UseNetworkInterestService();
     
-    const { push } = useRouter()
-    const { event,modules } = UseEventService();
     useEffect(() => {
         FetchNetworkInterests();
     }, [])
 
-    React.useEffect(() => {
-      if(skip === true){
-          push(`/${event.url}/dashboard`)
-      }
+    useEffect(() => {
+        if(skip === true){
+            updateOnboarding({show_network_intrest: false});
+        }
     }, [skip]);
-
 
   return (
     <>
