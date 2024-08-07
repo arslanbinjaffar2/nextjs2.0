@@ -16,12 +16,12 @@ export async function getServerSideProps() {
     }
 }
 
-Index.getLayout = function getLayout(page:any) {
+Index.getLayout = function getLayout(page: any) {
     return (
         <AfterLoginLayout>
             {page}
         </AfterLoginLayout>
-      
+
     )
 }
 
