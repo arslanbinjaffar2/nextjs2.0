@@ -5,7 +5,6 @@ const usePostLoginFlowMiddleware = ({ event, event_url, loadSettingsModules, isL
         push(`/${event.url}/auth/login`);
         return;
       }
-      await loadSettingsModules();
 
       const checkUserGDPR = () => {
         const requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1;
