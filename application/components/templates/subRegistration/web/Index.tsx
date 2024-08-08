@@ -48,7 +48,7 @@ const Detail = () => {
 
   const { event, modules, event_url } = UseEventService();
 
-  const { response } = UseAuthService();
+  const { updateOnboarding } = UseAuthService();
 
   const { push } = useRouter()
 
@@ -122,16 +122,16 @@ const Detail = () => {
     FetchSubRegistrationAfterLogin();
   }, []);
 
-  React.useEffect(() => {
-    if (skip === true) {
-      if (netWorkskip !== true && event?.keyword_settings?.show_after_login !== 0) {
-        push(`/${event.url}/network-interest`)
-      } else {
-        setNetworkSkip({ event_url: event_url });
-        push(`/${event.url}/dashboard`)
-      }
-    }
-  }, [skip]);
+  // React.useEffect(() => {
+  //   if (skip === true) {
+  //     if (netWorkskip !== true && event?.keyword_settings?.show_after_login !== 0) {
+  //       push(`/${event.url}/network-interest`)
+  //     } else {
+  //       setNetworkSkip({ event_url: event_url });
+  //       push(`/${event.url}/dashboard`)
+  //     }
+  //   }
+  // }, [skip]);
 
   const validate = async () => {
     let error = false;
@@ -269,6 +269,7 @@ const Detail = () => {
         questions: afterLogin?.questions?.question.reduce((ack, item: any) => { return ack.concat(item.id) }, []),
         ...answers,
       });
+      updateOnboarding({show_subregistration: false});
     }
   }
 
@@ -319,6 +320,7 @@ const Detail = () => {
                   colorScheme="primary"
                   _hover={{ _text: { color: 'primary.hovercolor' } }}
                   onPress={() => {
+                    updateOnboarding({show_subregistration: false});
                     setSkip({ event_url: event_url });
                   }}
                 >
