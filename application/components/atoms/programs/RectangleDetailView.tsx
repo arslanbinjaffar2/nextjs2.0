@@ -13,6 +13,7 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import in_array from 'in_array';
 import FavProgramToggle from 'application/components/atoms/programs/FavProgramToggle';
 import UseAuthService from 'application/store/services/UseAuthService';
+import ModuleEnabled from 'application/utils/ModuleEnabled';
 
 type AppProps = {
   program: Program,
@@ -29,7 +30,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
 
   const { MakeFavourite,agendas_attached_via_group } = UseProgramService();
 
-  const { event } = UseEventService();
+  const { event,modules } = UseEventService();
   const { response } = UseAuthService();
 
   const [isFav,setFav] = useState(false);
@@ -84,7 +85,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
                     <Spacer />
                     
                     {_condtion && section !== 'myturnlist' && <HStack pr="3" space={['2','4']} alignItems="center" justifyContent={'flex-end'}>
-                      {program?.session?.length && program?.enable_speakerlist && (event?.myturnlist_setting?.ask_to_apeak == 1 || (event?.myturnlist_setting?.ask_to_apeak == 0 && response?.attendee_detail?.event_attendee?.ask_to_apeak == 1)) && program?.request_to_speak_common_group === true ? (
+                      {ModuleEnabled('myturnlist',modules) && program?.session?.length && program?.enable_speakerlist && (event?.myturnlist_setting?.ask_to_apeak == 1 || (event?.myturnlist_setting?.ask_to_apeak == 0 && response?.attendee_detail?.event_attendee?.ask_to_apeak == 1)) && program?.request_to_speak_common_group === true ? (
                         <IconButton
                           p={0}
                           mr="0"

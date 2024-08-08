@@ -14,8 +14,7 @@ const UpcomingPrograms = () => {
   const { event,modules } = UseEventService();
   const [show] = React.useState(function(){
     const programModuleEnabled=modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0;
-    const myProgramModuleEnabled=modules.filter((module: any, key: number) => module.alias === 'myprograms' || module.alias === 'myagendas').length > 0;
-    return programModuleEnabled||myProgramModuleEnabled;
+    return programModuleEnabled;
   });
   const { push } = useRouter()
 
