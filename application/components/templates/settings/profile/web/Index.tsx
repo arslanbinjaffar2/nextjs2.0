@@ -4,12 +4,18 @@ import { Button, Container, HStack, Icon, Input, Spacer, Text } from 'native-bas
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEnvService from 'application/store/services/UseEnvService';
+import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 
 
 const Index = () => {
     const {response} = UseAuthService();
+    const { loadSettingsModules } = UseEventService();
     const { _env } = UseEnvService();
+
+    useEffect(() => {
+        loadSettingsModules();
+    }, []);
     
     // Function to get the first letters of the first and last name
     const getFirstLetters = (name: string) => {
@@ -19,6 +25,7 @@ const Index = () => {
     }
     return '';
     };
+    
 
     return (
         <>
