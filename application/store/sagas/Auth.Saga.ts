@@ -12,6 +12,7 @@ import { select } from 'redux-saga/effects';
 import { NetworkInterestActions } from '../slices/NetworkInterest.Slice';
 import { SubRegistrationActions } from '../slices/SubRegistration.Slice';
 import { LoadingActions } from 'application/store/slices/Loading.Slice'
+import { MeetingReservationActions } from 'application/store/slices/MeetingReservation.Slice';
 
 // Worker Sagas handlers
 function* OnLogin({
@@ -157,6 +158,7 @@ function* OnLogout({
     yield put(AuthActions.clearToken(state?.event?.event_url));
     yield put(NetworkInterestActions.clearState({event_url:state?.event?.event_url}));
     yield put(SubRegistrationActions.clearState({event_url:state?.event?.event_url}));
+    yield put(MeetingReservationActions.clearState());
     yield put(AuthActions.reloadPage());
 }
 
