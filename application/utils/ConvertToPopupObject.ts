@@ -71,7 +71,8 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
     }
     if(type == 'chat'){
         return  {
-            type:'chat',title:notification?.title,
+            type:'chat',
+            title:notification?.title,
             text:notification?.text,
             btnLeftText:notification?.btnLeftText,
             btnRightText:notification?.btnRightText,

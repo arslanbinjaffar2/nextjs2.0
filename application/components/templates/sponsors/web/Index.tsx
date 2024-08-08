@@ -126,7 +126,7 @@ const Index = React.memo(() => {
                     </HStack>
                     )}
 
-                {loading ? (
+                {loading && page == 1 ? (
                     <SectionLoading />
                 ) : (
                     <>
@@ -182,7 +182,7 @@ const Index = React.memo(() => {
                         }
                     </>}
                     {tab === 'category' && (
-                                <Box w="100%" rounded="10" bg="primary.box" borderWidth={0} borderColor="primary.bdBox">
+                      <Box w="100%" rounded="10" bg="primary.box" borderWidth={0} borderColor="primary.bdBox">
                           {categories?.length > 0 ? (
                             <ScrollView h={'60%'} w={'100%'}>
                                 <HStack direction="row" flexWrap="wrap" space="0" alignItems="flex-start">
