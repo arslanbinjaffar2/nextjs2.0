@@ -273,18 +273,18 @@ const Detail = () => {
     }
   }
 
+  React.useEffect(()=>{
+    let newErrors = { ...errors };
+    limit_errors?.forEach((item:any) => {
+      // add error to the formData
+      newErrors[item?.question_id] = { error: item?.message };
+    });
+    setErrors(newErrors);
+  }, [limit_errors]);
+
   if (loading) {
     return <SectionLoading />
   }
-
-    React.useEffect(()=>{
-      let newErrors = { ...errors };
-      limit_errors?.forEach((item:any) => {
-        // add error to the formData
-        newErrors[item?.question_id] = { error: item?.message };
-      });
-      setErrors(newErrors);
-    }, [limit_errors]);
 
   return (
     <>
