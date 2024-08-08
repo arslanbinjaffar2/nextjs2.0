@@ -48,7 +48,7 @@ const Detail = () => {
 
   const { event, modules, event_url } = UseEventService();
 
-  const { updateOnboarding } = UseAuthService();
+  const { updateOnboarding, onboarding } = UseAuthService();
 
   const { push } = useRouter()
 
@@ -269,23 +269,32 @@ const Detail = () => {
         questions: afterLogin?.questions?.question.reduce((ack, item: any) => { return ack.concat(item.id) }, []),
         ...answers,
       });
-      updateOnboarding({show_subregistration: false});
+      await updateOnboarding({show_subregistration: false});
+      handleNextRedirection();
     }
   }
+
+  const handleNextRedirection  = () => {
+    if (onboarding?.show_network_intrest) {
+      push(`/${event.url}/network-interest`);
+    } else {
+      push(`/${event.url}/dashboard`);
+    }
+  }
+
+  React.useEffect(()=>{
+    let newErrors = { ...errors };
+    limit_errors?.forEach((item:any) => {
+      // add error to the formData
+      newErrors[item?.question_id] = { error: item?.message };
+    });
+    setErrors(newErrors);
+  }, [limit_errors]);
 
   if (loading) {
     return <SectionLoading />
   }
-
-    React.useEffect(()=>{
-      let newErrors = { ...errors };
-      limit_errors?.forEach((item:any) => {
-        // add error to the formData
-        newErrors[item?.question_id] = { error: item?.message };
-      });
-      setErrors(newErrors);
-    }, [limit_errors]);
-
+  
   return (
     <>
       <Container ref={refElement} mb="3" maxW="100%" w="100%">
