@@ -4,12 +4,14 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import { Center, Box, Text, HStack, Divider, Button, Spacer } from "native-base"
 import { getColorScheme } from "application/styles/colors";
 import UseAttendeeService from "application/store/services/UseAttendeeService";
+import { useRouter } from "solito/router";
 
 const Disclaimer = () => {
-    const { logout, updateOnboarding } = UseAuthService()
+    const { logout, updateOnboarding, onboarding } = UseAuthService()
     const { addDisclaimerlog } = UseAttendeeService();
     const RenderHtml = require('react-native-render-html').default;
     const { event } = UseEventService()
+    const { push } = useRouter();
     const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 
     const mixedStyle = {
@@ -35,6 +37,19 @@ const Disclaimer = () => {
         setIsSubmitting(true);
         await addDisclaimerlog();
         updateOnboarding({show_disclaimer: false});
+        await handleNextRedirection();
+    }
+
+    const handleNextRedirection  = async () => {
+        if(onboarding?.show_gdpr) {
+          push(`/${event.url}/auth/gdpr`);
+        }else if (onboarding?.show_subregistration) {
+          push(`/${event.url}/subRegistration`);
+        } else if (onboarding?.show_network_intrest) {
+          push(`/${event.url}/network-interest`);
+        } else {
+          push(`/${event.url}/dashboard`);
+        }
     }
 
     return (

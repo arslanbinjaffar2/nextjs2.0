@@ -48,7 +48,7 @@ const Detail = () => {
 
   const { event, modules, event_url } = UseEventService();
 
-  const { updateOnboarding } = UseAuthService();
+  const { updateOnboarding, onboarding } = UseAuthService();
 
   const { push } = useRouter()
 
@@ -269,7 +269,16 @@ const Detail = () => {
         questions: afterLogin?.questions?.question.reduce((ack, item: any) => { return ack.concat(item.id) }, []),
         ...answers,
       });
-      updateOnboarding({show_subregistration: false});
+      await updateOnboarding({show_subregistration: false});
+      handleNextRedirection();
+    }
+  }
+
+  const handleNextRedirection  = () => {
+    if (onboarding?.show_network_intrest) {
+      push(`/${event.url}/network-interest`);
+    } else {
+      push(`/${event.url}/dashboard`);
     }
   }
 
@@ -285,7 +294,7 @@ const Detail = () => {
   if (loading) {
     return <SectionLoading />
   }
-
+  
   return (
     <>
       <Container ref={refElement} mb="3" maxW="100%" w="100%">

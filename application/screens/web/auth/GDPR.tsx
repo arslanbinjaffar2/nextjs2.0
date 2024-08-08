@@ -4,9 +4,11 @@ import UseEventService from 'application/store/services/UseEventService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import { Center, Box, Text, HStack, Divider, Button, Spacer } from "native-base"
 import { getColorScheme } from "application/styles/colors";
+import { useRouter } from "solito/router";
 
 const GDPR = () => {
-    const { updateOnboarding, getUser } = UseAuthService();
+    const { push } = useRouter();
+    const { updateOnboarding, getUser, onboarding } = UseAuthService();
     const { addGDPRlog } = UseAttendeeService();
     const RenderHtml = require('react-native-render-html').default;
     const { event } = UseEventService()
@@ -27,7 +29,18 @@ const GDPR = () => {
     const handleGDPRClick = async (gdprValue: number) => {
         setIsSubmitting(true);
         await addGDPRlog({ gdpr: gdprValue });
-        updateOnboarding({show_gdpr: false});
+        await updateOnboarding({show_gdpr: false});
+        await handleNextRedirection();
+    }
+
+    const handleNextRedirection  = async () => {
+        if (onboarding?.show_subregistration) {
+          push(`/${event.url}/subRegistration`);
+        } else if (onboarding?.show_network_intrest) {
+          push(`/${event.url}/network-interest`);
+        } else {
+          push(`/${event.url}/dashboard`);
+        }
     }
 
     return (
