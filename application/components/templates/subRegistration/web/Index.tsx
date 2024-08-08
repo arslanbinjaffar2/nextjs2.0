@@ -331,6 +331,7 @@ const Detail = () => {
                   onPress={() => {
                     updateOnboarding({show_subregistration: false});
                     setSkip({ event_url: event_url });
+                    handleNextRedirection();
                   }}
                 >
                   {event?.labels?.GENERAL_SKIP}
