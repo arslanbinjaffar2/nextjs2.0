@@ -178,7 +178,7 @@ const Index = ({ navigation }: indexProps) => {
                       {my_attendees?.length > 6 &&
                         <Button onPress={() => {
                           push(`/${event.url}/speakers`)
-                        }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                        }} p="1" px={0} _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
                             {event.labels?.GENERAL_SEE_ALL ?? 'See all'}
                           </Button>
                       }
@@ -315,6 +315,23 @@ const Index = ({ navigation }: indexProps) => {
           }) // end loop dashboard_modules
 
          }
+
+          <HStack w={'100%'} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+            {custom_html.map((customHtmlItem, index) => (
+              <VStack key={index} mx={0} width={'100%'} space={3}>
+                {Object.entries(customHtmlItem).map(([key, value], k) => (
+                  value.status === 1 && (
+                    <Box key={k} w={'100%'} bg="primary.box" rounded="10px" p="3">
+                      <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: value.content }} />
+                    </Box>
+                  )
+                ))}
+              </VStack>
+            ))}
+          </HStack>
+
+             
+
           
          
           {/* <HStack mb="3" space={1} justifyContent="center" w="100%">
@@ -339,7 +356,7 @@ const Index = ({ navigation }: indexProps) => {
       <Box alignItems="center" mt={1} display={['','none']} width={'100%'} flexDirection={'column'}>
             {event?.exhibitor_settings?.show_on_native_app_dashboard == 1 ? <OurExhibitor expand={true} />: null}
             {event?.sponsor_settings?.show_on_native_app_dashboard == 1 ? <OurSponsor expand={true} />: null}
-          </Box>
+      </Box>
     </>
   );
 

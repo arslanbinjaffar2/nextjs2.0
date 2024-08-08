@@ -164,7 +164,7 @@ body {
   color: inherit !important;
   content: attr(placeholder);
   opacity:0.7;
-}
+  }
 #boxShadow{
   box-shadow:rgba(0, 0, 0, 0.29) 0px 3px 4.65px 0px !important;
 }
@@ -173,6 +173,9 @@ body {
 }
 #break_Word{
   
+}
+#zindex-99 {
+  z-index: 99 !important;
 }
 .rdtPicker {
   margin-top:10px !important;

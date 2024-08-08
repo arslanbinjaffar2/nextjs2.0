@@ -19,6 +19,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useDebouncedCallback } from "use-debounce";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import IcoSend from 'application/assets/icons/small/IcoSend'
+import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 
 type ScreenParams = { id: string }
 const { useParam } = createParam<ScreenParams>()
@@ -146,7 +147,7 @@ const Detail = ({ navigation }: indexProps) => {
               <Popover.Body p={0} borderTopWidth="0" borderColor={'primary.boxsolid'} bgColor={'primary.boxsolid'}>
                 <ScrollView maxHeight={180}>
                   {chat?.participants_info?.map((participant: ParticipantInfo) => 
-                    <HStack p={3} borderTopWidth={'1'} borderTopColor={'primary.bordercolor'} space="2" alignItems="center">
+                    <HStack   p={3} borderTopWidth={'1'} borderTopColor={'primary.bordercolor'} space="2" alignItems="center">
                       <Avatar
                         size={'xs'}
                         source={{
@@ -175,7 +176,7 @@ const Detail = ({ navigation }: indexProps) => {
               {Object.entries(groupedMessages).map(([groupKey, messages]) => {
                 return (
                   <>
-                  <Box display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} top={0} mb={2}>
+                  <Box nativeID='zindex-99' display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} top={0} mb={2}>
                     <Text bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).format(GENERAL_DATE_FORMAT)}</Text>
                   </Box>
                   {messages.map((message: ChatMessage) => {
@@ -184,6 +185,7 @@ const Detail = ({ navigation }: indexProps) => {
                       {message?.sender_id === loggedInUserId ? (
                         <HStack position={'relative'} zIndex={1} direction="row-reverse" mb="3" space="0" alignItems="flex-end">
                           <Avatar
+                            key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`}
                             source={{
                               uri: getSenderImage(message?.sender?.image)
                             }}
@@ -192,11 +194,11 @@ const Detail = ({ navigation }: indexProps) => {
                             <Avatar.Badge borderWidth="1" bg="green.500" />
                           </Avatar>
                           <VStack  space="0">
-                            <VStack mr="3" maxW="320" px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="#3F89D0" space="1">
-                              <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
-                              {/* <Text opacity="0.8" textAlign="right" fontSize="md">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text> */}
+                            <VStack mr="3" maxW="320px" minW={120} px="3" py="3" rounded="10" borderBottomRightRadius="0" bg="primary.500" space="2">
+                              <Text color={'primary.hovercolor'} lineHeight="sm" pr="3" fontSize="md">{message?.body}</Text>
+                              <Text color={'primary.hovercolor'} opacity="0.8" textAlign="right" fontSize="sm">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                             </VStack>
-                            <Text textAlign={'right'} mr="3" fontSize="xs">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                            {/* <Text textAlign={'right'} mr="3" fontSize="xs">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text> */}
                           </VStack>
                         </HStack> 
                       ):(
@@ -210,10 +212,11 @@ const Detail = ({ navigation }: indexProps) => {
                             <Avatar.Badge borderWidth="1" bg="green.500" />
                           </Avatar>
                           <VStack  space="0">
-                            <VStack ml="3" maxW="320" px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="1">
-                              <Text lineHeight="sm" pr="3" fontSize="lg">{message?.body}</Text>
+                            <VStack ml="3" maxW="320px" minW={120} px="3" py="3" rounded="10" borderBottomLeftRadius="0" bg="primary.darkbox" space="2">
+                              <Text lineHeight="sm" pr="3" fontSize="md">{message?.body}</Text>
+                              <Text textAlign={'left'} opacity="0.8"  fontSize="sm">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                             </VStack>
-                            <Text textAlign={'left'} ml="3" fontSize="xs">{message?.sender?.full_name} {moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                            <Text textAlign={'left'} ml="3" fontSize="xs">{message?.sender?.full_name}</Text>
                           </VStack>
                         </HStack>
                       )}
@@ -267,16 +270,18 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
   return (
     <>
     <Center w="100%" maxW="100%">
-      <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
-        <Icon size="md" as={Entypo} name="new-message" color="primary.text" />
+      <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+        <Icowritecomment width="15px" height="18px" />
         <Text fontSize="lg">{event?.labels?.CHAT_WRITE_MESSAGE_TITLE}</Text>
       </HStack>
-      <VStack p="1" w="100%" space="0">
-        <TextArea ref={textRef} borderWidth="0" borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined} 
-        defaultValue={message}
-        onChangeText={(text)=>debounced(text)}
-        />
-        <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
+      <VStack p="0" w="100%" space="0">
+        <Box py={3} px={4} pb={2}>
+          <TextArea bg={'primary.darkbox'} ref={textRef} borderWidth="0" borderColor="transparent" fontSize="md" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="0" h={100} w="100%" p="3" placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined} 
+          defaultValue={message}
+          onChangeText={(text)=>debounced(text)}
+          />
+        </Box>
+        <HStack pr={4} mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
           {/* <IconButton
             variant="transparent"
             icon={<Icon size="lg" as={Entypo} name="emoji-happy" color="primary.text" />}

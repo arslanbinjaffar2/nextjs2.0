@@ -33,9 +33,9 @@ const AfterLoginLayout = ({ children }: indexProps) => {
 
   const { push } = useRouter();
 
-  const { getUser, response, isLoggedIn, disclaimerStatus } = UseAuthService();
+  const { getUser, onboarding, isLoggedIn } = UseAuthService();
 
-  const { event, modules, loadModules, loadSettingsModules,event_url } = UseEventService();
+  const { event, event_url } = UseEventService();
 
   React.useEffect(() => {
     const fetchUser = async () => {
@@ -45,8 +45,8 @@ const AfterLoginLayout = ({ children }: indexProps) => {
   }, []);
   
   React.useEffect(() => {
-      usePostLoginFlowMiddleware({ event, event_url, loadSettingsModules, isLoggedIn, response, push });
-  }, [response, isLoggedIn, disclaimerStatus])
+      usePostLoginFlowMiddleware({ event, event_url, onboarding, push });
+  }, [onboarding, isLoggedIn])
 
   return (
     <BackgroundLayout>

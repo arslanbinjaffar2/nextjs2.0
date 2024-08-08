@@ -120,8 +120,8 @@ const ShowTurnList = () => {
                                 <Text>
                                     {event?.labels?.GENERAL_GDPR_ACCEPT_TEXT}
                                 </Text>
-                                <Button onPress={() => { push(`/${event.url}/settings/editprofile`) }} width={'20%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                    <Text fontWeight={'semibold'} fontSize={'md'} isTruncated textAlign={'center'}>{event?.labels?.GENERAL_EDIT_PROFILE}</Text>
+                                <Button onPress={() => { push(`/${event.url}/settings`) }} width={'20%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
+                                    <Text color={'primary.hovercolor'} fontWeight={'semibold'} fontSize={'md'} isTruncated textAlign={'center'}>{event?.labels?.GENERAL_EDIT_PROFILE}</Text>
                                 </Button>
                             </Box>
 

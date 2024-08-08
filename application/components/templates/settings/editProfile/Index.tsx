@@ -1222,7 +1222,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                 {typeof attendee.attendee_cv === 'string' && attendee.attendee_cv ? (
                                                     <Pressable
                                                         onPress={async () => {
-                                                        const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${attendee.attendee_cv}`;
+                                                            const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${attendee.attendee_cv}`;
                                                             const supported = await Linking.canOpenURL(url);
                                                             if (supported) {
                                                                 await Linking.openURL(url);
@@ -1232,14 +1232,17 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     </Pressable>
                                                     ) : (
                                                      <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
-                                                    )}
-                                                    {typeof attendee.attendee_cv === 'string' ? (
-                                                        <Text fontSize="md">{attendee.attendee_cv}</Text>
-                                                    ) : typeof attendeeData.attendee_cv === 'object' ? (
-                                                        <Text fontSize="md">{attendeeData.attendee_cv.name}</Text>
-                                                    ) : (
-                                                        <Text fontSize="md">{attendeeData.attendee_cv}</Text>
-                                                    )}
+                                                    )
+                                                }
+                                                {typeof attendee.attendee_cv === 'string' ? (
+                                                    <Text fontSize="md">{attendee.attendee_cv}</Text>
+                                                ) : typeof attendeeData.attendee_cv === 'object' ? (
+                                                    <Text fontSize="md">{attendeeData.attendee_cv.name}</Text>
+                                                ) : (
+                                                    <Text fontSize="md">{attendeeData.attendee_cv}</Text>
+                                                )}
+
+
                                             </Center>
                                             <View flexDirection={'row'} alignItems={'center'}>
                     <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.hovercolor'} name="upload" size="lg" />}

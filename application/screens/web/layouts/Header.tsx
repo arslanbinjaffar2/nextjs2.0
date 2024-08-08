@@ -36,7 +36,7 @@ const Header = ({ width }: any) => {
           <Spacer />
           <Center alignItems="flex-end" w="100%" maxW={width! >= 1201 ? '265px' : '70px'}>
             <HStack space="6">
-              <Box><Pressable onPress={() => { router.push(`/${event.url}/settings/editprofile`) }}><Icosettings width={28} height={28} /></Pressable></Box>
+              <Box><Pressable onPress={() => { router.asPath.includes('/auth/gdpr') ? null : router.push(`/${event.url}/settings`) }}><Icosettings width={28} height={28} /></Pressable></Box>
               {/* <Box><Pressable onPress={() => { console.log('hello') }}><Icoreload width={28} height={28} /></Pressable></Box> */}
               {/* <Notification /> */}
             </HStack>
