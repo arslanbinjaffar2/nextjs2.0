@@ -10,11 +10,14 @@ import { Keyword } from 'application/models/networkInterest/NetworkInterest';
 import BannerAds from 'application/components/atoms/banners/BannerAds';
 import { func } from 'application/styles';
 import UseAuthService from 'application/store/services/UseAuthService';
+import { useRouter } from 'solito/router';
 
 const Index = () => {
     const { loading, scroll } = UseLoadingService();
     const { updateOnboarding } = UseAuthService();
     const { _env } = UseEnvService();
+    const { push } = useRouter();
+    const { event } = UseEventService();
 
 
     const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords, skip } = UseNetworkInterestService();
@@ -26,6 +29,7 @@ const Index = () => {
     useEffect(() => {
         if(skip === true){
             updateOnboarding({show_network_intrest: false});
+            push(`/${event?.url}/dashboard`);
         }
     }, [skip]);
 
