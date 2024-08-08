@@ -12,9 +12,10 @@ const usePostLoginFlowMiddleware = ({ event, event_url, onboarding, push }: { ev
     } else {
       const fromRoute = window.history.state?.as || document.referrer;
       const currentRoute = window.location.pathname;
-      if (!fromRoute || fromRoute.includes(currentRoute)) {
+      const isSameRoute = fromRoute && new URL(fromRoute, window.location.origin).pathname === currentRoute;
+      if (!fromRoute) {
         push(`/${event.url}/dashboard`);
-      } else {
+      } else if (!isSameRoute) {
         push(fromRoute);
       }
     }
