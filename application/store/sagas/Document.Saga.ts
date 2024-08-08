@@ -11,7 +11,6 @@ import { LoadingActions } from 'application/store/slices/Loading.Slice'
 import { HttpResponse } from 'application/models/GeneralResponse'
 
 import { select } from 'redux-saga/effects';
-import ModuleEnabled from 'application/utils/ModuleEnabled';
 
 function* OnGetDocuments({
     payload,
@@ -20,7 +19,6 @@ function* OnGetDocuments({
     payload: { speaker_id: number, sponsor_id: number, exhibitor_id: number, agenda_id: number }
 }): SagaIterator {
     const state = yield select(state => state);
-    if(!ModuleEnabled('ddirectory', state.event.event.modules)){return false;}
     yield put(LoadingActions.addProcess({ process: 'documents' }))
     const response: HttpResponse = yield call(getDocumentApi, payload, state)
     yield put(DocumentActions.update(response.data.data.documents!))

@@ -136,7 +136,7 @@ const Detail = () => {
                 FetchGroups({ query: query, group_id: 0, page: 1, attendee_id: 0, program_id: Number(_id) });
             } else if (in_array(tab, ['attendee'])) {
                 FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: 0, speaker: 0, category_id: category_id, screen: 'program-attendees', program_id: Number(_id) });
-            } else if (tab === "documents") {
+            } else if (tab === "documents" && ModuleEnabled('ddirectory', modules)) {
                 FetchDocuments({ speaker_id: 0, exhibitor_id: 0, sponsor_id: 0, agenda_id: Number(_id) });
             }
         }
@@ -167,7 +167,7 @@ const Detail = () => {
         const resShowAskAQuestion = showAskAQuestion == undefined ? false : showAskAQuestion;
         setshowAskAQuestion(resShowAskAQuestion);
 
-        let tabs=[];
+        let tabs: [string, string][] = [];
         if(resShowSpeaker || resShowPoll || resShowRequestToSpeak || resShowAskAQuestion){
             tabs.push(['about', event?.labels?.GENERAL_ABOUT]);
         }
@@ -176,11 +176,11 @@ const Detail = () => {
         }
         if(modules?.find((polls) => (polls.alias == 'attendees')) && event?.agenda_settings?.show_attach_attendee === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'attendees' && tab?.status === 1)?.length > 0 && detail?.attached_attendee_count! > 0 ){
             const attendees_label = modules?.find((module) => (module.alias == 'attendees'))?.name
-            tabs.push(['attendee', attendees_label]);
+            tabs.push(['attendee', attendees_label ?? '']);
         }
-        if(modules?.find((polls)=>(polls.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 ){
+        if(modules?.find((item)=>(item.alias == 'ddirectory')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'documents' && tab?.status === 1)?.length > 0 && detail?.has_documents! > 0 ){
             const documents_label = modules?.find((module) => (module.alias == 'ddirectory'))?.name
-            tabs.push(['documents', documents_label]);
+            tabs.push(['documents', documents_label ?? '']);
         }
         setTabs(tabs);
         if(tabs.length > 0){
