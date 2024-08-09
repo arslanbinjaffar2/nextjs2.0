@@ -86,6 +86,7 @@ export interface Event {
     attendee_tab_settings?: any
     agenda_tab_settings?: AgendaTabSetting[]
     dashboard_modules?: DashboardModule[]
+    poll_settings?: any
 }
 interface Setting {
     poll_setting?: string;
