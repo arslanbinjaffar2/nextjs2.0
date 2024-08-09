@@ -61,7 +61,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const { surveys, FetchSurveys } = UseSurveyService();
 
-  const { event, modules,custom_html } = UseEventService();
+  const { event, modules,custom_html,event_url } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
   const { FetchAlerts, alerts, markAlertRead, alert_setting} = UseAlertService();
@@ -114,9 +114,9 @@ const Index = ({ navigation }: indexProps) => {
     }
     let skipPendingAppointmentAlerts = false;
     if(Platform.OS === 'web'){
-      skipPendingAppointmentAlerts= Boolean(localStorage.getItem('skip_pending_appointment_alerts'));
+      skipPendingAppointmentAlerts= Boolean(localStorage.getItem(`skip_pending_appointment_alerts_${event_url}`));
     }else{
-      skipPendingAppointmentAlerts= Boolean(AsyncStorageClass.getItem('skip_pending_appointment_alerts'));
+      skipPendingAppointmentAlerts= Boolean(AsyncStorageClass.getItem(`skip_pending_appointment_alerts_${event_url}`));
     }
     console.log('skipPendingAppointmentAlerts',skipPendingAppointmentAlerts);
     if(!skipPendingAppointmentAlerts){

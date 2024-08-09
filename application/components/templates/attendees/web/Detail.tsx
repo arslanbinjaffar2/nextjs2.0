@@ -154,7 +154,7 @@ const Detail = ({ speaker }: Props) => {
                 FetchPrograms({ page: 1, query: '', screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
             } else if (tab === "groups") {
                 FetchGroups({ query: '', group_id: 0, page: 1, attendee_id: Number(_id), program_id: 0 });
-            } else if (tab === "documents") {
+            } else if (tab === "documents" && ModuleEnabled('ddirectory', modules)) {
                 FetchDocuments({ speaker_id: Number(_id), exhibitor_id: 0, sponsor_id: 0, agenda_id: 0 });
             }
         }
