@@ -92,6 +92,7 @@ export interface Event {
     home_my_event?: HomeMyEvent[]
     event_disclaimer?: any
     appointment_settings?: AppointmentSettings
+    poll_settings?: any
 }
 interface Setting {
     poll_setting?: string;
