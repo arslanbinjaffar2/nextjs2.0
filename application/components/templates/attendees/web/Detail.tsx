@@ -32,6 +32,7 @@ import ButtonElement from 'application/components/atoms/ButtonElement'
 import { Platform } from 'react-native';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import { getColorScheme } from "application/styles/colors";
+import ModuleEnabled from 'application/utils/ModuleEnabled';
 
 type ScreenParams = { id: string }
 
@@ -90,6 +91,15 @@ const Detail = ({ speaker }: Props) => {
          
         }
     }, [_id]);
+    
+    const programModuleEnabled = React.useMemo(() => {
+        if(speaker){
+            return ModuleEnabled('agendas', modules)
+        }else{
+            return ModuleEnabled('myprograms', modules)
+        }
+    }, [modules,speaker]);
+
     React.useEffect(() => {
         if (detail?.attendee_tabs_settings) {
             // Filter and sort enabled tabs based on sort order
@@ -102,7 +112,7 @@ const Detail = ({ speaker }: Props) => {
             // Iterate through the sorted enabled tabs and set the default tab based on conditions
             for (let i = 0; i < enabledTabs.length; i++) {
                 const row = enabledTabs[i];
-                if (row.tab_name === 'program') {
+                if (row.tab_name === 'program' && programModuleEnabled) {
                     defaultTab = 'program';
                     break;
                 } else if (row.tab_name === 'category') {
@@ -192,7 +202,7 @@ const Detail = ({ speaker }: Props) => {
                                                     <React.Fragment key={key}>
                                                         {
                                                             (() => {
-                                                                if (row?.tab_name === 'program' && row?.status == 1) {
+                                                                if (row?.tab_name === 'program' && row?.status == 1 && programModuleEnabled) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('program')} bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} >{speaker ? (modules?.find   ((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}
                                                                         </ButtonElement>
@@ -201,7 +211,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('category')} bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.SPEAKER_CATEGORY}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'documents' && row?.status == 1) {
+                                                                } else if (row?.tab_name === 'documents' && row?.status == 1 && ModuleEnabled('ddirectory', modules)) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('documents')} bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'}>
                                                                             {modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'Documents'}</ButtonElement>

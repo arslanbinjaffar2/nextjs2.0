@@ -189,7 +189,8 @@ export const AttendeeSlice = createSlice({
             }
             localStorage.setItem('breadcrumbs', JSON.stringify(state.categoryBreadcrumbs))
         },
-        addGDPRlog(state, action: PayloadAction<{gdpr: number}>) {}
+        addGDPRlog(state, action: PayloadAction<{gdpr: number}>) {},
+        addDisclaimerlog() {}
     },
 });
 
@@ -215,6 +216,7 @@ export const AttendeeActions = {
     setBreadcrumbs: AttendeeSlice.actions.setBreadcrumbs,
     updateBreadcrumb: AttendeeSlice.actions.updateBreadcrumb,
     addGDPRlog: AttendeeSlice.actions.addGDPRlog,
+    addDisclaimerlog: AttendeeSlice.actions.addDisclaimerlog
 }
 
 export const SelectAttendees = (state: RootState) => state.attendees.attendees
@@ -245,9 +247,8 @@ export const SelectCategoryName = (state: RootState) => state.attendees.category
 
 export const SelectHotels = (state: RootState) => state.attendees.hotels
 
-export const SelectMyRegistration = (state: RootState) => state.attendees.registration
-
 export const SelectLastPage = (state: RootState) => state.attendees.last_page
+export const SelectMyRegistration = (state: RootState) => state.attendees.registration
 
 export const SelectCategoryBreadcrumbs = (state: RootState) => state.attendees.categoryBreadcrumbs
 

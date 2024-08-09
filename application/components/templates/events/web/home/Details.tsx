@@ -50,7 +50,7 @@ const Index = () => {
 const _bannerWidth = React.useRef<HTMLDivElement>(null);
 React.useEffect(() => {
     if (id && (!event_detail || event_detail.id !== Number(id))) {
-        FetchEventDetail({ id: Number(id) })
+        FetchEventDetail({ id: Number(id), screen: 'homeMyevents' })
     }
 }, [id])
 

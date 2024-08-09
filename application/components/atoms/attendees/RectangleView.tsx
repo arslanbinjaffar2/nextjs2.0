@@ -9,10 +9,9 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
-import { useSearchParams, usePathname } from 'next/navigation'
-
 import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
+import { useSearchParams, usePathname } from 'next/navigation'
 
 type boxItemProps = {
   attendee: Attendee

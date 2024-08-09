@@ -66,6 +66,7 @@ import { useWindowDimensions } from 'react-native';
 import SessionRating from 'application/components/atoms/programs/SessionRating';
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import { getColorScheme } from 'application/styles/colors';
+import ModuleEnabled from 'application/utils/ModuleEnabled';
 
 
 
@@ -109,6 +110,10 @@ const Detail = () => {
     const { width } = useWindowDimensions();
 
     const RenderHtml = require('react-native-render-html').default;
+
+    const [iframeWidth, setiframeWidth] = React.useState(250);
+    const _elementWidth = React.useRef<HTMLDivElement>(null); 
+
     const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
         const mixedStyle = {
           body: {
@@ -158,7 +163,7 @@ const Detail = () => {
         const resShowPoll = showPolls == undefined ? false : showPolls;
         setshowPolls(resShowPoll);
 
-        const showRequestToSpeak=detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) ;
+        const showRequestToSpeak=ModuleEnabled('myturnlist',modules) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) ;
         const resShowRequestToSpeak = showRequestToSpeak == undefined ? false : showRequestToSpeak;
         setshowRequestToSpeak(resShowRequestToSpeak);
 
@@ -186,6 +191,21 @@ const Detail = () => {
             setTab(tabs[0][0]);
         }
     }, [detail]);
+    useEffect(() => {
+        if (_elementWidth.current) {
+            setiframeWidth(_elementWidth.current?.clientWidth - 32)
+        }
+    }, [])
+    
+    
+    const tagsStyles = {
+        img: {
+        width: '100%', // Adjust width as needed
+        height: 'auto', // Adjust height as needed
+        maxWidth: iframeWidth, // Adjust maxWidth as needed
+        },
+    };
+
 
     React.useEffect(() => {
         if(tabs.length > 0){
@@ -215,7 +235,7 @@ const Detail = () => {
                             />
                         </Box>}
                     </DetailBlock>
-                    <Container mb="3" maxW="100%" w="100%">
+                    <Container ref={_elementWidth} mb="3" maxW="100%" w="100%">
                         <HStack mb="3" style={{rowGap: 2, columnGap: 1}} space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
                             {tabs.map((mtab: any, key: number) => (
                                 <ButtonElement key={mtab[0]} minW={'calc(50% - 2px)'} onPress={() => setTab(mtab[0])}  bg={tab === mtab[0] ? 'primary.boxbutton' : 'primary.box'}>{mtab[1]}</ButtonElement>
@@ -250,11 +270,12 @@ const Detail = () => {
                                 )}
                                 {showPolls && (
                                     <>
-                                        <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <DynamicIcon iconType="polls" iconProps={{ width: 17, height: 17 }} />
-                                            <Text fontSize="md">{event?.labels?.POLLS}</Text>
-                                        </HStack>
-                                        <Pressable onPress={() => {
+                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
+                                            <DynamicIcon iconType={modules?.find((documents) => (documents.alias == 'polls'))?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') ?? 'polls'} iconProps={{ width: 17, height: 17 }} />
+                                            <Text fontSize="md">{modules?.find((documents) => (documents.alias == 'polls'))?.name ?? 'Polls'}</Text>
+                                        </HStack>}
+                                        {detail?.agenda_poll_questions!?.filter((question: any, key: number) => question?.display === "yes").length > 0 && (event.attendee_settings?.voting || response?.attendee_detail?.event_attendee?.allow_vote) && !detail?.authority_given && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'polls' && tab?.status === 1)?.length > 0 && (
+                                            <Pressable onPress={() => {
                                                 if (detail?.authority_recieved) {
 
                                                 } else {
@@ -271,6 +292,7 @@ const Detail = () => {
                                                     </HStack>
                                                 </Box>
                                         </Pressable>
+                                        )}
                                     </>
                                 )}
                                 {/* {event?.agenda_settings?.enable_notes === 1 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'notes' && tab?.status === 1)?.length > 0 && (

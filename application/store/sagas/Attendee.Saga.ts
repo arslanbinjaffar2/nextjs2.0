@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getAttendeeApi, makeFavouriteApi, getGroupsApi, getAttendeeDetailApi, getCategoryApi, getHotelApi, getInvoiceApi, getContactAttendeeApi, getAddGDPRlogApi } from 'application/store/api/Attendee.Api';
+import { getAttendeeApi, makeFavouriteApi, getGroupsApi, getAttendeeDetailApi, getCategoryApi, getHotelApi, getInvoiceApi, getContactAttendeeApi, getAddGDPRlogApi, getAddDisclaimerlogApi } from 'application/store/api/Attendee.Api';
 
 import { AttendeeActions } from 'application/store/slices/Attendee.Slice'
 
@@ -127,6 +127,18 @@ function* OnAddGDPRlog({
     yield put(LoadingActions.set(false))
 }
 
+function* OnAddDisclaimerlog({
+    payload,
+}: {
+    type: typeof AttendeeActions.addDisclaimerlog
+    payload: {}
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getAddDisclaimerlogApi, payload, state)
+    yield put(LoadingActions.set(false))
+}
+
 // Watcher Saga
 export function* AttendeeWatcherSaga(): SagaIterator {
     yield takeEvery(AttendeeActions.FetchAttendees.type, OnGetAttendees)
@@ -138,6 +150,7 @@ export function* AttendeeWatcherSaga(): SagaIterator {
     yield takeEvery(AttendeeActions.FetchHotels.type, OnGetHotels)
     yield takeEvery(AttendeeActions.FetchMyRegistration.type, OnGetMyRegistration)
     yield takeEvery(AttendeeActions.addGDPRlog.type, OnAddGDPRlog)
+    yield takeEvery(AttendeeActions.addDisclaimerlog.type, OnAddDisclaimerlog)
 }
 
 export default AttendeeWatcherSaga

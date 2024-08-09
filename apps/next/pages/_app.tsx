@@ -1,6 +1,6 @@
 import { Provider } from 'application/provider/web'
 import Head from 'next/head'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import type { SolitoAppProps } from 'solito'
 import 'raf/polyfill'
 import { Provider as ReduxProvider } from 'react-redux'
@@ -8,9 +8,11 @@ import { store } from 'application/store/Index'
 import Master from 'application/screens/web/layouts/Master'
 import   'application/assets/css/mapplic.css';
 import { useRouter } from 'next/router';
+import Forbidden from './[event]/forbidden'
+import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout'
 
 function MyApp({ Component, pageProps }: SolitoAppProps) {
-
+  const [isForbidden,setIsForbidden]=useState(false)
   const env = {
     enviroment: process.env.NODE_ENV,
     api_base_url: process.env.APP_API_BASE_URL,
@@ -31,7 +33,13 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
       window.location.href = window.location.href.replace('http:', 'https:');
     }
   }, [router,env.enviroment]);
+ 
 
+  useEffect(() => {
+    if (router.asPath.includes('forbidden')) {
+      setIsForbidden(true);
+    }
+  }, [router.asPath]);
   return (
     <>
       <Head>
@@ -46,7 +54,15 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
       {typeof window !== "undefined" && (
         <ReduxProvider store={store}>
           <Provider env={env}>
+            {!isForbidden?
+            <>
             {getLayout(<Component {...pageProps} />)}
+            </>
+            :
+            <BackgroundLayout>
+            <Forbidden />
+            </BackgroundLayout>
+            }
           </Provider>
         </ReduxProvider>
       )}
