@@ -26,6 +26,12 @@ const GDPR = () => {
     }
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    React.useEffect(() => {
+        if(onboarding?.show_gdpr === false){
+            handleNextRedirection();
+        }
+    },[]);
+
     const handleGDPRClick = async (gdprValue: number) => {
         setIsSubmitting(true);
         await addGDPRlog({ gdpr: gdprValue });
