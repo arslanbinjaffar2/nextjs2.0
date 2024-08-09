@@ -103,7 +103,7 @@ console.log(note?.directory_note)
               }
             </Box>}
             {type == "directory" && <Box w={'20px'} h={'20px'} mr={'12px'} flexDirection={['column','row']} display={['none','flex']}>
-            <FileIconByType type={note?.directory_note?.path.split('.')[1]} />
+            <FileIconByType type={note?.directory_note?.path?.split('.')[1]} />
             </Box>}
             <HStack flexDirection={'column'}
             mt={[`${(type == "sponsors" || type == "exhibitors") && '10px'}`,'']}
@@ -145,7 +145,7 @@ console.log(note?.directory_note)
               {type == "directory" &&
               <View flexDirection={'row'} alignItems={'center'} width={'100%'}>
               <Box w={'20px'} h={'20px'} mr={'12px'} flexDirection={['column','row']} mt={['4px','']} display={['flex','none']}>
-              <FileIconByType type={note?.directory_note?.path.split('.')[1]} />
+              <FileIconByType type={note?.directory_note?.path?.split('.')[1]} />
               </Box>
                <View flexDirection={['column','row']} justifyContent={'space-between'} alignItems={['start','center']} w={'calc(100% - 16px)'} mt={['10px','']}>
                 <Text fontSize={'md'} fontWeight={'medium'}>{getValueByNameDocument('name')}
