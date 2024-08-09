@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Image, Spacer, Text, HStack, IconButton, Icon, Divider, ZStack, Center } from 'native-base'
+import { Box, Image, Spacer, Text, HStack, IconButton, Icon, Divider, ZStack, Center, Spinner } from 'native-base'
 import { Category, ExhibitorDetail } from 'application/models/exhibitor/ExhibitorDetail'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
@@ -9,6 +9,9 @@ import { Dimensions, useWindowDimensions } from 'react-native';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import UseEventService from 'application/store/services/UseEventService';
 import { colorText } from 'application/styles/colors'
+import UseLoadingService from 'application/store/services/UseLoadingService';
+import in_array from 'in_array';
+
 import { getColorScheme } from "application/styles/colors";
 
 type AppProps = {
@@ -27,7 +30,8 @@ const DetailBox = ({ detail }: AppProps) => {
 
     const { event } = UseEventService()
 
-    const windowWidth = Dimensions.get('window').width;
+		const {processing}=UseLoadingService();
+
     
     const [isFav,setIsFav] = useState(false);
 
@@ -59,10 +63,8 @@ const DetailBox = ({ detail }: AppProps) => {
     }, [detail?.detail?.attendee_exhibitors])
 
     function toggleFav(){
-        if(isFav){
-            setIsFav(false)
-        }else{
-            setIsFav(true)
+        if(in_array( `exhibitor-fav-${detail?.detail?.id ? detail?.detail?.id : 0}`,processing)){
+            return;
         }
         MakeFavourite({ exhibitor_id: detail?.detail?.id ? detail?.detail?.id : 0, screen: 'exhibitor-detail' });
     }
@@ -80,17 +82,29 @@ const DetailBox = ({ detail }: AppProps) => {
                             <Text maxW="80%" fontWeight={500} fontSize="xl">{detail?.detail?.name}</Text>
                         )}
                         <Spacer />
-                        {event?.exhibitor_settings?.mark_favorite == 1 &&  <IconButton
-                            bg="transparent"
-                            p="1"
-                            rounded={'full'}
-                           _hover={{ bg: 'transparent', _icon: { color: !isFav ? "secondary.500" : "primary.text",name: !isFav ? 'heart' : 'heart-outline' } }}
-                            icon={<Icon size="xl" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? 'secondary.500' : "primary.text"} />}
-                            onPress={() => toggleFav()}
-                            position={'absolute'}
-                            zIndex={'999999'}
-                            right={'0'}
-                        />}
+                        {event?.exhibitor_settings?.mark_favorite == 1 &&  
+													<Box w={36} height={36} alignItems={'center'} justifyContent={'center'} display={'flex'}  position={'absolute'}
+                                zIndex={'999999'}
+                                right={'0'}
+                                top={'7px'}>
+																	 {in_array(`exhibitor-fav-${detail?.detail?.id ? detail?.detail?.id : 0}`,processing) ? (
+																				<Spinner width={25} height={25} color={isFav ? 'secondary.500' : 'primary.text'} size="16px"  />
+																		):(
+																				 <IconButton
+																						bg="transparent"
+																						p="1"
+																						rounded={'full'}
+																					_hover={{ bg: 'transparent', _icon: { color: !isFav ? "secondary.500" : "primary.text",name: !isFav ? 'heart' : 'heart-outline' } }}
+																						icon={<Icon size="xl" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? "secondary.500" : "primary.text"} />}
+																						onPress={() => {
+																								toggleFav();
+																						}}
+																					
+																				/>
+																		)}
+                           
+													</Box>
+												}
                     </HStack>
                     <HStack w="100%" mb="3" space="0" alignItems="center">
                         {/* {detail?.detail?.categories!?.length > 0 && <Box position="absolute" left="-20px" top="-28px">
