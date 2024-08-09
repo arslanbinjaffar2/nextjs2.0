@@ -44,6 +44,14 @@ class AsyncStorageClass {
         }
     }
 
+    static getAllItems = async (): Promise<any> => {
+        try {
+            return await AsyncStorage.getAllKeys();
+        } catch (error) {
+            return null;
+        }
+    };
+
 }
 
 export default AsyncStorageClass;

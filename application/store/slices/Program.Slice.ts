@@ -209,8 +209,7 @@ export const ProgramSlice = createSlice({
         FetchUpcomingPrograms(state, action: PayloadAction<{ limit: number }>) {},
         UpdateUpcomingPrograms(state, action: PayloadAction<{ programs: Program[] }>) {
             state.upcoming_programs = action.payload.programs;
-        },
-        
+        },        
     },
 })
 

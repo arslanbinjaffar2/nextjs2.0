@@ -238,7 +238,6 @@ const Detail = () => {
         setLineNumber('');
         setQuestion('');
         setSpeaker(null);
-
     }
 
     const gdprSettings = event?.gdpr_settings;

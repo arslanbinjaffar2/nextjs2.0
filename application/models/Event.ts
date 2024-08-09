@@ -1,3 +1,5 @@
+import { HomeMyEvent } from "application/models/FetchEvent";
+
 export interface Event {
     id?: number;
     organizer_name?: string;
@@ -86,6 +88,9 @@ export interface Event {
     attendee_tab_settings?: any
     agenda_tab_settings?: AgendaTabSetting[]
     dashboard_modules?: DashboardModule[]
+    timezone?: any
+    home_my_event?: HomeMyEvent[]
+    event_disclaimer?: any
     appointment_settings?: AppointmentSettings
 }
 interface Setting {

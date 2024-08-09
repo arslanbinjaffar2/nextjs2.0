@@ -13,6 +13,7 @@ import { HttpResponse } from 'application/models/GeneralResponse'
 import { select } from 'redux-saga/effects';
 import { ToastActions } from '../slices/Toast.Slice'
 
+
 function* OnSaveNote({
     payload
 }: {
@@ -54,6 +55,9 @@ function* OnGetMyNote({
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getMyNoteApi, payload, state)
     yield put(NoteActions.update(response.data.data));
+    const labels=state?.event?.event.labels;
+    const note_type=payload?.note_type
+
     yield put(LoadingActions.removeProcess({ process: 'on-get-my-notes' }))
 }
 

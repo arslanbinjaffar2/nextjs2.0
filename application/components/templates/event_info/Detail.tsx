@@ -12,8 +12,8 @@ import LoadImage from 'application/components/atoms/LoadImage';
 import ThemeColors from 'application/utils/ThemeColors';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import DynamicIcon from 'application/utils/DynamicIcon';
-import Icodocument from 'application/assets/icons/small/Icodocument';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import Icodocument from 'application/assets/icons/small/Icodocument';
 import { color } from 'native-base/lib/typescript/theme/styled-system';
 
 

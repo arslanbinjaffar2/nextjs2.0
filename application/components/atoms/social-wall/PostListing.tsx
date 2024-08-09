@@ -10,7 +10,7 @@ import { Post } from 'application/models/socialWall/SocialWall';
 import { Pressable } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService'
-import NoRecordFound from '../NoRecordFound';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type AppProps = {

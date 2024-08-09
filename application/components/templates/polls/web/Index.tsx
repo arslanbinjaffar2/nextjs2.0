@@ -15,7 +15,7 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
-import NoRecordFound from '../../../atoms/NoRecordFound';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = () => {

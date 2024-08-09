@@ -62,16 +62,16 @@ export const SubRegistrationSlice = createSlice({
     initialState,
     reducers: {
         FetchSubRegistrationAfterLogin() {},
-        update(state, action: PayloadAction<AfterLogin>) {
-            if (action.payload.displaySubregistration === 'no' || action.payload.questions == undefined || action.payload.questions.question.length <= 0 || action.payload.settings['show_sub_registration_on_web_app'] === 0) {
+        update(state, action: PayloadAction<{afterLogin:AfterLogin,event_url:string}>) {
+            if (action.payload.afterLogin.displaySubregistration === 'no' || action.payload.afterLogin.questions == undefined || action.payload.afterLogin.questions.question.length <= 0 || action.payload.afterLogin.settings['show_sub_registration_on_web_app'] === 0) {
                     state.skip=true;
                     if (Platform.OS === 'web') {
-                        localStorage.setItem('skip_sub_reg', 'true');
+                        localStorage.setItem(`skip_sub_reg_${action.payload.event_url}`, 'true');
                     } else {
-                        AsyncStorageClass.setItem('skip_sub_reg', 'true');
+                        AsyncStorageClass.setItem(`skip_sub_reg_${action.payload.event_url}`, 'true');
                     }
             }else{
-                state.afterLogin = {...action.payload, show_skip_button : action.payload.questions.question.find((question)=>(question.required_question === '1')) ? false : true };
+                state.afterLogin = {...action.payload.afterLogin, show_skip_button : action.payload.afterLogin.questions.question.find((question)=>(question.required_question === '1')) ? false : true };
             }
         },
         FetchMySubRegistration() {},
@@ -85,24 +85,24 @@ export const SubRegistrationSlice = createSlice({
         SubmitPageScroll(state, action: PayloadAction<any>){
             state.page_scroll = action.payload
         },
-        SubmitSuccess(state){
+        SubmitSuccess(state, action: PayloadAction<{event_url:string}>){
             state.submitting = false;
             state.sucess_message=true;
             if (Platform.OS === 'web') {
-                localStorage.setItem('skip_sub_reg', 'true');
+                localStorage.setItem(`skip_sub_reg_${action.payload.event_url}`, 'true');
             } else {
-                AsyncStorageClass.setItem('skip_sub_reg', 'true');
+                AsyncStorageClass.setItem(`skip_sub_reg_${action.payload.event_url}`, 'true');
             }
         },
-        setSkip(state){
+        setSkip(state, action: PayloadAction<{event_url:string}>){
             state.skip = true;
             if (Platform.OS === 'web') {
-                localStorage.setItem('skip_sub_reg', 'true');
+                localStorage.setItem(`skip_sub_reg_${action.payload.event_url}`, 'true');
             } else {
-                AsyncStorageClass.setItem('skip_sub_reg', 'true');
+                AsyncStorageClass.setItem(`skip_sub_reg_${action.payload.event_url}`, 'true');
             }
         },
-        clearState(state){
+        clearState(state, action: PayloadAction<{event_url:string}>){
             state.afterLogin= {
                 labels: [],
                 settings: null,
@@ -122,9 +122,9 @@ export const SubRegistrationSlice = createSlice({
             state.skip=false;
             state.mySubReg=null;
             if (Platform.OS === 'web') {
-                localStorage.removeItem('skip_sub_reg');
+                localStorage.removeItem(`skip_sub_reg_${action.payload.event_url}`);
             } else {
-                AsyncStorageClass.removeItem('skip_sub_reg');
+                AsyncStorageClass.removeItem(`skip_sub_reg_${action.payload.event_url}`);
             }
             state.limit_errors=null
         },

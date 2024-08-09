@@ -18,8 +18,8 @@ function* OnGetDocuments({
     type: typeof DocumentActions.FetchDocuments
     payload: { speaker_id: number, sponsor_id: number, exhibitor_id: number, agenda_id: number }
 }): SagaIterator {
-    yield put(LoadingActions.addProcess({ process: 'documents' }))
     const state = yield select(state => state);
+    yield put(LoadingActions.addProcess({ process: 'documents' }))
     const response: HttpResponse = yield call(getDocumentApi, payload, state)
     yield put(DocumentActions.update(response.data.data.documents!))
     yield put(LoadingActions.removeProcess({ process: 'documents' }))

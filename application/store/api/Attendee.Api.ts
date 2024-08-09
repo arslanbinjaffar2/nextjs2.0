@@ -36,6 +36,10 @@ export const getAddGDPRlogApi = (payload: any, state: any): Promise<HttpResponse
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/attendee/gdpr/log`, payload);
 }
 
+export const getAddDisclaimerlogApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/attendee/disclaimer/log`, payload);
+}
+
 export const getInvoiceApi = (payload: any,state: any): Promise<HttpResponse> => {
     const updatedBaseUrl = state?.env?.api_base_url.replace('/mobile', '/api/v2');
     return makeApi(updatedBaseUrl).get(`${baseUrl}/${state?.event?.event.url}/getInvoice`);

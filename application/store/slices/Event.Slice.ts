@@ -15,6 +15,7 @@ export interface EventState {
     modules: Array<Module>
     custom_html: Array<CustomHtml>
     setting_modules: SettingModule[]
+    event_url: string
     screen: string,
     home_events: HomeMyEvent[],
     upcoming_events: UpcomingEvent[],
@@ -24,6 +25,7 @@ export interface EventState {
 const initialState: EventState = {
     event: {},
     modules: [],
+    event_url: '',
     custom_html: [],
     setting_modules: [],
     screen: 'homeMyevents',
@@ -55,6 +57,9 @@ export const EventSlice = createSlice({
         updateSettingsModules(state, action: PayloadAction<Array<SettingModule>>) {
             state.setting_modules = action.payload
         },
+        SetEventUrl(state, action: PayloadAction<string>) {
+            state.event_url = action.payload
+        },
         customHtml(state, action: PayloadAction<Array<CustomHtml>>) {
             state.custom_html = action.payload
         },
@@ -76,7 +81,7 @@ export const EventSlice = createSlice({
                 state.event_detail = action.payload.detail;
             }
          },
-        FetchEventDetail(state, action: PayloadAction<{ id: number }>) {
+        FetchEventDetail(state, action: PayloadAction<{ id: number, screen: string }>) {
         },
     },
 })
@@ -90,6 +95,7 @@ export const EventActions = {
     updateModules: EventSlice.actions.updateModules,
     loadSettingsModules: EventSlice.actions.loadSettingsModules,
     updateSettingsModules: EventSlice.actions.updateSettingsModules,
+    SetEventUrl: EventSlice.actions.SetEventUrl,
     customHtml: EventSlice.actions.customHtml,
     FetchEvents: EventSlice.actions.FetchEvents,
     UpdateEvents: EventSlice.actions.UpdateEvents,
@@ -107,6 +113,8 @@ export const SettingModules = (state: RootState) => state.event.setting_modules
 export const SelectHomeEvents = (state: RootState) => state.event.home_events
 export const SelectUpcomingEvents = (state: RootState) => state.event.upcoming_events
 export const SelectHomeEventDetail = (state: RootState) => state.event.event_detail
+
+export const SelectEventUrl = (state: RootState) => state.event.event_url
 
 // Reducer
 export default EventSlice.reducer

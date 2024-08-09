@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Heading, FormControl, Pressable } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, FormControl } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images, func } from 'application/styles';
-import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout';
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { useRouter } from 'solito/router'
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import validateEmail from 'application/utils/validations/ValidateEmail'
-import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import { Link } from 'solito/link'
 import UseEnvService from 'application/store/services/UseEnvService';
 
@@ -21,37 +19,49 @@ type Inputs = {
 const Login = ({ props }: any) => {
 
     const { event } = UseEventService();
-
     const { _env } = UseEnvService();
-
     const { isLoggedIn, processing, login, error, response } = UseAuthService();
-
-    const  { push } = useRouter();
-		  const router = useRouter();
-
-    const nativeButton = React.useRef<HTMLElement | null>(null)
-
+    const { push } = useRouter();
+    const router = useRouter();
+    const nativeButton = React.useRef<HTMLElement | null>(null);
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = input => {
-        login({ email: input.email, password: input.password })
+        login({ email: input.email, password: input.password });
     };
 
-      const handleKeyPress = (event: any) => {
+    const handleKeyPress = (event: any) => {
         if (event.key === 'Enter') {
             nativeButton.current?.click();
         }
     };
 
-    React.useEffect(() => {
+    const handleRedirection = () => {
+        let onboarding = response?.data?.user?.onboarding;
         if (response.redirect === "choose-provider") {
-            push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
-        } 
-        if (response.redirect === "verification") {
-            push(`/${event.url}/auth/verification/${response.data.authentication_id}`)
-        } 
-    }, [response.redirect]);
-	
+            push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`);
+        } else if (response.redirect === "verification") {
+            push(`/${event.url}/auth/verification/${response.data.authentication_id}`);
+        }
+        if(isLoggedIn){
+            if(onboarding?.show_disclaimer){
+                push(`/${event.url}/auth/disclaimer`);
+            }else if(onboarding?.show_gdpr){
+                push(`/${event.url}/auth/gdpr`);
+            }else if(onboarding?.show_subregistration){
+                push(`/${event.url}/subRegistration`);
+            }else if(onboarding?.show_network_intrest){
+                push(`/${event.url}/network-interest`);
+            }else {
+                push(`/${event.url}/dashboard`);
+            }
+        }
+    };
+
+    React.useEffect(() => {
+        handleRedirection();
+    }, [response.redirect, isLoggedIn]);
+
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={['30px','50px','30px']} w={"100%"}

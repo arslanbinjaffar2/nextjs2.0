@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { AuthActions, LoginPayload, PasswordResetPayload, ChooseProviderPayload, ResetPayload, VerificationPayload, LoadProviderPayload, selectIsLoggedIn, isProcessing, response, error } from 'application/store/slices/Auth.Slice'
+import { AuthActions, LoginPayload, PasswordResetPayload, ChooseProviderPayload, ResetPayload, VerificationPayload, LoadProviderPayload, selectIsLoggedIn, isProcessing, response, error, disclaimerStatus, onboarding } from 'application/store/slices/Auth.Slice'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 
@@ -9,7 +9,9 @@ import { GeneralResponse } from 'application/models/GeneralResponse';
 export type EventServiceOperators = {
     isLoggedIn: boolean;
     processing?: boolean;
+    disclaimerStatus: boolean;
     response: GeneralResponse;
+    onboarding: any;
     error: string;
     login: (payload: LoginPayload) => void
     passwordReset: (payload: PasswordResetPayload) => void
@@ -20,6 +22,8 @@ export type EventServiceOperators = {
     getUser: () => void
     logout: () => void
     loadToken: (logged: boolean) => void
+    disclaimerStatusUpdated: (status: boolean) => void
+    updateOnboarding: (payload: any) => void
 }
 
 /**
@@ -33,7 +37,9 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
     return {
         isLoggedIn: useAppSelector(selectIsLoggedIn),
         processing: useAppSelector(isProcessing),
+        disclaimerStatus: useAppSelector(disclaimerStatus),
         response: useAppSelector(response),
+        onboarding: useAppSelector(onboarding),
         error: useAppSelector(error),
         login: useCallback(
             (payload: LoginPayload) => {
@@ -89,6 +95,22 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
             (logged: boolean) => {
                 dispatch(
                     AuthActions.loadToken(logged),
+                )
+            },
+            [dispatch],
+        ),
+        disclaimerStatusUpdated: useCallback(
+            (status: boolean) => {
+                dispatch(
+                    AuthActions.disclaimerStatusUpdated(status),
+                )
+            },
+            [dispatch],
+        ),
+        updateOnboarding: useCallback(
+            (payload: any) => {
+                dispatch(
+                    AuthActions.updateOnboarding(payload),
                 )
             },
             [dispatch],
