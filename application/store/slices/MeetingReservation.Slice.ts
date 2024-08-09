@@ -4,6 +4,9 @@ import { AvailabilityCalendarSlot, MeetingRequest, MeetingSpace, MyMeetingListin
 import { MeetingSlot } from 'application/models/meetingReservation/MeetingReservation'
 
 import type { RootState } from 'application/store/Index'
+import AsyncStorageClass from 'application/utils/AsyncStorageClass'
+import { Platform } from 'react-native'
+import { NotificationActions } from 'application/store/slices/Notification.Slice'
 
 export interface MeetingReservationState {
     my_meeting_listing: MyMeetingListing,
@@ -13,6 +16,7 @@ export interface MeetingReservationState {
     labels: any,
     socket_requests: any,
     my_availability_calendar: AvailabilityCalendarSlot[],
+    after_login_my_meeting_requests: MeetingRequest[],
 }
 
 const initialState: MeetingReservationState = {
@@ -29,6 +33,7 @@ const initialState: MeetingReservationState = {
     available_dates: [],
     socket_requests: [],
     my_availability_calendar: [],
+    after_login_my_meeting_requests: [],
 }
 
 // Slice
@@ -81,6 +86,35 @@ export const MeetingReservationSlice = createSlice({
         DeleteAvailabilityCalendarSlot(state, action: PayloadAction<{ id:number }>) {
             state.my_availability_calendar = state.my_availability_calendar.filter((item:AvailabilityCalendarSlot) => item.id !== action.payload.id)
         },
+        FetchAfterLoginMyMeetingRequests(state, action: PayloadAction<{  }>) {},
+        updateAfterLoginMyMeetingRequests(state, action: PayloadAction<{ my_meeting_requests:MeetingRequest[] }>) {
+            if(action?.payload?.my_meeting_requests && action?.payload?.my_meeting_requests?.length > 0){
+                NotificationActions.addNotification({
+                    notification:{
+                      type:'pending-appointment-alert',
+                      title: 'Pending Appointment requests',
+                      text: 'You have pending appointment requests. Please check your appointment requests.',
+                      btnLeftText:'ok',
+                      btnRightText:'Go To Appointments',
+                      url:'/reservation?tab=requested'
+                    }
+                  })
+            }
+            // add skip 
+            // if(Platform.OS === 'web'){
+            //     localStorage.setItem('skip_pending_appointment_alerts','true');
+            // }else{
+            // AsyncStorageClass.setItem('skip_pending_appointment_alerts',true)
+            // }
+           
+        },
+        clearState(state) {
+            if(Platform.OS === 'web'){
+                localStorage.removeItem('skip_pending_appointment_alerts');
+            }else{
+                AsyncStorageClass.removeItem('skip_pending_appointment_alerts');
+            }
+        }
     },
 })
 
@@ -102,6 +136,9 @@ export const MeetingReservationActions = {
     updateMyAvailabilityCalendar: MeetingReservationSlice.actions.updateMyAvailabilityCalendar,
     AddAvailabilityCalendarSlot: MeetingReservationSlice.actions.AddAvailabilityCalendarSlot,
     DeleteAvailabilityCalendarSlot: MeetingReservationSlice.actions.DeleteAvailabilityCalendarSlot,
+    FetchAfterLoginMyMeetingRequests: MeetingReservationSlice.actions.FetchAfterLoginMyMeetingRequests,
+    updateAfterLoginMyMeetingRequests: MeetingReservationSlice.actions.updateAfterLoginMyMeetingRequests,
+    clearState: MeetingReservationSlice.actions.clearState,
 }
 
 export const SelectMyMeetingListing = (state: RootState) => state.meetingReservation.my_meeting_listing
@@ -117,6 +154,8 @@ export const SelectSocketRequests = (state: RootState) => state.meetingReservati
 export const SelectAvailableMeetingSpaces = (state: RootState) => state.meetingReservation.available_meeting_spaces
 
 export const SelectMyAvailabilityCalendar = (state: RootState) => state.meetingReservation.my_availability_calendar
+
+export const SelectAfterLoginMyMeetingRequests = (state: RootState) => state.meetingReservation.after_login_my_meeting_requests
 
 // Reducer
 export default MeetingReservationSlice.reducer
