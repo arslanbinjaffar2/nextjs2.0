@@ -1,16 +1,19 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { Center, Box, Text, HStack, Divider, Button, Spacer } from "native-base"
 import { getColorScheme } from "application/styles/colors";
 import UseAttendeeService from "application/store/services/UseAttendeeService";
 import { useRouter } from "solito/router";
+import UseLoadingService from "application/store/services/UseLoadingService";
+import SectionLoading from "application/components/atoms/SectionLoading";
 
 const Disclaimer = () => {
     const { logout, updateOnboarding, onboarding } = UseAuthService()
     const { addDisclaimerlog } = UseAttendeeService();
     const RenderHtml = require('react-native-render-html').default;
-    const { event } = UseEventService()
+    const { event, FetchEvent, event_url } = UseEventService()
+    const {loading} = UseLoadingService();
     const { push } = useRouter();
     const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 
@@ -25,6 +28,21 @@ const Disclaimer = () => {
             fontFamily: 'Avenir',
         }
     }
+
+    useEffect(() => {
+        if(onboarding?.show_disclaimer === false){
+            handleNextRedirection();
+        }
+    },[]);
+
+    useEffect(() => {
+        FetchEvent(event_url);
+    },[]);
+
+    useEffect(() => {
+        console.log(event,'event');
+    },[event]);
+
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -54,8 +72,8 @@ const Disclaimer = () => {
 
     return (
         <>
-            
-            <Center rounded={10} w={'100%'} h="100%" alignItems={'center'} px={15} bg={"primary.box"}>
+            {loading && <SectionLoading />}
+            {!loading && <Center rounded={10} w={'100%'} h="100%" alignItems={'center'} px={15} bg={"primary.box"}>
                 <HStack mb="3" pt="4" w="100%" space="3" alignItems="center">
                     <Text fontSize="2xl">{event?.labels?.EVENTSITE_TERMANDCONDITIONS}</Text>
                 </HStack>
@@ -93,7 +111,7 @@ const Disclaimer = () => {
                         </Button>
                     </HStack>
                 </Box>
-            </Center>
+            </Center>}
         </>
     )
 }
