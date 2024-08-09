@@ -64,6 +64,7 @@ const GDPR = () => {
                             p="2"
                             fontSize="lg"
                             colorScheme="primary"
+                            _text={{color: 'primary.text'}}
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             onPress={() => handleGDPRClick(0)}
                             isDisabled={isSubmitting}
