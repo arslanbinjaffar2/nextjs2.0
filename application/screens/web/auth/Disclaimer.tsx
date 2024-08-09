@@ -40,7 +40,6 @@ const Disclaimer = () => {
     },[]);
 
     useEffect(() => {
-        console.log(event,'event');
     },[event]);
 
 
