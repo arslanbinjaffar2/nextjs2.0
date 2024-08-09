@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box, HStack, Icon, Spacer, Text, VStack, ZStack, Button, IconButton, Pressable, Popover } from 'native-base'
+import React, { useEffect, useState } from 'react'
+import { Box, HStack, Icon, Spacer, Text, VStack, ZStack, Button, IconButton, Pressable, Popover, Spinner } from 'native-base'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Sponsor, Category } from 'application/models/sponsor/Sponsor'
@@ -8,6 +8,8 @@ import { useRouter } from 'solito/router'
 import UseEventService from 'application/store/services/UseEventService';
 import { Linking } from 'react-native';
 import { colorText } from 'application/styles/colors';
+import UseLoadingService from 'application/store/services/UseLoadingService';
+import in_array from 'in_array';
 
 type AppProps = {
     sponsor: Sponsor,
@@ -21,6 +23,26 @@ const RectangleView = ({ border, sponsor }: AppProps) => {
     const { push } = useRouter()
 
     const { event } = UseEventService()
+
+		const [isFav,setIsFav] = useState(false)
+
+		const {processing}=UseLoadingService();
+
+		useEffect(() => {
+        if (sponsor.attendee_sponsors.length > 0) {
+            setIsFav(true)
+        }else{
+            setIsFav(false)
+        }
+    }, [sponsor.attendee_sponsors])
+    
+    function toggleFav(){
+       if(in_array( `sponsor-fav-${sponsor.id}`,processing)){
+            return;
+        }
+        setIsFav(!isFav);
+         MakeFavourite({ sponsor_id: sponsor.id, screen: 'listing' });
+    }
 
     return (
         <Box w="100%" borderBottomWidth={border} borderColor="primary.bordercolor" py="3">
@@ -105,18 +127,26 @@ const RectangleView = ({ border, sponsor }: AppProps) => {
 																		
                                 </Button>
                             )}
-                            {settings?.mark_favorite === 1 && (
-                                <IconButton
-                                    bg="transparent"
-                                    p="1"
-																		rounded={'full'}
-                                    _hover={{ bg: 'transparent', _icon: { color: sponsor.attendee_sponsors.length > 0 ? "primary.text" : "secondary.500",name:  sponsor.attendee_sponsors.length > 0  ? 'heart-outline' : 'heart' } }}
-                                    icon={<Icon size="xl" as={Ionicons} name={sponsor.attendee_sponsors.length > 0 ? 'heart' : 'heart-outline'} color={sponsor.attendee_sponsors.length > 0 ? "secondary.500" :"primary.text" }/>}
-                                    onPress={() => {
-                                        MakeFavourite({ sponsor_id: sponsor.id, screen: 'listing' });
-                                    }}
-                                />
-                            )}
+															{settings?.mark_favorite === 1 && (
+																<Box w={36} height={36} alignItems={'center'} justifyContent={'center'} display={'flex'}>
+																	{in_array(`sponsor-fav-${sponsor.id}`, processing) ? (
+																		<Spinner width={28} height={28} color={isFav ? 'secondary.500' : 'primary.text'} size="sm" />
+																	) : (
+																		<IconButton
+																			bg="transparent"
+																			p="1"
+																			rounded={'full'}
+																			_hover={{ bg: 'transparent', _icon: { color: !isFav ? "secondary.500" : "primary.text", name: !isFav ? 'heart' : 'heart-outline' } }}
+																			icon={<Icon size="xl" as={Ionicons} name={isFav ? 'heart' : 'heart-outline'} color={isFav ? "secondary.500" : "primary.text"} />}
+																			onPress={() => {
+																				toggleFav();
+																			}}
+
+																		/>
+																	)}
+
+																</Box>
+															)}
                         </HStack>
                     </HStack>
                 </HStack>
