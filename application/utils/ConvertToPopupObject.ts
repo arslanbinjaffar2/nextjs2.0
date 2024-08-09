@@ -6,9 +6,9 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             type:'alert',
             title:notification?.title,
             text:notification?.detail,
-            btnLeftText:'OK',
-            btnRightText:'Detail',
-            url:'/alerts',
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
+            url:'/alerts'
         }
     }
     if(type == 'qa_answer'){
@@ -17,8 +17,8 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             title:notification?.title+ " Q&A",
             text:notification?.text,
             data:notification?.data,
-            btnLeftText:'OK',
-            btnRightText:notification?.btnText,
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
             url:'/settings/myquestions/detail/'+notification?.data?.question?.id,
         }
     }
@@ -27,8 +27,8 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             type:'poll',
             title:notification?.title,
             text:notification?.text,
-            btnLeftText:'OK',
-            btnRightText:'Detail',
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
             url:notification.url,
         }
     }
@@ -37,8 +37,8 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             type:'survey',
             title:notification?.title,
             text:notification?.text,
-            btnLeftText:'OK',
-            btnRightText:'Detail',
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
             url:notification.url,
         }
     }
@@ -47,7 +47,8 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             type:'score',
             title:notification?.title,
             text:notification?.text,
-            btnLeftText:'OK',
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
         }
     }
     if(type == 'reservation'){
@@ -55,8 +56,8 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             type:'reservation',
             title:notification?.title,
             text:notification?.text,
-            btnLeftText:'OK',
-            btnRightText:'',
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
         }
     }
     if(type == 'program-fav-error'){
@@ -64,8 +65,18 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             type:'program-fav-error',
             title:notification?.title,
             text:notification?.text,
-            btnLeftText:'OK',
-            btnRightText:'',
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
+        }
+    }
+    if(type == 'pending-appointment-alert'){
+        return  {
+            type:'pending-appointment-alert',
+            title:notification?.title,
+            text:notification?.text,
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
+            url:notification?.url,
         }
     }
 }

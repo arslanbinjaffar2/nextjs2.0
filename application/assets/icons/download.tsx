@@ -18,14 +18,14 @@ const SVGComponent = (props: SvgProps) => {
                 <Rect
                     id="Rectangle_4120"
                     data-name="Rectangle 4120"
-                    width={18}
-                    height={21.979}
+                    width={props.width}
+                    height={props.height}
                     transform="translate(0 0)"
                     fill="none"
                 />
             </ClipPath>
         </Defs>
-        <G id="Group_5634" data-name="Group 5634" clipPath="url(#clip-path)">
+        <G id="Group_5634" data-name="Group 5634">
             <Path
                 id="Path_2358"
                 data-name="Path 2358"

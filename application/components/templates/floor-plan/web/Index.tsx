@@ -7,21 +7,24 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import { FloorPlan,FloorPlanCategory } from 'application/models/floorPlans/FloorPlans';
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 import { useRouter } from 'solito/router';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import IcoSort from 'application/assets/icons/small/IcoSort';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import { func } from 'application/styles';
 const Index = () => {
   const { loading } = UseLoadingService();
   const { push, back } = useRouter()
   const [query, setQuery] = React.useState("");
   const [toggle, setToggle] = React.useState<boolean>(false)
 
-  const { FetchFloorPlans, floor_plans, sponsorCount,exhibitorCount,labels,categories } = UseFloorPlanService();    
+  const { FetchFloorPlans, floor_plans, sponsorCount,exhibitorCount,labels,categories , isLoading} = UseFloorPlanService();    
   const { event, modules } = UseEventService();
   const module = modules.find((module) => {
     return module.alias === 'plans'
   });
-
+  const [hover, sethover] = useState(false);
   const [selectedfilter, setSelectedfilter] = useState('sponsors');
   const [search, setSearch] = useState('');
   const [filteredFloorPlans, setFilteredFloorPlans] = useState<FloorPlan[]>([]);
@@ -86,12 +89,11 @@ const Index = () => {
   useEffect(() => {
     filterFloorPlans();
   },[search]);
- console.log(selectedCategories)
   return (
     <>
       {
-        loading ? (
-          <WebLoading />
+        (loading || isLoading) ? (
+           <SectionLoading />
         ) : (
           <>
             <NextBreadcrumbs module={module} />
@@ -101,9 +103,11 @@ const Index = () => {
                 <Text fontSize="2xl">{module?.name}</Text>
                 <Spacer />
                 <HStack  space="1" alignItems="center">
-                 <Input rounded="10" w={'320px'} bg="primary.box" borderWidth={0} value={search} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setSearch} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+                 <Input rounded="10" w={['calc(100% - 60px)','320px']} bg="primary.box" borderWidth={0} value={search} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={setSearch} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
                  <Spacer />
                  <Button
+                  onHoverIn={() => sethover(true)} 
+                  onHoverOut={() => sethover(false)} 
                   w={'42px'}
                   h={'40px'}
                   bg={toggle ? 'primary.500' : 'primary.box'}
@@ -113,7 +117,7 @@ const Index = () => {
                   }}
                  
                  >
-                  <IcoSort width="20px" height="18px" />
+                  <IcoSort width="20px" height="18px" color={(toggle || hover) ? func.colorType(event?.settings?.primary_color) : undefined} />
                  </Button>
                  
                 </HStack>
@@ -150,8 +154,9 @@ const Index = () => {
                 </Box>
                 <HStack flexWrap={'wrap'}  p={4} borderTopColor={'primary.bordercolor'} borderTopWidth={1}  alignItems="center"
                >
-                  {filteredCategories.map((category:FloorPlanCategory) => (
+                  {filteredCategories.map((category:FloorPlanCategory, k:any) => (
                     <Pressable
+                      key={k}
                       p="0"
                       borderWidth="0"
                       onPress={()=>{
@@ -162,8 +167,8 @@ const Index = () => {
                       mb={'8px'}
                       mr={'6px'}>
                         <HStack  space="2" alignItems="center" justifyContent={'center'}>
-                          {isSelected(category?.id) && <Icon color={'primary.text'} as={AntDesign} name="check"  />}
-                          <Text  fontSize="lg">{category?.info[0]?.value} ({category?.pins_count})</Text>
+                          {isSelected(category?.id) && <Icon color={'primary.bordersecondary'} as={AntDesign} name="check"  />}
+                          <Text  fontSize="lg" color={isSelected(category?.id) ? 'primary.bordersecondary' : 'primary.text'}>{category?.info[0]?.value} ({category?.pins_count})</Text>
                         </HStack>
                         
                       
@@ -180,6 +185,7 @@ const Index = () => {
                 <VStack mb="0" w="100%" space="0">
                   {filteredFloorPlans.map((plan: FloorPlan,i) => (
                     <Pressable
+                      key={i}
                       p="0"
                       borderWidth="0"
                       onPress={()=>{push(`/${event.url}/plans/detail/${plan.id}`)}}
@@ -194,7 +200,8 @@ const Index = () => {
                     
                     
                   ))}
-                  {filteredFloorPlans.length < 1 && <Text p={3} fontSize="md">{event?.labels?.GENERAL_NO_RECORD}</Text>}
+                  {filteredFloorPlans.length < 1 &&  <NoRecordFound/>
+                  }
                 </VStack>
               </Box>
             </Container>

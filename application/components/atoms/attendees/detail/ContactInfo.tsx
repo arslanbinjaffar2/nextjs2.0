@@ -47,8 +47,9 @@ const ContactInfo = ({ detail }: AppProps) => {
     return !!field;
   };
 
-  const hasContactInfo = ['facebook', 'twitter', 'linkedin', 'website']
-    .some(fieldName => isFieldVisible(fieldName) && detail?.detail?.info?.[fieldName]);
+  const hasContactInfo = ['facebook', 'twitter', 'linkedin', 'website', 'phone']
+    .some(fieldName => isFieldVisible(fieldName) && detail?.detail?.info?.[fieldName]) || 
+    (isFieldVisible('email') && detail?.detail?.email);
 
   const visibleSocialIcons = detail.sort_field_setting
     .filter((field: any) => {
@@ -80,7 +81,12 @@ const ContactInfo = ({ detail }: AppProps) => {
   }
   , [detail]);
 
-  if (!hasContactInfo) return null;
+  const findStatusForContactInfo = () => {
+    const contactInfoTab = detail?.attendee_tabs_settings?.find(tab => tab.tab_name === 'contact_info');
+      return contactInfoTab ? contactInfoTab.status : 0;
+  };
+
+  if (!hasContactInfo || !findStatusForContactInfo()) return null;
 
   return (
     <Box p="0" w="100%" bg="primary.box" mb={5} rounded={8}>
@@ -102,7 +108,7 @@ const ContactInfo = ({ detail }: AppProps) => {
           ) : ''}
       </HStack>
       <Box py={3}>
-      {sortedFields.length > 0 && <VStack px="3" pb={3}  w="100%" space="3">
+      {sortedFields.length > 0 && <VStack px="3" pb={visibleSocialIcons.length > 0 ? 3 : 0}  w="100%" space="3">
         {sortedFields.map((field: any) => (
             <HStack key={field.name} space="1" alignItems="center">
               <Box>
@@ -115,7 +121,7 @@ const ContactInfo = ({ detail }: AppProps) => {
             </HStack>
           ))}
         </VStack>}
-        <HStack space={3} px={3} pt={0} w="100%" justifyContent="flex-start" alignItems="center">
+        {visibleSocialIcons.length > 0 && <HStack space={3} px={3} pt={0} w="100%" justifyContent="flex-start" alignItems="center">
           {visibleSocialIcons.map(icon => (
             <Pressable
               key={icon.name}
@@ -129,7 +135,7 @@ const ContactInfo = ({ detail }: AppProps) => {
               {icon.component}
             </Pressable>
           ))}
-        </HStack>
+        </HStack>}
       </Box>
     </Box>
   );

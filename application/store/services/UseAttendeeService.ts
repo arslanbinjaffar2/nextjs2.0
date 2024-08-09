@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName, SelectAttendeeDetail, SelectAttendeeCategory, SelectCategories, SelectCategoryName, SelectMyAttendees, SelectSelectTotal, SelectHotels, SelectCategoryParendId, SelectMyRegistration, SelectLastPage } from 'application/store/slices/Attendee.Slice'
+import { AttendeeActions, SelectAttendees, SelectQuery, SelectPage, SelectGroups, SelectGroup, SelectGroupName, SelectAttendeeDetail, SelectAttendeeCategory, SelectCategories, SelectCategoryName, SelectMyAttendees, SelectSelectTotal, SelectHotels, SelectCategoryParendId, SelectMyRegistration, SelectLastPage, SelectCategoryBreadcrumbs } from 'application/store/slices/Attendee.Slice'
 
 import { Attendee } from 'application/models/attendee/Attendee'
 
@@ -36,7 +36,11 @@ export type AttendeeServiceOperators = {
     UpdateCategory: (payload: { category_id: number, category_name: string, parent_id:number }) => void
     FetchCategories: (payload: { parent_id: number, query: string, page: number, cat_type: string }) => void
     FetchHotels: () => void,
-    FetchMyRegistration: () => void
+    FetchMyRegistration: () => void,
+    setBreadcrumbs: (breadcrumbs: Category[]) => void,
+    updateBreadcrumb: (category: Category) => void,
+    categoryBreadcrumbs: Category[],
+    addGDPRlog: (payload: {gdpr: number}) => void
 }
 
 /**
@@ -64,6 +68,7 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         hotels: useAppSelector(SelectHotels),
         registration: useAppSelector(SelectMyRegistration),
         last_page: useAppSelector(SelectLastPage),
+        categoryBreadcrumbs: useAppSelector(SelectCategoryBreadcrumbs),
         FetchAttendees: useCallback(
             (payload: { group_id: number, query: string, page: number, my_attendee_id: number, speaker: number, category_id: number, screen: string, program_id: number }) => {
                 dispatch(AttendeeActions.FetchAttendees(payload))
@@ -115,6 +120,24 @@ export const UseAttendeeService = (): Readonly<AttendeeServiceOperators> => {
         FetchMyRegistration: useCallback(
             () => {
                 dispatch(AttendeeActions.FetchMyRegistration())
+            },
+            [dispatch],
+        ),
+        setBreadcrumbs: useCallback(
+            (breadcrumbs: Category[]) => {
+                dispatch(AttendeeActions.setBreadcrumbs(breadcrumbs))
+            },
+            [dispatch],
+        ),
+        updateBreadcrumb: useCallback(
+            (category: Category) => {
+                dispatch(AttendeeActions.updateBreadcrumb(category))
+            },
+            [dispatch],
+        ),
+        addGDPRlog: useCallback(
+            (payload: {gdpr: number}) => {
+                dispatch(AttendeeActions.addGDPRlog(payload))
             },
             [dispatch],
         ),

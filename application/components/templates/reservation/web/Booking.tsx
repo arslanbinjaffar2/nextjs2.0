@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Center, CheckIcon, Container, Flex, Heading, HStack, Icon, IconButton, Modal, Pressable, ScrollView, Select, Spacer, Text, TextArea, View, VStack } from 'native-base';
+import { Avatar, Box, Button, Center, CheckIcon, Container, Flex, Heading, HStack, Icon, IconButton, Modal, Pressable, ScrollView, Select, Spacer, Text, TextArea, View, VStack } from 'native-base';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { Detail } from 'application/models/attendee/Detail';
@@ -26,6 +26,8 @@ import UseNotificationService from 'application/store/services/UseNotificationSe
 import Icocheck from 'application/assets/icons/Icocheck';
 import Icocross from 'application/assets/icons/Icocross';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { useDebouncedCallback } from "use-debounce";
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { id: string }
 
@@ -44,7 +46,7 @@ const PressableElement = ({slot,onPress}: any) => {
  const [hover, sethover] = React.useState(false)
 	return (
 		<Button onHoverIn={() => sethover(true)} onHoverOut={() => sethover(false)} w={'100%'} size={'sm'} bg={'transparent'} mb={2} rounded={8} px={2} py={2} 
-		borderWidth={1} borderColor={'primary.box'} 
+		borderWidth={1} borderColor={'primary.darkbox'} 
 		
 						onPress={onPress}
 					>
@@ -75,6 +77,9 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 	const {event}= UseEventService();
 
 	const [message, setMessage] = useState<string>('');
+	  const debounced = useDebouncedCallback((value:any) => {
+			setMessage(value);
+		}, 500);
 
 	const [attendeeId] = useParam('id');
 
@@ -121,6 +126,7 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 						type:'reservation',
 						title:labels?.RESERVATION_MEETING_REQUEST_SENT_TITLE,
 						text:`${labels?.RESERVATION_MEETING_REQUEST_SENT_MSG} ${attendee?.first_name} ${shouldShow(attendee?.field_settings?.last_name) ? attendee?.last_name : ''}`,
+						btnLeftText:labels?.GENERAL_OK,
 					}});
 				}
 			} catch (error) {
@@ -186,9 +192,10 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 		)}
 
 		{slots.length == 0 && (
-			<Box p={2} bg="primary.box" rounded="lg" w="100%">
-			<Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-		</Box>
+			<NoRecordFound
+			bg="primary.box"
+			/>
+		
 		)}
 		
 		{/* Confirmation popup  */}
@@ -209,9 +216,9 @@ const SlotsList = ({slots,slotBooked}: SlotsListProps) => {
 								<VStack mb={2} px={4} w={'100%'} py={2} space="1" alignItems="flex-start">
 									<Text color={'primary.text'}  fontSize="md">{event?.labels?.GENERAL_CHAT_MESSAGE}</Text>
 									<TextArea
-										value={message}
-										onChange={(event)=>setMessage(event.nativeEvent.text)}
-									 autoCompleteType={false} _focus={{ bg:"primary.darkbox" }} borderColor={'transparent'} w="100%" h={90} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
+										defaultValue={message}
+										onChangeText={(text)=>debounced(text)}
+									 autoCompleteType={false} borderColor={'transparent'} w="100%" h={90} placeholder={event?.labels?.GENERAL_CHAT_ENTER_MESSAGE} bg={'primary.darkbox'} color={'primary.text'} fontSize={'sm'}  />
 									
 								</VStack>
 								
@@ -364,15 +371,15 @@ const BookingSection = ({selectedMeetingSpace}:BookingSectionProps) => {
 									w={'30px'}
 									h={'30px'}
 									colorScheme="unstyled"
-									_hover={{ bg:"secondary" }}
-									bg={activeDay && Number(day) == activeDay.day ? "secondary.500" : "transparent"}
+									_hover={{ bg:"secondary.500" }}
+									bg={activeDay && Number(day) == activeDay.day ? "secondary.500" : "primary.darkbox"}
 									onPress={()=>{
 										addActiveDay(Number(day));
 									}}
 								
 								>
 									{day}
-								</Button> : <Text opacity={0.5} fontSize="md">{day}</Text>)
+								</Button> : <Text opacity={0.8} fontSize="md">{day}</Text>)
                 )}
 								
 					</Center>
@@ -429,9 +436,8 @@ return (
 				</Flex>
 				
     </Center>
-    <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w={["100%","35%"]} borderTopColor={'primary.darkbox'} borderTopWidth={'2'}>
-			{
-				activeDay ?( 
+    <Center alignItems={'flex-start'} justifyContent={'flex-start'} bg="primary.box" w={["100%","35%"]} borderTopColor={'primary.darkbox'} borderTopWidth={'0'}>
+			{activeDay ?( 
 				<Center py={["2","3"]} px="2" alignItems={'flex-start'} justifyContent={'flex-start'} w="100%" >
 					<Text my={2} fontSize="sm">
 						<>
@@ -471,9 +477,15 @@ const RectangleView = () => {
     const { _env } = UseEnvService();
 
 	const {FetchAvailableSlots,labels,available_slots,available_meeting_spaces} = UseMeetingReservationService();
+	const [attendeeId] = useParam('id');
 
 	React.useEffect(() => {
-		FetchAvailableSlots()
+		if(event?.appointment_settings?.availability_calendar === 1){
+			FetchAvailableSlots({attendee_id:Number(attendeeId)})
+		}else{
+			FetchAvailableSlots({})
+		}
+		getAttendee();
 	}
 	, []);
 
@@ -484,9 +496,65 @@ const RectangleView = () => {
     const [selectedMeetingSpace, setSelectedMeetingSpace] = React.useState<string>('');
 	const { modules } = UseEventService();
 	const module = modules.find((module) => module.alias === 'reservation');
+	const [attendee, setAttendee] = useState<MeetingAttendee | null >(null);
+	const [loadingAttendee, setLoadingAttendee] = useState<boolean>(false);
+
+	async function getAttendee(){
+		const mystate=store.getState()
+		try {
+			setLoadingAttendee(true);
+			const response = await getAttendeeDetailApi({id:attendeeId},mystate);
+			if(response?.status == 200){
+				setAttendee(response?.data?.data?.detail);
+				setLoadingAttendee(false);
+			}
+		} catch (error) {
+			console.log('error', error);
+		}
+	}
+
+	 // get image of sender 
+	 const getSenderImage = (image: string) => {
+		// source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
+		if(image){
+		  return `${_env?.eventcenter_base_url}/assets/attendees/${image}`;
+		}
+		return '';
+	  };
+
+	 // Function to get the first letters of the first and last name
+	 const getFirstLetters = (name: string) => {
+		if(name){
+		  const names = name.split(' ');
+		  return (names[0].substring(0, 1) + names[1].substring(0, 1)).toUpperCase();
+		}
+		return '';
+	  };
+
     return (
         <>
 		<NextBreadcrumbs module={module} title={labels?.RESERVATION_BOOK_MEETING_LABEL}/>
+		<HStack bg={'primary.box'} p={1} rounded={'20px'}  space="1" alignItems="center" width="100%">
+			{loadingAttendee ? <SectionLoading h='80px' />:(
+				<>
+				{attendee?(
+				<>
+					
+					<Avatar
+						size={'lg'}
+						source={{
+						uri: getSenderImage(attendee?.image)
+						}}>
+						{getFirstLetters(`${attendee?.first_name} ${attendee?.last_name}`)}
+					</Avatar>
+					<Text fontSize="14px">{attendee?.first_name} {attendee?.last_name}</Text> 
+				</>
+				):(
+				<NoRecordFound/>
+				)}
+				</>
+			)}
+			</HStack>
             <HStack mb="3" pt="2" w="100%" space="3"  justifyContent={'space-between'} flexDirection={['column','row']}>
                 {/* <Pressable onPress={()=> push(`/${event.url}/attendees`)} w={['100%','50%']}>
                     <HStack space="3" alignItems="center" >

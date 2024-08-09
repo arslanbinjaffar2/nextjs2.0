@@ -43,6 +43,11 @@ export interface Program {
     qa?: number;
     enable_checkin?: number;
     hide_time?: number;
+    videos?: string;
+    is_attatched_with_subregistration: number;
+    is_fav: boolean;
+    request_to_speak_common_group?: boolean;
+    is_active_speakerlist?: boolean;
 }
 
 interface PollQuestion {

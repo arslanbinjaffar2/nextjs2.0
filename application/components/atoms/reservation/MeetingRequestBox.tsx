@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Center, HStack, IconButton, Spacer, Text, View, VStack } from 'native-base';
+import { Avatar, Box, Center, HStack, IconButton, Spacer, Text, Tooltip, View, VStack } from 'native-base';
 import Icocalendar from 'application/assets/icons/small/Icocalendar'
 import Icoclock from 'application/assets/icons/small/Icoclock'
 import Icopin from 'application/assets/icons/small/Icopin'
@@ -43,6 +43,10 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 	const {AddNotification} = UseNotificationService();
 	const { _env } = UseEnvService();
 	const [attendeeToShow,setAttendeeToShow]=React.useState<MeetingAttendee>(meeting_request?.host_attendee_id === loggedInAttendeeId ? meeting_request?.participant_attendee : meeting_request?.host_attendee);
+	const [showReminderBtn]=React.useState(()=>{
+		// if email or sms is enabled then show the reminder button
+		return event?.appointment_settings?.meeting_notifications_via?.includes('sms') || event?.appointment_settings?.meeting_notifications_via?.includes('email')
+	});
 	function acceptMeeting(){
 		AcceptMeetingRequest({meeting_request_id:meeting_request.id})
 	}
@@ -95,6 +99,7 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 				type:'reservation',
 				title:labels?.RESERVATION_EMAIL_SENT_TITLE,
 				text: labels?.RESERVATION_EMAIL_SENT_MSG,
+				btnLeftText:labels?.GENERAL_OK,
 			  }
 			})
 		  }
@@ -183,19 +188,23 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 				{meeting_request?.status === 'requested' && loggedInAttendeeId === meeting_request?.participant_attendee_id && (
 					<>
 						{/* Accept Icon */}
+							<Tooltip label={labels?.RESERVATION_ACCEPT_MEETING_ALERT_TITLE} openDelay={200} bg={colors.primary}  _text={{ color: colors.text }}>
 							<IconButton p={1} variant="unstyled"
 								icon={<Icoaccept color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									setConfirmAction('acceptMeeting')
 									setShowConfirmation(true)
 								}}/>
+							</Tooltip>
 						{/* Reject Icon */}
+						<Tooltip label={labels?.RESERVATION_REJECT_MEETING_ALERT_TITLE} openDelay={200} bg={colors.primary}  _text={{ color: 'red.500' }}>
 							<IconButton p={1} variant="unstyled"
 								icon={<Icoreject color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									setConfirmAction('rejectMeeting')
 									setShowConfirmation(true)
 								}} />
+							</Tooltip>
 					</>
 				)}
 				{meeting_request?.status === 'accepted' && (
@@ -203,27 +212,34 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 						{isChatModuleActive && (
 							<>
 							{/* Chat Icon */}
+							<Tooltip label={modules?.find((module) => (module.alias == 'chat'))?.name ?? ''} openDelay={200}  bg={colors.primary}  _text={{ color: colors.text }}>
 							<IconButton p={1} variant="unstyled"
 								icon={<DynamicIcon iconType="chat" iconProps={{ width: 19, height: 19 }} />}
 								onPress={()=>{
 									push(`/${event.url}/chat/${attendeeToShow?.id}`);
 								}} />
 							
+							</Tooltip>
 							</>
 						)}
 						{/* Cancel Icon */}
+							<Tooltip label={labels?.RESERVATION_CANCEL_MEETING_ALERT_TITLE} openDelay={200}  bg={colors.primary}  _text={{ color: colors.text }}>
 							<IconButton p={1} variant="unstyled"
 								icon={<Icoreject color={colors.text} width={19} height={19} />}
 								onPress={()=>{
 									setConfirmAction('cancelMeeting')
 									setShowConfirmation(true)
 								}} />
+							</Tooltip>
 						{/* Add To Calendar Icon */}
-							<IconButton isDisabled={downloadingCalendar === meeting_request?.id ? true:false} p={1} variant="unstyled"
-								icon={<Icoaddcalendar color={colors.text} width={19} height={19} />}
-								onPress={()=>{addToCalender()}}
-							/>
+							<Tooltip label={labels?.RESERVATION_ADD_TO_CALENDAR} openDelay={200}  bg={colors.primary}  _text={{ color: colors.text }}>
+								<IconButton isDisabled={downloadingCalendar === meeting_request?.id ? true:false} p={1} variant="unstyled"
+									icon={<Icoaddcalendar color={colors.text} width={19} height={19} />}
+									onPress={()=>{addToCalender()}}
+								/>
+							</Tooltip>
 						{/* Send Email Icon */}
+						{showReminderBtn && (<Tooltip label={labels?.GENERAL_SEND_EMAIL} openDelay={200} bg={colors.primary}  _text={{ color: colors.text }}>
 							<IconButton isDisabled={sendingReminder === meeting_request?.id ? true :false} p={1} variant="unstyled"
 								icon={<Icosendemail color={colors.text} width={19} height={19} />}
 								onPress={()=>{
@@ -231,16 +247,21 @@ const MeetingRequestBox = ({ border, meeting_request }: boxItemProps) => {
 									setShowConfirmation(true)
 								}}
 							/>
+							</Tooltip>
+						)}
+							
 					</>
 				)}
 
 				{meeting_request?.status === 'rejected' && (
 					<>
 						{/* Re Schedule Icon */}
+						<Tooltip label={labels?.RESERVATION_RESCHEDULE} openDelay={200} bg={colors.primary}  _text={{ color: colors.text }}>
 							<IconButton p={1} variant="unstyled"
 								icon={<RescheduleIcon color={colors.text} width={19} height={19} />}
 								onPress={()=>{reScheduleMeeting()}}
 							/>
+						</Tooltip>
 					</>
 				)}
 			</HStack>

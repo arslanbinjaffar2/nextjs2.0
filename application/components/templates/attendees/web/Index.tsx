@@ -24,6 +24,7 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import DynamicIcon from 'application/utils/DynamicIcon';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 type ScreenParams = { slug: any }
 
@@ -74,10 +75,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
 
     const alphabet = alpha.map((x) => String.fromCharCode(x));
 
-    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory, last_page } = UseAttendeeService();
+    const { attendees, FetchAttendees, query, page, FetchGroups, groups, group_id, group_name, category_id, FetchCategories, categories, category_name, parent_id, UpdateCategory, last_page, categoryBreadcrumbs, setBreadcrumbs, updateBreadcrumb } = UseAttendeeService();
 
     const [searchQuery, setSearch] = React.useState('')
-    const [parentCategories, setParentCategories] = useState<Category[]>([]);
 
     const [slug] = useParam('slug');
 
@@ -88,16 +88,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
         }
         
     }, [searchParams]);
-
-    useEffect(() => {
-        if(categories.length > 0){
-            const filteredCategories = categories.filter(category => category.parent_id === 0);
-            if(filteredCategories.length > 0){
-                setParentCategories(filteredCategories);
-            }       
-        }
-    }, [categories]);
-    
 
     useEffect(() => {
         if (mounted.current) {
@@ -120,11 +110,12 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             } else if (in_array(tab, ['sub-group'])) {
                 FetchGroups({ query: query, group_id: (Number((searchParams.get('group_id') !== null ? searchParams.get('group_id') : 0))), page: 1, attendee_id: 0, program_id: 0 });
             }else{
+                console.log('RIBA')
                 UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
                 setTab('attendee');
             }
         }
-    }, [tab, category_id]);
+    }, [tab]);
 
     useEffect(() => {
         mounted.current = true;
@@ -143,8 +134,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
         }
         else if ((slug === undefined || slug.length === 0) && tab === 'category-attendee') {
-            setTab('category-attendee'); console.log('call 4')
-            FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), screen: 'speakers', program_id: 0 });
+            setTab('category-attendee'); console.log('call category-attendee')
+            FetchAttendees({ query: query, group_id: 0, page: 1, my_attendee_id: 0, speaker: speaker, category_id: Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0)), screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
         }
          else if ((slug === undefined || slug.length === 0) && tab === 'category') {
             setTab('category');
@@ -170,18 +161,20 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             search.cancel();
         };
     }, []);
-
+    const categoryIdQuery = Number((searchParams.get('category_id') !== null ? searchParams.get('category_id') : 0));
     const search = React.useMemo(() => {
         return debounce(function (query: string, tab:string) {
             if (tab === "group") {
                 FetchGroups({ query: query, group_id: group_id, page: 1, attendee_id: 0, program_id: 0 });
             } else if (tab === "category") {
                 FetchCategories({ parent_id: 0, query: query, page: 1, cat_type: 'speakers' })
-            }else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee'])) {console.log('call 5')
-                FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: category_id, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
+            } else if (tab === "sub-category") {
+                FetchCategories({ parent_id: categoryIdQuery, query: query, page: 1, cat_type: 'speakers' })
+            }else if (in_array(tab, ['attendee', 'group-attendee', 'my-attendee', 'category-attendee'])) {console.log('call 5')
+                FetchAttendees({ query: query, group_id: group_id, page: 1, my_attendee_id: tab === "my-attendee" ? response?.data?.user?.id : 0, speaker: speaker, category_id: categoryIdQuery, screen: speaker ? 'speakers' : 'attendees', program_id: 0 });
             }
-        }, 1000);
-    }, []);
+        }, 500);
+    }, [categoryIdQuery]);
 
     React.useEffect(() => {
         setSearch(query);
@@ -192,8 +185,40 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
             setTab('my-attendee');
         }
     }, [screen]);
-    const module = (speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee) => attendee.alias === 'attendees') : modules?.find((attendee) => attendee.alias === 'my-attendee-list')) : modules?.find((speaker) => speaker.alias === 'speakers'))
 
+    const updateBreadcrumbs = (category: Category) => {
+        updateBreadcrumb(category);
+    };
+
+    const handleBreadcrumbClick = (category:Category) => {
+        const index = categoryBreadcrumbs.findIndex((item: Category) => item.id === category.id);
+        if (index !== -1) {
+            setBreadcrumbs(categoryBreadcrumbs.slice(0, index + 1));
+            handleNavigation(category);
+        }
+    };
+
+    const createQueryStringCat = React.useCallback(
+        (array:{name: string, value: string}[]) => {
+          const params = new URLSearchParams(searchParams.toString())
+          array.forEach((i)=>{
+              params.set(i.name, i.value)
+          });
+          return params.toString()
+        },
+        [searchParams]
+    )
+
+    const handleNavigation = (category: Category) => {
+        if (category.parent_id > 0) {
+            UpdateCategory({ category_id: category.id, category_name: category.name, parent_id:category.parent_id });
+            // push(`/${event.url}/speakers?`+ createQueryStringCat([{name:'tab', value:'sub-category'}, {name:'category_id', value:`${category.id}`}]));
+        } else {
+            push(pathname + '?' + createQueryStringCat([{name:'tab', value:'sub-category'}, {name:'category_id', value:`${category.id}`}]))
+        }
+    };
+
+    const module = (speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee) => attendee.alias === 'attendees') : modules?.find((attendee) => attendee.alias === 'my-attendee-list')) : modules?.find((speaker) => speaker.alias === 'speakers'))
     return (
         <>
             <NextBreadcrumbs module={module} />
@@ -223,35 +248,43 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                         {(((event?.attendee_settings?.default_display === 'name' || event?.attendee_settings?.tab == 1))) &&  (event?.attendee_settings?.tab == 1 || modules?.some(module => module.alias === 'my-attendee-list')) && 
                             <ButtonElement
                                 onPress={() => {
-                                    setTab('attendee'); 
+                                    setTab('attendee');
+                                    setBreadcrumbs([]);
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'attendee'))
                                 }} 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                
                             >
                                 {event?.labels?.EVENTSITE_BTN_ALL_EVENT_ATTENDEES}
-                                
                             </ButtonElement>}
-                        {
-                            modules?.some(module => module.alias === 'my-attendee-list') && (
-                            <ButtonElement
-                                onPress={() => {
-                                    setTab('my-attendee')
-                                    push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
-
-                                }} 
-                              
-                                bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
-                            >
-                                {modules?.find((module)=>(module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
-                                
-                            </ButtonElement>
-                            )
-                        }
+                            {
+                                modules?.some(module => module.alias === 'my-attendee-list') && (
+                                    <Button
+                                        onPress={() => {
+                                            setTab('my-attendee')
+                                            setBreadcrumbs([]);
+                                            push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
+                                        }} 
+                                        borderRadius="0" 
+                                        borderWidth="0px" 
+                                        py={0} 
+                                        borderColor="primary.darkbox" 
+                                        h="42px" 
+                                        borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
+                                        borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
+                                        bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
+                                        w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
+                                        _text={{ fontWeight: '600' }}
+                                    >
+                                        {modules?.find((module) => (module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
+                                    </Button>
+                                )
+                            }
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
                                 <ButtonElement
                                     onPress={() => {
                                         setTab('group')
+                                        setBreadcrumbs([]);
                                         push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'group'))
                                     }} 
                                   
@@ -269,6 +302,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     setTab('attendee') 
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'attendee'))
                                     UpdateCategory({ category_id: 0, category_name: '', parent_id:0 });
+                                    setBreadcrumbs([]);
                                 }} 
                                 
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
@@ -276,11 +310,12 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                 {event?.labels?.SPEAKER_NAME}
                             </ButtonElement>
                         }
-                        {( event?.speaker_settings?.tab == 1) && ( event?.speaker_settings?.category_group == 1) &&
+                        {(event?.speaker_settings?.tab == 1) &&
                             <ButtonElement 
                                 onPress={() => {
                                     setTab('category')
                                     push(`/${event.url}/speakers` + '?' + createQueryString('tab', 'category'))
+                                    setBreadcrumbs([]);
                                 }} 
                                 bg={tab === 'category' || tab === 'sub-category' || tab === 'category-attendee' ? 'primary.boxbutton' : 'primary.box'} 
                             >
@@ -293,6 +328,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                         <HStack mb="1" pt="2" w="100%" space="3">
                             <Pressable
                                 onPress={async () => {
+                                    setBreadcrumbs([]);
                                     back()
                                 }}>
                                     <HStack alignItems={'center'} space={3}>
@@ -306,36 +342,28 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                         )}
                         </>
                     )}
-                    {category_name && (
+
+                    {console.log((tab === 'category' || tab === 'sub-category' || tab === 'category-attendee'))}
+                      {(tab === 'category' || tab === 'sub-category' || tab === 'category-attendee') && categoryBreadcrumbs.length > 0 && (
                         <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
                             <Text flex="1" textTransform="uppercase" fontSize="sm">
-                            {parent_id !== 0 ? (
-                                <>
-                                <Pressable
-                                    onPress={async () => {
-                                        back()
-                                    }}>
-                                    <Text textTransform="uppercase" fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
-                                </Pressable>
-                                {categories.find(category => category.id === Number((searchParams.get('category_id')))) && 
-                                <>
-                                    <Icon color={'primary.text'} as={AntDesign} name="right"  />
-                                    <Text textTransform="uppercase" fontSize="sm">{categories.find(category => category.id === Number((searchParams.get('category_id'))))?.name}</Text>
-                                </>
-                                }
-                                </>
-                            ) : (
-                                <Text textTransform="uppercase" fontSize="sm">{parentCategories.find(category => category.id === parent_id)?.name}</Text>
-                            )}
+                                {categoryBreadcrumbs.map((breadcrumb:any, index) => (
+                                    <React.Fragment key={breadcrumb.id}>
+                                        <Pressable onPress={() => handleBreadcrumbClick(breadcrumb)}>
+                                            <Text fontSize="sm">
+                                                {breadcrumb.name}
+                                            </Text>
+                                        </Pressable>
+                                        &nbsp;&nbsp;
+                                        {index < categoryBreadcrumbs.length - 1 && (
+                                            <Icon color={'primary.text'} as={AntDesign} name="right" />
+                                        )}
+                                        &nbsp;&nbsp;
+                                    </React.Fragment>
+                                ))}
                             </Text>
-                            <Pressable
-                            onPress={async () => {
-                                back()
-                            }}>
-                            {/* <Text textTransform="uppercase" fontSize="sm"><Icon color={'primary.text'} as={AntDesign} name="left"  /> Go back</Text> */}
-                            </Pressable>
                         </HStack>
-                        )}
+                    )}
                 </>
             )}
             {/* {speaker === 0 && ((tab === 'attendee' && attendees.length > 0) || (tab === 'group' && groups.length > 0) || (tab === 'my-attendee' && attendees.length > 0 )) && (
@@ -373,9 +401,8 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                         </React.Fragment>
                              )}
                             {attendees.length <= 0 &&
-                              <Box p={3} rounded="lg" w="100%">
-                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
-                              </Box>
+                            <NoRecordFound/>
+                          
                             }
                         </Container>}
                         {(tab === 'group' || tab === 'sub-group') && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
@@ -388,27 +415,25 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     )}
                                     {map?.records?.map((group: Group, k: number) =>
                                         <React.Fragment key={`${k}`}>
-                                            <RectangleGroupView group={group} k={k} border={map?.records.length === 1 ? 0 : map?.records.length > 1 && k ===  map?.records.length -1 ? 0 : 1 } updateTab={updateTab} />
+                                            <RectangleGroupView group={group} k={k} border={k} updateTab={updateTab} />
                                         </React.Fragment>
                                     )}
                                 </React.Fragment>
                             )}
                             {groups.length <= 0 &&
-                              <Box p={3} rounded="lg" w="100%">
-                                  <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
-                              </Box>
+                            <NoRecordFound />
+
                             }
                         </Container>}
-                        {(tab === 'category' || tab === 'sub-category') && event?.speaker_settings?.category_group == 1 && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                        {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>
-                                    <RectangleCategoryView category={category} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />
+                                    <RectangleCategoryView category={category} updateBreadcrumbs={updateBreadcrumbs} k={k} border={categories.length != (k + 1)} navigation={true} updateTab={updateTab} screen="listing" />
                                 </React.Fragment>
                             )}
                             { categories.length <= 0 &&
-                                <Box p={3} rounded="lg" w="100%">
-                                    <Text fontSize="16px">{event.labels.GENERAL_NO_RECORD}</Text>
-                                </Box>
+                            <NoRecordFound />
+                               
                             }
                         </Container>}
                     </>

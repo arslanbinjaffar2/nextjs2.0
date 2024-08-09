@@ -5,6 +5,7 @@ import { View, Input, Icon, HStack, Button, Box, Pressable, Text, Badge, Spacer 
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseFloorPlanService from 'application/store/services/UseFloorPlanService';
 import UseEventService from 'application/store/services/UseEventService';
+import NoRecordFound from '../atoms/NoRecordFound';
 const SidebarMapplic = (json) => {
 	const openLocation = useMapplicStore(state => state.openLocation);
 	const closeLocation = useMapplicStore(state => state.closeLocation);
@@ -59,24 +60,26 @@ const SidebarMapplic = (json) => {
             bg={active === 'sponsor'  ? 'primary.500' :'primary.box'}
             py={2}
             px={6}
-            _text={{fontSize: 'lg'}}
+            _text={{fontSize: 'lg',color:active=='sponsor' && "primary.hovercolor"}}
+            _hover={{ _text:{color:"primary.hovercolor"} }}
             onPress={()=>{
               setactive('sponsor'); closeLocation()
             }}>
-            <Text>{labels?.FLOOR_PLAN_SPONSOR_LABEL}</Text>
+           {labels?.FLOOR_PLAN_SPONSOR_LABEL}
             
           </Button>
           <Button
            rounded={'full'}
             py={2}
             px={6}
-            _text={{fontSize: 'lg'}}
+            _text={{fontSize: 'lg',color:active=='exhibitor' && "primary.hovercolor"}}
+            _hover={{ _text:{color:"primary.hovercolor"} }}
             bg={active === 'exhibitor' ? 'primary.500' :'primary.box'}
             colorScheme="primary"
             onPress={()=>{
               setactive('exhibitor');closeLocation()
             }}>
-            <Text >{labels?.FLOOR_PLAN_EXHIBITOR_LABEL}</Text>
+        {labels?.FLOOR_PLAN_EXHIBITOR_LABEL}
             
           </Button>
                 
@@ -125,7 +128,9 @@ const SidebarMapplic = (json) => {
           }
 				</>	
 				)}
-				{filteredGroups.length < 1 && <Text p={3}>{event?.labels?.GENERAL_NO_RECORD}</Text>}
+				{filteredGroups.length < 1 && 
+        <NoRecordFound/>
+        }
 			</Box>
 	</View>
   )

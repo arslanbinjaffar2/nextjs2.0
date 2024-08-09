@@ -25,7 +25,7 @@ const upcoming_events = (props:SvgProps) => {
       </ClipPath>
     </Defs>
     <G id="Group_5695" data-name="Group 5695" transform="translate(0 0)">
-      <G id="Group_5693" data-name="Group 5693" clipPath="url(#clip-path)">
+      <G id="Group_5693" data-name="Group 5693">
         <Path
           id="Path_2377"
           data-name="Path 2377"

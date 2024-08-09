@@ -85,6 +85,8 @@ export interface Event {
     event_language_code?: string
     attendee_tab_settings?: any
     agenda_tab_settings?: AgendaTabSetting[]
+    dashboard_modules?: DashboardModule[]
+    appointment_settings?: AppointmentSettings
 }
 interface Setting {
     poll_setting?: string;
@@ -124,6 +126,7 @@ interface Setting {
     app_text_mode?: string;
     app_background_image?: string;
     fav_icon?: string;
+    app_icon?: string;
 }
 interface AttendeeSetting {
     id?: number;
@@ -372,6 +375,7 @@ interface SpeakerSettings {
   birth_date: number;
   spoken_languages: number;
   employment_date: number;
+  attendee_can_book_meeting_with_speaker: number;
 }
 
 export interface SponsorSettings {
@@ -627,4 +631,20 @@ export interface AgendaTabSetting{
   module: string;
   sort_order: number;
   status: number;
+}
+export interface DashboardModule{
+  id: number;
+  sort_order: number;
+  event_id: number;
+  status: number;
+  alias: string;
+  name: string;
+}
+// protected $fillable = ['event_id', 'request_expire_duration','meeting_notifications_via','enable_reminder','availability_calendar'];
+export interface AppointmentSettings{
+  event_id: number;
+  request_expire_duration: number;
+  meeting_notifications_via: string;
+  enable_reminder: number;
+  availability_calendar: number;
 }

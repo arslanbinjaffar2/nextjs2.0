@@ -21,7 +21,7 @@ function* OnGetSponsors({
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getSponsorApi, { ...payload, limit: payload.screen === 'our-sponsors' ? 5 : 20 }, state)
+    const response: HttpResponse = yield call(getSponsorApi, { ...payload, limit: payload.screen === 'our-sponsors' ? 5 : 200 }, state)
     if(payload.screen === 'our-sponsors') {
         yield put(SponsorActions.updateOurSponsors(response.data.data.sponsors!))
     } else if(payload.screen === 'my-sponsors') {

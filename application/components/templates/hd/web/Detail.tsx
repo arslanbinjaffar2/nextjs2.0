@@ -18,6 +18,7 @@ import UseSocketService from 'application/store/services/UseSocketService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoSend from 'application/assets/icons/small/IcoSend'
+import { getColorScheme } from "application/styles/colors";
 import { 
     BtnBold,
     BtnBulletList,
@@ -36,12 +37,16 @@ import {
     EditorProvider,
     Toolbar
 } from 'react-simple-wysiwyg';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+
+import SectionLoading from 'application/components/atoms/SectionLoading';
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
 
 const Detail = () => {
     const mounted = React.useRef(false);
+    const RenderHtml = require('react-native-render-html').default;
 
     const { processing, loading } = UseLoadingService();
     const { _env } = UseEnvService();
@@ -61,7 +66,18 @@ const Detail = () => {
 
     const [id] = useParam('id');
     const [tab, setTab] = React.useState<'popular'| 'recent' | 'archive' >('popular')
-
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
     React.useEffect(() => {
         if (id) {
             FetchGroupDetail({ id: Number(id) });
@@ -178,7 +194,7 @@ const Detail = () => {
     <>
     {
         in_array('hd-detail', processing) ? (
-            <WebLoading />
+            <SectionLoading />
         ):(
             <>
             <NextBreadcrumbs module={module} title={hdDetails?.group?.info?.name}/>
@@ -190,10 +206,10 @@ const Detail = () => {
                 </HStack>
                 <Box overflow="hidden" w="100%" bg="primary.box" p="0" rounded="10px" mb={3} borderBottomWidth={0} borderColor="primary.bdBox">
                 <Box w="100%">
-                    <HStack pl="4"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
+                    <HStack pl="3"  w="100%" bg="primary.darkbox" mb="3" alignItems="center">
                         <Text fontSize="lg">{labels?.HD_ASK_QUESTION ?? "Ask a question"}</Text>
                     </HStack>
-                    {error && <Box  mb="3" py="3" px="4" backgroundColor="red.200" w="100%">
+                    {error && <Box  mb="3" py="3" px="3" backgroundColor="red.200" w="100%">
                             <Text color="red.400"> {error} </Text>
                     </Box>}
                     <Box w="100%" px="3">
@@ -261,8 +277,8 @@ const Detail = () => {
                             </Pressable>
                         ))}
                     </HStack>
-                    <Box mb="10" px="5" w="100%" position="relative">
-                        {loading && <WebLoading />}
+                    <Box mb="10" px="3" w="100%" position="relative">
+                        {loading && <SectionLoading />}
                         {!loading && <>
                             <VStack w="100%" space="3">
                                 {tab === 'popular' &&
@@ -283,7 +299,15 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack w={'100%'} space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                             <Text lineHeight="24" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                            <Text w={'100%'} pt={1}><div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/></Text>
+                                            <Box w={'100%'} pt={1}>
+                                                <RenderHtml
+                                                    defaultTextProps={{selectable:true}}
+                                                    contentWidth={600}
+                                                    systemFonts={['Avenir']}
+                                                    tagsStyles={mixedStyle}
+                                                    source={{ html: question?.info?.question }}
+                                                />
+                                            </Box>
                                                 
                                         </HStack>   
                                         {hdSettings.up_vote == 1 && <HStack 
@@ -320,9 +344,11 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'popular' && hdDetails?.popular_questions.length <= 0 &&
-                                    <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                
+                                    <NoRecordFound
+                                    mb="3" 
+                                    bg="primary.box"
+                                    />
                                 }
                                 {tab === 'recent' &&
                                   hdDetails?.recent_questions?.map((question,i)=>(
@@ -342,9 +368,15 @@ const Detail = () => {
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                                <Text w={'100%'} pt={1}>
-                                                    <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                                </Text>
+                                                <Box w={'100%'} pt={1}>
+                                                    <RenderHtml
+                                                    defaultTextProps={{selectable:true}}
+                                                    contentWidth={600}
+                                                    systemFonts={['Avenir']}
+                                                    tagsStyles={mixedStyle}
+                                                    source={{ html: question?.info?.question }}
+                                                />
+                                                </Box>
                                         </HStack>  
                                         {hdSettings.up_vote == 1 && <HStack 
                                                 mt={3}
@@ -380,9 +412,10 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'recent' && hdDetails?.recent_questions.length <= 0 &&
-                                    <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                <NoRecordFound
+                                mb={3} bg="primary.box"
+                                />
+                                  
                                 }
                                 {tab === 'archive' &&
                                   hdDetails?.archived_questions?.map((question,i)=>(
@@ -397,14 +430,20 @@ const Detail = () => {
                                     <Text fontWeight="600" fontSize="lg">
                                     {question.anonymous_user === 1 ? (labels?.HD_ANONYMOUS ?? "Anonymous") : question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
-                                    <Text position="absolute" right="5" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
+                                    <Text position="absolute" right="0" top="0" opacity={0.5} fontSize="sm">{question.info.question_time}</Text>
                                     </HStack>
                                     <Box w={'100%'}>
                                         <HStack space="3" alignItems="flex-start" justifyContent={'flex-start'}>
                                                 <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
-                                                <Text w={'100%'} pt={1}>
-                                                    <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{__html:question?.info?.question}}/>
-                                                </Text>
+                                                <Box w={'100%'} pt={1}>
+                                                    <RenderHtml
+                                                        defaultTextProps={{selectable:true}}
+                                                        contentWidth={600}
+                                                        systemFonts={['Avenir']}
+                                                        tagsStyles={mixedStyle}
+                                                        source={{ html: question?.info?.question }}
+                                                    />
+                                                </Box>
                                         </HStack>  
                                         {hdSettings.up_vote == 1 && <HStack 
                                             mt={3}
@@ -441,9 +480,8 @@ const Detail = () => {
                                   ))  
                                 }
                                 {tab === 'archive' && hdDetails?.archived_questions.length <= 0 &&
-                                    <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                                        <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                <NoRecordFound bg="primary.box"/>
+                                   
                                 }
                             </VStack>
                         </>

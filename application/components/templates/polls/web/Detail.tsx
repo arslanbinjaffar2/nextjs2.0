@@ -29,6 +29,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import IcoTick from 'application/assets/icons/small/IcoTick';
 import { getColorScheme } from 'application/styles/colors';
 import SwipeBtn from '../../../atoms/swipeBtn';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type ScreenParams = { id: string }
 
@@ -263,7 +264,7 @@ const Detail = () => {
   return (
     <>
       {loading ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
 
               <>
@@ -302,7 +303,9 @@ const Detail = () => {
                       bg="transparent"
                       p="2"
                       fontSize="lg"
-                      leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left" color="primary.text" />}
+                      leftIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-left"  />}
+                      _icon={{color: 'primary.text'}}
+                      _hover={{_text: {color: 'primary.hovercolor'},_icon: {color: 'primary.hovercolor'}}}
                       colorScheme="primary"
                       onPress={() => {
                         setActiveQuestionError(null);
@@ -318,8 +321,10 @@ const Detail = () => {
                       isDisabled={steps >= (detail?.questions?.length! -1) ? true : false}
                       p="2"
                       fontSize="lg"
-                      rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />}
+                      rightIcon={<Icon size="md" as={SimpleLineIcons} name="arrow-right"  />}
                       colorScheme="primary"
+                      _icon={{color: 'primary.text'}}
+                      _hover={{_text: {color: 'primary.hovercolor'},_icon: {color: 'primary.hovercolor'}}}
                       onPress={() => {
                         setNextStep();
                       }}
@@ -353,6 +358,7 @@ const Detail = () => {
                     py="3"
                     px="3"
                     isLoading={false}
+                    color={'primary.hovercolor'}
                     colorScheme="primary"
                     onPress={()=>{
                       resetForSubmitAgain()
@@ -412,7 +418,7 @@ const CountdownTimer = React.memo(() => {
       {timeLeft > 0 ? (
         <Text fontSize="md">{poll_labels?.POLL_SURVEY_REDIRECT_MSG} {timeLeft}</Text>
       ) : (
-        <WebLoading />
+        <SectionLoading />
       )}
     </>
   );

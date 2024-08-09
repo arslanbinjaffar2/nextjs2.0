@@ -11,12 +11,15 @@ import { colorText } from 'application/styles/colors'
 import UseToastService from 'application/store/services/UseToastService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from 'in_array';
+import { getColorScheme } from "application/styles/colors";
 
 type AppProps = {
     detail: SponsorDetail|null,
 }
 
 const DetailBox = ({ detail }: AppProps) => {
+
+    const RenderHtml = require('react-native-render-html').default;
     
     const {AddToast}=UseToastService()
 
@@ -26,7 +29,22 @@ const DetailBox = ({ detail }: AppProps) => {
     
     const { event } = UseEventService()
 
-    const [isFav,setIsFav] = useState(false)
+    const [isFav,setIsFav] = useState(false);
+
+    const _bannerWidth = React.useRef<HTMLDivElement>(null);
+
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
 
 		 const {processing}=UseLoadingService();
 
@@ -52,11 +70,11 @@ const DetailBox = ({ detail }: AppProps) => {
 
     return (
         <>
-            {detail && <Box w="100%"  p="0" roundedTop="10">
+            {detail && <Box ref={_bannerWidth} w="100%"  p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
-                    <Image  roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
+                    <Image  roundedTop="10"  resizeMode='contain' source={{ uri: `${_env.eventcenter_base_url}/assets/sponsors/large/${detail?.detail?.logo}` }} alt="" w="100%" h={_bannerWidth.current?.clientWidth ? _bannerWidth.current?.clientWidth * 0.34 : 180} />
                 ) : (
-                    <Image  roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="" w="100%" h="160px" />
+                    <Image  roundedTop="10" size="contain" source={ExhibitorDefaultImage} alt="" w="100%" h="203px" />
                 )}
                 <Box pt={5} w="100%" px="6">
                     <HStack w="100%" mb="1" space="3" alignItems="flex-start">
@@ -116,7 +134,13 @@ const DetailBox = ({ detail }: AppProps) => {
                     </HStack>
                     {detail?.detail?.description && event?.sponsor_tab_settings?.about === 1 && <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
-                        <Text><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div></Text>
+                         <RenderHtml
+                            defaultTextProps={{selectable:true}}
+                            contentWidth={600}
+                            systemFonts={['Avenir']}
+                            tagsStyles={mixedStyle}
+                            source={{ html: detail?.detail?.description }}
+                        />
                     </Box>}
                 </Box>
             </Box>}

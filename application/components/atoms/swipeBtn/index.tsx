@@ -5,6 +5,7 @@ import IcoLongArrow from '../../../assets/icons/IcoLongArrow'
 import { getColorScheme } from 'application/styles/colors'
 import UseEventService from 'application/store/services/UseEventService'
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
+import { func } from 'application/styles'
 interface Props{
   loading:boolean | any,
   onComplete:()=>void
@@ -15,14 +16,14 @@ const SwipeBtn = ({loading,onComplete}:Props) => {
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
   return (
     <>
-    <Box  position={'relative'} m="auto" w="100%" maxW={310}  p="0" rounded="sm" overflow="hidden">
+    <Box  position={'relative'} m="auto" w="100%" maxW={250}  p="0" rounded="sm" overflow="hidden">
     {!loading && <SwipeButton
         Icon={
           <> 
           {
             loading ?
             <Spinner accessibilityLabel="Loading posts" />:
-        <IcoLongArrow />
+        <IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />
           }    
           </>
 
@@ -55,7 +56,7 @@ const SwipeBtn = ({loading,onComplete}:Props) => {
       }}
     />}
     {loading && <Box my={'10px'} bg="secondary.500" p="0" height={'60px'} rounded="10px">
-      <Spinner mt={5} accessibilityLabel="Loading posts" />
+      <Spinner color={'primary.hovercolor'} mt={5} accessibilityLabel="Loading posts" />
     </Box>}
         
   </Box>

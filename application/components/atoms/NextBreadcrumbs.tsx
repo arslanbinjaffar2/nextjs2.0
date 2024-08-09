@@ -36,7 +36,7 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
 
   function generateBreadcrumbs(module?: Module): NextBreadcrumb[] {
     const breadcrumbList: NextBreadcrumb[] = [];
-    breadcrumbList.push({ label: 'Dashboard', alias: 'dashboard', icon: 'dashboard' });
+    breadcrumbList.push({ label: event?.labels?.GENERAL_DASHBOARD ?? 'Dashboard' , alias: 'dashboard', icon: 'dashboard' });
     if (module && module !== undefined) {
       breadcrumbList.push({ label: module.name, alias: module.alias, icon: module.icon });
     }
@@ -61,6 +61,10 @@ const NextBreadcrumbs: React.FC<NextBreadcrumbsProps> = ({ module, title, additi
       }
     }else if(alias === "general-info" || alias === "practical-info" || alias === "additional-info"){
       url = `/${event.url}/${alias}/event-info/0`;
+    }else if(alias === "homeMyevents"){
+      url = `/${event.url}/home-events`;
+    }else if(alias === "upcomingEvents"){
+      url = `/${event.url}/upcoming-events`;
     }
     push(url);
   };

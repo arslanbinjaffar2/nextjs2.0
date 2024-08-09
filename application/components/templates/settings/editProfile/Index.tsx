@@ -17,6 +17,8 @@ import { Attendee, Attendeefeildsettings, CallingCode, Country, Labels, Language
 
 import UseEventService from 'application/store/services/UseEventService';
 
+import UseAuthService from 'application/store/services/UseAuthService';
+
 import { Event } from 'application/models/Event';
 
 import DateTimePicker from 'application/components/atoms/DateTimePicker';
@@ -39,6 +41,7 @@ import IcoTwitterXsm from "application/assets/icons/small/IcoTwitterXsm"
 import UseToastService from 'application/store/services/UseToastService';
 import PolicyModal from 'application/components/atoms/PolicyModal';
 import attendees from 'application/assets/icons/attendees'
+import { useDebouncedCallback } from "use-debounce";
 import { 
     BtnBold,
     BtnBulletList,
@@ -57,29 +60,57 @@ import {
     EditorProvider,
     Toolbar
 } from 'react-simple-wysiwyg';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
+const ReduceMemory = ({value,handleChange}:any) => {
+	const [editorValue, seteditorValue] = React.useState(value);
+	useEffect(() => {
+		handleChange('about', editorValue)
+	}, [editorValue])
+
+		return (
+				<>
+						<EditorProvider>
+							<Editor  style={{width: '100%'}} value={editorValue} onChange={(e) => seteditorValue(e.target.value)}>
+												<Toolbar>
+													<BtnUndo />
+													<BtnRedo />
+													<Separator />
+													<BtnBold />
+													<BtnItalic />
+													<BtnUnderline />
+													<BtnStrikeThrough />
+													<Separator />
+													<BtnNumberedList />
+													<BtnBulletList />
+													<Separator />
+													<BtnLink />
+													<BtnClearFormatting />
+													<HtmlButton />
+											</Toolbar>
+							</Editor>
+			</EditorProvider>
+				</>
+		)
+}
 
 const index = () => {
 
     const { FetchEditProfiles, settings, labels, attendee, languages, callingCodes, countries, customFields, attendee_feild_settings, UpdateAttendee, updatingAttendee, success_message, UpdateSuccess } = UseEditProfileService();
-    
-    const { loading, scroll } = UseLoadingService();
-    const toast = useToast();
-    const toastIdRef = React.useRef();
+
     const { event } = UseEventService();
 
 
     React.useEffect(() => {
         FetchEditProfiles();
     }, [])
+
     return (
         <>
-            {loading ? (
-                <WebLoading />
-            ) : (
+            {attendee ? 
                 <>
-                    <EditProfileFrom
+                <EditProfileFrom
                         attendee={attendee!}
                         languages={languages}
                         callingCodes={callingCodes}
@@ -95,8 +126,9 @@ const index = () => {
                         success_message={success_message}
                     
                     />
-                </>
-            )}
+                </> : <SectionLoading />
+            }
+                    
         </>
     )
 }
@@ -121,7 +153,8 @@ type formProps = {
 
 
 const EditProfileFrom = ({ attendee, languages, callingCodes, countries, settings, labels, customFields, event, attendee_feild_settings, updateAttendee, updatingAttendee, success_message, UpdateSuccess }: formProps) => {
-  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+    const { getUser } = UseAuthService();
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
     const Selectstyles2 = {
     control: (base:any, state:any) => ({
       ...base,
@@ -168,6 +201,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
     const [gender, setGender] = React.useState(attendee?.info?.gender ?? '');
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [modalContent, setModalContent] = React.useState({ title: '', body: '' });
+    const [gdpr, setGdpr] = React.useState(attendee?.current_event_attendee?.gdpr === 1 ? true : false);
+    const [accept_foods_allergies, setAcceptFoodsAllergies] = React.useState(attendee?.current_event_attendee?.accept_foods_allergies === 1 ? true : false);
     const cancelRef = React.useRef(null);
     const openModal = (title: any, body: any) => {
         setModalContent({ title, body });
@@ -229,14 +264,21 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         });
     };
 
-    const updateAttendeeFeild = (name: string, value: any) => {
+    const updateAttendeeFeild = useDebouncedCallback((name: string, value: any) => {
+        setAttendeeData({
+            ...attendeeData,
+            [name]: value,
+        });
+    },500);
+    const updateAttendeeFeildDate = (name: string, value: any) => {
         setAttendeeData({
             ...attendeeData,
             [name]: value,
         });
     };
 
-    const updateAttendeeInfoFeild = (name: string, value: any) => {
+    const updateAttendeeInfoFeild = useDebouncedCallback((name: string, value: any) => {
+			console.log('first', value)
         setAttendeeData({
             ...attendeeData,
             info: {
@@ -244,7 +286,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 [name]: value,
             },
         });
-    };
+    },500);
 
     const updateDate = (obj: any) => {
         setAttendeeData({
@@ -289,7 +331,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
         let custom_field_id = customFields.reduce((ack, question, i) => {
             if (customFieldData[`custom_field_id_q${i}`] !== undefined) {
-                let ids = question.allow_multiple === 1 ? customFieldData[`custom_field_id_q${i}`].map((ans: any) => (ans.value)).join(',') + "," : customFieldData[`custom_field_id_q${i}`].value + ',';
+                let ids = question.allow_multiple === 1 ? customFieldData[`custom_field_id_q${i}`] && customFieldData[`custom_field_id_q${i}`].map((ans: any) => (ans.value)).join(',') + "," : customFieldData[`custom_field_id_q${i}`].value + ',';
                 ack += ids;
             }
             return ack;
@@ -302,13 +344,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         }
 
         infoObj[`custom_field_id${event.id}`] = custom_field_id;
-
+        
         let settings = {
-            gdpr: attendeeData?.gdpr,
-            accept_foods_allergies: attendeeData?.accept_foods_allergies
+            gdpr: gdpr,
+            accept_foods_allergies: accept_foods_allergies
         }
 
-        const languageNamesString: string = spokenLanguages.map((language: any) => language.label).join(',');
+        const languageNamesString: string = spokenLanguages && spokenLanguages.map((language: any) => language.label).join(',');
         attendeeObj.SPOKEN_LANGUAGE = languageNamesString;
 
         if (attendeeData?.email) attendeeObj.email = attendeeData?.email;
@@ -355,12 +397,11 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
         formData.append('file', data.attendeeObj.file);
         formData.append('attendee_cv', data.attendeeObj.att_cv);
         updateAttendee(formData);
+        setTimeout(() => {
+            getUser();
+        }, 1000);
     };
  
-
-    if (Object.keys(attendeeData).length === 0) {
-        return <WebLoading />;
-    }
     return (
         <Container bg="primary.box" rounded="md" mb="3" maxW="100%" w="100%">
 
@@ -384,7 +425,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('initial', answer);
                                     }}
-                                    value={attendeeData?.info?.initial}
+                                    defaultValue={attendeeData?.info?.initial}
                                 />
                             </Center>
                         </HStack>
@@ -422,7 +463,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('first_name', answer);
                                     }}
-                                    value={attendeeData?.first_name}
+                                    defaultValue={attendeeData?.first_name}
                                 />
                             </Center>
                         </HStack>
@@ -441,7 +482,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('last_name', answer);
                                     }}
-                                    value={attendeeData?.last_name}
+                                    defaultValue={attendeeData?.last_name}
                                 />
                             </Center>
                         </HStack>
@@ -454,27 +495,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                             <Center overflow={'hidden'} justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Text  w={'100%'} color={'primary.text'} fontSize="md">
                                     <Box opacity={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'} pointerEvents={setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1 ? 'auto' : 'none'} w={'100%'} bg="primary.darkbox" rounded={8}>
-                                        <EditorProvider>
-                                            <Editor  style={{width: '100%'}} value={attendeeData?.info?.about} onChange={(e) => {
-                                                updateAttendeeInfoFeild('about', e.target.value); }}  >
-                                                     <Toolbar>
-                                                        <BtnUndo />
-                                                        <BtnRedo />
-                                                        <Separator />
-                                                        <BtnBold />
-                                                        <BtnItalic />
-                                                        <BtnUnderline />
-                                                        <BtnStrikeThrough />
-                                                        <Separator />
-                                                        <BtnNumberedList />
-                                                        <BtnBulletList />
-                                                        <Separator />
-                                                        <BtnLink />
-                                                        <BtnClearFormatting />
-                                                        <HtmlButton />
-                                                    </Toolbar>
-                                            </Editor>
-                                    </EditorProvider>
+                                        <ReduceMemory value={attendee.info.about} handleChange={updateAttendeeInfoFeild} />
                                     </Box>
                                     
                                 </Text>
@@ -497,7 +518,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('age', answer);
                                     }}
-                                    value={attendeeData?.info?.age}
+                                    defaultValue={attendeeData?.info?.age}
                                 />
                             </Center>
                         </HStack>
@@ -516,7 +537,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('FIRST_NAME_PASSPORT', answer);
                                     }}
-                                    value={attendeeData?.FIRST_NAME_PASSPORT}
+                                    defaultValue={attendeeData?.FIRST_NAME_PASSPORT}
                                 />
                             </Center>
                         </HStack>
@@ -535,7 +556,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('LAST_NAME_PASSPORT', answer);
                                     }}
-                                    value={attendeeData?.LAST_NAME_PASSPORT}
+                                    defaultValue={attendeeData?.LAST_NAME_PASSPORT}
                                 />
                             </Center>
                         </HStack>
@@ -554,7 +575,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('place_of_birth', answer);
                                     }}
-                                    value={attendeeData?.info?.place_of_birth}
+                                    defaultValue={attendeeData?.info?.place_of_birth}
                                 />
                             </Center>
                         </HStack>
@@ -573,7 +594,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('passport_no', answer);
                                     }}
-                                    value={attendeeData?.info?.passport_no}
+                                    defaultValue={attendeeData?.info?.passport_no}
                                 />
                             </Center>
                         </HStack>
@@ -592,7 +613,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('company_name', answer);
                                     }}
-                                    value={attendeeData?.info?.company_name}
+                                    defaultValue={attendeeData?.info?.company_name}
                                 />
                             </Center>
                         </HStack>
@@ -611,7 +632,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('title', answer);
                                     }}
-                                    value={attendeeData?.info?.title}
+                                    defaultValue={attendeeData?.info?.title}
                                 />
                             </Center>
                         </HStack>
@@ -630,7 +651,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('organization', answer);
                                     }}
-                                    value={attendeeData?.info?.organization}
+                                    defaultValue={attendeeData?.info?.organization}
                                 />
                             </Center>
                         </HStack>
@@ -649,7 +670,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('department', answer);
                                     }}
-                                    value={attendeeData?.info?.department}
+                                    defaultValue={attendeeData?.info?.department}
                                 />
                             </Center>
                         </HStack>
@@ -668,7 +689,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('industry', answer);
                                     }}
-                                    value={attendeeData?.info?.industry}
+                                    defaultValue={attendeeData?.info?.industry}
                                 />
                             </Center>
                         </HStack>
@@ -687,7 +708,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('jobs', answer);
                                     }}
-                                    value={attendeeData?.info?.jobs}
+                                    defaultValue={attendeeData?.info?.jobs}
                                 />
                             </Center>
                         </HStack>
@@ -706,7 +727,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('interests', answer);
                                     }}
-                                    value={attendeeData?.info?.interests}
+                                    defaultValue={attendeeData?.info?.interests}
                                 />
                             </Center>
                         </HStack>
@@ -725,7 +746,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('network_group', answer);
                                     }}
-                                    value={attendeeData?.info?.network_group}
+                                    defaultValue={attendeeData?.info?.network_group}
                                 />
                             </Center>
                         </HStack>
@@ -746,7 +767,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('delegate_number', answer);
                                     }}
-                                    value={attendeeData?.info?.delegate_number}
+                                    defaultValue={attendeeData?.info?.delegate_number}
                                 />
                             </Center>
                         </HStack>
@@ -765,7 +786,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('table_number', answer);
                                     }}
-                                    value={attendeeData?.info?.table_number}
+                                    defaultValue={attendeeData?.info?.table_number}
                                 />
                             </Center>
                         </HStack>
@@ -784,7 +805,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_street', answer);
                                     }}
-                                    value={attendeeData?.info?.private_street}
+                                    defaultValue={attendeeData?.info?.private_street}
                                 />
                             </Center>
                         </HStack>
@@ -803,7 +824,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_house_number', answer);
                                     }}
-                                    value={attendeeData?.info?.private_house_number}
+                                    defaultValue={attendeeData?.info?.private_house_number}
                                 />
                             </Center>
                         </HStack>
@@ -822,7 +843,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_post_code', answer);
                                     }}
-                                    value={attendeeData?.info?.private_post_code}
+                                    defaultValue={attendeeData?.info?.private_post_code}
                                 />
                             </Center>
                         </HStack>
@@ -841,7 +862,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeInfoFeild('private_city', answer);
                                     }}
-                                    value={attendeeData?.info?.private_city}
+                                    defaultValue={attendeeData?.info?.private_city}
                                 />
                             </Center>
                         </HStack>
@@ -883,7 +904,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     onChangeText={(answer) => {
                                         updateAttendeeFeild('email', answer);
                                     }}
-                                    value={attendeeData?.email}
+                                    defaultValue={attendeeData?.email}
                                 />
                             </Center>
                         </HStack>
@@ -977,7 +998,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <DateTimePicker
                                     readOnly={setting?.is_editable === 1 ? false : true}
                                     onChange={(item: any) => {
-                                        updateAttendeeFeild("EMPLOYMENT_DATE", moment(item).format("YYYY-MM-DD"));
+                                        updateAttendeeFeildDate("EMPLOYMENT_DATE", moment(item).format("YYYY-MM-DD"));
                                     }}
                                     value={attendeeData?.EMPLOYMENT_DATE !== '' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00' && attendeeData?.EMPLOYMENT_DATE !== '0000-00-00 00:00:00' ? moment(attendeeData?.EMPLOYMENT_DATE).format(GENERAL_DATE_FORMAT) : ''}
                                     showdate={GENERAL_DATE_FORMAT}
@@ -1087,7 +1108,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             onChangeText={(answer) => {
                                                 updateAttendeeFeild('phone', answer);
                                             }}
-                                            value={attendeeData?.phone}
+                                            defaultValue={attendeeData?.phone}
                                         />
                                     </Center>
                                 </HStack>
@@ -1109,11 +1130,12 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     <LoadImage path={attendeeData?.blob_image !== undefined ? attendeeData?.blob_image : `${_env.eventcenter_base_url}/assets/attendees/${attendeeData?.image}`} w="150px" />
                                                     : <LoadImage path={`https://via.placeholder.com/155.png`} w="150px" />}
                                             </Center>
-                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
+                                            <Button w={150} px={4} py={3} leftIcon={<Icon as={AntDesign}  color={'primary.hovercolor'} name="upload" size="lg" />} isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={() => {
                                                 if (inputFileRef.current) {
                                                     inputFileRef.current.click();
                                                 }
                                             }}
+                                            _text={{color:'primary.hovercolor'}}
                                                 size={'lg'}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
@@ -1155,27 +1177,30 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Center alignItems="flex-start" w={['100%', 'calc(100% - 225px)']}>
                                     <HStack w="100%">
                                         <VStack w={'100%'} space={2}>
-                                            <Center mb={3} w="150px">
-                                                {typeof attendee.attendee_cv == 'string' ?
-                                                    <Pressable
-                                                        onPress={async () => {
-                                                            const url: any = `${_env.eventcenter_base_url}/event/${event.url}/settings/downloadResume/${attendeeData?.attendee_cv}`;
-                                                            const supported = await Linking.canOpenURL(url);
-                                                            if (supported) {
-                                                                await Linking.openURL(url);
-                                                            }
-                                                        }}>
-                                                        <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
-                                                    </Pressable>
-                                                    : <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />}
-                                                {typeof attendeeData.attendee_cv === 'object' ? attendeeData.attendee_cv.name :
-                                                    attendee.attendee_cv === 'string' ? <Text fontSize="md">{attendee.attendee_cv}</Text> :
-                                                        <Text fontSize="md">{attendeeData.attendee_cv}</Text>}
-
-
-                                            </Center>
-
-                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
+                                           <Center mb={3} w="150px">
+                                            {typeof attendee.attendee_cv === 'string' && attendee.attendee_cv ? (
+                                                <Pressable
+                                                    onPress={async () => {
+                                                        const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${attendee.attendee_cv}`;
+                                                        const supported = await Linking.canOpenURL(url);
+                                                        if (supported) {
+                                                            await Linking.openURL(url);
+                                                        }
+                                                    }}>
+                                                    <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
+                                                </Pressable>
+                                            ) : (
+                                                <LoadImage path={`${_env.eventcenter_base_url}/_admin_assets/images/pdf512.png`} w="150px" />
+                                            )}
+                                            {typeof attendee.attendee_cv === 'string' ? (
+                                                <Text fontSize="md">{attendee.attendee_cv}</Text>
+                                            ) : typeof attendeeData.attendee_cv === 'object' ? (
+                                                <Text fontSize="md">{attendeeData.attendee_cv.name}</Text>
+                                            ) : (
+                                                <Text fontSize="md">{attendeeData.attendee_cv}</Text>
+                                            )}
+                                        </Center>
+                                            <Button w={180} px={4} py={3} leftIcon={<Icon as={AntDesign}  color={'primary.hovercolor'} name="upload" size="lg" />}
                                                 isDisabled={(setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1) ? false : true}
                                                 onPress={() => {
                                                     if (inputresumeFileRef.current) {
@@ -1183,6 +1208,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                                     }
                                                 }}
                                                 size={'lg'}
+                                                _text={{color:'primary.hovercolor'}}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button>
@@ -1226,7 +1252,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('website', answer);
                                 }}
-                                value={attendeeData?.info?.website}
+                                defaultValue={attendeeData?.info?.website}
                             />
                         </Center>
                     </HStack>}
@@ -1244,7 +1270,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('facebook', answer);
                                 }}
-                                value={attendeeData?.info?.facebook}
+                                defaultValue={attendeeData?.info?.facebook}
                             />
                         </Center>
                     </HStack>}
@@ -1256,13 +1282,13 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </Center>
                         <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={["calc(100% - 60px)","calc(100% - 225px)"]}>
                             <Input w="100%"
-                                placeholder={"Twitter"}
+                                placeholder={"X"}
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('twitter', answer);
                                 }}
-                                value={attendeeData?.info?.twitter}
+                                defaultValue={attendeeData?.info?.twitter}
                             />
                         </Center>
                     </HStack>}
@@ -1280,7 +1306,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 onChangeText={(answer) => {
                                     updateAttendeeInfoFeild('linkedin', answer);
                                 }}
-                                value={attendeeData?.info?.linkedin}
+                                defaultValue={attendeeData?.info?.linkedin}
                             />
                         </Center>
                     </HStack>}
@@ -1291,7 +1317,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 <HStack mb="3" mt="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                 <HStack alignItems={'center'} w={['100%', 'calc(100% - 225px)']}>
                     <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.gdpr === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
-                        updateAttendeeFeild('gdpr', isSelected);
+                        // updateAttendeeFeild('gdpr', isSelected);
+                        setGdpr(isSelected)
                     }} size="md"></Checkbox>
                     <Text color={'primary.text'} ml={4}>{event?.gdpr?.inline_text}</Text>
                     <Pressable onPress={() => {openModal(event?.gdpr?.subject, event?.gdpr?.description)}}>
@@ -1303,7 +1330,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                 <HStack mb="3" mt="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                      <HStack alignItems={'center'} w={['100%', 'calc(100% - 225px)']}>
                         <Checkbox colorScheme={'secondary'} isDisabled={event?.attendee_settings?.create_profile == 1 ? false : true} defaultIsChecked={attendee?.current_event_attendee?.accept_foods_allergies === 1 ? true : false} value='gdpr' onChange={(isSelected) => {
-                            updateAttendeeFeild('accept_foods_allergies', isSelected);
+                            // updateAttendeeFeild('accept_foods_allergies', isSelected);
+                            setAcceptFoodsAllergies(isSelected)
                         }} size="md"></Checkbox>
                         <Text color={'primary.text'} ml={4}>{event?.food_disclaimer?.inline_text}</Text>
                     <Pressable onPress={() => {openModal(event?.food_disclaimer?.subject, event?.food_disclaimer?.description)}}>

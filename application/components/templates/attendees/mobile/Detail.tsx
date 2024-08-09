@@ -23,7 +23,6 @@ import in_array from "in_array";
 import { Category } from 'application/models/event/Category';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import ListingLayout2 from 'application/components/molecules/documents/ListingLayout2';
-import RenderHtml from 'react-native-render-html';
 import { useWindowDimensions } from 'react-native';
 
 type ScreenParams = { id: string }
@@ -35,6 +34,8 @@ type Props = {
 }
 
 const Detail = ({ speaker }: Props) => {
+
+    const RenderHtml = require('react-native-render-html').default;
 
     const { width } = useWindowDimensions();
 
@@ -178,7 +179,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     )}
                                                                     {item?.records?.map((group: Group, k: number) =>
                                                                         <React.Fragment key={`${k}`}>
-                                                                            <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} />
+                                                                            <RectangleGroupView group={group} k={k} border={k} navigation={true} />
                                                                         </React.Fragment>
                                                                     )}
                                                                 </>

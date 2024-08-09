@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Center, Checkbox, Divider, HStack, Input, Radio, Text, TextArea, VStack } from 'native-base';
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
 import { Question, FormData } from 'application/models/poll/Detail';
-import DateTimePicker from '../../DateTimePicker';
+import DateTimePicker from 'application/components/atoms/DateTimePicker';
 import { Platform } from 'react-native';
 
 

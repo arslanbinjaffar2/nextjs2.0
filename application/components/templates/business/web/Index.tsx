@@ -16,6 +16,9 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import in_array from "in_array";
+import { colors, func } from 'application/styles';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+
 const Index = () => {
   const { processing, loading } = UseLoadingService();
 
@@ -34,7 +37,7 @@ const Index = () => {
   }, [])
 
   const module = modules.find((module) => module.alias === 'business');
-  console.log(enableFilter)
+ console.log(processing)
   return (
     <>
       <NextBreadcrumbs module={module} />
@@ -53,12 +56,17 @@ const Index = () => {
                 setEnableFilter={setEnableFilter}
               />}
             </>
-            : <MatchedAttendeeList
+            : 
+            <>
+            <MatchedAttendeeList
               keywords={keywords}
               searchMatchAttendees={searchMatchAttendees}
               FetchSearchMatchAttendees={FetchSearchMatchAttendees}
               setEnableFilter={setEnableFilter}
-            />}
+              />
+               
+              </>
+            }
 
           <BannerAds module_name={'business'} module_type={'listing'} />
         </>
@@ -70,13 +78,16 @@ const Index = () => {
 export default Index
 
 
-const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchAttendees, setEnableFilter }: { keywords: Keyword[], searchMatchAttendees: Attendee[] | null, FetchSearchMatchAttendees: (payload: any) => void, setEnableFilter: (payload: boolean) => void }) => {
+const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchAttendees, setEnableFilter }: { keywords: Keyword[], searchMatchAttendees: Attendee[] | null, FetchSearchMatchAttendees: (payload: any) => void,  setEnableFilter: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const { event, modules } = UseEventService();
-  const { processing } = UseLoadingService();
+  const { processing, loading } = UseLoadingService();
+   const  [innerLoader, setinnerLoader] = useState(true);
 
   const [searchTerm, setSearchTerm] = useState("");
 
   const [mySearchkeywords, setMySearchKeywords] = useState([]);
+  const [searching, setSearching] = useState<boolean>(false);
+  const [filteredAttendees, setFilteredAttendees] = useState<Attendee[]>([]);
 
   const processKeywords = (keywords:any) => {
     return keywords?.reduce((ack:any, item:any) => {
@@ -100,35 +111,52 @@ const MatchedAttendeeList = ({ keywords, searchMatchAttendees, FetchSearchMatchA
     setMySearchKeywords(newSearchKeywords);
   }, [keywords]);
 
-  const filteredAttendees = (searchMatchAttendees?.filter((attendee) =>
-    attendee?.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    attendee?.last_name?.toLowerCase().includes(searchTerm.toLowerCase())
-  )) || [];
+  useEffect(() => {
+    const performSearch = async () => {
+      if (searchTerm.length > 0) {
+        setSearching(true);
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const filteredAttendees = (searchMatchAttendees?.filter((attendee) =>
+          attendee?.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          attendee?.last_name?.toLowerCase().includes(searchTerm.toLowerCase())
+        )) || [];
+        await setFilteredAttendees(filteredAttendees);
+        await new Promise(resolve => setTimeout(resolve, 500)); // Adding delay before setting searching to false
+        setSearching(false);
+      } else {
+        setFilteredAttendees(searchMatchAttendees || []);
+      }
+    };
+    performSearch();
+  }, [searchTerm, searchMatchAttendees]);
 
   useEffect(() => {
     if (mySearchkeywords.length > 0) {
+      setinnerLoader(true);
       FetchSearchMatchAttendees(mySearchkeywords);
+      setinnerLoader(false);
     }
   }, [mySearchkeywords]);
 
   return (
     <>
       <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
-        <Text fontSize="2xl">{modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
+        <Text fontSize="2xl">{event?.labels?.GENERAL_NETWORK_INTEREST_MATCHED_ATTENDEES ?? modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
         <View flexDirection={'row'} alignItems={'center'} w={['100%', '60%']} justifyContent={'space-between'}
         style={{ gap:8 }}
         >
-        <Input rounded="10" w={['88%', '90%']} bg="primary.box" borderWidth={0}
+          <Spacer />
+        <Input rounded="10" w={['70%', '80%']} bg="primary.box" borderWidth={0}
             borderColor={'transparent'}
             value={searchTerm} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
               setSearchTerm(text);
             }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
-          <Pressable rounded="10" bg="primary.box" p={'8px'} onPress={() => setEnableFilter(true)}>
-            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22, color: "primary.text" }} />
-          </Pressable>
+          <Button _hover={{bg: 'primary.box'}} colorScheme={'unstyled'} disabled={in_array('keywords',processing) || searching || loading || innerLoader ?  true : false} rounded="10" bg="primary.box" p={'8px'} onPress={() => setEnableFilter(true)}>
+            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22 }} />
+          </Button>
         </View>
       </HStack>
-      {in_array('keywords',processing) ? <SectionLoading /> : <>
+      {in_array('keywords',processing) || searching || loading || innerLoader ? <SectionLoading /> : <>
         <Container position="relative" mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
           {filteredAttendees && filteredAttendees?.map((attendee: Attendee, k: number) =>
             <React.Fragment key={`${k}`}>
@@ -154,13 +182,12 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
   setEnableFilter: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
   const { event, modules } = UseEventService();
-
+ const {processing}=UseLoadingService()
   const [interestkeywords, setInterestKeywords] = useState(keywords);
   const [mykeywords, setMyKeywords] = useState<any>([]);
   const [filteredkeywords, setFilteredKeywords] = useState<Keyword[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<any[]>([]);
-
   const setFilter = (kid: any) => {
     setSearchTerm("");
     if (kid !== 0) {
@@ -201,7 +228,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
     else {
       setFilteredKeywords([])
     }
-  }, [filters])
+  }, [])
 
 
   const addMyKeyword = (kid: any) => {
@@ -218,20 +245,38 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
 
   return (
     <>
+     {(in_array('search-match-attendees',processing))?<SectionLoading/>:
+     <>
       {showAttendees ? (
-        <Container pt="2" maxW="100%" w="100%" >
-         <HStack display={["block", "flex"]} mb="3" pt="2" w="100%" alignItems="center" justifyContent={'space-between'}>
-        <Text fontSize="2xl">{modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
-
+        <>
+        <Container pt="0" maxW="100%" w="100%" >
+         <HStack display={["block", "flex"]} mb="3" pt="0" w="100%" alignItems="center" justifyContent={'space-between'}>
+        <Text fontSize="2xl">{event?.labels?.GENERAL_NETWORK_INTEREST_MATCHED_ATTENDEES ?? modules?.find((attendees) => (attendees.alias == 'attendees'))?.name ?? ""}</Text>
+        <View flexDirection={'row'} alignItems={'center'} w={['100%', '60%']} justifyContent={'space-between'}
+        style={{ gap:8 }}
+        >
+        <Input rounded="10" w={['88%', '90%']} bg="primary.box" borderWidth={0}
+            borderColor={'transparent'}
+            value={searchTerm} placeholder={event.labels?.GENERAL_SEARCH} onChangeText={(text: string) => {
+              setSearchTerm(text);
+            }} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
+          <Button colorScheme={'unstyled'} rounded="10" bg="primary.box" p={'8px'} onPress={() => setShowAttendees(false)}>
+            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22,color:'primary.text' }} />
+          </Button>
+        </View>
         </HStack>
-          {searchingAttendees && <SectionLoading />}
+        <>
+       { (in_array('search-match-attendees',processing)) ? <SectionLoading/>:
+        <>
           {searchMatchAttendees && <Box bg="primary.box" maxW="100%" w="100%" mb={2} rounded={8}>
             {searchMatchAttendees.map((attendee: any, k: number) =>
               <RectangleAttendeeView attendee={attendee} border={searchMatchAttendees.length - 1 == k ? 0 : 1} speaker={0} />
             )}
-          </Box>}
-          {!searchingAttendees && !searchMatchAttendees && <Box overflow="hidden" mb={3} bg="primary.box" w="100%" rounded="lg" padding={3}><Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text></Box>}
-          {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
+          </Box>} 
+            </>}
+            </>
+          {!searchingAttendees && !searchMatchAttendees && <NoRecordFound mb={3} bg="primary.box"/>}
+          {/* {!searchingAttendees && <Box w="100%" mb="3" alignItems="center">
             <Button
               size="lg"
               minH="58px"
@@ -247,15 +292,17 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
             >
               {event?.labels?.GENERAL_BACK}
             </Button>
-          </Box>}
+          </Box>} */}
         </Container>
+        </>
 
-      ) : (<Container pt="2" maxW="100%" w="100%">
+      ) : (
+      <Container pt="0" maxW="100%" w="100%">
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'space-between'}>
           <Text fontSize="2xl">{modules?.find((network) => (network.alias == 'business'))?.name ?? ""}</Text>
-          <Pressable rounded="10" bg="primary.500" p={'8px'} onPress={() => setEnableFilter(false)}>
-            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22}} />
-          </Pressable>
+          <Button rounded="10" bg="primary.500" p={'8px'} onPress={() => setEnableFilter(false)}>
+            <DynamicIcon iconType={'attendee_Match'} iconProps={{ width: 20, height: 22, color: func.colorType(event?.settings?.primary_color) ? func.colorType(event?.settings?.primary_color) : undefined}} />
+          </Button>
         </HStack>
         <HStack mx="-2" space="0" alignItems="center" flexWrap="wrap">
           <Center mb="3" px="1">
@@ -326,9 +373,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
       </View>
     ))
   ) : searchTerm.length > 0 && filteredkeywords?.length === 0 ? (
-    <Box overflow="hidden" mb={3} w="100%" rounded="lg" padding={3} bg={"primary.box"}>
-      <Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
-    </Box>
+    <NoRecordFound bg="primary.box" />
   ) : searchTerm.length === 0 && interestkeywords?.length > 0 ? (
     interestkeywords.map((keyword: Keyword) => (
       <View key={keyword?.id}>
@@ -346,9 +391,7 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
       </View>
     ))
   ) : (
-    <Box overflow="hidden" mb={3} w="100%" rounded="lg" padding={3} bg={"primary.box"}>
-      <Text fontSize="xl">{event.labels.GENERAL_NO_RECORD}</Text>
-    </Box>
+    <NoRecordFound bg="primary.box" />
   )}
 </Box>
 
@@ -372,6 +415,8 @@ const ManageKeywords = ({ keywords, searchMatchAttendees, searchingAttendees, Fe
           </Button>
         </Box>
       </Container>)}
+      </>
+     }
     </>
   )
 }

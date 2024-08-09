@@ -5,19 +5,22 @@ import DynamicIcon from 'application/utils/DynamicIcon';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseExhibitorService from 'application/store/services/UseExhibitorService';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useWindowDimensions } from 'react-native';
+import { Dimensions, useWindowDimensions } from 'react-native';
 import ExhibitorDefaultImage from 'application/assets/images/exhibitors-default.png';
 import UseEventService from 'application/store/services/UseEventService';
 import { colorText } from 'application/styles/colors'
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from 'in_array';
 
+import { getColorScheme } from "application/styles/colors";
 
 type AppProps = {
     detail: ExhibitorDetail | null,
 }
 
 const DetailBox = ({ detail }: AppProps) => {
+
+    const RenderHtml = require('react-native-render-html').default;
 
     const { width } = useWindowDimensions();
 
@@ -30,7 +33,22 @@ const DetailBox = ({ detail }: AppProps) => {
 		const {processing}=UseLoadingService();
 
     
-    const [isFav,setIsFav] = useState(false)
+    const [isFav,setIsFav] = useState(false);
+
+    const _bannerWidth = React.useRef<HTMLDivElement>(null);
+
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
 
     useEffect(() => {
         console.log("fav: ",isFav)
@@ -52,9 +70,9 @@ const DetailBox = ({ detail }: AppProps) => {
     }
     return (
         <Box w="100%"  p="0" roundedTop="10">
-            <Box w="100%"  p="0" roundedTop="10">
+            <Box ref={_bannerWidth} w="100%"  p="0" roundedTop="10">
                 {detail?.detail?.logo ? (
-                    <Image mb="5" roundedTop="10" size="full" source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="" w="100%" h="160px" />
+                    <Image resizeMode='contain'  mb="5" roundedTop="10"  source={{ uri: `${_env.eventcenter_base_url}/assets/exhibitors/large/${detail?.detail?.logo}` }} alt="" w="100%" h={_bannerWidth.current?.clientWidth ? _bannerWidth.current?.clientWidth * 0.34 : 180} />
                 ) : (
                     <Image mb="5" roundedTop="10" size="full" source={ExhibitorDefaultImage} alt="" w="100%" h="160px" />
                 )}
@@ -116,9 +134,13 @@ const DetailBox = ({ detail }: AppProps) => {
                     </HStack>
                     {detail?.detail?.description && event?.exhibitor_tab_settings?.about == 1 && <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
-                        <Text lineHeight={0} fontSize="lg">
-                            <div className='ebs-iframe-content' style={{overflow:'hidden'}} dangerouslySetInnerHTML={{ __html: detail?.detail?.description }}></div>
-                        </Text>
+                        <RenderHtml
+                            defaultTextProps={{selectable:true}}
+                            contentWidth={600}
+                            systemFonts={['Avenir']}
+                            tagsStyles={mixedStyle}
+                            source={{ html: detail?.detail?.description }}
+                        />
                         
                     </Box>}
                 </Box>

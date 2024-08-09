@@ -28,7 +28,7 @@ const SVGComponent = (props: SvgProps) => {
                 />
             </ClipPath>
         </Defs>
-        <G id="Group_1060" data-name="Group 1060" clipPath="url(#clip-path)">
+        <G id="Group_1060" data-name="Group 1060" >
             <Path
                 id="Path_1866"
                 data-name="Path 1866"

@@ -17,6 +17,8 @@ import { useSearchParams, usePathname } from 'next/navigation'
 import { useRouter } from 'solito/router'
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = React.memo(() => {
 
@@ -108,7 +110,7 @@ const Index = React.memo(() => {
                     </HStack>
                     )}
                     {loading ? (  
-                        <WebLoading />
+                        <SectionLoading />
                     ) : ( 
                     <> 
                     {(tab === 'name' || tab === 'category-exhibitors') && <>
@@ -160,9 +162,10 @@ const Index = React.memo(() => {
                             </Box>
                         }
                          {exhibitors.length <= 0 &&
-                            <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                                <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                            </Box>
+                         
+                            <NoRecordFound
+                            mb="3" bg="primary.box"
+                            />
                         }
                     </>}
                     {tab === 'category' && <Box w="100%" rounded="10" bg={categories.length > 0 ?"primary.box":""} borderWidth="0" borderColor="primary.bdBox">
@@ -172,9 +175,8 @@ const Index = React.memo(() => {
                                      categories.map((category: ExhibitorCategory, key: number) =>
                                         <CategoryRectangleView category={category} k={key} key={key} updateTab={updateTab} />
                                     )
-                                     : <Box p={3} mb="3" bg="primary.box" rounded="lg" w="100%">
-                                                    <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                                </Box>
+                                     : 
+                                                <NoRecordFound mb="3" bg="primary.box"/>
                                 }
                                 </HStack>
                         </ScrollView>

@@ -47,28 +47,29 @@ const Master = ({ children, section }: Props) => {
 
   const nextRouter = UseNextRouter();
 
-  const sub_reg_skip = localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
-
-  const keyword_skip = localStorage.getItem(`keyword_skip`) === 'true' ? true : false;
-
-  const access_token_exists = Boolean(localStorage.getItem(`access_token`));
-
   React.useEffect(() => {
       getUser();
   }, [])
 
   React.useEffect(() => {
+    const access_token_exists = Boolean(localStorage.getItem(`access_token`));
     if (response.redirect === "login" || access_token_exists === false) {
       push(`/${event.url}/auth/login`)
     }
   }, [response])
   
   React.useEffect(() => {
-    if ((sub_reg_skip) !== true) {
-      push(`/${event.url}/subRegistration`)
-    } else if ((keyword_skip) !== true) {
-      push(`/${event.url}/network-interest`)
-    }
+    const access_token_exists = Boolean(localStorage.getItem(`access_token`));
+    const sub_reg_skip = localStorage.getItem(`skip_sub_reg`) === 'true' ? true : false;
+    const keyword_skip = localStorage.getItem(`keyword_skip`) === 'true' ? true : false;
+    
+    if(access_token_exists){
+      if ((sub_reg_skip) !== true) {
+        push(`/${event.url}/subRegistration`)
+      } else if ((keyword_skip) !== true) {
+        push(`/${event.url}/network-interest`)
+      }
+    }  
   }, [nextRouter.asPath])
 
 
@@ -132,10 +133,10 @@ const Master = ({ children, section }: Props) => {
                         )}
                       </>
                     )}
-                    <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={nextRouter.asPath.includes('settings') ? (width >= 1201 ? '900px' : '850px') : (width > 750 ? '600px' : '100%')}>
+                    <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={nextRouter.asPath.includes('settings') || nextRouter.asPath.includes('attendees/my-registration') ? (width >= 1201 ? '900px' : '850px') : (width > 750 ? '600px' : '100%')}>
                       {children}
                     </Center>
-                    {width >= 970 && !nextRouter.asPath.includes('settings') && <Center nativeID='ebs-master-right-bar' top="2rem" alignItems="flex-start" w={'100%'} maxW={width >= 1201 ? '265px' : '230px'}>
+                    {width >= 970 && !nextRouter.asPath.includes('attendees/my-registration') && !nextRouter.asPath.includes('settings') && <Center nativeID='ebs-master-right-bar' top="2rem" alignItems="flex-start" w={'100%'} maxW={width >= 1201 ? '265px' : '230px'}>
                       <RightBar />
                     </Center>}
                   </HStack>

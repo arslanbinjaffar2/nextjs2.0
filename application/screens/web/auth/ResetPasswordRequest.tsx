@@ -31,13 +31,18 @@ const ResetPasswordRequest = ({ props }: any) => {
     const { push } = useRouter();
 
     const router = useRouter();
+    const nativeButton = React.useRef<HTMLElement | null>(null)
 
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = input => {
         passwordReset({ email: input.email })
     };
-
+      const handleKeyPress = (event: any) => {
+        if (event.key === 'Enter') {
+            nativeButton.current?.click();
+        }
+    };
     React.useEffect(() => {
         if (response.redirect === "choose-provider") {
             push(`/${event.url}/auth/choose-provider/${response.data.authentication_id}`)
@@ -51,10 +56,10 @@ const ResetPasswordRequest = ({ props }: any) => {
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={{ base: '30px', md: '50px' }} w="100%" rounded="10">
                 <Image
-                  alt='logo' mb={{ base: 5, lg: 10 }} source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
+                  alt='logo' mb={{ base: 5, lg: 10 }} resizeMode='contain'  source={{ uri: event.settings?.app_header_logo ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.app_header_logo}`
                         : event.settings?.header_logo !== undefined && event.settings?.header_logo !== ''
                           ? `${_env.eventcenter_base_url}/assets/event/branding/${event.settings.header_logo}`
-                          : images.Logo }} w="180px" h="61px" alignSelf={'center'} />
+                          : images.Logo }} w="250px" h="85px"  alignSelf={'center'} />
                 <VStack w={'100%'} alignItems={'center'} space='4'>
                     <VStack space="20px" width={'100%'}>
                     <Text w={'100%'} fontSize='lg' lineHeight='sm' textAlign={'center'}>{event?.labels?.EVENTSITE_FORGOT_PASSWORD}</Text>
@@ -64,7 +69,7 @@ const ResetPasswordRequest = ({ props }: any) => {
                             <Controller
                                 control={control}
                                 render={({ field: { onChange, onBlur, value } }) => (
-                                    <Input onChangeText={(val) => onChange(val)} type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_EMAIL} />
+                                    <Input onKeyPress={handleKeyPress} onChangeText={(val) => onChange(val)} type="text" InputLeftElement={<Icon as={<Ionicons name="mail-outline" />} size={5} ml="2" color="primary.text" />} w={'100%'} placeholder={event.labels.GENERAL_EMAIL} />
                                 )}
                                 name="email"
                                 rules={{
@@ -87,6 +92,7 @@ const ResetPasswordRequest = ({ props }: any) => {
                                 borderWidth="0"
                                 textDecorationLine={'underline'}
                                 variant={'unstyled'}
+                                _text={{color: func.colorType(event?.settings?.app_background_color)}}
                                 _hover={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
                                 _pressed={{bg: 'transparent',textDecorationLine:'none',_text:{color: 'primary.500'}}}
                                 onPress={()=>{
@@ -98,6 +104,7 @@ const ResetPasswordRequest = ({ props }: any) => {
                             </Button>
                         </Text>
                         <Button
+                            ref={nativeButton}
                             width={'100%'}
                             isLoading={processing}
                             onPress={handleSubmit(onSubmit)}

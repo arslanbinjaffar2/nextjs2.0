@@ -35,3 +35,19 @@ export const cancelMeetingRequestApi = (payload: any, state: any): Promise<HttpR
 export const getMyMeetingRequestsApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/reservation/my-meeting-requests`, payload);
 }
+
+export const getMyAvailabilityCalendarApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/reservation/my-availability-calendar`, payload);
+}
+
+export const addAvailabilityCalendarSlotApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/reservation/add-availability`, payload);
+}
+
+export const deleteAvailabilityCalendarSlotApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/reservation/delete-availability`, payload);
+}
+
+export const getAfterLoginMyMeetingRequestsApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/reservation/after-login`, payload);
+}

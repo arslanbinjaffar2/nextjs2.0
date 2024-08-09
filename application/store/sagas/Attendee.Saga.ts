@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getAttendeeApi, makeFavouriteApi, getGroupsApi, getAttendeeDetailApi, getCategoryApi, getHotelApi, getInvoiceApi, getContactAttendeeApi } from 'application/store/api/Attendee.Api';
+import { getAttendeeApi, makeFavouriteApi, getGroupsApi, getAttendeeDetailApi, getCategoryApi, getHotelApi, getInvoiceApi, getContactAttendeeApi, getAddGDPRlogApi } from 'application/store/api/Attendee.Api';
 
 import { AttendeeActions } from 'application/store/slices/Attendee.Slice'
 
@@ -110,10 +110,22 @@ function* OnGetMyRegistration({
     type: typeof AttendeeActions.FetchMyRegistration
     payload: {}
 }): SagaIterator {
-    yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'my-registration' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getInvoiceApi, payload, state)
     yield put(AttendeeActions.updateRegistration(response.data.data))
+    yield put(LoadingActions.removeProcess({ process: 'my-registration' }))
+}
+
+function* OnAddGDPRlog({
+    payload,
+}: {
+    type: typeof AttendeeActions.addGDPRlog
+    payload: {gdpr: number}
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getAddGDPRlogApi, payload, state)
     yield put(LoadingActions.set(false))
 }
 
@@ -127,6 +139,7 @@ export function* AttendeeWatcherSaga(): SagaIterator {
     yield takeEvery(AttendeeActions.FetchCategories.type, OnGetCategories)
     yield takeEvery(AttendeeActions.FetchHotels.type, OnGetHotels)
     yield takeEvery(AttendeeActions.FetchMyRegistration.type, OnGetMyRegistration)
+    yield takeEvery(AttendeeActions.addGDPRlog.type, OnAddGDPRlog)
 }
 
 export default AttendeeWatcherSaga

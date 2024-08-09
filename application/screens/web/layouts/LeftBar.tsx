@@ -16,7 +16,7 @@ import {  func } from 'application/styles';
 
 const PressableElement = ({row}: any) => {
   const router = useRouter()
-  const { event, modules } = UseEventService()
+  const { event, modules,event_detail } = UseEventService()
   const { width } = useWindowDimensions();
   const { unread, setUnreadCount } = UseAlertService();
   const { info, page } = UseInfoService();
@@ -41,19 +41,35 @@ const PressableElement = ({row}: any) => {
     onPress={() => {
       if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
         // setLoading(true);
-        router.push(`/${event.url}/${row?.alias}/event-info/0`)
+        if(row?.section_type == 'link'){
+          router.push(`${row?.url}`)
+        }else if(row?.section_type == 'page'){
+          router.push(`/${event.url}/${row?.alias}/event-info-detail/${row?.id}`)
+        }else{
+          router.push(`/${event.url}/${row?.alias}/event-info/0`)
+        }
       } else if (in_array(row?.alias, ['information_pages'])) {
         // setLoading(true);
-        // if(row?.section_type === 'link') {
-        //   router.push(`${row?.url}`)
-        //  if(row?.section_type === 'page') {
-        //   router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
-        // } else {
-          router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
-        // }
+        if(row?.section_type === 'link') {
+          router.push(`${row?.url}`)
+        } else if(row?.section_type === 'page') {
+          router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
+        } else {
+          router.push(`/${event.url}/information-pages/${row?.id}`)
+        }
       } else if (row?.alias === 'my-registrations') {
         router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
-      } else {
+      } 
+      else if (row?.alias === 'upcomingEvents') {
+        router.push(`/${event.url}/upcoming-events`)
+      }
+      else if (row?.alias === 'homeMyevents') {
+        router.push(`/${event.url}/home-events`)
+      }
+      else if (row?.alias === 'homeMyevents') {
+        router.push(`/${event.url}/home-events/detail/${event?.id}`)
+      }
+      else {
         router.push(`/${event.url}/${row?.alias}`)
       }
     }}>
@@ -61,7 +77,6 @@ const PressableElement = ({row}: any) => {
       <Center w="30px">
         {/* <Text>{row.icon}</Text> */}
         <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') }
-        
         iconProps={{ width: 26, height: 26, color: isHovered || checkActiveRoute(row, router.asPath, info, page) ? func.colorType(event?.settings?.primary_color) : undefined }} />
         {/* <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} /> */}
       </Center>
@@ -125,7 +140,7 @@ const LeftBar = () => {
               </Avatar>
               {width > 1200 && <VStack w={'calc(100% - 100px)'} pl="3" space="0">
                 <Text  color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"} fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
-                <Text color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"}  p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.jobs} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
+                <Text color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"}  p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.title} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
               </VStack>}
             <Pressable
             w="100%"
@@ -159,12 +174,15 @@ const LeftBar = () => {
             {width > 1200 && <Text  color={dahboardHover || router.asPath.includes('/dashboard') ? 'primary.hovercolor' : 'primary.text'} fontSize={'20px'} fontWeight={400}>{event?.labels?.GENERAL_DASHBOARD ?? 'Dashboard'}</Text>}
           </HStack>
         </Pressable>
-        {modules.map((row: any, key: any) =>
-
-        (row.alias !== 'information_pages' || row.is_page_empty !== true ? (
-          <PressableElement key={key} row={row} />
-          ) : null
-        ))}
+        {modules.map((row: any, key: any) => {
+            if (row.alias == 'certificate' && row.certificate_setting == 0) {
+                return null;
+            } else {
+                return (row.alias !== 'information_pages' || row.is_page_empty !== true) ? (
+                    <PressableElement key={key} row={row} />
+                ) : null;
+            }
+        })}
         {/* <Pressable
           w="100%"
           px="4"
@@ -203,13 +221,19 @@ const checkActiveRoute = (row:any, path:any, info:any, page:any) => {
     else if(info && info[0] && row?.id == info[0]?.section_id ){
       return true;
     }
-    else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.section_id)){
+    else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.id)){
+      return true;
+    }else if(path.includes(`information-pages-sub/event-info-detail/`) && page && (row?.id == page?.section_id)){
+      return true;
+    }else if(path.includes(`information-pages/event-info-detail/`) && page && (row?.id == page?.section_id)){
       return true;
     }
-  }else{
-    if(path.includes(row?.alias)){
+  }else {
+    // Check if the path exactly matches the alias and not just includes it as part of another word
+    const regex = new RegExp(`/${row?.alias}(?![a-z0-9_-])`, 'i');
+    if (regex.test(path) && !path.includes('/dashboard')) {
       return true;
-    };
+    }
   }
   
 }

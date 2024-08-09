@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import Mapplic from 'application/components/mapplic/Mapplic';
 import { createParam } from 'solito';
 import UseFloorPlanService from 'application/store/services/UseFloorPlanService';  
@@ -10,9 +10,18 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from "in_array";
 import WebLoading from 'application/components/atoms/WebLoading';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 type ScreenParams = { id: string}
 const { useParam } = createParam<ScreenParams>()
+
+
+const areEqual = (prevProps: { id: string, json: any }, nextProps: { id: string, json: any }) => {
+  // Compare json and id deeply or as needed
+  return prevProps.id === nextProps.id && JSON.stringify(prevProps.json) === JSON.stringify(nextProps.json);
+};
+
+const MapplicMemoized = memo(Mapplic, areEqual);
 
 const Detail = () => {
   const [id] = useParam('id');
@@ -132,9 +141,9 @@ const Detail = () => {
     <Text w={'100%'} fontSize="md">
       <div style={{width: '100%'}}>
         { !in_array('floor_plan_detail',processing) &&  (json as { settings?: any })?.settings ?
-            <Mapplic json={json} id={id} />
+            <MapplicMemoized json={json} id={id} />
             : (
-              <WebLoading />
+              <SectionLoading />
         )}
       </div>
     </Text>

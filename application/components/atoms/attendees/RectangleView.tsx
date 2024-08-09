@@ -9,6 +9,8 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
+import { useSearchParams, usePathname } from 'next/navigation'
+
 import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
 import UseLoadingService from 'application/store/services/UseLoadingService';
@@ -34,6 +36,10 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 
   const { push } = useRouter()
 
+  const searchParams = useSearchParams()
+
+    const tabQueryParam = searchParams.get('tab')
+
   const navigation: any = Platform.OS !== "web" ? useNavigation() : false;
 
   const [isFav, setIsFav] = React.useState<boolean>(false);
@@ -57,6 +63,13 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
     MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
   }
 
+  const attendeeCanBookMeetingWithSpeaker = React.useMemo(() => {
+    if (attendee?.event_attendee?.speaker === '1') {
+      return event?.speaker_settings?.attendee_can_book_meeting_with_speaker === 1;
+    } else {
+      return true;
+    }
+  }, [attendee?.event_attendee?.speaker, event?.speaker_settings?.attendee_can_book_meeting_with_speaker]);
 
   return (
     <Box w="100%" borderBottomWidth={border === 1 ? 1 : 0} borderColor="primary.bordercolor" py="3">
@@ -77,19 +90,20 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
             })
           }
         }}>
-        <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-          <HStack w="100%" space="5" alignItems="center" justifyContent="space-between">
+        <HStack px={"4"} alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
+          <HStack w="100%" space="0" alignItems="center" justifyContent="space-between">
             {attendee?.image && attendee.field_settings.profile_picture.is_private == 0 ? (
-              <Image rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
+              <Image mr={5} rounded="25" size="5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}` }} alt="" w="50px" h="50px" />
             ) : (
               <Avatar
                 borderWidth={0}
+                mr={5}
                 borderColor="primary.darkbox"
                 textTransform="uppercase"
                 bg={'#A5A5A5'}
               >{attendee?.first_name && attendee?.last_name ? attendee?.first_name?.substring(0, 1) + attendee?.last_name?.substring(0, 1) : attendee?.first_name?.substring(0, 1)}</Avatar>
             )}
-            <VStack w={['calc(100% - 175px)','calc(100% - 300px)']} space="0">
+            <VStack w={['calc(100% - 120px)','calc(100% - 280px)']} space="0">
               {(attendee?.first_name || attendee?.last_name) ? (
                 <>
                   <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
@@ -121,6 +135,7 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   {getPrivateFields(attendee)}
                 </Text>
               }
+              {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && (
                <Button
                   display={['','none']}
                     mt={2}
@@ -128,23 +143,25 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     maxWidth={'120px'}
                     colorScheme="primary"
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
+              )}
             </VStack>
             <Spacer />
-            <HStack space="3" alignItems="center">
-                {isReservationModuleOn && isAppointmentTabEnabled && response?.data?.user?.id !== attendee?.id && (
+            <HStack space={["0","4"]} alignItems="center">
+                {isReservationModuleOn && isAppointmentTabEnabled && attendeeCanBookMeetingWithSpeaker && response?.data?.user?.id !== attendee?.id && ( 
                   <Button
                   display={['none','']}
                     py={2}
                     colorScheme="primary"
+
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
                   
-                )}
+                )} 
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
                 <Box w={'20px'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
                   {in_array(`attendee-fav-${attendee.id}`,processing) ? (

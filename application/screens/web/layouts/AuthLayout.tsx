@@ -13,9 +13,9 @@ type Props = {
 
 const AuthLayout = ({ children }: Props) => {
 
-    const { event } = UseEventService();
+    const { event,loadSettingsModules } = UseEventService();
 
-    const { loadToken, isLoggedIn, getUser } = UseAuthService();
+    const { loadToken, isLoggedIn, getUser, response } = UseAuthService();
 
     const { push } = useRouter();
 
@@ -23,9 +23,25 @@ const AuthLayout = ({ children }: Props) => {
         getUser();
     }, [])
 
+    const checkUserGDPR = () => {
+        let requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1 ? true : false;
+          if(requiredGDPR){
+              let userGDPRLogged = response?.data?.user?.gdpr_log;
+              if(!userGDPRLogged){
+                return false;
+              }
+          }
+          return true;
+    }
+
     React.useEffect(() => {
         if (isLoggedIn) {
-            push(`/${event.url}/subRegistration`)
+            loadSettingsModules();
+            if(checkUserGDPR() === false){
+                push(`/${event.url}/auth/gdpr`)
+            }else{
+                push(`/${event.url}/subRegistration`)
+            }
         }
     }, [isLoggedIn])
 

@@ -22,7 +22,7 @@ function* OnGetExhibitors({
 }): SagaIterator {
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 20 }, state)
+    const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 200 }, state)
     if (payload.screen === 'our-exhibitors') {
         yield put(ExhibitorActions.updateOurExhibitors(response.data.data.exhibitors!))
     }else if(payload.screen === 'my-exhibitors') {

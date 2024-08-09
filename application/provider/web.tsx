@@ -83,7 +83,11 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
             }
            const colors =   getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
            const rgb = hex2rgb(event?.settings?.primary_color ?? '#343d50');
-           const type = colourIsLight(rgb[0],rgb[1],rgb[2]) ? '#1e1e1e' : '#EAEAEA'
+           const rgb2 = hex2rgb(event?.settings?.secondary_color ?? '#343d50');
+           const type = colourIsLight(rgb[0],rgb[1],rgb[2]) ? '#1e1e1e' : '#EAEAEA';
+           const type2 = colourIsLight(rgb2[0],rgb2[1],rgb2[2]) ? '#1e1e1e' : '#EAEAEA';
+           const rgb3 = hex2rgb(event?.settings?.app_background_color ?? '#343d50');
+           const type3 = colourIsLight(rgb3[0],rgb3[1],rgb3[2]) ? '#1e1e1e' : '#EAEAEA';
            const _border = hex2rgb(colors.text);
            const theme = extendTheme({
             colors: {
@@ -101,7 +105,9 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     box: `rgba(${colors.darkbox},0.3)`,
                     boxbutton: `rgba(${colors.darkbox},0.6)`,
                     boxsolid: `rgba(${[...colors.background]},1)`,
+                    bordersecondary: `${type2}`,
                     boxsolidtext: `${colors.darkboxtext}`,
+                    backgroundtext: `${type3}`,
                     hovercolor: `${type}`,
                     darkbox: `rgba(0,0,0,0.2)`,
                     toastbg:`rgba(0,0,0,0.7)`,
@@ -145,9 +151,9 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                 Button: {
                     defaultProps: {
                         size: 'lg', bg: 'primary.500',
-                        _hover: { bg: event?.settings?.primary_color },
-                        _text: { color: 'primary.text' },
-                        _pressed: { bg: `${colors.secondary}`, color: '#fff' }
+                        _hover: { bg: event?.settings?.primary_color,_text:{color:'primary.hovercolor'} },
+                        _text: { color: 'primary.hovercolor' },
+                        _pressed: { bg: `${colors.secondary}`, color: '#fff',_text:{color:'primary.text'} }
                     }
                 },
                 Checkbox: {
@@ -237,7 +243,6 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
     if (!appIsReady || Object.keys(event).length === 0 || !_env.api_base_url || nativebaseTheme == null) {
         return null;
     }
-
     return (
         <NavigationProvider>
             <>
@@ -248,6 +253,8 @@ export function Provider({ children, env }: { children: React.ReactNode, env: an
                     content={event.name}
                     />
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+                    {event?.settings?.app_icon !== "" && <link rel="apple-touch-icon"  href={`${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.app_icon}`} />}
+                    {event?.settings?.app_icon !== "" && <link rel="apple-touch-icon-precomposed"  href={`${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.app_icon}`} />}
                     {event?.settings?.fav_icon !== "" && <link rel="icon" type="image/x-icon"  href={`${_env.eventcenter_base_url}/assets/event/branding/${event.settings?.fav_icon}`} />}
                     
                 </Head>

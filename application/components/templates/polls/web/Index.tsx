@@ -15,6 +15,8 @@ import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
+import NoRecordFound from '../../../atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = () => {
 
@@ -97,12 +99,11 @@ const Index = () => {
 
     },[query, completed_polls, polls]);
     const module = modules.find((module) => module.alias === 'polls');
-
     return (
         <>
             {
                 in_array('poll-listing', processing) ? (
-                    <WebLoading />
+                    <SectionLoading />
                 ):(
 
                     <>
@@ -124,20 +125,18 @@ const Index = () => {
                                             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                                 <Text fontSize="lg">{polls[key] ? polls[key][0]?.agenda_start_date_formatted : ''}</Text>
                                             </HStack>
-                                            {polls[key] && polls[key].map((poll)=>(
-                                                <RectangleView key={poll.id} poll={poll} completed={false} />
+                                            {polls[key] && polls[key].map((poll, k)=>(
+                                                <RectangleView key={poll.id} poll={poll} completed={false} index={k} />
                                             ))}
                                         </React.Fragment>
                                     )) : 
-                                        <Box padding={5}>
-                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                        </Box>
+                                        <NoRecordFound/>
                                     ): (
-                                        <Box padding={5}>
-                                            <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
-                                        </Box>
+                                       
+                                        <NoRecordFound label={poll_labels?.NO_POLL_AVAILABLE}/>
+
                                     )}
-                                  {Object.keys(polls).length > 0 &&  <Divider h="20px" bg="transparent" />}
+                                  {/* {Object.keys(polls).length > 0 &&  <Divider h="20px" bg="transparent" />} */}
                                 </Box>
                             ) }
                         {tab === 'completed' && (
@@ -147,20 +146,16 @@ const Index = () => {
                                             <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                                                 <Text fontSize="lg">{completed_polls[key][0]?.agenda_start_date_formatted}</Text>
                                             </HStack>
-                                            {completed_polls[key].map((poll)=>(
-                                                <RectangleView key={poll.id} poll={poll} completed={true} />
+                                            {completed_polls[key].map((poll,k)=>(
+                                                <RectangleView key={poll.id} poll={poll} completed={true} index={k} />
                                             ))}
                                         </React.Fragment>
                                     )) : 
-                                        <Box padding={5}>
-                                            <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                                        </Box>
+                                    <NoRecordFound/>
                                     ): (
-                                        <Box padding={5}>
-                                            <Text>{poll_labels?.NO_POLL_AVAILABLE}</Text>
-                                        </Box>
+                                        <NoRecordFound label={poll_labels?.NO_POLL_AVAILABLE}/>
                                     )}
-                                {Object.keys(completed_polls).length > 0 &&  <Divider h="20px" bg="transparent" />}
+                                {/* {Object.keys(completed_polls).length > 0 &&  <Divider h="20px" bg="transparent" />} */}
                                 </Box>
                             )
                         }

@@ -14,7 +14,6 @@ import UseLoadingService from 'application/store/services/UseLoadingService';
 import {  func } from 'application/styles';
 
 const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
-  console.log(setOpenMenu,"kjsdkljaskldjfsad")
   const router = useRouter()
 
   const { width, height } = useWindowDimensions();
@@ -50,7 +49,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
           </Avatar>
           <VStack w={'70%'} px="3" space="0">
             <Text fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
-            <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.jobs}</Text>
+            <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.title}</Text>
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.company_name}</Text>
           </VStack>
         <Pressable
@@ -92,7 +91,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
               <Center w="30px">
                 <IcoDashboard color={dahboardHover || router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : undefined} width="24" height="24" />
               </Center>
-              <Text fontSize={'lg'} color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"}>Dashboard</Text>
+              <Text fontSize={'lg'} color={router.asPath.includes('/dashboard') ? func.colorType(event?.settings?.primary_color) : "primary.text"}>{event?.labels?.GENERAL_DASHBOARD ?? 'Dashboard'}</Text>
             </HStack>
           </Pressable>
           {modules.map((row: any, key: any) =>
@@ -110,17 +109,22 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
                 },800)
                 if (in_array(row?.alias, ['practical-info', 'general-info', 'additional-info'])) {
                   // setLoading(true);
-                  
-                  router.push(`/${event.url}/${row?.alias}/event-info/0`)
+                  if(row?.section_type == 'link'){
+                    router.push(`${row?.url}`)
+                  }else if(row?.section_type == 'page'){
+                    router.push(`/${event.url}/${row?.alias}/event-info-detail/${row?.id}`)
+                  }else{
+                    router.push(`/${event.url}/${row?.alias}/event-info/0`)
+                  }
                 } else if (in_array(row?.alias, ['information_pages'])) {
-                  // setLoading(true); 
-                  
+                  // setLoading(true);
                   if(row?.section_type === 'link') {
                     router.push(`${row?.url}`)
+                  } else if(row?.section_type === 'page') {
+                    router.push(`/${event.url}/information-pages/event-info-detail/${row?.id}`)
                   } else {
-                    router.push(`/${event.url}/information-pages${row?.section_type === 'child_section' ? '/sub' : ''}/${row?.id}`)
+                    router.push(`/${event.url}/information-pages/${row?.id}`)
                   }
-                  
                 } else if (row?.alias === 'my-registrations') {
                   router.push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)
                 } else {
@@ -136,7 +140,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
               </HStack>
             </Pressable>
           )}
-          <Pressable
+          {/* <Pressable
             w="100%"
             px="4"
             py="2"
@@ -156,7 +160,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
               </Center>
               <Text fontSize={'lg'} color="primary.text">Logout</Text>
             </HStack>
-          </Pressable>
+          </Pressable> */}
         </VStack>
     </ScrollView>
     </Center>
@@ -177,7 +181,11 @@ const checkActiveRoute = (row:any, path:any, info:any, page:any) => {
     else if(info && info[0] && row?.id == info[0]?.section_id ){
       return true;
     }
-    else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.section_id)){
+    else if(path.includes(`information-pages/event-info-detail`) && page && (row?.id == page?.id)){
+      return true;
+    }else if(path.includes(`information-pages-sub/event-info-detail/`) && page && (row?.id == page?.section_id)){
+      return true;
+    }else if(path.includes(`information-pages/event-info-detail/`) && page && (row?.id == page?.section_id)){
       return true;
     }
   }else{

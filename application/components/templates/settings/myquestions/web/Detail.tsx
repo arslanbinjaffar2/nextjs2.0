@@ -18,9 +18,14 @@ import IcoInfo from 'application/assets/icons/small/IcoInfo';
 import Icoquestion from 'application/assets/icons/small/Icoquestion';
 import UseEnvService from 'application/store/services/UseEnvService';
 import IcoSend from 'application/assets/icons/small/IcoSend'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
+import { getColorScheme } from 'application/styles/colors';
 
 type ScreenParams = { id: string }
 const Detail = () => {
+
+  const RenderHtml = require('react-native-render-html').default;
   
   const { useParam } = createParam<ScreenParams>()
   const { event, setting_modules } = UseEventService();
@@ -38,7 +43,18 @@ const Detail = () => {
   const [answers, setAnswers] = React.useState<any[]>([]);
   const [message, setMessage] = React.useState<string>('');
   const { height } = useWindowDimensions();
-
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
   React.useEffect(() => {
     if (id) {
       FetchMyQuestionsAnswers({ id: Number(id) });
@@ -79,13 +95,13 @@ const Detail = () => {
   };
   const module = setting_modules?.find((module) => module.alias === 'myquestions');
   if (questionAnswers && Number(questionAnswers?.question_id) !== Number(id)) {
-    return <WebLoading />;
+    return <SectionLoading />;
   }
 
   return (
     <>
       {loading ? (
-        <WebLoading />
+        <SectionLoading />
       ) : (
         <Container pt="2" maxW="100%" w="100%">
           <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
@@ -106,9 +122,15 @@ const Detail = () => {
           <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
             <HStack alignItems={'center'} space={2} w={'100%'} borderColor={'primary.bordercolor'} borderBottomWidth={1} mb={3} py={4} px={3}>
               <Icoquestion width={22} height={22} />
-              <Text fontSize="lg">
-                <div className='ebs-iframe-content-no-margin' dangerouslySetInnerHTML={{ __html: questionAnswers?.question }}></div>
-              </Text>
+              <Box fontSize="lg">
+                <RenderHtml
+                    defaultTextProps={{selectable:true}}
+                    contentWidth={600}
+                    systemFonts={['Avenir']}
+                    tagsStyles={mixedStyle}
+                    source={{ html: questionAnswers?.question }}
+                />
+              </Box>
             </HStack>
             
             <ScrollView maxHeight={['','',height - 500]} w="100%" minH="450px" py="4" px="3">
@@ -141,7 +163,8 @@ const Detail = () => {
                 <Box alignItems={'center'} justifyContent={'center'}  rounded="lg" w="100%">
                   <HStack bg={'primary.darkbox'} px={4} py={3} rounded={10}  space="3" alignItems="center">
                     <IcoInfo width={18} height={18}  />
-                   <Text fontSize="16px">{event?.labels?.GENERAL_NO_RECORD}</Text>
+                    <NoRecordFound
+                    />
                   </HStack>
                   
                 </Box>

@@ -7,10 +7,9 @@ import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router'
 import moment from 'moment';
 
-const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean, settings?:boolean}) => {
+const RectangleView = ({poll, completed, settings, index}:{poll:Poll, completed:boolean, settings?:boolean, index?: number}) => {
   const { event } = UseEventService();
   const { push } = useRouter()
-  console.log(`${poll.program.start_date} ${poll.program.start_time}`)
   return (
     <Pressable
       p="0"
@@ -26,12 +25,12 @@ const RectangleView = ({poll, completed, settings}:{poll:Poll, completed:boolean
           push(`/${event.url}/polls/result/${poll.agenda_id}`)
         }
        }}>
-      <Box w="100%" borderBottomWidth='1' borderColor="primary.bordercolor" py="3">
+      <Box w="100%" borderTopWidth={index === 0 ? 0 : 1} borderColor="primary.bordercolor" py="3">
         <HStack px="3" w="100%" space="0" alignItems="center" justifyContent="space-between">
           {/* <VStack marginRight={5}>
             <Icon size="lg" as={AntDesign} name={poll?.agenda_favs?.length > 0 ? 'heart' :'hearto'} color={poll?.agenda_favs?.length > 0 ? 'secondary.500' : 'primary.text'} />
           </VStack> */}
-          <VStack bg="red" w="100%" maxW={['90%', '85%', '85%']} space="1">
+          <VStack bg="red" w="100%" maxW={'calc(100% - 40px)'} space="1">
             <Text fontSize="md">{poll.program.info.topic}</Text>
             {event.agenda_settings?.agenda_display_time == 1 && poll?.program?.hide_time !== 1 &&
               <Text fontSize="sm">

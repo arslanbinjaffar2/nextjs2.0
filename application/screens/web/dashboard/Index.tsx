@@ -27,7 +27,7 @@ import WebLoading from 'application/components/atoms/WebLoading';
 import in_array from "in_array";
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseAuthService from 'application/store/services/UseAuthService';
-import { useWindowDimensions } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { Alert } from 'application/models/alert/Alert'
 import RectangleView from 'application/components/atoms/alerts/RectangleView'
@@ -35,14 +35,23 @@ import UseAlertService from 'application/store/services/UseAlertService'
 import MobileNavigation from 'application/screens/web/layouts/MobileNavigation';
 import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import { Banner } from 'application/models/Banner'
+import { Module } from 'application/models/Module';
 import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
+import { CustomHtml } from 'application/models/CustomHtml'
+import OurExhibitor from 'application/components/molecules/exhibitors/OurExhibitor';
+import OurSponsor from 'application/components/molecules/sponsors/OurSponsor';
+import SectionLoading from 'application/components/atoms/SectionLoading';
+import { getColorScheme } from 'application/styles/colors';
+import AsyncStorageClass from 'application/utils/AsyncStorageClass';
+import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
 
 type indexProps = {
   navigation: unknown
 }
 
 const Index = ({ navigation }: indexProps) => {
+  const RenderHtml = require('react-native-render-html').default;
 
   const [tab, setTab] = useState('qa');
 
@@ -50,7 +59,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const { surveys, FetchSurveys } = UseSurveyService();
 
-  const { event, modules } = UseEventService();
+  const { event, modules,custom_html } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
   const { FetchAlerts, alerts, markAlertRead, alert_setting} = UseAlertService();
@@ -64,9 +73,19 @@ const Index = ({ navigation }: indexProps) => {
   const { response } = UseAuthService();
 
   const { push } = useRouter()
-   const { width } = useWindowDimensions();
- 
-
+  const { width } = useWindowDimensions();
+  const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+      const mixedStyle = {
+        body: {
+            fontFamily: 'Avenir',
+            fontSize: '16px',
+            userSelect: 'auto',
+            color: colors.text
+        },
+        p: {
+            fontFamily: 'Avenir',
+        }
+    }
   React.useEffect(() => {
     FetchPolls();
     FetchSurveys();
@@ -80,76 +99,220 @@ const Index = ({ navigation }: indexProps) => {
     }
   }, [modules.length]);
 
+  const { FetchAfterLoginMyMeetingRequests } = UseMeetingReservationService();
+  function checkAppointmentAlerts() {
+    const moduleActive=modules.filter((module: any, key: number) => module.alias === 'reservation').length > 0;
+    if(!moduleActive){
+      return;
+    }
+    let skipPendingAppointmentAlerts = false;
+    if(Platform.OS === 'web'){
+      skipPendingAppointmentAlerts= Boolean(localStorage.getItem('skip_pending_appointment_alerts'));
+    }else{
+      skipPendingAppointmentAlerts= Boolean(AsyncStorageClass.getItem('skip_pending_appointment_alerts'));
+    }
+    console.log('skipPendingAppointmentAlerts',skipPendingAppointmentAlerts);
+    if(!skipPendingAppointmentAlerts){
+      FetchAfterLoginMyMeetingRequests({});
+    }
+  }
+
+  React.useEffect(() => {
+    checkAppointmentAlerts();
+  }, []);
+
   return (
     <>
       {(in_array('poll-listing', processing) || in_array('dashboard-my-speakers', processing)) ? (
-        <WebLoading />
+        <SectionLoading />
       ) : (
         <>
-         <Box w={'100%'} mb={3}>
-           <MobileNavigation />
-         </Box>
          
-            <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
-                  <Box h={'100%'} flex={1}>
-                    <UpcomingPrograms />
+         {event?.dashboard_modules && event?.dashboard_modules?.length > 0 && event?.dashboard_modules.map((module: any, key: number) => {
+            if(module.alias == 'shortcuts'){
+                return (
+                  <Box w={'100%'} mb={3}>
+                    <MobileNavigation />
                   </Box>
-                  
-                  {/* <Box minH={150}  flex={1}>
-                    <UpcomingBlock 
-                      px="3"
-                      py="4"
-                      h='150px'
-                    title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
-                </Box>*/}
-            </HStack>  
-              <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
-          {/*  */}
-          {modules.filter((module: any, key: number) => module.alias === 'agendas').length > 0 ? (
-            <IndexTemplatePrograms dashboard={true} />
-          ) : <></>}
-          {/*  */}
-              <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
+                )
 
-              <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
-          {/*  */}
-          {event.speaker_settings?.display_speaker_dashboard == 1 &&  my_attendees?.length > 0 ? (
+            }else if(module.alias == 'combine_agendas_my_agendas'){
+              return (
+                <>
+                <HStack display={['flex','none']} w={'100%'} space={'3'} justifyContent={'center'} flexDirection={'row'} alignItems={'center'}>
+                    <Box h={'100%'} flex={1}>
+                      <UpcomingPrograms />
+                    </Box>
+                    
+                    {/* <Box minH={150}  flex={1}>
+                      <UpcomingBlock 
+                        px="3"
+                        py="4"
+                        h='150px'
+                      title="NOTIFICATIONS" desc="Talk on w " location="" date="11-03-2022" time="11-00"  />
+                  </Box>*/}
+                </HStack>  
+                <BannerAds module_name={'dashboard'} module_type={'before_program'}/>
+                <IndexTemplatePrograms dashboard={true} />
+                <BannerAds module_name={'dashboard'} module_type={'after_program'}/>
+                </>
+              )
 
-            <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
-               <HStack mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
-              <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
-              {my_attendees?.length > 6 &&
-                <Button onPress={() => {
-                  push(`/${event.url}/speakers`)
-                }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                    {event.labels?.GENERAL_SEE_ALL ?? 'See all'}
-                  </Button>
-              }
-              </HStack>
-              <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
-                <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
-                  {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
-                    <RoundedView attendee={attendee} />
-                    <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
-                  </VStack>)}
+            }else if(module.alias == 'speakers'){
+              return (
+                <>
+                 <BannerAds module_name={'dashboard'} module_type={'before_speaker'}/>
+                  {/*  */}
+                  {my_attendees?.length > 0 ? (
+
+                    <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
+                      <HStack pr={3} mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
+                      <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
+                      {my_attendees?.length > 6 &&
+                        <Button onPress={() => {
+                          push(`/${event.url}/speakers`)
+                        }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                            {event.labels?.GENERAL_SEE_ALL ?? 'See all'}
+                          </Button>
+                      }
+                      </HStack>
+                      <ScrollView w={[width - 30,'100%']} pb={2} overflowX={'auto'} >
+                        <HStack pt="0" space="2" alignItems="flex-start" justifyContent="flex-start">
+                          {my_attendees.slice(0, 6).map((attendee: Attendee, k: number) => <VStack key={k} mx={2} alignItems="flex-start" w={['78']}>
+                            <RoundedView attendee={attendee} />
+                            <Text isTruncated pt="0" w="100%" textAlign="center" fontSize="md">{`${attendee?.first_name} ${attendee.field_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
+                          </VStack>)}
+                        </HStack>
+                      </ScrollView>
+                    </Container>
+                  ) : <></>}
+                  {/*  */}
+                <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
+                </>
+              )
+
+            }else if(module.alias == 'polls'){
+              return (
+                <>
+                <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
+                {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) &&  <PollListingByDate polls={polls} />}
+                <BannerAds module_name={'dashboard'} module_type={'after_polls'}/>
+                </>
+              )
+
+            }else if(module.alias == 'surveys'){
+              return (
+                <>
+                <BannerAds module_name={'dashboard'} module_type={'before_survey'}/>
+                {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) && <SurveyListing surveys={surveys} />}
+                <BannerAds module_name={'dashboard'} module_type={'after_survey'}/>
+                </>
+              )
+              
+            }else if(module.alias == 'alerts'){
+              return (
+                <>
+                <BannerAds module_name={'dashboard'} module_type={'before_news_update'}/>
+                <>
+                  {
+                    loading ? (
+                      <WebLoading />
+                    ):(
+                      <>
+                        {alerts.length > 0 &&
+                        <Container mt={0} pt="0" maxW="100%" w="100%">
+                          
+                            <Box overflow="hidden" bg="primary.box" mb={4} pb={alerts.length > 3 ? 0 : 5}  w="100%" rounded="lg">
+                            <HStack  pt="0" w="100%" space="3" alignItems="center">
+                              <Text w={'100%'} pt={2} textAlign={'center'} fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
+                            </HStack>
+                              {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
+                                <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
+                              ))}
+                              {alerts.length > 3 &&
+                              <Center py="3" px="2" w="100%" alignItems="flex-end">
+                                <Button onPress={() => {
+                                  push(`/${event.url}/alerts`)
+                                }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
+                                  {event.labels?.GENERAL_SEE_ALL ?? ''}
+                                </Button>
+                              </Center>
+                              }
+                            </Box>
+                            
+                        </Container>
+                        }
+                      </>
+                    )
+                  }
+                </>
+                <BannerAds module_name={'dashboard'} module_type={'after_news_update'}/>
+                </>
+              )
+            }else if(module.alias == 'custom_html_1' && custom_html[0]?.custom_html_1?.status == 1 && custom_html[0]?.custom_html_1?.content){
+              return (
+                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+                  <Text width={'100%'} mt={2}>
+                      <VStack  mx={0} width={'100%'} space={3}>
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                          <RenderHtml
+                              defaultTextProps={{selectable:true}}
+                              contentWidth={600}
+                              systemFonts={['Avenir']}
+                              tagsStyles={mixedStyle}
+                              source={{ html: custom_html[0]?.custom_html_1?.content ?? '' }}
+                          />
+                        </Box>
+                      </VStack>
+                  </Text>
                 </HStack>
-              </ScrollView>
-            </Container>
-          ) : <></>}
-          {/*  */}
-              <BannerAds module_name={'dashboard'} module_type={'after_speaker'}/>
+              )
+            }else if(module.alias == 'custom_html_2' && custom_html[0]?.custom_html_2?.status && custom_html[0]?.custom_html_2?.content){
+              return (
+                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+                  <Text width={'100%'} mt={2}>
+                      <VStack  mx={0} width={'100%'} space={3}>
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                          <RenderHtml
+                              defaultTextProps={{selectable:true}}
+                              contentWidth={600}
+                              systemFonts={['Avenir']}
+                              tagsStyles={mixedStyle}
+                              source={{ html: custom_html[0]?.custom_html_2?.content ?? '' }}
+                          />
+                        </Box>
+                      </VStack>
+                  </Text>
+                </HStack>
+              )
+            }else if(module.alias == 'custom_html_3' && custom_html[0]?.custom_html_3?.status == 1 && custom_html[0]?.custom_html_3?.content){
+              return (
+                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
+                  <Text width={'100%'} mt={2}>
+                      <VStack mx={0} width={'100%'} space={3}>
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                          <RenderHtml
+                              defaultTextProps={{selectable:true}}
+                              contentWidth={600}
+                              systemFonts={['Avenir']}
+                              tagsStyles={mixedStyle}
+                              source={{ html: custom_html[0]?.custom_html_3?.content ?? '' }}
+                          />
+                        </Box>
+                      </VStack>
+                  </Text>
+                </HStack>
+              )
+            }
 
-          {/*  */}
-              <BannerAds module_name={'dashboard'} module_type={'before_polls'}/>
-          {/*  */}
-          {modules.find((m)=>(m.alias == 'polls')) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (Object.keys(polls).length > 0) && (pollSettings?.display_poll == 1) &&  <PollListingByDate polls={polls} />}
-              <BannerAds module_name={'dashboard'} module_type={'after_polls'}/>
-          {/*  */}
-              <BannerAds module_name={'dashboard'} module_type={'before_survey'}/>
-          {/*  */}
-          {(modules.find((m)=>(m.alias == 'survey'))) && (event?.attendee_settings?.voting === 1 || response?.attendee_detail?.event_attendee?.allow_vote === 1) && (surveys.length > 0) &&  (pollSettings?.display_survey == 1) && <SurveyListing surveys={surveys} />}
-              <BannerAds module_name={'dashboard'} module_type={'after_survey'}/>
-          {/*  */}
+          }) // end loop dashboard_modules
+
+         }
+
+             
+
+          
+         
           {/* <HStack mb="3" space={1} justifyContent="center" w="100%">
             <Button onPress={() => setTab('qa')} borderWidth="1px" py={0} borderColor="primary.darkbox" borderRightRadius="0" borderLeftRadius={8} h="42px" bg={tab === 'qa' ? 'primary.darkbox' : 'primary.box'} w={event?.speaker_settings?.display_speaker_dashboard == 1 ? "50%" : "100%"} _text={{ fontWeight: '600' }}>Q & A</Button>
             {event?.speaker_settings?.display_speaker_dashboard == 1 && <Button onPress={() => setTab('speakerlist')} borderWidth="1px" py={0} color="primary.100" borderColor="primary.darkbox" borderLeftRadius="0" borderRightRadius={8} h="42px" bg={tab === 'speakerlist' ? 'primary.darkbox' : 'primary.box'} w="50%" _text={{ fontWeight: '600' }}>SPEAKERS LIST</Button>}
@@ -165,44 +328,14 @@ const Index = ({ navigation }: indexProps) => {
           </>
 
           <ChatClient /> */}
-          <BannerAds module_name={'dashboard'} module_type={'before_news_update'}/>
-          <>
-            {
-              loading ? (
-                <WebLoading />
-              ):(
-                <>
-                  {alert_setting && (alert_setting as any).display_in_dashboard === 1 && alerts.length > 0 &&
-                  <Container mt={0} pt="0" maxW="100%" w="100%">
-                    
-                      <Box overflow="hidden" bg="primary.box" mb={4} pb={alerts.length > 3 ? 0 : 5}  w="100%" rounded="lg">
-                      <HStack  pt="0" w="100%" space="3" alignItems="center">
-                        <Text w={'100%'} pt={2} textAlign={'center'} fontSize="2xl">{modules?.find((alerts)=>(alerts.alias == 'alerts'))?.name ?? 'New & Updates'}</Text>
-                      </HStack>
-                        {alerts.slice(0, 3).map((alert:Alert, i:Number)=>(
-                          <RectangleView id={alert.id} key={alert.id} title={alert.alert_detail.title} description={alert.alert_detail.description} date={alert.display_alert_date} time={alert.alert_time} is_last_item={(alerts.length-1 === i) ? true : false} is_read={alert.is_read} />
-                        ))}
-                        {alerts.length > 3 &&
-                        <Center py="3" px="2" w="100%" alignItems="flex-end">
-                          <Button onPress={() => {
-                            push(`/${event.url}/alerts`)
-                          }} p="1" _text={{color: 'primary.text'}} _icon={{color: 'primary.text'}} _hover={{ bg: 'transparent', _text: { color: 'primary.500' }, _icon: { color: 'primary.500' } }} bg="transparent" width={'auto'} rightIcon={<Icon as={SimpleLineIcons} name="arrow-right" size="sm" />}>
-                            {event.labels?.GENERAL_SEE_ALL ?? ''}
-                          </Button>
-                        </Center>
-                        }
-                      </Box>
-                      
-                  </Container>
-                  }
-                </>
-              )
-            }
-          </>
-          <BannerAds module_name={'dashboard'} module_type={'after_news_update'}/>
+          
         </>
 
       )}
+      <Box alignItems="center" mt={1} display={['','none']} width={'100%'} flexDirection={'column'}>
+            {event?.exhibitor_settings?.show_on_native_app_dashboard == 1 ? <OurExhibitor expand={true} />: null}
+            {event?.sponsor_settings?.show_on_native_app_dashboard == 1 ? <OurSponsor expand={true} />: null}
+          </Box>
     </>
   );
 

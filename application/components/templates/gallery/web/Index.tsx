@@ -12,6 +12,8 @@ import in_array from "in_array";
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const Index = () => {
   const { loading, scroll, processing } = UseLoadingService();
@@ -55,7 +57,7 @@ const Index = () => {
     <>
       {
         (in_array('gallery', processing)) && page === 1 ? (
-          <WebLoading />
+          <SectionLoading />
         ) : (
           <>
             <NextBreadcrumbs module={module} />
@@ -67,7 +69,7 @@ const Index = () => {
                 <Spacer />
                 <Input rounded="10" w={'60%'} bg="primary.box" borderWidth={0} placeholder={event?.labels?.GENERAL_SEARCH} value={query} onChangeText={setQuery} leftElement={<Icon ml="2" color="primary.text" size="lg" as={AntDesign} name="search1" />} />
               </HStack>
-              <Box w="100%" overflow="hidden" p="4">
+             {filteredGalleryImages.length>0&& <Box w="100%" overflow="hidden" p="4">
                 <VStack mb="10" w="100%" space="0">
                 <Stack mx={'-4%'} direction="row"  flexWrap="wrap" alignItems={'flex-start'} justifyContent={'flex-start'} mb="2" space={0}>
                 {filteredGalleryImages.map((gallery_image:GalleryImage)=>(
@@ -90,14 +92,15 @@ const Index = () => {
                     </Pressable>
                   </Box>
                   ))}
-                  {filteredGalleryImages.length === 0 && (
-                    <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" padding={5}>
-                      <Text>{event?.labels?.GENERAL_NO_RECORD}</Text>
-                    </Box>
-                  )}
                 </Stack>
                 </VStack>
-              </Box>
+              </Box>}
+                  {filteredGalleryImages.length === 0 && (
+                    <NoRecordFound
+                    bg="primary.box"
+                    />
+                  
+                  )}
               <Modal
                 size={'full'}
                 isOpen={activepopup}

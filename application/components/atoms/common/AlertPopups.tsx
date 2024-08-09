@@ -79,7 +79,7 @@ const AlertPopups = () => {
                     cancelRef ={cancelRef}
                     title={alertData?.title}
                     text={alertData?.text}
-                    btnLeftText={alertData?.btnLeftText ? alertData?.btnLeftText : 'OK'}
+                    btnLeftText={alertData?.btnLeftText ? alertData?.btnLeftText : event?.labels?.GENERAL_OK}
                     btnRightText={alertData?.btnRightText ? alertData?.btnRightText : ''}
                 />}
             </>

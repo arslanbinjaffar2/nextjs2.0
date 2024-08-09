@@ -159,6 +159,12 @@ export const style = `
 body {
   display: flex;
 }
+#boxShadow{
+  box-shadow:rgba(0, 0, 0, 0.29) 0px 3px 4.65px 0px !important;
+}
+#shareAccountDropDown{
+  z-index: 99 !important;
+}
 #break_Word{
   
 }
@@ -189,6 +195,7 @@ body {
   display: flex;
   flex-direction: column;
   line-height: 1.5;
+  word-break: break-word;
 }
 .ebs-iframe-content * {
   margin: 0;
@@ -227,9 +234,14 @@ body {
   background: rgba(0,0,0,0.1) !important;
   border-radius: 6px !important;
   border-color: transparent !important;
-  color: #fff !important;
   flex: 1 !important;
 }
+ #field-color-dark .styles_react-code-input__CRulA > input {
+  color: #000 !important;
+ }
+ #field-color-light .styles_react-code-input__CRulA > input {
+  color: #fff !important;
+ }
 .wrapper-select,.css-b62m3t-container  {
   width: 100%;
 }

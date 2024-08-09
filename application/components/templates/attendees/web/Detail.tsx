@@ -30,6 +30,8 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import { Platform } from 'react-native';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import { getColorScheme } from "application/styles/colors";
 
 type ScreenParams = { id: string }
 
@@ -41,6 +43,8 @@ type Props = {
 
 const Detail = ({ speaker }: Props) => {
 
+    const RenderHtml = require('react-native-render-html').default;
+
     const mounted = React.useRef(false);
 
     const [tab, setTab] = useState<string>('');
@@ -49,13 +53,26 @@ const Detail = ({ speaker }: Props) => {
 
     const { FetchAttendeeDetail, detail, FetchGroups, groups } = UseAttendeeService();
 
-    const { FetchPrograms, programs, page, id, query } = UseProgramService();
+    const { FetchPrograms, programs, page, id, query,total_pages } = UseProgramService();
 
     const { FetchDocuments } = UseDocumentService();
 
     const { response } = UseAuthService();
 
     const { loading, scroll, processing } = UseLoadingService();
+
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
 
     const tab1 = React.useRef<HTMLDivElement>();
     const tab2 = React.useRef<HTMLDivElement>();
@@ -73,42 +90,38 @@ const Detail = ({ speaker }: Props) => {
          
         }
     }, [_id]);
-    console.log("🚀 ~ Detail ~ detail?.detail?.categories.length:", detail?.detail?.categories.length)
     React.useEffect(() => {
         if (detail?.attendee_tabs_settings) {
             // Filter and sort enabled tabs based on sort order
             const enabledTabs = detail.attendee_tabs_settings
                 .filter((tab: any) => tab.status === 1)
                 .sort((a: any, b: any) => a.sort_order - b.sort_order);
-    
+            console.log(enabledTabs)
             let defaultTab: string = '';
     
             // Iterate through the sorted enabled tabs and set the default tab based on conditions
             for (let i = 0; i < enabledTabs.length; i++) {
                 const row = enabledTabs[i];
-                if (row.tab_name === 'program' && event?.speaker_settings?.program === 1) {
+                if (row.tab_name === 'program') {
                     defaultTab = 'program';
                     break;
-                } else if (row.tab_name === 'category' && event?.speaker_settings?.category_group === 1) {
+                } else if (row.tab_name === 'category') {
                     defaultTab = 'category';
                     break;
-                } else if (row.tab_name === 'documents' && event?.speaker_settings?.show_document === 1) {
+                } else if (row.tab_name === 'documents') {
                     defaultTab = 'documents';
                     break;
                 }
-                else if (row.tab_name === 'about' && event?.speaker_settings?.show_document === 1) {
+                else if (row.tab_name === 'about') {
                     defaultTab = 'about';
                     break;
                 } else if (
                     row.tab_name === 'groups' &&
-                    ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) ||
-                        ((detail?.is_speaker && detail?.speaker_setting?.show_group) ||
-                            (!detail?.is_speaker && detail?.setting?.attendee_group)))
+                    (speaker ? detail?.speaker_setting?.show_group : (detail?.setting?.attendee_my_group ? response?.data?.user?.id == _id : detail?.setting?.attendee_group))
                 ) {
                     defaultTab = 'groups';
                     break;
                 } else if (
-                    speaker === 0 &&
                     row.tab_name === 'sub_registration' &&
                     detail?.sub_registration_module_status === 1 &&
                     detail?.sub_registration &&
@@ -118,10 +131,10 @@ const Detail = ({ speaker }: Props) => {
                     break;
                 }
             }
-    
             // Set the active tab based on the defaultTab or the first enabled tab
             setTab(defaultTab);
         }
+           
     }, [detail]);
     
     
@@ -140,7 +153,9 @@ const Detail = ({ speaker }: Props) => {
     React.useEffect(() => {
         if (mounted.current) {
             if (tab == 'program') {
-                FetchPrograms({ query: '', page: page + 1, screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
+                if(page < total_pages && total_pages>1){
+                    FetchPrograms({ query: '', page: page + 1, screen: speaker ? 'speaker-program' : 'my-program', id: Number(_id), track_id: 0 });
+                }
             } else if (tab === "groups") {
                 FetchGroups({ query: '', group_id: 0, page: page + 1, attendee_id: Number(_id), program_id: 0 });
             }
@@ -151,20 +166,21 @@ const Detail = ({ speaker }: Props) => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
+      
     const programModule = modules.find((module) => module.alias === (speaker ? "speakers" : "attendees"));
     const title = (detail.detail as any)?.first_name+' '+ (detail?.sort_field_setting.find((s:any)=>(s.name === 'last_name'))?.is_private == 0 ? (detail.detail as any)?.last_name : '');
     return (
         <>
             {in_array('attendee-detail', processing) ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>
-                    {!speaker &&
+                    {/* {!speaker &&
                         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
                         <Search tab={tab} />
                     </HStack>
-                    }
+                    } */}
                     <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
@@ -176,16 +192,16 @@ const Detail = ({ speaker }: Props) => {
                                                     <React.Fragment key={key}>
                                                         {
                                                             (() => {
-                                                                if (row?.tab_name === 'program' && row?.status == 1 && event?.speaker_settings?.program === 1) {
+                                                                if (row?.tab_name === 'program' && row?.status == 1) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('program')} bg={tab === 'program' ? 'primary.boxbutton' : 'primary.box'} >{speaker ? (modules?.find   ((module)=>(module.alias == 'agendas'))?.name ?? 'PROGRAMS') : event?.labels?.ATTENDEE_TAB_MY_PROGRAM}
                                                                         </ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'category' && row?.status == 1 && event?.speaker_settings?.category_group === 1) {
+                                                                } else if (row?.tab_name === 'category' && row?.status == 1) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('category')} bg={tab === 'category' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.SPEAKER_CATEGORY}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'documents' && row?.status == 1 && event?.speaker_settings?.show_document === 1) {
+                                                                } else if (row?.tab_name === 'documents' && row?.status == 1) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('documents')} bg={tab === 'documents' ? 'primary.boxbutton' : 'primary.box'}>
                                                                             {modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'Documents'}</ButtonElement>
@@ -194,7 +210,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('about')} bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.ATTENDEE_TAB_ABOUT}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group)))) {
+                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 && (speaker ? detail?.speaker_setting?.show_group : (detail?.setting?.attendee_my_group ? response?.data?.user?.id == _id : detail?.setting?.attendee_group))) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('groups')} bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'}>
                                                                             {event?.labels?.ATTENDEE_TAB_GROUP}</ButtonElement>
@@ -211,10 +227,15 @@ const Detail = ({ speaker }: Props) => {
                                                 )}
                                             </HStack>
                                               
-                                    {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<Text textAlign={'left'}><div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.detail?.info?.about! }}></div></Text>} />}
-                                    {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}
+                                    {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<RenderHtml
+																									defaultTextProps={{selectable:true}}
+																									contentWidth={600}
+																									systemFonts={['Avenir']}
+																									tagsStyles={mixedStyle}
+																									source={{ html: detail?.detail?.info?.about! }}
+																							/>} />}
                                     {tab === 'sub_registration' && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id) && <SubRegistration detail={detail} />}
-                                    {tab === 'groups' && ((detail?.setting?.attendee_my_group === 1 && Number(_id) === response?.data?.user?.id) || ((detail?.is_speaker && detail?.speaker_setting?.show_group) || (!detail?.is_speaker && detail?.setting?.attendee_group))) &&
+                                    {tab === 'groups' &&
                                             <Container mb="3" rounded="10" bg={`${groups?.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
                                         {in_array('groups', processing) && page === 1 ? (
                                             <SectionLoading />
@@ -222,14 +243,14 @@ const Detail = ({ speaker }: Props) => {
                                             <>
                                                 {groups?.map((group: Group, k: number) =>
                                                     <React.Fragment key={`${k}`}>
-                                                        <RectangleGroupView group={group} k={k} border={groups.length > 0 && groups[groups.length - 1]?.id !== group?.id ? 1 : 0} navigation={true} displayMyGroupSetting={detail?.setting?.attendee_my_group}/>
+                                                        <RectangleGroupView group={group} k={k} border={k} navigation={true}/>
                                                     </React.Fragment>
                                                 )}
                                                         
                                                 {
                                                     groups?.length <= 0 && (
                                                         <>
-                                                         <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                          <NoRecordFound bg={"primary.box"}/>
                                                         </>
                                                     )
                                                 }
@@ -237,7 +258,6 @@ const Detail = ({ speaker }: Props) => {
                                         )}
 
                                     </Container>}
-                                    {event?.speaker_settings?.program === 1 && (
                                       <>
                                         {tab === 'program' && <Container mb="3" rounded="10" bg={`${programs.length > 0 ? "primary.box":""}`} w="100%" maxW="100%">
                                         {in_array('programs', processing) && page === 1 ? (
@@ -247,60 +267,53 @@ const Detail = ({ speaker }: Props) => {
                                             <SlideView  speaker={speaker} section="program" programs={programs} /> 
                                                         : (
                                                             <>
-                                                                <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                            <NoRecordFound bg={"primary.box"}/>
                                                             </>
                                                         )
                                         )}
                                     </Container>}
                                     </>
-                                    )}
                                         {tab === 'category' && <Container mb="3" rounded="10" bg={`${detail?.detail?.categories.length > 0 ? "primary.box" :""}`} w="100%" maxW="100%">
                                         {detail?.detail?.categories.slice().sort((a, b) => a.sort_order - b.sort_order).map((map: any, k: number) =>
                                             <React.Fragment key={`item-box-group-${k}`}>
-                                                {event?.speaker_settings?.category_group === 1 && (
                                                 <>
                                                 {map?.name && (
                                                     <Text w="100%" pl="18px" bg="primary.darkbox">{map?.name}</Text>
                                                 )}
                                                 {map?.children?.map((category: Category, index: number) =>
                                                     <React.Fragment key={`${index}`}>
-                                                        <RectangleCategoryView category={category} k={k} border={map?.children.length != (index + 1)} navigation={true} screen="detail" />
+                                                        <RectangleCategoryView category={category} parentCategory={map} k={k} border={map?.children.length != (index + 1)} navigation={true} screen="detail" />
                                                     </React.Fragment>
                                                 )}
                                                 </>
-                                                )}
                                             </React.Fragment>
                                         )}
                                         {detail?.detail?.categories.length <=0 && 
                                         (
                                             <>
-                                                <Text fontSize={'md'} p="4" rounded="10" w="100%" bg={"primary.box"}>{event.labels.GENERAL_NO_RECORD}</Text>
+                                                <NoRecordFound bg={"primary.box"}/>
                                             </>
                                             )
                                         }
                                     </Container>}
-                                    {event?.speaker_settings?.show_document === 1 && (
                                       <>
                                     {tab === 'documents' && <Container mb="3" rounded="10" w="100%" maxW="100%">
                                         {in_array('documents', processing) && page === 1 ? (
                                             <SectionLoading />
                                         ) : (
                                             <Box  bg="primary.box" w={'100%'} rounded="lg">
-																							<ListingLayout2 />
-																						</Box>
-																						
+                                                <ListingLayout2 module={modules?.find((module)=>(module.alias == 'ddirectory'))?.name ?? 'DOCUMENTS'}/>
+                                            </Box>
                                         )}
                                     </Container>}
                                       </>
-                                      )}
                                     {(in_array('programs', processing) || in_array('groups', processing)) && page > 1 && (
                                         <LoadMore />
                                     )}
                                 </Container>
                             ) : <>
-                                   <Box  bg="primary.box" p="5" w="100%" rounded="lg" overflow="hidden">
-                                        <Text>{event.labels.GENERAL_NO_RECORD}</Text>
-                                    </Box>
+                                  <NoRecordFound bg="primary.box"/>
+                               
                                 </>
                         }
                             
@@ -308,6 +321,9 @@ const Detail = ({ speaker }: Props) => {
                             <BannerAds module_name={'attendees'} module_type={'detail'} module_id={detail?.detail?.id}/>
                         </>
                     )}
+                    <Box display={['','none']} w={'100%'}>
+                    {((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website) || (detail?.setting?.contact_vcf && detail?.setting?.contact_vcf)) ? <ContactInfo detail={detail} /> : null}
+                    </Box>
                 </>
             )}
         </>

@@ -14,6 +14,8 @@ import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand'
 
 import DynamicIcon from 'application/utils/DynamicIcon';
 
+import { Module } from 'application/models/Module';
+
 import { createParam } from 'solito';
 
 import UseProgramService from 'application/store/services/UseProgramService';
@@ -63,6 +65,7 @@ import ProgramNotesBox from 'application/components/atoms/programs/notes/NotesBo
 import { useWindowDimensions } from 'react-native';
 import SessionRating from 'application/components/atoms/programs/SessionRating';
 import ButtonElement from 'application/components/atoms/ButtonElement'
+import { getColorScheme } from 'application/styles/colors';
 
 
 
@@ -106,7 +109,18 @@ const Detail = () => {
     const { width } = useWindowDimensions();
 
     const RenderHtml = require('react-native-render-html').default;
-
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+        const mixedStyle = {
+          body: {
+              fontFamily: 'Avenir',
+              fontSize: '16px',
+              userSelect: 'auto',
+              color: colors.text
+          },
+          p: {
+              fontFamily: 'Avenir',
+          }
+      }
     React.useEffect(() => {
         if (mounted.current) {
             if (in_array(tab, ['attendee']) && page < last_page ) {
@@ -144,11 +158,11 @@ const Detail = () => {
         const resShowPoll = showPolls == undefined ? false : showPolls;
         setshowPolls(resShowPoll);
 
-        const showRequestToSpeak=modules?.find((polls)=>(polls.alias == 'myturnlist')) && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) ;
+        const showRequestToSpeak=detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program_tabs_settings!?.filter((tab: any, key: number) => tab?.tab_name === 'ask_to_speak' && tab?.status === 1)?.length > 0 && detail?.program?.enable_speakerlist === 1 && (response?.attendee_detail?.event_attendee?.ask_to_apeak === 1 || event?.myturnlist_setting?.ask_to_apeak === 1) && ((event?.myturnlist_setting?.use_group_to_control_request_to_speak === 1 && (detail?.attached_attendee_count! > 0 || detail?.attendee_program_groups! > 0)) || event?.myturnlist_setting?.use_group_to_control_request_to_speak === 0) ;
         const resShowRequestToSpeak = showRequestToSpeak == undefined ? false : showRequestToSpeak;
         setshowRequestToSpeak(resShowRequestToSpeak);
 
-        const showAskAQuestion=modules?.find((polls)=>(polls.alias == 'qa')) && event?.agenda_settings?.qa === 1;
+        const showAskAQuestion=modules?.find((polls)=>(polls.alias == 'qa')) && (event?.agenda_settings?.qa === 1  || detail?.program?.qa === 1);
         const resShowAskAQuestion = showAskAQuestion == undefined ? false : showAskAQuestion;
         setshowAskAQuestion(resShowAskAQuestion);
 
@@ -185,21 +199,21 @@ const Detail = () => {
     return (
         <>
             {in_array('program-detail', processing) ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
                 <>
                     <NextBreadcrumbs queryParameters={{ 'currentIndex':currentIndex ?? '' }} module={module} title={detail?.program?.topic}/>
                     <DetailBlock>
-                        {/* <Text>
-                            <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: detail?.program?.description! }}></div>
-                        </Text> */}
-                        <Text>            
-                       <RenderHtml
-                contentWidth={width}
-                source={{ html: htmlContent }}
-                
-                />
-                </Text>
+                        
+                        {htmlContent &&<Box w={'100%'}>            
+                            <RenderHtml
+                                defaultTextProps={{selectable:true}}
+                                contentWidth={600}
+                                systemFonts={['Avenir']}
+                                tagsStyles={mixedStyle}
+                                source={{ html: htmlContent}}
+                            />
+                        </Box>}
                     </DetailBlock>
                     <Container mb="3" maxW="100%" w="100%">
                         <HStack mb="3" style={{rowGap: 2, columnGap: 1}} space={0} overflow={'hidden'} flexWrap={'wrap'} rounded={8} justifyContent="flex-start" w="100%">
@@ -226,8 +240,8 @@ const Detail = () => {
                                 {showSpeakers && (
                                     <>
                                         {detail?.program?.program_speakers!?.length > 0 && <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <DynamicIcon iconType="speakers" iconProps={{ width: 12, height: 18 }} />
-                                            <Text fontSize="md">{modules?.find((module)=>(module.alias == 'speakers'))?.name}</Text>
+                                            <DynamicIcon iconType={modules?.find((documents) => (documents.alias == 'speakers'))?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') ?? 'speakers'} iconProps={{ width: 12, height: 18 }} />
+                                            <Text fontSize="md">{modules?.find((documents) => (documents.alias == 'speakers'))?.name ?? 'Speakers'}</Text>
                                         </HStack>}
                                         {detail?.program?.program_speakers?.map((attendee: Attendee, k: number) =>
                                             <SpeakerRectangleView key={k} attendee={attendee} k={k} total={detail?.program?.program_speakers!?.length} />
@@ -275,24 +289,36 @@ const Detail = () => {
                                     </>
                                 )} */}
                                 {/* <PollRectangleView /> */}
-                                {showRequestToSpeak && (
+                                {showRequestToSpeak && detail?.program?.request_to_speak_common_group === true && detail?.program?.is_active_speakerlist === true && (
                                     <>
                                         <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                            <IcoRaiseHand width="14" height="17" />
-                                            <Text fontSize="md">{modules?.find((module)=>(module.alias == 'myturnlist'))?.name}</Text>
+                                            <DynamicIcon iconType={modules.find((module: Module) => module.alias === 'myturnlist')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 17, height: 17 }} />
+                                            <Text fontSize="md">{modules?.find((module)=>(module.alias == 'myturnlist'))?.name ?? "Request to Speak"}</Text>
                                         </HStack>
-                                        <RequestToSpeakRectangleView program={detail?.program} />
+                                        <Pressable onPress={() => {
+                                                push(`/${event.url}/myturnlist/show/${detail?.program?.id}`)
+                                            }}>
+                                                <Box w="100%" py="4">
+                                                    <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
+                                                        <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
+                                                            <Text fontSize="md">{event?.labels?.ASK_TO_SPEAK}</Text>
+                                                        </VStack>
+                                                        <Spacer />
+                                                        <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
+                                                    </HStack>
+                                                </Box>
+                                        </Pressable>
                                     </>
                                 )}
 
                                 {showAskAQuestion &&
                                 <>
                                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-                                    <DynamicIcon iconType="myquestions" iconProps={{ width: 12, height: 18 }} />
+                                    <DynamicIcon iconType="qa" iconProps={{ width: 20, height: 20 }} />
                                     <Text fontSize="md">{event?.labels?.QA_ASK_A_QUESTION}</Text>
                                 </HStack>
                                 <Center>
-                                    <Box w="90%">
+                                    <Box w="100%" px={'16px'}>
                                         <Pressable onPress={() => {
                                             push(`/${event.url}/qa/detail/${detail?.program?.id}`)
                                         }}>
@@ -328,10 +354,10 @@ const Detail = () => {
                                         </React.Fragment>
                                     )}
                                 </Container>}
-                                {tab === 'group' && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                {tab === 'group' && <Container mb="3" rounded="10px" bg="primary.box" w="100%" maxW="100%">
                                     {groups.map((map: any, k: number) =>
                                         <React.Fragment key={`item-box-group-${k}`}>
-                                            <Text w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
+                                            <Text roundedTop={10} w="100%" pl="18px" bg="primary.darkbox">{map[0]?.info?.parent_name}</Text>
                                             {map?.map((group: Group, k: number) =>
                                                 <React.Fragment key={`${k}`}>
                                                     <RectangleGroupView group={group} k={k} border={k} navigation={true} isProgramDetailPage={true} />

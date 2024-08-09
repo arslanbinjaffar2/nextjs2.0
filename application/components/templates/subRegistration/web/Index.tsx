@@ -28,6 +28,7 @@ import { error } from 'application/store/slices/Auth.Slice';
 import UseNetworkInterestService from 'application/store/services/UseNetworkInterestService';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import { func } from 'application/styles';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 
 type ScreenParams = { id: string }
@@ -51,7 +52,7 @@ const Detail = () => {
 
   const { push } = useRouter()
 
-  const { afterLogin, FetchSubRegistrationAfterLogin, SaveSubRegistration, submitting, skip, setSkip } = UseSubRegistrationService();
+  const { afterLogin, FetchSubRegistrationAfterLogin, SaveSubRegistration, submitting, skip, setSkip, limit_errors } = UseSubRegistrationService();
 
   const { netWorkskip,setNetworkSkip  } = UseNetworkInterestService();
 
@@ -270,10 +271,19 @@ const Detail = () => {
       }
     }
 
+    React.useEffect(()=>{
+      let newErrors = { ...errors };
+      limit_errors?.forEach((item:any) => {
+        // add error to the formData
+        newErrors[item?.question_id] = { error: item?.message };
+      });
+      setErrors(newErrors);
+    }, [limit_errors]);
+
   return (
     <>
       {loading ? (
-                <WebLoading />
+                <SectionLoading />
             ) : (
             <Container ref={refElement} mb="3" maxW="100%" w="100%">
             

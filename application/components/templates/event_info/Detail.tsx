@@ -12,12 +12,18 @@ import LoadImage from 'application/components/atoms/LoadImage';
 import ThemeColors from 'application/utils/ThemeColors';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import DynamicIcon from 'application/utils/DynamicIcon';
+import Icodocument from 'application/assets/icons/small/Icodocument';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import { color } from 'native-base/lib/typescript/theme/styled-system';
+
+
 
 type ScreenParams = { id: string, cms: string | undefined }
 
 const { useParam } = createParam<ScreenParams>()
 
 const Detail = (props: any) => {
+    const RenderHtml = require('react-native-render-html').default;
 
     const { event } = UseEventService()
 
@@ -33,11 +39,18 @@ const Detail = (props: any) => {
 
     const [cms] = useParam('cms');
 
-    const [iframeHeight, setIframeHeight] = useState(0);
-    const iframe = useRef<any>();
-
-      const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
-
+    const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+    const mixedStyle = {
+    body: {
+        fontFamily: 'Avenir',
+        fontSize: '16px',
+        userSelect: 'auto',
+        color: colors.text
+    },
+    p: {
+        fontFamily: 'Avenir',
+    }
+}
     const onWebViewMessage = (event: any) => {
         setweb_height(parseInt(event.nativeEvent.data) + 15);
     }
@@ -46,37 +59,36 @@ const Detail = (props: any) => {
         "general-info": "general_info",
         "practical-info": "event_info",
         "information-pages": "information_pages/temp",
+        "information-pages-sub": "information_pages/temp",
       };
 
     return (
         <>
-            {page && <View w="100%">
+            {page && <View w="100%" >
                 <ScrollView h={'68%'}>
-                    <HStack rounded="10" space={0} alignItems="center" w="100%"  bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"}>
-                        <Box w="100%" rounded="10" bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"}>
+                    <HStack rounded="10" space={0} alignItems="center" w="100%"  bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"}
+                 
+                    >
+                        <Box w="100%" rounded="10" bg={(page.image == '' && page.description == '' && page.pdf == '') ? "" : "primary.box"} >
                             {(page.image == '' && page.description == '' && page.pdf == '') &&(
                                 <>
-                                    <Text p={5} mb="3" bg="primary.box" rounded="lg" w="100%">{event?.labels?.GENERAL_NO_RECORD}</Text>
+                                    <NoRecordFound mb="3" bg="primary.box"/>
                                 </>
                             )}
                             {page.image !== '' && page.image_position === 'top' && <HStack w="100%" ml={0} mb={5}>
                                 <LoadImage path={`${_env.eventcenter_base_url}/assets/${informationModulesImage[cms!]}/${page.image}`} w="100%"  />
                             </HStack>}
                             {page?.description != "" && (Platform.OS === 'web' ? (
-                                <iframe 
-                                    style={{ borderWidth: 0, color:'#fff' }} 
-                                    ref={iframe}
-                                    onLoad={() => {
-                                        const obj = iframe.current;
-                                        obj.contentWindow.document.body.style.fontFamily = '"Open Sans", sans-serif';
-                                        obj.contentWindow.document.body.style.color = colors.text ? colors.text : '#000';
-                                        setIframeHeight(
-                                            obj.contentWindow.document.body.scrollHeight + 50 
-                                        );
-                                    }}
-                                    height={iframeHeight}
-                                    srcDoc={page?.description} 
-                                />
+                                <Box  p="5">
+                                    <RenderHtml
+                                        defaultTextProps={{selectable:true}}
+                                        contentWidth={600}
+                                        systemFonts={['Avenir']}
+                                        tagsStyles={mixedStyle}
+                                        source={{ html: page?.description }}
+                                    />
+                                </Box>
+                                
                             ) : (
                                 <WebView
                                     onMessage={onWebViewMessage}
@@ -92,10 +104,11 @@ const Detail = (props: any) => {
                             </HStack>}
                             {page.pdf && (
                                 <Box mb="3" w="100%"  py="4" borderBottomRadius="10">
-                                    <HStack mb="3" bg="primary.darkbox" py="1" px="4" space="2" alignItems="center">
-                                        <DynamicIcon iconType="documents" iconProps={{ width: 23, height: 23 }} />
+                                    <HStack mb="3" bg="primary.darkbox" py="1" px="4" alignItems="center" >
+                                        {/* <DynamicIcon iconType="documents" iconProps={{ width: 23, height: 23 }} /> */}
+                                        <Icodocument width="18px" height="18px" />
                                         {/* <Icon color={'primary.text'} as={AntDesign} name="file1" size="md" /> */}
-                                        <Text fontSize="lg">{event?.labels?.GENERAL_DOCUMENTS}</Text>
+                                        <Text fontSize="lg" ml={'2'}>{event?.labels?.GENERAL_DOCUMENTS}</Text>
                                     </HStack>
                                     <Pressable px="4" w="100%"
                                         onPress={async () => {
@@ -126,7 +139,9 @@ const Detail = (props: any) => {
                     {/* <BannerView url={''} /> */}
                 </HStack>
             </View>}
+            {/* <View mb={4}> */}
                 <BannerAds module_name={'information_pages'} module_type={'detail'} />
+            {/* </View> */}
         </>
     )
 

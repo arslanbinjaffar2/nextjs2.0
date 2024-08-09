@@ -12,8 +12,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import WebLoading from 'application/components/atoms/WebLoading';
 import Icoimage from 'application/assets/icons/small/Icoimage';
 import Icovideo from 'application/assets/icons/small/Icovideo';
-
-
+import SectionLoading from 'application/components/atoms/SectionLoading';
 import in_array from "in_array";
 
 
@@ -275,7 +274,7 @@ const AddPost = () => {
         </Box>
             {(in_array('social_wall_save_post', processing)) && (
 							<Box justifyContent={'center'} alignItems={'center'} mb={3}>
-                <WebLoading />
+                <SectionLoading />
 							</Box>
             )}
 			</>

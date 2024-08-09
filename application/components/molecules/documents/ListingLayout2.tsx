@@ -7,6 +7,7 @@ import FindPath from 'application/utils/FindPath';
 import { Platform } from 'react-native';
 import RectangleViewLayout2 from 'application/components/atoms/documents/RectangleViewLayout2';
 import UseEventService from 'application/store/services/UseEventService';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 interface ListingLayout2Props {
     module?: string;
@@ -41,13 +42,12 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
         <View w="100%">
             {!disableTitle && documents.length > 0 && <HStack pt={3} px="4" w="100%" space="3" alignItems="center"  flexWrap={'wrap'}>
                 {!disableTitle && <Pressable
+                maxW={'100%'}
                     onPress={async () => {
                         FilterDocuments({ document_id: 0, query: '' });
                         setBreadCrumbs([]);
                     }}>
-                    <Box>
-                        <Text fontSize="md">{module ?? 'Documents'}</Text>
-                    </Box>
+                        <Text  fontSize="md">{module ?? 'Documents'}</Text>
                 </Pressable>}
                 {breadcrumbs.length > 0 && breadcrumbs.map((breadcrumb: Document, key: number) =>
                     <React.Fragment key={key}>
@@ -73,9 +73,9 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
                         }
                     )}
                     { filteredDocuments.length <= 0 &&
-                        <Box>
-                            <Text  p={4} rounded="10" fontSize="md">{event.labels.GENERAL_NO_RECORD}</Text>
-                        </Box>
+                      <NoRecordFound />
+                       
+                        
                     }
                 </Box>
             ) : (

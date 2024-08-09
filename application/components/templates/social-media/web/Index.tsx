@@ -10,6 +10,8 @@ import { Linking } from 'react-native';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import SectionLoading from 'application/components/atoms/SectionLoading';
 
 const index = () => {
 
@@ -27,11 +29,11 @@ const index = () => {
     <>
       {
         loading ? (
-            <WebLoading />
+            <SectionLoading />
         ):(
           <>
           <NextBreadcrumbs module={module} />
-        <Container pt="2" maxW="100%" w="100%">
+   {socialMedia.length > 0  &&   <Container pt="2" maxW="100%" w="100%">
             <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
               <Text fontSize="2xl">{modules?.find((socialMedia)=>(socialMedia.alias == 'social-media'))?.name ?? ""}</Text>
             </HStack>
@@ -60,7 +62,10 @@ const index = () => {
                 
               </Flex>
             </Box>
-          </Container>
+          </Container>}
+          {socialMedia.length <= 0 &&
+          <NoRecordFound  bg="primary.box"/>
+          }
           </>
        )
       }
