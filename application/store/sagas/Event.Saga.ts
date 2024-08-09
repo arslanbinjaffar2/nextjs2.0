@@ -28,7 +28,7 @@ function* OnGetEvent({
     const response: HttpResponse = yield call(getEventApi, payload, env)
     yield put(EventActions.update(response.data.data.event!))
     if(response.data.data.event.keyword_settings.show_after_login == 0){
-        yield put(NetworkInterestActions.setSkip());
+        yield put(NetworkInterestActions.setSkip({event_url:response.data.data.event.url}));
     }
     yield put(LoadingActions.set(false));
 }
@@ -62,7 +62,7 @@ function* OnGetModules({
     const env = yield select(state => state);
     const response: HttpResponse = yield call(getModulesApi, env)
     if (response?.status === 401) {
-        yield put(AuthActions.clearToken());
+        yield put(AuthActions.clearToken(env?.event?.event.url));
     } else {
         yield put(EventActions.updateModules(response.data.data.modules))
         yield put(EventActions.customHtml(response.data.data.custom_html))
@@ -80,7 +80,7 @@ function* OnGetSettingModules({
     const env = yield select(state => state);
     const response: HttpResponse = yield call(getSettingModulesApi, env)
     if (response?.status === 401) {
-        yield put(AuthActions.clearToken());
+        yield put(AuthActions.clearToken(env?.event?.event.url));
     } else {
         yield put(EventActions.updateSettingsModules(response.data.data.modules))
         yield put(LoadingActions.set(false))
@@ -109,12 +109,11 @@ function* getHomeEventDetail({
     payload,
 }: {
     type: typeof EventActions.FetchEvent
-    payload: { id: number }
+    payload: { id: number, screen: string }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'event-detail' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getHomeEventDetailApi, payload, state)
-    console.log('response: ',response.data.data)
     yield put(EventActions.updateEventDetail({detail:response?.data?.data?.detail}))
     yield put(LoadingActions.removeProcess({ process: 'event-detail' }))
 }

@@ -15,8 +15,8 @@ import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { Setting } from 'application/models/hd/Hd';
 import UseSocketService from 'application/store/services/UseSocketService';
-import BannerAds from 'application/components/atoms/banners/BannerAds'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import BannerAds from 'application/components/atoms/banners/BannerAds';
 import IcoSend from 'application/assets/icons/small/IcoSend'
 import { getColorScheme } from "application/styles/colors";
 import { 

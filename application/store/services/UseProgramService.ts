@@ -116,7 +116,7 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
                 dispatch(ProgramActions.FetchUpcomingPrograms(payload))
             },
             [dispatch],
-        ),  
+        ),
     }
 
 }

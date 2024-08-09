@@ -1,7 +1,8 @@
 import * as React from 'react';
-import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService';
-import { useRouter } from 'solito/router'
+import UseEventService from 'application/store/services/UseEventService';
+import usePostLoginFlowMiddleware from 'application/middlewares/usePostLoginFlowMiddleware';
+import { useRouter } from 'solito/router';
 
 type Props = {
     children:
@@ -12,42 +13,24 @@ type Props = {
 };
 
 const AuthLayout = ({ children }: Props) => {
-
-    const { event,loadSettingsModules } = UseEventService();
-
-    const { loadToken, isLoggedIn, getUser, response } = UseAuthService();
-
+    const { event, event_url } = UseEventService();
+    const { loadToken, getUser, onboarding, isLoggedIn } = UseAuthService();
     const { push } = useRouter();
 
     React.useEffect(() => {
-        getUser();
-    }, [])
-
-    const checkUserGDPR = () => {
-        let requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1 ? true : false;
-          if(requiredGDPR){
-              let userGDPRLogged = response?.data?.user?.gdpr_log;
-              if(!userGDPRLogged){
-                return false;
-              }
-          }
-          return true;
-    }
+        const fetchUser = async () => {
+          await getUser();
+        };
+        fetchUser();
+    }, []);
 
     React.useEffect(() => {
-        if (isLoggedIn) {
-            loadSettingsModules();
-            if(checkUserGDPR() === false){
-                push(`/${event.url}/auth/gdpr`)
-            }else{
-                push(`/${event.url}/subRegistration`)
-            }
-        }
-    }, [isLoggedIn])
+        loadToken(Boolean(localStorage.getItem(`access_token_${event_url}`)));
+    }, [])
 
     React.useEffect(() => {
-        loadToken(Boolean(localStorage.getItem('access_token')));
-    }, [])
+        usePostLoginFlowMiddleware({ event, event_url, onboarding, push });
+    }, [onboarding, isLoggedIn])
 
     return (
         <>

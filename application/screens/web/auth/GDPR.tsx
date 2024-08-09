@@ -1,14 +1,14 @@
 import React, { useState } from "react"
-import { useRouter } from 'solito/router'
 import UseAuthService from 'application/store/services/UseAuthService';
 import UseEventService from 'application/store/services/UseEventService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import { Center, Box, Text, HStack, Divider, Button, Spacer } from "native-base"
 import { getColorScheme } from "application/styles/colors";
+import { useRouter } from "solito/router";
 
 const GDPR = () => {
     const { push } = useRouter();
-    const { response, getUser } = UseAuthService();
+    const { updateOnboarding, getUser, onboarding } = UseAuthService();
     const { addGDPRlog } = UseAttendeeService();
     const RenderHtml = require('react-native-render-html').default;
     const { event } = UseEventService()
@@ -24,27 +24,24 @@ const GDPR = () => {
         fontFamily: 'Avenir',
     }
     }
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const checkUserGDPR = () => {
-        let requiredGDPR = event?.gdpr_settings?.enable_gdpr === 1 ? true : false;
-        if (requiredGDPR) {
-            let userGDPRLogged = response?.data?.user?.gdpr_log;
-            if (!userGDPRLogged) {
-                return false;
-            }
-        }
-        return true;
+    const handleGDPRClick = async (gdprValue: number) => {
+        setIsSubmitting(true);
+        await addGDPRlog({ gdpr: gdprValue });
+        await updateOnboarding({show_gdpr: false});
+        await handleNextRedirection();
     }
 
-    React.useEffect(() => {
-        getUser()
-    }, [])
-
-    React.useEffect(() => {
-        if (checkUserGDPR() === true) {
-            push(`/${event.url}/subRegistration`)
+    const handleNextRedirection  = async () => {
+        if (onboarding?.show_subregistration) {
+          push(`/${event.url}/subRegistration`);
+        } else if (onboarding?.show_network_intrest) {
+          push(`/${event.url}/network-interest`);
+        } else {
+          push(`/${event.url}/dashboard`);
         }
-    }, [response])
+    }
 
     return (
         <>
@@ -65,14 +62,11 @@ const GDPR = () => {
                         <Button
                             bg="transparent"
                             p="2"
-                            
                             fontSize="lg"
                             colorScheme="primary"
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
-                            onPress={() => {
-                                addGDPRlog({ gdpr: 0 })
-                                push(`/${event.url}/subRegistration`)
-                            }}
+                            onPress={() => handleGDPRClick(0)}
+                            isDisabled={isSubmitting}
                         >
                             {event?.labels?.GDPR_CANCEL}
                         </Button>
@@ -81,10 +75,9 @@ const GDPR = () => {
                             py="2"
                             _hover={{ _text: { color: 'primary.hovercolor' } }}
                             _text={{ color: 'primary.hovercolor' }}
-                            onPress={() => {
-                                addGDPRlog({ gdpr: 1 })
-                                push(`/${event.url}/subRegistration`)
-                            }}
+                            onPress={() => handleGDPRClick(1)}
+                            isDisabled={isSubmitting}
+                            isLoading={isSubmitting}
                         >
                             {event?.labels?.GDPR_ACCEPT}
                         </Button>
