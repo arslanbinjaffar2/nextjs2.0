@@ -136,6 +136,10 @@ const NewChat = ({navigation}: indexProps) => {
         </Button.Group>
         
          <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
+          {!search && selectedtab === 'attendee' && <Box bg="primary.box" px="2" py="1" rounded="lg">
+            <Text fontSize="xs">{event?.labels?.CHAT_SUGGESTED_ATTENDEES}</Text>
+          </Box>}
+          
           {/* Attendee Results */}
           {selectedtab === 'attendee' && (
             <>
