@@ -135,73 +135,76 @@ const NewChat = ({navigation}: indexProps) => {
           </Button>
         </Button.Group>
         
-         <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
-          {!search && selectedtab === 'attendee' && <Box bg="primary.box" px="2" py="1" rounded="lg">
-            <Text fontSize="xs">{event?.labels?.CHAT_SUGGESTED_ATTENDEES}</Text>
-          </Box>}
-          
-          {/* Attendee Results */}
-          {selectedtab === 'attendee' && (
-            <>
-            {new_chat_search_results.attendees?.length == 0 && <NoRecordFound />}
-            {new_chat_search_results.attendees.filter((attendee: any) => {
-              if (Number(attendee?.current_event_attendee?.speaker) === 1 && event?.speaker_settings?.chat !== 1) {
-                return false;
-              }
-              return true;
-            }).map((attendee,k) =>
-              <HStack key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
-               <Checkbox  value={`${attendee.id}`} isChecked={selectedItems.some((item) => item.type == 'attendee' && item.value.id === attendee.id)} onChange={(value) => {
-                if(value) {
-                  selectItem({type: 'attendee', value: attendee})
-                } else {
-                  removeItem({type: 'attendee', value: attendee})
-                }
-               }} />
-                <Avatar  source={{uri: getSenderImage(attendee?.image)}}>
-                   {getFirstLetters(`${attendee?.first_name} ${attendee?.last_name}`)}
-                 </Avatar>
-                 <VStack space="0">
-                   <Heading fontWeight={500} fontSize="lg">{attendee?.first_name} {attendee?.last_name}</Heading>
-                 </VStack>
-               </HStack>)}
-            </>
-          )}
-          {/* Group Results */}
-          {selectedtab === 'group' && (
-            <>
-            {new_chat_search_results.groups?.length == 0 && <NoRecordFound />}
-            {new_chat_search_results.groups.map((parent_group,k) =>
-              <>
-                <Box  bg="primary.darkbox" px={2}>
-                  {parent_group?.parent?.name}
-                </Box>
-                
-                {/* sub groups start */}
-                {parent_group?.sub_groups?.map((group,k) =>
-                  <HStack key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
-                  <Checkbox value={group?.id?.toString()} isChecked={selectedItems.some((item) => item?.type == 'group' && item?.value?.id === group?.id)} onChange={(value) => {
-                    if(value) {
-                      selectItem({type: 'group', value: group})
-                    } else {
-                      removeItem({type: 'group', value: group})
-                    }
-                    }} />
-                  <Avatar backgroundColor={group?.color ? group.color : undefined}>
-                      <Icon color={'primary.text'} as={MaterialIcons} name="groups"  />
-                  </Avatar>
-                  <VStack space="0">
-                    <Heading fontWeight={500} fontSize="lg">{group?.name}</Heading>
-                  </VStack>
-                </HStack>
-                )}
-                {/* sub groups end */}
+              <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
+                <ScrollView maxHeight={['350','500']} w={'100%'}>
+                    {!search && selectedtab === 'attendee' && <Box bg="primary.box" px="2" py="1" rounded="lg">
+                      <Text fontSize="xs">{event?.labels?.CHAT_SUGGESTED_ATTENDEES}</Text>
+                    </Box>}
+                    
+                    {/* Attendee Results */}
+                    {selectedtab === 'attendee' && (
+                      <>
+                      {new_chat_search_results.attendees?.length == 0 && <NoRecordFound />}
+                      {new_chat_search_results.attendees.filter((attendee: any) => {
+                        if (Number(attendee?.current_event_attendee?.speaker) === 1 && event?.speaker_settings?.chat !== 1) {
+                          return false;
+                        }
+                        return true;
+                      }).map((attendee,k) =>
+                        <HStack key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
+                        <Checkbox  value={`${attendee.id}`} isChecked={selectedItems.some((item) => item.type == 'attendee' && item.value.id === attendee.id)} onChange={(value) => {
+                          if(value) {
+                            selectItem({type: 'attendee', value: attendee})
+                          } else {
+                            removeItem({type: 'attendee', value: attendee})
+                          }
+                        }} />
+                          <Avatar  source={{uri: getSenderImage(attendee?.image)}}>
+                            {getFirstLetters(`${attendee?.first_name} ${attendee?.last_name}`)}
+                          </Avatar>
+                          <VStack space="0">
+                            <Heading fontWeight={500} fontSize="lg">{attendee?.first_name} {attendee?.last_name}</Heading>
+                          </VStack>
+                        </HStack>)}
+                      </>
+                    )}
+                    {/* Group Results */}
+                    {selectedtab === 'group' && (
+                      <>
+                      {new_chat_search_results.groups?.length == 0 && <NoRecordFound />}
+                      {new_chat_search_results.groups.map((parent_group,k) =>
+                        <>
+                          <Box  bg="primary.darkbox" px={2}>
+                            {parent_group?.parent?.name}
+                          </Box>
+                          
+                          {/* sub groups start */}
+                          {parent_group?.sub_groups?.map((group,k) =>
+                            <HStack key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`} alignItems={'center'} borderTopWidth={k === 0 ? 0 : 1} borderColor="primary.bordercolor" w="100%" p="4" space="4">
+                            <Checkbox value={group?.id?.toString()} isChecked={selectedItems.some((item) => item?.type == 'group' && item?.value?.id === group?.id)} onChange={(value) => {
+                              if(value) {
+                                selectItem({type: 'group', value: group})
+                              } else {
+                                removeItem({type: 'group', value: group})
+                              }
+                              }} />
+                            <Avatar backgroundColor={group?.color ? group.color : undefined}>
+                                <Icon color={'primary.text'} as={MaterialIcons} name="groups"  />
+                            </Avatar>
+                            <VStack space="0">
+                              <Heading fontWeight={500} fontSize="lg">{group?.name}</Heading>
+                            </VStack>
+                          </HStack>
+                          )}
+                          {/* sub groups end */}
 
-              </>
-              )}
-            </>
-          )}
-        </VStack>
+                        </>
+                        )}
+                      </>
+                    )}
+                </ScrollView>
+            </VStack>
+         
         {/* New Message */}
         <NewChatBox user_ids={selectedItems.filter((item) => item.type === 'attendee').map((item) => item.value.id)} group_ids={selectedItems.filter((item) => item.type === 'group').map((item) => item.value.id)} />
       </Container>
