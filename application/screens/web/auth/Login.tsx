@@ -171,13 +171,19 @@ const Login = ({ props }: any) => {
                                         _hover={{ bg: 'primary.secondary' }}
                                     >
                                     </Button>
-                                    <Button
+                                    {event.attendee_settings?.enable_login_directory === 1 && (
+                                     <Button
+																		variant={"unstyled"}
+																		background={"transparent"}
+																		borderWidth={1}
+																		_text={{fontSize:24,fontWeight:500}}
+																		borderColor={"primary.darkbox"}
                                            onPress={handleAADLogin}
                                            minH='48px'
-                                           _hover={{ bg: 'primary.secondary' }}
-                                       >
-                                           Login with AAD
+                                           _hover={{ bg: 'primary.secondary' }} >
+                                           Sign in With Microsoft
                                        </Button>
+																		)}
                                 </VStack>
                             ) : (
                                 <VStack w={'100%'} space="10px">
@@ -202,13 +208,19 @@ const Login = ({ props }: any) => {
                                                 : (error ? error : errors.email?.message)}
                                         </FormControl.ErrorMessage>
                                     </FormControl>
+																		 {event.attendee_settings?.enable_login_directory === 1 && (
                                     <Button
+																		variant={"unstyled"}
+																		background={"transparent"}
+																		borderWidth={1}
+																		_text={{fontSize:24,fontWeight:500}}
+																		borderColor={"primary.darkbox"}
                                            onPress={handleAADLogin}
                                            minH='48px'
-                                           _hover={{ bg: 'primary.secondary' }}
-                                       >
-                                           Login with AAD
+                                           _hover={{ bg: 'primary.secondary' }} >
+                                        Sign in With Microsoft
                                        </Button>
+																		 )}
                                 </VStack>
                             )}
                         </>
