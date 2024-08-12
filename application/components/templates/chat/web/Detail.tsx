@@ -177,7 +177,11 @@ const Detail = ({ navigation }: indexProps) => {
                 return (
                   <>
                   <Box nativeID='zindex-99' display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} top={0} mb={2}>
-                    <Text bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).format(GENERAL_DATE_FORMAT)}</Text>
+                    <Text bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).calendar(null,{
+                        lastDay : `[${event?.labels?.CHAT_YESTERDAY}]`,
+                        sameDay : `[${event?.labels?.CHAT_TODAY}]`,
+                        sameElse: GENERAL_DATE_FORMAT
+                    })}</Text>
                   </Box>
                   {messages.map((message: ChatMessage) => {
                     return (
