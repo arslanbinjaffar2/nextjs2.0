@@ -20,6 +20,23 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
+"@azure/msal-browser@^3.20.0":
+  "integrity" "sha512-ErsxbfCGIwdqD8jipqdxpfAGiUEQS7MWUe39Rjhl0ZVPsb1JEe9bZCe2+0g23HDH6DGyCAtnTNN9scPtievrMQ=="
+  "resolved" "https://registry.npmjs.org/@azure/msal-browser/-/msal-browser-3.20.0.tgz"
+  "version" "3.20.0"
+  dependencies:
+    "@azure/msal-common" "14.14.0"
+
+"@azure/msal-common@14.14.0":
+  "integrity" "sha512-OxcOk9H1/1fktHh6//VCORgSNJc2dCQObTm6JNmL824Z6iZSO6eFo/Bttxe0hETn9B+cr7gDouTQtsRq3YPuSQ=="
+  "resolved" "https://registry.npmjs.org/@azure/msal-common/-/msal-common-14.14.0.tgz"
+  "version" "14.14.0"
+
+"@azure/msal-react@^2.0.22":
+  "integrity" "sha512-hvXWd8uYJiJr+1Kj2VOxWlLomZpxBfNZSuKxwhKAsieCbNM/4Is83ZMBtX2dMOXXx/llTGArwKzBOcp44R2ZQg=="
+  "resolved" "https://registry.npmjs.org/@azure/msal-react/-/msal-react-2.0.22.tgz"
+  "version" "2.0.22"
+
 "@babel/code-frame@^7.0.0":
   "integrity" "sha512-XktuhWlJ5g+3TJXc5upd9Ks1HutSArik6jf2eAjYFyIOf4ej3RN+184cZbzDvbPnuTJIUhPKKJE3cIsYTiAT3w=="
   "resolved" "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.22.13.tgz"
@@ -13340,9 +13357,9 @@
     "react-is" "^16.12.0 || ^17.0.0 || ^18.0.0"
 
 "react-simple-wysiwyg@^3.0.2":
-  "integrity" "sha512-qBPP/b8CfLJgGooqQE2guFxiNxm2uBfMNtZUilCWPcjAWw9XMO6218JZw9kwK81iNO2J0PCWzHf73e6T6EGAvw=="
-  "resolved" "https://registry.npmjs.org/react-simple-wysiwyg/-/react-simple-wysiwyg-3.0.2.tgz"
-  "version" "3.0.2"
+  "integrity" "sha512-m72gbz60u9CT6Wge63VVb5k/qjT4iqRfF4QS/BQuNw4lqQKGt+3xB0upFBOUgLXaTpY5NkkhZ44AOR+EmByqUQ=="
+  "resolved" "https://registry.npmjs.org/react-simple-wysiwyg/-/react-simple-wysiwyg-3.1.1.tgz"
+  "version" "3.1.1"
 
 "react-slick@^0.29.0":
   "integrity" "sha512-TGdOKE+ZkJHHeC4aaoH85m8RnFyWqdqRfAGkhd6dirmATXMZWAxOpTLmw2Ll/jPTQ3eEG7ercFr/sbzdeYCJXA=="
@@ -15571,9 +15588,9 @@
     "qs" "^6.11.2"
 
 "use-debounce@^10.0.1":
-  "integrity" "sha512-0uUXjOfm44e6z4LZ/woZvkM8FwV1wiuoB6xnrrOmeAEjRDDzTLQNRFtYHvqUsJdrz1X37j0rVGIVp144GLHGKg=="
-  "resolved" "https://registry.npmjs.org/use-debounce/-/use-debounce-10.0.1.tgz"
-  "version" "10.0.1"
+  "integrity" "sha512-MwBiJK2dk+2qhMDVDCPRPeLuIekKfH2t1UYMnrW9pwcJJGFDbTLliSMBz2UKGmE1PJs8l3XoMqbIU1MemMAJ8g=="
+  "resolved" "https://registry.npmjs.org/use-debounce/-/use-debounce-10.0.2.tgz"
+  "version" "10.0.2"
 
 "use-isomorphic-layout-effect@^1.1.2":
   "integrity" "sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA=="

@@ -24,6 +24,7 @@ export type EventServiceOperators = {
     loadToken: (logged: boolean) => void
     disclaimerStatusUpdated: (status: boolean) => void
     updateOnboarding: (payload: any) => void
+    loginWithToken: (payload: { token: string }) => void
 }
 
 /**
@@ -112,6 +113,12 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
                 dispatch(
                     AuthActions.updateOnboarding(payload),
                 )
+            },
+            [dispatch],
+        ),
+        loginWithToken: useCallback(
+            (payload: { token: string }) => {
+                dispatch(AuthActions.loginWithToken(payload))
             },
             [dispatch],
         ),

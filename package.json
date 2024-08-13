@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "moment-timezone": "^0.5.45",
+    "@azure/msal-react": "^2.0.22",
     "use-debounce": "^10.0.1"
   }
 }
