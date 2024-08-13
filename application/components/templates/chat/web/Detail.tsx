@@ -177,7 +177,11 @@ const Detail = ({ navigation }: indexProps) => {
                 return (
                   <>
                   <Box nativeID='zindex-99' display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} top={0} mb={2}>
-                    <Text bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).format(GENERAL_DATE_FORMAT)}</Text>
+                    <Text bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).calendar(null,{
+                        lastDay : `[${event?.labels?.CHAT_YESTERDAY}]`,
+                        sameDay : `[${event?.labels?.CHAT_TODAY}]`,
+                        sameElse: GENERAL_DATE_FORMAT
+                    })}</Text>
                   </Box>
                   {messages.map((message: ChatMessage) => {
                     return (
@@ -251,13 +255,23 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
   const {SaveMessage} = UseChatService();
   const [message, setMessage] = React.useState('');
   const {processing} = UseLoadingService();
+  
+  const handleKeyPress = (event: any) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      send();
+      event.preventDefault(); // Prevent default behavior of Enter key
+    } else {
+      setMessage(event.target.value);
+
+    }
+  };
   const debounced = useDebouncedCallback((value:any) => {
     setMessage(value);
   }, 500);
   const {event} = UseEventService();
 
   function send(){
-    if(message!==''){
+    if(message!=='' && message.trim() !== '' && !processing.includes('save-message') ){
       SaveMessage({message:message,thread_id:thread_id});
       setMessage('');
       if(textRef.current){
@@ -276,9 +290,8 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
       </HStack>
       <VStack p="0" w="100%" space="0">
         <Box py={3} px={4} pb={2}>
-          <TextArea bg={'primary.darkbox'} ref={textRef} borderWidth="0" borderColor="transparent" fontSize="md" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="0" h={100} w="100%" p="3" placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined} 
+          <TextArea bg={'primary.darkbox'} onKeyPress={handleKeyPress} ref={textRef} borderWidth="0" borderColor="transparent" fontSize="md" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="0" h={100} w="100%" p="3" placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined} 
           defaultValue={message}
-          onChangeText={(text)=>debounced(text)}
           />
         </Box>
         <HStack pr={4} mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
@@ -302,7 +315,7 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
           ) : (
             <IconButton
             variant="transparent"
-            isDisabled={message == ''}
+            isDisabled={message.trim() === ''}
             icon={<IcoSend width={24} height={24} color="primary.text" />}
             onPress={() => {
               send()

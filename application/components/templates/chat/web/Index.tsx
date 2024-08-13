@@ -19,6 +19,7 @@ import { func } from 'application/styles';
 import UseEnvService from 'application/store/services/UseEnvService';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import UseAuthService from 'application/store/services/UseAuthService';
+import { GENERAL_DATETIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals';
 type indexProps = {
   navigation: unknown
 }
@@ -83,7 +84,7 @@ const Index = ({ navigation }: indexProps)  => {
                       </VStack>
                       <Spacer />
                       <VStack alignItems="flex-end" space="2">
-                        <Text opacity="0.6" fontSize="md">{moment(chat?.latest_message?.sent_date).fromNow()}</Text>
+                        <Text opacity="0.6" fontSize="md">{moment().isSame(moment(chat?.latest_message?.sent_date),'day') ? moment(chat?.latest_message?.sent_date).fromNow() : moment(chat?.latest_message?.sent_date).format(GENERAL_DATETIME_FORMAT_WITHOUT_SECONDS)}</Text>
                         {chat?.messages_count > 0 && <Box rounded={'full'}  minW="18px" minHeight={'18px'} position="static" borderWidth="0" bg="green.500" justifyContent="center" alignItems="center" ><Text px={'2px'} fontSize="xs">{chat?.messages_count}</Text>
                         </Box>}
                     </VStack>
