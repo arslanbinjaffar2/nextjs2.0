@@ -48,7 +48,7 @@ const Detail = () => {
 
   const { event, modules, event_url } = UseEventService();
 
-  const { response } = UseAuthService();
+  const { updateOnboarding, onboarding } = UseAuthService();
 
   const { push } = useRouter()
 
@@ -122,16 +122,16 @@ const Detail = () => {
     FetchSubRegistrationAfterLogin();
   }, []);
 
-  React.useEffect(() => {
-    if (skip === true) {
-      if (netWorkskip !== true && event?.keyword_settings?.show_after_login !== 0) {
-        push(`/${event.url}/network-interest`)
-      } else {
-        setNetworkSkip({ event_url: event_url });
-        push(`/${event.url}/dashboard`)
-      }
-    }
-  }, [skip]);
+  // React.useEffect(() => {
+  //   if (skip === true) {
+  //     if (netWorkskip !== true && event?.keyword_settings?.show_after_login !== 0) {
+  //       push(`/${event.url}/network-interest`)
+  //     } else {
+  //       setNetworkSkip({ event_url: event_url });
+  //       push(`/${event.url}/dashboard`)
+  //     }
+  //   }
+  // }, [skip]);
 
   const validate = async () => {
     let error = false;
@@ -269,22 +269,32 @@ const Detail = () => {
         questions: afterLogin?.questions?.question.reduce((ack, item: any) => { return ack.concat(item.id) }, []),
         ...answers,
       });
+      await updateOnboarding({show_subregistration: false});
+      handleNextRedirection();
     }
   }
 
-  if (loading) {
-    return <SectionLoading />
+  const handleNextRedirection  = () => {
+    if (onboarding?.show_network_intrest) {
+      push(`/${event.url}/network-interest`);
+    } else {
+      push(`/${event.url}/dashboard`);
+    }
   }
 
-    React.useEffect(()=>{
-      let newErrors = { ...errors };
-      limit_errors?.forEach((item:any) => {
-        // add error to the formData
-        newErrors[item?.question_id] = { error: item?.message };
-      });
-      setErrors(newErrors);
-    }, [limit_errors]);
+  React.useEffect(()=>{
+    let newErrors = { ...errors };
+    limit_errors?.forEach((item:any) => {
+      // add error to the formData
+      newErrors[item?.question_id] = { error: item?.message };
+    });
+    setErrors(newErrors);
+  }, [limit_errors]);
 
+  if (loading || afterLogin?.questions?.question.length! <= 0) {
+    return <SectionLoading />
+  }
+  
   return (
     <>
       <Container ref={refElement} mb="3" maxW="100%" w="100%">
@@ -295,8 +305,8 @@ const Detail = () => {
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
         </HStack>
-        {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
-          {afterLogin?.questions?.question.length! > 0 && afterLogin?.questions?.question.map((item, index) => (
+        {!completed && afterLogin?.questions?.question.length! > 0 && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
+          {afterLogin?.questions?.question.map((item, index) => (
             <React.Fragment key={item.id}>
               {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer onsubmit={submitcount} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
               {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer onsubmit={submitcount} settings={afterLogin.settings!} programs={afterLogin.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
@@ -319,7 +329,9 @@ const Detail = () => {
                   colorScheme="primary"
                   _hover={{ _text: { color: 'primary.hovercolor' } }}
                   onPress={() => {
+                    updateOnboarding({show_subregistration: false});
                     setSkip({ event_url: event_url });
+                    handleNextRedirection();
                   }}
                 >
                   {event?.labels?.GENERAL_SKIP}

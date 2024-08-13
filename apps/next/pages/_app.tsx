@@ -10,6 +10,8 @@ import   'application/assets/css/mapplic.css';
 import { useRouter } from 'next/router';
 import Forbidden from './[event]/forbidden'
 import BackgroundLayout from 'application/screens/web/layouts/BackgroundLayout'
+import { MsalProvider } from "@azure/msal-react";
+import { msalInstance } from 'application/services/azure/authConfig';
 
 function MyApp({ Component, pageProps }: SolitoAppProps) {
   const [isForbidden,setIsForbidden]=useState(false)
@@ -64,6 +66,11 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
             </BackgroundLayout>
             }
           </Provider>
+          <MsalProvider instance={msalInstance}>
+            <Provider env={env}>
+              {getLayout(<Component {...pageProps} />)}
+            </Provider>
+          </MsalProvider>
         </ReduxProvider>
       )}
     </>

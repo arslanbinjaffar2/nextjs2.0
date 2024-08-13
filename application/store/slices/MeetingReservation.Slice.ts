@@ -108,11 +108,11 @@ export const MeetingReservationSlice = createSlice({
             // }
            
         },
-        clearState(state) {
+        clearState(state,action:PayloadAction<{event_url:string}>) {
             if(Platform.OS === 'web'){
-                localStorage.removeItem('skip_pending_appointment_alerts');
+                localStorage.removeItem(`skip_pending_appointment_alerts_${action.payload.event_url}`);
             }else{
-                AsyncStorageClass.removeItem('skip_pending_appointment_alerts');
+                AsyncStorageClass.removeItem(`skip_pending_appointment_alerts_${action.payload.event_url}`);
             }
         }
     },

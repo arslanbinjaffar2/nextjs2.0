@@ -99,7 +99,7 @@ const Detail = () => {
     else{
       newFormData[question_id].answer = answer
     }
-    setFormData(newFormData);
+    setFormData({...newFormData});
     setForceUpdate(forceUpdate + 1);
   }
 

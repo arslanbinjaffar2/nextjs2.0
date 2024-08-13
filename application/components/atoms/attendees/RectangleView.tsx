@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Box, Button, Center, HStack, Icon, Image, Pressable, Spacer, Text, Tooltip, VStack } from 'native-base'
+import { Avatar, Box, Button, Center, HStack, Icon, Image, Pressable, Spacer, Spinner, Text, Tooltip, VStack } from 'native-base'
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons'
 import Icoribbon from 'application/assets/icons/Icoribbon'
 import { Attendee } from 'application/models/attendee/Attendee'
@@ -12,6 +12,8 @@ import { Platform } from 'react-native'
 import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
 import { useSearchParams, usePathname } from 'next/navigation'
+import UseLoadingService from 'application/store/services/UseLoadingService';
+import in_array from 'in_array';
 
 type boxItemProps = {
   attendee: Attendee
@@ -28,6 +30,8 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
 
   const { _env } = UseEnvService()
   const { response } = UseAuthService()
+
+  const { processing }=UseLoadingService();
 
   const { push } = useRouter()
 
@@ -51,6 +55,9 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
   }, [attendee?.favourite])
 
   function toggleFav() {
+    if(in_array( `attendee-fav-${attendee.id}`,processing)){
+            return;
+      }
     setIsFav(!isFav);
     MakeFavourite({ attendee_id: attendee.id, screen: 'listing' })
   }
@@ -155,10 +162,18 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   
                 )} 
               {(!speaker && !disableMarkFavroute && event.attendee_settings?.mark_favorite == 1) && (
-                <Pressable
-                  onPress={() => toggleFav()}>
-                  <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
-                </Pressable>
+                <Box w={'20px'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+                  {in_array(`attendee-fav-${attendee.id}`,processing) ? (
+                      <Spinner width={20} height={28} color={isFav ? 'secondary.500' : 'primary.text'} size="sm"  />
+                  ):(
+                  <Pressable
+                    onPress={() => toggleFav()}>
+                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+                  </Pressable>
+                  )}
+                </Box>
+                
+                
               )}
               <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
             </HStack>

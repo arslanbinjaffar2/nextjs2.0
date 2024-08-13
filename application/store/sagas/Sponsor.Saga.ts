@@ -97,11 +97,13 @@ function* OnMakeFavourite({
     type: typeof SponsorActions.MakeFavourite
     payload: { sponsor_id: number, screen: string }
 }): SagaIterator {
+    yield put(LoadingActions.addProcess({ process: `sponsor-fav-${payload.sponsor_id}` }))
     const state = yield select(state => state);
     yield call(makeFavouriteApi, payload, state);
     if(payload.screen === "my-sponsors") {
         yield put(SponsorActions.FetchMySponsors({ }))
     }
+    yield put(LoadingActions.removeProcess({ process: `sponsor-fav-${payload.sponsor_id}` }))
 }
 
 function* OnGetSponsorDetail({

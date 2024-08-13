@@ -92,6 +92,7 @@ export interface Event {
     home_my_event?: HomeMyEvent[]
     event_disclaimer?: any
     appointment_settings?: AppointmentSettings
+    poll_settings?: any
 }
 interface Setting {
     poll_setting?: string;
@@ -202,6 +203,7 @@ interface AttendeeSetting {
     age?: number;
     mark_favorite?: number;
     export_original_cpr_number?: number;
+    enable_login_directory?:number;
 }
 interface Detail {
     support_email?: string;
