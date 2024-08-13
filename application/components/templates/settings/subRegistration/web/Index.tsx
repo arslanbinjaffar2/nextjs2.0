@@ -68,7 +68,7 @@ const Detail = () => {
         <SectionLoading />
       ) : (
         <>
-          <NextBreadcrumbs module={programModule} title={setting_modules?.find((module: { alias: string; }) => (module.alias == 'subregistration'))?.name ?? 'Subregistration'} />
+          <NextBreadcrumbs module={programModule} title={event?.setting_modules_labels?.subregistration ?? 'Subregistration'} />
           <RegForm
             mySubReg={mySubReg}
             SaveSubRegistration={SaveSubRegistration}
@@ -344,7 +344,7 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
 
       
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-        <Text   fontSize="lg">{setting_modules?.find((module: { alias: string; }) => (module.alias == 'subregistration'))?.name ?? 'Subregistration'}</Text>
+        <Text   fontSize="lg">{event?.setting_modules_labels?.subregistration ?? 'Subregistration'}</Text>
       </HStack>
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
         <Text  fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>

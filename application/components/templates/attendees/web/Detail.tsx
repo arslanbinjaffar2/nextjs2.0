@@ -228,7 +228,7 @@ const Detail = ({ speaker }: Props) => {
                                                                 } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id)) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('sub_registration')} bg={tab === 'sub_registration' ? 'primary.boxbutton' : 'primary.box'}>
-                                                                            {modules?.find((module)=>(module.alias == 'subregistration'))?.name ?? 'Sub registrations'}</ButtonElement>
+                                                                            {event?.modules_labels?.subregistration}</ButtonElement>
                                                                     )
                                                                 }
                                                             })()
