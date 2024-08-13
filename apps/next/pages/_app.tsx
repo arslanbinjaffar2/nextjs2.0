@@ -55,6 +55,7 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
       </Head>
       {typeof window !== "undefined" && (
         <ReduxProvider store={store}>
+          <MsalProvider instance={msalInstance}>
           <Provider env={env}>
             {!isForbidden?
             <>
@@ -66,10 +67,6 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
             </BackgroundLayout>
             }
           </Provider>
-          <MsalProvider instance={msalInstance}>
-            <Provider env={env}>
-              {getLayout(<Component {...pageProps} />)}
-            </Provider>
           </MsalProvider>
         </ReduxProvider>
       )}
