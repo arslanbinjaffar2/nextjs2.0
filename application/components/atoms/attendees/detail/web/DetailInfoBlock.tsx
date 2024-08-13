@@ -60,7 +60,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
         'place_of_birth', 'date_of_issue_passport', 'date_of_expiry_passport', 'birth_date', 'employment_date', 'spoken_languages', 'organization', 'country', 'pa_country', 'pa_street',
         'pa_house_no', 'pa_post_code', 'pa_city', 'type'
     ]
-    .some(fieldName => isFieldVisible(fieldName) && detail?.detail?.info?.[mapFieldName(fieldName)])
+    .some(fieldName => isFieldVisible(fieldName) && (detail?.detail?.info?.[mapFieldName(fieldName)] || (fieldName == 'type' && detail?.detail?.attendee_type_name!)));
 
     // Check if the filtered array has at least one item
     const shouldShowNoRecord = filteredSortFieldSetting.length === 0 || !hasContactInfo;
