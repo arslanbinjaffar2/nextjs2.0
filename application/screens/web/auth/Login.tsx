@@ -51,29 +51,10 @@ const Login = ({ props }: any) => {
         loginWithToken({ token });
     }
     }, []);
-const [authorizationError, setAuthorizationError] = React.useState(false);
 
-const handleAADLogin = async () => {
-  try {
-    const response = await fetch(`${_env.api_base_url}/event/${event.url}/auth/login/azure`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const data = await response.json();
-    if (data.success === false) {
-			console.log('in false')
-      setAuthorizationError(true);
-    } else {
-      window.location.href = `${_env.api_base_url}/event/${event.url}/auth/login/azure`;
-    }
-  } catch (error) {
-		console.log('in catch ')
-    console.error('An error occurred:', error);
-    setAuthorizationError(true);
-  }
-};
+    const handleAADLogin = () => {
+        window.location.href = `${_env.api_base_url}/event/${event.url}/auth/login/azure`;
+    };
 
     React.useEffect(() => {
         if (response.redirect === "choose-provider") {
@@ -91,7 +72,6 @@ const handleAADLogin = async () => {
 
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
-						 {authorizationError && <p style={{color:"red", fontWeight:500}}>You are not authorized to this event</p>}
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={['30px','50px','30px']} w={"100%"}
             rounded="10">
                 <Image
