@@ -93,6 +93,8 @@ export interface Event {
     event_disclaimer?: any
     appointment_settings?: AppointmentSettings
     poll_settings?: any
+    modules_labels?: {[key:string]:string}
+    setting_modules_labels?: {[key:string]:string}
 }
 interface Setting {
     poll_setting?: string;
