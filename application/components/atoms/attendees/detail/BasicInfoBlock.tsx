@@ -4,7 +4,7 @@ import Icochat from 'application/assets/icons/chat';
 import Icoresume from 'application/assets/icons/Icoresume';
 import Icohotelbed from 'application/assets/icons/Icohotelbed';
 import IcoClipboard from 'application/assets/icons/small/IcoClipboard';
-import { Box, Center, Container, HStack, Spacer, Text, VStack, Avatar, Image, Pressable, IconButton, Tooltip, Button } from 'native-base';
+import { Box, Center, Container, HStack, Spacer, Text, VStack, Avatar, Image, Pressable, IconButton, Tooltip, Button, Spinner } from 'native-base';
 import { Detail } from 'application/models/attendee/Detail';
 import UseEnvService from 'application/store/services/UseEnvService';
 import UseAttendeeService from 'application/store/services/UseAttendeeService';
@@ -15,6 +15,7 @@ import UseAuthService from 'application/store/services/UseAuthService';
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
 import { func } from 'application/styles';
 import DynamicIcon from 'application/utils/DynamicIcon';
+import UseLoadingService from 'application/store/services/UseLoadingService';
 
 
 type AppProps = {
@@ -28,7 +29,8 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
     const { _env } = UseEnvService()
     const { response } = UseAuthService();
     const { MakeFavourite } = UseAttendeeService();
-    const router = useRouter()
+    const router = useRouter();
+		const { processing }=UseLoadingService();
 
     const { event, modules } = UseEventService();
 

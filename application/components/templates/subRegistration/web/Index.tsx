@@ -291,7 +291,7 @@ const Detail = () => {
     setErrors(newErrors);
   }, [limit_errors]);
 
-  if (loading) {
+  if (loading || afterLogin?.questions?.question.length! <= 0) {
     return <SectionLoading />
   }
   
@@ -305,8 +305,8 @@ const Detail = () => {
         <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
           <Text fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
         </HStack>
-        {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
-          {afterLogin?.questions?.question.length! > 0 && afterLogin?.questions?.question.map((item, index) => (
+        {!completed && afterLogin?.questions?.question.length! > 0 && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
+          {afterLogin?.questions?.question.map((item, index) => (
             <React.Fragment key={item.id}>
               {item.question_type === 'matrix' && item.display_question === "yes" && <MatrixAnswer onsubmit={submitcount} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
               {item.question_type === 'multiple' && item.display_question === "yes" && <MultipleAnswer onsubmit={submitcount} settings={afterLogin.settings!} programs={afterLogin.all_programs!} question={item} updates={updates} formData={formData} updateFormData={updateFormData} error={errors[item.id]?.error} />}
@@ -331,6 +331,7 @@ const Detail = () => {
                   onPress={() => {
                     updateOnboarding({show_subregistration: false});
                     setSkip({ event_url: event_url });
+                    handleNextRedirection();
                   }}
                 >
                   {event?.labels?.GENERAL_SKIP}

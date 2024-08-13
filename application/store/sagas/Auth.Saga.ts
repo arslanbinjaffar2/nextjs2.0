@@ -158,7 +158,7 @@ function* OnLogout({
     yield put(AuthActions.clearToken(state?.event?.event_url));
     yield put(NetworkInterestActions.clearState({event_url:state?.event?.event_url}));
     yield put(SubRegistrationActions.clearState({event_url:state?.event?.event_url}));
-    yield put(MeetingReservationActions.clearState());
+    yield put(MeetingReservationActions.clearState({event_url:state?.event?.event_url}));
 }
 
 function* OnLoginWithToken({
