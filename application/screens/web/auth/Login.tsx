@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Heading, FormControl, Pressable } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Heading, FormControl, Pressable,IconButton } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images, func } from 'application/styles';
@@ -13,7 +13,7 @@ import AuthLayout from 'application/screens/web/layouts/AuthLayout';
 import { Link } from 'solito/link'
 import WebLoading from 'application/components/atoms/WebLoading';
 import UseEnvService from 'application/store/services/UseEnvService';
-
+import Microsoft from 'application/assets/icons/micorsoft_icon';
 type Inputs = {
     email: string,
     password: string,
@@ -171,19 +171,6 @@ const Login = ({ props }: any) => {
                                         _hover={{ bg: 'primary.secondary' }}
                                     >
                                     </Button>
-                                    {event.attendee_settings?.enable_login_directory === 1 && (
-                                     <Button
-																		variant={"unstyled"}
-																		background={"transparent"}
-																		borderWidth={1}
-																		_text={{fontSize:24,fontWeight:500}}
-																		borderColor={"primary.darkbox"}
-                                           onPress={handleAADLogin}
-                                           minH='48px'
-                                           _hover={{ bg: 'primary.secondary' }} >
-                                           Sign in With Microsoft
-                                       </Button>
-																		)}
                                 </VStack>
                             ) : (
                                 <VStack w={'100%'} space="10px">
@@ -208,23 +195,13 @@ const Login = ({ props }: any) => {
                                                 : (error ? error : errors.email?.message)}
                                         </FormControl.ErrorMessage>
                                     </FormControl>
-																		 {event.attendee_settings?.enable_login_directory === 1 && (
-                                    <Button
-																		variant={"unstyled"}
-																		background={"transparent"}
-																		borderWidth={1}
-																		_text={{fontSize:24,fontWeight:500}}
-																		borderColor={"primary.darkbox"}
-                                           onPress={handleAADLogin}
-                                           minH='48px'
-                                           _hover={{ bg: 'primary.secondary' }} >
-                                        Sign in With Microsoft
-                                       </Button>
-																		 )}
                                 </VStack>
                             )}
                         </>
                     )}
+										{event.attendee_settings?.enable_login_directory === 1 && (
+														 <IconButton  p={1} variant="unstyled" icon={<Microsoft  />} onPress={handleAADLogin} />
+															)}
                 </VStack>
             </Flex>
         </Center >
