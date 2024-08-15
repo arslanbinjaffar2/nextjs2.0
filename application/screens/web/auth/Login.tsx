@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, FormControl } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Box, FormControl, Pressable,IconButton } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images, func } from 'application/styles';
@@ -9,7 +9,9 @@ import { useRouter } from 'solito/router'
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import validateEmail from 'application/utils/validations/ValidateEmail'
 import { Link } from 'solito/link'
+import WebLoading from 'application/components/atoms/WebLoading';
 import UseEnvService from 'application/store/services/UseEnvService';
+import Microsoft from 'application/assets/icons/micorsoft_icon';
 
 type Inputs = {
     email: string,
@@ -20,10 +22,15 @@ const Login = ({ props }: any) => {
 
     const { event } = UseEventService();
     const { _env } = UseEnvService();
-    const { isLoggedIn, processing, login, error, response } = UseAuthService();
-    const { push } = useRouter();
-    const router = useRouter();
-    const nativeButton = React.useRef<HTMLElement | null>(null);
+
+    const { isLoggedIn, processing, login, error, response, loginWithToken } = UseAuthService();
+
+    const  { push } = useRouter();
+		  const router = useRouter();
+
+    const nativeButton = React.useRef<HTMLElement | null>(null)
+    const [errorMessage, setErrorMessage] = React.useState('');
+
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = input => {
@@ -34,6 +41,26 @@ const Login = ({ props }: any) => {
         if (event.key === 'Enter') {
             nativeButton.current?.click();
         }
+    };
+
+    React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+        loginWithToken({ token });
+    }
+    }, []);
+
+    React.useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error) {
+            setErrorMessage(error);
+        }
+    }, [isLoggedIn]);
+
+    const handleAADLogin = () => {
+        window.location.href = `${_env.api_base_url}/event/${event.url}/auth/login/azure`;
     };
 
     const handleRedirection = () => {
@@ -61,6 +88,11 @@ const Login = ({ props }: any) => {
     React.useEffect(() => {
         handleRedirection();
     }, [response.redirect, isLoggedIn]);
+
+    if(processing) {
+        return <WebLoading />
+    }
+		
 
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
@@ -192,6 +224,18 @@ const Login = ({ props }: any) => {
                             )}
                         </>
                     )}
+										{event.attendee_settings?.enable_login_directory === 1 && (
+                                            <>
+                                            {errorMessage && (
+                                                <Box bg={'red.200'} p={2} rounded={4}>
+                                                    <Text color={'red.900'} fontSize="md">
+                                                        {errorMessage}
+                                                    </Text>
+                                                </Box>
+                                            )}
+                                            <IconButton p={1} variant="unstyled" icon={<Microsoft />} onPress={handleAADLogin} />
+                                            </>
+                                        )}
                 </VStack>
             </Flex>
         </Center >
