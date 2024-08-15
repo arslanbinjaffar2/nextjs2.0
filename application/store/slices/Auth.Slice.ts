@@ -194,7 +194,6 @@ export const AuthActions = {
     disclaimerStatusUpdated: AuthSlice.actions.disclaimerStatusUpdated,
     loginWithToken: AuthSlice.actions.loginWithToken,
     updateOnboarding: AuthSlice.actions.updateOnboarding,
-    loginWithToken: AuthSlice.actions.loginWithToken,
 }
 
 // Selectors
