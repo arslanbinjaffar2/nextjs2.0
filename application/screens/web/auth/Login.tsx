@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Heading, FormControl, Pressable,IconButton } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Box, FormControl, Pressable,IconButton } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images, func } from 'application/styles';
@@ -12,6 +12,7 @@ import { Link } from 'solito/link'
 import WebLoading from 'application/components/atoms/WebLoading';
 import UseEnvService from 'application/store/services/UseEnvService';
 import Microsoft from 'application/assets/icons/micorsoft_icon';
+
 type Inputs = {
     email: string,
     password: string,
@@ -28,6 +29,7 @@ const Login = ({ props }: any) => {
 		  const router = useRouter();
 
     const nativeButton = React.useRef<HTMLElement | null>(null)
+    const [errorMessage, setErrorMessage] = React.useState('');
 
     const { register, handleSubmit, watch, control, formState: { errors } } = useForm<Inputs>();
 
@@ -73,6 +75,14 @@ const Login = ({ props }: any) => {
         loginWithToken({ token });
     }
     }, []);
+
+    React.useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error) {
+            setErrorMessage(error);
+        }
+    }, [isLoggedIn]);
 
     const handleAADLogin = () => {
         window.location.href = `${_env.api_base_url}/event/${event.url}/auth/login/azure`;
@@ -223,8 +233,17 @@ const Login = ({ props }: any) => {
                         </>
                     )}
 										{event.attendee_settings?.enable_login_directory === 1 && (
-														 <IconButton  p={1} variant="unstyled" icon={<Microsoft  />} onPress={handleAADLogin} />
-															)}
+                                            <>
+                                            {errorMessage && (
+                                                <Box bg={'red.200'} p={2} rounded={4}>
+                                                    <Text color={'red.900'} fontSize="md">
+                                                        {errorMessage}
+                                                    </Text>
+                                                </Box>
+                                            )}
+                                            <IconButton p={1} variant="unstyled" icon={<Microsoft />} onPress={handleAADLogin} />
+                                            </>
+                                        )}
                 </VStack>
             </Flex>
         </Center >

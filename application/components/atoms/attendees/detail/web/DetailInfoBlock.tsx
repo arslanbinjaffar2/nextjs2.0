@@ -24,6 +24,30 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
     // Filter out the specified fields from sort_field_setting
     const filteredSortFieldSetting = detail?.sort_field_setting.filter((setting: any) => !fieldsToRemove.includes(setting.name));
 
+    const fieldSettingMap: Record<string, string> = {
+        'bio_info': 'about',
+        'show_job_tasks': 'jobs',
+        'show_industry': 'industry',
+        'interest': 'interests',
+        'first_name_passport': 'FIRST_NAME_PASSPORT',
+        'last_name_passport': 'LAST_NAME_PASSPORT',
+        'date_of_issue_passport': 'date_of_issue_passport',
+        'date_of_expiry_passport': 'date_of_expiry_passport',
+        'birth_date': 'BIRTHDAY_YEAR',
+        'employment_date': 'EMPLOYMENT_DATE',
+        'spoken_languages': 'SPOKEN_LANGUAGE',
+        'pa_country': 'private_country_display_name',
+        'pa_street': 'private_street',
+        'pa_house_no': 'private_house_number',
+        'pa_post_code': 'private_post_code',
+        'pa_city': 'private_city',
+        'type': 'attendee_type_name',
+    };
+
+    function mapFieldName(fieldName: string): string {
+        return fieldSettingMap[fieldName] || fieldName;
+    }
+
     const isFieldVisible = (fieldName: string) => {
         const field = detail.sort_field_setting.find((field: any) => field.name === fieldName);
         if (!loggedInUser) {
@@ -36,7 +60,7 @@ const DetailInfoBlock = ({ detail, info, showPrivate }: AppProps) => {
         'place_of_birth', 'date_of_issue_passport', 'date_of_expiry_passport', 'birth_date', 'employment_date', 'spoken_languages', 'organization', 'country', 'pa_country', 'pa_street',
         'pa_house_no', 'pa_post_code', 'pa_city', 'type'
     ]
-    .some(fieldName => isFieldVisible(fieldName) && detail?.detail?.info?.[fieldName])
+    .some(fieldName => isFieldVisible(fieldName) && (detail?.detail?.info?.[mapFieldName(fieldName)] || (fieldName == 'type' && detail?.detail?.attendee_type_name!)));
 
     // Check if the filtered array has at least one item
     const shouldShowNoRecord = filteredSortFieldSetting.length === 0 || !hasContactInfo;
