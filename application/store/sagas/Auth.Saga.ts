@@ -171,7 +171,7 @@ function* OnLoginWithToken({
         const state = yield select(state => state);
         const response: HttpResponse = yield call(getLoginWithTokenApi, payload, state);
         if (response.data.success) {
-            yield put(AuthActions.success(response.data));
+            yield put(AuthActions.success({response: response.data,event_url:state?.event?.event_url}));
         } else {
             yield put(AuthActions.failed(response.data.message!));
         }
