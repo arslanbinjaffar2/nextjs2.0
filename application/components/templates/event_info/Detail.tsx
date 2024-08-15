@@ -29,7 +29,7 @@ const Detail = (props: any) => {
 
     const { _env } = UseEnvService()
 
-    const { height } = useWindowDimensions();
+    const {width, height } = useWindowDimensions();
 
     const { page } = UseInfoService();
 
@@ -82,7 +82,7 @@ const Detail = (props: any) => {
                                 <Box  p="5">
                                     <RenderHtml
                                         defaultTextProps={{selectable:true}}
-                                        contentWidth={600}
+                                        contentWidth={width > 600 ? 600 : width - 90}
                                         systemFonts={['Avenir']}
                                         tagsStyles={mixedStyle}
                                         source={{ html: page?.description }}
