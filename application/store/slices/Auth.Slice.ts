@@ -172,10 +172,7 @@ const AuthSlice = createSlice({
                 ...state.onboarding,
                 ...action.payload
             };
-        },
-        loginWithToken(state, action: PayloadAction<{ token: string }>) {
-            state.processing = true;
-        },
+        }
     },
 });
 
