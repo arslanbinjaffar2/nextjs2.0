@@ -68,6 +68,8 @@ const PressableElement = ({row}: any) => {
       }
       else if (row?.alias === 'homeMyevents') {
         router.push(`/${event.url}/home-events/detail/${event?.id}`)
+      }else if(row?.alias === 'business'){
+        router.push(`/${event.url}/network-interest/list`)
       }
       else {
         router.push(`/${event.url}/${row?.alias}`)
