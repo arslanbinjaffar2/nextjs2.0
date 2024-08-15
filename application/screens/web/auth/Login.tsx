@@ -43,6 +43,26 @@ const Login = ({ props }: any) => {
         }
     };
 
+    React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+        loginWithToken({ token });
+    }
+    }, []);
+
+    React.useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error) {
+            setErrorMessage(error);
+        }
+    }, [isLoggedIn]);
+
+    const handleAADLogin = () => {
+        window.location.href = `${_env.api_base_url}/event/${event.url}/auth/login/azure`;
+    };
+
     const handleRedirection = () => {
         let onboarding = response?.data?.user?.onboarding;
         if (response.redirect === "choose-provider") {
@@ -68,26 +88,6 @@ const Login = ({ props }: any) => {
     React.useEffect(() => {
         handleRedirection();
     }, [response.redirect, isLoggedIn]);
-
-    React.useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    if (token) {
-        loginWithToken({ token });
-    }
-    }, []);
-
-    React.useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const error = urlParams.get('error');
-        if (error) {
-            setErrorMessage(error);
-        }
-    }, [isLoggedIn]);
-
-    const handleAADLogin = () => {
-        window.location.href = `${_env.api_base_url}/event/${event.url}/auth/login/azure`;
-    };
 
     if(processing) {
         return <WebLoading />

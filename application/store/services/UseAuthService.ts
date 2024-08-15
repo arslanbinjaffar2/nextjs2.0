@@ -23,8 +23,8 @@ export type EventServiceOperators = {
     logout: () => void
     loadToken: (logged: boolean) => void
     disclaimerStatusUpdated: (status: boolean) => void
-    loginWithToken: (payload: { token: string }) => void
     updateOnboarding: (payload: any) => void
+    loginWithToken: (payload: { token: string }) => void
 }
 
 /**

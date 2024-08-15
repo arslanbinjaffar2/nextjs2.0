@@ -40,12 +40,15 @@ import {
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { useWindowDimensions } from 'react-native';
 type ScreenParams = { id: string }
 
 const { useParam } = createParam<ScreenParams>()
 
 const Detail = () => {
     const mounted = React.useRef(false);
+
+    const { width } = useWindowDimensions();
     const RenderHtml = require('react-native-render-html').default;
 
     const { processing, loading } = UseLoadingService();
@@ -302,7 +305,7 @@ const Detail = () => {
                                             <Box w={'100%'} pt={1}>
                                                 <RenderHtml
                                                     defaultTextProps={{selectable:true}}
-                                                    contentWidth={600}
+                                                    contentWidth={width > 600 ? 600 : width - 90}
                                                     systemFonts={['Avenir']}
                                                     tagsStyles={mixedStyle}
                                                     source={{ html: question?.info?.question }}
@@ -371,7 +374,7 @@ const Detail = () => {
                                                 <Box w={'100%'} pt={1}>
                                                     <RenderHtml
                                                     defaultTextProps={{selectable:true}}
-                                                    contentWidth={600}
+                                                    contentWidth={width > 600 ? 600 : width - 90}
                                                     systemFonts={['Avenir']}
                                                     tagsStyles={mixedStyle}
                                                     source={{ html: question?.info?.question }}
@@ -438,7 +441,7 @@ const Detail = () => {
                                                 <Box w={'100%'} pt={1}>
                                                     <RenderHtml
                                                         defaultTextProps={{selectable:true}}
-                                                        contentWidth={600}
+                                                        contentWidth={width > 600 ? 600 : width - 90}
                                                         systemFonts={['Avenir']}
                                                         tagsStyles={mixedStyle}
                                                         source={{ html: question?.info?.question }}

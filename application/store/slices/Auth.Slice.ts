@@ -173,6 +173,9 @@ const AuthSlice = createSlice({
                 ...action.payload
             };
         },
+        loginWithToken(state, action: PayloadAction<{ token: string }>) {
+            state.processing = true;
+        },
     },
 });
 
@@ -194,6 +197,7 @@ export const AuthActions = {
     disclaimerStatusUpdated: AuthSlice.actions.disclaimerStatusUpdated,
     loginWithToken: AuthSlice.actions.loginWithToken,
     updateOnboarding: AuthSlice.actions.updateOnboarding,
+    loginWithToken: AuthSlice.actions.loginWithToken,
 }
 
 // Selectors

@@ -69,7 +69,7 @@ const DetailBox = ({ detail }: AppProps) => {
                     <Box mb="4" w="100%">
                         <Divider mb="3" bg="primary.text" />
                         <RenderHtml
-                            contentWidth={width}
+                            contentWidth={width > 600 ? 600 : width - 90}
                             source={{ html: detail?.detail?.description }}
                         />
                     </Box>
