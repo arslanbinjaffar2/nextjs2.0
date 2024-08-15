@@ -271,8 +271,8 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
     <>
     <Center w="100%" maxW="100%">
       <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="3" alignItems="center">
-        <Icowritecomment width="15px" height="18px" />
-        <Text fontSize="lg">{event?.labels?.CHAT_WRITE_MESSAGE_TITLE}</Text>
+        <Icowritecomment width="14px" height="16px" />
+        <Text fontSize="16px">{event?.labels?.CHAT_WRITE_MESSAGE_TITLE}</Text>
       </HStack>
       <VStack p="0" w="100%" space="0">
         <Box py={3} px={4} pb={2}>
@@ -298,12 +298,12 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
           /> */}
        
           {processing.includes('save-message') ? (
-            <Spinner w={44} h={44} padding="10px" color="primary.text" />
+            <Spinner w={40} h={40} padding="10px" color="primary.text" />
           ) : (
             <IconButton
             variant="transparent"
             isDisabled={message == ''}
-            icon={<IcoSend width={24} height={24} color="primary.text" />}
+            icon={<IcoSend width={20} height={20} color="primary.text" />}
             onPress={() => {
               send()
             }}

@@ -73,7 +73,7 @@ const Index = ({ navigation }: indexProps)  => {
                   <Pressable onPress={() => push(`/${event.url}/chat/detail/${chat.id}`)} key={index}>
                     <HStack borderBottomWidth={index < chats.length - 1 ? '1' : '0'} borderColor="primary.bordercolor" w="100%" p="4" space="0">
                       <AvatarComponent participants={chat.participants_info} />
-                      <VStack px={5} maxW={'calc(100% - 120px)'} space="0">
+                      <VStack px={5} pr={2} maxW={'calc(100% - 160px)'} space="0">
                         <Heading fontSize="lg">
                           {chat?.participants_info?.map((participant: ParticipantInfo, index: number) => (
                             <>{participant?.full_name}{index < chat.participants_info.length - 1 ? ', ' : ''}</>
@@ -83,7 +83,7 @@ const Index = ({ navigation }: indexProps)  => {
                       </VStack>
                       <Spacer />
                       <VStack alignItems="flex-end" space="2">
-                        <Text opacity="0.6" fontSize="md">{moment(chat?.latest_message?.sent_date).fromNow()}</Text>
+                        <Text opacity="0.6" fontSize="md">{moment(chat?.latest_message?.sent_date).fromNow()} Lorem, ipsum.</Text>
                         {chat?.messages_count > 0 && <Box rounded={'full'}  minW="18px" minHeight={'18px'} position="static" borderWidth="0" bg="green.500" justifyContent="center" alignItems="center" ><Text px={'2px'} fontSize="xs">{chat?.messages_count}</Text>
                         </Box>}
                     </VStack>
