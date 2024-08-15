@@ -27,12 +27,22 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
   }, 500);
 
   function startChat() {
-    if((user_ids && user_ids.length > 0) || (group_ids && group_ids.length > 0)) {
-      console.log(group_ids,user_ids)
+    const selected_ids = (user_ids && user_ids.length > 0) || (group_ids && group_ids.length > 0);
+    if(selected_ids &&  message.trim() !== '' && !processing.includes('new-chat')) {
       StartNewChat({message: message,group_ids: group_ids ?? [],user_ids: user_ids ?? []})
       setMessage('')
     }
   }
+
+  const handleKeyPress = (event: any) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      startChat();
+      event.preventDefault(); // Prevent default behavior of Enter key
+    } else {
+      setMessage(event.target.value);
+
+    }
+  };
 
   React.useEffect(() => {
     SetNewChatError({error:null});
@@ -50,9 +60,9 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
               </HStack>
               <VStack p="0" w="100%" space="0">
                 <Box py={3} px={4} pb={2}>
-                  <TextArea bg={'primary.darkbox'} borderWidth="0" borderColor="transparent" fontSize="md" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="0" w="100%" p="3" h={100} placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined}
+                  <TextArea isDisabled={processing.includes('new-chat')} bg={'primary.darkbox'} borderWidth="0" borderColor="transparent" fontSize="md" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="0" w="100%" p="3" h={100} placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined}
                 defaultValue={message}
-                onChangeText={(text)=>debounced(text)}
+                onKeyPress={handleKeyPress}
                 />
                 </Box>
                 
@@ -62,7 +72,7 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
                   ) : (
                     <IconButton
                     variant="transparent"
-                    isDisabled={message == '' || (!user_ids || user_ids.length === 0) && (!group_ids || group_ids.length === 0)}
+                    isDisabled={message.trim() == '' || (!user_ids || user_ids.length === 0) && (!group_ids || group_ids.length === 0)}
                     icon={<IcoSend width={20} height={20} color="primary.text" />}
                     onPress={() => {
                       startChat()
