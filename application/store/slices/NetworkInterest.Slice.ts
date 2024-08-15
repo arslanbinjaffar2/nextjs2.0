@@ -77,7 +77,8 @@ export const NetworkInterestSlice = createSlice({
             } else {
                 AsyncStorageClass.removeItem(`keyword_skip_${action.payload.event_url}`);
             }
-        }
+        },
+        FetchMyKeywords(){}
     },
 })
 
@@ -91,6 +92,7 @@ export const NetworkInterestActions = {
     FetchSearchMatchAttendees:NetworkInterestSlice.actions.FetchSearchMatchAttendees,
     updateSearchMatchAttendees:NetworkInterestSlice.actions.updateSearchMatchAttendees,
     clearState:NetworkInterestSlice.actions.clearState,
+    FetchMyKeywords:NetworkInterestSlice.actions.FetchMyKeywords,
 }
 
 export const SelectNetworkInterests = (state: RootState) => state.networkInterest.keywords
