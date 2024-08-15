@@ -9,7 +9,7 @@ export const getNetworkInterestApi = (payload: any, state: any): Promise<HttpRes
 }
 
 export const getMyKeywordsApi = (payload: any, state: any): Promise<HttpResponse> => {
-    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/my-keywords`);
+    return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/settings/my-keywords`);
 }
 
 export const saveNetworkInterestApi = (payload: any, state: any): Promise<HttpResponse> => {
