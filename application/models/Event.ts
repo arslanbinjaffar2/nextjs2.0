@@ -205,6 +205,7 @@ interface AttendeeSetting {
     age?: number;
     mark_favorite?: number;
     export_original_cpr_number?: number;
+    enable_login_directory?:number;
 }
 interface Detail {
     support_email?: string;
