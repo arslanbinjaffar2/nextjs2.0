@@ -12,11 +12,12 @@ import { func } from 'application/styles';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import IcoWebCircle from 'application/assets/icons/small/IcoWebCircle';
 import IcoMobile from 'application/assets/icons/small/IcoMobile';
-
-
+import { Linking } from 'react-native';
+import { useRouter } from 'next/router';
 const Index = () => {
     const {response} = UseAuthService();
     const { loadSettingsModules } = UseEventService();
+	const router = useRouter()
     const { _env } = UseEnvService();
 		const { event } = UseEventService();
 
@@ -49,12 +50,10 @@ const Index = () => {
 								top={0}
 								colorScheme="primary"
 								_text={{color: 'primary.hovercolor',fontWeight: 500}}
-								onPress={()=>{
-									console.log('hello')
-								}}
-							
-							>
-								Edit
+								 onPress={() => {
+									router.push(`/${event.url}/settings/editprofile`)
+									}}>
+									{response?.event?.labels?.GENERAL_EDIT}
 							</Button>
 							
 							<Avatar
@@ -62,121 +61,132 @@ const Index = () => {
 								source={{
 								uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`
 								}}>
-								{getFirstLetters(`${response?.data?.user?.first_name} ${response?.data?.user?.last_name}`)}
+								{getFirstLetters(`${response?.attendee_detail?.first_name} ${response?.attendee_detail?.last_name}`)}
 							</Avatar>
-							<Text fontWeight={'500'} pt={2} fontSize="lg" textTransform={"capitalize"}>{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text> 
+							<Text fontWeight={'500'} pt={2} fontSize="lg" textTransform={"capitalize"}>{response?.attendee_detail?.first_name} {response?.attendee_detail?.last_name}</Text> 
 							
 						</Box>
-						<HStack mb={5} w={'100%'}  pt={2} space="3" justifyContent={'center'} alignItems="center">
-								<Box width={'32px'} h={'32px'}  bg="primary.darkbox" rounded="3" alignItems={'center'} justifyContent={'center'}>
-									<IcoTwitterXsm width={16} height={16} />
-							</Box>
-							<Box width={'32px'} h={'32px'}  bg="primary.darkbox" rounded="3" alignItems={'center'} justifyContent={'center'}>
-									<Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'md'} />
-							</Box>
-							<Box width={'32px'} h={'32px'}  bg="primary.darkbox" rounded="3" alignItems={'center'} justifyContent={'center'}>
-									<Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'md'} />
-							</Box>
-						</HStack>
+								<HStack mb={5} w={'100%'} pt={2} space="3" justifyContent={'center'} alignItems="center">
+								{response?.data?.user?.sort_field_setting.map((item:any) => {
+									const url = item.name === "twitter"
+										? `${response?.attendee_detail.detail?.twitter_protocol}${response?.attendee_detail.detail?.twitter}`
+										: item.name === "facebook"
+										? `${response?.attendee_detail.detail?.facebook_protocol}${response?.attendee_detail.detail?.facebook}`
+										: item.name === "linkedin"
+										? `${response?.attendee_detail.detail?.linkedin_protocol}${response?.attendee_detail.detail?.linkedin}`
+										: null;
+									return (
+										url && item.is_private == 0 && (
+											<Pressable
+												key={item.name}
+												onPress={() => window.open(url, '_blank')}
+											>
+												{item.name === "twitter" && <IcoTwitterXsm width={16} height={16} />}
+												{item.name === "facebook" && <Icon as={Ionicons} color={'primary.text'} name="logo-facebook" size={'md'} />}
+												{item.name === "linkedin" && <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'md'} />}
+											</Pressable>
+										)
+									);
+								})}
+							</HStack>
 						<HStack  space={["3","10"]} flexWrap={'wrap'} justifyContent={'center'} width={'100%'} pt={5} borderTopWidth={1} borderTopColor={'primary.bordercolor'} alignItems="center">
 							<Center mb={2}>
+								  {response?.attendee_detail && response?.attendee_detail?.email && (
 								<HStack  space="2" alignItems="center">
 									<DynamicIcon iconType="email" iconProps={{ width: 16, height: 16,color: undefined }} />
-									<Text fontSize="sm">demo@eventbuizz.com</Text>
+									<Text fontSize="sm">{response?.attendee_detail?.email}</Text>
 								</HStack>
-								
+									)}
 							</Center>
+						  {response?.data?.user && response?.attendee_detail?.phone && (
 							<Center mb={2}>
 								<HStack  space="2" alignItems="center">
 									<IcoMobile width={12} height={15} />
-									<Text fontSize="sm">(024) 5213 5123</Text>
+									<Text fontSize="sm">{response?.attendee_detail?.phone} </Text>
 								</HStack>
 							</Center>
+								)}
+								{console.log(response.attendee_detail,'profile')}
+							{response?.attendee_detail&& response?.attendee_detail?.website && (
 							<Center mb={2}>
 								<HStack  space="2" alignItems="center">
 									<IcoWebCircle width={16} height={16} />
-									<Text fontSize="sm">https://google.com</Text>
+									<Text fontSize="sm">{response?.attendee_detail?.detail?.website}</Text>
 								</HStack>
 							</Center>
+								)}
 						</HStack>
 						
 					</Box>
 
 					<Box  w={'100%'}>
 						<Box mb={5} px={5} py={1} bg="primary.darkbox" >
-							<Text  fontSize="md">Basic information</Text>
+							<Text  fontSize="md">{response.event?.labels?.REG_BASIC_INFO}</Text>
 						</Box>
 						
 						<HStack alignItems={'flex-start'} justifyContent={'flex-start'} mb={4} px={5} space="3" display={['block','flex']} w={'100%'}>
-							<Text fontSize="md"  fontWeight={500} color={'primary.text'}>About</Text>
-							<Text fontSize="sm" color={'primary.text'}>A personal profile provides a succinct overview of an individual’s key attributes, background, and aspirations. It typically includes essential details such as the person’s name, current occupation, educational qualifications, and significant accomplishments. The profile might also highlight personal strengths, skills, and career goals, offering insight into their professional journey and personal values.</Text>
+							<Text fontSize="md"  fontWeight={500} color={'primary.text'}>{response.event?.labels?.ATTENDEE_ABOUT}</Text>
+							<Text fontSize="sm" color={'primary.text'}>{response?.attendee_detail?.detail?.about}</Text>
 						</HStack>
 					</Box>
 					<HStack pb={2} flexWrap={'wrap'} display={['block','flex']} px={5} w={'100%'}  space="0" alignItems="flex-start" justifyContent="flex-start">
 						<HStack w={['100%','50%']} mb={4} alignItems="center"  space="3" justifyContent="flex-start">
 							<Center alignItems={'flex-start'} w={['140px','180px']}>
-								<Text fontWeight={500} fontSize="md">Company name:</Text>
+								<Text fontWeight={500} fontSize="md">{response.event?.labels?.ATTENDEE_COMPANY_NAME}</Text>
 							</Center>
 							<Center>
-								<Text fontSize="md">Eventbuizz</Text>
+								<Text fontSize="md">{response?.attendee_detail?.detail?.company_name}</Text>
 							</Center>
 						</HStack>
 						<HStack w={['100%','50%']}  mb={4} alignItems="center"  space="3" justifyContent="flex-start">
 							<Center alignItems={'flex-start'} w={['140px','180px']}>
-								<Text fontWeight={500} fontSize="md">Company name:</Text>
+								<Text fontWeight={500} fontSize="md">{response.event?.labels?.ATTENDEE_PASSPORT_ISSUE_DATE}</Text>
 							</Center>
 							<Center>
-								<Text fontSize="md">Company name</Text>
+								<Text fontSize="md">{response?.attendee_detail?.detail?.date_of_issue_passport}</Text>
 							</Center>
 						</HStack>
 						<HStack w={['100%','50%']}  mb={4} alignItems="center"  space="3" justifyContent="flex-start">
 							<Center alignItems={'flex-start'} w={['140px','180px']}>
-								<Text fontWeight={500} fontSize="md">Date of issue passport:</Text>
+								<Text fontWeight={500} fontSize="md">{response?.event?.labels?.ATTENDEE_LAST_NAME_PASSPORT}</Text>
 							</Center>
 							<Center>
-								<Text fontSize="md">11-08-2024</Text>
+								<Text fontSize="md">{response?.attendee_detail?.LAST_NAME_PASSPORT}</Text>
 							</Center>
 						</HStack>
 						<HStack w={['100%','50%']}  mb={4} alignItems="center"  space="3" justifyContent="flex-start">
 							<Center alignItems={'flex-start'} w={['140px','180px']}>
-								<Text fontWeight={500} fontSize="md">Last name (passport):</Text>
+								<Text fontWeight={500} fontSize="md">{response?.event?.labels?.ATTENDEE_FIRST_NAME}</Text>
 							</Center>
 							<Center>
-								<Text fontSize="md">Danish</Text>
+								<Text fontSize="md">{response?.attendee_detail?.first_name}</Text>
 							</Center>
 						</HStack>
 						<HStack w={['100%','50%']}  mb={4} alignItems="center"  space="3" justifyContent="flex-start">
 							<Center alignItems={'flex-start'} w={['140px','180px']}>
-								<Text fontWeight={500} fontSize="md">First Name:</Text>
+								<Text fontWeight={500} fontSize="md">{response?.event?.labels?.ATTENDEE_LAST_NAME}</Text>
 							</Center>
 							<Center>
-								<Text fontSize="md">Stephen</Text>
+								<Text fontSize="md">{response?.attendee_detail?.last_name}</Text>
 							</Center>
 						</HStack>
 						<HStack w={['100%','50%']}  mb={4} alignItems="center"  space="3" justifyContent="flex-start">
 							<Center alignItems={'flex-start'} w={['140px','180px']}>
-								<Text fontWeight={500} fontSize="md">Last Name:</Text>
+								<Text fontWeight={500} fontSize="md">{response?.event?.labels?.ATTENDEE_SPOKEN_LANGUAGE}</Text>
 							</Center>
 							<Center>
-								<Text fontSize="md">Hendry</Text>
+								<Text fontSize="md">{response?.attendee_detail?.SPOKEN_LANGUAGE}</Text>
 							</Center>
 						</HStack>
 						<HStack w={['100%','50%']}  mb={4} alignItems="center"  space="3" justifyContent="flex-start">
 							<Center alignItems={'flex-start'} w={['140px','180px']}>
-								<Text fontWeight={500} fontSize="md">Spoken languages:</Text>
+								<Text fontWeight={500} fontSize="md">{response?.event?.labels?.ATTENDEE_INTERESTS}</Text>
 							</Center>
 							<Center>
-								<Text fontSize="md">English, Danish, French</Text>
+								<Text fontSize="md">{response?.attendee_detail?.detail?.interests}</Text>
 							</Center>
 						</HStack>
-						<HStack w={['100%','50%']}  mb={4} alignItems="center"  space="3" justifyContent="flex-start">
-							<Center alignItems={'flex-start'} w={['140px','180px']}>
-								<Text fontWeight={500} fontSize="md">Interest:</Text>
-							</Center>
-							<Center>
-								<Text fontSize="md">Shooting</Text>
-							</Center>
-						</HStack>
+						{response?.attendee_detail && response?.attendee_detail?.attendee_cv && (
 						<HStack w={['100%','50%']}  mb={4} alignItems="center"  space="3" justifyContent="flex-start">
 							<Center alignItems={'flex-start'} w={['140px','180px']}>
 								<Text fontWeight={500} fontSize="md">Resume:</Text>
@@ -184,14 +194,22 @@ const Index = () => {
 							<Center>
 								<HStack  space="1" alignItems="center">
 									<Icon as={AntDesign} color={'primary.text'} name="pdffile1" size={'md'} />
-									<Text fontSize="sm">Resume.pdf</Text>
-									
 									<Text px={1} fontSize="md">.</Text>
-									<Text color={'primary.500'} textDecorationLine={'underline'} fontSize="sm">Download</Text>
+									 <Pressable
+											onPress={async () => {
+												const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`;
+												const supported = await Linking.canOpenURL(url);
+												if (supported) {
+													await Linking.openURL(url);
+												}
+											}}>
+											<Text color={'primary.500'} textDecorationLine={'underline'} fontSize="sm">{response?.attendee_detail?.attendee_cv}</Text>
+										</Pressable>
 								</HStack>
 								
 							</Center>
 						</HStack>
+						)}
 						
 
 					</HStack>
