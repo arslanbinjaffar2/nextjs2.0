@@ -19,10 +19,10 @@ const Index = () => {
   
     const { event  } = UseEventService();
 
-    const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords  } = UseNetworkInterestService();
+    const { keywords, UpdatingMyKeywords, SaveMykeywords, FetchMyKeywords  } = UseNetworkInterestService();
 
     useEffect(() => {
-        FetchNetworkInterests();
+      FetchMyKeywords();
     }, [])
     
 
