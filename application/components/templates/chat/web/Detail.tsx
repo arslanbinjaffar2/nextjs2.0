@@ -20,6 +20,7 @@ import { useDebouncedCallback } from "use-debounce";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import IcoSend from 'application/assets/icons/small/IcoSend'
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
+import BannerAds from 'application/components/atoms/banners/BannerAds';
 
 type ScreenParams = { id: string }
 const { useParam } = createParam<ScreenParams>()
@@ -236,15 +237,7 @@ const Detail = ({ navigation }: indexProps) => {
           </ScrollView>
           <NewMessage thread_id={Number(_id)} />
         </VStack>
-        <Image
-          source={{
-            uri: 'https://wallpaperaccess.com/full/311401.jpg'
-          }}
-          alt=""
-          w="100%"
-          h="150px"
-          rounded="10"
-        />
+        <BannerAds module_name={'chat'} module_type={'detail'} />
       </Container>
       </>
   );

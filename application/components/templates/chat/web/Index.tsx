@@ -20,6 +20,7 @@ import UseEnvService from 'application/store/services/UseEnvService';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { GENERAL_DATETIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals';
+import BannerAds from 'application/components/atoms/banners/BannerAds';
 type indexProps = {
   navigation: unknown
 }
@@ -109,6 +110,7 @@ const Index = ({ navigation }: indexProps)  => {
               </Button>
             </Box>
           </>}
+          <BannerAds module_name={'chat'} module_type={'listing'} />
         </>
         <>
         </>
