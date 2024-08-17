@@ -8,7 +8,9 @@ import SectionLoading from 'application/components/atoms/SectionLoading';
 import { Attendee } from 'application/models/chat/Chat';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import UseEnvService from 'application/store/services/UseEnvService';
-
+import { UseEventService } from 'application/store/services';
+import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
+import { useRouter } from 'solito/router';
 
 
 type indexProps = {
@@ -22,8 +24,9 @@ const NewChatAttendee = ({ navigation }: indexProps) => {
   const [_id] = useParam('id');
   const [userIds, setUserIds] = React.useState<number[]>([]);
   const [loadingParticipantInfo, setLoadingParticipantInfo] = React.useState<boolean>(false);
-  const [attendee, setAttendee] = React.useState<Attendee|null>(null);
+  const [attendee, setAttendee] = React.useState<any>(null);
   const {_env} = UseEnvService();
+  const {push} = useRouter();
 
   React.useEffect(() => {
     if(_id){
@@ -49,6 +52,14 @@ const NewChatAttendee = ({ navigation }: indexProps) => {
     }
   }
 
+  React.useEffect(() => {
+    if(Number(attendee?.current_event_attendee?.speaker) === 1 && event?.speaker_settings?.chat !== 1){
+      if(modules?.filter((module: any) => module?.alias === 'chat').length > 0){
+        push(`/${event?.url}/chat`)
+      }
+    }
+  }, [attendee]);
+
   // get image of sender 
   const getSenderImage = (image: string) => {
     // source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
@@ -67,13 +78,17 @@ const NewChatAttendee = ({ navigation }: indexProps) => {
     return '';
   };
 
+  const {event,modules} = UseEventService();
+  const module = modules.find(m => m.alias === 'chat');
+
   return (
       <>
+      <NextBreadcrumbs module={module} title={event?.labels?.CHAT_NEW} />
       {loadingParticipantInfo ? <SectionLoading h='80px' />:(
         <>
         {attendee?(
           <>
-          <HStack bg={'primary.box'} p={1} rounded={'20px'}  space="1" alignItems="center" width="100%">
+          <HStack bg={'primary.box'} p={1} pt={2} rounded={'20px'}  space="1" alignItems="center" width="100%">
               
               <Avatar
                 size={'lg'}
