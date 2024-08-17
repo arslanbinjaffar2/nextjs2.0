@@ -168,8 +168,8 @@ const SocketHandler = () => {
               type:'chat',
               title:data?.message?.sender?.first_name + ' ' + data?.message?.sender?.last_name,
               text:data?.message?.body,
-              btnLeftText:event?.labels?.GENERAL_OK ,
-              btnRightText:event?.labels?.GENERAL_MESSAGE_DETAIL,
+              btnLeftText:event?.labels?.CHAT_OK ,
+              btnRightText:event?.labels?.CHAT_DETAILS,
               url:`/chat/detail/${data?.thread_id}`
             }
           })

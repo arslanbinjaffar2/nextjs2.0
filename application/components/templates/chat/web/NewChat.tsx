@@ -124,14 +124,14 @@ const NewChat = ({navigation}: indexProps) => {
               setSelectedTab('attendee')
           }}
           >
-            {event?.labels?.EVENTSITE_ATTENDEES}
+            {event?.labels?.CHAT_TAB_ATTENDEES}
           </Button>
          <Button
              px="6" py="1" rounded="20px" bg={selectedtab === 'group' ? "primary.500" : "primary.box"} borderWidth="0"
             _text={{ fontSize: 'lg', color: "primary.hovercolor" }}
             _hover={{_text: {color: 'primary.hovercolor'}}} borderColor="primary.bdBox" colorScheme="primary"
             onPress={() => {setSelectedTab('group')}}>
-            {event?.labels?.GENERAL_ATTENDEES_GROUP}
+            {event?.labels?.CHAT_TAB_GROUPS}
           </Button>
         </Button.Group>
         
