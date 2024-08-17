@@ -94,8 +94,8 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 bg={'#A5A5A5'}
                             >{detail?.detail?.first_name && detail?.detail?.last_name ? detail?.detail?.first_name?.substring(0, 1) + detail?.detail?.last_name?.substring(0, 1) : detail?.detail?.first_name?.substring(0, 1)}</Avatar>
                         )}
-                        <VStack w="calc(100% - 200px)" space="0">
-                            <Text lineHeight="sm" fontSize="xl">
+                        <VStack w="calc(100% - 160px)" space="0">
+                            <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="xl">
                                 {`${detail?.detail?.first_name}`} {detail?.sort_field_setting.find((s: any) => (s.name === 'last_name')) && detail?.detail?.last_name}
                             </Text>
                             {detail?.detail?.info &&

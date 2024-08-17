@@ -137,8 +137,8 @@ const NewChat = ({navigation}: indexProps) => {
         
               <VStack mb="3" overflow="hidden" bg="primary.box" rounded="10" w="100%" space="0">
                 <ScrollView maxHeight={['350','500']} w={'100%'}>
-                    {!search && selectedtab === 'attendee' && <Box bg="primary.box" px="2" py="1" rounded="lg">
-                      <Text fontSize="xs">{event?.labels?.CHAT_SUGGESTED_ATTENDEES}</Text>
+                    {!search && selectedtab === 'attendee' && <Box bg="primary.darkbox" px="3" py="1">
+                      <Text lineHeight={25} fontSize="lg">{event?.labels?.CHAT_SUGGESTED_ATTENDEES}</Text>
                     </Box>}
                     
                     {/* Attendee Results */}
