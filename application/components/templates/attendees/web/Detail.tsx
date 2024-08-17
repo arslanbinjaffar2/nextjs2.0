@@ -29,7 +29,7 @@ import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import ButtonElement from 'application/components/atoms/ButtonElement'
-import { Platform } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import { getColorScheme } from "application/styles/colors";
 import ModuleEnabled from 'application/utils/ModuleEnabled';
@@ -43,6 +43,8 @@ type Props = {
 }
 
 const Detail = ({ speaker }: Props) => {
+
+    const { width } = useWindowDimensions();
 
     const RenderHtml = require('react-native-render-html').default;
 
@@ -239,7 +241,7 @@ const Detail = ({ speaker }: Props) => {
                                               
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<RenderHtml
 																									defaultTextProps={{selectable:true}}
-																									contentWidth={600}
+																									contentWidth={width > 600 ? 600 : width - 90}
 																									systemFonts={['Avenir']}
 																									tagsStyles={mixedStyle}
 																									source={{ html: detail?.detail?.info?.about! }}

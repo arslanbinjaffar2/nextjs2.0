@@ -5,11 +5,13 @@ import UseAttendeeService from 'application/store/services/UseAttendeeService';
 import { Center, Box, Text, HStack, Divider, Button, Spacer } from "native-base"
 import { getColorScheme } from "application/styles/colors";
 import { useRouter } from "solito/router";
+import { useWindowDimensions } from "react-native";
 
 const GDPR = () => {
     const { push } = useRouter();
     const { updateOnboarding, getUser, onboarding } = UseAuthService();
     const { addGDPRlog } = UseAttendeeService();
+    const { width } = useWindowDimensions();
     const RenderHtml = require('react-native-render-html').default;
     const { event } = UseEventService()
     const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
@@ -57,7 +59,7 @@ const GDPR = () => {
                 </HStack>
                     <RenderHtml
                         defaultTextProps={{selectable:true}}
-                        contentWidth={600}
+                        contentWidth={width > 600 ? 600 : width - 90}
                         systemFonts={['Avenir']}
                         tagsStyles={mixedStyle}
                         source={{ html: event?.gdpr?.description }}

@@ -253,7 +253,7 @@ const Detail = () => {
                                         <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                         <Center w="calc(100% - 60px)" pt="1" alignItems="flex-start">
                                             <RenderHtml
-                                                contentWidth={width}
+                                                contentWidth={width > 600 ? 600 : width - 90}
                                                 source={{ html: question?.info?.question }}
                                             />
                                         </Center>
@@ -279,7 +279,7 @@ const Detail = () => {
                                         <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                         <Center w="calc(100% - 60px)" pt="1" alignItems="flex-start">
                                             <RenderHtml
-                                                contentWidth={width}
+                                                contentWidth={width > 600 ? 600 : width - 90}
                                                 source={{ html: question?.info?.question }}
                                             />
                                         </Center>
@@ -305,7 +305,7 @@ const Detail = () => {
                                         <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                         <Center w="calc(100% - 60px)" pt="1" alignItems="flex-start">
                                         <RenderHtml
-                                            contentWidth={width}
+                                            contentWidth={width > 600 ? 600 : width - 90}
                                             source={{ html: question?.info?.question }}
                                         />
                                         </Center>
@@ -331,7 +331,7 @@ const Detail = () => {
                                         <Text lineHeight="sm" textAlign="center" w="48px" fontSize="2xl">Q:</Text>
                                         <Center w="calc(100% - 60px)" pt="1" alignItems="flex-start">
                                             <RenderHtml
-                                                contentWidth={width}
+                                                contentWidth={width > 600 ? 600 : width - 90}
                                                 source={{ html: question?.info?.question }}
                                             />
                                         </Center>
