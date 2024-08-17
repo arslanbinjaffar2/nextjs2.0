@@ -261,7 +261,7 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
       send();
       event.preventDefault(); // Prevent default behavior of Enter key
     } else {
-      setMessage(event.target.value);
+        setMessage(textRef.current?.value || '');
 
     }
   };
@@ -311,7 +311,7 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
           /> */}
        
           {processing.includes('save-message') ? (
-            <Spinner w={40} h={40} padding="10px" color="primary.text" />
+            <Spinner w={"40px"} h={"40px"} p={0} color="primary.text" />
           ) : (
             <IconButton
             variant="transparent"
