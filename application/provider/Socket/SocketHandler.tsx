@@ -163,16 +163,19 @@ const SocketHandler = () => {
           }
           // show popup to user about the new message
           console.log('adding toast');
-          AddNotification({
-            notification:{
-              type:'chat',
-              title:data?.message?.sender?.first_name + ' ' + data?.message?.sender?.last_name,
-              text:data?.message?.body,
-              btnLeftText:event?.labels?.CHAT_OK ,
-              btnRightText:event?.labels?.CHAT_DETAILS,
-              url:`/chat/detail/${data?.thread_id}`
-            }
-          })
+          if(Number(event?.attendee_settings?.display_chat_notification) === 1){
+            AddNotification({
+              notification:{
+                type:'chat',
+                title:data?.message?.sender?.first_name + ' ' + data?.message?.sender?.last_name,
+                text:data?.message?.body,
+                btnLeftText:event?.labels?.CHAT_OK ,
+                btnRightText:event?.labels?.CHAT_DETAILS,
+                url:`/chat/detail/${data?.thread_id}`
+              }
+            })
+          }
+       
         }         
       });
       
