@@ -58,7 +58,7 @@ const Index = () => {
                     </HStack>
                     <Container pt="2" maxW="100%" w="100%" >
                         <Box mb="3" bg={`${myNotes ? "primary.box" : ""}`} p="0" w="100%" overflow="hidden" rounded={"lg"} >
-                            {myNotes && myNotes.program_notes &&
+                            {myNotes && myNotes.program_notes && modules?.find((module) => (module?.alias == 'agendas')) &&
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/programs`)
                                 }}>
@@ -74,7 +74,7 @@ const Index = () => {
                                 </Pressable>
                             }
 
-                            {myNotes && myNotes.exhibitor_notes &&
+                            {myNotes && myNotes.exhibitor_notes && modules?.find((module) => (module?.alias == 'exhibitors')) &&
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/exhibitors`)
                                 }}>
@@ -90,7 +90,7 @@ const Index = () => {
                                     </HStack>
                                 </Pressable>
                             }
-                            {myNotes && myNotes.sponsor_notes &&
+                            {myNotes && myNotes.sponsor_notes && modules?.find((module) => (module?.alias == 'sponsors')) &&
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/sponsors`)
                                 }}>
@@ -110,7 +110,7 @@ const Index = () => {
                                 </Pressable>
                             }
 
-                            {myNotes && myNotes.directory_notes &&
+                            {myNotes && myNotes.directory_notes && modules?.find((module) => (module?.alias == 'ddirectory')) &&
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/directory`)
                                 }}>
