@@ -81,11 +81,11 @@ const Index = ({ navigation }: indexProps)  => {
                             <>{participant?.full_name}{index < chat.participants_info.length - 1 ? ', ' : ''}</>
                           ))}
                         </Heading>
-                        <Text isTruncated fontSize="md" opacity="0.6" >{chat?.latest_message?.body}</Text>
+                        <Text isTruncated fontSize="md" opacity={chat?.messages_count > 0 ? '1' : '0.6'} >{chat?.latest_message?.body}</Text>
                       </VStack>
                       <Spacer />
                       <VStack alignItems="flex-end" space="2">
-                        <Text opacity="0.6" fontSize="md">{moment().isSame(moment(chat?.latest_message?.sent_date),'day') ? moment(chat?.latest_message?.sent_date).fromNow() : moment(chat?.latest_message?.sent_date).format(GENERAL_DATETIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                        <Text opacity={chat?.messages_count > 0 ? '1' : '0.6'} fontSize="md">{moment().isSame(moment(chat?.latest_message?.sent_date),'day') ? moment(chat?.latest_message?.sent_date).fromNow() : moment(chat?.latest_message?.sent_date).format(GENERAL_DATETIME_FORMAT_WITHOUT_SECONDS)}</Text>
                         {chat?.messages_count > 0 && <Box rounded={'full'}  minW="18px" minHeight={'18px'} position="static" borderWidth="0" bg="green.500" justifyContent="center" alignItems="center" ><Text px={'2px'} fontSize="xs">{chat?.messages_count}</Text>
                         </Box>}
                     </VStack>
