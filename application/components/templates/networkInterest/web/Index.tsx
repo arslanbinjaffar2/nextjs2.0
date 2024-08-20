@@ -21,6 +21,7 @@ const Index = () => {
 
 
     const { keywords, FetchNetworkInterests, UpdatingMyKeywords, SaveMykeywords, skip } = UseNetworkInterestService();
+    console.log("🚀 ~ Index ~ keywords:", keywords)
     
     useEffect(() => {
         FetchNetworkInterests();
