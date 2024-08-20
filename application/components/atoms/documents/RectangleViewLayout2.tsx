@@ -85,28 +85,9 @@ const RectangleViewLayout2 = ({ k, document, updateBreadCrumbs, length }: AppPro
                                 }}>
                            <HStack borderBottomWidth="1" borderBottomColor={length !== k ? "primary.bordercolor" : 'transparent'} w="100%" px="4" py="4" space="3" alignItems="center">
                                     <Icon size="xl" as={MaterialIcons} name="folder" color="primary.text" />
-                                    {document?.name === "Program" ? (
                                         <Text fontSize="md" textBreakStrategy="simple">
-                                        {event?.modules_labels?.agendas || document?.name}
-                                        </Text>
-                                    ) : document?.name === "Sponsors" ? (
-                                        <Text fontSize="md" textBreakStrategy="simple">
-                                        {event?.modules_labels?.sponsors || document?.name}
-                                        </Text>
-                                    ) : document?.name === "Exhibitors" ? (
-                                        <Text fontSize="md" textBreakStrategy="simple">
-                                        {event?.modules_labels?.exhibitors || document?.name}
-                                        </Text>
-                                    ) :  document?.name === "Speakers" ? (
-                                        <Text fontSize="md" textBreakStrategy="simple">
-                                        {event?.modules_labels?.speakers || document?.name}
-                                        </Text>
-                                    ) : (
-                                        <Text fontSize="md" textBreakStrategy="simple">
-                                        {console.log('Default')}
                                         {document?.name}
                                         </Text>
-                                    )}
                                     <Spacer />
                                     <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                     </HStack>
