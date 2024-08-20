@@ -57,24 +57,23 @@ const Detail = () => {
       }
   React.useEffect(() => {
     if (id) {
-      console.log("🚀 ~ React.useEffect ~ id:", id)
       FetchHDMyQuestionsAnswers({ id: Number(id) });
     }
   }, []);
 
-  // React.useEffect(() => {
-  //   if (my_questions_answers?.answers) {
-  //     setAnswers(my_questions_answers.answers);
-  //   }
+  React.useEffect(() => {
+    if (my_questions_answers?.answers) {
+      setAnswers(my_questions_answers.answers);
+    }
 
-  //   return () => {
-  //     setAnswers([])
-  //   }
-  // }, [my_questions_answers]);
+    return () => {
+      setAnswers([])
+    }
+  }, [my_questions_answers]);
 
   React.useEffect(() => {
     if (socket !== null) {
-      socket?.on(`event-buizz:qa_question_answer_action${event.id}_${response.data?.user?.id}_${id}`, function (data: any): any {
+      socket?.on(`event-buizz:hd_question_answer_action${event.id}_${response.data?.user?.id}_${id}`, function (data: any): any {
         console.log(data, 'data AX');
         if(data?.answers){
           setAnswers(data?.answers);
@@ -83,21 +82,21 @@ const Detail = () => {
     }
     return () => {
       if (socket !== null) {
-        socket?.off(`event-buizz:qa_question_answer_action${event.id}_${id}`);
+        socket?.off(`event-buizz:hd_question_answer_action${event.id}_${id}`);
       }
     }
   }, [socket]);
 
   const handleMessageSend = () => {
     if (message.trim() !== '') {
-      SendMessage({ question_id: Number(id), message });
+      SendMessage({ help_desk_id: Number(id), message });
       setMessage('');
     }
   };
-  const module = setting_modules?.find((module) => module.alias === 'myquestions');
-  // if (my_questions_answers && Number(my_questions_answers?.question_id) !== Number(id)) {
-  //   return <SectionLoading />;
-  // }
+  const module = setting_modules?.find((module) => module.alias === 'hdquestions');
+  if (my_questions_answers && Number(my_questions_answers?.help_desk_id) !== Number(id)) {
+    return <SectionLoading />;
+  }
 
   return (
     <>

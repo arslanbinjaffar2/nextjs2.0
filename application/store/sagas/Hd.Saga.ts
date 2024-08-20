@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getHdGroupDetailApi, getHdGroupListingApi, getHdTabListingsApi, submitHdApi, submitHdLikeApi, getHdMyQuestionsApi, getHdMyQuestionsAnswersApi } from 'application/store/api/Hd.Api'
+import { getHdGroupDetailApi, getHdGroupListingApi, getHdTabListingsApi, submitHdApi, submitHdLikeApi, getHdMyQuestionsApi, getHdMyQuestionsAnswersApi, submitSendMessageAnswerApi } from 'application/store/api/Hd.Api'
 
 import { HdActions } from 'application/store/slices/Hd.Slice'
 
@@ -113,7 +113,16 @@ function* FetchHDMyQuestionsAnswers({
     yield put(LoadingActions.removeProcess({process:'hd-my-questions-answers'}))
 }
 
-
+function* SendMessage({
+    payload
+}: {
+    type: typeof HdActions.SendMessage
+    payload: any
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:`hd-send-message-${payload.question_id}`}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(submitSendMessageAnswerApi, payload, state)
+}
 
 // Watcher Saga
 export function* HdWatcherSaga(): SagaIterator {
@@ -124,7 +133,7 @@ export function* HdWatcherSaga(): SagaIterator {
     yield takeEvery(HdActions.SubmitHdLike.type, SubmitHdLike)
     yield takeEvery(HdActions.FetchMyHDQuestions.type, FetchMyHDQuestions)
     yield takeEvery(HdActions.FetchHDMyQuestionsAnswers.type, FetchHDMyQuestionsAnswers)
-    // yield takeEvery(HdActions.SendMessage.type, SendMessage)
+    yield takeEvery(HdActions.SendMessage.type, SendMessage)
 }
 
 export default HdWatcherSaga

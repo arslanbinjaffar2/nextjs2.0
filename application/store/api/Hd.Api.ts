@@ -30,3 +30,7 @@ export const getHdMyQuestionsApi = (payload: any, state: any): Promise<HttpRespo
 export const getHdMyQuestionsAnswersApi = (payload: any, state: any): Promise<HttpResponse> => {
     return makeApi(`${state?.env?.api_base_url}`).get(`${baseUrl}/${state?.event?.event.url}/hd/my-hd-questions/answers/${payload.id}`);
 }
+
+export const submitSendMessageAnswerApi = (payload: any, state: any): Promise<HttpResponse> => {
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/hd/answer-question/${payload.help_desk_id}`, { ...payload });
+}

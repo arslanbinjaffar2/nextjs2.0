@@ -135,7 +135,7 @@ export const HdSlice = createSlice({
         },
         FetchMyHDQuestions() {},
         FetchHDMyQuestionsAnswers(state, action: PayloadAction<{ id: number }>) {},
-        SendMessage(state, action: PayloadAction<{question_id:number, message:string}>) {},
+        SendMessage(state, action: PayloadAction<{help_desk_id:number, message:string}>) {},
         updateMyQuestionsAnswers(state, action: PayloadAction<any>) {
             state.my_questions_answers = action.payload.my_questions_answers;
         }

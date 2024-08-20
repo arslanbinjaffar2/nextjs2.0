@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import { SelectGroups, HdActions, SelectHdSettings, SelectDetail, SelectLabels, SelectMyQuestions, SelectMyQuestionsAnswers } from 'application/store/slices/Hd.Slice'
 
-import { Group, Setting, Labels} from 'application/models/hd/Hd'
+import { Group, Setting, Labels , } from 'application/models/hd/Hd'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 import { Popularquestion, Archivedquestion } from 'application/models/hd/Detail'
@@ -20,7 +20,7 @@ export type HdServiceOperators = {
         all_languages:number[]
     },
     my_questions:any[],
-    my_questions_answers:any[],
+    my_questions_answers:any,
     FetchGroups: () => void,
     FetchGroupDetail: (payload:{id:number}) => void,
     FetchTabDetails: (payload:{id:number}) => void,
