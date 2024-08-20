@@ -56,6 +56,8 @@ function* OnSaveMykeywords({
     yield put(LoadingActions.addProcess({ process: 'search-match-attendees' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveNetworkInterestApi, payload, state)
+    yield put(NetworkInterestActions.saveMyKeywordSuccess({event_url:state?.event?.event_url}));
+    yield put(NetworkInterestActions.updateUpdatedMyKeywords(true));
     yield put(LoadingActions.removeProcess({ process: 'search-match-attendees' }))
     yield put(NetworkInterestActions.saveMyKeywordSuccess({event_url:state?.event?.event_url}));
 }
