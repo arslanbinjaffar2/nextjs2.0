@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getHdGroupDetailApi, getHdGroupListingApi, getHdTabListingsApi, submitHdApi, submitHdLikeApi } from 'application/store/api/Hd.Api'
+import { getHdGroupDetailApi, getHdGroupListingApi, getHdTabListingsApi, submitHdApi, submitHdLikeApi, getHdMyQuestionsApi } from 'application/store/api/Hd.Api'
 
 import { HdActions } from 'application/store/slices/Hd.Slice'
 
@@ -86,6 +86,19 @@ function* SubmitHdLike({
 }
 
 
+function* FetchMyHDQuestions({
+    payload
+}: {
+    type: typeof HdActions.FetchMyHDQuestions
+    payload: any
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:'hd-my-questions'}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getHdMyQuestionsApi, payload, state)
+    yield put(HdActions.updateMyQuestions({ my_questions: response.data.data! }))
+    yield put(LoadingActions.removeProcess({process:'hd-my-questions'}))
+}
+
 
 
 
@@ -96,6 +109,7 @@ export function* HdWatcherSaga(): SagaIterator {
     yield takeEvery(HdActions.OnFetchTabDetails.type, OnFetchTabDetails)
     yield takeEvery(HdActions.SubmitHd.type, SubmitHd)
     yield takeEvery(HdActions.SubmitHdLike.type, SubmitHdLike)
+    yield takeEvery(HdActions.FetchMyHDQuestions.type, FetchMyHDQuestions)
 }
 
 export default HdWatcherSaga

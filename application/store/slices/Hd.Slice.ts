@@ -22,6 +22,7 @@ export interface HdState {
         clientIp:string,
         all_languages:number[]
     },
+    my_questions:any[]
 }
 
 const initialState: HdState = {
@@ -36,6 +37,7 @@ const initialState: HdState = {
         clientIp:'',
         all_languages:[]
     },
+    my_questions:[]
 }
 
 // Slice
@@ -48,6 +50,9 @@ export const HdSlice = createSlice({
             state.groups = action.payload.groups;
             state.hdSettings = action.payload.settings;
             state.labels = action.payload.labels;
+        },
+        updateMyQuestions(state, action: PayloadAction<any>) {
+            state.my_questions = action.payload.my_questions;
         },
         OnFetchGroupDetail(state, action: PayloadAction<{ id: number }>) {},
         updateDetail(state, action: PayloadAction<{ hd_group:Group, settings:Setting, labels:Labels, all_languages:number[], clientIp:string }>) {
@@ -126,7 +131,7 @@ export const HdSlice = createSlice({
             // state.hdDetails.archived_questions = archiveHd;
 
         },
-        
+        FetchMyHDQuestions() {},
     },
 })
 
@@ -142,6 +147,8 @@ export const HdActions = {
     SubmitHdLike:HdSlice.actions.SubmitHdLike,
     HdRecentPopularSocketUpdate:HdSlice.actions.HdRecentPopularSocketUpdate,
     HdSort:HdSlice.actions.HdSort,
+    FetchMyHDQuestions:HdSlice.actions.FetchMyHDQuestions,
+    updateMyQuestions:HdSlice.actions.updateMyQuestions
 }
 
 export const SelectGroups = (state: RootState) => state.hd.groups
@@ -151,6 +158,9 @@ export const SelectHdSettings = (state: RootState) => state.hd.hdSettings
 export const SelectLabels = (state: RootState) => state.hd.labels
 
 export const SelectDetail = (state: RootState) => state.hd.hdDetails
+
+export const SelectMyQuestions = (state: RootState) => state.hd.my_questions
+
 
 
 

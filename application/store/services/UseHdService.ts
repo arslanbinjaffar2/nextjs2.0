@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectGroups, HdActions, SelectHdSettings, SelectDetail, SelectLabels } from 'application/store/slices/Hd.Slice'
+import { SelectGroups, HdActions, SelectHdSettings, SelectDetail, SelectLabels, SelectMyQuestions } from 'application/store/slices/Hd.Slice'
 
 import { Group, Setting, Labels} from 'application/models/hd/Hd'
 
@@ -19,6 +19,7 @@ export type HdServiceOperators = {
         clientIp:string,
         all_languages:number[]
     },
+    my_questions:any[],
     FetchGroups: () => void,
     FetchGroupDetail: (payload:{id:number}) => void,
     FetchTabDetails: (payload:{id:number}) => void,
@@ -26,6 +27,7 @@ export type HdServiceOperators = {
     SubmitHdLike: (payload:{question_id:number, group_id:number}) => void,
     HdRecentPopularSocketUpdate: (payload:any) => void,
     HdSort: (payload:any) => void,
+    FetchMyHDQuestions: () => void,
 }
 
 /**
@@ -42,6 +44,7 @@ export const UseHdService = (): Readonly<HdServiceOperators> => {
         hdSettings: useAppSelector(SelectHdSettings),
         labels:useAppSelector(SelectLabels),
         hdDetails:useAppSelector(SelectDetail),
+        my_questions:useAppSelector(SelectMyQuestions),
         FetchGroups: useCallback(
             () => {
                 dispatch(HdActions.OnFetchGroups())
@@ -81,6 +84,12 @@ export const UseHdService = (): Readonly<HdServiceOperators> => {
         HdSort: useCallback(
             (payload:any) => {
                 dispatch(HdActions.HdSort(payload))
+            },
+            [dispatch],
+        ),
+        FetchMyHDQuestions: useCallback(
+            () => {
+                dispatch(HdActions.FetchMyHDQuestions())
             },
             [dispatch],
         ),
