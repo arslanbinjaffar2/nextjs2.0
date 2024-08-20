@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectNetworkInterests, NetworkInterestActions, SelectUpdatingMyKeywords, SelectNetworkSkip, SelectSearchingAttendees, SelectSearchMatchAttendees  } from 'application/store/slices/NetworkInterest.Slice'
+import { SelectNetworkInterests, NetworkInterestActions, SelectUpdatingMyKeywords, SelectNetworkSkip, SelectSearchingAttendees, SelectSearchMatchAttendees, SelectUpdatedMyKeywords } from 'application/store/slices/NetworkInterest.Slice'
 
 import {  Keyword } from 'application/models/networkInterest/NetworkInterest'
 
@@ -14,14 +14,15 @@ export type NetworkInterestServiceOperators = {
     UpdatingMyKeywords:boolean,
     searchMatchAttendees:Attendee[]|null,
     searchingAttendees:boolean,
+    updatedMyKeywords:boolean,
     FetchNetworkInterests: () => void,
     SaveMykeywords: (payload:any) => void,
     FetchSearchMatchAttendees: (payload:any) => void,
     setSkip: (payload:{event_url:string}) => void,
     setNetworkSkip: (payload:{event_url:string}) => void,
     FetchMyKeywords: () => void,
+    updateUpdatedMyKeywords: (payload:boolean) => void
 }
-
 /**
  * AttendeeService custom-hooks
  * @see https://reactjs.org/docs/hooks-custom.html
@@ -38,6 +39,7 @@ export const UseNetworkInterestService = (): Readonly<NetworkInterestServiceOper
         searchingAttendees: useAppSelector(SelectSearchingAttendees),
         skip: useAppSelector(SelectNetworkSkip),
         netWorkskip: useAppSelector(SelectNetworkSkip),
+        updatedMyKeywords: useAppSelector(SelectUpdatedMyKeywords),
         FetchNetworkInterests: useCallback(
             () => {
                 dispatch(NetworkInterestActions.FetchNetworkInterests())
@@ -71,6 +73,12 @@ export const UseNetworkInterestService = (): Readonly<NetworkInterestServiceOper
         FetchMyKeywords: useCallback(
             () => {
                 dispatch(NetworkInterestActions.FetchMyKeywords())
+            },
+            [dispatch],
+        ),
+        updateUpdatedMyKeywords: useCallback(
+            (payload:boolean) => {
+                dispatch(NetworkInterestActions.updateUpdatedMyKeywords(payload))
             },
             [dispatch],
         ),
