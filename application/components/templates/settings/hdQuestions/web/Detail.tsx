@@ -2,12 +2,10 @@ import * as React from 'react';
 import { Avatar, Center, Container, HStack, Icon, IconButton, ScrollView, Spacer, Text, TextArea, VStack, Box, Pressable } from 'native-base';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
-import UseQaService from 'application/store/services/UseQaService';
-import Feather from '@expo/vector-icons/Feather';
+import UseHdService from 'application/store/services/UseHdService';
 import { createParam } from 'solito';
 import moment from 'moment';
 import { useRouter } from 'solito/router';
-import WebLoading from 'application/components/atoms/WebLoading';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import { UseEventService } from 'application/store/services'
 import { GENERAL_TIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals'
@@ -21,6 +19,7 @@ import IcoSend from 'application/assets/icons/small/IcoSend'
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import { getColorScheme } from 'application/styles/colors';
+import in_array from 'in_array';
 
 type ScreenParams = { id: string }
 const Detail = () => {
@@ -33,13 +32,13 @@ const Detail = () => {
   const { socket } = UseSocketService();
   const { _env } = UseEnvService()
   
-  const { loading } = UseLoadingService();
+  const { processing } = UseLoadingService();
   const [id] = useParam('id');
   const { push } = useRouter()
   
   const { response } = UseAuthService()
   
-  const { questionAnswers, FetchMyQuestionsAnswers, SendMessage } = UseQaService();
+  const { my_questions_answers, FetchHDMyQuestionsAnswers, SendMessage } = UseHdService();
   
   const [answers, setAnswers] = React.useState<any[]>([]);
   const [message, setMessage] = React.useState<string>('');
@@ -58,19 +57,20 @@ const Detail = () => {
       }
   React.useEffect(() => {
     if (id) {
-      FetchMyQuestionsAnswers({ id: Number(id) });
+      console.log("🚀 ~ React.useEffect ~ id:", id)
+      FetchHDMyQuestionsAnswers({ id: Number(id) });
     }
   }, []);
 
-  React.useEffect(() => {
-    if (questionAnswers?.answers) {
-      setAnswers(questionAnswers.answers);
-    }
+  // React.useEffect(() => {
+  //   if (my_questions_answers?.answers) {
+  //     setAnswers(my_questions_answers.answers);
+  //   }
 
-    return () => {
-      setAnswers([])
-    }
-  }, [questionAnswers]);
+  //   return () => {
+  //     setAnswers([])
+  //   }
+  // }, [my_questions_answers]);
 
   React.useEffect(() => {
     if (socket !== null) {
@@ -95,13 +95,13 @@ const Detail = () => {
     }
   };
   const module = setting_modules?.find((module) => module.alias === 'myquestions');
-  if (questionAnswers && Number(questionAnswers?.question_id) !== Number(id)) {
-    return <SectionLoading />;
-  }
+  // if (my_questions_answers && Number(my_questions_answers?.question_id) !== Number(id)) {
+  //   return <SectionLoading />;
+  // }
 
   return (
     <>
-      {loading ? (
+      {in_array(processing, 'hd-my-questions-answers') ? (
         <SectionLoading />
       ) : (
         <Container pt="2" maxW="100%" w="100%">
@@ -129,7 +129,7 @@ const Detail = () => {
                     contentWidth={width > 600 ? 600 : width - 90}
                     systemFonts={['Avenir']}
                     tagsStyles={mixedStyle}
-                    source={{ html: questionAnswers?.question }}
+                    source={{ html: my_questions_answers?.question }}
                 />
               </Box>
             </HStack>
@@ -177,7 +177,7 @@ const Detail = () => {
                 <Text fontSize="lg">{event?.labels?.GENERAL_CHAT_ENTER_MESSAGE}</Text>
               </HStack>
               <VStack p="1" w="100%" space="0">
-                <TextArea borderWidth="0" value={message} borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder={questionAnswers?.labels?.QA_TYPE_ANSWER ?? "Type your answer"} autoCompleteType={undefined} onChangeText={(text) => setMessage(text)} />
+                <TextArea borderWidth="0" value={message} borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder={my_questions_answers?.labels?.QA_TYPE_ANSWER ?? "Type your answer"} autoCompleteType={undefined} onChangeText={(text) => setMessage(text)} />
                 <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
                   <IconButton
                     variant="transparent"

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Box, Container, Heading, HStack, Icon, Image, Input, Spacer, Text, VStack, Pressable } from 'native-base';
+import { Box, Container, Heading, HStack, Icon, Input, Spacer, Text, VStack, Pressable } from 'native-base';
 import moment from 'moment';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseEventService from 'application/store/services/UseEventService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import UseHdService from 'application/store/services/UseHdService';
-import WebLoading from 'application/components/atoms/WebLoading';
 import { useRouter } from 'solito/router';
 import Icoquestion from 'application/assets/icons/small/Icoquestion';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Icocalendar from 'application/assets/icons/small/Icocalendar';
-import { GENERAL_DATETIME_FORMAT, GENERAL_DATE_FORMAT } from 'application/utils/Globals';
+import { GENERAL_DATETIME_FORMAT } from 'application/utils/Globals';
 import { Question } from 'application/models/poll/Detail';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { SelectGroups, HdActions, SelectHdSettings, SelectDetail, SelectLabels, SelectMyQuestions } from 'application/store/slices/Hd.Slice'
+import { SelectGroups, HdActions, SelectHdSettings, SelectDetail, SelectLabels, SelectMyQuestions, SelectMyQuestionsAnswers } from 'application/store/slices/Hd.Slice'
 
 import { Group, Setting, Labels} from 'application/models/hd/Hd'
 
@@ -20,6 +20,7 @@ export type HdServiceOperators = {
         all_languages:number[]
     },
     my_questions:any[],
+    my_questions_answers:any[],
     FetchGroups: () => void,
     FetchGroupDetail: (payload:{id:number}) => void,
     FetchTabDetails: (payload:{id:number}) => void,
@@ -28,6 +29,8 @@ export type HdServiceOperators = {
     HdRecentPopularSocketUpdate: (payload:any) => void,
     HdSort: (payload:any) => void,
     FetchMyHDQuestions: () => void,
+    FetchHDMyQuestionsAnswers: (payload:any) => void,
+    SendMessage: (payload:any) => void,
 }
 
 /**
@@ -45,6 +48,7 @@ export const UseHdService = (): Readonly<HdServiceOperators> => {
         labels:useAppSelector(SelectLabels),
         hdDetails:useAppSelector(SelectDetail),
         my_questions:useAppSelector(SelectMyQuestions),
+        my_questions_answers:useAppSelector(SelectMyQuestionsAnswers),
         FetchGroups: useCallback(
             () => {
                 dispatch(HdActions.OnFetchGroups())
@@ -90,6 +94,18 @@ export const UseHdService = (): Readonly<HdServiceOperators> => {
         FetchMyHDQuestions: useCallback(
             () => {
                 dispatch(HdActions.FetchMyHDQuestions())
+            },
+            [dispatch],
+        ),
+        FetchHDMyQuestionsAnswers: useCallback(
+            (payload:any) => {
+                dispatch(HdActions.FetchHDMyQuestionsAnswers(payload))
+            },
+            [dispatch],
+        ),
+        SendMessage: useCallback(
+            (payload:any) => {
+                dispatch(HdActions.SendMessage(payload))
             },
             [dispatch],
         ),

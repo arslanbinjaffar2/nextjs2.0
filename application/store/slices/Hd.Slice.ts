@@ -22,7 +22,8 @@ export interface HdState {
         clientIp:string,
         all_languages:number[]
     },
-    my_questions:any[]
+    my_questions:any[],
+    my_questions_answers:any[]
 }
 
 const initialState: HdState = {
@@ -37,7 +38,8 @@ const initialState: HdState = {
         clientIp:'',
         all_languages:[]
     },
-    my_questions:[]
+    my_questions:[],
+    my_questions_answers:[]
 }
 
 // Slice
@@ -132,6 +134,11 @@ export const HdSlice = createSlice({
 
         },
         FetchMyHDQuestions() {},
+        FetchHDMyQuestionsAnswers(state, action: PayloadAction<{ id: number }>) {},
+        SendMessage(state, action: PayloadAction<{question_id:number, message:string}>) {},
+        updateMyQuestionsAnswers(state, action: PayloadAction<any>) {
+            state.my_questions_answers = action.payload.my_questions_answers;
+        }
     },
 })
 
@@ -148,7 +155,10 @@ export const HdActions = {
     HdRecentPopularSocketUpdate:HdSlice.actions.HdRecentPopularSocketUpdate,
     HdSort:HdSlice.actions.HdSort,
     FetchMyHDQuestions:HdSlice.actions.FetchMyHDQuestions,
-    updateMyQuestions:HdSlice.actions.updateMyQuestions
+    updateMyQuestions:HdSlice.actions.updateMyQuestions,
+    FetchHDMyQuestionsAnswers:HdSlice.actions.FetchHDMyQuestionsAnswers,
+    SendMessage:HdSlice.actions.SendMessage,
+    updateMyQuestionsAnswers:HdSlice.actions.updateMyQuestionsAnswers
 }
 
 export const SelectGroups = (state: RootState) => state.hd.groups
@@ -160,6 +170,9 @@ export const SelectLabels = (state: RootState) => state.hd.labels
 export const SelectDetail = (state: RootState) => state.hd.hdDetails
 
 export const SelectMyQuestions = (state: RootState) => state.hd.my_questions
+
+export const SelectMyQuestionsAnswers = (state: RootState) => state.hd.my_questions_answers
+
 
 
 
