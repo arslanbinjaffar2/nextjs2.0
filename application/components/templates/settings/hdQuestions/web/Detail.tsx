@@ -107,7 +107,7 @@ const Detail = () => {
           <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
             <Pressable
               onPress={() => {
-                push(`/${event.url}/settings/myquestions`)
+                push(`/${event.url}/settings/hdquestions`)
               }}
             >
               <HStack space="3" alignItems="center">
