@@ -7,7 +7,7 @@ For a long long time the React Native community has been looking for a way to ma
 
 We have already done the hard work for you and created a starter kit for you to start with.
 
-## Getting Started 
+## Getting Started
 
 - Clone the repo: [https://github.com/GeekyAnts/nativebase-templates/tree/master/solito-universal-app-template-nativebase-typescript](https://github.com/GeekyAnts/nativebase-templates/tree/master/solito-universal-app-template-nativebase-typescript)
 - Run `yarn` or `npm install` on the root directory.
