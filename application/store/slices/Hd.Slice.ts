@@ -19,6 +19,7 @@ export interface HdState {
         popular_questions:Popularquestion[],
         archived_questions:Archivedquestion[],
         recent_questions:Popularquestion[],
+        my_questions:Popularquestion[],
         clientIp:string,
         all_languages:number[]
     },
@@ -35,6 +36,7 @@ const initialState: HdState = {
         popular_questions:[],
         archived_questions:[],
         recent_questions:[],
+        my_questions:[],
         clientIp:'',
         all_languages:[]
     },
@@ -65,10 +67,11 @@ export const HdSlice = createSlice({
             state.hdDetails.all_languages = action.payload.all_languages;
         },
         OnFetchTabDetails(state, action: PayloadAction<{ id: number }>) {},
-        updateTabDetail(state, action: PayloadAction<{ popular_questions:Popularquestion[], recent_questions:Popularquestion[], archived_questions:Archivedquestion[] }>) {
+        updateTabDetail(state, action: PayloadAction<{ popular_questions:Popularquestion[], recent_questions:Popularquestion[], archived_questions:Archivedquestion[], my_questions:Popularquestion[] }>) {
             state.hdDetails.popular_questions = action.payload.popular_questions;
             state.hdDetails.recent_questions = action.payload.recent_questions;
             state.hdDetails.archived_questions = action.payload.archived_questions;
+            state.hdDetails.my_questions = action.payload.my_questions;
         },
         SubmitHd(state, action: PayloadAction<any>) {},
         SubmitHdLike(state, action: PayloadAction<{question_id:number, group_id:number}>) {},

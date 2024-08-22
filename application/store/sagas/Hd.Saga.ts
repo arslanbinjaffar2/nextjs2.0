@@ -55,6 +55,7 @@ function* OnFetchTabDetails({
             popular_questions: response.data.data.popular_questions!,
             recent_questions: response.data.data.recent_questions!,
             archived_questions: response.data.data.archived_questions!,
+            my_questions: response.data.data.my_questions!,
         }))
     yield put(LoadingActions.set(false));
 }

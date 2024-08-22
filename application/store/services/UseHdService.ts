@@ -16,6 +16,7 @@ export type HdServiceOperators = {
         popular_questions:Popularquestion[],
         archived_questions:Archivedquestion[],
         recent_questions:Popularquestion[],
+        my_questions:Popularquestion[],
         clientIp:string,
         all_languages:number[]
     },
