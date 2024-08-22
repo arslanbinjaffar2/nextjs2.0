@@ -122,8 +122,11 @@ const Detail = () => {
         if (in_array(item, ['archive']) && hdSettings[item] == 1) {
             ack.push(item);
         }
+        if (in_array(item, ['my_questions']) && hdSettings[item] == 1) {
+            ack.push(item);
+        }
         return ack;
-    }, ['popular', 'recent', 'my_questions']) : ['popular', 'recent', 'my_questions'];
+    }, ['popular', 'recent']) : ['popular', 'recent'];
 
     const TabHeadings: any = {
         popular: labels?.HD_POPULAR ?? 'Popular',
