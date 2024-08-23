@@ -20,7 +20,7 @@ const Index = () => {
     const module = modules.find((module) => module.alias === 'my_notes');
     function getValueByNameModule(name: string) {
         let ModuleName:any = modules.find((module: any) => module.alias == name);
-        ModuleName=ModuleName?.icon.replace('.png', '') 
+        ModuleName=ModuleName?.icon.replace('-','_').replace('.png', '')
         return ModuleName
     }
 
