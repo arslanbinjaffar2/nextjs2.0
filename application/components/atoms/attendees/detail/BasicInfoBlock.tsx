@@ -98,7 +98,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                             <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="xl">
                                 {`${detail?.detail?.first_name}`} {detail?.sort_field_setting.find((s: any) => (s.name === 'last_name')) && detail?.detail?.last_name}
                             </Text>
-                            {detail?.detail?.info && detail?.detail?.info.title &&
+                            {detail?.detail?.info &&
                                 (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.department == 0 || isPrivate?.company_name == 0))
                                 && (
                                     <>
