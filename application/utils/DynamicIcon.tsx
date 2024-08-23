@@ -36,6 +36,7 @@ import hdquestions from 'application/assets/icons/hdquestions'
 import myexhibitors from 'application/assets/icons/myexhibitors'
 import myevents from 'application/assets/icons/myevents'
 import edit_account from 'application/assets/icons/edit_account'
+import edit_account_icon from 'application/assets/icons/edit_account'
 import email_icon from 'application/assets/icons/email_icon'
 import myquestions from 'application/assets/icons/myquestions'
 import match from 'application/assets/icons/mykeywords'
@@ -104,7 +105,7 @@ type IconProps = {
     height?: number;
 };
 
-type IconType = 'xtwitter' | 'forbidden_icon'|'qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'|
+type IconType ='forbidden_icon'|'qrcode'| 'IcoMyEvents'|'infobooth' |'download' | 'logout' | 'myevents' |'document' | 'myquestions' | 'edit_account'| 'email_icon'| 'match' | 'my_reservations'|'hdquestions' | 'myexhibitors' |'subregistration'| 'edit_account_icon' |
 'fav_sponsors'| 'attendees' | 'myattendees' | 'message' | 'chat' | 'checkIn' | 'ddirectory' | 'exhibitors' | 'plans' | 'help_desk' | 'homeMyevents' | 'gallery' | 'practical_info' | 'general_info' | 'additional_info' | 'information_pages' | 'maps' | 'my_attendee_list' | 'mydocuments' | 'notes' | 'myagendas' | 'myprograms' | 'alerts' | 'agendas' | 'myturnlist' | 'social' | 'social_wall' | 'speakers' | 'sponsors' | 'upcomingEvents' | 'qa' | 'survey' | 'polls' | 'attendee_authority' | 'checkin_agendas' | 'checkin' | 'my_registrations' | 'business' | 'request_to_speak' | 'editprofile' | 'mykeywords' | 'myreservation' | 'my_notes' | 'upcoming_events' | 'reservation' | 'certificate' | 'editnotes' | 'mybookings' 
 |'checkcircle'|'cancelcircle' | 'close' | 'edit_profile' | 'myPollResults' | 'mySurveyResults' | 'my_sub_registrations' | 'network_interest' | 'livesurveys'| 'star'| 'staro'| 'save' | 'attendee_Match' | 'hand' | 'delete_icon'| 'share_account'|'download_2'| 'email' |'share'| 'dropdown' | 'upload' | 'Notattending'|'register' | 'edit_order' | 'icosort' | 'calender_icon'| 'clock_icon' | 'hand' | any ;
 
@@ -208,7 +209,8 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         calender_icon,
         clock_icon,
         forbidden_icon,
-        xtwitter
+        xtwitter,
+        edit_account_icon
     };
 
     const IconComponent = iconMap[iconType];
