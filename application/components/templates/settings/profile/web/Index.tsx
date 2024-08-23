@@ -19,7 +19,7 @@ const Index = () => {
     const { loadSettingsModules } = UseEventService();
 	const router = useRouter()
     const { _env } = UseEnvService();
-		const { event } = UseEventService();
+		const { event, setting_modules } = UseEventService();
 
     useEffect(() => {
         loadSettingsModules();
@@ -41,6 +41,7 @@ const Index = () => {
         <Box bg={'primary.box'}  rounded={'10px'}   alignItems="center" width="100%">
 					<Box p={6} pb={4}  w={'100%'}>
 						<Box w={'100%'} position={'relative'} alignItems={'center'}>
+							{setting_modules && setting_modules?.find((module) => (module?.alias == 'editprofile')) && (
 							<Button
 								position={'absolute'}
 								right={0}
@@ -55,6 +56,7 @@ const Index = () => {
 									}}>
 									{response?.event?.labels?.GENERAL_EDIT}
 							</Button>
+							)}
 							
 							<Avatar
 								size={'130px'}
@@ -76,7 +78,7 @@ const Index = () => {
 										? `${response?.attendee_detail.detail?.linkedin_protocol}${response?.attendee_detail.detail?.linkedin}`
 										: null;
 									return (
-										url && item.is_private == 0 && (
+										url  && (
 											<Pressable
 												key={item.name}
 												onPress={() => window.open(url, '_blank')}
@@ -186,16 +188,19 @@ const Index = () => {
 								<Text fontSize="md">{response?.attendee_detail?.detail?.interests}</Text>
 							</Center>
 						</HStack>
-						{response?.attendee_detail && response?.attendee_detail?.attendee_cv && (
-						<HStack w={['100%','50%']}  mb={4} alignItems="center"  space="3" justifyContent="flex-start">
-							<Center alignItems={'flex-start'} w={['140px','180px']}>
+					{response?.data?.user?.sort_field_setting?.map((item: any) => {
+					if (response?.attendee_detail?.attendee_cv && item.name === "resume") {
+					return (
+						<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start" key={item.name}>
+							<Center alignItems={'flex-start'} w={['140px', '180px']}>
 								<Text fontWeight={500} fontSize="md">Resume:</Text>
 							</Center>
 							<Center>
-								<HStack  space="1" alignItems="center">
+								<HStack space="1" alignItems="center">
 									<Icon as={AntDesign} color={'primary.text'} name="pdffile1" size={'md'} />
 									<Text px={1} fontSize="md">.</Text>
-									 <Pressable
+									{item.is_private === 0 ? (
+										<Pressable
 											onPress={async () => {
 												const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`;
 												const supported = await Linking.canOpenURL(url);
@@ -203,14 +208,25 @@ const Index = () => {
 													await Linking.openURL(url);
 												}
 											}}>
-											<Text color={'primary.500'} textDecorationLine={'underline'} fontSize="sm">{response?.attendee_detail?.attendee_cv}</Text>
+											<Text color={'primary.500'} textDecorationLine={'underline'} fontSize="sm">
+												{response?.attendee_detail?.attendee_cv}
+											</Text>
 										</Pressable>
+									) : (
+										<Text color={'gray.100'} fontSize="sm">
+											{response?.attendee_detail?.attendee_cv}
+										</Text>
+									)}
 								</HStack>
-								
 							</Center>
 						</HStack>
-						)}
-						
+					);
+				} else {
+					return null;
+				}
+			})}
+
+
 
 					</HStack>
 					
