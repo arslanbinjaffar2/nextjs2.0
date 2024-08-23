@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getHdGroupDetailApi, getHdGroupListingApi, getHdTabListingsApi, submitHdApi, submitHdLikeApi } from 'application/store/api/Hd.Api'
+import { getHdGroupDetailApi, getHdGroupListingApi, getHdTabListingsApi, submitHdApi, submitHdLikeApi, getHdMyQuestionsApi, getHdMyQuestionsAnswersApi, submitSendMessageAnswerApi } from 'application/store/api/Hd.Api'
 
 import { HdActions } from 'application/store/slices/Hd.Slice'
 
@@ -55,6 +55,7 @@ function* OnFetchTabDetails({
             popular_questions: response.data.data.popular_questions!,
             recent_questions: response.data.data.recent_questions!,
             archived_questions: response.data.data.archived_questions!,
+            my_questions: response.data.data.my_questions!,
         }))
     yield put(LoadingActions.set(false));
 }
@@ -86,8 +87,43 @@ function* SubmitHdLike({
 }
 
 
+function* FetchMyHDQuestions({
+    payload
+}: {
+    type: typeof HdActions.FetchMyHDQuestions
+    payload: any
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:'hd-my-questions'}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getHdMyQuestionsApi, payload, state)
+    yield put(HdActions.updateMyQuestions({ my_questions: response.data.data! }))
+    yield put(LoadingActions.removeProcess({process:'hd-my-questions'}))
+}
 
 
+function* FetchHDMyQuestionsAnswers({
+    payload
+}: {
+    type: typeof HdActions.FetchHDMyQuestionsAnswers
+    payload: any
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:'hd-my-questions-answers'}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getHdMyQuestionsAnswersApi, payload, state)
+    yield put(HdActions.updateMyQuestionsAnswers({ my_questions_answers: response.data.data! }))
+    yield put(LoadingActions.removeProcess({process:'hd-my-questions-answers'}))
+}
+
+function* SendMessage({
+    payload
+}: {
+    type: typeof HdActions.SendMessage
+    payload: any
+}): SagaIterator {
+    yield put(LoadingActions.addProcess({process:`hd-send-message-${payload.question_id}`}))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(submitSendMessageAnswerApi, payload, state)
+}
 
 // Watcher Saga
 export function* HdWatcherSaga(): SagaIterator {
@@ -96,6 +132,9 @@ export function* HdWatcherSaga(): SagaIterator {
     yield takeEvery(HdActions.OnFetchTabDetails.type, OnFetchTabDetails)
     yield takeEvery(HdActions.SubmitHd.type, SubmitHd)
     yield takeEvery(HdActions.SubmitHdLike.type, SubmitHdLike)
+    yield takeEvery(HdActions.FetchMyHDQuestions.type, FetchMyHDQuestions)
+    yield takeEvery(HdActions.FetchHDMyQuestionsAnswers.type, FetchHDMyQuestionsAnswers)
+    yield takeEvery(HdActions.SendMessage.type, SendMessage)
 }
 
 export default HdWatcherSaga
