@@ -10,6 +10,7 @@ import { Keyword } from 'application/models/networkInterest/NetworkInterest';
 import in_array from "in_array";
 import SectionLoading from 'application/components/atoms/SectionLoading';
 import { func } from 'application/styles';
+import UseToastService from 'application/store/services/UseToastService';
 
 
 const Index = () => {
@@ -18,12 +19,20 @@ const Index = () => {
     const { _env } = UseEnvService();
   
     const { event  } = UseEventService();
-
-    const { keywords, UpdatingMyKeywords, SaveMykeywords, FetchMyKeywords  } = UseNetworkInterestService();
+    const { AddToast } = UseToastService();
+    const { keywords, UpdatingMyKeywords, SaveMykeywords, FetchMyKeywords, updatedMyKeywords, updateUpdatedMyKeywords  } = UseNetworkInterestService();
 
     useEffect(() => {
       FetchMyKeywords();
     }, [])
+
+    useEffect(() => {
+      if(updatedMyKeywords){
+        AddToast({toast:{message:event?.labels?.EVENTSITES_SUBREGISTRATION_UPDATE_MESSAGE ,status: "success"}})
+        updateUpdatedMyKeywords(false)
+      }
+    }, [updatedMyKeywords])
+
     
 
   return (

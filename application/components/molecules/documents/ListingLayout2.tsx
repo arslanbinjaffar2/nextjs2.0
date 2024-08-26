@@ -1,10 +1,11 @@
-import React,{ useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { HStack, Text, Icon, Box, Pressable, ScrollView, Container, View, Center } from 'native-base'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import UseDocumentService from 'application/store/services/UseDocumentService';
 import { Document } from 'application/models/document/Document'
 import FindPath from 'application/utils/FindPath';
 import { Platform } from 'react-native';
+import { usePathname } from 'next/navigation';
 import RectangleViewLayout2 from 'application/components/atoms/documents/RectangleViewLayout2';
 import UseEventService from 'application/store/services/UseEventService';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
@@ -18,7 +19,8 @@ interface ListingLayout2Props {
 const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, updateBreadcrumbs }) => {
 
     const [breadcrumbs, setBreadCrumbs] = React.useState<Document[]>([]);
-
+    const pathname = usePathname();
+    const path = pathname.split('/')[2];
     const { documents, data, FilterDocuments } = UseDocumentService();
 
     const [filteredDocuments, setFilteredDocuments] = React.useState<Document[]>([]);
@@ -28,26 +30,35 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
             return document?.path !== undefined || document?.children_files?.length > 0;
         });
         setFilteredDocuments(nonEmptyDocuments);
-      }, [documents]);
+    }, [documents]);
 
     const updateBreadCrumbs = (breadcrumbs: Document[]) => {
         setBreadCrumbs(breadcrumbs);
-        if(updateBreadcrumbs){
+        if (updateBreadcrumbs) {
             updateBreadcrumbs(breadcrumbs);
         }
     }
 
-    const { event  } = UseEventService();
+    useEffect(() => {
+        if (path == 'agendas') {
+            if (data.length > 0) {
+                FilterDocuments({ document_id: data[0].id, query: '' });
+                setBreadCrumbs(FindPath(data, data[0].id));
+            }
+        }
+    }, [path]);
+
+    const { event } = UseEventService();
     return (
         <View w="100%">
-            {!disableTitle && documents.length > 0 && <HStack pt={3} px="4" w="100%" space="3" alignItems="center"  flexWrap={'wrap'}>
+            {!disableTitle && documents.length > 0 && <HStack pt={3} px="4" w="100%" space="3" alignItems="center" flexWrap={'wrap'}>
                 {!disableTitle && <Pressable
-                maxW={'100%'}
+                    maxW={'100%'}
                     onPress={async () => {
                         FilterDocuments({ document_id: 0, query: '' });
                         setBreadCrumbs([]);
                     }}>
-                        <Text  fontSize="md">{module ?? 'Documents'}</Text>
+                    <Text fontSize="md">{module ?? 'Documents'}</Text>
                 </Pressable>}
                 {breadcrumbs.length > 0 && breadcrumbs.map((breadcrumb: Document, key: number) =>
                     <React.Fragment key={key}>
@@ -59,7 +70,7 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
                             }}>
                             <Center maxW="250px">
                                 <Text fontSize="md" isTruncated>{breadcrumb.name}</Text>
-                            </Center>					
+                            </Center>
                         </Pressable>
                     </React.Fragment>
                 )}
@@ -67,19 +78,19 @@ const ListingLayout2: React.FC<ListingLayout2Props> = ({ module, disableTitle, u
             {Platform.OS === 'web' ? (
                 <Box overflow="hidden" w="100%" p="0">
                     {filteredDocuments.map((document: Document, key: number) => {
-                               return <React.Fragment key={key}>
-                                    <RectangleViewLayout2 length={filteredDocuments.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
-                                </React.Fragment>
-                        }
+                        return <React.Fragment key={key}>
+                            <RectangleViewLayout2 length={filteredDocuments.length - 1} document={document} k={key} updateBreadCrumbs={updateBreadCrumbs} />
+                        </React.Fragment>
+                    }
                     )}
-                    { filteredDocuments.length <= 0 &&
-                      <NoRecordFound />
-                       
-                        
+                    {filteredDocuments.length <= 0 &&
+                        <NoRecordFound />
+
+
                     }
                 </Box>
             ) : (
-                <Container w="100%"  bg={disableTitle ? "" : "primary.box"} p="0" rounded="10" maxW={'100%'}>
+                <Container w="100%" bg={disableTitle ? "" : "primary.box"} p="0" rounded="10" maxW={'100%'}>
                     <ScrollView w={'100%'}>
                         <Box overflow="hidden" w="100%">
                             {filteredDocuments.map((document: Document, key: number) =>

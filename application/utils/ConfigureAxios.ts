@@ -40,11 +40,20 @@ export default function makeApi(baseURL: string, multiPartFormData = false) {
         }
         
         if (error.response.status === 401) {
-            if (Platform.OS === "android" || Platform.OS === "ios") {
-                AsyncStorageClass.clear();
+            const state: RootState = store.getState();
+            const event_url = state.event.event_url;
+            if (Platform.OS === 'web') {
+                localStorage.removeItem(`access_token_${event_url}`);
+                localStorage.removeItem(`keyword_skip_${event_url}`);
+                localStorage.removeItem(`skip_sub_reg_${event_url}`);
+                localStorage.removeItem('skip_pending_appointment_alerts');
             } else {
-                localStorage.clear();
+                AsyncStorageClass.removeItem(`access_token_${event_url}`);
+                AsyncStorageClass.removeItem(`keyword_skip_${event_url}`);
+                AsyncStorageClass.removeItem(`skip_sub_reg_${event_url}`);  
+                AsyncStorageClass.removeItem('skip_pending_appointment_alerts');
             }
+            window.location.href = `${window.location.origin}/${event_url}/auth/login`;
             return {
                 status: error.response.status,
                 data: {

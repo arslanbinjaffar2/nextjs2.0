@@ -12,6 +12,7 @@ import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import DynamicIcon from 'application/utils/DynamicIcon';
 
 const index = () => {
 
@@ -45,7 +46,7 @@ const index = () => {
                     <Pressable
                     onPress={async () => {
                       
-                        const url: any = link.name !== 'twitter_hash_tag' ? `${link.select_type}${link.value}` : `https://twitter.com/search?q=${link.value}&src=hash`;
+                        const url: any = link.name !== 'twitter_hash_tag' ? `${link.select_type}${link.value}` : `https://x.com/search?q=${link.value}&src=hash`;
                         const supported = await Linking.canOpenURL(url);
                         if (supported) {
                             await Linking.openURL(url);
@@ -53,7 +54,9 @@ const index = () => {
                     }}>
                     
                     <Box w={["75px","90px"]} h={["75px","90px"]} shadow="1" bg={SocialStyleOptions[link.name].color} rounded="100%" alignItems="center" justifyContent="center">
-                      <Icon textAlign="center" color="#fff" size={["3xl","5xl"]} as={FontAwesome} name={SocialStyleOptions[link.name].icon} />
+                      {SocialStyleOptions[link.name].icon == "x-twitter" ?
+                      <DynamicIcon iconType={"xtwitter"} iconProps={{width:90,height:192}}/>
+                        :<Icon textAlign="center" color="#fff" size={["3xl","5xl"]} as={FontAwesome} name={SocialStyleOptions[link.name].icon} />}
                     </Box>
                   </Pressable>
                   </Center>
@@ -83,8 +86,8 @@ export const SocialStyleOptions:any = {
     icon:'facebook',
   },
   twitter:{
-    color:'#339DC3',
-    icon:'twitter',
+    color:'#000',
+    icon:'x-twitter',
   },
   twitter_hash_tag:{
     color:'#339DC3',
