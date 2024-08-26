@@ -162,7 +162,7 @@ const Detail = ({ speaker }: Props) => {
                                             <>
                                                 {tab === 'about' && (
                                                     <ScrollView w={'100%'}>
-                                                        <DetailInfoBlock detail={detail} info={<RenderHtml contentWidth={width} source={{ html: detail?.detail?.info?.about! }} />} />
+                                                        <DetailInfoBlock detail={detail} info={<RenderHtml contentWidth={width > 600 ? 600 : width - 90} source={{ html: detail?.detail?.info?.about! }} />} />
                                                     </ScrollView>
                                                 )}
                                                 {tab === 'contact_info' && ((detail?.detail?.info?.facebook && detail?.field_setting?.facebook) || (detail?.detail?.info?.twitter && detail?.field_setting?.twitter) || (detail?.detail?.info?.linkedin && detail?.field_setting?.linkedin) || (detail?.detail?.info?.website && detail?.field_setting?.website)) && <ContactInfo detail={detail} />}

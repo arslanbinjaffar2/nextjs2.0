@@ -18,7 +18,7 @@ const RectangleView = ({ detail }: AppProps) => {
             <Box p="0">
                 <HStack px="3" py="1" bg="primary.darkbox" w="100%" space="3" alignItems="center">
                     <DynamicIcon iconType="survey" iconProps={{ width: 14, height: 17 }} />
-                    <Text fontSize="md">Sub-registrations</Text>
+                    <Text fontSize="md">{event?.modules_labels?.subregistration}</Text>
                 </HStack>
                 <Pressable
                     p="0"
@@ -31,7 +31,7 @@ const RectangleView = ({ detail }: AppProps) => {
                     <Box w="100%" py="4">
                         <HStack px="5" w="100%" space="0" alignItems="center" justifyContent="space-between">
                             <VStack bg="red" w="100%" maxW={['95%', '80%', '70%']} space="0">
-                                <Text fontSize="md">My Sub-registration</Text>
+                                <Text fontSize="md">{event?.setting_modules_labels?.subregistration}</Text>
                             </VStack>
                             <Spacer />
                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" />

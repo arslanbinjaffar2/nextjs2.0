@@ -1,13 +1,11 @@
 import * as React from "react";
 import Svg, { Rect, Path } from "react-native-svg";
 /* SVGR has dropped some elements not supported by react-native-svg: title */
-const Microsoft = (props) => (
+const Microsoft = () => (
   <Svg
-    xmlns="http://www.w3.org/2000/svg"
     width={215}
     height={41}
     viewBox="0 0 215 41"
-    {...props}
   >
     <Rect width={215} height={41} fill="#fff" />
     <Path d="M214,1V40H1V1H214m1-1H0V41H215V0Z" fill="#8c8c8c" />

@@ -172,7 +172,7 @@ const AuthSlice = createSlice({
                 ...state.onboarding,
                 ...action.payload
             };
-        },
+        }
     },
 });
 

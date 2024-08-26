@@ -1,4 +1,4 @@
-# NativeBase + Solito Starter Template
+# NativeBase + Solito Starter Template 
 
 For a long long time the React Native community has been looking for a way to make Universal Apps a reality, and the major roadblock that was stopping us was Navigation. Solito is most probably the answer to that, and as we know NativeBase already works on all the three platforms. It’s a match made in heaven. So now your next can run with the same codebase on all the 3 platforms and we are here to show you how?
 
@@ -7,19 +7,19 @@ For a long long time the React Native community has been looking for a way to ma
 
 We have already done the hard work for you and created a starter kit for you to start with.
 
-## Getting Started  
+## Getting Started 
 
 - Clone the repo: [https://github.com/GeekyAnts/nativebase-templates/tree/master/solito-universal-app-template-nativebase-typescript](https://github.com/GeekyAnts/nativebase-templates/tree/master/solito-universal-app-template-nativebase-typescript)
 - Run `yarn` or `npm install` on the root directory.
 - Then run `yarn` or `npm install` in apps/expo and apps/next.
 - Now run `yarn` or `npm install` in packages/app.
 
-That’s it your starter kit is ready to be used. 
+That’s it your starter kit is ready to be used.
 
 All your screens and components will be present in packages/app and this can be accessed in the next and expo projects.
 
-Expo
-email => mms@eventbuizz.com
+Expo 
+email => mms@eventbuizz.com 
 Password: *Eventbuizz@2023*
 
 ## Commands

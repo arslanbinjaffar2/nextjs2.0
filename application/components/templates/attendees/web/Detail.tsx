@@ -29,7 +29,7 @@ import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import ButtonElement from 'application/components/atoms/ButtonElement'
-import { Platform } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import { getColorScheme } from "application/styles/colors";
 import ModuleEnabled from 'application/utils/ModuleEnabled';
@@ -43,6 +43,8 @@ type Props = {
 }
 
 const Detail = ({ speaker }: Props) => {
+
+    const { width } = useWindowDimensions();
 
     const RenderHtml = require('react-native-render-html').default;
 
@@ -223,7 +225,7 @@ const Detail = ({ speaker }: Props) => {
                                                                 } else if (speaker === 0 && row?.tab_name === 'sub_registration' && row?.status == 1 && detail?.sub_registration_module_status === 1 && detail?.sub_registration && (response?.data?.user?.id == _id)) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('sub_registration')} bg={tab === 'sub_registration' ? 'primary.boxbutton' : 'primary.box'}>
-                                                                            {modules?.find((module)=>(module.alias == 'subregistration'))?.name ?? 'Sub registrations'}</ButtonElement>
+                                                                            {event?.modules_labels?.subregistration}</ButtonElement>
                                                                     )
                                                                 }
                                                             })()
@@ -234,7 +236,7 @@ const Detail = ({ speaker }: Props) => {
                                               
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<RenderHtml
 																									defaultTextProps={{selectable:true}}
-																									contentWidth={600}
+																									contentWidth={width > 600 ? 600 : width - 90}
 																									systemFonts={['Avenir']}
 																									tagsStyles={mixedStyle}
 																									source={{ html: detail?.detail?.info?.about! }}

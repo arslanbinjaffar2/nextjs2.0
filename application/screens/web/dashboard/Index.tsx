@@ -269,7 +269,7 @@ const Index = ({ navigation }: indexProps) => {
                         <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
                           <RenderHtml
                               defaultTextProps={{selectable:true}}
-                              contentWidth={600}
+                              contentWidth={width > 600 ? 600 : width - 90}
                               systemFonts={['Avenir']}
                               tagsStyles={mixedStyle}
                               source={{ html: custom_html[0]?.custom_html_1?.content ?? '' }}
@@ -287,7 +287,7 @@ const Index = ({ navigation }: indexProps) => {
                         <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
                           <RenderHtml
                               defaultTextProps={{selectable:true}}
-                              contentWidth={600}
+                              contentWidth={width > 600 ? 600 : width - 90}
                               systemFonts={['Avenir']}
                               tagsStyles={mixedStyle}
                               source={{ html: custom_html[0]?.custom_html_2?.content ?? '' }}
@@ -305,7 +305,7 @@ const Index = ({ navigation }: indexProps) => {
                         <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
                           <RenderHtml
                               defaultTextProps={{selectable:true}}
-                              contentWidth={600}
+                              contentWidth={width > 600 ? 600 : width - 90}
                               systemFonts={['Avenir']}
                               tagsStyles={mixedStyle}
                               source={{ html: custom_html[0]?.custom_html_3?.content ?? '' }}

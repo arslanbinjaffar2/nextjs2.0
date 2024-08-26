@@ -7,10 +7,12 @@ import UseAttendeeService from "application/store/services/UseAttendeeService";
 import { useRouter } from "solito/router";
 import UseLoadingService from "application/store/services/UseLoadingService";
 import SectionLoading from "application/components/atoms/SectionLoading";
+import { useWindowDimensions } from "react-native";
 
 const Disclaimer = () => {
     const { logout, updateOnboarding, onboarding } = UseAuthService()
     const { addDisclaimerlog } = UseAttendeeService();
+    const { width } = useWindowDimensions();
     const RenderHtml = require('react-native-render-html').default;
     const { event, FetchEvent, event_url } = UseEventService()
     const {loading} = UseLoadingService();
@@ -78,7 +80,7 @@ const Disclaimer = () => {
                 </HStack>
                 <RenderHtml
                     defaultTextProps={{ selectable: true }}
-                    contentWidth={600}
+                    contentWidth={width > 600 ? 600 : width - 90}
                     systemFonts={['Avenir']}
                     tagsStyles={mixedStyle}
                     source={{ html: event?.event_disclaimer }}

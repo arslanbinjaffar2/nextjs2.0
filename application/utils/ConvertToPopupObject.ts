@@ -22,6 +22,17 @@ const ConvertToPopupObject = (notification:any, type: string): any => {
             url:'/settings/myquestions/detail/'+notification?.data?.question?.id,
         }
     }
+    if(type == 'hd_answer'){
+        return  {
+            type:'hd_answer',
+            title:notification?.title+ " Help Desk",
+            text:notification?.text,
+            data:notification?.data,
+            btnLeftText:notification?.btnLeftText,
+            btnRightText:notification?.btnRightText,
+            url:'/settings/hdquestions/detail/'+notification?.data?.question?.id,
+        }
+    }
     if(type == 'poll'){
         return  {
             type:'poll',

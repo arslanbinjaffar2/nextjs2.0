@@ -83,7 +83,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
         <Box mb={3} bg="primary.box" p="0" w={'100%'} rounded="10">
             <Container borderWidth="0" borderColor="primary.darkbox" bg="primary.primarycolor" rounded="10" overflow="hidden" maxW="100%" w="100%">
                 <Box w="100%" p="4" py="5" rounded="10">
-                    <HStack mb="4" space="5" alignItems={'center'}>
+                    <HStack mb="4" space="0" alignItems={'center'}>
                         {detail?.detail?.image && isPrivate.profile_picture === 0 ? (
                             <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
                         ) : (
@@ -94,8 +94,8 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 bg={'#A5A5A5'}
                             >{detail?.detail?.first_name && detail?.detail?.last_name ? detail?.detail?.first_name?.substring(0, 1) + detail?.detail?.last_name?.substring(0, 1) : detail?.detail?.first_name?.substring(0, 1)}</Avatar>
                         )}
-                        <VStack w="calc(100% - 200px)" space="0">
-                            <Text lineHeight="sm" fontSize="xl">
+                        <VStack px={5} pr={2} w="calc(100% - 160px)" space="0">
+                            <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="xl">
                                 {`${detail?.detail?.first_name}`} {detail?.sort_field_setting.find((s: any) => (s.name === 'last_name')) && detail?.detail?.last_name}
                             </Text>
                             {detail?.detail?.info &&
@@ -131,11 +131,11 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                     variant="transparent"
                                     px="3"
                                     onPress={() => { push(`/${event.url}/chat/new/${detail?.detail?.id}`) }}
-                                    icon={<Icochat width="20" height="28"/>}
+                                    icon={<Icochat width="20" height="28" color={func.colorType(event?.settings?.primary_color)} />}
                             />}
                             {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
                                 <Pressable onPress={() => { toggleFav() }}>
-                                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : ''} />
+                                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : func.colorType(event?.settings?.primary_color)} />
                                 </Pressable>
                             )}
 
@@ -147,11 +147,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                     <DynamicIcon iconType="edit_order" iconProps={{ width: 20, height: 22, color: func.colorType(event?.settings?.primary_color) }}  />
                                 </Pressable>
                             ) : null}
-                            {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
-                                <Pressable onPress={() => { toggleFav() }}>
-                                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : func.colorType(event?.settings?.primary_color)} />
-                                </Pressable>
-                            )}
 
                         </HStack>
                     </HStack>

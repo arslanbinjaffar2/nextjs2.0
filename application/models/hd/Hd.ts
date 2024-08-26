@@ -299,6 +299,7 @@ export interface Labels {
   HD_SEND_LABEL: string;
   HD_HISTORY: string;
   HD_SEND_ANONYMOUSLY: string;
+  HD_MY_QUESTIONS: string;
 }
 
 export interface Setting {

@@ -116,7 +116,7 @@ React.useEffect(() => {
           <Box  pt={'4'}>
             <RenderHtml
                   defaultTextProps={{selectable:true}}
-                  contentWidth={600}
+                  contentWidth={width > 600 ? 600 : width - 90}
                   systemFonts={['Avenir']}
                   tagsStyles={mixedStyle}
                   source={{ html: event_detail?.event_description ?? '' }}

@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getNetworkInterestApi, getSearchMatchAttendeesApi, saveNetworkInterestApi } from 'application/store/api/NetworkInterest.Api'
+import { getNetworkInterestApi, getSearchMatchAttendeesApi, saveNetworkInterestApi, getMyKeywordsApi } from 'application/store/api/NetworkInterest.Api'
 
 import { NetworkInterestActions } from 'application/store/slices/NetworkInterest.Slice'
 
@@ -29,6 +29,24 @@ function* OnFetchNetworkInterests({
 
 }
 
+
+function* OnFetchMyKeywords({
+}: {
+    type: typeof NetworkInterestActions.FetchMyKeywords
+}): SagaIterator {
+    yield put(LoadingActions.set(true))
+    yield put(LoadingActions.addProcess({ process: 'keywords' }))
+    const state = yield select(state => state);
+    const response: HttpResponse = yield call(getMyKeywordsApi, {}, state)
+    yield put(NetworkInterestActions.update({ keywords: response.data.data! }))
+    if(response?.data?.data.length <= 0){
+        yield put(NetworkInterestActions.setSkip({event_url:state?.event?.event_url}));
+    }
+    yield put(LoadingActions.set(false));
+    yield put(LoadingActions.removeProcess({ process: 'keywords' }))
+
+}
+
 function* OnSaveMykeywords({
     payload
 }: {
@@ -38,6 +56,8 @@ function* OnSaveMykeywords({
     yield put(LoadingActions.addProcess({ process: 'search-match-attendees' }))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(saveNetworkInterestApi, payload, state)
+    yield put(NetworkInterestActions.saveMyKeywordSuccess({event_url:state?.event?.event_url}));
+    yield put(NetworkInterestActions.updateUpdatedMyKeywords(true));
     yield put(LoadingActions.removeProcess({ process: 'search-match-attendees' }))
     yield put(NetworkInterestActions.saveMyKeywordSuccess({event_url:state?.event?.event_url}));
 }
@@ -59,11 +79,14 @@ function* OnFetchSearchMatchAttendees({
 
 
 
+
+
 // Watcher Saga
 export function* NetworkInterestWatcherSaga(): SagaIterator {
     yield takeEvery(NetworkInterestActions.FetchNetworkInterests.type, OnFetchNetworkInterests)
     yield takeEvery(NetworkInterestActions.SaveMykeywords.type, OnSaveMykeywords)
     yield takeEvery(NetworkInterestActions.FetchSearchMatchAttendees.type, OnFetchSearchMatchAttendees)
+    yield takeEvery(NetworkInterestActions.FetchMyKeywords.type, OnFetchMyKeywords)
 }
 
 export default NetworkInterestWatcherSaga
