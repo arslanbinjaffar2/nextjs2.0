@@ -52,9 +52,9 @@ const Index = () => {
 	return (
 		<>
 			<NextBreadcrumbs title={'Profile'} />
-			<Box bg={'primary.box'} rounded={'10px'} alignItems="center" maxWidth={[width<380?'350px':"100%",'100%']}  width="100%">
-				<Box pt={6} px={[3,6]} pb={4} w={'100%'}>
-					<Box maxWidth={[width<370?'350px':"100%",'100%']}w={'100%'} position={'relative'} alignItems={'center'}>
+			<Box bg={'primary.box'} rounded={'10px'} alignItems="center"   width={"100%"}>
+				<Box pt={6} px={[3,6]} pb={4}  w={'100%'}>
+					<Box    w={'100%'} position={'relative'} alignItems={'center'}>
 						{/* {setting_modules && setting_modules?.find((module) => (module?.alias == 'editprofile')) && ( */}
 							<Button
 								position={'absolute'}
@@ -84,7 +84,7 @@ const Index = () => {
 						<Text fontWeight={'500'} pt={2} fontSize="lg" textTransform={"capitalize"}>{response?.attendee_detail?.first_name} {response?.attendee_detail?.last_name}</Text>
 
 					</Box>
-					<HStack mb={5} maxWidth={[width<370?'350px':"100%",'100%']}w={'100%'} pt={2} space="3" justifyContent={'center'} alignItems="center">
+					<HStack mb={5}   w={'100%'} pt={2} space="3" justifyContent={'center'} alignItems="center">
 						{response?.data?.user?.sort_field_setting.map((item: any) => {
 							const url = item.name === "twitter"
 								? `${response?.attendee_detail.detail?.twitter_protocol}${response?.attendee_detail.detail?.twitter}`
@@ -123,7 +123,7 @@ const Index = () => {
 							);
 						})}
 					</HStack>
-					<HStack space={["3", "10"]} flexWrap={'wrap'} justifyContent={'center'} maxWidth={[width<370?'350px':"100%",'100%']}width={'100%'} pt={5} borderTopWidth={1} borderTopColor={'primary.bordercolor'} alignItems="center">
+					<HStack space={["3", "10"]} flexWrap={'wrap'} justifyContent={'center'}   width={'100%'} pt={5} borderTopWidth={1} borderTopColor={'primary.bordercolor'} alignItems="center">
 						<Center mb={2}>
 							{response?.attendee_detail && response?.attendee_detail?.email && (
 								<HStack space="2" alignItems="center">
@@ -153,12 +153,12 @@ const Index = () => {
 
 				</Box>
 
-				<Box maxWidth={[width<370?'350px':"100%",'100%']}w={'100%'}>
+				<Box   w={'100%'}>
 					<Box mb={5} px={5} py={1} bg="primary.darkbox" >
 						<Text fontSize="md">{response.event?.labels?.REG_BASIC_INFO}</Text>
 					</Box>
 
-					<HStack alignItems={'flex-start'} justifyContent={'flex-start'} mb={4} px={5} space="3" display={['block', 'flex']} maxWidth={[width<370?'350px':"100%",'100%']}w={'100%'}>
+					<HStack alignItems={'flex-start'} justifyContent={'flex-start'} mb={4} px={5} space="3" display={['block', 'flex']}   w={'100%'}>
 						<Text fontSize="md" fontWeight={500} color={'primary.text'}>{response.event?.labels?.ATTENDEE_ABOUT}</Text>
 						<Text>
 
@@ -172,7 +172,7 @@ const Index = () => {
 							</Text>
 					</HStack>
 				</Box>
-				<HStack pb={2} flexWrap={'wrap'} display={['block', 'flex']} px={5} maxWidth={[width<370?'350px':"100%",'100%']}w={'100%'} space="0" alignItems="flex-start"
+				<HStack pb={2} flexWrap={'wrap'} display={['block', 'flex']} px={5}   w={'100%'} space="0" alignItems="flex-start"
 				 justifyContent="flex-start">
 					<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start">
 						<Center alignItems={'flex-start'} w={['140px', '180px']}>
