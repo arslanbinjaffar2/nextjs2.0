@@ -12,11 +12,11 @@ import { func } from 'application/styles';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import IcoWebCircle from 'application/assets/icons/small/IcoWebCircle';
 import IcoMobile from 'application/assets/icons/small/IcoMobile';
-import { Dimensions, Linking } from 'react-native';
+import { useWindowDimensions, Linking } from 'react-native';
 import { useRouter } from 'next/router';
 import { getColorScheme } from 'application/styles/colors';
 const Index = () => {
-	const {width}=Dimensions.get('screen')
+    const {width}=useWindowDimensions()
 	const { response } = UseAuthService();
 	const { loadSettingsModules } = UseEventService();
 	const RenderHtml = require('react-native-render-html').default;
@@ -27,7 +27,7 @@ const Index = () => {
 	const mixedStyle = {
 		body: {
 			fontFamily: 'Avenir',
-			fontSize: '16px',
+			fontSize: '14px',
 			userSelect: 'auto',
 			color: colors.text
 		},
@@ -52,7 +52,7 @@ const Index = () => {
 	return (
 		<>
 			<NextBreadcrumbs title={'Profile'} />
-			<Box bg={'primary.box'} rounded={'10px'} alignItems="center"   width={"100%"}>
+			<Box bg={'primary.box'} rounded={'10px'} alignItems="center" maxWidth={"100%"}  width={["100%","100%"]}>
 				<Box pt={6} px={[3,6]} pb={4}  w={'100%'}>
 					<Box    w={'100%'} position={'relative'} alignItems={'center'}>
 						{/* {setting_modules && setting_modules?.find((module) => (module?.alias == 'editprofile')) && ( */}
@@ -62,11 +62,10 @@ const Index = () => {
 								px={3}
 								py={2}
 								// leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16, color: func.colorType(event?.settings?.primary_color) }} />}
-								leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16, color:'primary.text' }} />}
+								leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16}} />}
 								top={0}
 								colorScheme="primary"
 								_text={{ color: "primary.text", fontWeight: 500 }}
-								// _hover={{ color: 'primary.hovercolor' }}
 								onPress={() => {
 									router.push(`/${event.url}/settings/editprofile`)
 								}}>
@@ -75,7 +74,7 @@ const Index = () => {
 						{/* )} */}
 
 						<Avatar
-							size={'130px'}
+							size={['130px']}
 							source={{
 								uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`
 							}}>
@@ -140,7 +139,6 @@ const Index = () => {
 								</HStack>
 							</Center>
 						)}
-						{console.log(response.attendee_detail, 'profile')}
 						{response?.attendee_detail && response?.attendee_detail?.website && (
 							<Center mb={2}>
 								<HStack space="2" alignItems="center">
@@ -153,7 +151,7 @@ const Index = () => {
 
 				</Box>
 
-				<Box   w={'100%'}>
+				<Box  w={'100%'}>
 					<Box mb={5} px={5} py={1} bg="primary.darkbox" >
 						<Text fontSize="md">{response.event?.labels?.REG_BASIC_INFO}</Text>
 					</Box>
@@ -230,43 +228,60 @@ const Index = () => {
 							<Text fontSize="md">{response?.attendee_detail?.detail?.interests}</Text>
 						</Center>
 					</HStack>
-					{response?.data?.user?.sort_field_setting?.map((item: any) => {
-						if (response?.attendee_detail?.attendee_cv && item.name === "resume") {
-							return (
-								<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start" key={item.name}>
-									<Center alignItems={'flex-start'} w={['140px', '180px']}>
-										<Text fontWeight={500} fontSize="md">Resume:</Text>
-									</Center>
-									<Center>
-										<HStack space="1" alignItems="center">
-											<Icon as={AntDesign} color={'primary.text'} name="pdffile1" size={'md'} />
-											<Text  fontSize="md">.</Text>
-											{item.is_private === 0 ? (
-												<Pressable
+						{response?.data?.user?.sort_field_setting?.map((item: any) => {
+							if (response?.attendee_detail?.attendee_cv && item.name === "resume") {
+								return (
+									<HStack w={['100%', '50%']} mb={4} alignItems={["flex-start","center"]} space="3"  justifyContent="flex-start" key={item.name}>
+										<Center alignItems={'flex-start'} w={['140px', '180px']}>
+											<Text fontWeight={500} fontSize="md">Resume:</Text>
+										</Center>
+										<Center>
+											<HStack space="1" alignItems={["flex-start","center"]} flexWrap={'wrap'}>
+												<Icon as={AntDesign} color={'primary.text'} name="pdffile1" size={'md'} />
+												{item.is_private === 0 ? (
+													<HStack space={'2'} flexWrap={'wrap'}  flexDirection={['column',width<=1024?'column':'row']} >
+													<Pressable
+														onPress={async () => {
+															const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`;
+															const supported = await Linking.canOpenURL(url);
+															if (supported) {
+																await Linking.openURL(url);
+															}
+														}}>
+														<Text color={'primary.500'} textDecorationLine={'underline'} fontSize="sm" isTruncated width={'full'}>
+															{response?.attendee_detail?.attendee_cv}
+														</Text>
+													</Pressable>
+														<HStack flexDirection={'row'} space={2} mt={[1,0]}>
+														<Text fontSize={'md'}>.</Text>
+														
+													<Pressable
 													onPress={async () => {
 														const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`;
 														const supported = await Linking.canOpenURL(url);
 														if (supported) {
 															await Linking.openURL(url);
 														}
-													}}>
-													<Text color={'primary.500'} textDecorationLine={'underline'} fontSize="sm">
+													}}
+													
+													>
+														<Text color={'#05E0E0'}  textDecorationLine={'underline'} fontSize="sm">Download</Text>
+													</Pressable> 
+														</HStack>
+													</HStack>
+												) : (
+													<Text  fontSize="sm">
 														{response?.attendee_detail?.attendee_cv}
 													</Text>
-												</Pressable>
-											) : (
-												<Text  fontSize="sm">
-													{response?.attendee_detail?.attendee_cv}
-												</Text>
-											)}
-										</HStack>
-									</Center>
-								</HStack>
-							);
-						} else {
-							return null;
-						}
-					})}
+												)}
+											</HStack>
+										</Center>
+									</HStack>
+								);
+							} else {
+								return null;
+							}
+						})}
 				</HStack>
 			</Box>
 		</>
