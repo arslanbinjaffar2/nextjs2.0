@@ -50,7 +50,7 @@ const Index = () => {
                                     AddToast({ toast: { message: "Congratulations! Your notes has been sent through email", status: "success" } })
                                 }}
                             >
-                                <DynamicIcon iconType={'email_icon'} iconProps={{ width: 28, height: 14 }} />
+                                <DynamicIcon iconType={'sendMail'} iconProps={{ width: 26, height: 15 }} />
                             </Pressable>
 
                         </Box>
