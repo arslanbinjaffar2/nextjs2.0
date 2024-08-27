@@ -1,5 +1,4 @@
 import { HomeMyEvent } from "application/models/FetchEvent";
-
 export interface Event {
     id?: number;
     organizer_name?: string;
@@ -81,9 +80,9 @@ export interface Event {
     eventsite_settings?: EventSiteSettings
     keyword_settings?: KeywordSettings
     document_settings?: DocumentSettings
-    calling_code?: any
     sponsor_tab_settings?: any
     exhibitor_tab_settings?: any
+    calling_code?: any
     event_language_code?: string
     attendee_tab_settings?: any
     agenda_tab_settings?: AgendaTabSetting[]

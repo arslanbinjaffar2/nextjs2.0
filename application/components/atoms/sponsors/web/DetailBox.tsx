@@ -12,6 +12,7 @@ import UseToastService from 'application/store/services/UseToastService';
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from 'in_array';
 import { getColorScheme } from "application/styles/colors";
+import { useWindowDimensions } from 'react-native';
 
 type AppProps = {
     detail: SponsorDetail|null,
@@ -19,6 +20,8 @@ type AppProps = {
 
 const DetailBox = ({ detail }: AppProps) => {
 
+
+    const { width } = useWindowDimensions();
     const RenderHtml = require('react-native-render-html').default;
     
     const {AddToast}=UseToastService()
@@ -136,7 +139,7 @@ const DetailBox = ({ detail }: AppProps) => {
                         <Divider mb="3" bg="primary.text" />
                          <RenderHtml
                             defaultTextProps={{selectable:true}}
-                            contentWidth={600}
+                            contentWidth={width > 600 ? 600 : width - 90}
                             systemFonts={['Avenir']}
                             tagsStyles={mixedStyle}
                             source={{ html: detail?.detail?.description }}

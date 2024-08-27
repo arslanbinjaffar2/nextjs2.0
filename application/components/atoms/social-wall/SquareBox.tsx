@@ -19,6 +19,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { GalleryImage } from 'application/models/gallery/GalleryImage';
 import WebLoading from 'application/components/atoms/WebLoading';
 import SectionLoading from 'application/components/atoms/SectionLoading';
+import { colorText } from 'application/styles/colors'
 
 
 type AppProps = {

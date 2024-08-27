@@ -136,7 +136,7 @@ const DetailBox = ({ detail }: AppProps) => {
                         <Divider mb="3" bg="primary.text" />
                         <RenderHtml
                             defaultTextProps={{selectable:true}}
-                            contentWidth={600}
+                            contentWidth={width > 600 ? 600 : width - 90}
                             systemFonts={['Avenir']}
                             tagsStyles={mixedStyle}
                             source={{ html: detail?.detail?.description }}

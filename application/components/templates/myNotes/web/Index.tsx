@@ -10,7 +10,7 @@ import { useRouter } from 'solito/router';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseToastService from 'application/store/services/UseToastService';
-
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 const Index = () => {
     const { push } = useRouter()
     const { loading } = UseLoadingService();
@@ -20,7 +20,7 @@ const Index = () => {
     const module = modules.find((module) => module.alias === 'my_notes');
     function getValueByNameModule(name: string) {
         let ModuleName:any = modules.find((module: any) => module.alias == name);
-        ModuleName=ModuleName?.icon.replace('.png', '') 
+        ModuleName=ModuleName?.icon.replace('-','_').replace('.png', '')
         return ModuleName
     }
 
@@ -34,7 +34,7 @@ const Index = () => {
     }, []);
     return (
         <>
-            {(loading && myNotes) ? (
+            {loading ? (
                 <SectionLoading />
             ) : (
                 <>
@@ -50,86 +50,94 @@ const Index = () => {
                                     AddToast({ toast: { message: "Congratulations! Your notes has been sent through email", status: "success" } })
                                 }}
                             >
-                                <DynamicIcon iconType={'email_icon'} iconProps={{ width: 28, height: 14 }} />
+                                <DynamicIcon iconType={'sendMail'} iconProps={{ width: 26, height: 15 }} />
                             </Pressable>
 
                         </Box>
 
                     </HStack>
-                    <Container pt="2" maxW="100%" w="100%" >
-                        <Box mb="3" bg={`${myNotes ? "primary.box" : ""}`} p="0" w="100%" overflow="hidden" rounded={"lg"} >
-                            {myNotes && myNotes.program_notes &&
+                  <Container pt="2" maxW="100%" w="100%">
+                    <Box mb="3" bg={`${myNotes ? "primary.box" : ""}`} p="0" w="100%" overflow="hidden" rounded={"lg"}>
+                        {myNotes && modules?.find((module) => (
+                            module?.alias == 'agendas' || 
+                            module?.alias == 'exhibitors' || 
+                            module?.alias == 'sponsors' || 
+                            module?.alias == 'ddirectory'
+                        )) ? (
+                            <>
+                            {myNotes.program_notes && myNotes.program_notes.length > 0 && 
+                            modules?.find((module) => module?.alias == 'agendas') &&  myNotes.program_notes.some(note => note.notes.trim() !== "") && (
                                 <Pressable onPress={() => {
-                                    push(`/${event.url}/my_notes/detail/programs`)
+                                    push(`/${event.url}/my_notes/detail/programs`);
                                 }}>
-                                    <HStack borderTopColor="primary.bordercolor" px={["3","4"]}  py="5" space="4" alignItems="center" justifyContent={'space-between'}>
-                                        <Box flexDirection={'row'} alignItems={'center'} >
-                                        <DynamicIcon iconType={getValueByNameModule('agendas')} iconProps={{ width: 16, height: 16 }} />
-                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('agendas')} ({myNotes.program_notes.length})</Text>
+                                    <HStack borderTopColor="primary.bordercolor" px={["3", "4"]} py="5" space="4" alignItems="center" justifyContent={'space-between'}>
+                                        <Box flexDirection={'row'} alignItems={'center'}>
+                                            <DynamicIcon iconType={getValueByNameModule('agendas')} iconProps={{ width: 16, height: 16 }} />
+                                            <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('agendas')} ({myNotes.program_notes.length})</Text>
                                         </Box>
                                         {myNotes.program_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                         }
                                     </HStack>
                                 </Pressable>
-                            }
-
-                            {myNotes && myNotes.exhibitor_notes &&
+                            )}
+                            {myNotes.exhibitor_notes && myNotes.exhibitor_notes.length > 0 && modules?.find((module) => module?.alias == 'exhibitors') &&  myNotes.exhibitor_notes.some(note => note.notes.trim() !== "") && (
                                 <Pressable onPress={() => {
-                                    push(`/${event.url}/my_notes/detail/exhibitors`)
+                                    push(`/${event.url}/my_notes/detail/exhibitors`);
                                 }}>
-                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px={["3","4"]} py="5" space="4" alignItems="center" justifyContent={'space-between'}>
-                                    <Box flexDirection={'row'} alignItems={'center'}>
-                                    <DynamicIcon iconType={getValueByNameModule('exhibitors')}  iconProps={{ width: 16, height: 16 }} />
-                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('exhibitors')} ({myNotes.exhibitor_notes.length})</Text>
-                                    </Box>
-
+                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px={["3", "4"]} py="5" space="4" alignItems="center" justifyContent={'space-between'}>
+                                        <Box flexDirection={'row'} alignItems={'center'}>
+                                            <DynamicIcon iconType={getValueByNameModule('exhibitors')} iconProps={{ width: 16, height: 16 }} />
+                                            <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('exhibitors')} ({myNotes.exhibitor_notes.length})</Text>
+                                        </Box>
                                         {myNotes.exhibitor_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                         }
                                     </HStack>
                                 </Pressable>
-                            }
-                            {myNotes && myNotes.sponsor_notes &&
+                            )}
+                            {myNotes.sponsor_notes && myNotes.sponsor_notes.length > 0 && modules?.find((module) => module?.alias == 'sponsors')  &&  myNotes.sponsor_notes.some(note => note.notes.trim() !== "") && (
                                 <Pressable onPress={() => {
-                                    push(`/${event.url}/my_notes/detail/sponsors`)
+                                    push(`/${event.url}/my_notes/detail/sponsors`);
                                 }}>
-                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px={["3","4"]}  py="5" space="4" alignItems="center"
-                                    justifyContent={'space-between'}
-                                    >
-                                    <Box flexDirection={'row'} alignItems={'center'}>
-
-                                    <DynamicIcon iconType={getValueByNameModule('sponsors')}   iconProps={{ width: 16, height: 16 }} />
-                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('sponsors')} ({myNotes.sponsor_notes.length})</Text>
-                                    </Box>
-
+                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px={["3", "4"]} py="5" space="4" alignItems="center" justifyContent={'space-between'}>
+                                        <Box flexDirection={'row'} alignItems={'center'}>
+                                            <DynamicIcon iconType={getValueByNameModule('sponsors')} iconProps={{ width: 16, height: 16 }} />
+                                            <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('sponsors')} ({myNotes.sponsor_notes.length})</Text>
+                                        </Box>
                                         {myNotes.sponsor_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                         }
                                     </HStack>
                                 </Pressable>
-                            }
+                            )}
 
-                            {myNotes && myNotes.directory_notes &&
+                            {myNotes.directory_notes && myNotes.directory_notes.length > 0 && modules?.find((module) => module?.alias == 'ddirectory')  &&  myNotes.directory_notes.some(note => note.notes.trim() !== "") && (
                                 <Pressable onPress={() => {
-                                    push(`/${event.url}/my_notes/detail/directory`)
+                                    push(`/${event.url}/my_notes/detail/directory`);
                                 }}>
-                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px={["3","4"]}  py="5" space="4" alignItems="center" justifyContent={
-                                        'space-between'
-                                    }>
-                                    <Box flexDirection={'row'} alignItems={'center'}>
-                                       <DynamicIcon iconType={getValueByNameModule('ddirectory')} iconProps={{ width: 16, height: 16 }} />
-                                        <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('ddirectory')} ({myNotes.directory_notes.length})</Text>
-                                    </Box>
-
+                                    <HStack borderTopWidth={"1px"} borderTopColor="primary.bordercolor" px={["3", "4"]} py="5" space="4" alignItems="center" justifyContent={'space-between'}>
+                                        <Box flexDirection={'row'} alignItems={'center'}>
+                                            <DynamicIcon iconType={getValueByNameModule('ddirectory')} iconProps={{ width: 16, height: 16 }} />
+                                            <Text textTransform={'capitalize'} fontSize="lg" ml={'6px'}>{getModuleName('ddirectory')} ({myNotes.directory_notes.length})</Text>
+                                        </Box>
                                         {myNotes.directory_notes.length > 0 &&
                                             <Icon as={SimpleLineIcons} name="arrow-right" size="md" color="primary.text" />
                                         }
                                     </HStack>
                                 </Pressable>
-                            }
+                            )}
+                        </>
+                    ) : (
+                         <Box alignItems="center">
+                         {myNotes && myNotes?.length < 0 ? (
+                            <NoRecordFound bg={'primary.box'} />
+                            ): null}
                         </Box>
-                    </Container>
+                    )}
+                </Box>
+            </Container>
+
                 </>
             )}
 

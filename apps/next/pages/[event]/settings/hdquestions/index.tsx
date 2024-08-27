@@ -1,3 +1,3 @@
-import Index from 'application/screens/web/settings/emailmynotes/Index';
+import Index from 'application/screens/web/settings/hdquestions/Index';
 
 export default Index

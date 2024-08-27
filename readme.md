@@ -14,19 +14,19 @@ We have already done the hard work for you and created a starter kit for you to 
 - Then run `yarn` or `npm install` in apps/expo and apps/next.
 - Now run `yarn` or `npm install` in packages/app.
 
-That’s it your starter kit is ready to be used. 
+That’s it your starter kit is ready to be used.
 
 All your screens and components will be present in packages/app and this can be accessed in the next and expo projects.
 
-Expo
+Expo 
 email => mms@eventbuizz.com
 Password: *Eventbuizz@2023*
 
-## Commands 
+## Commands
 
 eas build
 eas build:status
 npx expo -h
 eas build:list
 eas build --platform android --profile development
-eas build:run -p android => install build to emulator 
+eas build:run -p android => install build to emulator

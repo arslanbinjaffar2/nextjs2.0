@@ -17,6 +17,7 @@ export interface NetworkInterestState {
     skip:boolean,
     searchMatchAttendees:Attendee[]|null
     searchingAttendees:boolean
+    updatedMyKeywords:boolean
 }
 
 const initialState: NetworkInterestState = {
@@ -25,6 +26,7 @@ const initialState: NetworkInterestState = {
     skip:false,
     searchMatchAttendees:null,
     searchingAttendees:false,
+    updatedMyKeywords:false,
 }
 
 // Slice
@@ -77,6 +79,10 @@ export const NetworkInterestSlice = createSlice({
             } else {
                 AsyncStorageClass.removeItem(`keyword_skip_${action.payload.event_url}`);
             }
+        },
+        FetchMyKeywords(){},
+        updateUpdatedMyKeywords(state, action: PayloadAction<boolean>){
+            state.updatedMyKeywords = action.payload;
         }
     },
 })
@@ -91,6 +97,8 @@ export const NetworkInterestActions = {
     FetchSearchMatchAttendees:NetworkInterestSlice.actions.FetchSearchMatchAttendees,
     updateSearchMatchAttendees:NetworkInterestSlice.actions.updateSearchMatchAttendees,
     clearState:NetworkInterestSlice.actions.clearState,
+    FetchMyKeywords:NetworkInterestSlice.actions.FetchMyKeywords,
+    updateUpdatedMyKeywords:NetworkInterestSlice.actions.updateUpdatedMyKeywords,
 }
 
 export const SelectNetworkInterests = (state: RootState) => state.networkInterest.keywords
@@ -98,6 +106,7 @@ export const SelectUpdatingMyKeywords = (state: RootState) => state.networkInter
 export const SelectNetworkSkip = (state: RootState) => state.networkInterest.skip
 export const SelectSearchMatchAttendees = (state: RootState) => state.networkInterest.searchMatchAttendees
 export const SelectSearchingAttendees = (state: RootState) => state.networkInterest.searchingAttendees
+export const SelectUpdatedMyKeywords = (state: RootState) => state.networkInterest.updatedMyKeywords
 
 
 

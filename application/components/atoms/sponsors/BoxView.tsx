@@ -44,11 +44,17 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
     }, [sponsor.attendee_sponsors])
     
     function toggleFav(){
-       if(in_array( `sponsor-fav-${sponsor.id}`,processing)){
+        if(isFav){
+          
+            setIsFav(false)
+        }else{
+            setIsFav(true)
+        }
+        if(in_array( `sponsor-fav-${sponsor.id}`,processing)){
             return;
         }
         setIsFav(!isFav);
-         MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
+        MakeFavourite({ sponsor_id: sponsor.id, screen: screen ? screen : 'listing' });
     }
    const [isOpen,setIsOpen]=useState(false)
     return (
@@ -163,13 +169,13 @@ const BoxView = ({ k, sponsor, w, screen }: AppProps) => {
 																										px={1}
 																										py={0}
 																										mr={2}
-                                                                                                        _text={{fontSize: 'sm', lineHeight: 24}}
+																										_text={{fontSize: 'sm', lineHeight: 24}}
 																										position={'relative'}
 																										left={`${(measureText(sponsor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(sponsor?.categories[0]?.info.name, 14)) + 28 + (1 * 10)}px`}
 																										rounded={'full'}
 																										{...triggerProps}
 																									>
-                                                                                                            {`+${ sponsor.categories.length - 3}`}
+																										{`+${ sponsor.categories.length - 3}`}
 																									</Button>
 																								}}>
 																						<Popover.Content borderColor={'primary.500'} bgColor={'primary.500'}>

@@ -9,7 +9,7 @@ const IcoLongArrow = (props: SvgProps) => {
   const { event } = UseEventService()
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
 
-  const fill = props.color ? props.color : colors.text ? colors.text : '#ffffff';
+  const fill = props.color ? props.color : colors.text;
 
 
 

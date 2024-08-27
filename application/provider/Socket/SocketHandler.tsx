@@ -54,7 +54,7 @@ const SocketHandler = () => {
       message: ChatMessage;
     }
     const {AddToast} = UseToastService();
-    const {PushMessageToChat} = UseChatService();
+    const {PushMessageToChat,FetchChats} = UseChatService();
 
     React.useEffect(() => {
       
@@ -128,6 +128,25 @@ const SocketHandler = () => {
      
       });
 
+      socketConnect.on(`event-buizz:hd_admin_block_answer_${event?.id}_${response?.attendee_detail?.id}`, function (data:any):any {
+        console.log(data, 'data answer');
+        if(nextRouter.asPath.includes('settings/hdquestions/detail') && data?.question?.id == detailId){
+        }else {
+          let description = event?.labels?.GENERAL_PLEASE_CLICK.replace('{message_detail}', event?.labels?.GENERAL_MESSAGE_DETAIL);
+          AddNotification({
+            notification:{
+              type:'hd_answer',
+              title: event?.labels?.GENERAL_CHAT_NEW_MESSAGE_FROM,
+              text: description,
+              btnLeftText:event?.labels?.GENERAL_OK,
+              btnRightText:event?.labels?.GENERAL_MESSAGE_DETAIL,
+              data: data
+            }
+          })
+        }
+     
+      });
+
       socketConnect.on(`event-buizz:social_wall_post_updated_${event?.id}`, function (data:any):any {
         console.log(data, 'data');
         SocialWallPostsUpdated({post:data.post});
@@ -157,6 +176,10 @@ const SocketHandler = () => {
           console.log('push to the state');
           PushMessageToChat({message:data?.message,thread_id:data?.thread_id});
         }else{
+          // refresh chats if user is on chat listing page
+          if(nextRouter.asPath.includes('chat') && !nextRouter.asPath.includes('chat/detail')){
+            FetchChats({search:'',doNotShowLoading:true});
+          }
           // show popup to user about the new message
           console.log('adding toast');
           AddNotification({
@@ -176,7 +199,7 @@ const SocketHandler = () => {
         socketConnect.disconnect();
         SetSocket(null);
       }
-    }, [options, _env?.socket_connection_server,detailId]);
+    }, [options, _env?.socket_connection_server,detailId,nextRouter.asPath]);
     
     
 

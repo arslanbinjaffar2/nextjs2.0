@@ -1,5 +1,6 @@
 import React from 'react'
 import Icoribbon from 'application/assets/icons/Icoribbon';
+import Icochat from 'application/assets/icons/chat';
 import Icoresume from 'application/assets/icons/Icoresume';
 import Icohotelbed from 'application/assets/icons/Icohotelbed';
 import IcoClipboard from 'application/assets/icons/small/IcoClipboard';
@@ -68,12 +69,21 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
           return true;
         }
       }, [detail?.detail?.current_event_attendee?.speaker, event?.speaker_settings?.attendee_can_book_meeting_with_speaker]);
+
+      const attendeeCanChat = React.useMemo(() => {
+        const chat_module_on = modules.filter((module: any) => module?.alias === 'chat').length > 0 ? true : false
+        if (detail?.detail?.current_event_attendee?.speaker === '1') {
+          return chat_module_on && event?.speaker_settings?.chat === 1 ;
+        } else {
+          return chat_module_on;
+        }
+      }, [detail?.detail?.current_event_attendee?.speaker, event?.speaker_settings?.attendee_can_book_meeting_with_speaker]);
  
     return (
         <Box mb={3} bg="primary.box" p="0" w={'100%'} rounded="10">
             <Container borderWidth="0" borderColor="primary.darkbox" bg="primary.primarycolor" rounded="10" overflow="hidden" maxW="100%" w="100%">
                 <Box w="100%" p="4" py="5" rounded="10">
-                    <HStack mb="4" space="5" alignItems={'center'}>
+                    <HStack mb="4" space="0" alignItems={'center'}>
                         {detail?.detail?.image && isPrivate.profile_picture === 0 ? (
                             <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${detail?.detail?.image}` }} alt="" w="50px" h="50px" />
                         ) : (
@@ -84,7 +94,7 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 bg={'#A5A5A5'}
                             >{detail?.detail?.first_name && detail?.detail?.last_name ? detail?.detail?.first_name?.substring(0, 1) + detail?.detail?.last_name?.substring(0, 1) : detail?.detail?.first_name?.substring(0, 1)}</Avatar>
                         )}
-                        <VStack w="calc(100% - 160px)" space="0">
+                        <VStack px={5} pr={2} w="calc(100% - 160px)" space="0">
                             <Text color={'primary.hovercolor'} lineHeight="sm" fontSize="xl">
                                 {`${detail?.detail?.first_name}`} {detail?.sort_field_setting.find((s: any) => (s.name === 'last_name')) && detail?.detail?.last_name}
                             </Text>
@@ -117,7 +127,19 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                         </VStack>
                         <Spacer />
                         <HStack flexDirection="row" alignItems="center" justifyContent="space-between" space="3">
-                        {speaker === 0 &&
+                            {attendeeCanChat && <IconButton
+                                    variant="transparent"
+                                    px="3"
+                                    onPress={() => { push(`/${event.url}/chat/new/${detail?.detail?.id}`) }}
+                                    icon={<Icochat width="20" height="28" color={func.colorType(event?.settings?.primary_color)} />}
+                            />}
+                            {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
+                                <Pressable onPress={() => { toggleFav() }}>
+                                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : func.colorType(event?.settings?.primary_color)} />
+                                </Pressable>
+                            )}
+
+                            {speaker === 0 &&
                                 detail?.hasOrderItems &&
                                 event?.attendee_settings?.display_registration_invoice == 1 &&
                                 detail?.detail?.id === response?.attendee_detail?.id ? (
@@ -125,11 +147,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                     <DynamicIcon iconType="edit_order" iconProps={{ width: 20, height: 22, color: func.colorType(event?.settings?.primary_color) }}  />
                                 </Pressable>
                             ) : null}
-                            {speaker == 0 && event.attendee_settings?.mark_favorite == 1 && (
-                                <Pressable onPress={() => { toggleFav() }}>
-                                    <Icoribbon width="20" height="28" color={isFav ? event?.settings?.secondary_color : func.colorType(event?.settings?.primary_color)} />
-                                </Pressable>
-                            )}
 
                         </HStack>
                     </HStack>

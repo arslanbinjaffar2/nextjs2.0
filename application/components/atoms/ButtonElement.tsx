@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { Button, Text, View } from 'native-base';
+import { colorText } from 'application/styles/colors';
+import { UseEventService } from 'application/store/services';
 
 const ButtonElement = ({ onPress, bg, children, minW, isDisabled }: any) => {
     const [hover, sethover] = React.useState(false)
     const tb1 = React.useRef<HTMLDivElement>(null);
     const [loaded,setLoaded] = React.useState(0)
+    const {event}=UseEventService()
     React.useEffect(() => {
       setLoaded(1)
     }, [])

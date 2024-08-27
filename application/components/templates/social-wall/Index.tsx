@@ -5,7 +5,6 @@ import AddPost from 'application/components/atoms/social-wall/AddPost';
 import UseBannerService from 'application/store/services/UseBannerService';
 import UseEnvService from 'application/store/services/UseEnvService';
 import { Banner } from 'application/models/Banner';
-import useSocialWallService from 'application/store/services/UseSocialWallService'
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds';
@@ -95,9 +94,7 @@ const Index = () => {
 
         )}
         <PostListing key={refreshKey} attendee_id={0} />
-        <Box width={"100%"} height={"5%"}>
-          <BannerAds module_name={'social_wall'} module_type={'listing'} />
-        </Box>
+        <BannerAds module_name={'social_wall'} module_type={'listing'} />
       </VStack>
     </>
   );
