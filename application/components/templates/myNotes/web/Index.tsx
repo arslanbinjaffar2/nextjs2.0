@@ -66,7 +66,7 @@ const Index = () => {
                         )) ? (
                             <>
                             {myNotes.program_notes && myNotes.program_notes.length > 0 && 
-                            modules?.find((module) => module?.alias == 'agendas') &&  myNotes.program_notes.some(note => note.notes.trim() !== "") && (
+                                modules?.find((module) => module?.alias == 'agendas') &&  myNotes.program_notes.some((note: { notes: string }) => note.notes.trim() !== "") && (
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/programs`);
                                 }}>
@@ -81,7 +81,7 @@ const Index = () => {
                                     </HStack>
                                 </Pressable>
                             )}
-                            {myNotes.exhibitor_notes && myNotes.exhibitor_notes.length > 0 && modules?.find((module) => module?.alias == 'exhibitors') &&  myNotes.exhibitor_notes.some(note => note.notes.trim() !== "") && (
+                            {myNotes.exhibitor_notes && myNotes.exhibitor_notes.length > 0 && modules?.find((module) => module?.alias == 'exhibitors') &&  myNotes.exhibitor_notes.some((note: { notes: string }) => note.notes.trim() !== "") && (
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/exhibitors`);
                                 }}>
@@ -96,7 +96,7 @@ const Index = () => {
                                     </HStack>
                                 </Pressable>
                             )}
-                            {myNotes.sponsor_notes && myNotes.sponsor_notes.length > 0 && modules?.find((module) => module?.alias == 'sponsors')  &&  myNotes.sponsor_notes.some(note => note.notes.trim() !== "") && (
+                            {myNotes.sponsor_notes && myNotes.sponsor_notes.length > 0 && modules?.find((module) => module?.alias == 'sponsors')  &&  myNotes.sponsor_notes.some((note: { notes: string }) => note.notes.trim() !== "") && (
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/sponsors`);
                                 }}>
@@ -112,7 +112,7 @@ const Index = () => {
                                 </Pressable>
                             )}
 
-                            {myNotes.directory_notes && myNotes.directory_notes.length > 0 && modules?.find((module) => module?.alias == 'ddirectory')  &&  myNotes.directory_notes.some(note => note.notes.trim() !== "") && (
+                            {myNotes.directory_notes && myNotes.directory_notes.length > 0 && modules?.find((module) => module?.alias == 'ddirectory')  &&  myNotes.directory_notes.some((note: { notes: string }) => note.notes.trim() !== "") && (
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/directory`);
                                 }}>
