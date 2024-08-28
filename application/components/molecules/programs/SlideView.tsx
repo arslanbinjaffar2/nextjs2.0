@@ -204,7 +204,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 		setDates(programs[value]);
 	}
 	const { push } = useRouter();
-	const limit = 5;
+	const limit = 1000;
 	
 
 	return (
