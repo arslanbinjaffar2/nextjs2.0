@@ -130,9 +130,7 @@ const Index = () => {
                         </>
                     ) : (
                          <Box alignItems="center">
-                         {myNotes && myNotes?.length < 0 ? (
-                            <NoRecordFound bg={'primary.box'} />
-                            ): null}
+                           <NoRecordFound bg={'primary.box'} />
                         </Box>
                     )}
                 </Box>
