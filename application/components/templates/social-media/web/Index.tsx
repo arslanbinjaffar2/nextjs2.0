@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box, Center, Container, Flex, HStack, Icon, Text, Pressable, Image } from 'native-base'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import UseLoadingService from '../../../../store/services/UseLoadingService'; 
 import UseSocialMediaService from '../../../../store/services/UseSocialMediaService'; 
 import WebLoading from 'application/components/atoms/WebLoading';
-import { Linking } from 'react-native';
-
+import {  Linking } from 'react-native';
+import { useWindowDimensions } from 'react-native';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import UseEventService from 'application/store/services/UseEventService';
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
@@ -15,7 +15,7 @@ import SectionLoading from 'application/components/atoms/SectionLoading';
 import DynamicIcon from 'application/utils/DynamicIcon';
 
 const index = () => {
-
+  const { width } = useWindowDimensions();
   const mounted = React.useRef(false);
     const { loading } = UseLoadingService();
     const { event, modules } = UseEventService()
@@ -23,9 +23,9 @@ const index = () => {
     useEffect(() => {
       FetchSocialMedias();
     }, []);
-
     const module = modules.find((module) => module.alias === 'social-media');
-    
+    const XtwiiterIconWidth = width <= 479 ? 64 : 90;
+    const XtwiiterIconHeight = width <= 479 ? 64 : 192;
   return (
     <>
       {
@@ -55,8 +55,8 @@ const index = () => {
                     
                     <Box w={["75px","90px"]} h={["75px","90px"]} shadow="1" bg={SocialStyleOptions[link.name].color} rounded="100%" alignItems="center" justifyContent="center">
                       {SocialStyleOptions[link.name].icon == "x-twitter" ?
-                      <DynamicIcon iconType={"xtwitter"} iconProps={{width:90,height:192}}/>
-                        :<Icon textAlign="center" color="#fff" size={["3xl","5xl"]} as={FontAwesome} name={SocialStyleOptions[link.name].icon} />}
+                      <DynamicIcon iconType={"xtwitter"} iconProps={{width:XtwiiterIconWidth,height:XtwiiterIconHeight}}/>
+                        :<Icon textAlign="center" color="#fff" size={["4xl","5xl"]} as={FontAwesome} name={SocialStyleOptions[link.name].icon} />}
                     </Box>
                   </Pressable>
                   </Center>
