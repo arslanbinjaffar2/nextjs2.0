@@ -5,7 +5,7 @@ For a long long time the React Native community has been looking for a way to ma
 > Note: If you are looking to make your current codebase into a universal app, It’s really tricky and different for different codebases. Feel free to reach out to us on our Discord Server with such use cases, we will try to help you out as much as we can.
 > 
 
-We have already done the hard work for you and created a starter kit for you to start with.
+We have already done the hard work for you and created a starter kit for you to start with. 
 
 ## Getting Started
 
