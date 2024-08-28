@@ -91,6 +91,7 @@ const BannerAds = ({
           url = banner.url;
         } else {
           push(`/${event.url}/sponsors/detail/${banner.sponsor_id}`);
+          return
         }
       }
       else if (banner.sponsor_id === 0 && banner.exhibitor_id === 0 && banner.agenda_id === 0 && banner.other_link_url == '' ) {

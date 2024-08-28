@@ -64,7 +64,7 @@ const RectangleView = ({ k, attendee }: AppProps) => {
               )}
             </VStack>
             <Spacer />
-                   
+
                 <Icon size="md" as={SimpleLineIcons} name="arrow-right" color="primary.text" />
         </HStack>
         </Pressable>

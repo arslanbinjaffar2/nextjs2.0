@@ -42,7 +42,7 @@ const Listing = (props: any) => {
                     <NoRecordFound bg={"primary.box"}/>
             )}
             </Box>
-                <BannerAds module_name={'information_pages'} module_type={'listing'} />
+            <BannerAds module_name={'information_pages'} module_type={'listing'} />
         </>
     )
 

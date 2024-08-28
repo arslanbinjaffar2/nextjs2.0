@@ -25,6 +25,7 @@ import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import ButtonElement from 'application/components/atoms/ButtonElement'
 import DynamicIcon from 'application/utils/DynamicIcon';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
+import { colorText } from 'application/styles/colors';
 
 type ScreenParams = { slug: any }
 
@@ -219,6 +220,9 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
     };
 
     const module = (speaker === 0 ? (screen === 'attendees' ? modules?.find((attendee) => attendee.alias === 'attendees') : modules?.find((attendee) => attendee.alias === 'my-attendee-list')) : modules?.find((speaker) => speaker.alias === 'speakers'))
+
+    const hasValidRecords = groups.some(group => group.info?.name);
+
     return (
         <>
             <NextBreadcrumbs module={module} />
@@ -252,6 +256,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     setBreadcrumbs([]);
                                     push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'attendee'))
                                 }} 
+                              
                                 bg={in_array(tab, ['attendee', 'group-attendee']) ? 'primary.boxbutton' : 'primary.box'} 
                                
                             >
@@ -259,25 +264,16 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                             </ButtonElement>}
                             {
                                 modules?.some(module => module.alias === 'my-attendee-list') && (
-                                    <Button
+                                    <ButtonElement
                                         onPress={() => {
                                             setTab('my-attendee')
                                             setBreadcrumbs([]);
                                             push(`/${event.url}/attendees` + '?' + createQueryString('tab', 'my-attendee'))
                                         }} 
-                                        borderRadius="0" 
-                                        borderWidth="0px" 
-                                        py={0} 
-                                        borderColor="primary.darkbox" 
-                                        h="42px" 
-                                        borderRightRadius={(event?.attendee_settings?.default_display != 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
-                                        borderLeftRadius={(event?.attendee_settings?.default_display == 'name' || event?.attendee_settings?.tab == 1) ? 0 : 8} 
                                         bg={tab === 'my-attendee' ? 'primary.boxbutton' : 'primary.box'} 
-                                        w={event?.attendee_settings?.tab == 1 ? '33%' : '50%'} 
-                                        _text={{ fontWeight: '600' }}
                                     >
                                         {modules?.find((module) => (module.alias == 'my-attendee-list'))?.name ?? 'My attendees'}
-                                    </Button>
+                                    </ButtonElement>
                                 )
                             }
                         {(event?.attendee_settings?.default_display !== 'name' || event?.attendee_settings?.tab == 1) &&
@@ -318,6 +314,7 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                                     setBreadcrumbs([]);
                                 }} 
                                 bg={tab === 'category' || tab === 'sub-category' || tab === 'category-attendee' ? 'primary.boxbutton' : 'primary.box'} 
+                                
                             >
                                {event?.labels?.SPEAKER_CATEGORY}
                             </ButtonElement>
@@ -343,7 +340,6 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                         </>
                     )}
 
-                    {console.log((tab === 'category' || tab === 'sub-category' || tab === 'category-attendee'))}
                       {(tab === 'category' || tab === 'sub-category' || tab === 'category-attendee') && categoryBreadcrumbs.length > 0 && (
                         <HStack alignItems={'center'} mb="3" pt="2" w="100%" space="3">
                             <Text flex="1" textTransform="uppercase" fontSize="sm">
@@ -405,26 +401,46 @@ const Index = ({ speaker, screen, banner_module }: Props) => {
                           
                             }
                         </Container>}
-                        {(tab === 'group' || tab === 'sub-group') && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                            {GroupAlphabatically(groups, 'info').map((map: any, k: number) =>
-                                <React.Fragment key={`item-box-group-${k}`}>
-                                    {map?.letter && (
-                                        <Text roundedTop={k === 0 ? 10 : 0} w="100%" pl="18px" bg="primary.darkbox">
-                                            {map?.letter}
-                                            </Text>
-                                    )}
-                                    {map?.records?.map((group: Group, k: number) =>
-                                        <React.Fragment key={`${k}`}>
-                                            <RectangleGroupView group={group} k={k} border={k} updateTab={updateTab} />
+                       
+                        {(tab === 'group' || tab === 'sub-group') && (
+                            <Container mb="3" pt={3} rounded="10" bg="primary.box" w="100%" maxW="100%">
+                                {hasValidRecords ? (
+                                    GroupAlphabatically(groups, 'info').map((groupData: any, groupIndex: number) => (
+                                        <React.Fragment key={`group-box-${groupIndex}`}>
+                                            {groupData?.letter && (
+                                                <Text
+                                                    roundedTop={groupIndex === 0 ? 10 : 0}
+                                                    w="100%"
+                                                    pl="18px"
+                                                    bg="primary.darkbox"
+                                                >
+                                                    {groupData.letter}
+                                                </Text>
+                                            )}
+                                            {groupData?.records?.map((group: Group, recordIndex: number) =>
+                                                group.info?.name ? (
+                                                    <RectangleGroupView
+                                                        key={`rectangle-view-${recordIndex}`}
+                                                        group={group}
+                                                        k={recordIndex}
+                                                        border={groupData.records.length === 1 ? 0
+                                                                : groupData.records.length > 1 && recordIndex === groupData.records.length - 1
+                                                                ? 0
+                                                                : 1
+                                                        }
+                                                        updateTab={updateTab}
+                                                    />
+                                                ) : null
+                                            )}
                                         </React.Fragment>
-                                    )}
-                                </React.Fragment>
-                            )}
-                            {groups.length <= 0 &&
-                            <NoRecordFound />
-
-                            }
-                        </Container>}
+                                    ))
+                                ) : (
+                                    <Box p="3">
+                                        <Text fontSize="18px">{event.labels.EVENT_NORECORD_FOUND}</Text>
+                                    </Box>
+                                )}
+                            </Container>
+                        )}
                         {(tab === 'category' || tab === 'sub-category') && speaker === 1 && <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
                             {categories.map((category: Category, k: number) =>
                                 <React.Fragment key={`item-box-group-${k}`}>

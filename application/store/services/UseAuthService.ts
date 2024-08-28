@@ -108,17 +108,17 @@ export const UseAuthService = (): Readonly<EventServiceOperators> => {
             },
             [dispatch],
         ),
+        loginWithToken: useCallback(
+            (payload: { token: string }) => {
+                dispatch(AuthActions.loginWithToken(payload))
+            },
+            [dispatch],
+        ),
         updateOnboarding: useCallback(
             (payload: any) => {
                 dispatch(
                     AuthActions.updateOnboarding(payload),
                 )
-            },
-            [dispatch],
-        ),
-        loginWithToken: useCallback(
-            (payload: { token: string }) => {
-                dispatch(AuthActions.loginWithToken(payload))
             },
             [dispatch],
         ),

@@ -10,8 +10,9 @@ import { useRouter } from 'solito/router'
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native'
 import UseAuthService from 'application/store/services/UseAuthService';
+import { useSearchParams } from 'next/navigation'
+import { colorText } from 'application/styles/colors'
 import Icobookmeeting from 'application/assets/icons/Icobookmeeting';
-import { useSearchParams, usePathname } from 'next/navigation'
 import UseLoadingService from 'application/store/services/UseLoadingService';
 import in_array from 'in_array';
 
@@ -142,7 +143,9 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                     maxWidth={'120px'}
                     colorScheme="primary"
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text textAlign="center" isTruncated width="95px" 
+                    color={colorText(event.settings?.primary_color ||'')}
+                    >{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
               )}
@@ -154,9 +157,8 @@ const RectangleView = ({ border, attendee, speaker, disableMarkFavroute }: boxIt
                   display={['none','']}
                     py={2}
                     colorScheme="primary"
-
                     onPress={() => push(`/${event.url}/reservation/${attendee?.id}`)}>
-                    <Text color={'primary.hovercolor'} textAlign="center" isTruncated width="95px">{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
+                    <Text textAlign="center" isTruncated width="95px"  color={'primary.hovercolor'} >{event?.labels?.RESERVATION_BOOK_MEETING_LABEL}</Text>
                     
                   </Button>
                   

@@ -29,7 +29,7 @@ import UseEnvService from 'application/store/services/UseEnvService'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import BannerAds from 'application/components/atoms/banners/BannerAds'
 import ButtonElement from 'application/components/atoms/ButtonElement'
-import { Platform } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import { getColorScheme } from "application/styles/colors";
 import ModuleEnabled from 'application/utils/ModuleEnabled';
@@ -43,6 +43,8 @@ type Props = {
 }
 
 const Detail = ({ speaker }: Props) => {
+
+    const { width } = useWindowDimensions();
 
     const RenderHtml = require('react-native-render-html').default;
 
@@ -186,11 +188,6 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>
-                    {/* {!speaker &&
-                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
-                        <Search tab={tab} />
-                    </HStack>
-                    } */}
                     <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
@@ -239,7 +236,7 @@ const Detail = ({ speaker }: Props) => {
                                               
                                     {tab === 'about' && <DetailInfoBlock detail={detail} showPrivate={response?.data?.user?.id == _id ? 1 : 0} info={<RenderHtml
 																									defaultTextProps={{selectable:true}}
-																									contentWidth={600}
+																									contentWidth={width > 600 ? 600 : width - 90}
 																									systemFonts={['Avenir']}
 																									tagsStyles={mixedStyle}
 																									source={{ html: detail?.detail?.info?.about! }}
@@ -251,7 +248,7 @@ const Detail = ({ speaker }: Props) => {
                                             <SectionLoading />
                                         ) : (
                                             <>
-                                                {groups?.map((group: Group, k: number) =>
+                                                { groups?.map((group: Group, k: number) =>
                                                     <React.Fragment key={`${k}`}>
                                                         <RectangleGroupView group={group} k={k} border={k} navigation={true}/>
                                                     </React.Fragment>

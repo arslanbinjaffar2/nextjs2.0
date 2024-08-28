@@ -112,6 +112,7 @@ const Index = () => {
                   h={'40px'}
                   bg={toggle ? 'primary.500' : 'primary.box'}
                   colorScheme="primary"
+                  
                   onPress={()=>{
                    setToggle(!toggle)
                   }}

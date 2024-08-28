@@ -7,7 +7,7 @@ import SpeakerListing from 'application/components/organisms/speakers/Listing';
 import QAListing from 'application/components/organisms/qa/Listing';
 import ChatClient from 'application/components/organisms/chat/ChatClient';
 import Master from 'application/screens/web/layouts/Master';
-import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack, Spacer, Box } from 'native-base'
+import { Button, Center, Container, HStack, Heading, Icon, ScrollView, Text, VStack, Spacer, Box, View } from 'native-base'
 import PollListingByDate from 'application/components/organisms/polls/PollListingByDate'
 import SurveyListing from 'application/components/organisms/survey/SurveyListing'
 import UsePollService from 'application/store/services/UsePollService';
@@ -37,6 +37,8 @@ import UpcomingBlock from 'application/components/atoms/programs/UpcomingBlock';
 import { Banner } from 'application/models/Banner'
 import { Module } from 'application/models/Module';
 import UpcomingPrograms from 'application/components/atoms/programs/UpcomingPrograms';
+import Myexhibitors from 'application/screens/web/settings/myexhibitors/Index'
+import Mysponsors from 'application/screens/web/settings/mysponsers/Index'
 import IndexTemplatePrograms from 'application/components/templates/programs/web/Index';
 import { CustomHtml } from 'application/models/CustomHtml'
 import OurExhibitor from 'application/components/molecules/exhibitors/OurExhibitor';
@@ -59,7 +61,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const { surveys, FetchSurveys } = UseSurveyService();
 
-  const { event, modules,custom_html } = UseEventService();
+  const { event, modules,custom_html,event_url } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
   const { FetchAlerts, alerts, markAlertRead, alert_setting} = UseAlertService();
@@ -107,6 +109,7 @@ const Index = ({ navigation }: indexProps) => {
       FetchAttendees({ query: '', group_id: 0, page: 1, my_attendee_id: 0, speaker: 1, category_id: 0, screen: 'dashboard-my-speakers', program_id: 0 });
     }
   }, [modules.length]);
+   const name=modules?.find((module) => (module.alias == 'agendas'))?.name as string
 
   const { FetchAfterLoginMyMeetingRequests } = UseMeetingReservationService();
   function checkAppointmentAlerts() {
@@ -116,9 +119,9 @@ const Index = ({ navigation }: indexProps) => {
     }
     let skipPendingAppointmentAlerts = false;
     if(Platform.OS === 'web'){
-      skipPendingAppointmentAlerts= Boolean(localStorage.getItem('skip_pending_appointment_alerts'));
+      skipPendingAppointmentAlerts= Boolean(localStorage.getItem(`skip_pending_appointment_alerts_${event_url}`));
     }else{
-      skipPendingAppointmentAlerts= Boolean(AsyncStorageClass.getItem('skip_pending_appointment_alerts'));
+      skipPendingAppointmentAlerts= Boolean(AsyncStorageClass.getItem(`skip_pending_appointment_alerts_${event_url}`));
     }
     console.log('skipPendingAppointmentAlerts',skipPendingAppointmentAlerts);
     if(!skipPendingAppointmentAlerts){
@@ -176,7 +179,7 @@ const Index = ({ navigation }: indexProps) => {
 
                     <Container mt={0} mb={4} overflow={'hidden'}  w="100%" maxW="100%">
                       <HStack pr={3} mb={3} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} w="100%" maxW="100%"> 
-                      <IconWithLeftHeading icon={<DynamicIcon iconType="speakers" iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
+                      <IconWithLeftHeading icon={<DynamicIcon iconType={modules.find((module: Module) => module.alias === 'speakers')?.icon?.replace('@1x','').replace('-icon','').replace('-','_').replace('.png', '') || 'speakers'} iconProps={{ width: 27, height: 44 }} />} title={event?.labels.MEET_OUR_SPEAKERS ?? "MEET OUR SPEAKERS"} />
                       {my_attendees?.length > 6 &&
                         <Button onPress={() => {
                           push(`/${event.url}/speakers`)
@@ -266,7 +269,7 @@ const Index = ({ navigation }: indexProps) => {
                         <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
                           <RenderHtml
                               defaultTextProps={{selectable:true}}
-                              contentWidth={600}
+                              contentWidth={width > 600 ? 600 : width - 90}
                               systemFonts={['Avenir']}
                               tagsStyles={mixedStyle}
                               source={{ html: custom_html[0]?.custom_html_1?.content ?? '' }}
@@ -284,7 +287,7 @@ const Index = ({ navigation }: indexProps) => {
                         <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
                           <RenderHtml
                               defaultTextProps={{selectable:true}}
-                              contentWidth={600}
+                              contentWidth={width > 600 ? 600 : width - 90}
                               systemFonts={['Avenir']}
                               tagsStyles={mixedStyle}
                               source={{ html: custom_html[0]?.custom_html_2?.content ?? '' }}
@@ -302,7 +305,7 @@ const Index = ({ navigation }: indexProps) => {
                         <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
                           <RenderHtml
                               defaultTextProps={{selectable:true}}
-                              contentWidth={600}
+                              contentWidth={width > 600 ? 600 : width - 90}
                               systemFonts={['Avenir']}
                               tagsStyles={mixedStyle}
                               source={{ html: custom_html[0]?.custom_html_3?.content ?? '' }}

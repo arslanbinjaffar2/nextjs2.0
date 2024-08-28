@@ -34,8 +34,8 @@ import HdSlice from './slices/Hd.Slice'
 import { RootSaga } from 'application/store/sagas/Root'
 import GallerySlice from './slices/Gallery.Slice'
 import SocialWallSlice, { SocialWallActions } from './slices/SocialWall.Slice'
-import MeetingReservationSlice from './slices/MeetingReservation.Slice'
 import ToastSlice from './slices/Toast.Slice'
+import MeetingReservationSlice from './slices/MeetingReservation.Slice'
 import ChatSlice from './slices/Chat.Slice'
 
 const makeStore = () => {
@@ -75,10 +75,10 @@ const makeStore = () => {
             notifications:NotificationSlice,
             socket:SocketSlice,
             hd:HdSlice,
-            meetingReservation:MeetingReservationSlice,
             toast:ToastSlice,
-            chats:ChatSlice,
+            meetingReservation:MeetingReservationSlice,
             requestToSpeak: RequestToSpeakSlice,
+            chats:ChatSlice
         },
         devTools: true,
         middleware: getDefaultMiddleware =>

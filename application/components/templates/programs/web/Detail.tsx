@@ -228,7 +228,7 @@ const Detail = () => {
                         {htmlContent &&<Box w={'100%'}>            
                             <RenderHtml
                                 defaultTextProps={{selectable:true}}
-                                contentWidth={600}
+                                contentWidth={width > 600 ? 600 : width - 90}
                                 systemFonts={['Avenir']}
                                 tagsStyles={mixedStyle}
                                 source={{ html: htmlContent}}

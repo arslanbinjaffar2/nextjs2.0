@@ -51,10 +51,12 @@ const Index = React.memo(() => {
     const { certificate, data } = UseCertificateService();
     const {width}=useWindowDimensions();
     const [filteredCertificate, setFilteredCertificate] = React.useState<Certificate[]>([]);
+    const [isLoading,setIsLoading]=useState(true)
     const [searchQuery, setSearchQuery] = useState('');
     const module = modules?.find((module) => module.alias === 'certificate');
     useEffect(() => {
         setFilteredCertificate(certificate);
+        setIsLoading(false) 
     }, [certificate]);
     useEffect(() => {
         if (searchQuery) {
@@ -72,10 +74,8 @@ const Index = React.memo(() => {
     }, [searchQuery, certificate]);
     return (
       <>
-          {in_array('certificate-listing', processing) ? (
-            <SectionLoading />
-          ) : (
-            <>
+          {!in_array('certificate-listing', processing) && !isLoading ? (
+                <>
                 <NextBreadcrumbs module={module} />
                 <Container mb={4} pt="2" maxW="100%" w="100%">
                     <HStack display={['block', 'flex']} mb="3" pt="2" w="100%" space="0" alignItems="center">
@@ -112,13 +112,16 @@ const Index = React.memo(() => {
                             </HStack>
                           ))
                         ) : (
-                          <Box>
-                              <Text p={4} rounded="10" fontSize="md">{event.labels.GENERAL_NO_RECORD}</Text>
-                          </Box>
+                            <Box>
+                            <Text p={4} rounded="10" fontSize="md">{event.labels.GENERAL_NO_RECORD}</Text>
+                        </Box>
                         )}
                     </Box>
                 </Container>
             </>
+          ) : (
+              <SectionLoading />
+        
           )}
       </>
     );

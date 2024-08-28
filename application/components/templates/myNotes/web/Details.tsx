@@ -19,9 +19,8 @@ const Details = () => {
   const [searchText, setSearchText] = useState('');
   const [filteredNotes, setFilteredNotes] = useState([]);
   const [updateTrigger, setUpdateTrigger] = useState(false);
-
   useEffect(() => {
-    FetchMyNotesByType({ note_type: Moduletype });
+    FetchMyNotesByType({ note_type:Moduletype.replace('ddirectory','directory')  });
     setTimeout(() => {
       setLoader(false);
     }, 3000);
@@ -30,7 +29,6 @@ const Details = () => {
   useEffect(() => {
     filterNotes();
   }, [myTypeNotes, searchText]);
-
   const filterNotes = () => {
     if (searchText === '') {
       setFilteredNotes(myTypeNotes.notes);
@@ -54,7 +52,7 @@ const Details = () => {
               filtered.push(note);
             }
             break;
-          case 'directory':
+          case 'ddirectory':
             if (note.directory_note && (noteTextIncluded || note.directory_note.info.some((i: { name: string, value: string }) => i.name === 'name' && i.value.toLowerCase().includes(searchText.toLowerCase())))) {
               filtered.push(note);
             }

@@ -15,7 +15,7 @@ import moment from 'moment';
 import UseAuthService from 'application/store/services/UseAuthService';
 import { QaSettings } from 'application/models/qa/Qa';
 import UseSocketService from 'application/store/services/UseSocketService';
-import { TextInput } from 'react-native';
+import { TextInput, useWindowDimensions } from 'react-native';
 import IcoSend from 'application/assets/icons/small/IcoSend'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import { colorText, getColorScheme } from 'application/styles/colors'
@@ -59,6 +59,8 @@ const CustomSelect = ( props:any) => {
 
 const Detail = () => {
     const mounted = React.useRef(false);
+
+    const { width } = useWindowDimensions();
 
     const RenderHtml = require('react-native-render-html').default;
 
@@ -325,7 +327,7 @@ const Detail = () => {
                                         <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                                             <View w={'100%'}  >
                                                 {qaDetials?.paragraph?.length > 0 ?
-                                                <CustomSelect initialiState={paragraph} qaDetials={qaDetials}>
+                                                    <CustomSelect initialiState={paragraph} qaDetials={qaDetials}>
                                                     <Select
                                                         placeholder={qaDetials.labels.QA_SELECT_PARAGRAPH}
                                                         w="100%"
@@ -458,7 +460,7 @@ const Detail = () => {
                                                                     <Box w={'100%'} pt={1}>
                                                                         <RenderHtml
                                                                             defaultTextProps={{ selectable: true }}
-                                                                            contentWidth={600}
+                                                                            contentWidth={width > 600 ? 600 : width - 90}
                                                                             systemFonts={['Avenir']}
                                                                             tagsStyles={mixedStyle}
                                                                             source={{ html: question?.info?.question }}
@@ -538,7 +540,7 @@ const Detail = () => {
                                                                     <Box w={'100%'} pt={1}>
                                                                         <RenderHtml
                                                                             defaultTextProps={{ selectable: true }}
-                                                                            contentWidth={600}
+                                                                            contentWidth={width > 600 ? 600 : width - 90}
                                                                             systemFonts={['Avenir']}
                                                                             tagsStyles={mixedStyle}
                                                                             source={{ html: question?.info?.question }}
@@ -619,7 +621,7 @@ const Detail = () => {
                                                                     <Box w={'100%'} pt={1}>
                                                                         <RenderHtml
                                                                             defaultTextProps={{ selectable: true }}
-                                                                            contentWidth={600}
+                                                                            contentWidth={width > 600 ? 600 : width - 90}
                                                                             systemFonts={['Avenir']}
                                                                             tagsStyles={mixedStyle}
                                                                             source={{ html: question?.info?.question }}
@@ -699,7 +701,7 @@ const Detail = () => {
                                                                     <Box w={'100%'} pt={1}>
                                                                         <RenderHtml
                                                                             defaultTextProps={{ selectable: true }}
-                                                                            contentWidth={600}
+                                                                            contentWidth={width > 600 ? 600 : width - 90}
                                                                             systemFonts={['Avenir']}
                                                                             tagsStyles={mixedStyle}
                                                                             source={{ html: question?.info?.question }}

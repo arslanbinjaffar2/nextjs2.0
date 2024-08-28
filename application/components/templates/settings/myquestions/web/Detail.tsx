@@ -25,6 +25,7 @@ import { getColorScheme } from 'application/styles/colors';
 type ScreenParams = { id: string }
 const Detail = () => {
 
+  const { width } = useWindowDimensions();
   const RenderHtml = require('react-native-render-html').default;
   
   const { useParam } = createParam<ScreenParams>()
@@ -125,7 +126,7 @@ const Detail = () => {
               <Box fontSize="lg">
                 <RenderHtml
                     defaultTextProps={{selectable:true}}
-                    contentWidth={600}
+                    contentWidth={width > 600 ? 600 : width - 90}
                     systemFonts={['Avenir']}
                     tagsStyles={mixedStyle}
                     source={{ html: questionAnswers?.question }}

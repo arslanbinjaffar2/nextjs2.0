@@ -25,6 +25,7 @@ import { SubmittedQuestion } from 'application/models/poll/Poll';
 import { useRouter } from 'solito/router'
 import NextBreadcrumbs from 'application/components/atoms/NextBreadcrumbs';
 import UseSubRegistrationService from 'application/store/services/UseSubRegistrationService';
+import { func } from 'application/styles';
 import { getColorScheme } from 'application/styles/colors';
 import SwipeBtn from 'application/components/atoms/swipeBtn';
 import SectionLoading from 'application/components/atoms/SectionLoading';
@@ -347,7 +348,7 @@ function RegForm({ mySubReg, SaveSubRegistration, submitting, skip, setSkip, eve
         <Text   fontSize="lg">{event?.setting_modules_labels?.subregistration ?? 'Subregistration'}</Text>
       </HStack>
       <HStack mb="3" pt="2" w="100%" space="3" alignItems="center">
-        <Text  fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
+        <Text fontSize="lg">{event.labels?.EVENTSITE_QUESTIONAIRS_DETAIL}</Text>
       </HStack>
       <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
         {mySubReg?.questions?.question.length! > 0 && mySubReg?.questions?.question.map((item: any, index: any) => (
