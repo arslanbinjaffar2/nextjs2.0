@@ -76,6 +76,8 @@ const Index = () => {
 										? `${response?.attendee_detail.detail?.facebook_protocol}${response?.attendee_detail.detail?.facebook}`
 										: item.name === "linkedin"
 										? `${response?.attendee_detail.detail?.linkedin_protocol}${response?.attendee_detail.detail?.linkedin}`
+										: item.name === "website"
+										? `${response?.attendee_detail.detail?.website_protocol}${response?.attendee_detail.detail?.website}`
 										: null;
 									return (
 										url  && (
@@ -108,8 +110,7 @@ const Index = () => {
 								</HStack>
 							</Center>
 								)}
-								{console.log(response.attendee_detail,'profile')}
-							{response?.attendee_detail&& response?.attendee_detail?.website && (
+							{response?.data?.user && response?.attendee_detail?.detail?.website && (
 							<Center mb={2}>
 								<HStack  space="2" alignItems="center">
 									<IcoWebCircle width={16} height={16} />
