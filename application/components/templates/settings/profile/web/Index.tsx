@@ -12,11 +12,11 @@ import { func } from 'application/styles';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import IcoWebCircle from 'application/assets/icons/small/IcoWebCircle';
 import IcoMobile from 'application/assets/icons/small/IcoMobile';
-import { Dimensions, Linking } from 'react-native';
+import { useWindowDimensions, Linking } from 'react-native';
 import { useRouter } from 'next/router';
 import { getColorScheme } from 'application/styles/colors';
 const Index = () => {
-	const {width}=Dimensions.get('screen')
+	const { width } = useWindowDimensions()
 	const { response } = UseAuthService();
 	const { loadSettingsModules } = UseEventService();
 	const RenderHtml = require('react-native-render-html').default;
@@ -27,7 +27,7 @@ const Index = () => {
 	const mixedStyle = {
 		body: {
 			fontFamily: 'Avenir',
-			fontSize: '16px',
+			fontSize: '14px',
 			userSelect: 'auto',
 			color: colors.text
 		},
@@ -48,34 +48,32 @@ const Index = () => {
 		return '';
 	};
 
-
 	return (
 		<>
 			<NextBreadcrumbs title={'Profile'} />
-			<Box bg={'primary.box'} rounded={'10px'} alignItems="center" maxWidth={[width<380?'350px':"100%",'100%']}  width="100%">
-				<Box pt={6} px={[3,6]} pb={4} w={'100%'}>
-					<Box maxWidth={[width<370?'350px':"100%",'100%']}w={'100%'} position={'relative'} alignItems={'center'}>
+			<Box bg={'primary.box'} rounded={'10px'} alignItems="center" maxWidth={"100%"} width={["100%", "100%"]}>
+				<Box pt={6} px={[3, 6]} pb={4} w={'100%'}>
+					<Box w={'100%'} position={'relative'} alignItems={'center'}>
 						{/* {setting_modules && setting_modules?.find((module) => (module?.alias == 'editprofile')) && ( */}
-							<Button
-								position={'absolute'}
-								right={0}
-								px={3}
-								py={2}
-								// leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16, color: func.colorType(event?.settings?.primary_color) }} />}
-								leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16, color:'primary.text' }} />}
-								top={0}
-								colorScheme="primary"
-								_text={{ color: "primary.text", fontWeight: 500 }}
-								// _hover={{ color: 'primary.hovercolor' }}
-								onPress={() => {
-									router.push(`/${event.url}/settings/editprofile`)
-								}}>
-								{response?.event?.labels?.GENERAL_EDIT}
-							</Button>
+						<Button
+							position={'absolute'}
+							right={0}
+							px={3}
+							py={2}
+							// leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16, color: func.colorType(event?.settings?.primary_color) }} />}
+							leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16 }} />}
+							top={0}
+							colorScheme="primary"
+							_text={{ color: "primary.text", fontWeight: 500 }}
+							onPress={() => {
+								router.push(`/${event.url}/settings/editprofile`)
+							}}>
+							{response?.event?.labels?.GENERAL_EDIT}
+						</Button>
 						{/* )} */}
 
 						<Avatar
-							size={'130px'}
+							size={['130px']}
 							source={{
 								uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`
 							}}>
@@ -84,7 +82,7 @@ const Index = () => {
 						<Text fontWeight={'500'} pt={2} fontSize="lg" textTransform={"capitalize"}>{response?.attendee_detail?.first_name} {response?.attendee_detail?.last_name}</Text>
 
 					</Box>
-					<HStack mb={5} maxWidth={[width<370?'350px':"100%",'100%']}w={'100%'} pt={2} space="3" justifyContent={'center'} alignItems="center">
+					<HStack mb={5} w={'100%'} pt={2} space="3" justifyContent={'center'} alignItems="center">
 						{response?.data?.user?.sort_field_setting.map((item: any) => {
 							const url = item.name === "twitter"
 								? `${response?.attendee_detail.detail?.twitter_protocol}${response?.attendee_detail.detail?.twitter}`
@@ -92,7 +90,9 @@ const Index = () => {
 									? `${response?.attendee_detail.detail?.facebook_protocol}${response?.attendee_detail.detail?.facebook}`
 									: item.name === "linkedin"
 										? `${response?.attendee_detail.detail?.linkedin_protocol}${response?.attendee_detail.detail?.linkedin}`
-										: null;
+										: item.name === "website"
+											? `${response?.attendee_detail.detail?.website_protocol}${response?.attendee_detail.detail?.website}`
+											: null;
 							return (
 								url && (
 									<Pressable
@@ -123,7 +123,7 @@ const Index = () => {
 							);
 						})}
 					</HStack>
-					<HStack space={["3", "10"]} flexWrap={'wrap'} justifyContent={'center'} maxWidth={[width<370?'350px':"100%",'100%']}width={'100%'} pt={5} borderTopWidth={1} borderTopColor={'primary.bordercolor'} alignItems="center">
+					<HStack space={["3", "10"]} flexWrap={'wrap'} justifyContent={'center'} width={'100%'} pt={5} borderTopWidth={1} borderTopColor={'primary.bordercolor'} alignItems="center">
 						<Center mb={2}>
 							{response?.attendee_detail && response?.attendee_detail?.email && (
 								<HStack space="2" alignItems="center">
@@ -140,8 +140,7 @@ const Index = () => {
 								</HStack>
 							</Center>
 						)}
-						{console.log(response.attendee_detail, 'profile')}
-						{response?.attendee_detail && response?.attendee_detail?.website && (
+						{response?.data?.user && response?.attendee_detail?.detail?.website && (
 							<Center mb={2}>
 								<HStack space="2" alignItems="center">
 									<IcoWebCircle width={16} height={16} />
@@ -153,121 +152,729 @@ const Index = () => {
 
 				</Box>
 
-				<Box maxWidth={[width<370?'350px':"100%",'100%']}w={'100%'}>
+				<Box w={'100%'}>
 					<Box mb={5} px={5} py={1} bg="primary.darkbox" >
 						<Text fontSize="md">{response.event?.labels?.REG_BASIC_INFO}</Text>
 					</Box>
 
-					<HStack alignItems={'flex-start'} justifyContent={'flex-start'} mb={4} px={5} space="3" display={['block', 'flex']} maxWidth={[width<370?'350px':"100%",'100%']}w={'100%'}>
+					<HStack alignItems={'flex-start'} justifyContent={'flex-start'} mb={4} px={5} space="3" display={['block', 'flex']} w={'100%'}>
 						<Text fontSize="md" fontWeight={500} color={'primary.text'}>{response.event?.labels?.ATTENDEE_ABOUT}</Text>
 						<Text>
 
-						<RenderHtml
-							defaultTextProps={{ selectable: true }}
-							contentWidth={600}
-							systemFonts={['Avenir']}
-							tagsStyles={mixedStyle}
-							source={{ html: response?.attendee_detail?.detail?.about }}
+							<RenderHtml
+								defaultTextProps={{ selectable: true }}
+								contentWidth={600}
+								systemFonts={['Avenir']}
+								tagsStyles={mixedStyle}
+								source={{ html: response?.attendee_detail?.detail?.about }}
 							/>
-							</Text>
+						</Text>
 					</HStack>
 				</Box>
-				<HStack pb={2} flexWrap={'wrap'} display={['block', 'flex']} px={5} maxWidth={[width<370?'350px':"100%",'100%']}w={'100%'} space="0" alignItems="flex-start"
-				 justifyContent="flex-start">
-					<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start">
-						<Center alignItems={'flex-start'} w={['140px', '180px']}>
-							<Text fontWeight={500} fontSize="md">{response.event?.labels?.ATTENDEE_COMPANY_NAME}</Text>
-						</Center>
-						<Center>
-							<Text fontSize="md">{response?.attendee_detail?.detail?.company_name}</Text>
-						</Center>
-					</HStack>
-					<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start">
-						<Center alignItems={'flex-start'} w={['140px', '180px']}>
-							<Text fontWeight={500} fontSize="md">{response.event?.labels?.ATTENDEE_PASSPORT_ISSUE_DATE}</Text>
-						</Center>
-						<Center>
-							<Text fontSize="md">{response?.attendee_detail?.detail?.date_of_issue_passport}</Text>
-						</Center>
-					</HStack>
-					<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start">
-						<Center alignItems={'flex-start'} w={['140px', '180px']}>
-							<Text fontWeight={500} fontSize="md">{response?.event?.labels?.ATTENDEE_LAST_NAME_PASSPORT}</Text>
-						</Center>
-						<Center>
-							<Text fontSize="md">{response?.attendee_detail?.LAST_NAME_PASSPORT}</Text>
-						</Center>
-					</HStack>
-					<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start">
-						<Center alignItems={'flex-start'} w={['140px', '180px']}>
-							<Text fontWeight={500} fontSize="md">{response?.event?.labels?.ATTENDEE_FIRST_NAME}</Text>
-						</Center>
-						<Center>
-							<Text fontSize="md">{response?.attendee_detail?.first_name}</Text>
-						</Center>
-					</HStack>
-					<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start">
-						<Center alignItems={'flex-start'} w={['140px', '180px']}>
-							<Text fontWeight={500} fontSize="md">{response?.event?.labels?.ATTENDEE_LAST_NAME}</Text>
-						</Center>
-						<Center>
-							<Text fontSize="md">{response?.attendee_detail?.last_name}</Text>
-						</Center>
-					</HStack>
-					<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start">
-						<Center alignItems={'flex-start'} w={['140px', '180px']}>
-							<Text fontWeight={500} fontSize="md">{response?.event?.labels?.ATTENDEE_SPOKEN_LANGUAGE}</Text>
-						</Center>
-						<Center>
-							<Text fontSize="md">{response?.attendee_detail?.SPOKEN_LANGUAGE}</Text>
-						</Center>
-					</HStack>
-					<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start">
-						<Center alignItems={'flex-start'} w={['140px', '180px']}>
-							<Text fontWeight={500} fontSize="md">{response?.event?.labels?.ATTENDEE_INTERESTS}</Text>
-						</Center>
-						<Center>
-							<Text fontSize="md">{response?.attendee_detail?.detail?.interests}</Text>
-						</Center>
-					</HStack>
-					{response?.data?.user?.sort_field_setting?.map((item: any) => {
-						if (response?.attendee_detail?.attendee_cv && item.name === "resume") {
-							return (
-								<HStack w={['100%', '50%']} mb={4} alignItems="center" space="3" justifyContent="flex-start" key={item.name}>
-									<Center alignItems={'flex-start'} w={['140px', '180px']}>
-										<Text fontWeight={500} fontSize="md">Resume:</Text>
-									</Center>
-									<Center>
-										<HStack space="1" alignItems="center">
-											<Icon as={AntDesign} color={'primary.text'} name="pdffile1" size={'md'} />
-											<Text  fontSize="md">.</Text>
-											{item.is_private === 0 ? (
-												<Pressable
-													onPress={async () => {
-														const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`;
-														const supported = await Linking.canOpenURL(url);
-														if (supported) {
-															await Linking.openURL(url);
-														}
-													}}>
-													<Text color={'primary.500'} textDecorationLine={'underline'} fontSize="sm">
-														{response?.attendee_detail?.attendee_cv}
-													</Text>
-												</Pressable>
-											) : (
-												<Text  fontSize="sm">
-													{response?.attendee_detail?.attendee_cv}
-												</Text>
-											)}
-										</HStack>
-									</Center>
-								</HStack>
-							);
-						} else {
-							return null;
-						}
+				<HStack
+					pb={2}
+					flexWrap={'wrap'}
+					display={['block', 'flex']}
+					px={5}
+					w={'100%'}
+					space="0"
+					alignItems="flex-start"
+					justifyContent="flex-start"
+				>
+					{response?.data?.user?.sort_field_setting.map((item: any) => {
+						return (
+              <>
+                {item.name === 'company_name' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response.event?.labels?.ATTENDEE_COMPANY_NAME}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.company_name}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+
+                {item.name === 'date_of_issue_passport' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response.event?.labels?.ATTENDEE_PASSPORT_ISSUE_DATE}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {
+                          response?.attendee_detail?.detail
+                            ?.date_of_issue_passport
+                        }
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+
+                {item.name === 'last_name_passport' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_LAST_NAME_PASSPORT}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.LAST_NAME_PASSPORT}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'first_name_passport' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_FIRST_NAME_PASSPORT}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.FIRST_NAME_PASSPORT}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+
+                {item.name === 'first_name' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_FIRST_NAME}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.first_name}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+
+                {item.name === 'last_name' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_LAST_NAME}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.last_name}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'spoken_languages' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_SPOKEN_LANGUAGE}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.SPOKEN_LANGUAGE}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'interest' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_INTERESTS}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.interests}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'pa_country' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_PRIVATE_COUNTRY}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {
+                          response?.attendee_detail?.detail
+                            ?.private_country_name
+                        }
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'department' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_DEPARTMENT}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.department}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'pa_city' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_PRIVATE_CITY}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.private_city}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'network_group' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.GENERAL_NETWORK_GROUP}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.network_group}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'pa_post_code' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_PRIVATE_POST_CODE}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.private_post_code}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'organization' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_ORGANIZATION}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.organization}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'birth_date' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_BIRTH_DATE}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.BIRTHDAY_YEAR}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'employment_date' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_EMPLOYMENT_DATE}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.EMPLOYMENT_DATE}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'date_of_expiry_passport' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_PASSPORT_EXPIRY_DATE}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {
+                          response?.attendee_detail?.detail
+                            ?.date_of_expiry_passport
+                        }
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'gender' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_GENDER}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.gender}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'show_industry' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_INDUSTRY}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.industry}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'show_job_tasks' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_JOB_TASKS}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.jobs}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'passport_no' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_PASSPORT_NO}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.passport_no}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'place_of_birth' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_PLACE_OF_BIRTH}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.place_of_birth}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'age' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_AGE}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.age}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'table_number' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_TABLE_NUMBER}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.table_number}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'delegate_number' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_DELEGATE_NUMBER}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.delegate_number}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'initial' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_INITIAL}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.initial}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'pa_street' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_PRIVATE_STREET}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {response?.attendee_detail?.detail?.private_street}
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'pa_house_no' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        House number
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {
+                          response?.attendee_detail?.detail
+                            ?.private_house_number
+                        }
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'title' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_TITLE}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="md">
+                        {
+                          response?.attendee_detail?.detail
+                            ?.title
+                        }
+                      </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name == 'resume' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems={['flex-start', 'center']}
+                    space="3"
+                    justifyContent="flex-start"
+                    key={item.name}
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        Resume:
+                      </Text>
+                    </Center>
+                    <Center>
+                      <HStack
+                        space="1"
+                        alignItems={['flex-start', 'center']}
+                        flexWrap={'wrap'}
+                      >
+                        <Icon
+                          as={AntDesign}
+                          color={'primary.text'}
+                          name="pdffile1"
+                          size={'md'}
+                        />
+                        {item.is_private === 0 ? (
+                          <HStack
+                            space={'2'}
+                            flexWrap={'wrap'}
+                            flexDirection={[
+                              'column',
+                              width <= 1024 ? 'column' : 'row',
+                            ]}
+                          >
+                            <Pressable
+                              onPress={async () => {
+                                const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`
+                                const supported = await Linking.canOpenURL(url)
+                                if (supported) {
+                                  await Linking.openURL(url)
+                                }
+                              }}
+                            >
+                              <Text
+                                color={'primary.500'}
+                                textDecorationLine={'underline'}
+                                fontSize="sm"
+                                isTruncated
+                                width={'full'}
+                              >
+                                {response?.attendee_detail?.attendee_cv}
+                              </Text>
+                            </Pressable>
+                            <HStack flexDirection={'row'} space={2} mt={[1, 0]}>
+                              <Text fontSize={'md'}>.</Text>
+
+                              <Pressable
+                                onPress={async () => {
+                                  const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`
+                                  const supported = await Linking.canOpenURL(
+                                    url
+                                  )
+                                  if (supported) {
+                                    await Linking.openURL(url)
+                                  }
+                                }}
+                              >
+                                <Text
+                                  color={'#05E0E0'}
+                                  textDecorationLine={'underline'}
+                                  fontSize="sm"
+                                >
+                                  Download
+                                </Text>
+                              </Pressable>
+                            </HStack>
+                          </HStack>
+                        ) : (
+                          <Text fontSize="sm">
+                            {response?.attendee_detail?.attendee_cv}
+                          </Text>
+                        )}
+                      </HStack>
+                    </Center>
+                  </HStack>
+                )}
+              </>
+            )
 					})}
 				</HStack>
+
 			</Box>
 		</>
 
