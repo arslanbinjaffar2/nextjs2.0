@@ -48,7 +48,6 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
           name="description"
           content="Eventbuizz app"
         />
-        <link rel="icon" href="/favicon.ico" />
         
       </Head>
       {typeof window !== "undefined" && (

@@ -99,8 +99,6 @@ const BasicInfoBlock = ({ detail, showPrivate, speaker }: AppProps) => {
                                 {`${detail?.detail?.first_name}`} {detail?.sort_field_setting.find((s: any) => (s.name === 'last_name')) && detail?.detail?.last_name}
                             </Text>
                             {detail?.detail?.info &&
-                                (detail?.detail?.info.department ||
-                                    detail?.detail?.info.title) &&
                                 (showPrivate == 1 || (isPrivate?.title == 0 || isPrivate?.department == 0 || isPrivate?.company_name == 0))
                                 && (
                                     <>

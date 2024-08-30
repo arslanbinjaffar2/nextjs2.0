@@ -204,7 +204,7 @@ const SlideView = ({ programs, section, my, speaker, dashboard, screen }: AppPro
 		setDates(programs[value]);
 	}
 	const { push } = useRouter();
-	const limit = 5;
+	const limit = 1000;
 	
 
 	return (
@@ -284,7 +284,7 @@ const RenderPrograms = ({ programs, dates, currentIndex, setCurrentIndex, dashbo
 					if (program?.workshop_programs?.length > 0) {
 						let newProgram = { ...program };
 						if (dashboard == true) {
-							newProgram.workshop_programs = dates.length <= limit ? program.workshop_programs.slice(0, (limit)) : (dates.length > limit ? program.workshop_programs.slice(0, 1) : program.workshop_programs);
+							newProgram.workshop_programs = dates.length <= limit ? program.workshop_programs.slice(0, (limit)) : (dates.length > limit ? program.workshop_programs.slice(0, limit) : program.workshop_programs);
 						}
 						return <WorkshopCollapsableView currentIndex={currentIndex} screen={screen} section={section} speaker={speaker} program={newProgram} k={key} border={dates?.length !== (key + 1) && !dates[key + 1]?.workshop_programs} />
 					}
