@@ -65,7 +65,10 @@ const SocketHandler = () => {
       socketConnect.on(`event-buizz:poll_question_active_inactive${event?.id}`, function (data:any):any {
            // show only if nt on the same poll detail page
            if(nextRouter.asPath.includes('polls/detail') && data.agenda_id == detailId){
-            // skip if on same page
+            // reload if on same page
+            if(window!=undefined){
+              window.location.reload();
+            }
           }else{
             if(data.attendees == undefined || in_array(response?.attendee_detail?.id, data.attendees)){
               checkPollVotingPermission({data:data});
@@ -76,7 +79,10 @@ const SocketHandler = () => {
       socketConnect.on(`event-buizz:survey_question_active_inactive${event?.id}`, function (data:any):any {
           // show only if nt on the same survey detail page
           if(nextRouter.asPath.includes('survey/detail') && data.survey_id == detailId){
-            // skip if on same page
+            // reload if on same page
+            if(window!=undefined){
+              window.location.reload();
+            }
           }else{
             if(data.attendees == undefined || in_array(response?.attendee_detail?.id, data.attendees)){
               checkSurveyVotingPermission({data:data});
