@@ -42,11 +42,11 @@ const Index = () => {
 
     useEffect(() => {
         
-        if(surveys.length == 1 && completed_surveys.length == 0){
+        if(surveys?.length == 1 && completed_surveys?.length == 0){
             push(`/${event.url}/survey/detail/${surveys[0]?.id}`);
         }
 
-        if(surveys && surveys.length > 0) {
+        if(surveys && surveys?.length > 0) {
 
                 const filteredSurveys = surveys.filter((survey) => {
                      if(query !== ''){
@@ -61,7 +61,7 @@ const Index = () => {
                  setFilteredPendingSurveys(filteredSurveys);
         }
         
-        if(completed_surveys &&  completed_surveys.length > 0) {
+        if(completed_surveys &&  completed_surveys?.length > 0) {
                         
                 const filteredSurveys = completed_surveys.filter((survey) => {
                      if(query !== ''){
@@ -98,7 +98,7 @@ const Index = () => {
                         </HStack>
                         {tab === 'pending' &&  (
                             <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                                    {surveys && surveys.length > 0 ? (filteredPendingSurveys.length > 0 ? filteredPendingSurveys.map((survey:Survey,k)=>(
+                                    {surveys && surveys?.length > 0 ? (filteredPendingSurveys?.length > 0 ? filteredPendingSurveys.map((survey:Survey,k)=>(
                                         <RectangleView key={survey.id} survey={survey} completed={false} index={k} />
                                     )) : 
                                     <NoRecordFound/>
@@ -112,7 +112,7 @@ const Index = () => {
                             ) }
                         {tab === 'completed' && (
                                 <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg">
-                                    {completed_surveys && completed_surveys.length > 0 ? ( filteredCompletedSurveys.length > 0 ? filteredCompletedSurveys.map((survey:Survey, k)=>(
+                                    {completed_surveys && completed_surveys?.length > 0 ? ( filteredCompletedSurveys?.length > 0 ? filteredCompletedSurveys?.map((survey:Survey, k)=>(
                                         <RectangleView key={survey.id} survey={survey} completed={true} index={k} />
                                     )) : <NoRecordFound/>
                                     
