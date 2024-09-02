@@ -39,7 +39,7 @@ const Detail = () => {
   
   const { response } = UseAuthService()
   
-  const { questionAnswers, FetchMyQuestionsAnswers, SendMessage } = UseQaService();
+  const { questionAnswers, FetchMyQuestionsAnswers, SendMessage,qaSettings } = UseQaService();
   
   const [answers, setAnswers] = React.useState<any[]>([]);
   const [message, setMessage] = React.useState<string>('');
@@ -171,24 +171,27 @@ const Detail = () => {
                 </Box>
               )}
             </ScrollView>
-            <Center w="100%" maxW="100%">
-              <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
-                <Icon size="md" as={Entypo} name="new-message" color="primary.text" />
-                <Text fontSize="lg">{event?.labels?.GENERAL_CHAT_ENTER_MESSAGE}</Text>
-              </HStack>
-              <VStack p="1" w="100%" space="0">
-                <TextArea borderWidth="0" value={message} borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder={questionAnswers?.labels?.QA_TYPE_ANSWER ?? "Type your answer"} autoCompleteType={undefined} onChangeText={(text) => setMessage(text)} />
-                <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
-                  <IconButton
-                    variant="transparent"
-                    icon={<IcoSend width={25} height={25} />}
-                    onPress={() => {
-                      handleMessageSend()
-                    }}
-                  />
-                </HStack>
-              </VStack>
-            </Center>
+            {Number(qaSettings?.qa_answers_view) === 1 && (
+                <Center w="100%" maxW="100%">
+                  <HStack px="4" py="1" mb="0" bg="primary.darkbox" w="100%" space="2" alignItems="center">
+                    <Icon size="md" as={Entypo} name="new-message" color="primary.text" />
+                    <Text fontSize="lg">{event?.labels?.GENERAL_CHAT_ENTER_MESSAGE}</Text>
+                  </HStack>
+                  <VStack p="1" w="100%" space="0">
+                    <TextArea borderWidth="0" value={message} borderColor="transparent" fontSize="lg" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="10" w="100%" p="4" placeholder={questionAnswers?.labels?.QA_TYPE_ANSWER ?? "Type your answer"} autoCompleteType={undefined} onChangeText={(text) => setMessage(text)} />
+                    <HStack mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
+                      <IconButton
+                        variant="transparent"
+                        icon={<IcoSend width={25} height={25} />}
+                        onPress={() => {
+                          handleMessageSend()
+                        }}
+                      />
+                    </HStack>
+                  </VStack>
+              </Center>
+              )}
+            
           </VStack>
         </Container>
       )}
