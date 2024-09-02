@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import { useAppDispatch, useAppSelector } from 'application/store/Hooks'
 import { Chat, ChatMessage, NewChatSearchResults } from 'application/models/chat/Chat'
-import { ChatActions, SelectChat, SelectChatLabels, SelectChats, SelectNewChatError, SelectNewChatSearchResults } from 'application/store/slices/Chat.Slice'
+import { ChatActions, SelectChat, SelectChatLabels, SelectChats, SelectNewChatError, SelectNewChatSearchResults, SelectNewMessagePopup } from 'application/store/slices/Chat.Slice'
 
 export type ChatServiceOperators = {
     chats: Chat[],
@@ -10,6 +10,7 @@ export type ChatServiceOperators = {
     chat: Chat | null,
     new_chat_search_results: NewChatSearchResults,
     new_chat_error: string | null,
+    new_message_popup: boolean,
     FetchChats: (payload: {search:string,doNotShowLoading?:boolean}) => void
     FetchChat: (payload: {thread_id:number}) => void
     StartNewChat: (payload: {message:string,user_ids:number[],group_ids:number[]}) => void
@@ -19,6 +20,7 @@ export type ChatServiceOperators = {
     NewChatSearch: (payload: {search:string}) => void
     PushMessageToChat: (payload: {message:ChatMessage,thread_id:number}) => void
     SetNewChatError: (payload: {error:string|null}) => void
+    SetNewMessagePopup: (payload: {new_message_popup:boolean}) => void
 }
 
 /**
@@ -35,6 +37,7 @@ export const UseChatService = (): Readonly<ChatServiceOperators> => {
         chat: useAppSelector(SelectChat),
         new_chat_search_results: useAppSelector(SelectNewChatSearchResults),
         new_chat_error: useAppSelector(SelectNewChatError),
+        new_message_popup: useAppSelector(SelectNewMessagePopup),
         FetchChats: useCallback(
             (payload: {search:string,doNotShowLoading?:boolean}) => {
                 dispatch(ChatActions.FetchChats(payload))
@@ -44,6 +47,7 @@ export const UseChatService = (): Readonly<ChatServiceOperators> => {
         FetchChat: useCallback(
             (payload: {thread_id:number}) => {
                 dispatch(ChatActions.FetchChat(payload))
+                dispatch(ChatActions.SetNewMessagePopup({new_message_popup:false}))
             },
             [dispatch],
         ),
@@ -86,6 +90,12 @@ export const UseChatService = (): Readonly<ChatServiceOperators> => {
         MarkThreadAsRead: useCallback(
             (payload: {thread_id:number}) => {
                 dispatch(ChatActions.MarkThreadAsRead(payload))
+            },
+            [dispatch],
+        ),
+        SetNewMessagePopup: useCallback(
+            (payload: {new_message_popup:boolean}) => {
+                dispatch(ChatActions.SetNewMessagePopup(payload))
             },
             [dispatch],
         ),

@@ -35,13 +35,14 @@ const Detail = ({ navigation }: indexProps) => {
   const scrollViewRef = React.useRef<HTMLDivElement>(null);
   const {event,modules} = UseEventService();
   const [_id] = useParam('id');
-  const {chat, FetchChat,MarkThreadAsRead} = UseChatService();
+  const {chat, FetchChat,MarkThreadAsRead,new_message_popup,SetNewMessagePopup} = UseChatService();
 
   const {response} = UseAuthService();
   const [loggedInUserId] = React.useState(response?.data?.user?.id);
   const { processing } = UseLoadingService();
   const module = modules.find((module) => module.alias === 'chat');
   const {_env} = UseEnvService();
+  const [scrollToBottom, setScrollToBottom] = React.useState(true);
 
   const title = React.useMemo(() => (
     chat?.participants_info?.map((participant: ParticipantInfo, index: number) => (
@@ -87,11 +88,22 @@ const Detail = ({ navigation }: indexProps) => {
   }, [chat?.messages]);
 
   React.useEffect(() => {
+    if (scrollToBottom) {
+      doScrollToBottom();
+      setScrollToBottom(false);
+    }
+  }, [groupedMessages]);
+
+  const doScrollToBottom = () => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTop = scrollViewRef.current.scrollHeight;
     }
-  }, [groupedMessages]);
-  
+  }
+
+  const handleNewMessagePopupClick = () => {
+    doScrollToBottom();
+    SetNewMessagePopup({new_message_popup:false});
+  }
 
   // Function to get the first letters of the first and last name
   const getFirstLetters = (name: string) => {
@@ -231,6 +243,11 @@ const Detail = ({ navigation }: indexProps) => {
                   </>
                 )
               })}
+              {new_message_popup && (
+                <Box nativeID='zindex-99'  display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} bottom={2} mb={2}>
+                  <Button rightIcon={<Icon as={MaterialIcons} name="arrow-downward" />} onPress={handleNewMessagePopupClick} bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{event?.labels?.CHAT_NEW_MESSAGE_POPUP}</Button>
+                </Box>
+              )}
               </>
             )}
 

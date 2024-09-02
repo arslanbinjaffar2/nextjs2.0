@@ -40,6 +40,8 @@ const SocketHandler = () => {
 
     const {AddSocketRequest} = UseMeetingReservationService();
 
+    const {SetNewMessagePopup} = UseChatService();
+
     const options: any = React.useMemo(() => ({
         transports: ["websocket", "polling"]
     }), []);
@@ -156,6 +158,7 @@ const SocketHandler = () => {
           // push the message to state
           console.log('push to the state');
           PushMessageToChat({message:data?.message,thread_id:data?.thread_id});
+          SetNewMessagePopup({new_message_popup:true});
         }else{
           // refresh chats if user is on chat listing page
           if(nextRouter.asPath.includes('chat') && !nextRouter.asPath.includes('chat/detail')){
