@@ -164,7 +164,7 @@ export const ProgramSlice = createSlice({
             state.total_pages = action.payload.total_pages;
         },
         MakeFavourite(state, action: PayloadAction<{ program_id: number, screen: string }>) { },
-        FetchProgramDetail(state, action: PayloadAction<{ id: number }>) { },
+        FetchProgramDetail(state, action: PayloadAction<{ id: number, section?: string }>) { },
         UpdateDetail(state, action: PayloadAction<{ detail: Detail }>) {
             state.detail = action.payload.detail;
             if(action.payload?.detail?.program?.id){

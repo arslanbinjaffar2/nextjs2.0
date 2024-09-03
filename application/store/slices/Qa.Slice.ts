@@ -83,6 +83,7 @@ export const QaSlice = createSlice({
         },
         updateMyQuestionAnswers(state, action: PayloadAction<any>) {
             state.questionAnswers = action.payload;
+            state.qaSettings = action?.payload?.settings;
         },
         SubmitQa(state, action: PayloadAction<any>) {},
         SubmitQaLike(state, action: PayloadAction<{question_id:number, agenda_id:number}>) {},
