@@ -30,7 +30,7 @@ export type ProgramServiceOperators = {
     FetchPrograms: (payload: { query: string, page: number, screen: string, id: number, track_id: number }) => void
     MakeFavourite: (payload: { program_id: number, screen: string }) => void
     FetchTracks: (payload: { query: string, page: number, screen: string, track_id: number }) => void
-    FetchProgramDetail: (payload: { id: number }) => void
+    FetchProgramDetail: (payload: { id: number, section?: string }) => void
     SetFavouriteProgramError: (payload: string) => void
     ResetTracks: () => void
     FetchRating: (payload: { program_id: number}) => void
@@ -82,7 +82,7 @@ export const UseProgramService = (): Readonly<ProgramServiceOperators> => {
             [dispatch],
         ),
         FetchProgramDetail: useCallback(
-            (payload: { id: number }) => {
+            (payload: { id: number, section?: string }) => {
                 dispatch(ProgramActions.FetchProgramDetail(payload))
             },
             [dispatch],

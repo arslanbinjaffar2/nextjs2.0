@@ -60,7 +60,7 @@ const RectangleDetailView = ({ program, k, border, speaker, section, workshop,cu
                 }else if(section === 'myturnlist'){
                   push(`/${event.url}/myturnlist/show/${program.id}`)
                 }else{
-                  push(`/${event.url}/agendas/detail/${program.id}?currentIndex=${currentIndex}`)
+                  push(`/${event.url}/agendas/detail/${program.id}?section=${section}&currentIndex=${currentIndex}`)
                 }
               }}>
 

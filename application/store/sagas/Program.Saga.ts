@@ -31,7 +31,7 @@ function* OnGetProgramDetail({
     payload,
 }: {
     type: typeof ProgramActions.FetchProgramDetail
-    payload: { id: number, speaker: number }
+    payload: { id: number, speaker: number, section?: string }
 }): SagaIterator {
     yield put(LoadingActions.addProcess({ process: 'program-detail' }))
     const state = yield select(state => state);

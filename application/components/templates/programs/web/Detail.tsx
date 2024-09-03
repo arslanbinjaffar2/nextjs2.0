@@ -70,7 +70,7 @@ import ModuleEnabled from 'application/utils/ModuleEnabled';
 
 
 
-type ScreenParams = { id: string, currentIndex: string}
+type ScreenParams = { id: string, currentIndex: string, section: string}
 
 const { useParam } = createParam<ScreenParams>()
 
@@ -106,6 +106,7 @@ const Detail = () => {
     const [tabs, setTabs] = React.useState<any>([]);
 
     const [currentIndex] = useParam('currentIndex');
+    const [section] = useParam('section');
 
     const { width } = useWindowDimensions();
 
@@ -148,7 +149,7 @@ const Detail = () => {
 
     React.useEffect(() => {
         if (_id) {
-            FetchProgramDetail({ id: Number(_id) });
+            FetchProgramDetail({ id: Number(_id), section: section });
         }
     }, [_id]);
 
