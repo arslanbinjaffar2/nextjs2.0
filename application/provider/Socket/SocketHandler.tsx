@@ -158,7 +158,10 @@ const SocketHandler = () => {
           // push the message to state
           console.log('push to the state');
           PushMessageToChat({message:data?.message,thread_id:data?.thread_id});
-          SetNewMessagePopup({new_message_popup:true});
+          // set new message popup if sender is not current user
+          if( data?.message?.sender_id != response?.data?.user?.id){
+            SetNewMessagePopup({new_message_popup:true});
+          }
         }else{
           // refresh chats if user is on chat listing page
           if(nextRouter.asPath.includes('chat') && !nextRouter.asPath.includes('chat/detail')){
