@@ -26,7 +26,7 @@ const Index = ({ navigation }: indexProps) => {
             moduleTitle = modules?.find((module) => module?.alias === 'exhibitors')?.name || moduleTitle;
         } else if (type === 'sponsors') {
             moduleTitle = modules?.find((module) => module?.alias === 'sponsors')?.name || moduleTitle;
-        } else if (type === 'directory') {
+        } else if (type === 'ddirectory') {
             moduleTitle = modules?.find((module) => module?.alias === 'ddirectory')?.name || moduleTitle;
         }
     }
