@@ -54,7 +54,7 @@ const Index = () => {
     }, []);
     return (
         <>
-            {(loading && Object.keys(myNotes).length>0) ? (
+            {(loading && myNotes?.length>0) ? (
                 <SectionLoading />
             ) : (
                 <>
@@ -75,6 +75,9 @@ const Index = () => {
                         </Box>
                     </HStack>
                     <Container pt="2" maxW="100%" w="100%" >
+                      {loading ? ( 
+                            <SectionLoading />
+                        ) : (
                         <Box mb="3" bg={`${myNotes ? "primary.box" : ""}`} p="0"  w="100%"  overflow="hidden" rounded={"lg"} >
                         {myNotes && !loading && showModules().foundModule.map(({alias },index) => {
                         const noteKey = myNotesKeys?.[alias  as keyof typeof myNotesKeys] || `${alias}_notes`;
@@ -184,6 +187,7 @@ const Index = () => {
                                 </Pressable>
                             }  */}
                         </Box>
+                        )}
                     </Container>
                 </>
             )}
