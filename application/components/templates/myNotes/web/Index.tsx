@@ -8,6 +8,7 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { useRouter } from 'solito/router';
 import DynamicIcon from 'application/utils/DynamicIcon';
 import UseToastService from 'application/store/services/UseToastService';
+import NoRecordFound from 'application/components/atoms/NoRecordFound';
 
 const Index = () => {
     const { push } = useRouter()
@@ -32,8 +33,8 @@ const Index = () => {
         sponsors: "sponsor_notes",
         ddirectory: "directory_notes"
     };
-    
     function showModules() {
+        const myNotesList = Object.values(myNotesKeys).filter(noteKey => myNotes?.[noteKey]?.length > 0).some((note:any) => note?.notes?.trim() !== "") || [];
         const foundModule = modules
         ?.filter(module => moudlesList.includes(module?.alias))
         ?.sort((a, b) => {
@@ -43,7 +44,6 @@ const Index = () => {
             const bLength = myNotes?.[bKey]?.length || 0;
             return aLength - bLength;
         });
-        const myNotesList = Object.values(myNotesKeys).filter(noteKey => myNotes?.[noteKey]?.length > 0) || [];
         return {
             foundModule,
             myNotesList
@@ -52,10 +52,9 @@ const Index = () => {
     React.useEffect(() => {
         FetchMyNotes();
     }, []);
-   
     return (
         <>
-            {(loading) ? (
+            {(loading && myNotes?.length>0) ? (
                 <SectionLoading />
             ) : (
                 <>
@@ -73,18 +72,19 @@ const Index = () => {
                             >
                                 <DynamicIcon iconType={'sendMail'} iconProps={{ width: 28, height: 14 }} />
                             </Pressable>
-
                         </Box>
-
                     </HStack>
                     <Container pt="2" maxW="100%" w="100%" >
+                      {loading ? ( 
+                            <SectionLoading />
+                        ) : (
                         <Box mb="3" bg={`${myNotes ? "primary.box" : ""}`} p="0"  w="100%"  overflow="hidden" rounded={"lg"} >
-                        {myNotes && !loading && showModules().foundModule.map(({alias,show_on_dashboard },index) => {
+                        {myNotes && !loading && showModules().foundModule.map(({alias },index) => {
                         const noteKey = myNotesKeys?.[alias  as keyof typeof myNotesKeys] || `${alias}_notes`;
+                        const note=myNotes?.[noteKey].filter((note:any)=>note.notes.trim() !=='')
                         return (
-                            <View key={alias} width={"100%"}>
-                            {show_on_dashboard==1 && 
-
+                            <>
+                           { note.length>0 && showModules().myNotesList && myNotes?.[noteKey]?.length > 0 && <View key={alias} width={"100%"}>
                                 <Pressable key={alias} onPress={() => {
                                     if(alias=="agendas"){
                                         push(`/${event.url}/my_notes/detail/programs`)
@@ -92,11 +92,12 @@ const Index = () => {
                                         push(`/${event.url}/my_notes/detail/${alias.toLowerCase()}`)
                                     }
                                 }}>
-                                <HStack width={"100%"} borderTopWidth={index ==0 ? "0px" : "1px"} borderTopColor="primary.bordercolor" px={["3", "4"]} py="5" space="4" alignItems="center" justifyContent={'space-between'}>
+                                <HStack width={"100%"} borderTopWidth={index ==0 ? "0px" : "1px"} borderTopColor={index ==0 ?"": "primary.bordercolor"} px={["3", "4"]} py="5" space="4" alignItems="center" justifyContent={'space-between'}>
+                                    {console.log(index,"index")}
                                 <View flexDirection={'row'} alignItems={getModuleName(alias).length>100?"start":"center"} width={"calc(100% - 30px)"}>
                                 <DynamicIcon iconType={getValueByNameModule(alias)} iconProps={{ width: 16, height: 16 }} />
                                 <Text overflow={'hidden'}  textTransform={'capitalize'} fontSize="lg" ml={'6px'}  >
-                                            {getModuleName(alias)} ({myNotes?.[noteKey]?.length || 0})
+                                            {getModuleName(alias)} ({note.length})
                                 </Text>
                                     </View>
                                     {myNotes?.[noteKey]?.length > 0 && (
@@ -104,10 +105,15 @@ const Index = () => {
                                     )}
                                     </HStack>
                                     </Pressable>
-                                }
-                                </View>
+                                </View>}
+                                    </>
                         );
                     })}
+                    {showModules().foundModule.length <=0 &&
+                    <Box>
+                     <NoRecordFound bg={'primary.box'} />
+                    </Box>
+                    }
                                            {/* {myNotes && myNotes.program_notes && modules?.find((module) => (module?.alias == 'agendas')) &&
                                 <Pressable onPress={() => {
                                     push(`/${event.url}/my_notes/detail/programs`)
@@ -181,6 +187,7 @@ const Index = () => {
                                 </Pressable>
                             }  */}
                         </Box>
+                        )}
                     </Container>
                 </>
             )}
