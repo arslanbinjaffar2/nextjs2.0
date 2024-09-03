@@ -53,7 +53,7 @@ const MyProgram = () => {
                 <SectionLoading />
             ) : (
                 <Container mb="3" rounded="10" bg="primary.box" w="100%" maxW="100%">
-                    <SlideView section="program" programs={programs} />
+                    <SlideView section="my-program" programs={programs} />
                 </Container>
             )}
             {(in_array('programs', processing) || in_array('tracks', processing)) && page > 1 && (

@@ -17,7 +17,7 @@ export const getTrackApi = (payload: any, state: any): Promise<HttpResponse> => 
 }
 
 export const getProgramDetailApi = (payload: any, state: any): Promise<HttpResponse> => {
-    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/program/detail/${payload.id}`, { ...payload, limit: 40 });
+    return makeApi(`${state?.env?.api_base_url}`).post(`${baseUrl}/${state?.event?.event.url}/program/detail/${payload.id}`, { ...payload, limit: 40, section: payload.section });
 }
 
 export const getRatingApi = (payload: any, state: any): Promise<HttpResponse> => {
