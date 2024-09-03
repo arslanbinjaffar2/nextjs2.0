@@ -70,7 +70,7 @@ const Index = () => {
                                     AddToast({ toast: { message: "Congratulations! Your notes has been sent through email", status: "success" } })
                                 }}
                             >
-                                <DynamicIcon iconType={'sendMail'} iconProps={{ width: 28, height: 14 }} />
+                                <DynamicIcon iconType={'sendMail'} iconProps={{ width: 26, height: 15 }} />
                             </Pressable>
                         </Box>
                     </HStack>
@@ -92,8 +92,7 @@ const Index = () => {
                                         push(`/${event.url}/my_notes/detail/${alias.toLowerCase()}`)
                                     }
                                 }}>
-                                <HStack width={"100%"} borderTopWidth={index ==0 ? "0px" : "1px"} borderTopColor={index ==0 ?"": "primary.bordercolor"} px={["3", "4"]} py="5" space="4" alignItems="center" justifyContent={'space-between'}>
-                                    {console.log(index,"index")}
+                                <HStack width={"100%"} borderBottomWidth={ showModules().foundModule.length-1==index  ? "0px" : "1px"} borderBottomColor={showModules().foundModule.length-1==index ?"": "primary.bordercolor"} px={["3", "4"]} py="5" space="4" alignItems="center" justifyContent={'space-between'}>
                                 <View flexDirection={'row'} alignItems={getModuleName(alias).length>100?"start":"center"} width={"calc(100% - 30px)"}>
                                 <DynamicIcon iconType={getValueByNameModule(alias)} iconProps={{ width: 16, height: 16 }} />
                                 <Text overflow={'hidden'}  textTransform={'capitalize'} fontSize="lg" ml={'6px'}  >
