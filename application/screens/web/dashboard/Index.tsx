@@ -258,60 +258,6 @@ const Index = ({ navigation }: indexProps) => {
                 <BannerAds module_name={'dashboard'} module_type={'after_news_update'}/>
                 </>
               )
-            }else if(module.alias == 'custom_html_1' && custom_html[0]?.custom_html_1?.status == 1 && custom_html[0]?.custom_html_1?.content){
-              return (
-                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
-                  <Text width={'100%'} mt={2}>
-                      <VStack  mx={0} width={'100%'} space={3}>
-                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
-                          <RenderHtml
-                              defaultTextProps={{selectable:true}}
-                              contentWidth={width > 600 ? 600 : width - 90}
-                              systemFonts={['Avenir']}
-                              tagsStyles={mixedStyle}
-                              source={{ html: custom_html[0]?.custom_html_1?.content ?? '' }}
-                          />
-                        </Box>
-                      </VStack>
-                  </Text>
-                </HStack>
-              )
-            }else if(module.alias == 'custom_html_2' && custom_html[0]?.custom_html_2?.status && custom_html[0]?.custom_html_2?.content){
-              return (
-                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
-                  <Text width={'100%'} mt={2}>
-                      <VStack  mx={0} width={'100%'} space={3}>
-                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
-                          <RenderHtml
-                              defaultTextProps={{selectable:true}}
-                              contentWidth={width > 600 ? 600 : width - 90}
-                              systemFonts={['Avenir']}
-                              tagsStyles={mixedStyle}
-                              source={{ html: custom_html[0]?.custom_html_2?.content ?? '' }}
-                          />
-                        </Box>
-                      </VStack>
-                  </Text>
-                </HStack>
-              )
-            }else if(module.alias == 'custom_html_3' && custom_html[0]?.custom_html_3?.status == 1 && custom_html[0]?.custom_html_3?.content){
-              return (
-                <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
-                  <Text width={'100%'} mt={2}>
-                      <VStack mx={0} width={'100%'} space={3}>
-                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
-                          <RenderHtml
-                              defaultTextProps={{selectable:true}}
-                              contentWidth={width > 600 ? 600 : width - 90}
-                              systemFonts={['Avenir']}
-                              tagsStyles={mixedStyle}
-                              source={{ html: custom_html[0]?.custom_html_3?.content ?? '' }}
-                          />
-                        </Box>
-                      </VStack>
-                  </Text>
-                </HStack>
-              )
             }
 
           }) // end loop dashboard_modules
