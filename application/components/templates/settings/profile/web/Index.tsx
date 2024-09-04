@@ -58,7 +58,7 @@ const Index = () => {
 						<Button
 							position={'absolute'}
 							right={0}
-							px={3}
+							px={"18px"}
 							py={2}
 							// leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16, color: func.colorType(event?.settings?.primary_color) }} />}
 							leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16 }} />}
@@ -116,6 +116,12 @@ const Index = () => {
 											<View bg={'primary.darkbox'} width={'32px'} height={'32px'} rounded={"sm"} justifyContent={'center'} alignItems={'center'}>
 												{/* <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'md'} /> */}
 												<DynamicIcon iconType={'linkedin'} iconProps={{ width: 16, height: 16 }} />
+											</View>
+										}
+                                        	{item.name === "website" &&
+											<View bg={'primary.darkbox'} width={'32px'} height={'32px'} rounded={"sm"} justifyContent={'center'} alignItems={'center'}>
+												{/* <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'md'} /> */}
+												<IcoWebCircle width={16} height={16} />
 											</View>
 										}
 									</Pressable>
@@ -815,7 +821,7 @@ const Index = () => {
                             flexWrap={'wrap'}
                             flexDirection={[
                               'column',
-                              width <= 1024 ? 'column' : 'row',
+                              width <= 1024 ||  response?.attendee_detail?.attendee_cv.length < 50 ? 'column' : 'row',
                             ]}
                           >
                             <Pressable
@@ -828,18 +834,15 @@ const Index = () => {
                               }}
                             >
                               <Text
-                                color={'primary.500'}
-                                textDecorationLine={'underline'}
                                 fontSize="sm"
-                                isTruncated
-                                width={'full'}
+                                width={'100%'}
+                                textBreakStrategy='balanced' 
                               >
                                 {response?.attendee_detail?.attendee_cv}
                               </Text>
                             </Pressable>
                             <HStack flexDirection={'row'} space={2} mt={[1, 0]}>
                               <Text fontSize={'md'}>.</Text>
-
                               <Pressable
                                 onPress={async () => {
                                   const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`
