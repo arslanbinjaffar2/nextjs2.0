@@ -192,11 +192,12 @@ function* OnFetchAfterLoginMyMeetingRequests({
             }
           }))
     }
+    const event_url = state?.event?.event_url;
     //add skip 
     if(Platform.OS === 'web'){
-        localStorage.setItem('skip_pending_appointment_alerts','true');
+        localStorage.setItem(`skip_pending_appointment_alerts_${event_url}`,'true');
     }else{
-    AsyncStorageClass.setItem('skip_pending_appointment_alerts',true)
+    AsyncStorageClass.setItem(`skip_pending_appointment_alerts_${event_url}`,'true');
     }
     yield put(LoadingActions.removeProcess({ process: `reservation-after-login` }))
 }
