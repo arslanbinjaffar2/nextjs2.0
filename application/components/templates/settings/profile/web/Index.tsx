@@ -50,15 +50,17 @@ const Index = () => {
 
 	return (
 		<>
+        
 			<NextBreadcrumbs title={'Profile'} />
 			<Box bg={'primary.box'} rounded={'10px'} alignItems="center" maxWidth={"100%"} width={["100%", "100%"]}>
+             
 				<Box pt={6} px={[3, 6]} pb={4} w={'100%'}>
 					<Box w={'100%'} position={'relative'} alignItems={'center'}>
 						{/* {setting_modules && setting_modules?.find((module) => (module?.alias == 'editprofile')) && ( */}
 						<Button
 							position={'absolute'}
 							right={0}
-							px={3}
+							px={"18px"}
 							py={2}
 							// leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16, color: func.colorType(event?.settings?.primary_color) }} />}
 							leftIcon={<DynamicIcon iconType="editprofile" iconProps={{ width: 16, height: 16 }} />}
@@ -71,16 +73,24 @@ const Index = () => {
 							{response?.event?.labels?.GENERAL_EDIT}
 						</Button>
 						{/* )} */}
-
-						<Avatar
+                {response?.data?.user?.sort_field_setting.map((item: any) =>{
+                    return(
+                        <>
+						{item.name == "profile_picture" && <Avatar
 							size={['130px']}
 							source={{
 								uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`
 							}}>
 							{getFirstLetters(`${response?.attendee_detail?.first_name} ${response?.attendee_detail?.last_name}`)}
-						</Avatar>
-						<Text fontWeight={'500'} pt={2} fontSize="lg" textTransform={"capitalize"}>{response?.attendee_detail?.first_name} {response?.attendee_detail?.last_name}</Text>
-
+						</Avatar>}
+					{(item.name == "first_name" || item.name == "last_name") ? (
+                        <Text fontWeight={'500'} pt={2} fontSize="lg" textTransform={"capitalize"}>{response?.attendee_detail?.first_name} {response?.attendee_detail?.last_name}</Text>
+                         ):
+                         null
+                        }
+                        </>
+                        )
+                    })}
 					</Box>
 					<HStack mb={5} w={'100%'} pt={2} space="3" justifyContent={'center'} alignItems="center">
 						{response?.data?.user?.sort_field_setting.map((item: any) => {
@@ -118,12 +128,23 @@ const Index = () => {
 												<DynamicIcon iconType={'linkedin'} iconProps={{ width: 16, height: 16 }} />
 											</View>
 										}
+                                        	{item.name === "website" &&
+											<View bg={'primary.darkbox'} width={'32px'} height={'32px'} rounded={"sm"} justifyContent={'center'} alignItems={'center'}>
+												{/* <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'md'} /> */}
+												<IcoWebCircle width={16} height={16} />
+											</View>
+										}
 									</Pressable>
 								)
 							);
 						})}
 					</HStack>
 					<HStack space={["3", "10"]} flexWrap={'wrap'} justifyContent={'center'} width={'100%'} pt={5} borderTopWidth={1} borderTopColor={'primary.bordercolor'} alignItems="center">
+                    {response?.data?.user?.sort_field_setting.map((item:any)=>{
+                        return(
+                            <>
+                        {item.name === 'email' && (
+
 						<Center mb={2}>
 							{response?.attendee_detail && response?.attendee_detail?.email && (
 								<HStack space="2" alignItems="center">
@@ -132,26 +153,42 @@ const Index = () => {
 								</HStack>
 							)}
 						</Center>
-						{response?.data?.user && response?.attendee_detail?.phone && (
+                        )}
+
+                        {item.name === 'phone' && (
+                            
 							<Center mb={2}>
+						{response?.data?.user && response?.attendee_detail?.phone && (
 								<HStack space="2" alignItems="center">
 									<IcoMobile width={12} height={15} />
 									<Text fontSize="sm">{response?.attendee_detail?.phone} </Text>
 								</HStack>
+                            )}
 							</Center>
-						)}
-						{response?.data?.user && response?.attendee_detail?.detail?.website && (
+                        )}
+                         {item.name === 'website' && (
+                            
 							<Center mb={2}>
+						{response?.data?.user && response?.attendee_detail?.detail?.website && (
 								<HStack space="2" alignItems="center">
 									<IcoWebCircle width={16} height={16} />
 									<Text fontSize="sm">{response?.attendee_detail?.detail?.website}</Text>
 								</HStack>
-							</Center>
 						)}
+							</Center>
+                        )}
+
+                            </>
+
+                            )
+                     })}
 					</HStack>
-
 				</Box>
-
+                {response?.data?.user?.sort_field_setting.map((item:any)=>{
+                    return(
+                <>
+                {console.log(item.name)}
+                {item.name === 'bio_info' && (
 				<Box w={'100%'}>
 					<Box mb={5} px={5} py={1} bg="primary.darkbox" >
 						<Text fontSize="md">{response.event?.labels?.REG_BASIC_INFO}</Text>
@@ -171,6 +208,10 @@ const Index = () => {
 						</Text>
 					</HStack>
 				</Box>
+                 )}
+                </>
+                    )
+                })}
 				<HStack
 					pb={2}
 					flexWrap={'wrap'}
@@ -815,7 +856,7 @@ const Index = () => {
                             flexWrap={'wrap'}
                             flexDirection={[
                               'column',
-                              width <= 1024 ? 'column' : 'row',
+                              width <= 1024 ||  response?.attendee_detail?.attendee_cv.length < 50 ? 'column' : 'row',
                             ]}
                           >
                             <Pressable
@@ -828,18 +869,15 @@ const Index = () => {
                               }}
                             >
                               <Text
-                                color={'primary.500'}
-                                textDecorationLine={'underline'}
                                 fontSize="sm"
-                                isTruncated
-                                width={'full'}
+                                width={'100%'}
+                                textBreakStrategy='balanced' 
                               >
                                 {response?.attendee_detail?.attendee_cv}
                               </Text>
                             </Pressable>
                             <HStack flexDirection={'row'} space={2} mt={[1, 0]}>
                               <Text fontSize={'md'}>.</Text>
-
                               <Pressable
                                 onPress={async () => {
                                   const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`
@@ -874,7 +912,7 @@ const Index = () => {
             )
 					})}
 				</HStack>
-
+               
 			</Box>
 		</>
 
