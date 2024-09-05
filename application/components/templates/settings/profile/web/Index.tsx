@@ -79,22 +79,37 @@ const Index = () => {
 						</Button>
 						{/* )} */}
                 {response?.data?.user?.sort_field_setting.map((item: any) =>{
-                    return(
-                        <>
-						{item.name == "profile_picture" && <Avatar
-							size={['130px']}
-							source={{
-								uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`
-							}}>
-							{getFirstLetters(`${response?.attendee_detail?.first_name} ${response?.attendee_detail?.last_name}`)}
-						</Avatar>}
-					{(item.name == "first_name" || item.name == "last_name") ? (
-                        <Text fontWeight={'500'} pt={2} fontSize="lg" textTransform={"capitalize"}>{response?.attendee_detail?.first_name} {response?.attendee_detail?.last_name}</Text>
-                         ):
-                         null
-                        }
-                        </>
-                        )
+                    return (
+                      <>
+                        {item.name == 'profile_picture' && (
+                          <Avatar
+                            size={['130px']}
+                            source={{
+                              uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`,
+                            }}
+                          >
+                            {getFirstLetters(
+                              `${response?.attendee_detail?.first_name} ${response?.attendee_detail?.last_name}`
+                            )}
+                          </Avatar>
+                        )}
+                        <Flex alignItems={'center'} justifyContent={'center'}  width={'100%'}>
+                          {item.name === 'first_name' || item.name === 'last_name' && (
+                            <Text
+                              fontWeight={'500'}
+                              pt={2}
+                              fontSize="lg"
+                              textTransform={'capitalize'}
+                            >
+                              {
+                                response?.attendee_detail?.first_name} {
+                                response?.attendee_detail?.last_name}
+                            </Text>
+                          )}
+                   
+                        </Flex>
+                      </>
+                    )
                     })}
 					</Box>
 					<HStack mb={5} w={'100%'} pt={2} space="3" justifyContent={'center'} alignItems="center">
@@ -133,7 +148,7 @@ const Index = () => {
 												<DynamicIcon iconType={'linkedin'} iconProps={{ width: 16, height: 16 }} />
 											</View>
 										}
-                                        	{item.name === "website" &&
+                     {item.name === "website" &&
 											<View bg={'primary.darkbox'} width={'32px'} height={'32px'} rounded={"sm"} justifyContent={'center'} alignItems={'center'}>
 												{/* <Icon as={Ionicons} color={'primary.text'} name="logo-linkedin" size={'md'} /> */}
 												<IcoWebCircle width={16} height={16} />
@@ -168,24 +183,11 @@ const Index = () => {
 									<IcoMobile width={12} height={15} />
 									<Text fontSize="sm">{response?.attendee_detail?.phone} </Text>
 								</HStack>
-                            )}
-							</Center>
-                        )}
-                         {item.name === 'website' && (
-                            
-							<Center mb={2}>
-						{response?.data?.user && response?.attendee_detail?.detail?.website && (
-								<HStack space="2" alignItems="center">
-									<IcoWebCircle width={16} height={16} />
-									<Text fontSize="sm">{response?.attendee_detail?.detail?.website}</Text>
-								</HStack>
-						)}
-							</Center>
-                        )}
-
-                            </>
-
-                            )
+              )}
+                            </Center>
+                          )}
+                          </>
+                        )
                      })}
 					</HStack>
 				</Box>
