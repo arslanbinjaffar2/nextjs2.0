@@ -47,7 +47,6 @@ const Index = () => {
 		}
 		return '';
 	};
-
 	return (
 		<>
         
@@ -73,23 +72,38 @@ const Index = () => {
 							{response?.event?.labels?.GENERAL_EDIT}
 						</Button>
 						{/* )} */}
-                {response?.data?.user?.sort_field_setting?.map((item: any) =>{
+            <Box>
+                {/* Check if the profile picture is present */}
+                {response?.data?.user?.sort_field_setting?.some(
+                  (item: any) => item.name === 'profile_picture'
+                ) ? (
+                  <Avatar
+                    size={['130px']}
+                    source={{
+                      uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`,
+                    }}
+                  >
+                    {getFirstLetters(
+                      `${response?.attendee_detail?.first_name} ${response?.attendee_detail?.last_name}`
+                    )}
+                  </Avatar>
+                ) : (
+                  <Avatar
+                  size={['130px']}
+                  source={{
+                    uri: ``,
+                  }}
+                >
+                  {getFirstLetters(
+                    `${response?.attendee_detail?.first_name} ${response?.attendee_detail?.last_name}`
+                  )}
+                </Avatar>
+                )}
+                    {response?.data?.user?.sort_field_setting?.map((item: any) =>{
                     return (
                       <>
-                        {item.name == 'profile_picture' && (
-                          <Avatar
-                            size={['130px']}
-                            source={{
-                              uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`,
-                            }}
-                          >
-                            {getFirstLetters(
-                              `${response?.attendee_detail?.first_name} ${response?.attendee_detail?.last_name}`
-                            )}
-                          </Avatar>
-                        )}
                         <Flex alignItems={'center'} justifyContent={'center'}  width={'100%'}>
-                          {item.name === 'first_name' || item.name === 'last_name' && (
+                          {item.name === 'first_name' &&  (
                             <Text
                               fontWeight={'500'}
                               pt={2}
@@ -106,6 +120,9 @@ const Index = () => {
                       </>
                     )
                     })}
+
+              </Box>
+
 					</Box>
 					<HStack mb={5} w={'100%'} pt={2} space="3" justifyContent={'center'} alignItems="center">
 						{response?.data?.user?.sort_field_setting?.map((item: any) => {
@@ -885,6 +902,7 @@ const Index = () => {
                           <HStack
                             space={'2'}
                             flexWrap={'wrap'}
+                            alignItems={'center'}
                             flexDirection={[
                               'column',
                               width <= 1024 ||
@@ -893,31 +911,20 @@ const Index = () => {
                                 : 'row',
                             ]}
                           >
-                            <Pressable
-                              onPress={async () => {
-                                const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`
-                                const supported = await Linking.canOpenURL(url)
-                                if (supported) {
-                                  await Linking.openURL(url)
-                                }
-                              }}
-                            >
+                           
                               <Text
                                 fontSize="sm"
                                 width={'100%'}
-                                textBreakStrategy="balanced"
+                                textBreakStrategy='balanced' 
                               >
-                                {response?.attendee_detail?.attendee_cv}
+                                {response?.attendee_detail?.attendee_cv.replace(/[0-9_]/g, '')}
                               </Text>
-                            </Pressable>
                             <HStack flexDirection={'row'} space={2} mt={[1, 0]}>
                               <Text fontSize={'md'}>.</Text>
                               <Pressable
-                                onPress={async () => {
+                                 onPress={async () => {
                                   const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`
-                                  const supported = await Linking.canOpenURL(
-                                    url
-                                  )
+                                  const supported = await Linking.canOpenURL(url)
                                   if (supported) {
                                     await Linking.openURL(url)
                                   }
@@ -927,6 +934,7 @@ const Index = () => {
                                   color={'#05E0E0'}
                                   textDecorationLine={'underline'}
                                   fontSize="sm"
+                                 
                                 >
                                   Download
                                 </Text>
