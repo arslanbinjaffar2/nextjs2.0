@@ -55,7 +55,7 @@ const Index = () => {
              
 				<Box pt={6} px={[3, 6]} pb={4} w={'100%'}>
 					<Box w={'100%'} position={'relative'} alignItems={'center'}>
-						{/* {setting_modules && setting_modules?.find((module) => (module?.alias == 'editprofile')) && ( */}
+						{setting_modules && setting_modules?.find((module) => (module?.alias == 'editprofile')) && (
 						<Button
 							position={'absolute'}
 							right={0}
@@ -71,7 +71,7 @@ const Index = () => {
 							}}>
 							{response?.event?.labels?.GENERAL_EDIT}
 						</Button>
-						{/* )} */}
+						 )}
             <Box>
                 {/* Check if the profile picture is present */}
                 {response?.data?.user?.sort_field_setting?.some(
