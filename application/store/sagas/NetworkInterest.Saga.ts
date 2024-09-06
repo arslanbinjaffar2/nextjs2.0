@@ -59,6 +59,7 @@ function* OnSaveMykeywords({
     yield put(NetworkInterestActions.saveMyKeywordSuccess({event_url:state?.event?.event_url}));
     yield put(NetworkInterestActions.updateUpdatedMyKeywords(true));
     yield put(LoadingActions.removeProcess({ process: 'search-match-attendees' }))
+    yield put(NetworkInterestActions.saveMyKeywordSuccess({event_url:state?.event?.event_url}));
 }
 
 function* OnFetchSearchMatchAttendees({

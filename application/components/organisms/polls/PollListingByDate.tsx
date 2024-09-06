@@ -5,7 +5,7 @@ import PollRectangleView from 'application/components/atoms/polls/RectangleView'
 import { Poll, Polls } from 'application/models/poll/Poll';
 import UseEventService from 'application/store/services/UseEventService';
 import { useRouter } from 'solito/router';
-
+import { getColorScheme } from 'application/styles/colors';
 const PollListingByDate = ({polls}:{polls:Polls}) => {
   
   const { event, modules  } = UseEventService();
@@ -13,11 +13,12 @@ const PollListingByDate = ({polls}:{polls:Polls}) => {
   const [pollDateIndex, setPollDateIndex] = React.useState(0);
   
   const { push } = useRouter()
-    
+const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
+
   return (
     <Container mb={4} rounded="10" bg="primary.box" w="100%" maxW="100%">
     <Heading py="1" fontSize="26px" w="100%" textAlign="center" fontWeight={500}>{modules?.find((polls)=>(polls.alias == 'polls'))?.name ?? 'Polls'}</Heading>
-    <HStack py="1" w="100%" bg="primary.darkbox" space="0" alignItems="center">
+    <HStack py="1" w="100%"  bg={colors.primary}  space="0" alignItems="center">
       <Center alignItems="flex-start" w="10%">
         {pollDateIndex > 0 && <IconButton
           p="0"

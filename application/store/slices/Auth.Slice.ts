@@ -164,15 +164,15 @@ const AuthSlice = createSlice({
         disclaimerStatusUpdated(state, action: PayloadAction<boolean>) {
             state.disclaimerStatus = action.payload;
         },
+        loginWithToken(state, action: PayloadAction<{ token: string }>) {
+            state.processing = true;
+        },
         updateOnboarding(state, action: PayloadAction<any>) {
             state.onboarding = {
                 ...state.onboarding,
                 ...action.payload
             };
-        },
-        loginWithToken(state, action: PayloadAction<{ token: string }>) {
-            state.processing = true;
-        },
+        }
     },
 });
 
@@ -192,8 +192,8 @@ export const AuthActions = {
     clearToken: AuthSlice.actions.clearToken,
     reloadPage: AuthSlice.actions.reloadPage,
     disclaimerStatusUpdated: AuthSlice.actions.disclaimerStatusUpdated,
-    updateOnboarding: AuthSlice.actions.updateOnboarding,
     loginWithToken: AuthSlice.actions.loginWithToken,
+    updateOnboarding: AuthSlice.actions.updateOnboarding,
 }
 
 // Selectors

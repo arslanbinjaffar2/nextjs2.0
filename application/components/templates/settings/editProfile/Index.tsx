@@ -1138,11 +1138,12 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             }}
                                             _text={{color:'primary.hovercolor'}}
                                                 size={'lg'}
+                                                _text={{color:'primary.hovercolor'}}
                                             >
                                                 {event?.labels.GENERAL_BROWSE ?? 'Browse'}
                                             </Button> */}
                                             <View flexDirection={'row'} alignItems={'center'}>
-                    <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
+                    <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.hovercolor'} name="upload" size="lg" />}  isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true} onPress={()=>{
                                     if(inputFileRef.current){
                                         inputFileRef.current.click();
                                     }
@@ -1244,7 +1245,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
 
                                             </Center>
                                             <View flexDirection={'row'} alignItems={'center'}>
-                    <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.text'} name="upload" size="lg" />}
+                    <Button  p={"10px"}  leftIcon={<Icon as={AntDesign} color={'primary.hovercolor'} name="upload" size="lg" />}
                             isDisabled={(setting.is_editable === 1  && event?.attendee_settings?.create_profile == 1) ? false : true}
                             onPress={()=>{
                                 if(inputresumeFileRef.current){

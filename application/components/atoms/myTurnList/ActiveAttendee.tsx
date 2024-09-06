@@ -128,7 +128,6 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
             RequestToSpeech({ agenda_id: program_id, action: action })
             setStatus(prev => !prev)
             setNote('')
-            
         }
     };
 

@@ -86,8 +86,8 @@ export function* RootSaga() {
                 fork(HdWatcherSaga),
                 fork(SocialWallWatcherSaga),
                 fork(MeetingReservationWatcherSaga),
-                fork(ChatWatcherSaga),
-                fork(RequestToSpeakWatcherSaga)
+                fork(RequestToSpeakWatcherSaga),
+                fork(ChatWatcherSaga)
             ])
 }
 

@@ -327,7 +327,7 @@ const Detail = () => {
                                         <Center w={'70%'} alignItems={'flex-start'} justifyContent={'flex-start'} p="0">
                                             <View w={'100%'}  >
                                                 {qaDetials?.paragraph?.length > 0 ?
-                                                <CustomSelect initialiState={paragraph} qaDetials={qaDetials}>
+                                                    <CustomSelect initialiState={paragraph} qaDetials={qaDetials}>
                                                     <Select
                                                         placeholder={qaDetials.labels.QA_SELECT_PARAGRAPH}
                                                         w="100%"

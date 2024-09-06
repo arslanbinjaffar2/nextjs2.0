@@ -156,17 +156,17 @@ const BoxView = ({ k, exhibitor, w, screen }: AppProps) => {
 																				<Popover
 																					trigger={(triggerProps) => {
 																					return <Button
-                                                                                                _text={{fontSize: 'sm', lineHeight: 24}}
-                                                                                                _hover={{_text: {color: 'primary.hovercolor'}}}
-                                                                                                bg={'transparent'}
-                                                                                                colorScheme={'unstyled'}
-                                                                                                px={1}
-                                                                                                py={0}
-                                                                                                mr={2}
-                                                                                                position={'relative'}
-                                                                                                left={`${(measureText(exhibitor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(exhibitor?.categories[0]?.info.name, 14)) + 28 + (1 * 10)}px`}
-                                                                                                rounded={'full'}
-                                                                                                {...triggerProps}
+																									bg={'transparent'}
+																									colorScheme={'unstyled'}
+																									px={1}
+																									py={0}
+																									mr={2}
+																									_text={{fontSize: 'sm', lineHeight: 24}}
+																									_hover={{_text: {color: 'primary.hovercolor'}}}
+																									position={'relative'}
+																									left={`${(measureText(exhibitor?.categories[0]?.info.name, 14) > 140 ? 140 :  measureText(exhibitor?.categories[0]?.info.name, 14)) + 28 + (1 * 10)}px`}
+																									rounded={'full'}
+																									{...triggerProps}
 																								>
 																									{`+${ exhibitor.categories.length - 3}`}
 																								</Button>

@@ -188,11 +188,6 @@ const Detail = ({ speaker }: Props) => {
             ) : (
                 <>
                     <NextBreadcrumbs module={programModule} title={title}/>
-                    {/* {!speaker &&
-                        <HStack mb="3" pt="2" w="100%" space="3" alignItems="center" justifyContent={'flex-end'}>
-                        <Search tab={tab} />
-                    </HStack>
-                    } */}
                     <BasicInfoBlock detail={detail} showPrivate={response?.data?.user.id == _id ? 1 : 0} speaker={speaker} />
                     {detail?.detail?.gdpr === 1 && (
                         <>
@@ -253,7 +248,7 @@ const Detail = ({ speaker }: Props) => {
                                             <SectionLoading />
                                         ) : (
                                             <>
-                                                {groups?.map((group: Group, k: number) =>
+                                                { groups?.map((group: Group, k: number) =>
                                                     <React.Fragment key={`${k}`}>
                                                         <RectangleGroupView group={group} k={k} border={k} navigation={true}/>
                                                     </React.Fragment>

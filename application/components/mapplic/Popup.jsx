@@ -28,7 +28,7 @@ export const Popup = ({location, type}) => {
 			</HStack>
 			
 			{ location.image && (
-				<View pb={3} position={'relative'} zIndex={8} display={'flex'} alignItems={'center'} justifyContent={'center'} w={'100%'}>
+				<View pb={3} position={'relative'} zIndex={8} display={'flex'} alignItems={'center'} justifyContent={'center'} w={'100%'} >
 					<img style={{maxWidth: '120px'}} src={location.image} alt={location?.title} />
 				</View>
 			)}

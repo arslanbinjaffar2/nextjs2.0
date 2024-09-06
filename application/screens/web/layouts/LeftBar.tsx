@@ -82,7 +82,13 @@ const PressableElement = ({row}: any) => {
         iconProps={{ width: 26, height: 26, color: isHovered || checkActiveRoute(row, router.asPath, info, page) ? func.colorType(event?.settings?.primary_color) : undefined }} />
         {/* <DynamicIcon iconType={row?.icon?.replace('@2x','').replace('-icon','').replace('-','_').replace('.png', '') } iconProps={{ width: 24, height: 21 }} /> */}
       </Center>
-      {width > 1200 && <Text fontSize={'20px'} fontWeight={400} color={isHovered || checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>{row?.name}</Text>}
+
+      {width > 1200 && 
+  
+      <Text fontSize={'20px'} fontWeight={400} color={isHovered || checkActiveRoute(row, router.asPath, info, page) ? 'primary.hovercolor' : 'primary.text'}>
+        {row?.name.substring(0,22)}...</Text>
+ 
+      }
       {row?.alias === 'alerts' && unread > 0 &&
         <Badge // bg="red.400"
           bg="secondary.500" rounded="full" mr={-4} zIndex={1} variant="solid"  _text={{
@@ -91,6 +97,7 @@ const PressableElement = ({row}: any) => {
             {unread}
         </Badge>
       }
+
     </HStack>
     
   </Pressable>
@@ -140,10 +147,13 @@ const LeftBar = () => {
               <Avatar w="62px" h="62px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
                 {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
               </Avatar>
+              
+
               {width > 1200 && <VStack w={'calc(100% - 100px)'} pl="3" space="0">
                 <Text  color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"} fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
                 <Text color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"}  p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.title} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
               </VStack>}
+
             <Pressable
             w="100%"
             p="1"
