@@ -78,7 +78,7 @@ const Index = () => {
 							{response?.event?.labels?.GENERAL_EDIT}
 						</Button>
 						{/* )} */}
-                {response?.data?.user?.sort_field_setting.map((item: any) =>{
+                {response?.data?.user?.sort_field_setting?.map((item: any) =>{
                     return (
                       <>
                         {item.name == 'profile_picture' && (
@@ -113,7 +113,7 @@ const Index = () => {
                     })}
 					</Box>
 					<HStack mb={5} w={'100%'} pt={2} space="3" justifyContent={'center'} alignItems="center">
-						{response?.data?.user?.sort_field_setting.map((item: any) => {
+						{response?.data?.user?.sort_field_setting?.map((item: any) => {
 							const url = item.name === "twitter"
 								? `${response?.attendee_detail.detail?.twitter_protocol}${response?.attendee_detail.detail?.twitter}`
 								: item.name === "facebook"
@@ -160,7 +160,7 @@ const Index = () => {
 						})}
 					</HStack>
 					<HStack space={["3", "10"]} flexWrap={'wrap'} justifyContent={'center'} width={'100%'} pt={5} borderTopWidth={1} borderTopColor={'primary.bordercolor'} alignItems="center">
-                    {response?.data?.user?.sort_field_setting.map((item:any)=>{
+                    {response?.data?.user?.sort_field_setting?.map((item:any)=>{
                         return(
                             <>
                         {item.name === 'email' && (
@@ -191,7 +191,7 @@ const Index = () => {
                      })}
 					</HStack>
 				</Box>
-                {response?.data?.user?.sort_field_setting.map((item:any)=>{
+                {response?.data?.user?.sort_field_setting?.map((item:any)=>{
                     return(
                 <>
                 {console.log(item.name)}
@@ -229,7 +229,7 @@ const Index = () => {
 					alignItems="flex-start"
 					justifyContent="flex-start"
 				>
-					{response?.data?.user?.sort_field_setting.map((item: any) => {
+					{response?.data?.user?.sort_field_setting?.map((item: any) => {
 						return (
               <>
                 {item.name === 'company_name' && (
