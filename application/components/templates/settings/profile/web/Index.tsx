@@ -835,11 +835,40 @@ const Index = () => {
                     </Center>
                     <Center>
                       <Text fontSize="md">
-                        {
-                          response?.attendee_detail?.detail
-                            ?.title
-                        }
+                        {response?.attendee_detail?.detail?.title}
                       </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'show_custom_field' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_CUSTOM_FIELDS}
+                      </Text>
+                    </Center>
+                    <Center>
+                      {response?.data?.user.attendee_custom_field?.map(
+                        (item: any, key: number) => (
+                          <Text fontSize="md" key={key}>
+                            {item.children_recursive.length > 0 ? (
+                              item.children_recursive.map(
+                                (child: any, index: number) => (
+                                  <Text key={index}>{child.name}</Text>
+                                )
+                              )
+                            ) : (
+                              ''
+                            )}
+                          </Text>
+                        )
+                      )}
                     </Center>
                   </HStack>
                 )}
@@ -876,16 +905,17 @@ const Index = () => {
                             alignItems={'center'}
                             flexDirection={[
                               'column',
-                              width <= 1024 ||  response?.attendee_detail?.attendee_cv.length < 50 ? 'column' : 'row',
+                              width <= 1024 ||
+                              response?.attendee_detail?.attendee_cv.length < 50
+                                ? 'column'
+                                : 'row',
                             ]}
                           >
                            
                               <Text
                                 fontSize="sm"
-                                textBreakStrategy='balanced' 
-                                isTruncated 
-                                noOfLines={2}
-                                ellipsizeMode='tail'
+                                width={'100%'}
+                                textBreakStrategy="balanced"
                               >
                                 {response?.attendee_detail?.attendee_cv.replace(/[0-9_]/g, '')}
                               </Text>
