@@ -47,7 +47,6 @@ const Index = () => {
 		}
 		return '';
 	};
-
 	return (
 		<>
         
@@ -56,7 +55,7 @@ const Index = () => {
              
 				<Box pt={6} px={[3, 6]} pb={4} w={'100%'}>
 					<Box w={'100%'} position={'relative'} alignItems={'center'}>
-						{/* {setting_modules && setting_modules?.find((module) => (module?.alias == 'editprofile')) && ( */}
+						{setting_modules && setting_modules?.find((module) => (module?.alias == 'editprofile')) && (
 						<Button
 							position={'absolute'}
 							right={0}
@@ -72,24 +71,39 @@ const Index = () => {
 							}}>
 							{response?.event?.labels?.GENERAL_EDIT}
 						</Button>
-						{/* )} */}
-                {response?.data?.user?.sort_field_setting?.map((item: any) =>{
+						 )}
+            <Box>
+                {/* Check if the profile picture is present */}
+                {response?.data?.user?.sort_field_setting?.some(
+                  (item: any) => item.name === 'profile_picture'
+                ) ? (
+                  <Avatar
+                    size={['130px']}
+                    source={{
+                      uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`,
+                    }}
+                  >
+                    {getFirstLetters(
+                      `${response?.attendee_detail?.first_name} ${response?.attendee_detail?.last_name}`
+                    )}
+                  </Avatar>
+                ) : (
+                  <Avatar
+                  size={['130px']}
+                  source={{
+                    uri: ``,
+                  }}
+                >
+                  {getFirstLetters(
+                    `${response?.attendee_detail?.first_name} ${response?.attendee_detail?.last_name}`
+                  )}
+                </Avatar>
+                )}
+                    {response?.data?.user?.sort_field_setting?.map((item: any) =>{
                     return (
                       <>
-                        {item.name == 'profile_picture' && (
-                          <Avatar
-                            size={['130px']}
-                            source={{
-                              uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`,
-                            }}
-                          >
-                            {getFirstLetters(
-                              `${response?.attendee_detail?.first_name} ${response?.attendee_detail?.last_name}`
-                            )}
-                          </Avatar>
-                        )}
                         <Flex alignItems={'center'} justifyContent={'center'}  width={'100%'}>
-                          {item.name === 'first_name' || item.name === 'last_name' && (
+                          {item.name === 'first_name' &&  (
                             <Text
                               fontWeight={'500'}
                               pt={2}
@@ -106,6 +120,9 @@ const Index = () => {
                       </>
                     )
                     })}
+
+              </Box>
+
 					</Box>
 					<HStack mb={5} w={'100%'} pt={2} space="3" justifyContent={'center'} alignItems="center">
 						{response?.data?.user?.sort_field_setting?.map((item: any) => {
@@ -818,11 +835,40 @@ const Index = () => {
                     </Center>
                     <Center>
                       <Text fontSize="md">
-                        {
-                          response?.attendee_detail?.detail
-                            ?.title
-                        }
+                        {response?.attendee_detail?.detail?.title}
                       </Text>
+                    </Center>
+                  </HStack>
+                )}
+                {item.name === 'show_custom_field' && (
+                  <HStack
+                    w={['100%', '50%']}
+                    mb={4}
+                    alignItems="center"
+                    space="3"
+                    justifyContent="flex-start"
+                  >
+                    <Center alignItems={'flex-start'} w={['140px', '180px']}>
+                      <Text fontWeight={500} fontSize="md">
+                        {response?.event?.labels?.ATTENDEE_CUSTOM_FIELDS}
+                      </Text>
+                    </Center>
+                    <Center>
+                      {response?.data?.user.attendee_custom_field?.map(
+                        (item: any, key: number) => (
+                          <Text fontSize="md" key={key}>
+                            {item.children_recursive.length > 0 ? (
+                              item.children_recursive.map(
+                                (child: any, index: number) => (
+                                  <Text key={index}>{child.name}</Text>
+                                )
+                              )
+                            ) : (
+                              ''
+                            )}
+                          </Text>
+                        )
+                      )}
                     </Center>
                   </HStack>
                 )}
@@ -856,36 +902,29 @@ const Index = () => {
                           <HStack
                             space={'2'}
                             flexWrap={'wrap'}
+                            alignItems={'center'}
                             flexDirection={[
                               'column',
-                              width <= 1024 ||  response?.attendee_detail?.attendee_cv.length < 50 ? 'column' : 'row',
+                              width <= 1024 ||
+                              response?.attendee_detail?.attendee_cv.length < 50
+                                ? 'column'
+                                : 'row',
                             ]}
                           >
-                            <Pressable
-                              onPress={async () => {
-                                const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`
-                                const supported = await Linking.canOpenURL(url)
-                                if (supported) {
-                                  await Linking.openURL(url)
-                                }
-                              }}
-                            >
+                           
                               <Text
                                 fontSize="sm"
                                 width={'100%'}
                                 textBreakStrategy='balanced' 
                               >
-                                {response?.attendee_detail?.attendee_cv}
+                                {response?.attendee_detail?.attendee_cv.replace(/[0-9_]/g, '')}
                               </Text>
-                            </Pressable>
                             <HStack flexDirection={'row'} space={2} mt={[1, 0]}>
                               <Text fontSize={'md'}>.</Text>
                               <Pressable
-                                onPress={async () => {
+                                 onPress={async () => {
                                   const url = `${_env.eventcenter_base_url}/assets/attendees/cv/${response?.attendee_detail?.attendee_cv}`
-                                  const supported = await Linking.canOpenURL(
-                                    url
-                                  )
+                                  const supported = await Linking.canOpenURL(url)
                                   if (supported) {
                                     await Linking.openURL(url)
                                   }
@@ -895,6 +934,7 @@ const Index = () => {
                                   color={'#05E0E0'}
                                   textDecorationLine={'underline'}
                                   fontSize="sm"
+                                 
                                 >
                                   Download
                                 </Text>
