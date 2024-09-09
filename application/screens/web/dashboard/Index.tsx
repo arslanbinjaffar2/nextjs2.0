@@ -321,20 +321,6 @@ const Index = ({ navigation }: indexProps) => {
 
          }
 
-          <HStack w={'100%'} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
-            {custom_html.map((customHtmlItem, index) => (
-              <VStack key={index} mx={0} width={'100%'} space={3}>
-                {Object.entries(customHtmlItem).map(([key, value], k) => (
-                  value.status === 1 && (
-                    <Box key={k} w={'100%'} bg="primary.box" rounded="10px" p="3">
-                      <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: value.content }} />
-                    </Box>
-                  )
-                ))}
-              </VStack>
-            ))}
-          </HStack>
-
              
 
           
