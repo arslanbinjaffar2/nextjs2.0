@@ -33,9 +33,7 @@ const Index = () => {
         <HStack bg={'primary.box'} p={1} rounded={'20px'}  space="1" alignItems="center" width="100%">
         <Avatar
 						size={'lg'}
-						source={{
-						uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`
-						}}>
+						 source={response?.attendee_detail?.image ? { uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` } : {}} >
 						{getFirstLetters(`${response?.data?.user?.first_name} ${response?.data?.user?.last_name}`)}
 					</Avatar>
 					<Text ml={2} fontSize="lg" textTransform={"capitalize"}>{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text> 

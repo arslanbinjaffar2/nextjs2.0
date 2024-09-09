@@ -142,10 +142,7 @@ const Detail = () => {
                     <HStack direction={isSenderMe ? "row-reverse" : "row"} mb="3" space="0" alignItems="flex-end">
                       <Avatar
                         mb={3}
-                        source={{
-                          uri: `${_env.eventcenter_base_url}/assets/attendees/${answer?.display_image}`
-                        }}
-                      >
+                         source={answer?.display_image ? { uri: `${_env.eventcenter_base_url}/assets/attendees/${answer?.display_image}` } : {}} >
                         {answer?.display_name.substring(0, 2)}
                       </Avatar>
                       <VStack space={2} ml="3" mr="3">

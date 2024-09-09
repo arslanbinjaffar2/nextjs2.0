@@ -137,7 +137,7 @@ const LeftBar = () => {
             }}>
 
             <Flex w={width > 1200 ? '257px' : '62px'} alignItems="center" flexDirection={'row'}>
-              <Avatar w="62px" h="62px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
+              <Avatar w="62px" h="62px" bg="#a5a5a5"  source={response?.attendee_detail?.image ? { uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` } : {}} >
                 {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
               </Avatar>
               {width > 1200 && <VStack w={'calc(100% - 100px)'} pl="3" space="0">

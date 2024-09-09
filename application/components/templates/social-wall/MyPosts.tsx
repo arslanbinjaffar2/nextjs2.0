@@ -18,9 +18,7 @@ const MyPosts = () => {
                 borderWidth={1}
                 borderColor="primary.text"
                 size="md"
-                source={{
-                  uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}`
-                }}
+                source={response?.data?.user?.image ? { uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.data?.user?.image}` } : {}}
               >
                 SS
               </Avatar>
