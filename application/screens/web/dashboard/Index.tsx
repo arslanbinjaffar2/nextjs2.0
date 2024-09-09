@@ -59,7 +59,7 @@ const Index = ({ navigation }: indexProps) => {
 
   const { surveys, FetchSurveys } = UseSurveyService();
 
-  const { event, modules,custom_html } = UseEventService();
+  const { event, modules,custom_html,event_url } = UseEventService();
 
   const { banners, FetchBanners } = UseBannerService();
   const { FetchAlerts, alerts, markAlertRead, alert_setting} = UseAlertService();
@@ -116,9 +116,9 @@ const Index = ({ navigation }: indexProps) => {
     }
     let skipPendingAppointmentAlerts = false;
     if(Platform.OS === 'web'){
-      skipPendingAppointmentAlerts= Boolean(localStorage.getItem('skip_pending_appointment_alerts'));
+      skipPendingAppointmentAlerts= Boolean(localStorage.getItem(`skip_pending_appointment_alerts_${event_url}`));
     }else{
-      skipPendingAppointmentAlerts= Boolean(AsyncStorageClass.getItem('skip_pending_appointment_alerts'));
+      skipPendingAppointmentAlerts= Boolean(AsyncStorageClass.getItem(`skip_pending_appointment_alerts_${event_url}`));
     }
     console.log('skipPendingAppointmentAlerts',skipPendingAppointmentAlerts);
     if(!skipPendingAppointmentAlerts){
@@ -317,20 +317,6 @@ const Index = ({ navigation }: indexProps) => {
           }) // end loop dashboard_modules
 
          }
-
-          <HStack w={'100%'} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
-            {custom_html.map((customHtmlItem, index) => (
-              <VStack key={index} mx={0} width={'100%'} space={3}>
-                {Object.entries(customHtmlItem).map(([key, value], k) => (
-                  value.status === 1 && (
-                    <Box key={k} w={'100%'} bg="primary.box" rounded="10px" p="3">
-                      <div className='ebs-iframe-content' dangerouslySetInnerHTML={{ __html: value.content }} />
-                    </Box>
-                  )
-                ))}
-              </VStack>
-            ))}
-          </HStack>
 
              
 
