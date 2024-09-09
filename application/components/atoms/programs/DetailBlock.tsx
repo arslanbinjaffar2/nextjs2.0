@@ -49,14 +49,14 @@ const DetailBlock = ({ children }: AppProps) => {
                             <FavProgramToggle program_id={detail.program.id} key={detail.program.id} />
                         )}
             </HStack>
-            <HStack w="100%" mb="3" space="10" alignItems="center">
+            <HStack w="100%" mb="3" space={'2'} alignItems="center" justifyContent={'space-between'}>
                 {detail?.program?.start_time && detail?.program?.end_time  && event.agenda_settings?.agenda_display_time == 1 && detail?.program?.hide_time == 0 && (
-                    <Text fontSize="md">{moment(`${detail?.program?.date} ${detail?.program?.start_time}`).format('HH:mm')} - {moment(`${detail?.program?.date} ${detail?.program?.end_time}`).format('HH:mm')}</Text>
+                    <Text fontSize="md" width={'20%'}>{moment(`${detail?.program?.date} ${detail?.program?.start_time}`).format('HH:mm')} - {moment(`${detail?.program?.date} ${detail?.program?.end_time}`).format('HH:mm')}</Text>
                 )}
                 {detail?.program?.location && (
-                    <HStack space="2" alignItems="center">
+                    <HStack space="2" alignItems="center" width={'80%'} >
                         <Icon color="primary.text" size="md" as={Ionicons} name="ios-location-sharp" />
-                        <Text pt="2px" fontSize="md">{detail?.program?.location}</Text>
+                        <Text pt="2px" fontSize="md"  textBreakStrategy='balanced'  >{detail?.program?.location}</Text>
                     </HStack>
                 )}
             </HStack>
