@@ -36,7 +36,7 @@ const Drawer = (props: any) => {
         <DrawerContentScrollView {...props} safeArea>
             <Box px="4" py="5">
                 <Flex alignItems="center" flexDirection={'row'}>
-                    <Avatar w="70px" h="70px" bg="green.500"  source={response?.attendee_detail?.image ? { uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` } : {}} >
+                    <Avatar w="70px" h="70px" bg="green.500" source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}`}}>
                         {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
                     </Avatar>
                     <VStack px="4" space="0">

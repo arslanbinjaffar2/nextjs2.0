@@ -239,12 +239,14 @@ const Detail = () => {
                                   qaDetials?.popular_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
+                                        {question?.attendee?.image && (
                                     <Avatar
                                         size="md"
                                         source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
+                                        )}
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
@@ -265,12 +267,14 @@ const Detail = () => {
                                   qaDetials?.recent_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
+                                    {question?.attendee?.image && (
                                     <Avatar
                                         size="md"
                                         source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
+                                        )}
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
@@ -291,12 +295,14 @@ const Detail = () => {
                                   qaDetials?.archived_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
+                                    {question?.attendee?.image && (
                                     <Avatar
                                         size="md"
                                         source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
+                                        )}
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
@@ -317,12 +323,14 @@ const Detail = () => {
                                   qaDetials?.my_questions?.map((question,i)=>(
                                     <>
                                     <HStack w="100%" space="3" alignItems="center">
+                                    {question?.attendee?.image && (
                                     <Avatar
                                         size="md"
                                         source={{uri:`${_env.eventcenter_base_url}/assets/attendees/${question?.attendee?.image}`}}
                                     >
                                     {question?.attendee?.first_name.charAt(0).toUpperCase() + question?.attendee?.last_name.charAt(0).toUpperCase()}
                                     </Avatar>
+                                        )}
                                     <Text fontWeight="600" fontSize="lg">
                                     {question?.attendee?.first_name + question?.attendee?.last_name}
                                     </Text>
