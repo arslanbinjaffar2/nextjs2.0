@@ -289,9 +289,11 @@ function add(){
     <>
     <View rounded="10" bg="primary.box" p="4" w={'100%'} justifyContent={'space-between'} flexDirection={['column','row']} alignItems={'center'}>
     <Box flexDirection={'row'} alignItems={'center'}>
+       {response?.attendee_detail?.image && (
     <Avatar w="62px" h="62px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
     {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
     </Avatar>
+       )}
     <Text   fontSize="lg"fontWeight={'medium'} isTruncated ml={4}>{response?.data?.user?.name}</Text>
     </Box>
 
