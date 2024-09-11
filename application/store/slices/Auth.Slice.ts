@@ -88,7 +88,10 @@ const AuthSlice = createSlice({
             state.processing = false;
             state.response = action.payload.response;
             const event_url=action?.payload?.event_url;
-            const onboarding = action.payload.response.data?.user?.onboarding;
+            let onboarding = action.payload.response.data?.user?.onboarding;
+            if(!onboarding){
+                onboarding = {}
+            }
 
             if (Platform.OS === 'web') {
                 const skipSubReg = localStorage.getItem(`skip_sub_reg_${event_url}`) === 'true';
