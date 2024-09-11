@@ -29,7 +29,6 @@ const Index = React.memo(() => {
     const tabQueryParam = searchParams.get('tab');
     const modeQueryParam = searchParams.get('mode');
     const categoryIdQueryParam = searchParams.get('category_id');
-    const [page, setPage] = useState(1);
     const createQueryString = React.useCallback(
         (name: string, value: string) => {
             const params = new URLSearchParams(searchParams.toString());
@@ -46,13 +45,12 @@ const Index = React.memo(() => {
     const [tab, setTab] = React.useState(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list);
     const [mode, setMode] = React.useState(modeQueryParam ? modeQueryParam : 'grid');
     const [searchQuery, setSearch] = React.useState('');
-    const { exhibitors, labels, categories, FetchExhibitors, category_id, query, total_pages } = UseExhibitorService();
+    const { exhibitors, labels, categories, FetchExhibitors, category_id, query } = UseExhibitorService();
     const mounted = useRef(false);
 
     React.useEffect(() => {
-        FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: '', page: 1, screen: 'exhibitors' });
+        FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: '', screen: 'exhibitors' });
         setTab(tabQueryParam !== null ? tabQueryParam : event?.exhibitor_settings?.exhibitor_list);
-        setPage(1);  // Reset the page number when the tab changes
     }, [tabQueryParam]);
 
     const updateTab = (tab: string) => {
@@ -67,8 +65,7 @@ const Index = React.memo(() => {
 
     const search = React.useMemo(() => {
         return debounce(function (query: string) {
-            FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: query, page: 1, screen: 'exhibitors' });
-            setPage(1);  // Reset the page number on search
+            FetchExhibitors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors' ) ? categoryIdQueryParam : 0), query: query, screen: 'exhibitors' });
         }, 1000);
     }, []);
 
@@ -80,14 +77,6 @@ const Index = React.memo(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
-
-    const loadMore = () => {
-        if (mounted.current && page < total_pages) {
-            const nextPage = page + 1;
-            FetchExhibitors({ page: nextPage, category_id: Number((categoryIdQueryParam !== null && tab === 'category-exhibitors') ? categoryIdQueryParam : 0), query: searchQuery, screen: 'exhibitors' });
-            setPage(nextPage);
-        }
-    };
 
     const module = modules.find((module) => module.alias === 'exhibitors');
     console.log(categories, 'categories');
@@ -109,17 +98,21 @@ const Index = React.memo(() => {
                     <HStack mb="3" space={1} justifyContent="center" w="100%">
                         {(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'name') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                             setTab('name');
-                            FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
+                            if(category_id !== 0) {
+                                FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
+                            }
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'name'));
                         }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={8} borderRightRadius={(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'category') ? 0 : 8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'category') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_NAME}</Button>}
                         {(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'category') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                             setTab('category');
-                            FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
+                            if(category_id !== 0) {
+                                FetchExhibitors({ category_id: 0, query: '', screen: 'exhibitors' });
+                            }
                             push(`/${event.url}/exhibitors` + '?' + createQueryString('tab', 'category'));
                         }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-exhibitors' ? 'primary.boxbutton' : 'primary.box'} w={(event?.exhibitor_settings?.exhibitorTab === 1 || event?.exhibitor_settings?.exhibitor_list === 'name') ? "50%": "100%"} _text={{ fontWeight: '600' }}>{labels?.EXHIBITORS_CATEGORY}</Button>}
                     </HStack>
                 )}
-                {loading && page == 1 ? (
+                {processing.includes('exhibitors-listing') ? (
                     <SectionLoading />
                 ) : (
                     <>
@@ -186,18 +179,6 @@ const Index = React.memo(() => {
                             </ScrollView>
                         </Box>}
                         <BannerAds module_name={'exhibitors'} module_type={'listing'} />
-                    </>
-                )}
-                {console.log(page, 'current page')}
-                {in_array('exhibitors-listing', processing) && (page > 1) && (
-                  <HStack mt={3} w="100%">
-                      <LoadMore />
-                  </HStack>
-                )}
-                {!loading && !in_array('exhibitors', processing) && (total_pages > 1) && (
-                    <>
-                       {console.log('dfdfdfd')}
-                        <IntersectionObserverComponent onIntersect={loadMore} />
                     </>
                 )}
             </Container>

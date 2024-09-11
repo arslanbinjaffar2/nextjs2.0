@@ -16,34 +16,16 @@ function* OnGetExhibitors({
     // yield put(LoadingActions.set(true))
     yield put(LoadingActions.addProcess({ process: 'exhibitors-listing' }))
     const state = yield select(state => state);
-    console.log("🚀 ~ OnGetExhibitors ~ payload:", payload)
     const response: HttpResponse = yield call(getExhibitorApi, { ...payload, limit: payload.screen === 'our-exhibitors' ? 5 : 50  }, state)
     if (payload.screen === 'our-exhibitors') {
         yield put(ExhibitorActions.updateOurExhibitors(response.data.data.exhibitors!))
     } else if (payload.screen === 'my-exhibitors') {
         yield put(ExhibitorActions.updateMyExhibitors(response.data.data.exhibitors!))
     } else {
-        if (payload.page && payload.page > 1) {
-            yield put(ExhibitorActions.update({
-                exhibitors: response.data.data.exhibitors || [],
-                page: response.data.data.page,
-                total_pages: response.data.data.total_pages,
-            }));
-        } else {
-            yield put(ExhibitorActions.update({
-                exhibitors: response.data.data.exhibitors || [],
-                page: response.data.data.page,
-                total_pages: response.data.data.total_pages,
-            }));
-        }
-        yield put(ExhibitorActions.updateSiteLabels(response.data.data.labels!))
+        yield put(ExhibitorActions.update({exhibitors: response.data.data.exhibitors || []}));
     }
-const { exhibitorCategories, page, total_pages } = response.data.data.exhibitorCategories;
-    yield put(ExhibitorActions.updateCategories({
-        categories: exhibitorCategories,
-        page,
-        total_pages
-    }));
+    yield put(ExhibitorActions.updateSiteLabels(response.data.data.labels!))
+    yield put(ExhibitorActions.updateCategories(response.data.data.exhibitorCategories!));
     yield put(ExhibitorActions.updateSettings(response.data.data.settings!))
     yield put(ExhibitorActions.updateCategory(payload.category_id))
     yield put(ExhibitorActions.updateQuery(payload.query))
