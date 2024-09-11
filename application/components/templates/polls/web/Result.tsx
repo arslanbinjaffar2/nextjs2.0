@@ -106,6 +106,9 @@ const Detail = () => {
                         {(question.question_type == 'matrix') &&
                             <MatrixTypeResult question={question} key={i} questionNumber={i} />
                         }
+                        {(question.question_type == 'priority_voting') &&
+                            <MatrixTypeResult question={question} key={i} questionNumber={i} />
+                        }
                         </>
                 ))}
 

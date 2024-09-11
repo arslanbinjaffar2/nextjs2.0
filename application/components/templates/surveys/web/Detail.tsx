@@ -15,6 +15,7 @@ import SingleAnswer from 'application/components/atoms/surveys/questions/SingleA
 import DropdownAnswer from 'application/components/atoms/surveys/questions/DropdownAnswer';
 import WordCloudAnswer from 'application/components/atoms/surveys/questions/WordCloudAnswer';
 import MatrixAnswer from 'application/components/atoms/surveys/questions/MatrixAnswer';
+import PriorityVoting from 'application/components/atoms/surveys/questions/PriorityVoting';
 import OpenQuestionAnswer from 'application/components/atoms/surveys/questions/OpenQuestionAnswer';
 import NumberAnswer from 'application/components/atoms/surveys/questions/NumberAnswer';
 import DateAnswer from 'application/components/atoms/surveys/questions/web/DateAnswer';
@@ -96,13 +97,24 @@ const Detail = () => {
       }
       newFormData[question_id].answer[index!] = answer
     }
+    else if(type === 'priority_voting'){
+      if(newFormData[question_id].answer === null){
+        newFormData[question_id].answer = {}
+      }
+      
+      Object.keys(newFormData[question_id].answer).forEach((key) => {
+        if(newFormData[question_id].answer[key] === Number(answer)){
+          delete newFormData[question_id].answer[key]
+        }
+      });
+      newFormData[question_id].answer[index!] = Number(answer);
+    }
     else if(type === 'comment'){
       newFormData[question_id].comment = answer
     }
     else{
       newFormData[question_id].answer = answer
     }
-    console.log(newFormData)
     setFormData(newFormData);
     setForceUpdate(forceUpdate + 1);
   }
@@ -168,6 +180,12 @@ const Detail = () => {
                 return;
               } 
             }
+            else if(activeQuestion?.question_type === 'priority_voting') {
+              if(formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || Object.keys(formData[activeQuestion?.id!].answer).length < activeQuestion.answer.length){
+                setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
+                return;
+              } 
+            }
             else{
               if(Number(activeQuestion?.required_question) === 1 && (formData[activeQuestion?.id!] === undefined || formData[activeQuestion?.id!]?.answer === null || formData[activeQuestion?.id!].answer === '')){
                 setActiveQuestionError(event.labels.REGISTRATION_FORM_FIELD_REQUIRED);
@@ -206,6 +224,9 @@ const Detail = () => {
                 answeredQuestion['answers'] = (formData[q.id] !== undefined && formData[q.id].answer.length > 0) ? formData[q.id].answer.map((i:number)=>({id:i})) : [];
               }
               else if(q.question_type === 'matrix'){
+                answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, i)=>([...ack, {id: `${i}_${formData[q.id].answer[i]}`}]), []) : [];
+              }
+              else if(q.question_type === 'priority_voting'){
                 answeredQuestion['answers'] = (formData[q.id] !== undefined && Object.keys(formData[q.id].answer).length > 0) ? Object.keys(formData[q.id].answer).reduce((ack:any, i)=>([...ack, {id: `${i}_${formData[q.id].answer[i]}`}]), []) : [];
               }
             }
@@ -273,6 +294,7 @@ const Detail = () => {
               {!completed && <Box w="100%" bg="primary.box" borderWidth="0" borderColor="primary.bdBox" rounded="10">
                 {detail?.questions.length! > 0 &&  detail?.questions[steps] !== undefined && (
                   <>
+                    {detail?.questions[steps].question_type === 'priority_voting' && <PriorityVoting question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} key={detail?.questions[steps].id}   />}
                     {detail?.questions[steps].question_type === 'matrix' && <MatrixAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} key={detail?.questions[steps].id}   />}
                     {detail?.questions[steps].question_type === 'multiple' && <MultipleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} key={detail?.questions[steps].id}   />}
                     {detail?.questions[steps].question_type === 'single' && <SingleAnswer question={detail?.questions[steps]} formData={formData} updateFormData={updateFormData} error={activeQuestionError} labels={event?.labels} forceRender={forceUpdate} key={detail?.questions[steps].id}   />}

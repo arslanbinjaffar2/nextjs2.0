@@ -103,6 +103,9 @@ const Detail = () => {
                         {(question.question_type == 'matrix') &&
                             <MatrixTypeResult question={question} key={i} questionNumber={i} />
                         }
+                        {(question.question_type == 'priority_voting') &&
+                            <MatrixTypeResult question={question} key={i} questionNumber={i} />
+                        }
                         </>
                 ))}
                 {mySurveyResultDetail &&( mySurveyResultDetail?.question.length <= 0 || mySurveyResultDetail?.question.filter((q)=>( q?.results && q?.results?.length > 0)).length <= 0) && <Box overflow="hidden" bg="primary.box" w="100%" rounded="lg" p={5}>
