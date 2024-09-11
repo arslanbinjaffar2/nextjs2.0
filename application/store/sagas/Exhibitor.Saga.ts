@@ -57,8 +57,7 @@ function* OnGetOurExhibitors({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getOurExhibitorApi, payload, state)
-    yield put(ExhibitorActions.updateOurExhibitors({ exhibitors: response.data.data.exhibitors!, page: payload.page }))
-    
+    yield put(ExhibitorActions.updateOurExhibitors({ exhibitors: response.data.data.exhibitors! }))
     yield put(ExhibitorActions.updateSettings(response.data.data.settings!))
     yield put(LoadingActions.set(false));
 }
