@@ -22,40 +22,22 @@ function* OnGetSponsors({
     yield put(LoadingActions.addProcess({ process: 'sponsors-listing' }))
     // yield put(LoadingActions.set(true))
     const state = yield select(state => state);
-    const response: HttpResponse = yield call(getSponsorApi, { ...payload, limit: payload.screen === 'our-sponsors' ? 5 : 50 }, state)
+    const response: HttpResponse = yield call(getSponsorApi, { ...payload, limit: payload.screen === 'our-sponsors' ? 5 : 1000 }, state)
     if(payload.screen === 'our-sponsors') {
         yield put(SponsorActions.updateOurSponsors(response.data.data.sponsors!))
     } else if(payload.screen === 'my-sponsors') {
         yield put(SponsorActions.updateMySponsors(response.data.data.sponsors!))
     }else{
-       if (payload.page && payload.page > 1) {
-
-           yield put(SponsorActions.update({
-               sponsors: response.data.data.sponsors || [],
-               page: response.data.data.page,
-               total_pages: response.data.data.total_pages,
-           }));
-
-        } else {
-           yield put(LoadingActions.addProcess({ process: 'sponsors-listing' }))
-           yield put(SponsorActions.update({
-               sponsors: response.data.data.sponsors || [],
-               page: response.data.data.page,
-               total_pages: response.data.data.total_pages,
-           }));
-           yield put(LoadingActions.removeProcess({ process: 'sponsors-listing' }))
-        }
+        yield put(LoadingActions.addProcess({ process: 'sponsors-listing' }))
+        yield put(SponsorActions.update({
+            sponsors: response.data.data.sponsors || []
+        }));
+        yield put(LoadingActions.removeProcess({ process: 'sponsors-listing' }))
         yield put(SponsorActions.updateSiteLabels(response.data.data.labels!))
     }
-    console.log(response.data.data.sponsorCategories?.sponsorCategories,'category');
-    const { sponsorCategories, page, total_pages } = response.data.data.sponsorCategories;
     yield put(SponsorActions.updateCategories({
-        categories: sponsorCategories,
-        page,
-        total_pages
+        categories: response.data.data.sponsorCategories
     }));
-
-    // yield put(SponsorActions.updateCategories(response.data.data.sponsorCategories!))
     yield put(SponsorActions.updateSettings(response.data.data.settings!))
     yield put(SponsorActions.updateCategory(payload.category_id))
     yield put(SponsorActions.updateQuery(payload.query))
@@ -86,7 +68,7 @@ function* OnGetOurSponsors({
     yield put(LoadingActions.set(true))
     const state = yield select(state => state);
     const response: HttpResponse = yield call(getOurSponsorsApi,payload, state)
-    yield put(SponsorActions.updateOurSponsors(response.data.data.sponsors!))
+    yield put(SponsorActions.updateOurSponsors({sponsors: response.data.data.sponsors!}))
     yield put(SponsorActions.updateSettings(response.data.data.settings!))
     yield put(LoadingActions.set(false));
 }
