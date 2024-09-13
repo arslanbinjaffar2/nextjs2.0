@@ -158,6 +158,7 @@ export const style = `
 }
 body {
   display: flex;
+  word-break: break-word;
 }
 
 .rsw-ce[contentEditable=true]:empty:not(:focus):before {
