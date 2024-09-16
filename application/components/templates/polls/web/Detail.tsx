@@ -212,7 +212,7 @@ const Detail = () => {
               is_anonymous:q.is_anonymous,
               comment:formData[q.id] !== undefined ? formData[q.id]?.comment : '',
             }
-            if(q.question_type === 'single' || q.question_type === 'multiple' || q.question_type === 'dropdown' || q.question_type === 'matrix'){
+            if(q.question_type === 'single' || q.question_type === 'multiple' || q.question_type === 'dropdown' || q.question_type === 'matrix' || q.question_type === 'priority_voting'){
               answeredQuestion['original_answers']= q.answer.map((answer)=>({id:answer.id, correct:answer.correct}));
               if(q.question_type === 'single'){
                 answeredQuestion['answers'] = formData[q.id] !== undefined && formData[q.id].answer.length > 0 ? [{id: formData[q.id].answer[0]}] : [];
