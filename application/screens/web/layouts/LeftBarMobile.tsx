@@ -61,7 +61,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
             width={30}
             h={30}
             onPress={() => {
-              router.push(`/${event.url}/settings`)
+              router.push(`/${event.url}/settings/editprofile`)
               setTimeout(()=>{
                 setOpenMenu(false)
               },800)

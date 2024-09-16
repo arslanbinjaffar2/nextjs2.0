@@ -47,6 +47,7 @@ import SectionLoading from 'application/components/atoms/SectionLoading';
 import { getColorScheme } from 'application/styles/colors';
 import AsyncStorageClass from 'application/utils/AsyncStorageClass';
 import UseMeetingReservationService from 'application/store/services/UseMeetingReservationService';
+import { max } from 'lodash';
 
 type indexProps = {
   navigation: unknown
@@ -86,7 +87,8 @@ const Index = ({ navigation }: indexProps) => {
         },
         p: {
             fontFamily: 'Avenir',
-        }
+        },
+       
     }
   React.useEffect(() => {
     const showSurveys = event?.poll_settings?.display_survey_module;
@@ -266,10 +268,10 @@ const Index = ({ navigation }: indexProps) => {
                 <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
                   <Text width={'100%'} mt={2}>
                       <VStack  mx={0} width={'100%'} space={3}>
-                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" pt={[3,0]} overflow={'hidden'} >
                           <RenderHtml
                               defaultTextProps={{selectable:true}}
-                              contentWidth={width > 600 ? 600 : width - 90}
+                              contentWidth={width > 600 ? 600 : width - 60}
                               systemFonts={['Avenir']}
                               tagsStyles={mixedStyle}
                               source={{ html: custom_html[0]?.custom_html_1?.content ?? '' }}
@@ -284,10 +286,10 @@ const Index = ({ navigation }: indexProps) => {
                 <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
                   <Text width={'100%'} mt={2}>
                       <VStack  mx={0} width={'100%'} space={3}>
-                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" pt={[3,0]} overflow={'hidden'} >
                           <RenderHtml
                               defaultTextProps={{selectable:true}}
-                              contentWidth={width > 600 ? 600 : width - 90}
+                              contentWidth={width > 600 ? 600 : width - 60}
                               systemFonts={['Avenir']}
                               tagsStyles={mixedStyle}
                               source={{ html: custom_html[0]?.custom_html_2?.content ?? '' }}
@@ -302,10 +304,10 @@ const Index = ({ navigation }: indexProps) => {
                 <HStack w={'100%'} mb={3} pt="0" space="0" alignItems="flex-start" justifyContent="flex-start">
                   <Text width={'100%'} mt={2}>
                       <VStack mx={0} width={'100%'} space={3}>
-                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" >
+                        <Box w={'100%'} bg="primary.box" rounded="10px" p="3" pt={[3,0]} overflow={'hidden'} >
                           <RenderHtml
                               defaultTextProps={{selectable:true}}
-                              contentWidth={width > 600 ? 600 : width - 90}
+                              contentWidth={width > 600 ? 600 : width - 60}
                               systemFonts={['Avenir']}
                               tagsStyles={mixedStyle}
                               source={{ html: custom_html[0]?.custom_html_3?.content ?? '' }}
