@@ -9,8 +9,9 @@ import { func } from 'application/styles'
 interface Props{
   loading:boolean | any,
   onComplete:()=>void
+  label?: string;
 }
-const SwipeBtn = ({loading,onComplete}:Props) => {
+const SwipeBtn = ({loading,onComplete,label}:Props) => {
   const {event}=UseEventService();
   const { SubmitPageScroll } = UseSubRegistrationService()
   const colors = getColorScheme(event?.settings?.app_background_color ?? '#343d50', event?.settings?.app_text_mode);
@@ -37,7 +38,7 @@ const SwipeBtn = ({loading,onComplete}:Props) => {
       onComplete={onComplete}
       onSwipeStart={() => SubmitPageScroll(false)}
       onSwipeEnd={() => SubmitPageScroll(true)}
-      title=""
+      title={label ?? ''}
       height={60}
       borderRadius={10}
       goBackToStart={true}
