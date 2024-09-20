@@ -14,8 +14,6 @@ import type { RootState } from 'application/store/Index'
 export interface SponsorState {
     sponsors: Sponsor[],
     labels: any,
-    page: number,
-    total_pages: number,
     our_sponsors: Sponsor[],
     my_sponsors: Sponsor[],
     categories: SponsorCategory[],
@@ -36,8 +34,6 @@ const initialState: SponsorState = {
     settings: {},
     category_id: 0,
     query: '',
-    page: 1,
-    total_pages: 1,
     screen: 'sponsors',
     detail: null,
     contact: null,
@@ -48,38 +44,22 @@ export const SponsorSlice = createSlice({
     name: 'sponsors',
     initialState,
     reducers: {
-        FetchSponsors(state, action: PayloadAction<{ category_id: number, query: string,page?:number, screen: string}>) {
+        FetchSponsors(state, action: PayloadAction<{ category_id: number, query: string, screen: string}>) {
             state.screen = action.payload.screen;
-             if (action.payload.page)
-            {
-                state.page = action.payload.page;
-            }
-            else{
-                state.page = 1;
-            }
         },
         FetchMySponsors(state, action: PayloadAction<{}>) {},
         FetchOurSponsors(state, action: PayloadAction<{}>) {},
         FetchSponsorDetail(state, action: PayloadAction<{ id: number }>) { },
         FetchSponsorContact(state, action: PayloadAction<{ id: number }>) { },
         MakeFavourite(state, action: PayloadAction<{ sponsor_id: number, screen: string }>) { },
-        update(state, action: PayloadAction<{ sponsors: Sponsor[], page: number, total_pages: number }>) {
-            state.total_pages = action.payload.total_pages;
-            if (state.page > 1) {
-                console.log(action.payload.sponsors, 'if here');
-                let sponsors= action.payload.sponsors;
-                state.sponsors = [...state.sponsors, ...sponsors];
-            } else {
-                console.log(action.payload.sponsors, 'if else');
-                state.sponsors = action.payload.sponsors;
-            }
+        update(state, action: PayloadAction<{ sponsors: Sponsor[]}>) {
+            state.sponsors = action.payload.sponsors;
         },
         updateSiteLabels(state, action: PayloadAction<[]>) {
             state.labels = action.payload;
         },
-        updateOurSponsors(state, action: PayloadAction<{sponsors: Sponsor[], page: number}>) {
+        updateOurSponsors(state, action: PayloadAction<{sponsors: Sponsor[]}>) {
             state.our_sponsors = action.payload.sponsors;
-            state.page = action.payload.page;
         },
         updateMySponsors(state, action: PayloadAction<Sponsor[]>) {
             state.my_sponsors = action.payload;
@@ -90,15 +70,8 @@ export const SponsorSlice = createSlice({
         updateQuery(state, action: PayloadAction<string>) {
             state.query = action.payload;
         },
-        updateCategories(state, action: PayloadAction<{ categories: SponsorCategory[], page: number, total_pages: number }>) {
-            state.total_pages = action.payload?.total_pages;
-            if (state?.page > 1) {
-                state.categories = [...state.categories, ...action.payload.categories];
-            } else {
-                console.log('else page', action.payload.page);
-                console.log('data', action.payload.categories);
-                state.categories = action.payload.categories;
-            }
+        updateCategories(state, action: PayloadAction<{ categories: SponsorCategory[]}>) {
+            state.categories = action.payload.categories;
         },
         updateSettings(state, action: PayloadAction<SponsorSetting>) {
             state.settings = action.payload;
@@ -149,7 +122,5 @@ export const SelectSponsorQuery = (state: RootState) => state.sponsors.query
 
 export const SelectSponsorDetail = (state: RootState) => state.sponsors.detail
 export const SelectSponsorContact = (state: RootState) => state.sponsors.contact
-export const SelectPage = (state: RootState) => state.sponsors.page
-export const SelectTotalPages = (state: RootState) => state.sponsors.total_pages
 // Reducer
 export default SponsorSlice.reducer
