@@ -137,7 +137,7 @@ const { FetchCheckInOut, checkInOut, SendQRCode, DoCheckInOut } = UseCheckInOutS
 React.useEffect(() => {
   FetchCheckInOut({ showLoading: true });
 }, []); 
-const module = modules.find((module) => module.alias === 'checkIn');
+const checkinModule = modules.find((module) => module.alias === 'checkIn');
 const [filteredHistory, setFilteredHistory] = React.useState<GroupedHistory[]>([]);
 const [selectedDate, setSelectedDate] = React.useState(moment(event?.start_date, 'YYYY-MM-DD').format(GENERAL_DATE_FORMAT));
 function setDefaultTab() {
@@ -368,19 +368,21 @@ React.useEffect(() => {
                 </HStack>
               )
             }
-            else if (module.alias === 'qr_code') {
+            else if (module.alias === 'qr_code' && (modules.find((m)=>(m.alias == 'checkIn')))) {
                   return (
                     <>
                       {loading ? (
                         <WebLoading />
                       ) : (
                         <>
-                        <Text mb="0" fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
 								        <Spacer />
                             <Container mb={3} pt="1" maxW="100%" w="100%">
                               {(checkInOut?.setting?.show_qrcode || checkInOut?.setting?.self_checkin) && (
                                 
                                 <Box mb="3" w="100%" bg="primary.box" p="5" rounded="10">
+                                  <HStack  pt="0" w="100%" space="3" alignItems="center">
+                                  <Text w={'100%'} pt={1} textAlign={'center'} fontSize="2xl">{modules?.find((checkin)=>(checkin.alias == 'checkIn'))?.name ?? ""}</Text>
+                                  </HStack>
                                   {checkInOut?.setting?.show_qrcode && (
                                     <Box mx="auto" w="190px" h="190px" bg="primary.box" p="3" rounded="10">
                                       <Image
@@ -393,39 +395,18 @@ React.useEffect(() => {
                                     </Box>
                                   )}
                                   
-                                  {checkInOut?.setting?.self_checkin && (
-                                    <HStack space="0" alignItems="center" justifyContent="center" pt={4}>
-                                      <Button
-                                        px={4}
-                                        py={2}
-                                        shadow={3}
-                                        colorScheme="primary"
-                                        minW={190}
-                                        onPress={() => {
-                                          DoCheckInOut({
-                                            attendee_id: response.data.user.id,
-                                            organizer_id: event.organizer_id!,
-                                            action: "attendee-checkin"
-                                          });
-                                        }}
-                                        isDisabled={in_array('checking-in-out', processing)}
-                                      >
-                                        <Text fontSize="xl" color="primary.hovercolor" fontWeight={600}>
-                                          {checkInOut?.status === 'check-in'
-                                            ? event?.labels?.CHECK_IN_BUTTON
-                                            : event?.labels?.CHECK_OUT_BUTTON}
-                                        </Text>
-                                      </Button>
-                                    </HStack>
-                                  )}
+                             
                                 </Box>
                               )}
+                              <BannerAds module_name={'checkIn'} module_type={'listing'} />
                             </Container>
                         </>
                       )}
                     </>
                   );
+                  	
                 }
+                
 
 
           }) // end loop dashboard_modules
