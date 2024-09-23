@@ -377,6 +377,7 @@ React.useEffect(() => {
                         <>
 								        <Spacer />
                             <Container mb={3} pt="1" maxW="100%" w="100%">
+                              <BannerAds module_name={'dashboard'} module_type={'before_check_in'} />
                               {(checkInOut?.setting?.show_qrcode || checkInOut?.setting?.self_checkin) && (
                                 
                                 <Box mb="3" w="100%" bg="primary.box" p="5" rounded="10">
@@ -398,7 +399,7 @@ React.useEffect(() => {
                              
                                 </Box>
                               )}
-                              <BannerAds module_name={'checkIn'} module_type={'listing'} />
+                              <BannerAds module_name={'dashboard'} module_type={'after_check_in'} />
                             </Container>
                         </>
                       )}
