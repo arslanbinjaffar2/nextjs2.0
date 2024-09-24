@@ -32,6 +32,14 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
     if (env.enviroment == 'production' && typeof window !== 'undefined' && window.location.protocol === 'http:') {
       window.location.href = window.location.href.replace('http:', 'https:');
     }
+
+    if(env.enviroment == 'production'){
+      // disable console log
+      console.log = function() {};
+      console.info = function () {};
+      console.warn = function () {};
+      console.error = function () {};
+    }
   }, [router,env.enviroment]);
  
 
