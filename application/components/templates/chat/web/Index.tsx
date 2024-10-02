@@ -54,6 +54,22 @@ const Index = ({ navigation }: indexProps)  => {
     return message?.read_state?.some((read_state: ReadState) => read_state?.user_id === response?.data?.user?.id)
   }
 
+  function getValue(participant: ParticipantInfo,field: string){
+    const ignoredFields=['id','first_name']
+    if(ignoredFields.includes(field)){
+      return participant?.[field as keyof ParticipantInfo]
+    }
+    
+    const field_setting = participant?.sort_field_setting?.[field]; 
+   
+    if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+          return participant?.[field as keyof ParticipantInfo]
+    }else{
+      return '';
+    }
+    
+  }
+
   return (
     <>
       <NextBreadcrumbs module={module} />
@@ -78,7 +94,7 @@ const Index = ({ navigation }: indexProps)  => {
                       <VStack px={5} pr={2} maxW={'calc(100% - 160px)'} space="0">
                         <Heading fontSize="lg">
                           {chat?.participants_info?.map((participant: ParticipantInfo, index: number) => (
-                            <>{participant?.full_name}{index < chat.participants_info.length - 1 ? ', ' : ''}</>
+                            <>{getValue(participant,'first_name')} {getValue(participant,'last_name')} {index < chat.participants_info.length - 1 ? ', ' : ''}</>
                           ))}
                         </Heading>
                         <Text isTruncated fontSize="md" opacity={chat?.messages_count > 0 ? '1' : '0.6'} >{chat?.latest_message?.body}</Text>
@@ -131,12 +147,14 @@ const AvatarComponent = ({ participants }: { participants: ParticipantInfo[] }) 
   };
 
     // get image of sender 
-    const getSenderImage = (image: string) => {
-      // source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
-      if(image){
-        return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
+    const getSenderImage = (participant: ParticipantInfo) => {
+      const field_setting = participant?.sort_field_setting?.profile_picture; 
+     
+      if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+            return `${_env.eventcenter_base_url}/assets/attendees/${participant?.image}`
+      }else{
+        return '';
       }
-      return '';
     };
 
   return (
@@ -147,8 +165,9 @@ const AvatarComponent = ({ participants }: { participants: ParticipantInfo[] }) 
       </Avatar>
     ):(
       <Avatar
+          key={participants[0]?.image}
           source={{
-            uri: getSenderImage(participants[0]?.image)
+            uri: getSenderImage(participants[0])
           }}
           >
           {getFirstLetters(participants[0]?.full_name)}
