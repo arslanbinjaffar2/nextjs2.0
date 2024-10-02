@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Center, Container, Flex, HStack, ScrollView } from 'native-base';
+import { Center, Container, Flex, Heading, HStack, ScrollView, VStack } from 'native-base';
 import { useWindowDimensions } from 'react-native';
 import LeftBar from 'application/screens/web/layouts/LeftBar';
 import LeftBarProfile from 'application/screens/web/layouts/LeftBarProfile';
@@ -120,7 +120,16 @@ const Master = ({ children, section }: Props) => {
                       </>
                     )}
                     <Center h={'100%'} w="100%" alignItems="flex-start" justifyContent="flex-start" maxW={nextRouter.asPath.includes('settings') || nextRouter.asPath.includes('attendees/my-registration') ? (width >= 1201 ? '900px' : '850px') : (width > 750 ? '600px' : '100%')}>
+                      <>
+                      {(width < 1200) && (width > 750) && <Center w="100%" maxW={width! > 1200 ? '600px' : 'calc(100% - 200px)'}>
+                        <VStack pb="0" space={0} w="100%">
+                          <Heading textTransform={'uppercase'} fontWeight={500} isTruncated fontSize="3xl">{event.name}</Heading>
+                          <Heading textTransform={'uppercase'} fontWeight={500} isTruncated pb="1" fontSize="xl">{event.detail?.location_name}</Heading>
+                          <Heading fontWeight={600} isTruncated fontSize="lg">{event.detail?.location_address}</Heading>
+                        </VStack>
+                      </Center>}
                       {children}
+                      </>
                     </Center>
                     {width >= 970 && !nextRouter.asPath.includes('attendees/my-registration') && !nextRouter.asPath.includes('settings') && <Center nativeID='ebs-master-right-bar' top="2rem" alignItems="flex-start" w={'100%'} maxW={width >= 1201 ? '265px' : '230px'}>
                       <RightBar />
