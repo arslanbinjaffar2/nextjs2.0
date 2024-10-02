@@ -17,6 +17,7 @@ type NewChatBoxProps = {
 const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
   const {StartNewChat} = UseChatService();
   const {processing} = UseLoadingService();
+  const textRef = React.useRef<HTMLInputElement>(null);
 
   const [message, setMessage] = React.useState<string>('');
   const {new_chat_error,SetNewChatError} = UseChatService();
@@ -39,7 +40,10 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
       startChat();
       event.preventDefault(); // Prevent default behavior of Enter key
     } else {
-      setMessage(event.target.value);
+      // the below code is to fix the issue of the text area imput issue
+      setTimeout(() => {
+        setMessage(textRef.current?.value || '');
+      }, 10);
 
     }
   };
@@ -60,7 +64,7 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
               </HStack>
               <VStack p="0" w="100%" space="0">
                 <Box py={3} px={4} pb={2}>
-                  <TextArea isDisabled={processing.includes('new-chat')} bg={'primary.darkbox'} borderWidth="0" borderColor="transparent" fontSize="md" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="0" w="100%" p="3" h={100} placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined}
+                  <TextArea ref={textRef}  bg={'primary.darkbox'} borderWidth="0" borderColor="transparent" fontSize="md" _focus={{ bg: 'transparent', borderColor: 'transparent' }} _hover={{ borderWidth: 0, borderColor: 'transparent' }} rounded="0" w="100%" p="3" h={100} placeholder={event?.labels?.CHAT_WRITE_YOUR_MESSAGE} autoCompleteType={undefined}
                 defaultValue={message}
                 onKeyPress={handleKeyPress}
                 />
@@ -68,7 +72,7 @@ const NewChat = ({ user_ids,group_ids }: NewChatBoxProps) => {
                 
                 <HStack pr={4} mb="1" w="100%" space="1" alignItems="flex-end" justifyContent="flex-end">
                   {processing.includes('new-chat') ? (
-                    <Spinner w={40} h={40} padding="10px" color="primary.text" />
+                    <Spinner w={"40px"} h={"40px"} p={0} color="primary.text" />
                   ) : (
                     <IconButton
                     variant="transparent"

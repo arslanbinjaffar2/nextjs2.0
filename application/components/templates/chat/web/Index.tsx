@@ -19,7 +19,8 @@ import { func } from 'application/styles';
 import UseEnvService from 'application/store/services/UseEnvService';
 import NoRecordFound from 'application/components/atoms/NoRecordFound';
 import UseAuthService from 'application/store/services/UseAuthService';
-import { GENERAL_DATETIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals';
+import { GENERAL_DATE_FORMAT, GENERAL_DATETIME_FORMAT_WITHOUT_SECONDS } from 'application/utils/Globals';
+import BannerAds from 'application/components/atoms/banners/BannerAds';
 type indexProps = {
   navigation: unknown
 }
@@ -53,6 +54,22 @@ const Index = ({ navigation }: indexProps)  => {
     return message?.read_state?.some((read_state: ReadState) => read_state?.user_id === response?.data?.user?.id)
   }
 
+  function getValue(participant: ParticipantInfo,field: string){
+    const ignoredFields=['id','first_name']
+    if(ignoredFields.includes(field)){
+      return participant?.[field as keyof ParticipantInfo]
+    }
+    
+    const field_setting = participant?.sort_field_setting?.[field]; 
+   
+    if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+          return participant?.[field as keyof ParticipantInfo]
+    }else{
+      return '';
+    }
+    
+  }
+
   return (
     <>
       <NextBreadcrumbs module={module} />
@@ -77,14 +94,14 @@ const Index = ({ navigation }: indexProps)  => {
                       <VStack px={5} pr={2} maxW={'calc(100% - 160px)'} space="0">
                         <Heading fontSize="lg">
                           {chat?.participants_info?.map((participant: ParticipantInfo, index: number) => (
-                            <>{participant?.full_name}{index < chat.participants_info.length - 1 ? ', ' : ''}</>
+                            <>{getValue(participant,'first_name')} {getValue(participant,'last_name')} {index < chat.participants_info.length - 1 ? ', ' : ''}</>
                           ))}
                         </Heading>
-                        <Text isTruncated fontSize="md" opacity="0.6" >{chat?.latest_message?.body}</Text>
+                        <Text isTruncated fontSize="md" opacity={chat?.messages_count > 0 ? '1' : '0.6'} >{chat?.latest_message?.body}</Text>
                       </VStack>
                       <Spacer />
                       <VStack alignItems="flex-end" space="2">
-                        <Text opacity="0.6" fontSize="md">{moment().isSame(moment(chat?.latest_message?.sent_date),'day') ? moment(chat?.latest_message?.sent_date).fromNow() : moment(chat?.latest_message?.sent_date).format(GENERAL_DATETIME_FORMAT_WITHOUT_SECONDS)}</Text>
+                        <Text opacity={chat?.messages_count > 0 ? '1' : '0.6'} fontSize="md">{moment().isSame(moment(chat?.latest_message?.sent_date),'day') ? moment(chat?.latest_message?.sent_date).fromNow() : moment(chat?.latest_message?.sent_date).format(GENERAL_DATE_FORMAT)}</Text>
                         {chat?.messages_count > 0 && <Box rounded={'full'}  minW="18px" minHeight={'18px'} position="static" borderWidth="0" bg="green.500" justifyContent="center" alignItems="center" ><Text px={'2px'} fontSize="xs">{chat?.messages_count}</Text>
                         </Box>}
                     </VStack>
@@ -109,6 +126,7 @@ const Index = ({ navigation }: indexProps)  => {
               </Button>
             </Box>
           </>}
+          <BannerAds module_name={'chat'} module_type={'listing'} />
         </>
         <>
         </>
@@ -129,12 +147,14 @@ const AvatarComponent = ({ participants }: { participants: ParticipantInfo[] }) 
   };
 
     // get image of sender 
-    const getSenderImage = (image: string) => {
-      // source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${ shouldShow(attendeeToShow?.field_settings?.profile_picture) ? attendeeToShow?.image:''}` }}
-      if(image){
-        return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
+    const getSenderImage = (participant: ParticipantInfo) => {
+      const field_setting = participant?.sort_field_setting?.profile_picture; 
+     
+      if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+            return `${_env.eventcenter_base_url}/assets/attendees/${participant?.image}`
+      }else{
+        return '';
       }
-      return '';
     };
 
   return (
@@ -145,8 +165,9 @@ const AvatarComponent = ({ participants }: { participants: ParticipantInfo[] }) 
       </Avatar>
     ):(
       <Avatar
+          key={participants[0]?.image}
           source={{
-            uri: getSenderImage(participants[0]?.image)
+            uri: getSenderImage(participants[0])
           }}
           >
           {getFirstLetters(participants[0]?.full_name)}
