@@ -43,10 +43,10 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
   return (
     <>
       <Head>
-        <title>Eventbuizz app</title>
+        <title>Loading...</title>
         <meta
           name="description"
-          content="Eventbuizz app"
+          content="Loading..."
         />
         
       </Head>
