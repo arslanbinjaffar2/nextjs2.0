@@ -65,4 +65,5 @@ export interface Attendee {
     last_name: string;
     full_name: string;
     image: string;
+    sort_field_setting: any;
 }

@@ -78,6 +78,37 @@ const NewChat = ({navigation}: indexProps) => {
     console.log('new_chat_search_results.groups: ',new_chat_search_results.groups);
   },[new_chat_search_results])
 
+  // get image of sender 
+  const getAttendeeImage = (attendee: Attendee) => {
+    const field_setting = attendee?.sort_field_setting?.profile_picture; 
+    
+    if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+          return `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}`
+    }else{
+      return '';
+    }
+  };
+
+  function getValue(attendee: Attendee,field: string){
+    const ignoredFields=['id','first_name']
+    if(ignoredFields.includes(field)){
+      return attendee?.[field as keyof Attendee]
+    }
+    
+    const field_setting = attendee?.sort_field_setting?.[field]; 
+   
+    if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+          return attendee?.[field as keyof Attendee]
+    }else{
+      return '';
+    }
+    
+  }
+
+  function getFullname(attendee: Attendee){
+    return `${getValue(attendee,'first_name')} ${getValue(attendee,'last_name')}`
+   }
+
   return (
       <>
       <NextBreadcrumbs module={module} title={event?.labels?.CHAT_NEW} />
@@ -100,7 +131,7 @@ const NewChat = ({navigation}: indexProps) => {
                 key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`}
                 size={'xs'}
                 source={{
-                  uri: getSenderImage(item?.value?.image)
+                  uri: getAttendeeImage(item?.value)
                 }}>
                 {getFirstLetters(`${item?.value?.full_name}`)}
               </Avatar>):(
@@ -108,7 +139,7 @@ const NewChat = ({navigation}: indexProps) => {
                 <Icon size={'sm'} color={'primary.text'} as={MaterialIcons} name="groups"  />
               </Avatar>
               )}
-              <Text fontSize="14px">{item.type === 'attendee' ? `${item.value?.first_name} ${item.value?.last_name}` : item.value?.name}</Text>
+              <Text fontSize="14px">{item.type === 'attendee' ? getFullname(item.value) : item.value?.name}</Text>
                 <IconButton variant="unstyled" p={0} mx={1} size={'xs'}
                   icon={<Icon size="xs" as={AntDesign} name="close" color="primary.text" />}
                   onPress={()=>{removeItem(item)}}/> 
@@ -159,11 +190,11 @@ const NewChat = ({navigation}: indexProps) => {
                             removeItem({type: 'attendee', value: attendee})
                           }
                         }} />
-                          <Avatar  source={{uri: getSenderImage(attendee?.image)}}>
+                          <Avatar  source={{uri: getAttendeeImage(attendee)}}>
                             {getFirstLetters(`${attendee?.first_name} ${attendee?.last_name}`)}
                           </Avatar>
                           <VStack space="0">
-                            <Heading fontWeight={500} fontSize="lg">{attendee?.first_name} {attendee?.last_name}</Heading>
+                            <Heading fontWeight={500} fontSize="lg">{getFullname(attendee)}</Heading>
                           </VStack>
                         </HStack>)}
                       </>

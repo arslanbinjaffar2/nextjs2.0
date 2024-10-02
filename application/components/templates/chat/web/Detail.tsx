@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { Avatar, Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Image, Input, Popover, ScrollView, Spacer, Spinner, Text, TextArea, VStack } from 'native-base';
 import Master from 'application/screens/web/layouts/Master';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -44,9 +44,25 @@ const Detail = ({ navigation }: indexProps) => {
   const {_env} = UseEnvService();
   const [scrollToBottom, setScrollToBottom] = React.useState(true);
 
+  function getValue(participant: ParticipantInfo,field: string){
+    const ignoredFields=['id','first_name']
+    if(ignoredFields.includes(field)){
+      return participant?.[field as keyof ParticipantInfo]
+    }
+    
+    const field_setting = participant?.sort_field_setting?.[field]; 
+   
+    if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+          return participant?.[field as keyof ParticipantInfo]
+    }else{
+      return '';
+    }
+    
+  }
+
   const title = React.useMemo(() => (
     chat?.participants_info?.map((participant: ParticipantInfo, index: number) => (
-      `${participant?.full_name}${index < chat.participants_info.length - 1 ? ', ' : ''}`
+      `${getValue(participant,'first_name')} ${getValue(participant,'last_name')} ${index < chat.participants_info.length - 1 ? ', ' : ''}`
     )).join('')
   ), [chat?.participants_info]);
 
@@ -114,14 +130,46 @@ const Detail = ({ navigation }: indexProps) => {
     return (names[0]?.substring(0, 1) + names[1]?.substring(0, 1)).toUpperCase();
   };
 
-  // get image of sender 
-  function getSenderImage(image: string){
-    if(image){
-      return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
+    // get image of sender 
+    const getSenderImage = (participant: ParticipantInfo) => {
+      const field_setting = participant?.sort_field_setting?.profile_picture; 
+     
+      if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+            return `${_env.eventcenter_base_url}/assets/attendees/${participant?.image}`
+      }else{
+        return '';
+      }
+    };
+
+    const getImage = (image: string) => {
+      if(image){
+        return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
+      }
+      return '';
+    }
+
+    const getImageFromMessage = (message: ChatMessage) => {
+      // get participant info from chat
+      const participant = chat?.participants_info?.find((participant: ParticipantInfo) => participant.id === message?.sender_id);
+      if(participant){
+        return getSenderImage(participant);
+      }
+      return '';
+    }
+
+
+  function getFullname(participant: ParticipantInfo){
+   return `${getValue(participant,'first_name')} ${getValue(participant,'last_name')}`
+  }
+
+  function getNameFromMessage(message: ChatMessage){
+    // get participant info from chat
+    const participant = chat?.participants_info?.find((participant: ParticipantInfo) => participant.id === message?.sender_id);
+    if(participant){
+      return getFullname(participant);
     }
     return '';
   }
-
   return (
       <>
       <NextBreadcrumbs module={module} title={title} />
@@ -140,7 +188,7 @@ const Detail = ({ navigation }: indexProps) => {
                   ):(
                     <Avatar
                         source={{
-                          uri: getSenderImage(chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.image : '')
+                          uri: chat?.participants_info && chat?.participants_info.length > 0 ? getSenderImage(chat?.participants_info[0]) : ''
                         }}
                         key={chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.image : ''}
                         > 
@@ -164,13 +212,13 @@ const Detail = ({ navigation }: indexProps) => {
                       <Avatar
                         size={'xs'}
                         source={{
-                          uri:getSenderImage(participant?.image)
+                          uri:getSenderImage(participant)
                         }}
                         
                       >
                         {getFirstLetters(participant?.full_name)}
                       </Avatar>
-                      <Text  fontSize="sm">{participant?.full_name}</Text>
+                      <Text  fontSize="sm">{getFullname(participant)}</Text>
                       
                       
                     </HStack>
@@ -204,7 +252,7 @@ const Detail = ({ navigation }: indexProps) => {
                           <Avatar
                             key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`}
                             source={{
-                              uri: getSenderImage(message?.sender?.image)
+                              uri: getImage(message?.sender?.image)
                             }}
                           >
                             {getFirstLetters(message?.sender?.full_name)}
@@ -222,7 +270,7 @@ const Detail = ({ navigation }: indexProps) => {
                         <HStack position={'relative'} zIndex={1}  mb="3" space="0" alignItems="flex-end">
                           <Avatar
                             source={{
-                              uri: getSenderImage(message?.sender?.image)
+                              uri: getImageFromMessage(message)
                             }}
                           >
                             {getFirstLetters(message?.sender?.full_name)}
@@ -233,7 +281,7 @@ const Detail = ({ navigation }: indexProps) => {
                               <Text lineHeight="sm" pr="3" fontSize="md">{message?.body}</Text>
                               <Text textAlign={'left'} opacity="0.8"  fontSize="sm">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                             </VStack>
-                            <Text textAlign={'left'} ml="3" fontSize="xs">{message?.sender?.full_name}</Text>
+                            <Text textAlign={'left'} ml="3" fontSize="xs">{getNameFromMessage(message)}</Text>
                           </VStack>
                         </HStack>
                       )}
