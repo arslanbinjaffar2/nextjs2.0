@@ -10,6 +10,7 @@ export interface ChatState {
     new_chat_search_results: NewChatSearchResults,
     labels: any,
     new_chat_error: string | null,
+    new_message_popup: boolean,
 }
 
 const initialState: ChatState = {
@@ -20,7 +21,8 @@ const initialState: ChatState = {
     new_chat_search_results: {
         groups: [],
         attendees: [],
-    }
+    },
+    new_message_popup: false,
 }
 
 // Slice
@@ -65,6 +67,9 @@ export const ChatSlice = createSlice({
             state.new_chat_error = action.payload.error;
         },
         MarkThreadAsRead(state, action: PayloadAction<{thread_id:number}>) {
+        },
+        SetNewMessagePopup(state, action: PayloadAction<{new_message_popup:boolean}>) {
+            state.new_message_popup = action.payload.new_message_popup;
         }
     },
 })
@@ -83,6 +88,7 @@ export const ChatActions = {
    PushMessageToChat: ChatSlice.actions.PushMessageToChat,
    SetNewChatError: ChatSlice.actions.SetNewChatError,
    MarkThreadAsRead: ChatSlice.actions.MarkThreadAsRead,
+   SetNewMessagePopup: ChatSlice.actions.SetNewMessagePopup,
 }
 
 export const SelectChats = (state: RootState) => state.chats.chats
@@ -95,6 +101,7 @@ export const SelectNewChatSearchResults = (state: RootState) => state.chats.new_
 
 export const SelectNewChatError = (state: RootState) => state.chats.new_chat_error
 
+export const SelectNewMessagePopup = (state: RootState) => state.chats.new_message_popup
 // Reducer
 export default ChatSlice.reducer
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { Avatar, Box, Button, Center, Container, Heading, HStack, Icon, IconButton, Image, Input, Popover, ScrollView, Spacer, Spinner, Text, TextArea, VStack } from 'native-base';
 import Master from 'application/screens/web/layouts/Master';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -20,6 +20,7 @@ import { useDebouncedCallback } from "use-debounce";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import IcoSend from 'application/assets/icons/small/IcoSend'
 import Icowritecomment from 'application/assets/icons/small/Icowritecomment';
+import BannerAds from 'application/components/atoms/banners/BannerAds';
 
 type ScreenParams = { id: string }
 const { useParam } = createParam<ScreenParams>()
@@ -34,17 +35,34 @@ const Detail = ({ navigation }: indexProps) => {
   const scrollViewRef = React.useRef<HTMLDivElement>(null);
   const {event,modules} = UseEventService();
   const [_id] = useParam('id');
-  const {chat, FetchChat,MarkThreadAsRead} = UseChatService();
+  const {chat, FetchChat,MarkThreadAsRead,new_message_popup,SetNewMessagePopup} = UseChatService();
 
   const {response} = UseAuthService();
   const [loggedInUserId] = React.useState(response?.data?.user?.id);
   const { processing } = UseLoadingService();
   const module = modules.find((module) => module.alias === 'chat');
   const {_env} = UseEnvService();
+  const [scrollToBottom, setScrollToBottom] = React.useState(true);
+
+  function getValue(participant: ParticipantInfo,field: string){
+    const ignoredFields=['id','first_name']
+    if(ignoredFields.includes(field)){
+      return participant?.[field as keyof ParticipantInfo]
+    }
+    
+    const field_setting = participant?.sort_field_setting?.[field]; 
+   
+    if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+          return participant?.[field as keyof ParticipantInfo]
+    }else{
+      return '';
+    }
+    
+  }
 
   const title = React.useMemo(() => (
     chat?.participants_info?.map((participant: ParticipantInfo, index: number) => (
-      `${participant?.full_name}${index < chat.participants_info.length - 1 ? ', ' : ''}`
+      `${getValue(participant,'first_name')} ${getValue(participant,'last_name')} ${index < chat.participants_info.length - 1 ? ', ' : ''}`
     )).join('')
   ), [chat?.participants_info]);
 
@@ -86,11 +104,22 @@ const Detail = ({ navigation }: indexProps) => {
   }, [chat?.messages]);
 
   React.useEffect(() => {
+    if (scrollToBottom) {
+      doScrollToBottom();
+      setScrollToBottom(false);
+    }
+  }, [groupedMessages]);
+
+  const doScrollToBottom = () => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTop = scrollViewRef.current.scrollHeight;
     }
-  }, [groupedMessages]);
-  
+  }
+
+  const handleNewMessagePopupClick = () => {
+    doScrollToBottom();
+    SetNewMessagePopup({new_message_popup:false});
+  }
 
   // Function to get the first letters of the first and last name
   const getFirstLetters = (name: string) => {
@@ -101,14 +130,46 @@ const Detail = ({ navigation }: indexProps) => {
     return (names[0]?.substring(0, 1) + names[1]?.substring(0, 1)).toUpperCase();
   };
 
-  // get image of sender 
-  function getSenderImage(image: string){
-    if(image){
-      return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
+    // get image of sender 
+    const getSenderImage = (participant: ParticipantInfo) => {
+      const field_setting = participant?.sort_field_setting?.profile_picture; 
+     
+      if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+            return `${_env.eventcenter_base_url}/assets/attendees/${participant?.image}`
+      }else{
+        return '';
+      }
+    };
+
+    const getImage = (image: string) => {
+      if(image){
+        return `${_env.eventcenter_base_url}/assets/attendees/${image}`;
+      }
+      return '';
+    }
+
+    const getImageFromMessage = (message: ChatMessage) => {
+      // get participant info from chat
+      const participant = chat?.participants_info?.find((participant: ParticipantInfo) => participant.id === message?.sender_id);
+      if(participant){
+        return getSenderImage(participant);
+      }
+      return '';
+    }
+
+
+  function getFullname(participant: ParticipantInfo){
+   return `${getValue(participant,'first_name')} ${getValue(participant,'last_name')}`
+  }
+
+  function getNameFromMessage(message: ChatMessage){
+    // get participant info from chat
+    const participant = chat?.participants_info?.find((participant: ParticipantInfo) => participant.id === message?.sender_id);
+    if(participant){
+      return getFullname(participant);
     }
     return '';
   }
-
   return (
       <>
       <NextBreadcrumbs module={module} title={title} />
@@ -127,7 +188,7 @@ const Detail = ({ navigation }: indexProps) => {
                   ):(
                     <Avatar
                         source={{
-                          uri: getSenderImage(chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.image : '')
+                          uri: chat?.participants_info && chat?.participants_info.length > 0 ? getSenderImage(chat?.participants_info[0]) : ''
                         }}
                         key={chat?.participants_info && chat?.participants_info.length > 0 ? chat?.participants_info[0]?.image : ''}
                         > 
@@ -151,13 +212,13 @@ const Detail = ({ navigation }: indexProps) => {
                       <Avatar
                         size={'xs'}
                         source={{
-                          uri:getSenderImage(participant?.image)
+                          uri:getSenderImage(participant)
                         }}
                         
                       >
                         {getFirstLetters(participant?.full_name)}
                       </Avatar>
-                      <Text  fontSize="sm">{participant?.full_name}</Text>
+                      <Text  fontSize="sm">{getFullname(participant)}</Text>
                       
                       
                     </HStack>
@@ -191,7 +252,7 @@ const Detail = ({ navigation }: indexProps) => {
                           <Avatar
                             key={`data-image-${Math.floor(1000 + Math.random() * 9000)}`}
                             source={{
-                              uri: getSenderImage(message?.sender?.image)
+                              uri: getImage(message?.sender?.image)
                             }}
                           >
                             {getFirstLetters(message?.sender?.full_name)}
@@ -209,7 +270,7 @@ const Detail = ({ navigation }: indexProps) => {
                         <HStack position={'relative'} zIndex={1}  mb="3" space="0" alignItems="flex-end">
                           <Avatar
                             source={{
-                              uri: getSenderImage(message?.sender?.image)
+                              uri: getImageFromMessage(message)
                             }}
                           >
                             {getFirstLetters(message?.sender?.full_name)}
@@ -220,7 +281,7 @@ const Detail = ({ navigation }: indexProps) => {
                               <Text lineHeight="sm" pr="3" fontSize="md">{message?.body}</Text>
                               <Text textAlign={'left'} opacity="0.8"  fontSize="sm">{moment(message?.sent_date).format(GENERAL_TIME_FORMAT_WITHOUT_SECONDS)}</Text>
                             </VStack>
-                            <Text textAlign={'left'} ml="3" fontSize="xs">{message?.sender?.full_name}</Text>
+                            <Text textAlign={'left'} ml="3" fontSize="xs">{getNameFromMessage(message)}</Text>
                           </VStack>
                         </HStack>
                       )}
@@ -230,21 +291,18 @@ const Detail = ({ navigation }: indexProps) => {
                   </>
                 )
               })}
+              {new_message_popup && (
+                <Box nativeID='zindex-99'  display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} bottom={2} mb={2}>
+                  <Button rightIcon={<Icon as={MaterialIcons} name="arrow-downward" />} onPress={handleNewMessagePopupClick} bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{event?.labels?.CHAT_NEW_MESSAGE_POPUP}</Button>
+                </Box>
+              )}
               </>
             )}
 
           </ScrollView>
           <NewMessage thread_id={Number(_id)} />
         </VStack>
-        <Image
-          source={{
-            uri: 'https://wallpaperaccess.com/full/311401.jpg'
-          }}
-          alt=""
-          w="100%"
-          h="150px"
-          rounded="10"
-        />
+        <BannerAds module_name={'chat'} module_type={'detail'} />
       </Container>
       </>
   );
@@ -261,7 +319,7 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
       send();
       event.preventDefault(); // Prevent default behavior of Enter key
     } else {
-      setMessage(event.target.value);
+        setMessage(textRef.current?.value || '');
 
     }
   };
@@ -311,7 +369,7 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
           /> */}
        
           {processing.includes('save-message') ? (
-            <Spinner w={40} h={40} padding="10px" color="primary.text" />
+            <Spinner w={"40px"} h={"40px"} p={0} color="primary.text" />
           ) : (
             <IconButton
             variant="transparent"
