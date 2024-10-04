@@ -319,7 +319,10 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
       send();
       event.preventDefault(); // Prevent default behavior of Enter key
     } else {
-        setMessage(textRef.current?.value || '');
+         // the below code is to fix the issue of the text area imput issue
+         setTimeout(() => {
+          setMessage(textRef.current?.value || '');
+        }, 10);
 
     }
   };
