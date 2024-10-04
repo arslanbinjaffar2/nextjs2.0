@@ -238,7 +238,7 @@ const Detail = ({ navigation }: indexProps) => {
                 return (
                   <>
                   <Box nativeID='zindex-99' display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} top={0} mb={2}>
-                    <Text bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).calendar(null,{
+                    <Text color={'primary.hovercolor'}   bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).calendar(null,{
                         lastDay : `[${event?.labels?.CHAT_YESTERDAY}]`,
                         sameDay : `[${event?.labels?.CHAT_TODAY}]`,
                         sameElse: GENERAL_DATE_FORMAT
@@ -293,7 +293,7 @@ const Detail = ({ navigation }: indexProps) => {
               })}
               {new_message_popup && (
                 <Box nativeID='zindex-99'  display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} bottom={2} mb={2}>
-                  <Button rightIcon={<Icon as={MaterialIcons} name="arrow-downward" />} onPress={handleNewMessagePopupClick} bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{event?.labels?.CHAT_NEW_MESSAGE_POPUP}</Button>
+                  <Button _text={{color:'primary.hovercolor'}} rightIcon={<Icon as={MaterialIcons} name="arrow-downward" />} onPress={handleNewMessagePopupClick} bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{event?.labels?.CHAT_NEW_MESSAGE_POPUP}</Button>
                 </Box>
               )}
               </>
