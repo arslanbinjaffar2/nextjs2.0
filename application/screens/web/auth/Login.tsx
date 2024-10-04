@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Box, FormControl, Pressable,IconButton } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Box, FormControl, Pressable,IconButton, View } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images, func } from 'application/styles';
@@ -214,7 +214,7 @@ const Login = ({ props }: any) => {
                                         <Controller
                                             control={control}
                                             render={({ field: { onChange, onBlur, value } }) => (
-                                                <Center><Input onKeyPress={handleKeyPress} onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={'100%'} maxW={['300px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button isLoading={processing} ref={nativeButton} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow color={func.colorType(event?.settings?.primary_color)} /></Button>} /></Center>
+                                                <Center><Input onKeyPress={handleKeyPress} onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={'100%'} maxW={['300px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button display={'none'} isLoading={processing} ref={nativeButton} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow color={func.colorType(event?.settings?.primary_color)} /></Button>} /></Center>
                                             )}
                                             name="email"
                                             rules={{
@@ -228,6 +228,13 @@ const Login = ({ props }: any) => {
                                                 ? 'Email is required'
                                                 : (error ? error : errors.email?.message)}
                                         </FormControl.ErrorMessage>
+																				<View pt={4}>
+																				<SwipeBtn
+																					loading={processing}
+																					onComplete={handleSubmit(onSubmit)}
+																					label={event?.labels?.GENERAL_SLIDE_TO_LOGIN}
+																					/>
+																				</View>
                                     </FormControl>
                                 </VStack>
                             )}

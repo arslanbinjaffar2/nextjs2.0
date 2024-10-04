@@ -39,7 +39,7 @@ const SwipeBtn = ({loading,onComplete,label}:Props) => {
       onSwipeStart={() => SubmitPageScroll(false)}
       onSwipeEnd={() => SubmitPageScroll(true)}
       title={label ?? ''}
-      titleStyle={{fontSize: 14,maxWidth: '100%',paddingLeft: '75px',textAlign: 'left',width: '100%'}}
+      titleStyle={{fontSize: 14,maxWidth: '100%',paddingLeft: '75px',textAlign: 'left',width: '100%', color: func.colorType(event?.settings?.primary_color)}}
       height={60}
       borderRadius={10}
       goBackToStart={true}
