@@ -28,7 +28,7 @@ const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, tit
               <Button.Group flexWrap="wrap" variant={'unstyled'} space={0}>
                 {btnRightText && <Box flex={1}>
                   <Button  _text={{fontSize: 'xl'}} fontWeight={500} bg={'none'} maxWidth={'256px'} w="100%" rounded={0} variant="unstyled"  onPress={btnRightFunc}>
-                  <Text textAlign={'center'} isTruncated fontSize='xl'textTransform= 'uppercase' w={'225px'}>
+                  <Text textAlign={'center'} isTruncated fontSize='xl' w={'225px'}>
                     {btnRightText}
                     </Text>
                   </Button>
@@ -36,7 +36,7 @@ const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, tit
                 }
               {btnLeftText  && <Box borderLeftWidth={btnRightText ? '1':'0'} borderLeftColor={'primary.popupbordercolor'} flex={1}>
                 <Button _text={{fontSize: 'xl'}}  bg={'none'}  w="100%" rounded={0} variant="unstyled"  fontWeight={500} onPress={btnLeftFunc} ref={cancelRef}>
-                <Text isTruncated fontSize='xl'textTransform= 'uppercase'  w={'225px'} textAlign={'center'} overflow={'hidden'}>
+                <Text isTruncated fontSize='xl'  w={'225px'} textAlign={'center'} overflow={'hidden'}>
                   {btnLeftText}
                 </Text>
                 </Button>
