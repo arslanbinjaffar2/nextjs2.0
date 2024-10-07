@@ -46,9 +46,9 @@ const RectangleView = ({ k, attendee, total }: boxItemProps) => {
                         <VStack w={['calc(100% - 10px)']}  space="0">
                             {(attendee?.first_name || attendee?.last_name) && (
                                 <>
-                                    <Text lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.sort_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
+                                    <Text fontWeight={600} lineHeight="22px" fontSize="lg">{`${attendee?.first_name} ${attendee?.sort_settings?.last_name?.status === 1 ? attendee?.last_name : ''}`}</Text>
                                     {(attendee?.info?.company_name || attendee?.info?.title || attendee?.info?.department) && (
-                                        <Text fontSize="lg">
+                                        <Text fontSize="md">
                                         {attendee?.info?.title && (
                                             <>
                                             {`${attendee?.info?.title}`}

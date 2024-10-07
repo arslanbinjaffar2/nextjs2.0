@@ -98,7 +98,7 @@ const Verification = ({ props }: any) => {
                                         if (completed) {
                                             return (
                                                 Number(minutes) < 4 && (
-                                                    <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
+                                                    <Text textDecorationLine={'underline'}  onPress={() => {
                                                         verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
                                                     }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text>
                                                 )
@@ -111,7 +111,7 @@ const Verification = ({ props }: any) => {
                                                         <>
                                                             {Number(minutes) < 4 && 
                                                                 <><Divider bg="primary.text" thickness={2} mx="2" orientation="vertical" />
-                                                                    <Text textDecorationLine={'underline'} color={'secondary.500'} onPress={() => {
+                                                                    <Text textDecorationLine={'underline'}  onPress={() => {
                                                                         verification({ code: '', id: Number(id), authentication_id: Number(id), screen: 'resend' })
                                                                     }}>{event.labels.GENERAL_RESEND || 'Resend'}</Text></>
                                                             }
@@ -124,7 +124,7 @@ const Verification = ({ props }: any) => {
                                 />
                             </HStack>
                             <Link href={`/${event.url}/auth/login`}>
-                                <Text color={func.colorType(event?.settings?.app_background_color)} textDecorationLine={'underline'} w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
+                                <Text textDecorationLine={'underline'} w={'100%'} fontSize='md' lineHeight='sm'>{`${event.labels.DESKTOP_APP_LABEL_GO_BACK_TO} ${event.labels.DESKTOP_APP_LABEL_LOGIN}`}</Text>
                             </Link>
                             <React.Fragment>
                                 <SwipeBtn
