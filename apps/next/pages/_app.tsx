@@ -33,15 +33,13 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
       window.location.href = window.location.href.replace('http:', 'https:');
     }
 
-    // if(env.enviroment == 'production'){
-    if(true){
+    if(env.enviroment == 'production'){
       // disable console log
       console.log = function() {};
       console.info = function () {};
       console.warn = function () {};
       console.error = function () {};
     }
-
   }, [router,env.enviroment]);
  
 
@@ -53,10 +51,10 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
   return (
     <>
       <Head>
-        <title>Eventbuizz app</title>
+        <title>Loading...</title>
         <meta
           name="description"
-          content="Eventbuizz app"
+          content="Loading..."
         />
         
       </Head>
