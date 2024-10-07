@@ -135,7 +135,7 @@ const NewChat = ({navigation}: indexProps) => {
                 }}>
                 {getFirstLetters(`${item?.value?.full_name}`)}
               </Avatar>):(
-              <Avatar bg={item?.value.color ? item?.value.color : undefined} size={'xs'}>
+              <Avatar bg={item?.value.color && item?.value.color !== '#' ? item?.value.color : undefined} size={'xs'}>
                 <Icon size={'sm'} color={'primary.text'} as={MaterialIcons} name="groups"  />
               </Avatar>
               )}
@@ -149,7 +149,7 @@ const NewChat = ({navigation}: indexProps) => {
         {/* Tabs */}
         <Button.Group mb={3}>
          <Button  px="6" py="1" rounded="20px" bg={selectedtab === 'attendee' ? "primary.500" : "primary.box"} borderWidth="0"
-          _text={{ fontSize: 'lg', color: "primary.hovercolor" }}
+          _text={{ fontSize: 'lg', color: selectedtab === 'attendee' ? "primary.hovercolor" : "primary.text" }}
           _hover={{_text: {color: 'primary.hovercolor'}}} borderColor="primary.bdBox" colorScheme="primary"
           onPress={() => {
               setSelectedTab('attendee')
@@ -159,7 +159,7 @@ const NewChat = ({navigation}: indexProps) => {
           </Button>
          <Button
              px="6" py="1" rounded="20px" bg={selectedtab === 'group' ? "primary.500" : "primary.box"} borderWidth="0"
-            _text={{ fontSize: 'lg', color: "primary.hovercolor" }}
+            _text={{ fontSize: 'lg', color: selectedtab === 'group' ? "primary.hovercolor" : "primary.text" }}
             _hover={{_text: {color: 'primary.hovercolor'}}} borderColor="primary.bdBox" colorScheme="primary"
             onPress={() => {setSelectedTab('group')}}>
             {event?.labels?.CHAT_TAB_GROUPS}
@@ -219,7 +219,7 @@ const NewChat = ({navigation}: indexProps) => {
                                 removeItem({type: 'group', value: group})
                               }
                               }} />
-                            <Avatar backgroundColor={group?.color ? group.color : '#a5a5a5'}>
+                            <Avatar backgroundColor={group?.color && group.color !== '#' ? group.color : '#a5a5a5'}>
                                 <Icon size={'lg'} color={'primary.text'} as={MaterialIcons} name="groups"  />
                             </Avatar>
                             <VStack space="0">
