@@ -170,6 +170,19 @@ const Detail = ({ navigation }: indexProps) => {
     }
     return '';
   }
+
+  const formatDate = (date: string) => {
+    // check if date is today
+    if(moment(date).isSame(moment(), 'day')){
+      return event?.labels?.CHAT_TODAY;
+    }
+    // check if date is yesterday
+    if(moment(date).isSame(moment().subtract(1, 'day'), 'day')){
+      return event?.labels?.CHAT_YESTERDAY;
+    }
+    // if date is not today or yesterday, return the date in the format of GENERAL_DATE_FORMAT
+    return moment(date).format(GENERAL_DATE_FORMAT);
+  }
   return (
       <>
       <NextBreadcrumbs module={module} title={title} />
@@ -238,11 +251,7 @@ const Detail = ({ navigation }: indexProps) => {
                 return (
                   <>
                   <Box nativeID='zindex-99' display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} top={0} mb={2}>
-                    <Text color={'primary.backgroundtext'}   bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).calendar(null,{
-                        lastDay : `[${event?.labels?.CHAT_YESTERDAY}]`,
-                        sameDay : `[${event?.labels?.CHAT_TODAY}]`,
-                        sameElse: GENERAL_DATE_FORMAT
-                    })}</Text>
+                    <Text color={'primary.backgroundtext'}   bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{formatDate(groupKey)}</Text>
                   </Box>
                   {messages.map((message: ChatMessage) => {
                     return (
