@@ -102,7 +102,7 @@ const Index = ({ navigation }: indexProps)  => {
                       <Spacer />
                       <VStack alignItems="flex-end" space="2">
                         <Text opacity={chat?.messages_count > 0 ? '1' : '0.6'} fontSize="md">{moment().isSame(moment(chat?.latest_message?.sent_date),'day') ? moment(chat?.latest_message?.sent_date).fromNow() : moment(chat?.latest_message?.sent_date).format(GENERAL_DATE_FORMAT)}</Text>
-                        {chat?.messages_count > 0 && <Box rounded={'full'}  minW="18px" minHeight={'18px'} position="static" borderWidth="0" bg="green.500" justifyContent="center" alignItems="center" ><Text px={'2px'} fontSize="xs">{chat?.messages_count}</Text>
+                        {chat?.messages_count > 0 && <Box rounded={'full'}  minW="18px" minHeight={'18px'} position="static" borderWidth="0" bg="secondary.500" justifyContent="center" alignItems="center" ><Text color={'primary.bordersecondary'} px={'2px'} fontSize="xs">{chat?.messages_count}</Text>
                         </Box>}
                     </VStack>
                   </HStack>

@@ -170,6 +170,19 @@ const Detail = ({ navigation }: indexProps) => {
     }
     return '';
   }
+
+  const formatDate = (date: string) => {
+    // check if date is today
+    if(moment(date).isSame(moment(), 'day')){
+      return event?.labels?.CHAT_TODAY;
+    }
+    // check if date is yesterday
+    if(moment(date).isSame(moment().subtract(1, 'day'), 'day')){
+      return event?.labels?.CHAT_YESTERDAY;
+    }
+    // if date is not today or yesterday, return the date in the format of GENERAL_DATE_FORMAT
+    return moment(date).format(GENERAL_DATE_FORMAT);
+  }
   return (
       <>
       <NextBreadcrumbs module={module} title={title} />
@@ -238,11 +251,7 @@ const Detail = ({ navigation }: indexProps) => {
                 return (
                   <>
                   <Box nativeID='zindex-99' display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} top={0} mb={2}>
-                    <Text bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{moment(groupKey).calendar(null,{
-                        lastDay : `[${event?.labels?.CHAT_YESTERDAY}]`,
-                        sameDay : `[${event?.labels?.CHAT_TODAY}]`,
-                        sameElse: GENERAL_DATE_FORMAT
-                    })}</Text>
+                    <Text color={'primary.backgroundtext'}   bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{formatDate(groupKey)}</Text>
                   </Box>
                   {messages.map((message: ChatMessage) => {
                     return (
@@ -293,7 +302,7 @@ const Detail = ({ navigation }: indexProps) => {
               })}
               {new_message_popup && (
                 <Box nativeID='zindex-99'  display={'flex'} alignItems={'center'} zIndex={'99'} position={'sticky'} bottom={2} mb={2}>
-                  <Button rightIcon={<Icon as={MaterialIcons} name="arrow-downward" />} onPress={handleNewMessagePopupClick} bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{event?.labels?.CHAT_NEW_MESSAGE_POPUP}</Button>
+                  <Button _icon={{color:'primary.backgroundtext'}} _text={{color:'primary.backgroundtext'}} _hover={{_text:{color:'primary.hovercolor'},_icon:{color:'primary.hovercolor'}}} rightIcon={<Icon as={MaterialIcons} name="arrow-downward" />} onPress={handleNewMessagePopupClick} bg="primary.boxsolid" px={4} py={2} rounded={'full'} fontSize="sm" textAlign="center">{event?.labels?.CHAT_NEW_MESSAGE_POPUP}</Button>
                 </Box>
               )}
               </>
@@ -319,7 +328,10 @@ const NewMessage = ({thread_id}: {thread_id: number}) => {
       send();
       event.preventDefault(); // Prevent default behavior of Enter key
     } else {
-        setMessage(textRef.current?.value || '');
+         // the below code is to fix the issue of the text area imput issue
+         setTimeout(() => {
+          setMessage(textRef.current?.value || '');
+        }, 10);
 
     }
   };
