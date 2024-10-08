@@ -175,6 +175,11 @@ body {
 #break_Word{
   
 }
+div[data-testid="Title"]{
+  -webkit-user-select: none; 
+  -ms-user-select: none;
+  user-select: none;
+}
 #zindex-99 {
   z-index: 99 !important;
 }
@@ -220,7 +225,7 @@ body {
 .r-zIndex-1ufr4wv + .r-zIndex-1ufr4wv{
   z-index: 8 !important;
 }
-.css-view-1dbjc4n,.css-1dbjc4n {
+.css-1dbjc4n {
   z-index: unset !important;
 }
 .css-12a83d4-MultiValueRemove {
