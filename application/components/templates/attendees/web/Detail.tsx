@@ -222,7 +222,7 @@ const Detail = ({ speaker }: Props) => {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('about')} bg={tab === 'about' ? 'primary.boxbutton' : 'primary.box'}>{event?.labels?.ATTENDEE_TAB_ABOUT}</ButtonElement>
                                                                     )
-                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 && ( speaker === 1 || (detail?.setting?.attendee_my_group ? response?.data?.user?.id == _id : detail?.setting?.attendee_group))) {
+                                                                } else if (row?.tab_name === 'groups' && row?.status == 1 && ( speaker === 1 || (detail?.setting?.attendee_my_group ? response?.data?.user?.id == _id : true))) {
                                                                     return (
                                                                         <ButtonElement minW={'calc(50% - 2px)'} onPress={() => setTab('groups')} bg={tab === 'groups' ? 'primary.boxbutton' : 'primary.box'}>
                                                                             {event?.labels?.ATTENDEE_TAB_GROUP}</ButtonElement>
