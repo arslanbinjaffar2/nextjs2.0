@@ -212,7 +212,7 @@ const Index = () => {
         <Text fontSize="md">{response.event?.labels?.REG_BASIC_INFO}</Text>
       </Box>
 
-      <HStack alignItems={'flex-start'} justifyContent={'flex-start'} mb={4} px={5} space="3" display={['block', 'flex']} w={'100%'}>
+      <VStack alignItems={'flex-start'} justifyContent={'flex-start'} mb={4} px={5} space="3" display={['block', 'flex']} w={'100%'}>
         <Text fontSize="md" fontWeight={500} color={'primary.text'}>{response.event?.labels?.ATTENDEE_ABOUT}</Text>
         <Text>
 
@@ -224,7 +224,7 @@ const Index = () => {
             source={{ html: response?.attendee_detail?.detail?.about }}
           />
         </Text>
-      </HStack>
+      </VStack>
     </Box>
               )}
             </>
