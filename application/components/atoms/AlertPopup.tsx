@@ -1,6 +1,7 @@
 import { AlertDialog, Button, Center, Container, HStack, Text, Spacer, Wrap, Box, View } from "native-base";
 import React from 'react';
 import IcoNewsUpdate from "application/assets/icons/IcoNewsUpdate";
+import ButtonElement from "./ButtonElement";
 
 const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, title, text, btnLeftText, btnRightText}:any) => {
 
@@ -27,19 +28,19 @@ const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, tit
             <AlertDialog.Footer borderColor={'primary.popupbordercolor'} flexDirection={'column'} display={'flex'}  justifyContent={'flex-start'} p={0} bg={'transparent'}>
               <Button.Group flexWrap="wrap" variant={'unstyled'} space={0}>
                 {btnRightText && <Box flex={1}>
-                  <Button  _text={{fontSize: 'xl',textTransform: 'uppercase'}} fontWeight={500} bg={'none'} maxWidth={'256px'} w="100%" rounded={0} variant="unstyled"  onPress={btnRightFunc}>
-                  <Text textAlign={'center'} isTruncated fontSize='xl'textTransform= 'uppercase' w={'225px'}>
+                  <ButtonElement  _text={{fontSize: 'xl'}} bg={'none'} maxWidth={'256px'} w="100%" rounded={0} variant="unstyled"  onPress={btnRightFunc}>
+                  <Text p={4} textAlign={'center'} isTruncated fontSize='xl' w={'225px'}>
                     {btnRightText}
                     </Text>
-                  </Button>
+                  </ButtonElement>
                 </Box>
                 }
               {btnLeftText  && <Box borderLeftWidth={btnRightText ? '1':'0'} borderLeftColor={'primary.popupbordercolor'} flex={1}>
-                <Button _text={{fontSize: 'xl',textTransform: 'uppercase'}}  bg={'none'}  w="100%" rounded={0} variant="unstyled"  fontWeight={500} onPress={btnLeftFunc} ref={cancelRef}>
-                <Text isTruncated fontSize='xl'textTransform= 'uppercase'  w={'225px'} textAlign={'center'} overflow={'hidden'}>
+                <ButtonElement _text={{fontSize: 'xl'}} bg={'none'}  w="100%" rounded={0} variant="unstyled" onPress={btnLeftFunc} ref={cancelRef}>
+                <Text p={4} isTruncated fontSize='xl'  w={'225px'} textAlign={'center'} overflow={'hidden'}>
                   {btnLeftText}
                 </Text>
-                </Button>
+                </ButtonElement>
               </Box>
               }
               </Button.Group>
