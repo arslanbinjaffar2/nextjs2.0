@@ -14,6 +14,7 @@ const MyPosts = () => {
         <>
           <Box mb="3" borderWidth="0" borderColor="primary.bdBox" w="100%" bg="primary.box" p="4" rounded="10px" overflow="hidden">
             <HStack space="3" alignItems="center" key="rd90">
+               {response?.data?.user?.image && (
               <Avatar
                 borderWidth={1}
                 borderColor="primary.text"
@@ -24,6 +25,7 @@ const MyPosts = () => {
               >
                 SS
               </Avatar>
+               )}
               
               <Box>
                 <Text fontSize="lg" key="full_name_att" fontWeight="600">{response?.data?.user?.first_name} {response?.data?.user?.last_name}</Text>

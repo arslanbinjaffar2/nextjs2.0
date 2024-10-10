@@ -6,6 +6,7 @@ export interface Module {
     show_on_dashboard: number,
     alert: number,
     section_type?: string,
+    url?: string,
 }
 
 export interface SettingModule {

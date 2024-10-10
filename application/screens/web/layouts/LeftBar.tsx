@@ -144,11 +144,11 @@ const LeftBar = () => {
             }}>
 
             <Flex w={width > 1200 ? '257px' : '62px'} alignItems="center" flexDirection={'row'}>
+              {response?.attendee_detail?.image && (
               <Avatar w="62px" h="62px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
                 {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
               </Avatar>
-              
-
+               )}
               {width > 1200 && <VStack w={'calc(100% - 100px)'} pl="3" space="0">
                 <Text  color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"} fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
                 <Text color={dashhover ? func.colorType(event?.settings?.primary_color) : "primary.text"}  p="0" fontSize="md" mt="0" isTruncated>{response?.attendee_detail?.detail?.title} {" "} {response?.attendee_detail?.detail?.company_name}</Text>
@@ -159,7 +159,7 @@ const LeftBar = () => {
             p="1"
             borderRadius="8"
             onPress={() => {
-              router.push(`/${event.url}/settings`)
+              router.push(`/${event.url}/settings/editprofile`)
             }}>
               <DynamicIcon  iconType={'edit_profile'} iconProps={{ width:18,height:18,  color: dashhover  ? func.colorType(event?.settings?.primary_color) : undefined}}/>
             </Pressable>

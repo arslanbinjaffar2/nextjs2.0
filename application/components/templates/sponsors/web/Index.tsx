@@ -30,7 +30,6 @@ const Index = React.memo(() => {
     const tabQueryParam = searchParams.get('tab');
     const modeQueryParam = searchParams.get('mode');
     const categoryIdQueryParam = searchParams.get('category_id');
-    const [page, setPage] = useState(1);
     const mounted = useRef(false);
 
     const createQueryString = React.useCallback(
@@ -49,12 +48,11 @@ const Index = React.memo(() => {
     const [tab, setTab] = useState(tabQueryParam !== null ? tabQueryParam : event?.sponsor_settings?.sponsor_list);
     const [mode, setMode] = useState(modeQueryParam ? modeQueryParam : 'grid');
     const [searchQuery, setSearch] = useState('');
-    const { sponsors, labels, categories, FetchSponsors, category_id, query, total_pages } = UseSponsorService();
+    const { sponsors, labels, categories, FetchSponsors, category_id, query } = UseSponsorService();
 
     useEffect(() => {
-        FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tabQueryParam === 'category-sponsor') ? categoryIdQueryParam : 0), query: '', page: 1, screen: 'sponsors' });
+        FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tabQueryParam === 'category-sponsor') ? categoryIdQueryParam : 0), query: '', screen: 'sponsors' });
         setTab(tabQueryParam !== null ? tabQueryParam : event?.sponsor_settings?.sponsor_list);
-        setPage(1); // Reset page number on tab change
     }, [tabQueryParam]);
 
 
@@ -70,8 +68,7 @@ const Index = React.memo(() => {
 
     const search = React.useMemo(() => {
         return debounce(function (query) {
-            FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-sponsor') ? categoryIdQueryParam : 0), query: query, page: 1, screen: 'sponsors' });
-            setPage(1); // Reset page number on search
+            FetchSponsors({ category_id: Number((categoryIdQueryParam !== null && tab === 'category-sponsor') ? categoryIdQueryParam : 0), query: query, screen: 'sponsors' });
         }, 1000);
     }, []);
 
@@ -83,14 +80,6 @@ const Index = React.memo(() => {
         mounted.current = true;
         return () => { mounted.current = false; };
     }, []);
-
-    const loadMore = () => {
-        if (mounted.current && page < total_pages) {
-            const nextPage = page + 1;
-            FetchSponsors({ page: nextPage, category_id: Number((categoryIdQueryParam !== null && tab === 'category-sponsor') ? categoryIdQueryParam : 0), query: searchQuery, screen: 'sponsors' });
-            setPage(nextPage);
-        }
-    };
 
     const module = modules.find((module) => module.alias === 'sponsors');
     const category = categories?.find((category) => category.id === Number(categoryIdQueryParam));
@@ -113,20 +102,24 @@ const Index = React.memo(() => {
                     <HStack mb="3" space={1} justifyContent="center" w="100%">
                     {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                         setTab('name')
-                        FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
+                        if(category_id !== 0) {
+                            FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
+                        }
                         push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'name'))
                     }} 
                     borderWidth="0px" py={0} borderColor="primary.box" borderRightRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? 0 : 8} borderLeftRadius={8} h="42px" bg={tab === 'name' ? 'primary.boxbutton' : 'primary.box'} w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') ? "50%" : '100%'} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_NAME}</Button>}
                     {(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'category') && <Button _hover={{_text: {color: 'primary.hovercolor'}}} onPress={() => {
                         setTab('category')
-                        FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
+                        if(category_id !== 0) {
+                            FetchSponsors({ category_id: 0, query: '', screen: 'sponsors' });
+                        }
                         push(`/${event.url}/sponsors` + '?' + createQueryString('tab', 'category'))
                         }} borderWidth="0px" py={0} borderColor="primary.box" borderLeftRadius={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? 0 : 8} borderRightRadius={8} h="42px" bg={tab === 'category' || tab === 'category-sponsor' ? 'primary.boxbutton' : 'primary.box'}
                                                                                                                                   w={(event?.sponsor_settings?.sponsorTab == 1 || event?.sponsor_settings?.sponsor_list == 'name') ? "50%" : "100%"} _text={{ fontWeight: '600' }}>{labels?.SPONSOR_CATEGORY || "Category"}</Button>}
                     </HStack>
                     )}
 
-                {loading && page == 1 ? (
+                {in_array('sponsors-listing', processing) ? (
                     <SectionLoading />
                 ) : (
                     <>
@@ -197,16 +190,6 @@ const Index = React.memo(() => {
                       </Box>
                     )}
                     <BannerAds module_name={'sponsors'} module_type={'listing'} />
-                </>
-              )}
-              {in_array('sponsors-listing', processing) && (page > 1) && (
-                <HStack mt={3} w="100%">
-                    <LoadMore />
-                </HStack>
-              )}
-              {!loading && !in_array('sponsors', processing) && (total_pages > 1) && (
-                <>
-                    <IntersectionObserverComponent onIntersect={loadMore} />
                 </>
               )}
           </Container>

@@ -78,6 +78,37 @@ const NewChatAttendee = ({ navigation }: indexProps) => {
     return '';
   };
 
+    // get image of sender 
+    const getAttendeeImage = (attendee: Attendee) => {
+      const field_setting = attendee?.sort_field_setting?.profile_picture; 
+      
+      if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+            return `${_env.eventcenter_base_url}/assets/attendees/${attendee?.image}`
+      }else{
+        return '';
+      }
+    };
+  
+    function getValue(attendee: Attendee,field: string){
+      const ignoredFields=['id','first_name']
+      if(ignoredFields.includes(field)){
+        return attendee?.[field as keyof Attendee]
+      }
+      
+      const field_setting = attendee?.sort_field_setting?.[field]; 
+     
+      if(Number(field_setting?.status) === 1 && Number(field_setting?.is_private) === 0){ 
+            return attendee?.[field as keyof Attendee]
+      }else{
+        return '';
+      }
+      
+    }
+  
+    function getFullname(attendee: Attendee){
+      return `${getValue(attendee,'first_name')} ${getValue(attendee,'last_name')}`
+     }
+
   const {event,modules} = UseEventService();
   const module = modules.find(m => m.alias === 'chat');
 
@@ -93,11 +124,11 @@ const NewChatAttendee = ({ navigation }: indexProps) => {
               <Avatar
                 size={'lg'}
                 source={{
-                  uri: getSenderImage(attendee?.image)
+                  uri: getAttendeeImage(attendee)
                 }}>
-                {getFirstLetters(`${attendee?.first_name} ${attendee?.last_name}`)}
+                {getFirstLetters(getFullname(attendee))}
               </Avatar>
-              <Text fontSize="14px">{attendee?.first_name} {attendee?.last_name}</Text> 
+              <Text fontSize="14px">{getFullname(attendee)}</Text> 
             </HStack>
           </>
         ):(

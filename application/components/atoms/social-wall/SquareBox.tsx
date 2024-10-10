@@ -211,7 +211,7 @@ const SquareBox = ({ post, index }: AppProps) => {
 
 
         <Text px={4} key="p-content" fontSize="md">{post.content}</Text>
-        {(post.type === 'image' || post.type === 'text') && post.image !== '' && (
+        {(post.image && post.type === 'image' || post.type === 'text') && post.image !== '' && (
           <Pressable
             p="0"
             borderWidth="0"
@@ -239,7 +239,9 @@ const SquareBox = ({ post, index }: AppProps) => {
                 <Modal.Content maxW={['350px', '780px']} >
                   <Modal.Body p={0} justifyContent="flex-end">
                     <Modal.CloseButton borderWidth={1} borderColor={'white'} rounded={'50%'} zIndex={999} onPress={() => { setactivepopup(false); setModalImage('') }} />
-                    <LoadImage width={'100%'} path={`${_env.eventcenter_base_url}/assets/social_wall/${modalImage}`} alt={''} />
+                   {modalImage && (
+                      <LoadImage width={'100%'} path={`${_env.eventcenter_base_url}/assets/social_wall/${modalImage}`} alt="" />
+                    )}
                   </Modal.Body>
                 </Modal.Content>
               </Modal>
@@ -247,7 +249,7 @@ const SquareBox = ({ post, index }: AppProps) => {
           </Pressable>
         )}
 
-        {post.type === 'video' && post.image !== '' && (
+        {post.image && post.type === 'video' && post.image !== '' && (
           <Center w={'100%'} px={4}>
             <video
               width="100%"

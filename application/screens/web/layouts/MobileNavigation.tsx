@@ -83,12 +83,22 @@ const MobileNavigation = () => {
                     borderWidth="0"
                     onPress={() => {
                       if (in_array(module?.alias, ['practical-info', 'general-info', 'additional-info'])) {
-                        router.push(`/${event.url}/${module?.alias}/event-info/0`)
+                        // setLoading(true);
+                        if(module?.section_type == 'link'){
+                          router.push(`${module?.url}`)
+                        }else if(module?.section_type == 'page'){
+                          router.push(`/${event.url}/${module?.alias}/event-info-detail/${module?.id}`)
+                        }else{
+                          router.push(`/${event.url}/${module?.alias}/event-info/0`)
+                        }
                       } else if (in_array(module?.alias, ['information_pages'])) {
+                        // setLoading(true);
                         if(module?.section_type === 'link') {
-                          push(`${event.url}`)
+                          router.push(`${module?.url}`)
+                        } else if(module?.section_type === 'page') {
+                          router.push(`/${event.url}/information-pages/event-info-detail/${module?.id}`)
                         } else {
-                          router.push(`/${event.url}/information-pages${module?.section_type === 'child_section' ? '/sub' : ''}/${module?.id}`)
+                          router.push(`/${event.url}/information-pages/${module?.id}`)
                         }
                       } else if (module?.alias === 'my-registrations') {
                         push(`/${event.url}/attendees/detail/${response?.data?.user?.id}`)

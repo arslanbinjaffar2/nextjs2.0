@@ -44,9 +44,11 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
               },800)
             }}>
         <Flex alignItems="center" flexDirection={'row'}>
+            {response?.attendee_detail?.image && (
           <Avatar w="50px" h="50px" bg="#a5a5a5" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${response?.attendee_detail?.image}` }}>
             {response?.data?.user?.first_name.charAt(0).toUpperCase() + response?.data?.user?.last_name.charAt(0).toUpperCase()}
           </Avatar>
+            )}
           <VStack w={'70%'} px="3" space="0">
             <Text fontSize="lg" textTransform={'uppercase'} bold isTruncated>{response?.data?.user?.name}</Text>
             <Text p="0" fontSize="md" mt="0">{response?.attendee_detail?.detail?.title}</Text>
@@ -59,7 +61,7 @@ const LeftBarMobile = ({setOpenMenu}:{setOpenMenu:any}) => {
             width={30}
             h={30}
             onPress={() => {
-              router.push(`/${event.url}/settings`)
+              router.push(`/${event.url}/settings/editprofile`)
               setTimeout(()=>{
                 setOpenMenu(false)
               },800)

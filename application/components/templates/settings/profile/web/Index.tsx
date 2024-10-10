@@ -915,7 +915,7 @@ const Index = () => {
                               <Text
                                 fontSize="sm"
                                 width={'100%'}
-                                textBreakStrategy='balanced' 
+                                textBreakStrategy="balanced"
                               >
                                 {response?.attendee_detail?.attendee_cv.replace(/[0-9_]/g, '')}
                               </Text>
