@@ -66,7 +66,7 @@ const DetailBlock = ({ children }: AppProps) => {
                         <>
                            <View flexDirection={'row'} mb={'3'} alignItems={'center'}>                     
                             <Text  fontSize="md" alignSelf={'start'} mt={'4px'}>
-                                Track:
+                                {event.labels.PROGRAM_BY_TRACKS}
                                 </Text>
                                 <Box flexDirection={'row'} flexWrap={'wrap'} width={'calc(100% - 30px)'} alignItems={'center'}>
                                 {detail?.program?.program_tracks?.map((track: any, key: number) =>(
