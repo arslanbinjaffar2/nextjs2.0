@@ -1,13 +1,14 @@
 import { Attendee } from 'application/models/attendee/Attendee'
 import DynamicIcon from 'application/utils/DynamicIcon'
 import UseEnvService from 'application/store/services/UseEnvService';
-import { Text, HStack, View, Avatar, Box, Pressable, Button, Image, Modal, TextArea, Spinner } from 'native-base'
+import { Text, HStack, View, Avatar, Box, Pressable, Button, Image, Modal, TextArea, Spinner, Tooltip, VStack } from 'native-base'
 import React, { useState } from 'react'
 import UseEventService from 'application/store/services/UseEventService';
 import UseAuthService from 'application/store/services/UseAuthService'
 import useRequestToSpeakService from 'application/store/services/useRequestToSpeakService';
 import { func } from 'application/styles';
 import IcoRaiseHand from 'application/assets/icons/IcoRaiseHand';
+import IcoRejectHand from 'application/assets/icons/IcoRejectHand';
 
 interface ActiveAttendeeProps {
     activeAttendee: Attendee
@@ -157,7 +158,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
         <>
             <View bg={'primary.box'} rounded={'10px'} pl={4} py={'5'} pr={'18px'} my={'14px'} width={'100%'} >
                 <HStack justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
-                    <HStack w={settings?.ask_to_speak === 1 ? 'calc(100% - 150px)' :'calc(100% - 50px)'} space={4}>
+                    <HStack w={settings?.ask_to_speak === 1 ? 'calc(100% - 60px)' :'calc(100% - 50px)'} space={4}>
                         {activeAttendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImageAndInfo() ? (
                             <Image rounded="25" size="lg" borderWidth="0" borderColor="primary.darkbox" source={{ uri: `${_env.eventcenter_base_url}/assets/attendees/${image}` }} alt="" w="50px" h="50px" />
                         ) : (
@@ -178,7 +179,7 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                             {userStatus !== "accepted" && !notShowProfileImageAndInfo() && renderDetails()}
                         </Box>
                     </HStack>
-                    <Box flexDirection={'row'} alignItems={'center'}>
+                    <VStack space={1} justifyContent={'flex-end'}>
                         {!alreadyInSpeech && (
                             <>
                                 {loading ? <Spinner color="primary.text" /> : (
@@ -191,23 +192,24 @@ const ActiveAttendee = ({ activeAttendee, program_id, alreadyInSpeech, currentUs
                                         {settings.use_group_to_control_request_to_speak ? (
                                             activeAttendee.attendee_program_groups && activeAttendee.attendee_program_groups > 0 ? (
                                                 !sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
-                                                    : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                                        <Text color={'primary.hovercolor'} fontWeight={'500'} fontSize={'md'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
-                                                    </Box> : null
+                                                    : settings?.ask_to_speak === 1 ? 
+																											<IcoRejectHand width="30" height="26" /> 
+																										 : null
                                             ) : null
                                         ) : (
                                             !sendRequest || userStatus === '' ? <IcoRaiseHand width="20" height="26" />
-                                                : settings?.ask_to_speak === 1 ? <Box maxWidth={'120px'} width={'100%'} bg={'primary.100'} rounded={'5px'} p={'2'}>
-                                                    <Text color={'primary.hovercolor'} fontWeight={'500'} isTruncated width={'100%'}>{event?.labels?.RQS_CANCEL ?? event?.labels?.GENERAL_CANCEL}</Text>
-                                                </Box> : null
+                                                : settings?.ask_to_speak === 1 ?
+																										<IcoRejectHand width="30" height="26" />
+																									 
+                                                : null
                                         )}
                                     </Pressable>
                                 )}
                             </>
                         )}
 
-                        {currentUserIndex && !loading ? <Text pl={2} fontWeight={'medium'} fontSize={'lg'}>#{currentUserIndex}</Text> : null}
-                    </Box>
+                        {currentUserIndex && !loading ? <Text  fontWeight={'medium'} fontSize={'lg'}>#{currentUserIndex}</Text> : null}
+                    </VStack>
                 </HStack>
             </View>
             <Modal
