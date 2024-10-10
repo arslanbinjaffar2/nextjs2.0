@@ -40,6 +40,8 @@ const SocketHandler = () => {
 
     const {AddSocketRequest} = UseMeetingReservationService();
 
+    const {SetNewMessagePopup} = UseChatService();
+
     const options: any = React.useMemo(() => ({
         transports: ["websocket", "polling"]
     }), []);
@@ -181,6 +183,10 @@ const SocketHandler = () => {
           // push the message to state
           console.log('push to the state');
           PushMessageToChat({message:data?.message,thread_id:data?.thread_id});
+          // set new message popup if sender is not current user
+          if( data?.message?.sender_id != response?.data?.user?.id){
+            SetNewMessagePopup({new_message_popup:true});
+          }
         }else{
           // refresh chats if user is on chat listing page
           if(nextRouter.asPath.includes('chat') && !nextRouter.asPath.includes('chat/detail')){
@@ -188,16 +194,19 @@ const SocketHandler = () => {
           }
           // show popup to user about the new message
           console.log('adding toast');
-          AddNotification({
-            notification:{
-              type:'chat',
-              title:data?.message?.sender?.first_name + ' ' + data?.message?.sender?.last_name,
-              text:data?.message?.body,
-              btnLeftText:event?.labels?.GENERAL_OK ,
-              btnRightText:event?.labels?.GENERAL_MESSAGE_DETAIL,
-              url:`/chat/detail/${data?.thread_id}`
-            }
-          })
+          if(Number(event?.attendee_settings?.display_chat_notification) === 1){
+            AddNotification({
+              notification:{
+                type:'chat',
+                title:data?.message?.sender?.first_name + ' ' + data?.message?.sender?.last_name,
+                text:data?.message?.body,
+                btnLeftText:event?.labels?.CHAT_OK ,
+                btnRightText:event?.labels?.CHAT_DETAILS,
+                url:`/chat/detail/${data?.thread_id}`
+              }
+            })
+          }
+       
         }         
       });
       

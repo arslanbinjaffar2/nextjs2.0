@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Box, FormControl, Pressable,IconButton } from 'native-base';
+import { Button, Center, Flex, Text, Image, Input, VStack, Icon, Box, FormControl, Pressable,IconButton, View } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import IcoLongArrow from 'application/assets/icons/IcoLongArrow';
 import { images, func } from 'application/styles';
@@ -12,6 +12,7 @@ import { Link } from 'solito/link'
 import WebLoading from 'application/components/atoms/WebLoading';
 import UseEnvService from 'application/store/services/UseEnvService';
 import Microsoft from 'application/assets/icons/micorsoft_icon';
+import SwipeBtn from 'application/components/atoms/swipeBtn';
 
 type Inputs = {
     email: string,
@@ -93,7 +94,9 @@ const Login = ({ props }: any) => {
         return <WebLoading />
     }
 		
-
+    const NewFunction =  () => {
+        handleSubmit(onSubmit)
+    }
     return (
         <Center w={'100%'} h="100%" alignItems={'center'} px={15}>
             <Flex borderWidth="0px" borderColor="primary.bdColor" maxWidth={'550px'} bg="primary.box" p={['30px','50px','30px']} w={"100%"}
@@ -187,7 +190,7 @@ const Login = ({ props }: any) => {
 																					</Button>
                                         </Text>
                                     )}
-                                    <Button
+                                    {/* <Button
                                         isLoading={processing}
                                         onPress={handleSubmit(onSubmit)}
                                         minH='48px'
@@ -195,7 +198,13 @@ const Login = ({ props }: any) => {
                                         endIcon={<IcoLongArrow color={func.colorType(event?.settings?.primary_color)} />}
                                         _hover={{ bg: 'primary.secondary' }}
                                     >
-                                    </Button>
+                                            {event?.labels?.GENERAL_SLIDE_TO_LOGIN}
+                                    </Button> */}
+                                    <SwipeBtn
+                                        loading={processing}
+                                         onComplete={handleSubmit(onSubmit)}
+                                        label={event?.labels?.GENERAL_SLIDE_TO_LOGIN}
+                                        />
                                 </VStack>
                             ) : (
                                 <VStack w={'100%'} space="10px">
@@ -205,7 +214,7 @@ const Login = ({ props }: any) => {
                                         <Controller
                                             control={control}
                                             render={({ field: { onChange, onBlur, value } }) => (
-                                                <Center><Input onKeyPress={handleKeyPress} onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={'100%'} maxW={['300px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button isLoading={processing} ref={nativeButton} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow color={func.colorType(event?.settings?.primary_color)} /></Button>} /></Center>
+                                                <Center><Input onKeyPress={handleKeyPress} onBlur={onBlur} onChangeText={(val) => onChange(val)} value={value} w={'100%'} maxW={['300px', '400px', '500px']} placeholder={event.labels.GENERAL_EMAIL} InputRightElement={<Button display={'none'} isLoading={processing} ref={nativeButton} h="46px" onPress={handleSubmit(onSubmit)}><IcoLongArrow color={func.colorType(event?.settings?.primary_color)} /></Button>} /></Center>
                                             )}
                                             name="email"
                                             rules={{
@@ -219,6 +228,13 @@ const Login = ({ props }: any) => {
                                                 ? 'Email is required'
                                                 : (error ? error : errors.email?.message)}
                                         </FormControl.ErrorMessage>
+																				<View pt={4}>
+																				<SwipeBtn
+																					loading={processing}
+																					onComplete={handleSubmit(onSubmit)}
+																					label={event?.labels?.GENERAL_SLIDE_TO_LOGIN}
+																					/>
+																				</View>
                                     </FormControl>
                                 </VStack>
                             )}
