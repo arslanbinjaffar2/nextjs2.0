@@ -37,7 +37,7 @@ const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, tit
                 }
               {btnLeftText  && <Box borderLeftWidth={btnRightText ? '1':'0'} borderLeftColor={'primary.popupbordercolor'} flex={1}>
                 <ButtonElement _text={{fontSize: 'xl'}} bg={'none'}  w="100%" rounded={0} variant="unstyled" onPress={btnLeftFunc} ref={cancelRef}>
-                <Text pt={4} pb={4} display={'block'} fontSize='xl'>
+                <Text pt={4} pb={4} display={'block'} isTruncated fontSize='xl'>
                   {btnLeftText}
                 </Text>
                 </ButtonElement>
