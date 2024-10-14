@@ -144,7 +144,7 @@ const Index = () => {
 
 										{item.name === "twitter" &&
 											<View bg={'primary.darkbox'} width={'32px'} height={'32px'} rounded={"sm"} justifyContent={'center'} alignItems={'center'}>
-												<DynamicIcon iconType={'xtwiiter'} iconProps={{ width: 16, height: 16 }} />
+												<DynamicIcon iconType={'XtwitterLarge'} iconProps={{ width: 16, height: 16 }} />
 												{/* <IcoTwitterXsm width={16} height={16} /> */}
 											</View>
 										}
@@ -203,34 +203,33 @@ const Index = () => {
                      })}
 					</HStack>
 				</Box>
-                {response?.data?.user?.sort_field_setting?.map((item:any)=>{
-                    return(
-                <>
-                {console.log(item.name)}
-                {item.name === 'bio_info' && (
-				<Box w={'100%'}>
-					<Box mb={5} px={5} py={1} bg="primary.darkbox" >
-						<Text fontSize="md">{response.event?.labels?.REG_BASIC_INFO}</Text>
-					</Box>
+            {response?.data?.user?.sort_field_setting?.map((item:any)=>{
+                return(
+            <>
+            {item.name === 'bio_info' && (
+    <Box w={'100%'}>
+      <Box mb={5} px={5} py={1} bg="primary.darkbox" >
+        <Text fontSize="md">{response.event?.labels?.REG_BASIC_INFO}</Text>
+      </Box>
 
-					<HStack alignItems={'flex-start'} justifyContent={'flex-start'} mb={4} px={5} space="3" display={['block', 'flex']} w={'100%'}>
-						<Text fontSize="md" fontWeight={500} color={'primary.text'}>{response.event?.labels?.ATTENDEE_ABOUT}</Text>
-						<Text>
+      <VStack alignItems={'flex-start'} justifyContent={'flex-start'} mb={4} px={5} space="3" display={['block', 'flex']} w={'100%'}>
+        <Text fontSize="md" fontWeight={500} color={'primary.text'}>{response.event?.labels?.ATTENDEE_ABOUT}</Text>
+        <Text>
 
-							<RenderHtml
-								defaultTextProps={{ selectable: true }}
-								contentWidth={600}
-								systemFonts={['Avenir']}
-								tagsStyles={mixedStyle}
-								source={{ html: response?.attendee_detail?.detail?.about }}
-							/>
-						</Text>
-					</HStack>
-				</Box>
-                 )}
-                </>
-                    )
-                })}
+          <RenderHtml
+            defaultTextProps={{ selectable: true }}
+            contentWidth={600}
+            systemFonts={['Avenir']}
+            tagsStyles={mixedStyle}
+            source={{ html: response?.attendee_detail?.detail?.about }}
+          />
+        </Text>
+      </VStack>
+    </Box>
+              )}
+            </>
+                )
+            })}
 				<HStack
 					pb={2}
 					flexWrap={'wrap'}
@@ -915,7 +914,7 @@ const Index = () => {
                               <Text
                                 fontSize="sm"
                                 width={'100%'}
-                                textBreakStrategy='balanced' 
+                                textBreakStrategy="balanced"
                               >
                                 {response?.attendee_detail?.attendee_cv.replace(/[0-9_]/g, '')}
                               </Text>

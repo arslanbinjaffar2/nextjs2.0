@@ -67,6 +67,9 @@ const Detail = () => {
 
     floorPlanPins.forEach((pin: any) => {
       const { id, type, exhibitor, sponsor, coordinateX, coordinateY } = pin;
+      if (!exhibitor && !sponsor) {
+      return;
+    }
       const categoryImage = getCategoryImage(pin);
       const detailLink= type === "exhibitor" ? `/${event.url}/exhibitors/detail/${exhibitor.id}` : `/${event.url}/sponsors/detail/${sponsor.id}`;
       const associatedGroups = getAssociatedGroups(pin);
