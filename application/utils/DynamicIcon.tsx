@@ -101,8 +101,6 @@ import facebook from 'application/assets/icons/facebook'
 import linkedin from 'application/assets/icons/linkedin'
 import xtwiiter from 'application/assets/icons/xtwiiter'
 import sendMail from 'application/assets/icons/mail'
-import facebook from 'application/assets/icons/facebook'
-import linkedin from 'application/assets/icons/linkedin'
 import XtwitterLarge from 'application/assets/icons/xtwiiter'
 type IconProps = {
     name?: string;
@@ -316,8 +314,6 @@ const DynamicIcon: React.FC<Props> = ({ iconType, iconProps }) => {
         xtwiiter,
         edit_account_icon,
         sendMail,
-        linkedin,
-        facebook,
         XtwitterLarge
     };
 
