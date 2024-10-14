@@ -77,7 +77,7 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
     <Pressable
       onPress={() => { push(`/${event.url}/speakers/detail/${attendee.id}`) }}>
       <HStack px="4" alignItems="flex-start" minH="55px" space={0} justifyContent="flex-start">
-        <HStack w="100%" space="5" alignItems={'center'} justifyContent="space-between">
+        <HStack w="100%" space="0" alignItems={'center'} justifyContent="space-between">
 
           <Box alignSelf={renderDetails() !== null ? 'flex-start' : 'center'}>
             {attendee?.image && settings?.show_image_turnlist === 1 && !notShowProfileImageAndInfo() ? (
@@ -92,7 +92,7 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
             )}
           </Box>
 
-          <VStack w={['calc(100% - 175px)', 'calc(100% - 300px)']} space="0">
+          <VStack px={5}  w={['calc(100% - 65px)', 'calc(100% - 65px)']} space="0">
             {(attendee?.first_name || attendee?.last_name) ? (
               <>
                 <Text lineHeight="22px" fontWeight={'medium'} fontSize="lg">{`${attendee?.first_name} ${attendee?.last_name}`}</Text>
@@ -103,7 +103,7 @@ const AttendeeList = ({ attendee, border }: boxItemProps) => {
             ) : null}
           </VStack>
           <Spacer />
-          <HStack space="4" alignItems="center">
+          <HStack space="0" alignItems="center">
             <Icon size="md" as={SimpleLineIcons} name="arrow-right" color={'primary.text'} />
           </HStack>
         </HStack>

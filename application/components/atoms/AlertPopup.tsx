@@ -29,15 +29,15 @@ const AlertPopup = ({ isOpen, onClose, btnLeftFunc, btnRightFunc, cancelRef, tit
               <Button.Group flexWrap="wrap" variant={'unstyled'} space={0}>
                 {btnRightText && <Box flex={1}>
                   <ButtonElement  _text={{fontSize: 'xl'}} bg={'none'} maxWidth={'256px'} w="100%" rounded={0} variant="unstyled"  onPress={btnRightFunc}>
-                  <Text p={4} textAlign={'center'} isTruncated fontSize='xl' w={'225px'}>
-                    {btnRightText}
+                    <Text pt={4} pb={4} display={'block'} isTruncated fontSize='xl'>
+                      {btnRightText}
                     </Text>
                   </ButtonElement>
                 </Box>
                 }
               {btnLeftText  && <Box borderLeftWidth={btnRightText ? '1':'0'} borderLeftColor={'primary.popupbordercolor'} flex={1}>
                 <ButtonElement _text={{fontSize: 'xl'}} bg={'none'}  w="100%" rounded={0} variant="unstyled" onPress={btnLeftFunc} ref={cancelRef}>
-                <Text p={4} isTruncated fontSize='xl'  w={'225px'} textAlign={'center'} overflow={'hidden'}>
+                <Text pt={4} pb={4} display={'block'} fontSize='xl'>
                   {btnLeftText}
                 </Text>
                 </ButtonElement>
