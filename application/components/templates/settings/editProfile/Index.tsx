@@ -423,7 +423,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('initial', answer);
+                                        updateAttendeeInfoFeild('initial', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.info?.initial}
                                 />
@@ -461,7 +461,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeFeild('first_name', answer);
+                                        updateAttendeeFeild('first_name', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.first_name}
                                 />
@@ -480,7 +480,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeFeild('last_name', answer);
+                                        updateAttendeeFeild('last_name', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.last_name}
                                 />
@@ -516,7 +516,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('age', answer);
+                                        updateAttendeeInfoFeild('age', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.info?.age}
                                 />
@@ -524,10 +524,12 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                         </HStack>
                     )}
                     {setting?.name === 'first_name_passport' && (
+                        
                         <HStack mb="3" alignItems={["flex-start", "center"]} px="6" flexDirection={['column', 'row']} w="100%">
                             <Center alignItems="flex-start" pb={[2, 0]} w={["100%", "225px"]}>
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.FIRST_NAME_PASSPORT}</Text>
                             </Center>
+                         
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
                                 <Input w="100%"
                                     h={'50px'}
@@ -535,7 +537,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeFeild('FIRST_NAME_PASSPORT', answer);
+                                        updateAttendeeFeild('FIRST_NAME_PASSPORT', answer === "" ? "" : answer);
                                     }}
                                     defaultValue={attendeeData?.FIRST_NAME_PASSPORT}
                                 />
@@ -554,9 +556,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeFeild('LAST_NAME_PASSPORT', answer);
+                                        updateAttendeeFeild('LAST_NAME_PASSPORT', answer === '' ? '' : answer);
                                     }}
-                                    defaultValue={attendeeData?.LAST_NAME_PASSPORT}
+                                   
                                 />
                             </Center>
                         </HStack>
@@ -573,7 +575,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('place_of_birth', answer);
+                                        updateAttendeeInfoFeild('place_of_birth', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.info?.place_of_birth}
                                 />
@@ -592,7 +594,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('passport_no', answer);
+                                        updateAttendeeInfoFeild('passport_no', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.info?.passport_no}
                                 />
@@ -611,7 +613,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('company_name', answer);
+                                        updateAttendeeInfoFeild('company_name', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.info?.company_name}
                                 />
@@ -630,7 +632,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('title', answer);
+                                        updateAttendeeInfoFeild('title', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.info?.title}
                                 />
@@ -648,8 +650,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     placeholder={labels?.organization}
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                    onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('organization', answer);
+                                     onChangeText={(answer) => {
+                                        updateAttendeeInfoFeild('organization', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.info?.organization}
                                 />
@@ -668,7 +670,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('department', answer);
+                                        updateAttendeeInfoFeild('department', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.info?.department}
                                 />
@@ -687,7 +689,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('industry', answer);
+                                        updateAttendeeInfoFeild('industry', answer === '' ? '' : answer);
                                     }}
                                     defaultValue={attendeeData?.info?.industry}
                                 />
@@ -706,8 +708,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('jobs', answer);
-                                    }}
+                                        updateAttendeeInfoFeild('jobs', answer === '' ? '' : answer); 
+                                     }}
                                     defaultValue={attendeeData?.info?.jobs}
                                 />
                             </Center>
@@ -725,8 +727,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('interests', answer);
-                                    }}
+                                        updateAttendeeInfoFeild('interests', answer === '' ? '' : answer); 
+                                     }}
                                     defaultValue={attendeeData?.info?.interests}
                                 />
                             </Center>
@@ -743,9 +745,9 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     placeholder={labels?.network_group}
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                    onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('network_group', answer);
-                                    }}
+                                   onChangeText={(answer) => {
+                                        updateAttendeeInfoFeild('network_group', answer === '' ? '' : answer); 
+                                     }}
                                     defaultValue={attendeeData?.info?.network_group}
                                 />
                             </Center>
@@ -765,7 +767,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('delegate_number', answer);
+                                       updateAttendeeInfoFeild('delegate_number', answer === '' ? '' : answer); 
                                     }}
                                     defaultValue={attendeeData?.info?.delegate_number}
                                 />
@@ -778,16 +780,18 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 <Text isTruncated fontWeight="500" fontSize="16px">{labels?.table_number}</Text>
                             </Center>
                             <Center justifyContent={'flex-start'} justifyItems={'flex-start'} alignItems={'flex-start'} w={['100%', 'calc(100% - 225px)']}>
-                                <Input w="100%"
+                               <Input
+                                    w="100%"
                                     h={'50px'}
                                     placeholder={labels?.table_number}
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('table_number', answer);
+                                        updateAttendeeInfoFeild('table_number', answer === '' ? '' : answer); // Pass an empty string if cleared
                                     }}
                                     defaultValue={attendeeData?.info?.table_number}
-                                />
+                                    />
+
                             </Center>
                         </HStack>
                     )}
@@ -821,8 +825,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     placeholder={labels?.private_house_number}
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                    onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('private_house_number', answer);
+                                     onChangeText={(answer) => {
+                                        updateAttendeeInfoFeild('private_house_number', answer === '' ? '' : answer); 
                                     }}
                                     defaultValue={attendeeData?.info?.private_house_number}
                                 />
@@ -840,8 +844,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     placeholder={labels?.private_post_code}
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                    onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('private_post_code', answer);
+                                     onChangeText={(answer) => {
+                                        updateAttendeeInfoFeild('private_post_code', answer === '' ? '' : answer); 
                                     }}
                                     defaultValue={attendeeData?.info?.private_post_code}
                                 />
@@ -859,8 +863,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     placeholder={labels?.private_city}
                                     isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                     opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
-                                    onChangeText={(answer) => {
-                                        updateAttendeeInfoFeild('private_city', answer);
+                                     onChangeText={(answer) => {
+                                        updateAttendeeInfoFeild('private_city', answer === '' ? '' : answer); 
                                     }}
                                     defaultValue={attendeeData?.info?.private_city}
                                 />
@@ -902,7 +906,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                     isReadOnly={true}
                                     opacity={'0.5'}
                                     onChangeText={(answer) => {
-                                        updateAttendeeFeild('email', answer);
+                                        updateAttendeeInfoFeild('email', answer === '' ? '' : answer); 
                                     }}
                                     defaultValue={attendeeData?.email}
                                 />
@@ -1106,7 +1110,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                             isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                             opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                             onChangeText={(answer) => {
-                                                updateAttendeeFeild('phone', answer);
+                                                updateAttendeeFeild('phone', answer === '' ? '' : answer);
                                             }}
                                             defaultValue={attendeeData?.phone}
                                         />
@@ -1333,8 +1337,8 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                 onChangeText={(answer) => {
-                                    updateAttendeeInfoFeild('website', answer);
-                                }}
+                                        updateAttendeeInfoFeild('website', answer === '' ? '' : answer); 
+                                    }}
                                 defaultValue={attendeeData?.info?.website}
                             />
                         </Center>
@@ -1351,7 +1355,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                 onChangeText={(answer) => {
-                                    updateAttendeeInfoFeild('facebook', answer);
+                                        updateAttendeeInfoFeild('facebook', answer === '' ? '' : answer); 
                                 }}
                                 defaultValue={attendeeData?.info?.facebook}
                             />
@@ -1369,7 +1373,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                 onChangeText={(answer) => {
-                                    updateAttendeeInfoFeild('twitter', answer);
+                                        updateAttendeeInfoFeild('twitter', answer === '' ? '' : answer); 
                                 }}
                                 defaultValue={attendeeData?.info?.twitter}
                             />
@@ -1387,7 +1391,7 @@ const EditProfileFrom = ({ attendee, languages, callingCodes, countries, setting
                                 isReadOnly={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? false : true}
                                 opacity={setting.is_editable === 1 && event?.attendee_settings?.create_profile == 1 ? '1' : '0.5'}
                                 onChangeText={(answer) => {
-                                    updateAttendeeInfoFeild('linkedin', answer);
+                                        updateAttendeeInfoFeild('linkedin', answer === '' ? '' : answer); 
                                 }}
                                 defaultValue={attendeeData?.info?.linkedin}
                             />
